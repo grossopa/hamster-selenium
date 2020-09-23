@@ -50,7 +50,8 @@ public abstract class AbstractDelegatedWebElement implements WebElement {
      * Constructs an instance with target delegated {@link WebElement} instance.
      *
      * @param element
-     *         the element to delegate.
+     *         the element to delegate. it will find the ultimate {@link WebElement} element if given object is actually
+     *         a {@link WebComponent}.
      */
     public AbstractDelegatedWebElement(WebElement element) {
         requireNonNull(element);
