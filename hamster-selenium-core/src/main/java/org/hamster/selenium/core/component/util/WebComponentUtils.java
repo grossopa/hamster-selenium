@@ -46,23 +46,16 @@ public class WebComponentUtils {
 
     /**
      * Whether the attribute of the element contains the desired value, it use a single space as splitter. Examples:
-     *
      * <p>
-     * <code>
      * &lt;div class="attr-1 attr-2 attr-3"&gt;Some text&lt;/div&gt;
-     * </code>
      * </p>
-     * <p>
      *
-     * <code>
-     *   <ul>
-     *     <li>attributeContains(element, "class", "attr-1") == true</li>
-     *     <li>attributeContains(element, "class", "attr-4") == false</li>
-     *     <li>attributeContains(element, "class", "attr") == false // require full value to be present</li>
-     *     <li>attributeContains(element, "class", "ATTR-1") == false // case sensitive</li>
-     *   </ul>
-     * </code>
-     * </p>
+     * <ul>
+     *   <li>attributeContains(element, "class", "attr-1") == true</li>
+     *   <li>attributeContains(element, "class", "attr-4") == false</li>
+     *   <li>attributeContains(element, "class", "attr") == false // require full value to be present</li>
+     *   <li>attributeContains(element, "class", "ATTR-1") == false // case sensitive</li>
+     * </ul>
      *
      * @param element
      *         the attribute of the element to evaluate
@@ -78,23 +71,16 @@ public class WebComponentUtils {
 
     /**
      * Whether the attribute of the element contains the desired value. Examples:
-     *
      * <p>
-     * <code>
      * &lt;div class="attr-1;attr-2 ; attr-3"&gt;Some text&lt;/div&gt;
-     * </code>
      * </p>
-     * <p>
      *
-     * <code>
-     *   <ul>
-     *     <li>attributeContains(element, "class", "attr-1", ";") == true</li>
-     *     <li>attributeContains(element, "class", "attr-4", ";") == false</li>
-     *     <li>attributeContains(element, "class", "attr", ";") == false // require full value to be present</li>
-     *     <li>attributeContains(element, "class", "ATTR-1", ";") == false // case sensitive</li>
-     *   </ul>
-     * </code>
-     * </p>
+     * <ul>
+     *   <li>attributeContains(element, "class", "attr-1", ";") == true</li>
+     *   <li>attributeContains(element, "class", "attr-4", ";") == false</li>
+     *   <li>attributeContains(element, "class", "attr", ";") == false // require full value to be present</li>
+     *   <li>attributeContains(element, "class", "ATTR-1", ";") == false // case sensitive</li>
+     * </ul>
      *
      * @param element
      *         the attribute of the element to evaluate

@@ -15,7 +15,7 @@ import java.io.IOException;
  * @author Jack Yin
  * @since 1.0
  */
-public class StartDriverServiceTest {
+public class StartDriverService {
 
     public static final String EXECUTABLE_PATH = "D://software/drivers/chromedriver-84.exe";
     public static final int PORT = 38383;

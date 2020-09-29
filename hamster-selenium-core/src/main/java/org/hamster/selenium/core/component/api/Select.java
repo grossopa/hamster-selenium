@@ -49,6 +49,8 @@ public interface Select extends ISelect {
     /**
      * Returns all options belonging to this select tag
      *
+     * @param delayInMillis
+     *         the delays in milliseconds
      * @return All options belonging to this select tag
      */
     List<WebComponent> getOptions2(Long delayInMillis);
@@ -63,12 +65,16 @@ public interface Select extends ISelect {
     /**
      * Returns all selected options belonging to this select tag
      *
+     * @param delayInMillis
+     *         the delays in milliseconds
      * @return All selected options belonging to this select tag
      */
     List<WebComponent> getAllSelectedOptions2(Long delayInMillis);
 
     /**
      * Opens the options list
+     *
+     * @return the options container
      */
     WebComponent openOptions();
 
@@ -77,6 +83,7 @@ public interface Select extends ISelect {
      *
      * @param delayInMillis
      *         the delays in milliseconds
+     * @return the options container
      */
     WebComponent openOptions(Long delayInMillis);
 

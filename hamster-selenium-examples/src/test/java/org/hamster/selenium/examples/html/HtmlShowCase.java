@@ -4,7 +4,7 @@ import org.hamster.selenium.component.html.HtmlSelect;
 import org.hamster.selenium.component.html.HtmlTable;
 import org.hamster.selenium.core.component.api.TableRow;
 import org.hamster.selenium.core.driver.WebDriverType;
-import org.hamster.selenium.examples.helper.AbstractBrowserTest;
+import org.hamster.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -19,7 +19,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElem
  * @author Jack Yin
  * @since 1.0
  */
-public class HtmlTest extends AbstractBrowserTest {
+public class HtmlShowCase extends AbstractBrowserSupport {
 
     public void testTable() {
         driver.navigate().to("https://www.w3schools.com/html/html_tables.asp");
@@ -54,7 +54,7 @@ public class HtmlTest extends AbstractBrowserTest {
     }
 
     public static void main(String[] args) {
-        HtmlTest test = new HtmlTest();
+        HtmlShowCase test = new HtmlShowCase();
         test.setUpDriver(WebDriverType.CHROME);
         test.testTable();
         test.testSelect();

@@ -85,8 +85,7 @@ public class HtmlComponents extends AbstractComponents {
      * Returns new instance of this class.
      *
      * <p>
-     * Example:
-     * <tt>HtmlSelect select = driver.findComponent(By.id("cars")).as(html()).toSelect();</tt>
+     * Example: {@code HtmlSelect select = driver.findComponent(By.id("cars")).as(html()).toSelect();}
      * </p>
      *
      * @return the instance of {@link HtmlComponents}

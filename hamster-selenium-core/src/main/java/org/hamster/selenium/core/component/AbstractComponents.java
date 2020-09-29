@@ -36,7 +36,7 @@ import static java.util.Objects.requireNonNull;
  * Developer should inherit this class and provide their factory methods for building different customized components,
  * also in order to build the solution in a graceful way, developer could also define a static method to construct an
  * instance of itself. e.g.
- * <p></><code>
+ * <p><code>
  * public HtmlFormField toFormField() { return this.component.to(new HtmlFormFieldFactory()); }
  * <br>
  * public HtmlTable toTable() { return this.component.to(new HtmlTableFactory()); }
@@ -48,7 +48,7 @@ import static java.util.Objects.requireNonNull;
  * </p>
  * So the usage will be:
  * <p>
- * <code>HtmlTable table = driver.findComponent(By.id("customers")).as(html()).toTable();</code>
+ * {@code HtmlTable table = driver.findComponent(By.id("customers")).as(html()).toTable();}
  * </p>
  *
  * @author Jack Yin

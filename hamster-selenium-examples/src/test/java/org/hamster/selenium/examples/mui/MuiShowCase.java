@@ -6,7 +6,7 @@ import org.hamster.selenium.component.mui.MuiCheckbox;
 import org.hamster.selenium.component.mui.MuiSelect;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.locator.By2;
-import org.hamster.selenium.examples.helper.AbstractBrowserTest;
+import org.hamster.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.0
  */
-public class MuiTest extends AbstractBrowserTest {
+public class MuiShowCase extends AbstractBrowserSupport {
 
     public void testButtonGroup() {
         driver.navigate().to("https://material-ui.com/components/buttons/");
@@ -131,7 +131,7 @@ public class MuiTest extends AbstractBrowserTest {
     }
 
     public static void main(String[] args) {
-        MuiTest test = new MuiTest();
+        MuiShowCase test = new MuiShowCase();
         try {
             test.setUpDriver(CHROME);
             test.testSelect();

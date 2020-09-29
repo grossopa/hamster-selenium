@@ -117,11 +117,7 @@ public interface WebComponent extends WebElement {
     /**
      * As a list of components.
      * <br>
-     * For example,
-     * <code>
-     * HtmlTable table = driver.findComponent(By.id("customers")).as(HtmlComponents.html()).toTable();
-     *
-     * </code>
+     * For example, {@code HtmlTable table = driver.findComponent(By.id("customers")).as(HtmlComponents.html()).toTable();}
      *
      * @param components
      *         the components instance
@@ -144,13 +140,7 @@ public interface WebComponent extends WebElement {
     <T extends WebComponent> T to(WebComponentFactory<T> factory);
 
     /**
-     * Whether the attribute has the value, it uses space as the splitter, e.g.:
-     *
-     * <code>
-     * <ul>
-     *  <li>attributeContains()</li>
-     * </ul>
-     * </code>
+     * Whether the attribute has the value, it uses space as the splitter.
      *
      * @param attributeName
      *         the name of the attribute

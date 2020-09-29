@@ -4,7 +4,7 @@ import lombok.SneakyThrows;
 import org.hamster.selenium.core.ComponentWebDriver;
 import org.hamster.selenium.core.DefaultComponentWebDriver;
 import org.hamster.selenium.core.driver.*;
-import org.hamster.selenium.examples.StartDriverServiceTest;
+import org.hamster.selenium.examples.StartDriverService;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
@@ -15,7 +15,7 @@ import org.openqa.selenium.WebDriver;
  * @author Jack Yin
  * @since 1.0
  */
-public abstract class AbstractBrowserTest {
+public abstract class AbstractBrowserSupport {
 
     public static final String EXECUTABLE_PATH = "D://software/drivers/chromedriver-84.exe";
 
@@ -31,7 +31,7 @@ public abstract class AbstractBrowserTest {
         Capabilities options = config.getType().apply(new CreateOptionsAction(), null);
         WebDriver temp = config.getType()
                 .apply(new CreateWebDriverFromRunningServiceAction(), new RunningServiceParams(options,
-                        "http://localhost:" + StartDriverServiceTest.PORT));
+                        "http://localhost:" + StartDriverService.PORT));
 
         driver = new DefaultComponentWebDriver(temp);
     }
