@@ -124,7 +124,7 @@ public abstract class By2 extends By {
     }
 
     public static By exact(String attributeName, String attributeValue, String tag) {
-        return xpath(format("//{0}[@{1}=''{2}'']", tag, attributeName, attributeValue));
+        return attr(attributeName, attributeValue).exact().depthRelative().tag(tag).build();
     }
 
     public static By contains(String attributeName, String attributeValue) {
@@ -132,13 +132,19 @@ public abstract class By2 extends By {
     }
 
     public static By contains(String attributeName, String attributeValue, String tag) {
-        return xpath(format("{0}[contains(@{1}, ''{2}'')]", tag, attributeName, attributeValue));
+        return attr(attributeName, attributeValue).contains().depthRelative().tag(tag).build();
     }
 
     public static ByAttributeBuilder attr(String attributeName, String attributeValue) {
         return new ByAttributeBuilder(attributeName, attributeValue);
     }
 
+    /**
+     * Builds the xpath for finding by attributes.
+     *
+     * @author Jack Yin
+     * @since 1.0
+     */
     public static class ByAttributeBuilder implements By2Builder {
         public static final String EXACT_TEMPLATE = "{0}[@{1}=''{2}'']";
         public static final String METHOD_TEMPLATE = "{0}[contains(@{1}, ''{2}'')]";
@@ -149,36 +155,76 @@ public abstract class By2 extends By {
         private final String attributeName;
         private final String attributeValue;
 
+        /**
+         * Constructs an instance with target searching attribute name and the desired value\
+         *
+         * @param attributeName
+         *         the attribute name to search
+         * @param attributeValue
+         *         the attribute value to match
+         */
         public ByAttributeBuilder(String attributeName, String attributeValue) {
             this.attributeName = requireNonNull(attributeName);
             this.attributeValue = requireNonNull(attributeValue);
         }
 
+        /**
+         * Adds the criteria to search any depth child
+         *
+         * @return this builder instance
+         */
         public ByAttributeBuilder anyDepthChild() {
             this.depth = ".//";
             return this;
         }
 
+        /**
+         * Adds the criteria to search any depth element absolutely
+         *
+         * @return this builder instance
+         */
         public ByAttributeBuilder anyDepthAbsolute() {
             this.depth = "//";
             return this;
         }
 
+        /**
+         * Adds the criteria to search relative elements
+         *
+         * @return this builder instance
+         */
         public ByAttributeBuilder depthRelative() {
             this.depth = "";
             return this;
         }
 
+        /**
+         * Changes the search method to "contains".
+         *
+         * @return this builder instance.
+         */
         public ByAttributeBuilder contains() {
             method = "contains";
             return this;
         }
 
+        /**
+         * Changes the search method to "exactly match".
+         *
+         * @return this builder instance.
+         */
         public ByAttributeBuilder exact() {
             method = null;
             return this;
         }
 
+        /**
+         * Specifies the target tag name, by default it is "*" to match any tags.
+         *
+         * @param tagName
+         *         the tag name to search
+         * @return this builder instance
+         */
         public ByAttributeBuilder tag(String tagName) {
             this.tagName = tagName;
             return this;
