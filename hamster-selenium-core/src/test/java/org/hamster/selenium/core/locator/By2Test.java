@@ -50,7 +50,7 @@ class By2Test {
             public List<WebElement> findElements(SearchContext context) {
                 return null;
             }
-        }.getClass());
+        }.getClass().getSuperclass());
     }
 
     @Test
