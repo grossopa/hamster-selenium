@@ -214,7 +214,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
     @Override
     public void closeOptions(Long delayInMillis) {
         List<WebComponent> options = getOptions2();
-        if (options.size() == 0) {
+        if (options.isEmpty()) {
             return;
         }
 

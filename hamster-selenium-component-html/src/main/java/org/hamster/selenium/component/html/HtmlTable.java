@@ -54,12 +54,12 @@ public class HtmlTable extends DefaultWebComponent implements Table {
     @Override
     public List<TableRow> getHeaderRows() {
         List<WebElement> headerContainers = element.findElements(getHeaderRowsLocator());
-        if (headerContainers.size() == 0) {
+        if (headerContainers.isEmpty()) {
             return new ArrayList<>();
         }
 
-        List<String> header = headerContainers.get(0).findElements(getHeaderColsLocator()).stream().map(WebElement::getText)
-                .collect(toList());
+        List<String> header = headerContainers.get(0).findElements(getHeaderColsLocator()).stream()
+                .map(WebElement::getText).collect(toList());
         return headerContainers.stream().map(e -> new HtmlTableRow(e, driver, getHeaderColsLocator(), header))
                 .collect(toList());
     }
@@ -67,7 +67,7 @@ public class HtmlTable extends DefaultWebComponent implements Table {
     @Override
     public List<String> getHeaderLabels() {
         List<WebElement> headerContainers = element.findElements(getHeaderRowsLocator());
-        if (headerContainers.size() == 0) {
+        if (headerContainers.isEmpty()) {
             return new ArrayList<>();
         }
 

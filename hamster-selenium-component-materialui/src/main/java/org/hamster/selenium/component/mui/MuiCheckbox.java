@@ -61,9 +61,4 @@ public class MuiCheckbox extends AbstractMuiComponent {
     public boolean isSelected() {
         return config.isChecked(this);
     }
-
-    @Override
-    public String getText() {
-        return super.getText();
-    }
 }
