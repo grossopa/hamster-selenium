@@ -81,19 +81,19 @@ public class MuiTest extends AbstractBrowserTest {
         assertEquals("Ten", components.get(0).getText());
         assertEquals("Twenty", components.get(1).getText());
         assertEquals("Thirty", components.get(2).getText());
-        demoSimpleSelect.closeOptions(500L);
+        demoSimpleSelect.closeOptions(800L);
 
         // multi-select test
         MuiSelect multiSelect = driver.findComponent(By.id("demo-mutiple-name")).as(mui())
                 .toSelect(By2.attr("class", "MuiMenuItem-root").contains().anyDepthChild().build());
 
-        multiSelect.selectByVisibleText("Oliver Hansen", 500L);
+        multiSelect.selectByVisibleText("Oliver Hansen", 800L);
         multiSelect.selectByVisibleText("April Tucker");
         // test double select
         multiSelect.selectByVisibleText("April Tucker");
         multiSelect.selectByValue("Ralph Hubbard");
         multiSelect.selectByIndex(9);
-        Set<String> selectedTexts = multiSelect.getAllSelectedOptions2(500L).stream().map(WebElement::getText)
+        Set<String> selectedTexts = multiSelect.getAllSelectedOptions2(800L).stream().map(WebElement::getText)
                 .collect(toSet());
 
 
@@ -127,7 +127,7 @@ public class MuiTest extends AbstractBrowserTest {
         selectedTexts = multiSelect.getAllSelectedOptions2().stream().map(WebElement::getText).collect(toSet());
         assertEquals(0, selectedTexts.size());
 
-        multiSelect.closeOptions(500L);
+        multiSelect.closeOptions(800L);
     }
 
     public static void main(String[] args) {
@@ -135,8 +135,8 @@ public class MuiTest extends AbstractBrowserTest {
         try {
             test.setUpDriver(CHROME);
             test.testSelect();
-            //test.testButtonGroup();
-            //test.testCheckBox();
+            test.testButtonGroup();
+            test.testCheckBox();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

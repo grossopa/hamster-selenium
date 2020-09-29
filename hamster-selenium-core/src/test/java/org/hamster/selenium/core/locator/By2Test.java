@@ -26,6 +26,10 @@ package org.hamster.selenium.core.locator;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -36,6 +40,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @since 1.0
  */
 class By2Test {
+
+    @Test
+    void constructor() {
+        new By2() {
+
+            @Override
+            public List<WebElement> findElements(SearchContext context) {
+                return null;
+            }
+        };
+    }
+
     @Test
     void id() {
         By result = By2.id("some-id");

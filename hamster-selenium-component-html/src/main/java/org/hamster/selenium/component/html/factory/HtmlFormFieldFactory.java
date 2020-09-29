@@ -31,6 +31,8 @@ import org.hamster.selenium.core.component.factory.WebComponentFactory;
 import org.openqa.selenium.WebElement;
 
 /**
+ * Factory for building instance of @{@link HtmlFormField}.
+ *
  * @author Jack Yin
  * @since 1.0
  */

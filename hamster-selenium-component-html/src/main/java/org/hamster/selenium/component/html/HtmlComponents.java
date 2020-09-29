@@ -28,25 +28,69 @@ import org.hamster.selenium.component.html.factory.HtmlFormFieldFactory;
 import org.hamster.selenium.component.html.factory.HtmlSelectFactory;
 import org.hamster.selenium.component.html.factory.HtmlTableFactory;
 import org.hamster.selenium.core.component.AbstractComponents;
+import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
 /**
+ * Contains all HTML components.
+ *
  * @author Jack Yin
  * @since 1.0
  */
 public class HtmlComponents extends AbstractComponents {
 
+    /**
+     * Creates an HTML Form field component from the given {@link org.openqa.selenium.WebElement}.
+     *
+     * <p>
+     * The given element could be any container type but must contain one element with label "&lt;label&gt;" and input
+     * element "&lt;input&gt;".
+     * </p>
+     *
+     * @return the created instance of {@link HtmlFormField}
+     * @see HtmlFormField
+     */
     public HtmlFormField toFormField() {
         return this.component.to(new HtmlFormFieldFactory());
     }
 
+    /**
+     * Creates an HTML Table component from the given {@link org.openqa.selenium.WebElement}.
+     *
+     * <p>
+     * The given element must be "&lt;table&gt;" and with "&lt;tr&gt;&lt;th&gt;" and/or "&lt;tr&gt;&lt;td&gt;"
+     * </p>
+     *
+     * @return the created instance of {@link HtmlTable}
+     * @see HtmlTable
+     */
     public HtmlTable toTable() {
         return this.component.to(new HtmlTableFactory());
     }
 
+    /**
+     * Creates an HTML Select component from the given {@link org.openqa.selenium.WebElement}.
+     *
+     * <p>
+     * The given element must be "&lt;select&gt;"
+     * </p>
+     *
+     * @return the created instance of {@link HtmlSelect}
+     * @see HtmlSelect
+     */
     public HtmlSelect toSelect() {
         return this.component.to(new HtmlSelectFactory());
     }
 
+    /**
+     * Returns new instance of this class.
+     *
+     * <p>
+     * Example:
+     * <tt>HtmlSelect select = driver.findComponent(By.id("cars")).as(html()).toSelect();</tt>
+     * </p>
+     *
+     * @return the instance of {@link HtmlComponents}
+     */
     public static HtmlComponents html() {
         return new HtmlComponents();
     }

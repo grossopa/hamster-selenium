@@ -30,11 +30,13 @@ import org.hamster.selenium.core.component.api.Table;
 import org.hamster.selenium.core.component.api.TableRow;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.endsWithIgnoreCase;
 
 /**
  * @author Jack Yin
@@ -44,6 +46,19 @@ public class HtmlTable extends DefaultWebComponent implements Table {
 
     public HtmlTable(WebElement element, ComponentWebDriver driver) {
         super(element, driver);
+
+        validate();
+    }
+
+    /**
+     * Sub classes could override this method to change the validation behaviour.
+     */
+    protected void validate() {
+        String tagName = element.getTagName();
+
+        if (!endsWithIgnoreCase("table", tagName)) {
+            throw new UnexpectedTagNameException("table", tagName);
+        }
     }
 
     @Override
@@ -86,18 +101,38 @@ public class HtmlTable extends DefaultWebComponent implements Table {
                 .map(e -> new HtmlTableRow(e, driver, getColsLocator(), getHeaderLabels())).collect(toList());
     }
 
+    /**
+     * Gets the new locator instance for locating the header rows
+     *
+     * @return the new locator instance for locating the header rows
+     */
     public By getHeaderRowsLocator() {
         return By.xpath(".//tr[./th]");
     }
 
+    /**
+     * Gets the new locator instance for locating the header columns within a row
+     *
+     * @return the new locator instance for locating the header columns within a row
+     */
     public By getHeaderColsLocator() {
         return By.xpath("./th");
     }
 
+    /**
+     * Gets the new locator instance for locating the body rows
+     *
+     * @return the new locator instance for locating the body rows
+     */
     public By getRowsLocator() {
         return By.xpath(".//tr[./td]");
     }
 
+    /**
+     * Gets the new locator instance for locating the body columns within a row
+     *
+     * @return the new locator instance for locating the body  columns within a row
+     */
     public By getColsLocator() {
         return By.xpath("./td");
     }
