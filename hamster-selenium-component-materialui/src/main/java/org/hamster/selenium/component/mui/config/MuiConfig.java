@@ -24,6 +24,7 @@
 
 package org.hamster.selenium.component.mui.config;
 
+import lombok.Getter;
 import lombok.Setter;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.locator.By2;
@@ -40,9 +41,14 @@ import static org.hamster.selenium.core.component.util.WebComponentUtils.attribu
 public class MuiConfig {
 
     /**
+     * class attribute name
+     */
+    public static final String ATTR_CLASS = "class";
+    /**
      * Default css prefix by Material UI framework
      */
     @Setter
+    @Getter
     private String cssPrefix = "Mui";
 
     /**
@@ -51,7 +57,7 @@ public class MuiConfig {
      * @return the instance of button locator
      */
     public By buttonLocator() {
-        return By2.attr("class", getRootCss("Button")).contains().build();
+        return By2.attr(ATTR_CLASS, getRootCss("Button")).contains().build();
     }
 
     /**
@@ -75,7 +81,7 @@ public class MuiConfig {
      * @see #getIsCheckedCss()
      */
     public boolean isChecked(WebComponent component) {
-        return attributeContains(component, "class", getIsCheckedCss());
+        return attributeContains(component, ATTR_CLASS, getIsCheckedCss());
     }
 
     /**
@@ -87,7 +93,7 @@ public class MuiConfig {
      * @see #getIsSelectedCss()
      */
     public boolean isSelected(WebComponent component) {
-        return attributeContains(component, "class", getIsSelectedCss());
+        return attributeContains(component, ATTR_CLASS, getIsSelectedCss());
     }
 
     /**
@@ -99,7 +105,7 @@ public class MuiConfig {
      * @see #getIsDisabledCss()
      */
     public boolean isDisabled(WebComponent component) {
-        return attributeContains(component, "class", getIsDisabledCss());
+        return attributeContains(component, ATTR_CLASS, getIsDisabledCss());
     }
 
     /**
@@ -152,6 +158,6 @@ public class MuiConfig {
      * @see #getRootCss(String)
      */
     public boolean validateByCss(WebComponent component, String componentName) {
-        return attributeContains(component, "class", getRootCss(componentName));
+        return attributeContains(component, ATTR_CLASS, getRootCss(componentName));
     }
 }
