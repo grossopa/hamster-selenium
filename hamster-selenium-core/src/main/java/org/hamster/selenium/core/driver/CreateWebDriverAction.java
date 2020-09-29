@@ -72,7 +72,7 @@ public class CreateWebDriverAction implements WebDriverType.WebDriverTypeFunctio
         return doBuild(SafariDriver.builder(), input);
     }
 
-    private WebDriver doBuild(RemoteWebDriverBuilder builder, CreateWebDriverParams input) {
+    protected WebDriver doBuild(RemoteWebDriverBuilder builder, CreateWebDriverParams input) {
         return builder.addAlternative(input.getOptions()).withDriverService(input.getDriverService()).build();
     }
 }
