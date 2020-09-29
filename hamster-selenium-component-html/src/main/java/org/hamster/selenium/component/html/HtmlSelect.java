@@ -33,13 +33,23 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.List;
 
 /**
+ * the simple HTML Select elements delegates selenium {@link Select}.
+ *
  * @author Jack Yin
  * @since 1.0
  */
 public class HtmlSelect extends DefaultWebComponent implements ISelect {
 
-    private ISelect selectComponent;
+    private final ISelect selectComponent;
 
+    /**
+     * Constructs an instance with element and driver.
+     *
+     * @param element
+     *         the web element to wrap with, should be with tag select.
+     * @param driver
+     *         the current web driver
+     */
     public HtmlSelect(WebElement element, ComponentWebDriver driver) {
         super(element, driver);
         selectComponent = new Select(element);

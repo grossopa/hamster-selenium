@@ -32,11 +32,21 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 /**
+ * A simple form field representation with a label element and input element.
+ *
  * @author Jack Yin
  * @since 1.0
  */
 public class HtmlFormField extends DefaultWebComponent implements FormField {
 
+    /**
+     * Constructs an instance with element and driver.
+     *
+     * @param element
+     *         the web element to wrap with, should be the parent container of a label and / or an input.
+     * @param driver
+     *         the current web driver
+     */
     public HtmlFormField(WebElement element, ComponentWebDriver driver) {
         super(element, driver);
     }
