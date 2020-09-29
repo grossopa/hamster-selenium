@@ -32,6 +32,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Tests for {@link By2}
@@ -43,13 +44,13 @@ class By2Test {
 
     @Test
     void constructor() {
-        new By2() {
+        assertEquals(By2.class, new By2() {
 
             @Override
             public List<WebElement> findElements(SearchContext context) {
                 return null;
             }
-        };
+        }.getClass());
     }
 
     @Test
