@@ -24,7 +24,6 @@
 
 package org.hamster.selenium.component.mui;
 
-import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.hamster.selenium.component.mui.action.CloseOptionsAction;
 import org.hamster.selenium.component.mui.action.OpenOptionsAction;
@@ -201,7 +200,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
     @Override
     public WebComponent openOptions(Long delayInMillis) {
         List<WebComponent> components = driver.findComponents(config.popoverLocator());
-        if (components.size() != 0) {
+        if (!components.isEmpty()) {
             return components.get(0);
         }
 

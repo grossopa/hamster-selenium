@@ -25,13 +25,9 @@
 package org.hamster.selenium.core.driver;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.RemoteWebDriverBuilder;
-import org.openqa.selenium.safari.SafariDriver;
+
+import static org.openqa.selenium.remote.RemoteWebDriver.builder;
 
 /**
  * Creates the {@link WebDriver} action. This method requires the {@link org.openqa.selenium.remote.service.DriverService}
@@ -44,35 +40,44 @@ public class CreateWebDriverAction implements WebDriverType.WebDriverTypeFunctio
 
     @Override
     public WebDriver applyChrome(CreateWebDriverParams input) {
-        return doBuild(ChromeDriver.builder(), input);
+        return doBuild(getBuilder(), input);
     }
 
     @Override
     public WebDriver applyEdge(CreateWebDriverParams input) {
-        return doBuild(EdgeDriver.builder(), input);
+        return doBuild(getBuilder(), input);
     }
 
     @Override
     public WebDriver applyFirefox(CreateWebDriverParams input) {
-        return doBuild(FirefoxDriver.builder(), input);
+        return doBuild(getBuilder(), input);
     }
 
     @Override
     public WebDriver applyIE(CreateWebDriverParams input) {
-        return doBuild(InternetExplorerDriver.builder(), input);
+        return doBuild(getBuilder(), input);
     }
 
     @Override
     public WebDriver applyOpera(CreateWebDriverParams input) {
-        return doBuild(OperaDriver.builder(), input);
+        return doBuild(getBuilder(), input);
     }
 
     @Override
     public WebDriver applySafari(CreateWebDriverParams input) {
-        return doBuild(SafariDriver.builder(), input);
+        return doBuild(getBuilder(), input);
     }
 
     protected WebDriver doBuild(RemoteWebDriverBuilder builder, CreateWebDriverParams input) {
         return builder.addAlternative(input.getOptions()).withDriverService(input.getDriverService()).build();
+    }
+
+    /**
+     * For Unit testing purpose
+     *
+     * @return the instance of the builder
+     */
+    protected RemoteWebDriverBuilder getBuilder() {
+        return builder();
     }
 }

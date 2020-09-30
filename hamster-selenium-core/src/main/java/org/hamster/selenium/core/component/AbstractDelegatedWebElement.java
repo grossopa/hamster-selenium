@@ -24,13 +24,7 @@
 
 package org.hamster.selenium.core.component;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.Rectangle;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 
 import java.util.List;
 
@@ -145,7 +139,7 @@ public abstract class AbstractDelegatedWebElement implements WebElement {
     }
 
     @Override
-    public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
+    public <X> X getScreenshotAs(OutputType<X> target) {
         return element.getScreenshotAs(target);
     }
 }

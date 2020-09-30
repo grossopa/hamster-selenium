@@ -28,7 +28,6 @@ import org.hamster.selenium.component.html.factory.HtmlFormFieldFactory;
 import org.hamster.selenium.component.html.factory.HtmlSelectFactory;
 import org.hamster.selenium.component.html.factory.HtmlTableFactory;
 import org.hamster.selenium.core.component.AbstractComponents;
-import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
 /**
  * Contains all HTML components.
