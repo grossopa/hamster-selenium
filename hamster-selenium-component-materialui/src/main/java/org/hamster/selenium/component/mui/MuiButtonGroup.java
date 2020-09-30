@@ -61,6 +61,11 @@ public class MuiButtonGroup extends AbstractMuiComponent {
         return "ButtonGroup";
     }
 
+    /**
+     * Finds and returns the buttons belongs to this container.
+     *
+     * @return the found buttons
+     */
     public List<MuiButton> getButtons() {
         return element.findElements(config.buttonLocator()).stream()
                 .map(button -> new MuiButton(button, driver, config)).collect(toList());
