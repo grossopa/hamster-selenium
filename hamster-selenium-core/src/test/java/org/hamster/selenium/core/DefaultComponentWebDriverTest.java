@@ -62,8 +62,8 @@ class DefaultComponentWebDriverTest {
         WebElement mockElement2 = mock(WebElement.class);
         when(driver.findElements(any())).thenReturn(Arrays.asList(mockElement1, mockElement2));
         List<WebComponent> result = testSubject.findComponents(By.id("some"));
-        assertEquals(mockElement1, result.get(0).getElement());
-        assertEquals(mockElement2, result.get(1).getElement());
+        assertEquals(mockElement1, result.get(0).getWrappedElement());
+        assertEquals(mockElement2, result.get(1).getWrappedElement());
     }
 
     @Test
@@ -71,7 +71,7 @@ class DefaultComponentWebDriverTest {
         WebElement mockElement1 = mock(WebElement.class);
         when(driver.findElement(any())).thenReturn(mockElement1);
         WebComponent component = testSubject.findComponent(By.id("some"));
-        assertEquals(mockElement1, component.getElement());
+        assertEquals(mockElement1, component.getWrappedElement());
     }
 
     @Test
@@ -114,7 +114,7 @@ class DefaultComponentWebDriverTest {
     void mapElement() {
         WebElement element = mock(WebElement.class);
         WebComponent component = testSubject.mapElement(element);
-        assertEquals(element, component.getElement());
+        assertEquals(element, component.getWrappedElement());
     }
 
     @Test

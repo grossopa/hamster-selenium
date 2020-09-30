@@ -55,13 +55,13 @@ class HtmlFormFieldTest {
     void getLabel() {
         WebElement label = mock(WebElement.class);
         when(element.findElement(eq(By.tagName("label")))).thenReturn(label);
-        assertEquals(label, testSubject.getLabel().getElement());
+        assertEquals(label, testSubject.getLabel().getWrappedElement());
     }
 
     @Test
     void getInput() {
         WebElement input = mock(WebElement.class);
         when(element.findElement(eq(By.tagName("input")))).thenReturn(input);
-        assertEquals(input, testSubject.getInput().getElement());
+        assertEquals(input, testSubject.getInput().getWrappedElement());
     }
 }

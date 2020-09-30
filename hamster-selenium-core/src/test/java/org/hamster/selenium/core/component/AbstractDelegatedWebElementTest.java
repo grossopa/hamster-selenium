@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -44,11 +44,11 @@ class AbstractDelegatedWebElementTest {
 
     AbstractDelegatedWebElement testSubject;
 
-    WebElement element;
+    RemoteWebElement element;
 
     @BeforeEach
     void setUp() {
-        element = mock(WebElement.class);
+        element = mock(RemoteWebElement.class);
         testSubject = new AbstractDelegatedWebElement(element) {
 
         };
@@ -57,7 +57,7 @@ class AbstractDelegatedWebElementTest {
     @Test
     void constructor() {
         WebComponent mockComponent = mock(WebComponent.class);
-        when(mockComponent.getElement()).thenReturn(element);
+        when(mockComponent.getWrappedElement()).thenReturn(element);
         testSubject = new AbstractDelegatedWebElement(mockComponent) {
         };
 
@@ -164,5 +164,17 @@ class AbstractDelegatedWebElementTest {
     void getScreenshotAs() {
         testSubject.getScreenshotAs(OutputType.BASE64);
         verify(element, only()).getScreenshotAs(eq(OutputType.BASE64));
+    }
+
+    @Test
+    void getCoordinates() {
+        testSubject.getCoordinates();
+        verify(element, only()).getCoordinates();
+    }
+
+    @Test
+    void getId() {
+        testSubject.getId();
+        verify(element, only()).getId();
     }
 }

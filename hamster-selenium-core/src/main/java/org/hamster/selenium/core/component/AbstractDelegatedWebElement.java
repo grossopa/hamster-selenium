@@ -24,9 +24,15 @@
 
 package org.hamster.selenium.core.component;
 
+import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Coordinates;
+import org.openqa.selenium.interactions.Locatable;
+import org.openqa.selenium.internal.HasIdentity;
+import org.openqa.selenium.remote.Dialect;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
@@ -36,7 +42,9 @@ import static java.util.Objects.requireNonNull;
  * @author Jack Yin
  * @since 1.0
  */
-public abstract class AbstractDelegatedWebElement implements WebElement {
+@SuppressWarnings("deprecation")
+public abstract class AbstractDelegatedWebElement
+        implements WrapsElement, WebElement, HasIdentity, TakesScreenshot, Locatable, WrapsDriver {
 
     protected WebElement element;
 
@@ -52,7 +60,7 @@ public abstract class AbstractDelegatedWebElement implements WebElement {
         WebElement targetElement = element;
 
         while (targetElement instanceof WebComponent) {
-            targetElement = ((WebComponent) targetElement).getElement();
+            targetElement = ((WebComponent) targetElement).getWrappedElement();
         }
 
         this.element = targetElement;
@@ -141,5 +149,30 @@ public abstract class AbstractDelegatedWebElement implements WebElement {
     @Override
     public <X> X getScreenshotAs(OutputType<X> target) {
         return element.getScreenshotAs(target);
+    }
+
+    @Override
+    public Coordinates getCoordinates() {
+        return ((Locatable) element).getCoordinates();
+    }
+
+    @Override
+    public String getId() {
+        return ((HasIdentity) element).getId();
+    }
+
+    @Override
+    public WebDriver getWrappedDriver() {
+        return ((WrapsDriver) element).getWrappedDriver();
+    }
+
+    @Override
+    public String toString() {
+        return element.toString();
+    }
+
+    @Override
+    public WebElement getWrappedElement() {
+        return element;
     }
 }

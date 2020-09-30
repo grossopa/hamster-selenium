@@ -127,11 +127,15 @@ public class MuiShowCase extends AbstractBrowserSupport {
         multiSelect.closeOptions(800L);
     }
 
-    public void testSlider() {
+    public void testSlider() throws InterruptedException {
         driver.navigate().to("https://material-ui.com/components/slider/");
         MuiSlider slider = driver.findComponent(By.id("continuous-slider")).findComponent(By.xpath("parent::*"))
                 .findComponent(By.className("MuiSlider-root")).as(mui()).toSlider();
         slider.moveThumb(0.8d);
+        Thread.sleep(1000L);
+        slider.setValue(25);
+        Thread.sleep(1000L);
+        slider.setValue(30);
     }
 
     public static void main(String[] args) {

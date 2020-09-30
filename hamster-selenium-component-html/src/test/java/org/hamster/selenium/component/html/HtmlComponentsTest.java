@@ -51,7 +51,7 @@ class HtmlComponentsTest {
 
     @BeforeEach
     void setUp() {
-        when(component.getElement()).thenReturn(element);
+        when(component.getWrappedElement()).thenReturn(element);
         testSubject = new HtmlComponents();
     }
 

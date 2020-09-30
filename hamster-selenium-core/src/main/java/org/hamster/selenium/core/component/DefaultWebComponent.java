@@ -58,11 +58,6 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     }
 
     @Override
-    public WebElement getElement() {
-        return this.element;
-    }
-
-    @Override
     public List<WebComponent> findComponents(By by) {
         return element.findElements(by).stream().map(e -> new DefaultWebComponent(e, driver)).collect(toList());
     }
@@ -88,5 +83,4 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
         components.setContext(this, driver);
         return components;
     }
-
 }

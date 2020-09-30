@@ -57,8 +57,8 @@ class DefaultWebComponentTest {
 
 
     @Test
-    void getElement() {
-        assertEquals(element, testSubject.getElement());
+    void getWrappedElement() {
+        assertEquals(element, testSubject.getWrappedElement());
     }
 
     @Test
@@ -67,8 +67,8 @@ class DefaultWebComponentTest {
         WebElement result2 = mock(WebElement.class);
         when(element.findElements(any())).thenReturn(Arrays.asList(result1, result2));
         List<WebComponent> result = testSubject.findComponents(By.id("some-id"));
-        assertEquals(result1, result.get(0).getElement());
-        assertEquals(result2, result.get(1).getElement());
+        assertEquals(result1, result.get(0).getWrappedElement());
+        assertEquals(result2, result.get(1).getWrappedElement());
     }
 
     @Test
@@ -76,7 +76,7 @@ class DefaultWebComponentTest {
         WebElement result1 = mock(WebElement.class);
         when(element.findElement(any())).thenReturn(result1);
         WebComponent result = testSubject.findComponent(By.id("sss"));
-        assertEquals(result1, result.getElement());
+        assertEquals(result1, result.getWrappedElement());
     }
 
     @Test

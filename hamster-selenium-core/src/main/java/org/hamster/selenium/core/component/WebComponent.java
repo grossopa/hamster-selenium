@@ -26,9 +26,9 @@ package org.hamster.selenium.core.component;
 
 import org.hamster.selenium.core.ComponentWebDriver;
 import org.hamster.selenium.core.component.factory.WebComponentFactory;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Locatable;
+import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.List;
 
@@ -39,14 +39,8 @@ import java.util.List;
  * @author Jack Yin
  * @since 1.0
  */
-public interface WebComponent extends WebElement {
-
-    /**
-     * Gets the wrapped element.
-     *
-     * @return the wrapped element.
-     */
-    WebElement getElement();
+@SuppressWarnings("deprecation")
+public interface WebComponent extends WrapsElement, WebElement, HasIdentity, TakesScreenshot, Locatable, WrapsDriver {
 
     /**
      * Find all elements within the current context using the given mechanism and encapsulate the {@link WebElement}

@@ -110,9 +110,9 @@ class HtmlTableTest {
         TableRow row = testSubject.getHeaderRow();
         assertNotNull(row);
         assertEquals(3, row.getCells().size());
-        assertEquals(header1, row.getCells().get(0).getElement());
-        assertEquals(header2, row.getCells().get(1).getElement());
-        assertEquals(header3, row.getCells().get(2).getElement());
+        assertEquals(header1, row.getCells().get(0).getWrappedElement());
+        assertEquals(header2, row.getCells().get(1).getWrappedElement());
+        assertEquals(header3, row.getCells().get(2).getWrappedElement());
     }
 
     @Test
@@ -120,8 +120,8 @@ class HtmlTableTest {
         List<TableRow> rows = testSubject.getHeaderRows();
         assertNotNull(rows);
         assertEquals(2, rows.size());
-        assertEquals(headerRow1, rows.get(0).getElement());
-        assertEquals(headerRow2, rows.get(1).getElement());
+        assertEquals(headerRow1, rows.get(0).getWrappedElement());
+        assertEquals(headerRow2, rows.get(1).getWrappedElement());
     }
 
     @Test

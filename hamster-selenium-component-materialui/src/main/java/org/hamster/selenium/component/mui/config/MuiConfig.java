@@ -72,6 +72,16 @@ public class MuiConfig {
         return By.xpath("/html/body/div[contains(@class, '" + getRootCss("Popover") + "')]");
     }
 
+
+    /**
+     * For locating the thumb element of the Slider.
+     *
+     * @return the instance of Slider thumb locator
+     */
+    public By sliderThumbLocator() {
+        return By.className(cssPrefix + "Slider-thumb");
+    }
+
     /**
      * Checks whether the component has the checked css present.
      *

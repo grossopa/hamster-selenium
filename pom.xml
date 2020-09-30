@@ -30,6 +30,7 @@
     <java.version>11</java.version>
 
     <commons-lang3.version>3.11</commons-lang3.version>
+    <commons-math3.version>3.6.1</commons-math3.version>
     <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
     <junit-jupiter.version>RELEASE</junit-jupiter.version>
     <junit-platform-surefire-provider.version>RELEASE</junit-platform-surefire-provider.version>
@@ -91,6 +92,13 @@
         <version>${commons-lang3.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-math3</artifactId>
+        <version>${commons-math3.version}</version>
+      </dependency>
+
+      <!-- Testing -->
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>

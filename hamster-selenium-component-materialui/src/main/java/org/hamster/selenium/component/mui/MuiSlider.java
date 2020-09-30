@@ -25,19 +25,16 @@
 package org.hamster.selenium.component.mui;
 
 import lombok.SneakyThrows;
+import org.apache.commons.math3.util.Precision;
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.component.util.WebComponentUtils;
 import org.hamster.selenium.core.locator.By2;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 /**
  * A MUI Slider wrapper.
@@ -104,22 +101,75 @@ public class MuiSlider extends AbstractMuiComponent {
         return Double.valueOf(getValue());
     }
 
-    /**
-     * Gets value in BigInteger.
-     *
-     * @return the value in BigInteger
-     */
-    public BigInteger getValueBigInteger() {
-        return new BigInteger(getValue());
+    public String getMinValue() {
+        return getFirstThumb().getAttribute("aria-valuemin");
     }
 
     /**
-     * Gets value in BigDecimal.
+     * Gets min value in Integer.
      *
-     * @return the value in BigDecimal
+     * @return the min value in Integer.
      */
-    public BigDecimal getValueBigDecimal() {
-        return new BigDecimal(getValue());
+    public Integer getMinValueInteger() {
+        return Integer.valueOf(getMinValue());
+    }
+
+    /**
+     * Gets min value in Long.
+     *
+     * @return the min value in Long
+     */
+    public Long getMinValueLong() {
+        return Long.valueOf(getMinValue());
+    }
+
+    /**
+     * Gets min value in Double.
+     *
+     * @return the min value in double
+     */
+    public Double getMinValueDouble() {
+        return Double.valueOf(getMinValue());
+    }
+
+    public String getMaxValue() {
+        return getFirstThumb().getAttribute("aria-valuemax");
+    }
+
+    /**
+     * Gets max value in Integer.
+     *
+     * @return the max value in Integer.
+     */
+    public Integer getMaxValueInteger() {
+        return Integer.valueOf(getMinValue());
+    }
+
+    /**
+     * Gets max value in Long.
+     *
+     * @return the max value in Long
+     */
+    public Long getMaxValueLong() {
+        return Long.valueOf(getMaxValue());
+    }
+
+    /**
+     * Gets max value in Double.
+     *
+     * @return the max value in double
+     */
+    public Double getMaxValueDouble() {
+        return Double.valueOf(getMaxValue());
+    }
+
+    /**
+     * Gets the first Thumb element.
+     *
+     * @return the first Thumb element.
+     */
+    public WebComponent getFirstThumb() {
+        return driver.mapElement(element.findElement(config.sliderThumbLocator()));
     }
 
     /**
@@ -140,9 +190,36 @@ public class MuiSlider extends AbstractMuiComponent {
         return WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "Slider-trackInverted");
     }
 
+    public void setValue(Integer value) {
+        setValue(value.doubleValue());
+    }
+
+    public void setValue(Long value) {
+        setValue(value.doubleValue());
+    }
+
+    public void setValue(Double value) {
+        Double maxValue = getMaxValueDouble();
+        Double minValue = getMinValueDouble();
+        if (Precision.compareTo(value, maxValue, 0.0001d) == 1 || Precision.compareTo(value, minValue, 0.0001d) == -1) {
+            throw new IllegalArgumentException(
+                    String.format("value %f.2 is not in the range of %f.2, %f.2", value, minValue, maxValue));
+        }
+        moveThumb(value / (maxValue - minValue));
+    }
+
+    /**
+     * Moves thumb by percentage.
+     *
+     * @param percentage
+     *         the percentage to move to
+     */
     @SneakyThrows
     public void moveThumb(double percentage) {
-        WebElement thumb = element.findElement(config.sliderThumbLocator());
+        if (Precision.compareTo(percentage, 1, 0.0001d) == 1 || Precision.compareTo(percentage, 0, 0.0001d) == -1) {
+            throw new IllegalArgumentException("Percentage must be with 0.0 to 1.0");
+        }
+        WebComponent thumb = getFirstThumb();
         Rectangle rect = element.getRect();
 
         boolean vertical = isVertical();
@@ -173,8 +250,6 @@ public class MuiSlider extends AbstractMuiComponent {
             actions.clickAndHold(thumb).moveByOffset((int) (start + (end - start) * percentage) - thumbCenter.x, 0)
                     .release().perform();
         }
-
-
     }
 
 

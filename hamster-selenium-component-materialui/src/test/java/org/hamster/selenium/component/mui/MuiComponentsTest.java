@@ -53,7 +53,7 @@ class MuiComponentsTest {
 
     @BeforeEach
     void setUp() {
-        when(component.getElement()).thenReturn(element);
+        when(component.getWrappedElement()).thenReturn(element);
         testSubject = new MuiComponents(config);
         testSubject.setContext(component, driver);
     }
@@ -72,26 +72,26 @@ class MuiComponentsTest {
 
     @Test
     void toButton() {
-        assertEquals(element, testSubject.toButton().getElement());
+        assertEquals(element, testSubject.toButton().getWrappedElement());
     }
 
     @Test
     void toButtonGroup() {
-        assertEquals(element, testSubject.toButtonGroup().getElement());
+        assertEquals(element, testSubject.toButtonGroup().getWrappedElement());
     }
 
     @Test
     void toCheckbox() {
-        assertEquals(element, testSubject.toCheckbox().getElement());
+        assertEquals(element, testSubject.toCheckbox().getWrappedElement());
     }
 
     @Test
     void toSelect() {
-        assertEquals(element, testSubject.toSelect(By.id("abc")).getElement());
+        assertEquals(element, testSubject.toSelect(By.id("abc")).getWrappedElement());
     }
 
     @Test
     void testToSelect() {
-        assertEquals(element, testSubject.toSelect(By.id("abc"), "attribute-value-name").getElement());
+        assertEquals(element, testSubject.toSelect(By.id("abc"), "attribute-value-name").getWrappedElement());
     }
 }
