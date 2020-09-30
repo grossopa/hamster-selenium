@@ -32,7 +32,6 @@ import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.ArgumentMatchers.*;
 
 /**
  * Tests for {@link MuiCheckbox}
@@ -46,7 +45,6 @@ class MuiCheckboxTest {
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
-
 
     @BeforeEach
     void setUp() {

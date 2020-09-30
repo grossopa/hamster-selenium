@@ -24,8 +24,10 @@
 
 package org.hamster.selenium.component.mui;
 
+import lombok.Getter;
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.component.AbstractComponents;
+import org.hamster.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 
 import static java.util.Objects.requireNonNull;
@@ -38,6 +40,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class MuiComponents extends AbstractComponents {
 
+    @Getter
     private final MuiConfig config;
 
     /**
@@ -57,31 +60,75 @@ public class MuiComponents extends AbstractComponents {
         this.config = requireNonNull(config);
     }
 
+    /**
+     * Creates an instance of {@link MuiComponents} with default {@link MuiConfig}.
+     *
+     * @return the newly created instance with default {@link MuiConfig}.
+     */
     public static MuiComponents mui() {
         return new MuiComponents();
     }
 
+    /**
+     * Creates an instance of {@link MuiComponents} with given {@link MuiConfig}.
+     *
+     * @param config
+     *         the config instance
+     * @return the instance of {@link MuiComponents} with given {@link MuiConfig}.
+     */
     public static MuiComponents mui(MuiConfig config) {
         return new MuiComponents(config);
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiButton} instance.
+     *
+     * @return wrapped {@link MuiButton} instance on the given component
+     */
     public MuiButton toButton() {
         return new MuiButton(component, driver, config);
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiButtonGroup} instance.
+     *
+     * @return wrapped {@link MuiButtonGroup} instance on the given component
+     */
     public MuiButtonGroup toButtonGroup() {
         return new MuiButtonGroup(component, driver, config);
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiCheckbox} instance.
+     *
+     * @return wrapped {@link MuiCheckbox} instance on the given component
+     */
     public MuiCheckbox toCheckbox() {
         return new MuiCheckbox(component, driver, config);
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSelect} instance.
+     *
+     * @param optionLocator
+     *         the locator for locating the options (NOTE: it is the option element NOT the option container)
+     * @return wrapped {@link MuiSelect} instance on the given component
+     */
     public MuiSelect toSelect(By optionLocator) {
         requireNonNull(optionLocator);
         return new MuiSelect(component, driver, config, optionLocator);
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSelect} instance.
+     *
+     * @param optionLocator
+     *         the locator for locating the options (NOTE: it is the option element NOT the option container)
+     * @param optionValueAttribute
+     *         if the option value will be marked somewhere in the element. with this attribute it will make sure {@link
+     *         MuiSelect#selectByValue(String)} and {@link MuiSelect#deselectByValue(String)} works properly.
+     * @return wrapped {@link MuiSelect} instance on the given component
+     */
     public MuiSelect toSelect(By optionLocator, String optionValueAttribute) {
         requireNonNull(optionLocator);
         requireNonNull(optionValueAttribute);

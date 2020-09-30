@@ -26,64 +26,72 @@ package org.hamster.selenium.component.mui;
 
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
+import org.hamster.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link AbstractMuiComponent}
+ * Tests for {@link MuiComponents}
  *
  * @author Jack Yin
  * @since 1.0
  */
-class AbstractMuiComponentTest {
+class MuiComponentsTest {
 
-    AbstractMuiComponent testSubject;
+    MuiComponents testSubject;
     WebElement element = mock(WebElement.class);
+    WebComponent component = mock(WebComponent.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
     @BeforeEach
     void setUp() {
-        testSubject = new AbstractMuiComponent(element, driver, config) {
-
-            @Override
-            public String getComponentName() {
-                return "MockComponent";
-            }
-        };
+        when(component.getElement()).thenReturn(element);
+        testSubject = new MuiComponents(config);
+        testSubject.setContext(component, driver);
     }
 
 
     @Test
-    void isEnabled() {
-        when(config.isDisabled(any())).thenReturn(false);
-        assertTrue(testSubject.isEnabled());
+    void mui() {
+        assertNotNull(MuiComponents.mui().getConfig());
     }
 
     @Test
-    void isEnabledNegative() {
-        when(config.isDisabled(any())).thenReturn(true);
-        assertFalse(testSubject.isEnabled());
+    void muiWithConfig() {
+        MuiConfig config = mock(MuiConfig.class);
+        assertEquals(config, MuiComponents.mui(config).getConfig());
     }
 
     @Test
-    void validate() {
-        when(config.validateByCss(any(), any())).thenReturn(true);
-        assertTrue(testSubject.validate());
+    void toButton() {
+        assertEquals(element, testSubject.toButton().getElement());
     }
 
     @Test
-    void validateNegative() {
-        when(config.validateByCss(any(), any())).thenReturn(false);
-        assertFalse(testSubject.validate());
+    void toButtonGroup() {
+        assertEquals(element, testSubject.toButtonGroup().getElement());
     }
 
     @Test
-    void getComponentName() {
-        assertEquals("MockComponent", testSubject.getComponentName());
+    void toCheckbox() {
+        assertEquals(element, testSubject.toCheckbox().getElement());
+    }
+
+    @Test
+    void toSelect() {
+        assertEquals(element, testSubject.toSelect(By.id("abc")).getElement());
+    }
+
+    @Test
+    void testToSelect() {
+        assertEquals(element, testSubject.toSelect(By.id("abc"), "attribute-value-name").getElement());
     }
 }
