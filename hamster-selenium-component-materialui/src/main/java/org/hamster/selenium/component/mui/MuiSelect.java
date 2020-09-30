@@ -24,6 +24,7 @@
 
 package org.hamster.selenium.component.mui;
 
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.hamster.selenium.component.mui.action.CloseOptionsAction;
 import org.hamster.selenium.component.mui.action.OpenOptionsAction;
@@ -67,6 +68,17 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElem
  */
 public class MuiSelect extends AbstractMuiComponent implements Select {
 
+    /**
+     * The default action for opening the options
+     */
+    public static final OpenOptionsAction DEFAULT_OPEN_OPTIONS_ACTION = (component, driver) -> component.click();
+
+    /**
+     * The default action for closing the options
+     */
+    public static final CloseOptionsAction DEFAULT_CLOSE_OPTIONS_ACTION = (component, options, driver) -> options.get(0)
+            .sendKeys(Keys.ESCAPE);
+
     private final String optionValueAttribute;
     private final By optionsLocator;
     private final OpenOptionsAction openOptionsAction;
@@ -87,8 +99,8 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
      *         the locator for finding the options
      */
     public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, By optionsLocator) {
-        this(element, driver, config, optionsLocator, "data-value", (c, d) -> c.click(),
-                (c, comps, d) -> comps.get(0).sendKeys(Keys.ESCAPE));
+        this(element, driver, config, optionsLocator, "data-value", DEFAULT_OPEN_OPTIONS_ACTION,
+                DEFAULT_CLOSE_OPTIONS_ACTION);
     }
 
     /**
@@ -107,8 +119,8 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
      */
     public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, By optionsLocator,
             String optionValueAttribute) {
-        this(element, driver, config, optionsLocator, optionValueAttribute, (c, d) -> c.click(),
-                (c, comps, d) -> comps.get(0).sendKeys(Keys.ESCAPE));
+        this(element, driver, config, optionsLocator, optionValueAttribute, DEFAULT_OPEN_OPTIONS_ACTION,
+                DEFAULT_CLOSE_OPTIONS_ACTION);
     }
 
     /**
@@ -201,7 +213,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
             wait.withTimeout(Duration.ofMillis(delayInMillis));
             container = driver.mapElement(wait.until(visibilityOfElementLocated(config.popoverLocator())));
         } else {
-            container = this.findComponent(config.popoverLocator());
+            container = driver.findComponent(config.popoverLocator());
         }
         return container;
     }
@@ -213,11 +225,12 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
 
     @Override
     public void closeOptions(Long delayInMillis) {
-        List<WebComponent> options = getOptions2();
-        if (options.isEmpty()) {
+        List<WebComponent> components = driver.findComponents(config.popoverLocator());
+        if (components.isEmpty() || !components.get(0).isDisplayed()) {
             return;
         }
 
+        List<WebComponent> options = getOptions2();
         closeOptionsAction.close(this, options, driver);
 
         if (delayInMillis > 0L) {
@@ -225,7 +238,8 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
             wait.withTimeout(Duration.ofMillis(delayInMillis));
             wait.until(invisibilityOfElementLocated(config.popoverLocator()));
         } else {
-            if (driver.findComponents(config.popoverLocator()).size() != 0) {
+            List<WebComponent> containers = driver.findComponents(config.popoverLocator());
+            if (!containers.isEmpty() && containers.get(0).isDisplayed()) {
                 throw new OptionNotClosedException("Option Popover is not properly closed " + config.popoverLocator());
             }
         }
@@ -324,5 +338,41 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
         getOptions2(delayInMillis).stream()
                 .filter(option -> config.isSelected(option) && StringUtils.equals(text, option.getText()))
                 .forEach(WebComponent::click);
+    }
+
+    /**
+     * Gets option value attribute.
+     *
+     * @return the option value attribute
+     */
+    public String getOptionValueAttribute() {
+        return optionValueAttribute;
+    }
+
+    /**
+     * Gets options locator.
+     *
+     * @return the options locator
+     */
+    public By getOptionsLocator() {
+        return optionsLocator;
+    }
+
+    /**
+     * Gets open options action.
+     *
+     * @return the open options action
+     */
+    public OpenOptionsAction getOpenOptionsAction() {
+        return openOptionsAction;
+    }
+
+    /**
+     * Gets close options action.
+     *
+     * @return the close options action
+     */
+    public CloseOptionsAction getCloseOptionsAction() {
+        return closeOptionsAction;
     }
 }
