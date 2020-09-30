@@ -28,12 +28,14 @@ import org.hamster.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -46,7 +48,7 @@ import static org.mockito.Mockito.*;
 class DefaultComponentWebDriverTest {
 
     DefaultComponentWebDriver testSubject;
-    WebDriver driver = mock(WebDriver.class);
+    RemoteWebDriver driver = mock(RemoteWebDriver.class);
 
     @BeforeEach
     void setUp() {
@@ -161,5 +163,58 @@ class DefaultComponentWebDriverTest {
     void manage() {
         testSubject.manage();
         verify(driver, only()).manage();
+    }
+
+    @Test
+    void getCapabilities() {
+        testSubject.getCapabilities();
+        verify(driver, only()).getCapabilities();
+    }
+
+    @Test
+    void executeScript() {
+        testSubject.executeScript("abc");
+        verify(driver, only()).executeScript(eq("abc"));
+    }
+
+    @Test
+    void executeAsyncScript() {
+        testSubject.executeAsyncScript("abc");
+        verify(driver, only()).executeAsyncScript(eq("abc"));
+    }
+
+    @Test
+    void getScreenshotAs() {
+        testSubject.getScreenshotAs(OutputType.BASE64);
+        verify(driver, only()).getScreenshotAs(eq(OutputType.BASE64));
+    }
+
+    @Test
+    void getKeyboard() {
+        testSubject.getKeyboard();
+        verify(driver, only()).getKeyboard();
+    }
+
+    @Test
+    void getMouse() {
+        testSubject.getMouse();
+        verify(driver, only()).getMouse();
+    }
+
+    @Test
+    void perform() {
+        testSubject.perform(emptyList());
+        verify(driver, only()).perform(eq(emptyList()));
+    }
+
+    @Test
+    void resetInputState() {
+        testSubject.resetInputState();
+        verify(driver, only()).resetInputState();
+    }
+
+    @Test
+    void getDriver() {
+        assertEquals(driver, testSubject.getDriver());
     }
 }

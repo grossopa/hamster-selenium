@@ -26,6 +26,8 @@ package org.hamster.selenium.core.component.util;
 
 import org.hamster.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -75,5 +77,16 @@ class WebComponentUtilsTest {
     void attributeContainsSplit() {
         when(component.getAttribute(eq("testAttributeName"))).thenReturn("som1;some2;some-value;some3");
         assertTrue(WebComponentUtils.attributeContains(component, "testAttributeName", "some-value", ";"));
+    }
+
+    @Test
+    void getCenterRect() {
+        Rectangle rect = new Rectangle(20, 40, 60, 80);
+        assertEquals(new Point(60, 70), WebComponentUtils.getCenter(rect));
+    }
+
+    @Test
+    void getCenter() {
+        assertEquals(new Point(60, 70), WebComponentUtils.getCenter(20, 40, 60, 80));
     }
 }

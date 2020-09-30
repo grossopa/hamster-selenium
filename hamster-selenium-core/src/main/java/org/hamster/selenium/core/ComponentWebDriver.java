@@ -25,10 +25,10 @@
 package org.hamster.selenium.core;
 
 import org.hamster.selenium.core.component.WebComponent;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.HasInputDevices;
+import org.openqa.selenium.interactions.Interactive;
+import org.openqa.selenium.internal.*;
 
 import java.util.List;
 
@@ -38,7 +38,9 @@ import java.util.List;
  * @author Jack Yin
  * @since 1.0
  */
-public interface ComponentWebDriver extends WebDriver {
+@SuppressWarnings("deprecation")
+public interface ComponentWebDriver
+        extends WebDriver, JavascriptExecutor, HasInputDevices, HasCapabilities, Interactive, TakesScreenshot {
 
     /**
      * Finds all elements within the current page using the given mechanism and encapsulate the {@link WebElement} list
@@ -108,6 +110,8 @@ public interface ComponentWebDriver extends WebDriver {
      * @return the mapped {@link WebComponent} instance
      */
     WebComponent mapElement(WebElement element);
+
+    WebDriver getDriver();
 
 
 }

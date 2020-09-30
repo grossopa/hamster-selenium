@@ -149,6 +149,4 @@ public interface WebComponent extends WebElement {
      * @return true for contains, false otherwise
      */
     boolean attributeContains(String attributeName, String attributeValue);
-
-
 }

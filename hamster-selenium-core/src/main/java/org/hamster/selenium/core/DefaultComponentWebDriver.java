@@ -24,12 +24,13 @@
 
 package org.hamster.selenium.core;
 
+import lombok.Getter;
 import org.hamster.selenium.core.component.DefaultWebComponent;
 import org.hamster.selenium.core.component.WebComponent;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -42,8 +43,10 @@ import static java.util.stream.Collectors.toList;
  * @author Jack Yin
  * @since 1.0
  */
+@SuppressWarnings("deprecation")
 public class DefaultComponentWebDriver implements ComponentWebDriver {
 
+    @Getter
     private final WebDriver driver;
 
     /**
@@ -135,5 +138,45 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     @Override
     public Options manage() {
         return driver.manage();
+    }
+
+    @Override
+    public Capabilities getCapabilities() {
+        return ((HasCapabilities) driver).getCapabilities();
+    }
+
+    @Override
+    public Object executeScript(String script, Object... args) {
+        return ((JavascriptExecutor) driver).executeScript(script, args);
+    }
+
+    @Override
+    public Object executeAsyncScript(String script, Object... args) {
+        return ((JavascriptExecutor) driver).executeAsyncScript(script, args);
+    }
+
+    @Override
+    public <X> X getScreenshotAs(OutputType<X> target) {
+        return ((TakesScreenshot) driver).getScreenshotAs(target);
+    }
+
+    @Override
+    public Keyboard getKeyboard() {
+        return ((HasInputDevices) driver).getKeyboard();
+    }
+
+    @Override
+    public Mouse getMouse() {
+        return ((HasInputDevices) driver).getMouse();
+    }
+
+    @Override
+    public void perform(Collection<Sequence> actions) {
+        ((Interactive) driver).perform(actions);
+    }
+
+    @Override
+    public void resetInputState() {
+        ((Interactive) driver).resetInputState();
     }
 }

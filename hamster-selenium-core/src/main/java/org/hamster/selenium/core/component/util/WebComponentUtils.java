@@ -24,6 +24,8 @@
 
 package org.hamster.selenium.core.component.util;
 
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 
 import static java.util.Arrays.stream;
@@ -96,5 +98,33 @@ public class WebComponentUtils {
             String splitRegex) {
         return stream(element.getAttribute(attributeName).split(splitRegex))
                 .anyMatch(css -> strip(css).equals(attributeValue));
+    }
+
+    /**
+     * Gets the center point of the given rectangle.
+     *
+     * @param rect
+     *         the rectangle
+     * @return center point
+     */
+    public static Point getCenter(Rectangle rect) {
+        return getCenter(rect.x, rect.y, rect.height, rect.width);
+    }
+
+    /**
+     * Gets the center point of the given rectangle.
+     *
+     * @param x
+     *         x point
+     * @param y
+     *         y point
+     * @param height
+     *         height of the rectangle
+     * @param width
+     *         width of the rectangle
+     * @return center point
+     */
+    public static Point getCenter(int x, int y, int height, int width) {
+        return new Point(x + (width >> 1), y + (height >> 1));
     }
 }
