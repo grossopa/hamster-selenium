@@ -215,6 +215,7 @@ public class MuiSlider extends AbstractMuiComponent {
      *         the percentage to move to
      */
     @SneakyThrows
+    @SuppressWarnings("squid:S2184")
     public void moveThumb(double percentage) {
         if (Precision.compareTo(percentage, 1, 0.0001d) == 1 || Precision.compareTo(percentage, 0, 0.0001d) == -1) {
             throw new IllegalArgumentException("Percentage must be with 0.0 to 1.0");
