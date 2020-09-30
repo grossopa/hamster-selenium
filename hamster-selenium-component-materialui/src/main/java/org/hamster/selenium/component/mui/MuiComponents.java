@@ -134,4 +134,13 @@ public class MuiComponents extends AbstractComponents {
         requireNonNull(optionValueAttribute);
         return new MuiSelect(component, driver, config, optionLocator, optionValueAttribute);
     }
+
+    /**
+     * TODO under development
+     *
+     * @return
+     */
+    public MuiSlider toSlider() {
+        return new MuiSlider(component, driver, config);
+    }
 }

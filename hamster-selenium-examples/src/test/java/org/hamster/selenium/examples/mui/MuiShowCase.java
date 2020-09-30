@@ -1,9 +1,6 @@
 package org.hamster.selenium.examples.mui;
 
-import org.hamster.selenium.component.mui.MuiButton;
-import org.hamster.selenium.component.mui.MuiButtonGroup;
-import org.hamster.selenium.component.mui.MuiCheckbox;
-import org.hamster.selenium.component.mui.MuiSelect;
+import org.hamster.selenium.component.mui.*;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.locator.By2;
 import org.hamster.selenium.examples.helper.AbstractBrowserSupport;
@@ -130,13 +127,21 @@ public class MuiShowCase extends AbstractBrowserSupport {
         multiSelect.closeOptions(800L);
     }
 
+    public void testSlider() {
+        driver.navigate().to("https://material-ui.com/components/slider/");
+        MuiSlider slider = driver.findComponent(By.id("continuous-slider")).findComponent(By.xpath("parent::*"))
+                .findComponent(By.className("MuiSlider-root")).as(mui()).toSlider();
+        slider.moveThumb(0.8d);
+    }
+
     public static void main(String[] args) {
         MuiShowCase test = new MuiShowCase();
         try {
             test.setUpDriver(CHROME);
-            test.testSelect();
-            test.testButtonGroup();
-            test.testCheckBox();
+            test.testSlider();
+            //            test.testSelect();
+            //            test.testButtonGroup();
+            //            test.testCheckBox();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
