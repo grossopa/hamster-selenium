@@ -190,14 +190,35 @@ public class MuiSlider extends AbstractMuiComponent {
         return WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "Slider-trackInverted");
     }
 
+    /**
+     * Move the thumb by value.
+     *
+     * @param value
+     *         the new integer value to set
+     * @see #moveThumb(double)
+     */
     public void setValue(Integer value) {
         setValue(value.doubleValue());
     }
 
+    /**
+     * Move the thumb by value.
+     *
+     * @param value
+     *         the new long value to set
+     * @see #moveThumb(double)
+     */
     public void setValue(Long value) {
         setValue(value.doubleValue());
     }
 
+    /**
+     * Move the thumb by value.
+     *
+     * @param value
+     *         the new double value to set
+     * @see #moveThumb(double)
+     */
     public void setValue(Double value) {
         Double maxValue = getMaxValueDouble();
         Double minValue = getMinValueDouble();
@@ -205,20 +226,32 @@ public class MuiSlider extends AbstractMuiComponent {
             throw new IllegalArgumentException(
                     String.format("value %f.2 is not in the range of %f.2, %f.2", value, minValue, maxValue));
         }
-        moveThumb(value / (maxValue - minValue));
+
+        moveThumb((value - minValue) / (maxValue - minValue));
     }
 
     /**
      * Moves thumb by percentage.
      *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified percentage may not be accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * then it is not possible to accurately move the thumb to a position like 55.5% for value 555 as the only possible
+     * locations are 55px and 56px for 550 and 560.
+     * </p>
+     *
      * @param percentage
-     *         the percentage to move to
+     *         the percentage to move to, must between [0.0, 1.0]
      */
     @SneakyThrows
     @SuppressWarnings("squid:S2184")
     public void moveThumb(double percentage) {
         if (Precision.compareTo(percentage, 1, 0.0001d) == 1 || Precision.compareTo(percentage, 0, 0.0001d) == -1) {
-            throw new IllegalArgumentException("Percentage must be with 0.0 to 1.0");
+            throw new IllegalArgumentException("Percentage must be in range of [0.0, 1.0]");
         }
         WebComponent thumb = getFirstThumb();
         Rectangle rect = element.getRect();
@@ -252,6 +285,4 @@ public class MuiSlider extends AbstractMuiComponent {
                     .release().perform();
         }
     }
-
-
 }

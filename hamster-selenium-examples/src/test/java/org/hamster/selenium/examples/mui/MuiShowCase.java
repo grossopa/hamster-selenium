@@ -129,13 +129,40 @@ public class MuiShowCase extends AbstractBrowserSupport {
 
     public void testSlider() throws InterruptedException {
         driver.navigate().to("https://material-ui.com/components/slider/");
-        MuiSlider slider = driver.findComponent(By.id("continuous-slider")).findComponent(By.xpath("parent::*"))
+        MuiSlider continuousSlider = driver.findComponent(By.id("continuous-slider"))
+                .findComponent(By.xpath("parent::*")).findComponent(By.className("MuiSlider-root")).as(mui())
+                .toSlider();
+        assertEquals("0", continuousSlider.getMinValue());
+        assertEquals("100", continuousSlider.getMaxValue());
+        continuousSlider.moveThumb(0.8d);
+        assertEquals("80", continuousSlider.getValue());
+        Thread.sleep(2000L);
+        continuousSlider.setValue(25);
+        assertEquals("25", continuousSlider.getValue());
+        Thread.sleep(2000L);
+        continuousSlider.setValue(30);
+        assertEquals("30", continuousSlider.getValue());
+        continuousSlider.setValue(0);
+        assertEquals("0", continuousSlider.getValue());
+        continuousSlider.setValue(100);
+        assertEquals("100", continuousSlider.getValue());
+
+        MuiSlider disabledSlider = driver.findComponent(By.id("continuous-slider"))
+                .findComponent(By.xpath("parent::*")).findComponents(By.className("MuiSlider-root")).get(1).as(mui())
+                .toSlider();
+        assertFalse(disabledSlider.isEnabled());
+
+        MuiSlider discreteSlider = driver.findComponent(By.id("discrete-slider")).findComponent(By.xpath("parent::*"))
                 .findComponent(By.className("MuiSlider-root")).as(mui()).toSlider();
-        slider.moveThumb(0.8d);
-        Thread.sleep(1000L);
-        slider.setValue(25);
-        Thread.sleep(1000L);
-        slider.setValue(30);
+        assertEquals("10", discreteSlider.getMinValue());
+        assertEquals("110", discreteSlider.getMaxValue());
+        discreteSlider.moveThumb(0.7d);
+        assertEquals("80", discreteSlider.getValue());
+        discreteSlider.setValue(50);
+        assertEquals("50", discreteSlider.getValue());
+        Thread.sleep(2000L);
+        discreteSlider.setValue(30);
+        assertEquals("30", discreteSlider.getValue());
     }
 
     public static void main(String[] args) {
