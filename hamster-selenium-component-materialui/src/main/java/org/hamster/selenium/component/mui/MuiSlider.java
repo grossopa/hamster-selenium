@@ -36,6 +36,10 @@ import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import java.util.function.Function;
+
+import static java.util.Objects.requireNonNull;
+
 /**
  * A MUI Slider wrapper.
  *
@@ -45,6 +49,10 @@ import org.openqa.selenium.interactions.Actions;
  * @since 1.0
  */
 public class MuiSlider extends AbstractMuiComponent {
+
+    public static final Function<Double, Double> DEFAULT_INVERSE_SCALE_FUNCTION = x -> x;
+
+    private final Function<Double, Double> inverseScaleFunction;
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -57,7 +65,26 @@ public class MuiSlider extends AbstractMuiComponent {
      *         the Material UI configuration
      */
     public MuiSlider(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+        this(element, driver, config, DEFAULT_INVERSE_SCALE_FUNCTION);
+    }
+
+    /**
+     * Constructs an instance with the delegated element, root driver and customized scale function.
+     *
+     * @param element
+     *         the delegated element
+     * @param driver
+     *         the root driver
+     * @param config
+     *         the Material UI configuration
+     * @param inverseScaleFunction
+     *         the INVERSE function of the original scale function
+     */
+    public MuiSlider(WebElement element, ComponentWebDriver driver, MuiConfig config,
+            Function<Double, Double> inverseScaleFunction) {
         super(element, driver, config);
+        requireNonNull(inverseScaleFunction);
+        this.inverseScaleFunction = inverseScaleFunction;
     }
 
     @Override
@@ -232,7 +259,7 @@ public class MuiSlider extends AbstractMuiComponent {
                     String.format("value %.2f is not in the range of %.2f, %.2f", value, minValue, maxValue));
         }
 
-        moveThumb((value - minValue) / (maxValue - minValue));
+        moveThumb((inverseScaleFunction.apply(value) - minValue) / (maxValue - minValue));
     }
 
     /**

@@ -30,6 +30,8 @@ import org.hamster.selenium.core.component.AbstractComponents;
 import org.hamster.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 
+import java.util.function.Function;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -142,5 +144,16 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiSlider toSlider() {
         return new MuiSlider(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSlider} instance with scale function configured.
+     *
+     * @param inverseScaleFunction
+     *         the non-null customized inverse scale function
+     * @return the wrapped {@link MuiSlider} instance on the given component
+     */
+    public MuiSlider toSlider(Function<Double, Double> inverseScaleFunction) {
+        return new MuiSlider(component, driver, config, inverseScaleFunction);
     }
 }

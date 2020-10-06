@@ -146,9 +146,8 @@ public class MuiShowCase extends AbstractBrowserSupport {
         continuousSlider.setValue(100);
         assertEquals("100", continuousSlider.getValue());
 
-        MuiSlider disabledSlider = driver.findComponent(By.id("continuous-slider"))
-                .findComponent(By.xpath("parent::*")).findComponents(By.className("MuiSlider-root")).get(1).as(mui())
-                .toSlider();
+        MuiSlider disabledSlider = driver.findComponent(By.id("continuous-slider")).findComponent(By.xpath("parent::*"))
+                .findComponents(By.className("MuiSlider-root")).get(1).as(mui()).toSlider();
         assertFalse(disabledSlider.isEnabled());
 
         MuiSlider discreteSlider = driver.findComponent(By.id("discrete-slider")).findComponent(By.xpath("parent::*"))
@@ -177,13 +176,34 @@ public class MuiShowCase extends AbstractBrowserSupport {
         verticalSlider.setValue(100);
         assertEquals("100", verticalSlider.getValue());
 
-        MuiSlider trackInvertedSlider = driver.findComponent(By.id("track-inverted-slider")).findComponent(By.xpath("parent::*"))
-                .findComponent(By.className("MuiSlider-root")).as(mui()).toSlider();
+        MuiSlider trackInvertedSlider = driver.findComponent(By.id("track-inverted-slider"))
+                .findComponent(By.xpath("parent::*")).findComponent(By.className("MuiSlider-root")).as(mui())
+                .toSlider();
         assertEquals("0", trackInvertedSlider.getMinValue());
         assertEquals("100", trackInvertedSlider.getMaxValue());
         trackInvertedSlider.moveThumb(0.7d);
         assertEquals("70", trackInvertedSlider.getValue());
         assertTrue(trackInvertedSlider.isInverted());
+
+        MuiSlider nonLinearSlider = driver.findComponent(By.id("non-linear-slider"))
+                .findComponent(By.xpath("parent::*")).findComponent(By.className("MuiSlider-root")).as(mui())
+                .toSlider(x -> Math.pow(x, 0.1));
+        assertEquals("0", nonLinearSlider.getMinValue());
+        assertEquals("60466176", nonLinearSlider.getMaxValue());
+        nonLinearSlider.moveThumb(0.5d);
+        assertEquals("59049", nonLinearSlider.getValue());
+        nonLinearSlider.setValue(0);
+        assertEquals("0", nonLinearSlider.getValue());
+        nonLinearSlider.setValue(60466176);
+        assertEquals("60466176", nonLinearSlider.getValue());
+        //        nonLinearSlider.setValue(50);
+        //        assertEquals("50", nonLinearSlider.getValue());
+        //        nonLinearSlider.setValue(30);
+        //        assertEquals("30", nonLinearSlider.getValue());
+        //        nonLinearSlider.setValue(0);
+        //        assertEquals("0", nonLinearSlider.getValue());
+        //        nonLinearSlider.setValue(100);
+        //        assertEquals("100", nonLinearSlider.getValue());
     }
 
     public static void main(String[] args) {
