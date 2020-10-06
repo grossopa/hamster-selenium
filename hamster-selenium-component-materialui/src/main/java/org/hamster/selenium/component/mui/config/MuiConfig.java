@@ -167,7 +167,21 @@ public class MuiConfig {
      * @return true for the {@link WebComponent} is the desired component type
      * @see #getRootCss(String)
      */
-    public boolean validateByCss(WebComponent component, String componentName) {
-        return attributeContains(component, ATTR_CLASS, getRootCss(componentName));
+    public boolean validateComponentByCss(WebComponent component, String componentName) {
+        return validateByCss(component, getRootCss(componentName));
+    }
+
+    /**
+     * Validates whether the given component / item is the desired component by checking the css present.
+     *
+     * @param component
+     *         the target component to check
+     * @param cssName
+     *         the expected css name
+     * @return true for the {@link WebComponent} is the desired component/ item type
+     * @see #getRootCss(String)
+     */
+    public boolean validateByCss(WebComponent component, String cssName) {
+        return attributeContains(component, ATTR_CLASS, cssName);
     }
 }

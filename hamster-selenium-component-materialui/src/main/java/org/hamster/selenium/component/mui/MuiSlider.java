@@ -28,16 +28,18 @@ import lombok.SneakyThrows;
 import org.apache.commons.math3.util.Precision;
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
-import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.component.util.WebComponentUtils;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 
 /**
  * A MUI Slider wrapper.
@@ -111,7 +113,6 @@ public class MuiSlider extends AbstractMuiComponent {
      */
     public String getValue() {
         return getFirstThumb().getAttribute("aria-valuenow");
-        // return element.findElement(By2.attr("type", "hidden").exact().tag("input").build()).getAttribute("value");
     }
 
     /**
@@ -159,7 +160,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return the raw min value.
      */
     public String getMinValue() {
-        return getFirstThumb().getAttribute("aria-valuemin");
+        return getFirstThumb().getMinValue();
     }
 
     /**
@@ -207,7 +208,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return the raw max value.
      */
     public String getMaxValue() {
-        return getFirstThumb().getAttribute("aria-valuemax");
+        return getFirstThumb().getMaxValue();
     }
 
     /**
@@ -251,8 +252,18 @@ public class MuiSlider extends AbstractMuiComponent {
      *
      * @return the first Thumb element.
      */
-    public WebComponent getFirstThumb() {
-        return driver.mapElement(element.findElement(config.sliderThumbLocator()));
+    public MuiSliderThumb getFirstThumb() {
+        return new MuiSliderThumb(driver.mapElement(element.findElement(config.sliderThumbLocator())), driver, config);
+    }
+
+    /**
+     * Gets the all Thumb elements. they are sorted by the value in ascending order.
+     *
+     * @return the all Thumb elements.
+     */
+    public List<MuiSliderThumb> getAllThumbs() {
+        return element.findElements(config.sliderThumbLocator()).stream()
+                .map(ele -> new MuiSliderThumb(driver.mapElement(ele), driver, config)).collect(toList());
     }
 
     /**
@@ -274,7 +285,18 @@ public class MuiSlider extends AbstractMuiComponent {
     }
 
     /**
-     * Move the thumb by value.
+     * Move the first thumb to the specified value in Integer.
+     *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified value may not accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
+     * for 550 and 560.
+     * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
@@ -289,7 +311,75 @@ public class MuiSlider extends AbstractMuiComponent {
     }
 
     /**
-     * Move the thumb by value.
+     * Move the target thumb to the specified value in Integer. Note the MUI thumb is always ordered by value in
+     * ascending order.
+     *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified value may not accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
+     * for 550 and 560.
+     * </p>
+     *
+     * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * <b>59049</b></p>
+     *
+     * @param index
+     *         the thumb index
+     * @param value
+     *         the new integer value to set
+     * @see #moveThumb(double)
+     */
+    public void setValue(int index, Integer value) {
+        setValue(index, value.doubleValue());
+    }
+
+    /**
+     * Move the target thumb to the specified value in Integer.
+     *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified value may not accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
+     * for 550 and 560.
+     * </p>
+     *
+     * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * <b>59049</b></p>
+     *
+     * @param thumb
+     *         the target thumb to move
+     * @param value
+     *         the new double value to set
+     * @see #moveThumb(double)
+     */
+    public void setValue(MuiSliderThumb thumb, Integer value) {
+        setValue(thumb, value.doubleValue());
+    }
+
+    /**
+     * Move the first thumb by value.
+     *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified value may not accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
+     * for 550 and 560.
+     * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
@@ -304,7 +394,75 @@ public class MuiSlider extends AbstractMuiComponent {
     }
 
     /**
-     * Move the thumb by value.
+     * Move the target thumb to the specified value in long. Note the MUI thumb is always ordered by value in ascending
+     * order.
+     *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified value may not accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
+     * for 550 and 560.
+     * </p>
+     *
+     * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * <b>59049</b></p>
+     *
+     * @param index
+     *         the thumb index
+     * @param value
+     *         the new integer value to set
+     * @see #moveThumb(double)
+     */
+    public void setValue(int index, Long value) {
+        setValue(index, value.doubleValue());
+    }
+
+    /**
+     * Move the target thumb to the specified value in long.
+     *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified value may not accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
+     * for 550 and 560.
+     * </p>
+     *
+     * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * <b>59049</b></p>
+     *
+     * @param thumb
+     *         the target thumb to move
+     * @param value
+     *         the new double value to set
+     * @see #moveThumb(double)
+     */
+    public void setValue(MuiSliderThumb thumb, Long value) {
+        setValue(thumb, value.doubleValue());
+    }
+
+    /**
+     * Move the first thumb to the specified value in double.
+     *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified value may not accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
+     * for 550 and 560.
+     * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
@@ -315,6 +473,67 @@ public class MuiSlider extends AbstractMuiComponent {
      * @see #moveThumb(double)
      */
     public void setValue(Double value) {
+        doSetValue(value, this::moveThumb);
+    }
+
+    /**
+     * Move the target thumb to the specified value in double. Note the MUI thumb is always ordered by value in
+     * ascending order.
+     *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified value may not accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
+     * for 550 and 560.
+     * </p>
+     *
+     * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * <b>59049</b></p>
+     *
+     * @param index
+     *         the thumb index
+     * @param value
+     *         the new double value to set
+     * @see #moveThumb(double)
+     */
+    public void setValue(int index, Double value) {
+        doSetValue(value, percentage -> moveThumb(index, percentage));
+    }
+
+    /**
+     * Move the target thumb to the specified value in double.
+     *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified value may not accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
+     * for 550 and 560.
+     * </p>
+     *
+     * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * <b>59049</b></p>
+     *
+     * @param thumb
+     *         the target thumb to move
+     * @param value
+     *         the new double value to set
+     * @see #moveThumb(double)
+     */
+    public void setValue(MuiSliderThumb thumb, Double value) {
+        doSetValue(value, percentage -> moveThumb(thumb, percentage));
+    }
+
+    private void doSetValue(Double value, Consumer<Double> moveThumbAction) {
         Double val = inverseScaleFunction.apply(value);
         Double maxValue = inverseScaleFunction.apply(getMaxValueDouble());
         Double minValue = inverseScaleFunction.apply(getMinValueDouble());
@@ -323,37 +542,80 @@ public class MuiSlider extends AbstractMuiComponent {
                     String.format("value %.2f is not in the range of %.2f, %.2f", val, minValue, maxValue));
         }
 
-        moveThumb((val - minValue) / (maxValue - minValue));
+        moveThumbAction.accept((val - minValue) / (maxValue - minValue));
     }
 
     /**
-     * Moves thumb by percentage.
+     * Moves the first thumb to the desired location in percentage.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified percentage may not be accurately reflect the real value, an example is that:
+     * specified percentage may not accurately reflect the real value, an example is that:
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
-     * then it is not possible to accurately move the thumb to a position like 55.5% for value 555 as the only possible
+     * so it is not possible to accurately move the thumb to a position like 55.5% for value 555 as the only possible
      * locations are 55px and 56px for 550 and 560.
      * </p>
      *
      * @param percentage
      *         the percentage to move to, must between [0.0, 1.0]
      */
+    public void moveThumb(double percentage) {
+        moveThumb(getFirstThumb(), percentage);
+    }
+
+    /**
+     * Moves the thumb to the desired location in percentage.
+     *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified percentage may not accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * so it is not possible to accurately move the thumb to a position like 55.5% for value 555 as the only possible
+     * locations are 55px and 56px for 550 and 560.
+     * </p>
+     *
+     * @param index
+     *         the index of the thumbs
+     * @param percentage
+     *         the percentage to move to, must between [0.0, 1.0]
+     */
+    public void moveThumb(int index, double percentage) {
+        moveThumb(getAllThumbs().get(index), percentage);
+    }
+
+    /**
+     * Moves the thumb to the desired location in percentage.
+     *
+     * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
+     * specified percentage may not accurately reflect the real value, an example is that:
+     * <ul>
+     *     <li>min value : 0</li>
+     *     <li>min value : 1000</li>
+     *     <li>slide width: 100px</li>
+     * </ul>
+     * so it is not possible to accurately move the thumb to a position like 55.5% for value 555 as the only possible
+     * locations are 55px and 56px for 550 and 560.
+     * </p>
+     *
+     * @param thumb
+     *         the thumb component to move
+     * @param percentage
+     *         the percentage to move to, must between [0.0, 1.0]
+     */
     @SneakyThrows
     @SuppressWarnings("squid:S2184")
-    public void moveThumb(double percentage) {
+    public void moveThumb(MuiSliderThumb thumb, double percentage) {
         if (Precision.compareTo(percentage, 1, 0.0001d) == 1 || Precision.compareTo(percentage, 0, 0.0001d) == -1) {
             throw new IllegalArgumentException("Percentage must be in range of [0.0, 1.0]");
         }
-        WebComponent thumb = getFirstThumb();
         Rectangle rect = element.getRect();
-
         boolean vertical = isVertical();
-
         double start;
         double end;
         if (vertical) {

@@ -32,58 +32,81 @@ import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
 
 /**
- * Tests for {@link AbstractMuiComponent}
+ * Tests for {@link MuiSliderThumb}
  *
  * @author Jack Yin
  * @since 1.0
  */
-class AbstractMuiComponentTest {
+class MuiSliderThumbTest {
 
-    AbstractMuiComponent testSubject;
+    MuiSliderThumb testSubject;
+
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
     @BeforeEach
     void setUp() {
-        testSubject = new AbstractMuiComponent(element, driver, config) {
-
-            @Override
-            public String getComponentName() {
-                return "MockComponent";
-            }
-        };
+        when(config.getCssPrefix()).thenReturn("Muiabc");
+        when(element.getAttribute("aria-valuetext")).thenReturn("The value is 30");
+        when(element.getAttribute("aria-valuemin")).thenReturn("20");
+        when(element.getAttribute("aria-valuemax")).thenReturn("800");
+        when(element.getAttribute("aria-valuenow")).thenReturn("30");
+        testSubject = new MuiSliderThumb(element, driver, config);
     }
 
 
     @Test
-    void isEnabled() {
-        when(config.isDisabled(any())).thenReturn(false);
-        assertTrue(testSubject.isEnabled());
-    }
-
-    @Test
-    void isEnabledNegative() {
-        when(config.isDisabled(any())).thenReturn(true);
-        assertFalse(testSubject.isEnabled());
+    void getComponentName() {
+        assertEquals("Slider-thumb", testSubject.getComponentName());
     }
 
     @Test
     void validate() {
-        when(config.validateComponentByCss(any(), any())).thenReturn(true);
+        when(config.validateByCss(any(), eq("MuiabcSlider-thumb"))).thenReturn(true);
         assertTrue(testSubject.validate());
     }
 
     @Test
-    void validateNegative() {
-        when(config.validateComponentByCss(any(), any())).thenReturn(false);
-        assertFalse(testSubject.validate());
+    void getPercentageHorizontal() {
+        when(element.getAttribute("aria-orientation")).thenReturn("horizontal");
+        when(element.getCssValue("left")).thenReturn("30%");
+        assertEquals("30%", testSubject.getPercentage());
     }
 
     @Test
-    void getComponentName() {
-        assertEquals("MockComponent", testSubject.getComponentName());
+    void getPercentageVertical() {
+        when(element.getAttribute("aria-orientation")).thenReturn("vertical");
+        when(element.getCssValue("bottom")).thenReturn("30%");
+        assertEquals("30%", testSubject.getPercentage());
+    }
+
+    @Test
+    void getPercentageInvalid() {
+        when(element.getAttribute("orientation")).thenReturn("333");
+        assertThrows(IllegalStateException.class, () -> testSubject.getPercentage());
+    }
+
+    @Test
+    void getValueText() {
+        assertEquals("The value is 30", testSubject.getValueText());
+    }
+
+    @Test
+    void getMaxValue() {
+        assertEquals("800", testSubject.getMaxValue());
+    }
+
+    @Test
+    void getMinValue() {
+        assertEquals("20", testSubject.getMinValue());
+    }
+
+    @Test
+    void getValue() {
+        assertEquals("30", testSubject.getValue());
     }
 }

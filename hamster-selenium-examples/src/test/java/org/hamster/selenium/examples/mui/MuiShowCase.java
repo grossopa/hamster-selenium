@@ -6,7 +6,6 @@ import org.hamster.selenium.core.locator.By2;
 import org.hamster.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.touch.ScrollAction;
 
 import java.util.Arrays;
 import java.util.List;
@@ -128,7 +127,7 @@ public class MuiShowCase extends AbstractBrowserSupport {
         multiSelect.closeOptions(800L);
     }
 
-    public void testSlider() throws InterruptedException {
+    public void testSlider() {
         driver.navigate().to("https://material-ui.com/components/slider/");
         MuiSlider continuousSlider = driver.findComponent(By.id("continuous-slider"))
                 .findComponent(By.xpath("parent::*")).findComponent(By.className("MuiSlider-root")).as(mui())
@@ -198,14 +197,31 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertEquals("60466176", nonLinearSlider.getValue());
         nonLinearSlider.setValue(6492506.2108545d);
         assertEquals("6492506.2108545", nonLinearSlider.getValue());
-        //        nonLinearSlider.setValue(50);
-        //        assertEquals("50", nonLinearSlider.getValue());
-        //        nonLinearSlider.setValue(30);
-        //        assertEquals("30", nonLinearSlider.getValue());
-        //        nonLinearSlider.setValue(0);
-        //        assertEquals("0", nonLinearSlider.getValue());
-        //        nonLinearSlider.setValue(100);
-        //        assertEquals("100", nonLinearSlider.getValue());
+
+
+        MuiSlider rangeSlider = driver.findComponent(By.id("track-false-slider")).findComponent(By.xpath("parent::*"))
+                .findComponents(By.className("MuiSlider-root")).get(1).as(mui()).toSlider();
+        List<MuiSliderThumb> thumbs = rangeSlider.getAllThumbs();
+        assertEquals(3, thumbs.size());
+
+        thumbs.forEach(thumb -> {
+            assertEquals("0", thumb.getMinValue());
+            assertEquals("100", thumb.getMaxValue());
+        });
+
+        assertEquals("20", thumbs.get(0).getValue());
+        assertEquals("37", thumbs.get(1).getValue());
+        assertEquals("50", thumbs.get(2).getValue());
+
+        rangeSlider.setValue(0, 10);
+        rangeSlider.setValue(1, 30);
+        rangeSlider.setValue(2, 50);
+
+        // refresh thumbs orders
+        thumbs = rangeSlider.getAllThumbs();
+        assertEquals("10", thumbs.get(0).getValue());
+        assertEquals("30", thumbs.get(1).getValue());
+        assertEquals("50", thumbs.get(2).getValue());
     }
 
     public static void main(String[] args) {
@@ -213,9 +229,9 @@ public class MuiShowCase extends AbstractBrowserSupport {
         try {
             test.setUpDriver(CHROME);
             test.testSlider();
-            //            test.testSelect();
-            //            test.testButtonGroup();
-            //            test.testCheckBox();
+            test.testSelect();
+            test.testButtonGroup();
+            test.testCheckBox();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

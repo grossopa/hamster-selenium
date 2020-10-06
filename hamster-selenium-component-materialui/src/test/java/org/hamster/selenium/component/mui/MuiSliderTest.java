@@ -30,11 +30,13 @@ import org.hamster.selenium.core.component.DefaultWebComponent;
 import org.hamster.selenium.core.locator.By2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.invocation.InvocationOnMock;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -51,11 +53,18 @@ class MuiSliderTest {
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
     WebElement hiddenInput = mock(WebElement.class);
-    WebElement thumb = mock(WebElement.class);
+
     Actions actions = mock(Actions.class);
+    Actions actions1 = mock(Actions.class);
+    Actions actions2 = mock(Actions.class);
+
     By sliderThumbLocator = mock(By.class);
 
-    String rawValue = "160.0";
+    WebElement thumb1 = mock(WebElement.class);
+    String rawValue1 = "160.0";
+
+    WebElement thumb2 = mock(WebElement.class);
+    String rawValue2 = "240.0";
 
     Integer x = 50;
     Integer y = 150;
@@ -67,6 +76,19 @@ class MuiSliderTest {
 
     Integer thumbRadius = 20;
 
+    private double moveByOffsetAnswer(String rawValue, InvocationOnMock answer) {
+        int targetX = answer.getArgument(0);
+        int targetY = answer.getArgument(1);
+        double currentPercentage = (Double.parseDouble(rawValue) - minValue) / (maxValue - minValue);
+        double deltaPercentage;
+        if (vertical) {
+            deltaPercentage = (double) -targetY / (double) height;
+        } else {
+            deltaPercentage = (double) targetX / (double) width;
+        }
+        return minValue + (currentPercentage + deltaPercentage) * (maxValue - minValue);
+    }
+
     @BeforeEach
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Mui");
@@ -75,34 +97,60 @@ class MuiSliderTest {
         when(driver.createActions()).thenReturn(actions);
 
         when(actions.moveToElement(eq(element))).thenReturn(actions);
-        when(actions.clickAndHold(any())).thenReturn(actions);
-        when(actions.moveByOffset(anyInt(), anyInt())).then(a -> {
-            int targetX = a.getArgument(0);
-            int targetY = a.getArgument(1);
-            double currentPercentage = (Double.parseDouble(rawValue) - minValue) / (maxValue - minValue);
-            double deltaPercentage;
-            if (vertical) {
-                deltaPercentage = (double) -targetY / (double) height;
+        when(actions.clickAndHold(any())).then(a -> {
+            MuiSliderThumb thumb = a.getArgument(0);
+            if (thumb.getWrappedElement() == thumb1) {
+                return actions1;
             } else {
-                deltaPercentage = (double) targetX / (double) width;
+                return actions2;
             }
-            double doubleValue = minValue + (currentPercentage + deltaPercentage) * (maxValue - minValue);
-            rawValue = String.valueOf((double) Math.round(doubleValue * 100) / 100);
-            return actions;
+        });
+        when(actions1.moveByOffset(anyInt(), anyInt())).then(a -> {
+            double doubleValue = moveByOffsetAnswer(rawValue1, a);
+            rawValue1 = String.valueOf((double) Math.round(doubleValue * 100) / 100);
+            return actions1;
         });
 
-        when(actions.release()).thenReturn(actions);
+        when(actions2.moveByOffset(anyInt(), anyInt())).then(a -> {
+            double doubleValue = moveByOffsetAnswer(rawValue2, a);
+            rawValue2 = String.valueOf((double) Math.round(doubleValue * 100) / 100);
+            return actions2;
+        });
 
-        when(element.findElement(sliderThumbLocator)).thenReturn(thumb);
+        when(actions1.release()).thenReturn(actions1);
+        when(actions2.release()).thenReturn(actions2);
+
+        when(element.findElement(sliderThumbLocator)).thenReturn(thumb1);
+        when(element.findElements(sliderThumbLocator)).thenReturn(asList(thumb1, thumb2));
         when(element.findElement(By2.attr("type", "hidden").exact().tag("input").build())).thenReturn(hiddenInput);
         when(element.getRect()).then(a -> new Rectangle(x, y, height, width));
         when(element.getAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary");
-        when(hiddenInput.getAttribute("value")).then(a -> rawValue);
-        when(thumb.getAttribute("aria-valuemin")).then(a -> minValue.toString());
-        when(thumb.getAttribute("aria-valuemax")).then(a -> maxValue.toString());
-        when(thumb.getAttribute("aria-valuenow")).then(a -> rawValue);
-        when(thumb.getRect()).then(a -> {
-            double currentPercentage = (Double.parseDouble(rawValue) - minValue) / (maxValue - minValue);
+        when(hiddenInput.getAttribute("value")).then(a -> rawValue1);
+
+        when(thumb1.getAttribute("aria-valuemin")).then(a -> minValue.toString());
+        when(thumb1.getAttribute("aria-valuemax")).then(a -> maxValue.toString());
+        when(thumb1.getAttribute("aria-valuenow")).then(a -> rawValue1);
+        when(thumb1.getRect()).then(a -> {
+            double currentPercentage = (Double.parseDouble(rawValue1) - minValue) / (maxValue - minValue);
+
+            int thumbX;
+            int thumbY;
+            if (vertical) {
+                thumbX = x + width / 2 - thumbRadius;
+                thumbY = (int) Math.round(y + height * (1 - currentPercentage)) - thumbRadius;
+            } else {
+                thumbX = (int) Math.round(x + width * currentPercentage) - thumbRadius;
+                thumbY = y + height / 2 - thumbRadius;
+            }
+
+            return new Rectangle(thumbX, thumbY, thumbRadius << 1, thumbRadius << 1);
+        });
+
+        when(thumb2.getAttribute("aria-valuemin")).then(a -> minValue.toString());
+        when(thumb2.getAttribute("aria-valuemax")).then(a -> maxValue.toString());
+        when(thumb2.getAttribute("aria-valuenow")).then(a -> rawValue2);
+        when(thumb2.getRect()).then(a -> {
+            double currentPercentage = (Double.parseDouble(rawValue2) - minValue) / (maxValue - minValue);
 
             int thumbX;
             int thumbY;
@@ -187,7 +235,7 @@ class MuiSliderTest {
 
     @Test
     void getFirstThumb() {
-        assertEquals(thumb, testSubject.getFirstThumb().getWrappedElement());
+        assertEquals(thumb1, testSubject.getFirstThumb().getWrappedElement());
     }
 
     @Test
@@ -273,19 +321,19 @@ class MuiSliderTest {
     void moveThumbNormal() {
         testSubject.moveThumb(0.1);
         assertEquals("120.0", testSubject.getValue());
-        assertEquals("70,330,40,40", rectToString(thumb.getRect()));
+        assertEquals("70,330,40,40", rectToString(thumb1.getRect()));
 
         testSubject.moveThumb(0.2);
         assertEquals("140.0", testSubject.getValue());
-        assertEquals("110,330,40,40", rectToString(thumb.getRect()));
+        assertEquals("110,330,40,40", rectToString(thumb1.getRect()));
 
         testSubject.moveThumb(1.0);
         assertEquals("300.0", testSubject.getValue());
-        assertEquals("430,330,40,40", rectToString(thumb.getRect()));
+        assertEquals("430,330,40,40", rectToString(thumb1.getRect()));
 
         testSubject.moveThumb(0.0);
         assertEquals("100.0", testSubject.getValue());
-        assertEquals("30,330,40,40", rectToString(thumb.getRect()));
+        assertEquals("30,330,40,40", rectToString(thumb1.getRect()));
     }
 
     @Test
@@ -296,19 +344,19 @@ class MuiSliderTest {
 
         testSubject.moveThumb(0.1);
         assertEquals("120.0", testSubject.getValue());
-        assertEquals("230,490,40,40", rectToString(thumb.getRect()));
+        assertEquals("230,490,40,40", rectToString(thumb1.getRect()));
 
         testSubject.moveThumb(0.2);
         assertEquals("140.0", testSubject.getValue());
-        assertEquals("230,450,40,40", rectToString(thumb.getRect()));
+        assertEquals("230,450,40,40", rectToString(thumb1.getRect()));
 
         testSubject.moveThumb(1.0);
         assertEquals("300.0", testSubject.getValue());
-        assertEquals("230,130,40,40", rectToString(thumb.getRect()));
+        assertEquals("230,130,40,40", rectToString(thumb1.getRect()));
 
         testSubject.moveThumb(0.0);
         assertEquals("100.0", testSubject.getValue());
-        assertEquals("230,530,40,40", rectToString(thumb.getRect()));
+        assertEquals("230,530,40,40", rectToString(thumb1.getRect()));
     }
 
     @Test
@@ -323,5 +371,162 @@ class MuiSliderTest {
 
     private String rectToString(Rectangle rect) {
         return rect.x + "," + rect.y + "," + rect.width + "," + rect.height;
+    }
+
+    @Test
+    void setValueIntegerByIndex1() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(0, 280);
+        assertEquals("390,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void setValueIntegerByIndex2() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(1, 280);
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("390,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void setValueIntegerByRef1() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(new MuiSliderThumb(thumb1, driver, config), 280);
+        assertEquals("390,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void setValueIntegerByRef2() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(new MuiSliderThumb(thumb2, driver, config), 280);
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("390,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void setValueLongByIndex1() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(0, 280L);
+        assertEquals("390,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void setValueLongByIndex2() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(1, 280L);
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("390,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void setValueLongByRef1() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(new MuiSliderThumb(thumb1, driver, config), 280L);
+        assertEquals("390,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void setValueLongByRef2() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(new MuiSliderThumb(thumb2, driver, config), 280L);
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("390,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void setValueDoubleByIndex1() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(0, 280d);
+        assertEquals("390,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void setValueDoubleByIndex2() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(1, 280d);
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("390,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void setValueDoubleByRef1() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(new MuiSliderThumb(thumb1, driver, config), 280d);
+        assertEquals("390,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void setValueDoubleByRef2() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.setValue(new MuiSliderThumb(thumb2, driver, config), 280d);
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("390,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void moveThumbByIndex1() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.moveThumb(0, 0.9d);
+        assertEquals("390,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void moveThumbByIndex2() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.moveThumb(1, 0.9d);
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("390,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void moveThumbByRef1() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.moveThumb(new MuiSliderThumb(thumb1, driver, config), 0.9d);
+        assertEquals("390,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void moveThumbByREf2() {
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("310,330,40,40", rectToString(thumb2.getRect()));
+        testSubject.moveThumb(new MuiSliderThumb(thumb2, driver, config), 0.9d);
+        assertEquals("150,330,40,40", rectToString(thumb1.getRect()));
+        assertEquals("390,330,40,40", rectToString(thumb2.getRect()));
+    }
+
+    @Test
+    void getAllThumbs() {
+        assertEquals(2, testSubject.getAllThumbs().size());
+        assertEquals(thumb1, testSubject.getAllThumbs().get(0).getWrappedElement());
+        assertEquals(thumb2, testSubject.getAllThumbs().get(1).getWrappedElement());
+    }
+
+    @Test
+    void getInverseScaleFunction() {
+        testSubject = new MuiSlider(element, driver, config, x -> x * 3);
+        assertEquals(9, testSubject.getInverseScaleFunction().apply(3d).intValue());
     }
 }

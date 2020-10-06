@@ -126,18 +126,32 @@ class MuiConfigTest {
     }
 
     @Test
+    void validateComponentByCss() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.getAttribute(MuiConfig.ATTR_CLASS)).thenReturn("MuiPager-root MuiSomeOther");
+        assertTrue(testSubject.validateComponentByCss(component, "Pager"));
+    }
+
+
+    @Test
+    void validateComponentByCssNegative() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.getAttribute(MuiConfig.ATTR_CLASS)).thenReturn("MuiSelect-root MuiSomeOther");
+        assertFalse(testSubject.validateComponentByCss(component, "Pager"));
+    }
+
+    @Test
     void validateByCss() {
         WebComponent component = mock(WebComponent.class);
         when(component.getAttribute(MuiConfig.ATTR_CLASS)).thenReturn("MuiPager-root MuiSomeOther");
-        assertTrue(testSubject.validateByCss(component, "Pager"));
+        assertTrue(testSubject.validateByCss(component, "MuiSomeOther"));
     }
-
 
     @Test
     void validateByCssNegative() {
         WebComponent component = mock(WebComponent.class);
         when(component.getAttribute(MuiConfig.ATTR_CLASS)).thenReturn("MuiSelect-root MuiSomeOther");
-        assertFalse(testSubject.validateByCss(component, "Pager"));
+        assertFalse(testSubject.validateComponentByCss(component, "Pager"));
     }
 
     @Test
