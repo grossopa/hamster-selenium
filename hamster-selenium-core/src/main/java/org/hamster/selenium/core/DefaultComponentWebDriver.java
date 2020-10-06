@@ -24,7 +24,6 @@
 
 package org.hamster.selenium.core;
 
-import lombok.Getter;
 import org.hamster.selenium.core.component.DefaultWebComponent;
 import org.hamster.selenium.core.component.WebComponent;
 import org.openqa.selenium.*;
@@ -46,7 +45,6 @@ import static java.util.stream.Collectors.toList;
 @SuppressWarnings("deprecation")
 public class DefaultComponentWebDriver implements ComponentWebDriver {
 
-    @Getter
     private final WebDriver driver;
 
     /**
@@ -98,6 +96,11 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     @Override
     public WebComponent mapElement(WebElement element) {
         return new DefaultWebComponent(element, this);
+    }
+
+    @Override
+    public Actions createActions() {
+        return new Actions(this);
     }
 
     @Override
@@ -178,5 +181,10 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     @Override
     public void resetInputState() {
         ((Interactive) driver).resetInputState();
+    }
+
+    @Override
+    public WebDriver getWrappedDriver() {
+        return driver;
     }
 }

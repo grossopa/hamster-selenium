@@ -80,7 +80,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return the value in Integer.
      */
     public Integer getValueInteger() {
-        return Integer.valueOf(getValue());
+        return Double.valueOf(getValue()).intValue();
     }
 
     /**
@@ -89,7 +89,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return the value in Long
      */
     public Long getValueLong() {
-        return Long.valueOf(getValue());
+        return Double.valueOf(getValue()).longValue();
     }
 
     /**
@@ -101,6 +101,11 @@ public class MuiSlider extends AbstractMuiComponent {
         return Double.valueOf(getValue());
     }
 
+    /**
+     * Gets raw min value.
+     *
+     * @return the raw min value.
+     */
     public String getMinValue() {
         return getFirstThumb().getAttribute("aria-valuemin");
     }
@@ -111,7 +116,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return the min value in Integer.
      */
     public Integer getMinValueInteger() {
-        return Integer.valueOf(getMinValue());
+        return Double.valueOf(getMinValue()).intValue();
     }
 
     /**
@@ -120,7 +125,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return the min value in Long
      */
     public Long getMinValueLong() {
-        return Long.valueOf(getMinValue());
+        return Double.valueOf(getMinValue()).longValue();
     }
 
     /**
@@ -142,7 +147,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return the max value in Integer.
      */
     public Integer getMaxValueInteger() {
-        return Integer.valueOf(getMinValue());
+        return Double.valueOf(getMaxValue()).intValue();
     }
 
     /**
@@ -151,7 +156,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return the max value in Long
      */
     public Long getMaxValueLong() {
-        return Long.valueOf(getMaxValue());
+        return Double.valueOf(getMaxValue()).longValue();
     }
 
     /**
@@ -178,7 +183,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return true if the slider has orientation="vertical" specified.
      */
     public boolean isVertical() {
-        return WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "Slider-thumb");
+        return WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "Slider-vertical");
     }
 
     /**
@@ -224,7 +229,7 @@ public class MuiSlider extends AbstractMuiComponent {
         Double minValue = getMinValueDouble();
         if (Precision.compareTo(value, maxValue, 0.0001d) == 1 || Precision.compareTo(value, minValue, 0.0001d) == -1) {
             throw new IllegalArgumentException(
-                    String.format("value %f.2 is not in the range of %f.2, %f.2", value, minValue, maxValue));
+                    String.format("value %.2f is not in the range of %.2f, %.2f", value, minValue, maxValue));
         }
 
         moveThumb((value - minValue) / (maxValue - minValue));
@@ -257,7 +262,6 @@ public class MuiSlider extends AbstractMuiComponent {
         Rectangle rect = element.getRect();
 
         boolean vertical = isVertical();
-        boolean inverted = isInverted();
 
         double start;
         double end;
@@ -269,20 +273,14 @@ public class MuiSlider extends AbstractMuiComponent {
             end = rect.x + rect.width;
         }
 
-        if (inverted) {
-            double temp = start;
-            start = end;
-            end = temp;
-        }
-
         Point thumbCenter = WebComponentUtils.getCenter(thumb.getRect());
-        Actions actions = new Actions(driver.getDriver());
+        Actions actions = driver.createActions();
         if (vertical) {
-            actions.clickAndHold(thumb).moveByOffset(0, (int) (start + (end - start) * percentage) - thumbCenter.y)
-                    .release().perform();
+            actions.moveToElement(element).clickAndHold(thumb)
+                    .moveByOffset(0, (int) (start + (end - start) * percentage) - thumbCenter.y).release().perform();
         } else {
-            actions.clickAndHold(thumb).moveByOffset((int) (start + (end - start) * percentage) - thumbCenter.x, 0)
-                    .release().perform();
+            actions.moveToElement(element).clickAndHold(thumb)
+                    .moveByOffset((int) (start + (end - start) * percentage) - thumbCenter.x, 0).release().perform();
         }
     }
 }

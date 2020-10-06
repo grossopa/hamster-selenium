@@ -215,6 +215,11 @@ class DefaultComponentWebDriverTest {
 
     @Test
     void getDriver() {
-        assertEquals(driver, testSubject.getDriver());
+        assertEquals(driver, testSubject.getWrappedDriver());
+    }
+
+    @Test
+    void getWrappedDriver() {
+        assertEquals(driver, testSubject.getWrappedDriver());
     }
 }

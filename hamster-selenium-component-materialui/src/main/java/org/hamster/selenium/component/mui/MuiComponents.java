@@ -136,9 +136,9 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
-     * TODO under development
+     * Wraps the current {@link WebComponent} to {@link MuiSlider} instance.
      *
-     * @return
+     * @return the wrapped {@link MuiSlider} instance on the given component
      */
     public MuiSlider toSlider() {
         return new MuiSlider(component, driver, config);

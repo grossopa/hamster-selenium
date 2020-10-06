@@ -6,6 +6,7 @@ import org.hamster.selenium.core.locator.By2;
 import org.hamster.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.touch.ScrollAction;
 
 import java.util.Arrays;
 import java.util.List;
@@ -136,10 +137,8 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertEquals("100", continuousSlider.getMaxValue());
         continuousSlider.moveThumb(0.8d);
         assertEquals("80", continuousSlider.getValue());
-        Thread.sleep(2000L);
         continuousSlider.setValue(25);
         assertEquals("25", continuousSlider.getValue());
-        Thread.sleep(2000L);
         continuousSlider.setValue(30);
         assertEquals("30", continuousSlider.getValue());
         continuousSlider.setValue(0);
@@ -160,9 +159,31 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertEquals("80", discreteSlider.getValue());
         discreteSlider.setValue(50);
         assertEquals("50", discreteSlider.getValue());
-        Thread.sleep(2000L);
         discreteSlider.setValue(30);
         assertEquals("30", discreteSlider.getValue());
+
+        MuiSlider verticalSlider = driver.findComponent(By.id("vertical-slider")).findComponent(By.xpath("parent::*"))
+                .findComponent(By.className("MuiSlider-root")).as(mui()).toSlider();
+        assertEquals("0", verticalSlider.getMinValue());
+        assertEquals("100", verticalSlider.getMaxValue());
+        verticalSlider.moveThumb(0.7d);
+        assertEquals("70", verticalSlider.getValue());
+        verticalSlider.setValue(50);
+        assertEquals("50", verticalSlider.getValue());
+        verticalSlider.setValue(30);
+        assertEquals("30", verticalSlider.getValue());
+        verticalSlider.setValue(0);
+        assertEquals("0", verticalSlider.getValue());
+        verticalSlider.setValue(100);
+        assertEquals("100", verticalSlider.getValue());
+
+        MuiSlider trackInvertedSlider = driver.findComponent(By.id("track-inverted-slider")).findComponent(By.xpath("parent::*"))
+                .findComponent(By.className("MuiSlider-root")).as(mui()).toSlider();
+        assertEquals("0", trackInvertedSlider.getMinValue());
+        assertEquals("100", trackInvertedSlider.getMaxValue());
+        trackInvertedSlider.moveThumb(0.7d);
+        assertEquals("70", trackInvertedSlider.getValue());
+        assertTrue(trackInvertedSlider.isInverted());
     }
 
     public static void main(String[] args) {

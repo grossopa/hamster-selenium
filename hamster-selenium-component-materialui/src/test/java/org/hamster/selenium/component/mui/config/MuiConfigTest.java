@@ -59,6 +59,11 @@ class MuiConfigTest {
     }
 
     @Test
+    void sliderThumbLocator() {
+        assertEquals("By.className: MuiSlider-thumb", testSubject.sliderThumbLocator().toString());
+    }
+
+    @Test
     void isChecked() {
         WebComponent component = mock(WebComponent.class);
         when(component.getAttribute(MuiConfig.ATTR_CLASS)).thenReturn("some-other some-thing Muiabc Mui-checked");

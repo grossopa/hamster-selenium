@@ -26,6 +26,8 @@ package org.hamster.selenium.core;
 
 import org.hamster.selenium.core.component.WebComponent;
 import org.openqa.selenium.*;
+import org.openqa.selenium.WrapsDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Interactive;
 import org.openqa.selenium.internal.*;
@@ -40,7 +42,8 @@ import java.util.List;
  */
 @SuppressWarnings("deprecation")
 public interface ComponentWebDriver
-        extends WebDriver, JavascriptExecutor, HasInputDevices, HasCapabilities, Interactive, TakesScreenshot {
+        extends WrapsDriver, WebDriver, JavascriptExecutor, HasInputDevices, HasCapabilities, Interactive,
+        TakesScreenshot {
 
     /**
      * Finds all elements within the current page using the given mechanism and encapsulate the {@link WebElement} list
@@ -111,7 +114,10 @@ public interface ComponentWebDriver
      */
     WebComponent mapElement(WebElement element);
 
-    WebDriver getDriver();
-
-
+    /**
+     * A shortcut for {@code new Actions(driver);}
+     *
+     * @return the created Actions instance
+     */
+    Actions createActions();
 }
