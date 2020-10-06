@@ -196,6 +196,8 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertEquals("0", nonLinearSlider.getValue());
         nonLinearSlider.setValue(60466176);
         assertEquals("60466176", nonLinearSlider.getValue());
+        nonLinearSlider.setValue(6492506.2108545d);
+        assertEquals("6492506.2108545", nonLinearSlider.getValue());
         //        nonLinearSlider.setValue(50);
         //        assertEquals("50", nonLinearSlider.getValue());
         //        nonLinearSlider.setValue(30);

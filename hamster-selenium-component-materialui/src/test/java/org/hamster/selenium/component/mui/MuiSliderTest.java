@@ -63,7 +63,6 @@ class MuiSliderTest {
     Integer width = 400;
     Double minValue = 100d;
     Double maxValue = 300d;
-    boolean inverted = false;
     boolean vertical = false;
 
     Integer thumbRadius = 20;
@@ -101,6 +100,7 @@ class MuiSliderTest {
         when(hiddenInput.getAttribute("value")).then(a -> rawValue);
         when(thumb.getAttribute("aria-valuemin")).then(a -> minValue.toString());
         when(thumb.getAttribute("aria-valuemax")).then(a -> maxValue.toString());
+        when(thumb.getAttribute("aria-valuenow")).then(a -> rawValue);
         when(thumb.getRect()).then(a -> {
             double currentPercentage = (Double.parseDouble(rawValue) - minValue) / (maxValue - minValue);
 
@@ -119,7 +119,6 @@ class MuiSliderTest {
 
         testSubject = new MuiSlider(element, driver, config);
     }
-
 
     @Test
     void getComponentName() {

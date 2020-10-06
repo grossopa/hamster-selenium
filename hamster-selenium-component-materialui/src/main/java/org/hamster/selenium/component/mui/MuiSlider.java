@@ -30,7 +30,6 @@ import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.component.util.WebComponentUtils;
-import org.hamster.selenium.core.locator.By2;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
@@ -92,17 +91,34 @@ public class MuiSlider extends AbstractMuiComponent {
         return "Slider";
     }
 
+
+    /**
+     * Gets the inverse scale function
+     *
+     * @return the inverse scale function
+     */
+    public Function<Double, Double> getInverseScaleFunction() {
+        return inverseScaleFunction;
+    }
+
     /**
      * Gets the raw value.
+     *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>59049</b></p>
      *
      * @return the raw value in String.
      */
     public String getValue() {
-        return element.findElement(By2.attr("type", "hidden").exact().tag("input").build()).getAttribute("value");
+        return getFirstThumb().getAttribute("aria-valuenow");
+        // return element.findElement(By2.attr("type", "hidden").exact().tag("input").build()).getAttribute("value");
     }
 
     /**
      * Gets value in Integer.
+     *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>59049</b></p>
      *
      * @return the value in Integer.
      */
@@ -113,6 +129,9 @@ public class MuiSlider extends AbstractMuiComponent {
     /**
      * Gets value in Long.
      *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>59049</b></p>
+     *
      * @return the value in Long
      */
     public Long getValueLong() {
@@ -121,6 +140,9 @@ public class MuiSlider extends AbstractMuiComponent {
 
     /**
      * Gets value in Double.
+     *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>59049</b></p>
      *
      * @return the value in double
      */
@@ -131,6 +153,9 @@ public class MuiSlider extends AbstractMuiComponent {
     /**
      * Gets raw min value.
      *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={2}, max={8}, scale={(x) => x ** 10}, then it should return <b>1024</b></p>
+     *
      * @return the raw min value.
      */
     public String getMinValue() {
@@ -139,6 +164,9 @@ public class MuiSlider extends AbstractMuiComponent {
 
     /**
      * Gets min value in Integer.
+     *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={2}, max={8}, scale={(x) => x ** 10}, then it should return <b>1024</b></p>
      *
      * @return the min value in Integer.
      */
@@ -149,6 +177,9 @@ public class MuiSlider extends AbstractMuiComponent {
     /**
      * Gets min value in Long.
      *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={2}, max={8}, scale={(x) => x ** 10}, then it should return <b>1024</b></p>
+     *
      * @return the min value in Long
      */
     public Long getMinValueLong() {
@@ -158,18 +189,32 @@ public class MuiSlider extends AbstractMuiComponent {
     /**
      * Gets min value in Double.
      *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={2}, max={8}, scale={(x) => x ** 10}, then it should return <b>1024</b></p>
+     *
      * @return the min value in double
      */
     public Double getMinValueDouble() {
         return Double.valueOf(getMinValue());
     }
 
+    /**
+     * Gets raw max value.
+     *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>60466176</b></p>
+     *
+     * @return the raw max value.
+     */
     public String getMaxValue() {
         return getFirstThumb().getAttribute("aria-valuemax");
     }
 
     /**
      * Gets max value in Integer.
+     *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>60466176</b></p>
      *
      * @return the max value in Integer.
      */
@@ -180,6 +225,9 @@ public class MuiSlider extends AbstractMuiComponent {
     /**
      * Gets max value in Long.
      *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>60466176</b></p>
+     *
      * @return the max value in Long
      */
     public Long getMaxValueLong() {
@@ -188,6 +236,9 @@ public class MuiSlider extends AbstractMuiComponent {
 
     /**
      * Gets max value in Double.
+     *
+     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
+     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>60466176</b></p>
      *
      * @return the max value in double
      */
@@ -214,7 +265,7 @@ public class MuiSlider extends AbstractMuiComponent {
     }
 
     /**
-     * Is the slider inverted
+     * Is the slider tracker inverted.
      *
      * @return true if the slide has track="inverted" specified.
      */
@@ -224,6 +275,10 @@ public class MuiSlider extends AbstractMuiComponent {
 
     /**
      * Move the thumb by value.
+     *
+     * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * <b>59049</b></p>
      *
      * @param value
      *         the new integer value to set
@@ -236,6 +291,10 @@ public class MuiSlider extends AbstractMuiComponent {
     /**
      * Move the thumb by value.
      *
+     * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * <b>59049</b></p>
+     *
      * @param value
      *         the new long value to set
      * @see #moveThumb(double)
@@ -247,19 +306,24 @@ public class MuiSlider extends AbstractMuiComponent {
     /**
      * Move the thumb by value.
      *
+     * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * <b>59049</b></p>
+     *
      * @param value
      *         the new double value to set
      * @see #moveThumb(double)
      */
     public void setValue(Double value) {
-        Double maxValue = getMaxValueDouble();
-        Double minValue = getMinValueDouble();
-        if (Precision.compareTo(value, maxValue, 0.0001d) == 1 || Precision.compareTo(value, minValue, 0.0001d) == -1) {
+        Double val = inverseScaleFunction.apply(value);
+        Double maxValue = inverseScaleFunction.apply(getMaxValueDouble());
+        Double minValue = inverseScaleFunction.apply(getMinValueDouble());
+        if (Precision.compareTo(val, maxValue, 0.0001d) == 1 || Precision.compareTo(val, minValue, 0.0001d) == -1) {
             throw new IllegalArgumentException(
-                    String.format("value %.2f is not in the range of %.2f, %.2f", value, minValue, maxValue));
+                    String.format("value %.2f is not in the range of %.2f, %.2f", val, minValue, maxValue));
         }
 
-        moveThumb((inverseScaleFunction.apply(value) - minValue) / (maxValue - minValue));
+        moveThumb((val - minValue) / (maxValue - minValue));
     }
 
     /**
@@ -302,12 +366,13 @@ public class MuiSlider extends AbstractMuiComponent {
 
         Point thumbCenter = WebComponentUtils.getCenter(thumb.getRect());
         Actions actions = driver.createActions();
+        int target = (int) Math.round(start + (end - start) * percentage);
         if (vertical) {
-            actions.moveToElement(element).clickAndHold(thumb)
-                    .moveByOffset(0, (int) (start + (end - start) * percentage) - thumbCenter.y).release().perform();
+            actions.moveToElement(element).clickAndHold(thumb).moveByOffset(0, target - thumbCenter.y).release()
+                    .perform();
         } else {
-            actions.moveToElement(element).clickAndHold(thumb)
-                    .moveByOffset((int) (start + (end - start) * percentage) - thumbCenter.x, 0).release().perform();
+            actions.moveToElement(element).clickAndHold(thumb).moveByOffset(target - thumbCenter.x, 0).release()
+                    .perform();
         }
     }
 }
