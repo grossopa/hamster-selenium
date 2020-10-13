@@ -174,4 +174,13 @@ public class MuiComponents extends AbstractComponents {
     public MuiTextField toTextField() {
         return new MuiTextField(component, driver, config);
     }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiRadio}.
+     *
+     * @return the wrapped {@link MuiRadio} instance on the given component
+     */
+    public MuiRadio toRadio() {
+        return new MuiRadio(component, driver, config);
+    }
 }
