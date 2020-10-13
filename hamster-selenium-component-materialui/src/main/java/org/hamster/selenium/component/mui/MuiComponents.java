@@ -165,4 +165,13 @@ public class MuiComponents extends AbstractComponents {
     public MuiSwitch toSwitch() {
         return new MuiSwitch(component, driver, config);
     }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiTextField}.
+     *
+     * @return the wrapped {@link MuiTextField} instance on the given component
+     */
+    public MuiTextField toTextField() {
+        return new MuiTextField(component, driver, config);
+    }
 }

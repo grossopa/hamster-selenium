@@ -243,10 +243,21 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertFalse(disabled.isEnabled());
     }
 
+    public void testTextInput() {
+        driver.navigate().to("https://material-ui.com/components/text-fields/");
+
+        MuiTextField textField = driver.findComponent(By.id("standard-basic-label"))
+                .findComponent(By.xpath("parent::*")).as(mui()).toTextField();
+        assertEquals("Standard", textField.getLabel().getText());
+        textField.sendText("ddd ccc fff");
+        assertEquals("ddd ccc fff", textField.getInput().getAttribute("value"));
+    }
+
     public static void main(String[] args) {
         MuiShowCase test = new MuiShowCase();
         try {
             test.setUpDriver(CHROME);
+            test.testTextInput();
             test.testSwitch();
             test.testSlider();
             test.testSelect();

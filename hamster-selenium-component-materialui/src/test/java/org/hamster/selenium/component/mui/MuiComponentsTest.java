@@ -112,4 +112,9 @@ class MuiComponentsTest {
     void toSwitch() {
         assertEquals(element, testSubject.toSwitch().getWrappedElement());
     }
+
+    @Test
+    void toTextField() {
+        assertEquals(element, testSubject.toTextField().getWrappedElement());
+    }
 }

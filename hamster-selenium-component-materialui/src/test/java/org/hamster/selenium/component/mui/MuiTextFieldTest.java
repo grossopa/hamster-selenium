@@ -26,83 +26,60 @@ package org.hamster.selenium.component.mui;
 
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
-import org.hamster.selenium.core.component.WebComponent;
+import org.hamster.selenium.core.locator.By2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**
- * Tests for {@link MuiSwitch}
+ * Tests for {@link MuiTextField}
  *
  * @author Jack Yin
  * @since 1.0
  */
-class MuiSwitchTest {
+class MuiTextFieldTest {
 
-    MuiSwitch testSubject;
+    MuiTextField testSubject;
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
-    WebElement button = mock(WebElement.class);
+    WebElement input = mock(WebElement.class);
+    WebElement label = mock(WebElement.class);
+
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("Mui");
-        when(config.getIsCheckedCss()).thenReturn("checked");
-        when(config.getIsDisabledCss()).thenReturn("disabled");
-
-        when(element.findElement(eq(By.className("MuiIconButton-root")))).thenReturn(button);
-        testSubject = new MuiSwitch(element, driver, config);
+        when(element.findElement(
+                eq(By2.attr("class", config.getCssPrefix() + "Input-input").contains().anyDepthChild().tag("input")
+                        .build()))).thenReturn(input);
+        when(element.findElement(eq(By2.contains("class", config.getCssPrefix() + "InputLabel-root", "label"))))
+                .thenReturn(label);
+        testSubject = new MuiTextField(element, driver, config);
     }
 
 
     @Test
     void getComponentName() {
-        assertEquals("Switch", testSubject.getComponentName());
+        assertEquals("TextField", testSubject.getComponentName());
     }
 
     @Test
-    void isSelected() {
-        when(config.isChecked(any())).then(answer -> {
-            WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
-            return true;
-        });
-        assertTrue(testSubject.isSelected());
+    void sendText() {
+        testSubject.sendText("abc");
+        verify(input, only()).sendKeys(eq("abc"));
     }
 
     @Test
-    void isSelectedNegative() {
-        when(config.isChecked(any())).then(answer -> {
-            WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
-            return false;
-        });
-        assertFalse(testSubject.isSelected());
+    void getInput() {
+        assertEquals(input, testSubject.getInput().getWrappedElement());
     }
 
     @Test
-    void isEnabled() {
-        when(config.isSelected(any())).then(answer -> {
-            WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
-            return true;
-        });
-        assertTrue(testSubject.isEnabled());
-    }
-
-    @Test
-    void isEnabledNegative() {
-        when(config.isSelected(any())).then(answer -> {
-            WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
-            return false;
-        });
-        assertTrue(testSubject.isEnabled());
+    void getLabel() {
+        assertEquals(label, testSubject.getLabel().getWrappedElement());
     }
 }
