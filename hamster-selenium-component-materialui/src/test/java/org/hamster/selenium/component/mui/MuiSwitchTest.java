@@ -32,84 +32,78 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.function.Function;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
 
 /**
- * Tests for {@link MuiComponents}
+ * Tests for {@link MuiSwitch}
  *
  * @author Jack Yin
  * @since 1.0
  */
-class MuiComponentsTest {
+class MuiSwitchTest {
 
-    MuiComponents testSubject;
+    MuiSwitch testSubject;
     WebElement element = mock(WebElement.class);
-    WebComponent component = mock(WebComponent.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
+    WebElement button = mock(WebElement.class);
+
     @BeforeEach
     void setUp() {
-        when(component.getWrappedElement()).thenReturn(element);
-        testSubject = new MuiComponents(config);
-        testSubject.setContext(component, driver);
+        when(config.getCssPrefix()).thenReturn("Mui");
+        when(config.getIsCheckedCss()).thenReturn("checked");
+        when(config.getIsDisabledCss()).thenReturn("disabled");
+
+        when(element.findElement(eq(By.className("MuiIconButton-root")))).thenReturn(button);
+        testSubject = new MuiSwitch(element, driver, config);
     }
 
 
     @Test
-    void mui() {
-        assertNotNull(MuiComponents.mui().getConfig());
+    void getComponentName() {
+        assertEquals("Switch", testSubject.getComponentName());
     }
 
     @Test
-    void muiWithConfig() {
-        MuiConfig config = mock(MuiConfig.class);
-        assertEquals(config, MuiComponents.mui(config).getConfig());
+    void isSelected() {
+        when(config.isChecked(any())).then(answer -> {
+            WebComponent component = answer.getArgument(0);
+            assertEquals(component.getWrappedElement(), button);
+            return true;
+        });
+        assertTrue(testSubject.isSelected());
     }
 
     @Test
-    void toButton() {
-        assertEquals(element, testSubject.toButton().getWrappedElement());
+    void isSelectedNegative() {
+        when(config.isChecked(any())).then(answer -> {
+            WebComponent component = answer.getArgument(0);
+            assertEquals(component.getWrappedElement(), button);
+            return false;
+        });
+        assertFalse(testSubject.isSelected());
     }
 
     @Test
-    void toButtonGroup() {
-        assertEquals(element, testSubject.toButtonGroup().getWrappedElement());
+    void isEnabled() {
+        when(config.isSelected(any())).then(answer -> {
+            WebComponent component = answer.getArgument(0);
+            assertEquals(component.getWrappedElement(), button);
+            return true;
+        });
+        assertTrue(testSubject.isEnabled());
     }
 
     @Test
-    void toCheckbox() {
-        assertEquals(element, testSubject.toCheckbox().getWrappedElement());
-    }
-
-    @Test
-    void toSelect() {
-        assertEquals(element, testSubject.toSelect(By.id("abc")).getWrappedElement());
-    }
-
-    @Test
-    void testToSelect() {
-        assertEquals(element, testSubject.toSelect(By.id("abc"), "attribute-value-name").getWrappedElement());
-    }
-
-    @Test
-    void toSlider() {
-        assertEquals(element, testSubject.toSlider().getWrappedElement());
-    }
-
-    @Test
-    void toSliderWithInverseScaleFunction() {
-        Function<Double, Double> inverseScaleFunction = x -> x * 3d;
-        assertEquals(inverseScaleFunction, testSubject.toSlider(inverseScaleFunction).getInverseScaleFunction());
-    }
-
-    @Test
-    void toSwitch() {
-        assertEquals(element, testSubject.toSwitch().getWrappedElement());
+    void isEnabledNegative() {
+        when(config.isSelected(any())).then(answer -> {
+            WebComponent component = answer.getArgument(0);
+            assertEquals(component.getWrappedElement(), button);
+            return false;
+        });
+        assertTrue(testSubject.isEnabled());
     }
 }

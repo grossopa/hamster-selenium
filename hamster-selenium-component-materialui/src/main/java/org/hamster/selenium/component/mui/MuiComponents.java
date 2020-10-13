@@ -156,4 +156,13 @@ public class MuiComponents extends AbstractComponents {
     public MuiSlider toSlider(Function<Double, Double> inverseScaleFunction) {
         return new MuiSlider(component, driver, config, inverseScaleFunction);
     }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSwitch}.
+     *
+     * @return the wrapped {@link MuiSwitch} instance on the given component
+     */
+    public MuiSwitch toSwitch() {
+        return new MuiSwitch(component, driver, config);
+    }
 }

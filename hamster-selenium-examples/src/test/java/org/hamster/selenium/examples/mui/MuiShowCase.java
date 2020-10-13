@@ -224,10 +224,30 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertEquals("50", thumbs.get(2).getValue());
     }
 
+    public void testSwitch() {
+        driver.navigate().to("https://material-ui.com/components/switches/");
+
+        List<MuiSwitch> switches = driver.findComponents(By2.className("MuiSwitch-root")).stream()
+                .map(checkbox -> checkbox.as(mui()).toSwitch()).collect(toList());
+
+        MuiSwitch first = switches.get(0);
+        assertTrue(first.isEnabled());
+        assertTrue(first.isSelected());
+        first.click();
+        assertFalse(first.isSelected());
+        first.click();
+        assertTrue(first.isSelected());
+
+        MuiSwitch disabled = switches.get(4);
+        assertTrue(disabled.isSelected());
+        assertFalse(disabled.isEnabled());
+    }
+
     public static void main(String[] args) {
         MuiShowCase test = new MuiShowCase();
         try {
             test.setUpDriver(CHROME);
+            test.testSwitch();
             test.testSlider();
             test.testSelect();
             test.testButtonGroup();
