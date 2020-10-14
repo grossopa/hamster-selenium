@@ -117,4 +117,9 @@ class MuiComponentsTest {
     void toTextField() {
         assertEquals(element, testSubject.toTextField().getWrappedElement());
     }
+
+    @Test
+    void toRadio() {
+        assertEquals(element, testSubject.toRadio().getWrappedElement());
+    }
 }

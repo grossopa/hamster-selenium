@@ -253,6 +253,25 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertEquals("ddd ccc fff", textField.getInput().getAttribute("value"));
     }
 
+    public void testRadio() {
+        driver.navigate().to("https://material-ui.com/components/radio-buttons/");
+
+        List<MuiRadio> radios = driver.findComponents(By2.className("MuiSwitch-root")).stream()
+                .map(radio -> radio.as(mui()).toRadio()).collect(toList());
+
+        MuiRadio first = radios.get(0);
+        assertTrue(first.isEnabled());
+        assertTrue(first.isSelected());
+        first.click();
+        assertFalse(first.isSelected());
+        first.click();
+        assertTrue(first.isSelected());
+
+        MuiRadio disabled = radios.get(4);
+        assertTrue(disabled.isSelected());
+        assertFalse(disabled.isEnabled());
+    }
+
     public static void main(String[] args) {
         MuiShowCase test = new MuiShowCase();
         try {
@@ -263,6 +282,7 @@ public class MuiShowCase extends AbstractBrowserSupport {
             test.testSelect();
             test.testButtonGroup();
             test.testCheckBox();
+            test.testRadio();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
