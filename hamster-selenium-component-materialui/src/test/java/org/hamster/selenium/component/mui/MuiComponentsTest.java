@@ -122,4 +122,9 @@ class MuiComponentsTest {
     void toRadio() {
         assertEquals(element, testSubject.toRadio().getWrappedElement());
     }
+
+    @Test
+    void toLink() {
+        assertEquals(element, testSubject.toLink().getWrappedElement());
+    }
 }

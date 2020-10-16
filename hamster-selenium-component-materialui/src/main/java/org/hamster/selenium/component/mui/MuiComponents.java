@@ -26,6 +26,7 @@ package org.hamster.selenium.component.mui;
 
 import lombok.Getter;
 import org.hamster.selenium.component.mui.config.MuiConfig;
+import org.hamster.selenium.component.mui.navigation.MuiLink;
 import org.hamster.selenium.core.component.AbstractComponents;
 import org.hamster.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
@@ -182,5 +183,14 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiRadio toRadio() {
         return new MuiRadio(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiLink}.
+     *
+     * @return the wrapped {@link MuiLink} instance on the given component
+     */
+    public MuiLink toLink() {
+        return new MuiLink(component, driver, config);
     }
 }
