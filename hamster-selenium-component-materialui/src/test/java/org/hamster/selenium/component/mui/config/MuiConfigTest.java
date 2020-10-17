@@ -64,6 +64,11 @@ class MuiConfigTest {
     }
 
     @Test
+    void menuPagerLocator() {
+        assertEquals("By.className: MuiMenu-pager", testSubject.menuPagerLocator().toString());
+    }
+
+    @Test
     void isChecked() {
         WebComponent component = mock(WebComponent.class);
         when(component.getAttribute(MuiConfig.ATTR_CLASS)).thenReturn("some-other some-thing Muiabc Mui-checked");
@@ -159,4 +164,5 @@ class MuiConfigTest {
         testSubject.setCssPrefix("some-other-prefix");
         assertEquals("some-other-prefix", testSubject.getCssPrefix());
     }
+
 }

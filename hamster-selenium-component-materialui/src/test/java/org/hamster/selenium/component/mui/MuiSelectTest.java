@@ -37,13 +37,14 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
-import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link MuiSelect}
@@ -61,6 +62,7 @@ class MuiSelectTest {
     CloseOptionsAction closeOptionsAction = mock(CloseOptionsAction.class);
 
     WebComponent optionContainer = mock(WebComponent.class);
+    WebComponent menuPagerContainer = mock(WebComponent.class);
     List<WebComponent> options;
 
 
@@ -100,11 +102,26 @@ class MuiSelectTest {
         optionOpen = false;
     }
 
+    /**
+     * embed the menu pager to the presentation layer search, the select is expected to ignore such Popover.
+     */
+    private void mockMenuPager() {
+        WebComponent menuPagerComponent = mock(WebComponent.class);
+        when(menuPagerComponent.isDisplayed()).thenReturn(true);
+        when(menuPagerContainer.findComponents(eq(config.menuPagerLocator())))
+                .thenReturn(singletonList(menuPagerComponent));
+        when(driver.findComponents(eq(config.popoverLocator())))
+                .thenReturn(asList(menuPagerContainer, optionContainer));
+    }
+
     @BeforeEach
     void setUp() {
+        when(config.findVisiblePopoverLayers(any(), anyBoolean())).thenCallRealMethod();
         when(config.popoverLocator()).thenReturn(By.xpath("/pop/over"));
+        when(config.menuPagerLocator()).thenReturn(By.className("MuiMenu-pager"));
+        when(driver.findComponents(eq(config.popoverLocator()))).thenReturn(singletonList(optionContainer));
 
-        options = Arrays.asList(createOptions("val-0", "Label 0", false),
+        options = asList(createOptions("val-0", "Label 0", false),
                 createOptions("val-1", "Label 1 some label 123", true),
                 createOptions("val-2", "Label 2 some label 123", false),
                 createOptions("val-3", "Label 3 some label 123", false),
@@ -258,8 +275,6 @@ class MuiSelectTest {
     @Test
     void closeOptionsAlreadyClosedContainerNotDisplayed() {
         this.mockOptionsClose();
-        when(driver.findComponent(eq(config.popoverLocator()))).thenReturn(optionContainer);
-        when(driver.findComponents(eq(config.popoverLocator()))).thenReturn(singletonList(optionContainer));
         testSubject.closeOptions();
         verify(closeOptionsAction, never()).close(any(), any(), any());
         assertFalse(optionOpen);
@@ -443,5 +458,75 @@ class MuiSelectTest {
         assertEquals(3, testSubject.getAllSelectedOptions2().size());
         testSubject.deselectByVisibleText("Label 5 some label 123", 500L);
         assertEquals(2, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
+    void getOptionsWhenMenuPagerPresent() {
+        mockMenuPager();
+        // it will not be impacted by the additional menuPagerContainer
+        assertEquals(6, testSubject.getOptions2().size());
+    }
+
+    @Test
+    void openOptionsWhenMenuPagerPresent() {
+        mockMenuPager();
+        // it will not be impacted by the additional menuPagerContainer
+        WebComponent container = testSubject.openOptions();
+        assertEquals(this.optionContainer, container);
+        verify(openOptionsAction, only()).open(any(), any());
+        verify(driver, never()).mapElement(any());
+        assertTrue(optionOpen);
+    }
+
+    @Test
+    void closeOptionsWhenMenuPagerPresent() {
+        mockMenuPager();
+        // it will not be impacted by the additional menuPagerContainer
+        this.mockOptionOpen();
+        testSubject.closeOptions();
+        verify(closeOptionsAction, only()).close(any(), any(), any());
+        assertFalse(optionOpen);
+    }
+
+    @Test
+    void closeOptionsWithDelayWhenMenuPagerPresent() {
+        mockMenuPager();
+        // it will not be impacted by the additional menuPagerContainer
+        this.mockOptionOpen();
+        testSubject.closeOptions(500L);
+        verify(closeOptionsAction, only()).close(any(), any(), any());
+        assertFalse(optionOpen);
+    }
+
+    @Test
+    void closeOptionsAlreadyClosedNullWhenMenuPagerPresent() {
+        mockMenuPager();
+        // it will not be impacted by the additional menuPagerContainer
+        this.mockOptionsClose();
+        testSubject.closeOptions();
+        verify(closeOptionsAction, never()).close(any(), any(), any());
+        assertFalse(optionOpen);
+    }
+
+    @Test
+    void closeOptionsAlreadyClosedContainerNotDisplayedWhenMenuPagerPresent() {
+        mockMenuPager();
+        // it will not be impacted by the additional menuPagerContainer
+        this.mockOptionsClose();
+        testSubject.closeOptions();
+        verify(closeOptionsAction, never()).close(any(), any(), any());
+        assertFalse(optionOpen);
+    }
+
+    @Test
+    void closeOptionsFailedWhenMenuPagerPresent() {
+        mockMenuPager();
+        // it will not be impacted by the additional menuPagerContainer
+        this.mockOptionOpen();
+        doAnswer(a -> {
+            // do nothing
+            return null;
+        }).when(closeOptionsAction).close(eq(testSubject), eq(options), eq(driver));
+        assertThrows(OptionNotClosedException.class, () -> testSubject.closeOptions());
     }
 }

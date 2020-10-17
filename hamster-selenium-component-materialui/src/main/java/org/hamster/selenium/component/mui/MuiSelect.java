@@ -35,6 +35,7 @@ import org.hamster.selenium.core.component.api.Select;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -43,8 +44,6 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
-import static org.openqa.selenium.support.ui.ExpectedConditions.invisibilityOfElementLocated;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 /**
  * A MUI Select wrapper which supports the Popover-based options.
@@ -199,7 +198,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
 
     @Override
     public WebComponent openOptions(Long delayInMillis) {
-        List<WebComponent> components = driver.findComponents(config.popoverLocator());
+        List<WebComponent> components = config.findVisiblePopoverLayers(driver, false);
         if (!components.isEmpty()) {
             return components.get(0);
         }
@@ -210,9 +209,9 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
         if (delayInMillis > 0L) {
             WebDriverWait wait = new WebDriverWait(driver, 0L);
             wait.withTimeout(Duration.ofMillis(delayInMillis));
-            container = driver.mapElement(wait.until(visibilityOfElementLocated(config.popoverLocator())));
+            container = driver.mapElement(wait.until(d -> config.findVisiblePopoverLayers(driver, false).get(0)));
         } else {
-            container = driver.findComponent(config.popoverLocator());
+            container = config.findVisiblePopoverLayers(driver, false).get(0);
         }
         return container;
     }
@@ -224,8 +223,8 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
 
     @Override
     public void closeOptions(Long delayInMillis) {
-        List<WebComponent> components = driver.findComponents(config.popoverLocator());
-        if (components.isEmpty() || !components.get(0).isDisplayed()) {
+        List<WebComponent> components = config.findVisiblePopoverLayers(driver, false);
+        if (components.isEmpty()) {
             return;
         }
 
@@ -235,9 +234,12 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
         if (delayInMillis > 0L) {
             WebDriverWait wait = new WebDriverWait(driver, 0L);
             wait.withTimeout(Duration.ofMillis(delayInMillis));
-            wait.until(invisibilityOfElementLocated(config.popoverLocator()));
+            wait.until(d -> {
+                List<WebComponent> visiblePopoverLayers = config.findVisiblePopoverLayers(driver, false);
+                return visiblePopoverLayers.isEmpty();
+            });
         } else {
-            List<WebComponent> containers = driver.findComponents(config.popoverLocator());
+            List<WebComponent> containers = config.findVisiblePopoverLayers(driver, false);
             if (!containers.isEmpty() && containers.get(0).isDisplayed()) {
                 throw new OptionNotClosedException("Option Popover is not properly closed " + config.popoverLocator());
             }

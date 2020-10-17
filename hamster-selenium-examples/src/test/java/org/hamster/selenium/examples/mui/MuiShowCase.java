@@ -128,6 +128,21 @@ public class MuiShowCase extends AbstractBrowserSupport {
         multiSelect.closeOptions(800L);
     }
 
+    /**
+     * Tests whether the select works as expected when Menu is present with additional presentation layer.
+     */
+    public void testSelectWithMenu() {
+        driver.navigate().to("https://material-ui.com/components/menus/");
+
+        MuiSelect languageSelect = driver
+                .findComponent(By2.attr("aria-label", "Change language").anyDepthChild().build()).as(mui())
+                .toSelect(By.tagName("a"));
+
+        List<WebComponent> options = languageSelect.getOptions2(500L);
+        assertEquals(9, options.size());
+        languageSelect.closeOptions(1000L);
+    }
+
     public void testSlider() {
         driver.navigate().to("https://material-ui.com/components/slider/");
         MuiSlider continuousSlider = driver.findComponent(By.id("continuous-slider"))
@@ -312,6 +327,7 @@ public class MuiShowCase extends AbstractBrowserSupport {
             test.testSwitch();
             test.testSlider();
             test.testSelect();
+            test.testSelectWithMenu();
             test.testButtonGroup();
             test.testCheckBox();
             test.testRadio();

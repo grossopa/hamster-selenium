@@ -26,10 +26,14 @@ package org.hamster.selenium.component.mui.config;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hamster.selenium.core.ComponentWebDriver;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.locator.By2;
 import org.openqa.selenium.By;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 import static org.hamster.selenium.core.component.util.WebComponentUtils.attributeContains;
 
 /**
@@ -72,6 +76,14 @@ public class MuiConfig {
         return By.xpath("/html/body/div[contains(@class, '" + getRootCss("Popover") + "')]");
     }
 
+    /**
+     * Gets the Menu Pager elements inner the MuiPopover-root which is bound to a MuiMenu component.
+     *
+     * @return the Menu Pager elements inner the MuiPopover-root which is bound to a MuiMenu component.
+     */
+    public By menuPagerLocator() {
+        return By.className(cssPrefix + "Menu-pager");
+    }
 
     /**
      * For locating the thumb element of the Slider.
@@ -183,5 +195,24 @@ public class MuiConfig {
      */
     public boolean validateByCss(WebComponent component, String cssName) {
         return attributeContains(component, ATTR_CLASS, cssName);
+    }
+
+    /**
+     * Finds the currently visible Popover layers.
+     *
+     * <p>As of 2020-10, It seems that Menu component will by default produce a lot of presentation layer on the page
+     * no matter it's displayed or not, hence we need to explicitly exclude them from the search result sometimes for a
+     * more accurate searching for e.g. {@link org.hamster.selenium.component.mui.MuiSelect}. </p>
+     *
+     * @param driver
+     *         the current driver
+     * @param includeMenu
+     *         whether should include the menu layer with child could be found by {@link #menuPagerLocator()}
+     * @return the visible presentation layer
+     */
+    public List<WebComponent> findVisiblePopoverLayers(ComponentWebDriver driver, boolean includeMenu) {
+        return driver.findComponents(popoverLocator()).stream()
+                .filter(component -> component.isDisplayed() && !(!includeMenu && !component
+                        .findComponents(menuPagerLocator()).isEmpty())).collect(toList());
     }
 }
