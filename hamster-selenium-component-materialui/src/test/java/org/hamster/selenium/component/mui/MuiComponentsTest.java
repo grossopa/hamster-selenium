@@ -127,4 +127,9 @@ class MuiComponentsTest {
     void toLink() {
         assertEquals(element, testSubject.toLink().getWrappedElement());
     }
+
+    @Test
+    void toBreadcrumbs() {
+        assertEquals(element, testSubject.toBreadcrumbs().getWrappedElement());
+    }
 }

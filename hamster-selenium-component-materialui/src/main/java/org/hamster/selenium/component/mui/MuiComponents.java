@@ -26,6 +26,7 @@ package org.hamster.selenium.component.mui;
 
 import lombok.Getter;
 import org.hamster.selenium.component.mui.config.MuiConfig;
+import org.hamster.selenium.component.mui.navigation.MuiBreadcrumbs;
 import org.hamster.selenium.component.mui.navigation.MuiLink;
 import org.hamster.selenium.core.component.AbstractComponents;
 import org.hamster.selenium.core.component.WebComponent;
@@ -192,5 +193,14 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiLink toLink() {
         return new MuiLink(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiBreadcrumbs}.
+     *
+     * @return the wrapped {@link MuiBreadcrumbs} instance on the given component
+     */
+    public MuiBreadcrumbs toBreadcrumbs() {
+        return new MuiBreadcrumbs(component, driver, config);
     }
 }

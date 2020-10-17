@@ -1,6 +1,7 @@
 package org.hamster.selenium.examples.mui;
 
 import org.hamster.selenium.component.mui.*;
+import org.hamster.selenium.component.mui.navigation.MuiBreadcrumbs;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.locator.By2;
 import org.hamster.selenium.examples.helper.AbstractBrowserSupport;
@@ -272,16 +273,47 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertFalse(disabled.isEnabled());
     }
 
+    public void testBreadcrumbs() {
+        driver.navigate().to("https://material-ui.com/components/breadcrumbs/");
+
+        List<MuiBreadcrumbs> breadcrumbsList = driver.findComponents(By.className("MuiBreadcrumbs-root")).stream()
+                .map(component -> component.as(mui()).toBreadcrumbs()).collect(toList());
+
+        MuiBreadcrumbs breadcrumbs1 = breadcrumbsList.get(0);
+        assertEquals(3, breadcrumbs1.getItems().size());
+        assertEquals("Material-UI", breadcrumbs1.getItemAt(0).as(mui()).toLink().getText());
+        assertEquals("Core", breadcrumbs1.getItemAt(1).as(mui()).toLink().getText());
+        assertEquals("Breadcrumb", breadcrumbs1.getItemAt(2).getText());
+        assertEquals("/", breadcrumbs1.getSeparators().get(0).getText());
+        assertFalse(breadcrumbs1.isCollapsed());
+
+        MuiBreadcrumbs collapsedBreadcrumbs = breadcrumbsList.get(6);
+        assertEquals(2, collapsedBreadcrumbs.getItems().size());
+        assertEquals("Home", collapsedBreadcrumbs.getItemAt(0).getText());
+        assertEquals("Belts", collapsedBreadcrumbs.getItemAt(1).getText());
+        assertTrue(collapsedBreadcrumbs.isCollapsed());
+
+        collapsedBreadcrumbs.expand();
+        assertEquals(5, collapsedBreadcrumbs.getItems().size());
+        assertEquals("Home", collapsedBreadcrumbs.getItemAt(0).getText());
+        assertEquals("Catalog", collapsedBreadcrumbs.getItemAt(1).getText());
+        assertEquals("Accessories", collapsedBreadcrumbs.getItemAt(2).getText());
+        assertEquals("New Collection", collapsedBreadcrumbs.getItemAt(3).getText());
+        assertEquals("Belts", collapsedBreadcrumbs.getItemAt(4).getText());
+        assertFalse(collapsedBreadcrumbs.isCollapsed());
+    }
+
     public static void main(String[] args) {
         MuiShowCase test = new MuiShowCase();
         try {
             test.setUpDriver(CHROME);
-            test.testTextInput();
-            test.testSwitch();
-            test.testSlider();
-            test.testSelect();
-            test.testButtonGroup();
-            test.testCheckBox();
+//            test.testBreadcrumbs();
+//            test.testTextInput();
+//            test.testSwitch();
+//            test.testSlider();
+//            test.testSelect();
+//            test.testButtonGroup();
+//            test.testCheckBox();
             test.testRadio();
         } catch (Exception ex) {
             ex.printStackTrace();
