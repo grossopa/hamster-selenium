@@ -9,15 +9,37 @@
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
 
+  <name>hamster-selenium-parent</name>
+  <description>The framework to support selenium to be able to test against web applications built from modern
+    front-end framework such as Material-UI
+  </description>
+  <url>https://github.com/grossopa/hamster-selenium</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
   <developers>
     <developer>
-      <id>Yin Jack</id>
-      <name>Yin Jack</name>
+      <name>Jack Yin</name>
+      <email>grossopaforever@gmail.com</email>
+      <organization>N/A</organization>
+      <organizationUrl>https://github.com/grossopa/hamster-selenium/</organizationUrl>
       <roles>
         <role>Owner</role>
       </roles>
     </developer>
   </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/grossopa/hamster-selenium.git</connection>
+    <developerConnection>scm:git:ssh://github.com:grossopa/hamster-selenium.git</developerConnection>
+    <url>http://github.com/grossopa/hamster-selenium/tree/develop</url>
+  </scm>
+
   <modules>
     <module>hamster-selenium-core</module>
     <module>hamster-selenium-component-html</module>
