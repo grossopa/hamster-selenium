@@ -132,4 +132,9 @@ class MuiComponentsTest {
     void toBreadcrumbs() {
         assertEquals(element, testSubject.toBreadcrumbs().getWrappedElement());
     }
+
+    @Test
+    void toBottomNavigation() {
+        assertEquals(element, testSubject.toBottomNavigation().getWrappedElement());
+    }
 }

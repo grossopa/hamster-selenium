@@ -1,6 +1,8 @@
 package org.hamster.selenium.examples.mui;
 
 import org.hamster.selenium.component.mui.*;
+import org.hamster.selenium.component.mui.navigation.MuiBottomNavigation;
+import org.hamster.selenium.component.mui.navigation.MuiBottomNavigationAction;
 import org.hamster.selenium.component.mui.navigation.MuiBreadcrumbs;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.locator.By2;
@@ -318,19 +320,35 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertFalse(collapsedBreadcrumbs.isCollapsed());
     }
 
+    public void testBottomNavigation() {
+        driver.navigate().to("https://material-ui.com/components/bottom-navigation/");
+
+        List<MuiBottomNavigation> bottomNavigationList = driver.findComponents(By.className("MuiBottomNavigation-root"))
+                .stream().map(component -> component.as(mui()).toBottomNavigation()).collect(toList());
+        MuiBottomNavigation bn1 = bottomNavigationList.get(0);
+        List<MuiBottomNavigationAction> actions = bn1.getActions();
+        assertEquals(3, actions.size());
+        assertEquals("Recents", actions.get(0).getText());
+        assertEquals("Favorites", actions.get(1).getText());
+        assertEquals("Nearby", actions.get(2).getText());
+
+        assertTrue(actions.get(0).isSelected());
+    }
+
     public static void main(String[] args) {
         MuiShowCase test = new MuiShowCase();
         try {
             test.setUpDriver(CHROME);
-            test.testBreadcrumbs();
-            test.testTextInput();
-            test.testSwitch();
-            test.testSlider();
-            test.testSelect();
-            test.testSelectWithMenu();
-            test.testButtonGroup();
-            test.testCheckBox();
-            test.testRadio();
+            //            test.testBreadcrumbs();
+            //            test.testTextInput();
+            //            test.testSwitch();
+            //            test.testSlider();
+            //            test.testSelect();
+            //            test.testSelectWithMenu();
+            //            test.testButtonGroup();
+            //            test.testCheckBox();
+            //            test.testRadio();
+            test.testBottomNavigation();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
