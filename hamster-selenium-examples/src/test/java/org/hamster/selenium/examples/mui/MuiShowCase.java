@@ -339,16 +339,16 @@ public class MuiShowCase extends AbstractBrowserSupport {
         MuiShowCase test = new MuiShowCase();
         try {
             test.setUpDriver(CHROME);
-            //            test.testBreadcrumbs();
-            //            test.testTextInput();
-            //            test.testSwitch();
-            //            test.testSlider();
-            //            test.testSelect();
-            //            test.testSelectWithMenu();
-            //            test.testButtonGroup();
-            //            test.testCheckBox();
-            //            test.testRadio();
+            test.testBreadcrumbs();
+            test.testTextInput();
+            test.testSwitch();
+            test.testSlider();
+            test.testSelect();
+            test.testSelectWithMenu();
+            test.testButtonGroup();
+            test.testCheckBox();
             test.testBottomNavigation();
+            test.testRadio();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
