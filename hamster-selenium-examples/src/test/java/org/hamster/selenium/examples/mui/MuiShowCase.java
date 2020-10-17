@@ -307,13 +307,13 @@ public class MuiShowCase extends AbstractBrowserSupport {
         MuiShowCase test = new MuiShowCase();
         try {
             test.setUpDriver(CHROME);
-//            test.testBreadcrumbs();
-//            test.testTextInput();
-//            test.testSwitch();
-//            test.testSlider();
-//            test.testSelect();
-//            test.testButtonGroup();
-//            test.testCheckBox();
+            test.testBreadcrumbs();
+            test.testTextInput();
+            test.testSwitch();
+            test.testSlider();
+            test.testSelect();
+            test.testButtonGroup();
+            test.testCheckBox();
             test.testRadio();
         } catch (Exception ex) {
             ex.printStackTrace();
