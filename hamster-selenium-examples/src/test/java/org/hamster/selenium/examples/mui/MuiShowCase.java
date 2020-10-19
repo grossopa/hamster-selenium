@@ -1,9 +1,7 @@
 package org.hamster.selenium.examples.mui;
 
 import org.hamster.selenium.component.mui.*;
-import org.hamster.selenium.component.mui.navigation.MuiBottomNavigation;
-import org.hamster.selenium.component.mui.navigation.MuiBottomNavigationAction;
-import org.hamster.selenium.component.mui.navigation.MuiBreadcrumbs;
+import org.hamster.selenium.component.mui.navigation.*;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.locator.By2;
 import org.hamster.selenium.examples.helper.AbstractBrowserSupport;
@@ -335,6 +333,42 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertTrue(actions.get(0).isSelected());
     }
 
+    public void testTabs() throws InterruptedException {
+        driver.navigate().to("https://material-ui.com/components/tabs/");
+
+        List<MuiTabs> tabsList = driver.findComponents(By.className("MuiTabs-root")).stream()
+                .map(component -> component.as(mui()).toTabs()).collect(toList());
+        MuiTabs tabs1 = tabsList.get(0);
+        List<MuiTab> actions = tabs1.getTabs();
+        assertEquals(3, actions.size());
+        assertEquals("ITEM ONE", actions.get(0).getText());
+        assertEquals("ITEM TWO", actions.get(1).getText());
+        assertEquals("ITEM THREE", actions.get(2).getText());
+
+        assertTrue(actions.get(0).isSelected());
+
+        MuiTabs automaticScrollTabs = tabsList.get(5);
+        driver.moveTo(automaticScrollTabs);
+        assertEquals(7, automaticScrollTabs.getTabs().size());
+        assertTrue(automaticScrollTabs.getNextScrollButton().isPresent());
+        assertTrue(automaticScrollTabs.getPreviousScrollButton().isPresent());
+
+        automaticScrollTabs.getTabs().get(3).click();
+        Thread.sleep(600L);
+        //driver.moveTo(driver.findComponent(By.id("scrollable-force-tabpanel-3")));
+        assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-3")).isDisplayed());
+        automaticScrollTabs.getTabs().get(5).click();
+        Thread.sleep(600L);
+        assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-5")).isDisplayed());
+        automaticScrollTabs.getTabs().get(6).click();
+        Thread.sleep(600L);
+        assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-6")).isDisplayed());
+        automaticScrollTabs.getTabs().get(0).click();
+        Thread.sleep(600L);
+        assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-0")).isDisplayed());
+
+    }
+
     public static void main(String[] args) {
         MuiShowCase test = new MuiShowCase();
         try {
@@ -348,6 +382,7 @@ public class MuiShowCase extends AbstractBrowserSupport {
             test.testButtonGroup();
             test.testCheckBox();
             test.testBottomNavigation();
+            test.testTabs();
             test.testRadio();
         } catch (Exception ex) {
             ex.printStackTrace();

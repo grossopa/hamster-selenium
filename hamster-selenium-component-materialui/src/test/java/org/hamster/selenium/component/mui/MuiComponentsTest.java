@@ -137,4 +137,9 @@ class MuiComponentsTest {
     void toBottomNavigation() {
         assertEquals(element, testSubject.toBottomNavigation().getWrappedElement());
     }
+
+    @Test
+    void toTabs() {
+        assertEquals(element, testSubject.toTabs().getWrappedElement());
+    }
 }

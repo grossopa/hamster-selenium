@@ -120,4 +120,11 @@ public interface ComponentWebDriver
      * @return the created Actions instance
      */
     Actions createActions();
+
+    /**
+     * Move mouse to the element. shortcut of {@code createActions().moveToElement(element).perform()}
+     *
+     * @param element the element to move to.
+     */
+    void moveTo(WebElement element);
 }

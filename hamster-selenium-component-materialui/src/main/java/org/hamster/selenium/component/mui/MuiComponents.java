@@ -29,6 +29,7 @@ import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.component.mui.navigation.MuiBottomNavigation;
 import org.hamster.selenium.component.mui.navigation.MuiBreadcrumbs;
 import org.hamster.selenium.component.mui.navigation.MuiLink;
+import org.hamster.selenium.component.mui.navigation.MuiTabs;
 import org.hamster.selenium.core.component.AbstractComponents;
 import org.hamster.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
@@ -206,11 +207,20 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
-     * Wraps the current {@link WebComponent} to {@link MuiBreadcrumbs}.
+     * Wraps the current {@link WebComponent} to {@link MuiBottomNavigation}.
      *
      * @return the wrapped {@link MuiBottomNavigation} instance on the given component
      */
     public MuiBottomNavigation toBottomNavigation() {
         return new MuiBottomNavigation(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiTabs}.
+     *
+     * @return the wrapped {@link MuiTabs} instance on the given component
+     */
+    public MuiTabs toTabs() {
+        return new MuiTabs(component, driver, config);
     }
 }

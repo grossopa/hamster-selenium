@@ -104,6 +104,11 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     }
 
     @Override
+    public void moveTo(WebElement element) {
+        createActions().moveToElement(element).perform();
+    }
+
+    @Override
     public String getPageSource() {
         return driver.getPageSource();
     }

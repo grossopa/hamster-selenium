@@ -31,6 +31,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.Arrays;
 import java.util.List;
@@ -221,5 +222,12 @@ class DefaultComponentWebDriverTest {
     @Test
     void getWrappedDriver() {
         assertEquals(driver, testSubject.getWrappedDriver());
+    }
+
+    @Test
+    void moveTo() {
+        RemoteWebElement element = mock(RemoteWebElement.class);
+        testSubject.moveTo(element);
+        verify(element, never()).getLocation();
     }
 }

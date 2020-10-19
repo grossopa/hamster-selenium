@@ -22,7 +22,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.hamster.selenium.component.mui;
+package org.hamster.selenium.component.mui.navigation;
 
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
@@ -31,43 +31,30 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
 
 /**
- * Tests for {@link MuiButton}
+ * Tests for {@link MuiTab}
  *
  * @author Jack Yin
  * @since 1.0
  */
-class MuiButtonTest {
+class MuiTabTest {
 
-    MuiButton testSubject;
+    MuiTab testSubject;
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
     @BeforeEach
     void setUp() {
-        testSubject = new MuiButton(element, driver, config);
+        testSubject = new MuiTab(element, driver, config);
     }
 
 
     @Test
     void getComponentName() {
-        assertEquals("Button", testSubject.getComponentName());
-    }
-
-    @Test
-    void isSelected() {
-        when(config.isSelected(any())).thenReturn(true);
-        assertTrue(testSubject.isSelected());
-    }
-
-    @Test
-    void isSelectedNegative() {
-        when(config.isSelected(any())).thenReturn(false);
-        assertFalse(testSubject.isSelected());
+        assertEquals("Tab", testSubject.getComponentName());
     }
 }

@@ -22,52 +22,37 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.hamster.selenium.component.mui;
+package org.hamster.selenium.component.mui.navigation;
 
+import org.hamster.selenium.component.mui.MuiButton;
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 /**
- * Tests for {@link MuiButton}
+ * The tab scrolling button when the tab items cannot be displayed within the {@link MuiTabs}.
  *
  * @author Jack Yin
  * @since 1.0
  */
-class MuiButtonTest {
+public class MuiTabScrollButton extends MuiButton {
 
-    MuiButton testSubject;
-    WebElement element = mock(WebElement.class);
-    ComponentWebDriver driver = mock(ComponentWebDriver.class);
-    MuiConfig config = mock(MuiConfig.class);
-
-    @BeforeEach
-    void setUp() {
-        testSubject = new MuiButton(element, driver, config);
+    /**
+     * Constructs an instance with the delegated element and root driver
+     *
+     * @param element
+     *         the delegated element
+     * @param driver
+     *         the root driver
+     * @param config
+     *         the Material UI configuration
+     */
+    public MuiTabScrollButton(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+        super(element, driver, config);
     }
 
-
-    @Test
-    void getComponentName() {
-        assertEquals("Button", testSubject.getComponentName());
-    }
-
-    @Test
-    void isSelected() {
-        when(config.isSelected(any())).thenReturn(true);
-        assertTrue(testSubject.isSelected());
-    }
-
-    @Test
-    void isSelectedNegative() {
-        when(config.isSelected(any())).thenReturn(false);
-        assertFalse(testSubject.isSelected());
+    @Override
+    public String getComponentName() {
+        return "TabScrollButton";
     }
 }
