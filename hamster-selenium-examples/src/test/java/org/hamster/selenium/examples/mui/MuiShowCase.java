@@ -1,6 +1,9 @@
 package org.hamster.selenium.examples.mui;
 
 import org.hamster.selenium.component.mui.*;
+import org.hamster.selenium.component.mui.config.MuiConfig;
+import org.hamster.selenium.component.mui.feedback.MuiDialog;
+import org.hamster.selenium.component.mui.locator.MuiDialogLocator;
 import org.hamster.selenium.component.mui.navigation.*;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.locator.By2;
@@ -366,7 +369,20 @@ public class MuiShowCase extends AbstractBrowserSupport {
         automaticScrollTabs.getTabs().get(0).click();
         Thread.sleep(600L);
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-0")).isDisplayed());
+    }
 
+    public void testDialog() throws InterruptedException {
+        driver.navigate().to("https://material-ui.com/components/dialogs/");
+        MuiButton openSimpleDialogButton = driver.findComponent(By.xpath("//*[contains(text(), 'Open simple dialog')]"))
+                .findComponent(By.xpath("parent::*")).as(mui()).toButton();
+        openSimpleDialogButton.click();
+        List<MuiDialog> visibleDialogs = new MuiDialogLocator(driver, new MuiConfig()).findVisibleDialogs();
+        assertEquals(1, visibleDialogs.size());
+        Thread.sleep(500L);
+        visibleDialogs.get(0).closeDialog();
+        Thread.sleep(800L);
+        visibleDialogs = new MuiDialogLocator(driver, new MuiConfig()).findVisibleDialogs();
+        assertTrue(visibleDialogs.isEmpty());
     }
 
     public static void main(String[] args) {
@@ -383,6 +399,7 @@ public class MuiShowCase extends AbstractBrowserSupport {
             test.testCheckBox();
             test.testBottomNavigation();
             test.testTabs();
+            test.testDialog();
             test.testRadio();
         } catch (Exception ex) {
             ex.printStackTrace();
