@@ -53,6 +53,11 @@ class MuiConfigTest {
     }
 
     @Test
+    void radioLocator() {
+        assertEquals("By.xpath: *[contains(@class, 'MuiRadio-root')]", testSubject.radioLocator().toString());
+    }
+
+    @Test
     void popoverLocator() {
         assertEquals("By.xpath: /html/body/div[contains(@class, 'MuiPopover-root')]",
                 testSubject.popoverLocator().toString());

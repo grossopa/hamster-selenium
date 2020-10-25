@@ -27,7 +27,7 @@ public class MuiRadioTest {
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
-    WebElement button = mock(WebElement.class);
+    WebElement radio = mock(WebElement.class);
 
     @BeforeEach
     void setUp() {
@@ -35,7 +35,7 @@ public class MuiRadioTest {
         when(config.getIsCheckedCss()).thenReturn("checked");
         when(config.getIsDisabledCss()).thenReturn("disabled");
 
-        when(element.findElement(eq(By.className(".MuiRadio-root")))).thenReturn(button);
+        when(element.findElement(eq(By.className(".MuiRadio-root")))).thenReturn(radio);
         testSubject = new MuiRadio(element, driver, config);
     }
 
@@ -47,21 +47,13 @@ public class MuiRadioTest {
 
     @Test
     void isSelected() {
-        when(config.isChecked(any())).then(answer -> {
-            WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
-            return true;
-        });
+        when(config.isChecked(eq(testSubject))).thenReturn(true);
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedNegative() {
-        when(config.isChecked(any())).then(answer -> {
-            WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
-            return false;
-        });
+        when(config.isChecked(eq(testSubject))).thenReturn(false);
         assertFalse(testSubject.isSelected());
     }
 
@@ -69,7 +61,7 @@ public class MuiRadioTest {
     void isEnabled() {
         when(config.isSelected(any())).then(answer -> {
             WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
+            assertEquals(component.getWrappedElement(), radio);
             return true;
         });
         assertTrue(testSubject.isEnabled());
@@ -79,7 +71,7 @@ public class MuiRadioTest {
     void isEnabledNegative() {
         when(config.isSelected(any())).then(answer -> {
             WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
+            assertEquals(component.getWrappedElement(), radio);
             return false;
         });
         assertTrue(testSubject.isEnabled());
