@@ -14,6 +14,12 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * Tests for {@link MuiRadio}
+ *
+ * @author Chenyu Wang
+ * @since 1.0
+ */
 public class MuiRadioTest {
 
     MuiRadio testSubject;
@@ -29,7 +35,7 @@ public class MuiRadioTest {
         when(config.getIsCheckedCss()).thenReturn("checked");
         when(config.getIsDisabledCss()).thenReturn("disabled");
 
-        when(element.findElement(eq(By.className("MuiIconButton-root")))).thenReturn(button);
+        when(element.findElement(eq(By.className(".MuiRadio-root")))).thenReturn(button);
         testSubject = new MuiRadio(element, driver, config);
     }
 

@@ -275,13 +275,14 @@ public class MuiShowCase extends AbstractBrowserSupport {
     public void testRadio() {
         driver.navigate().to("https://material-ui.com/components/radio-buttons/");
 
-        List<MuiRadio> radios = driver.findComponents(By2.className("MuiSwitch-root")).stream()
+        List<MuiRadio> radios = driver.findComponents(By2.className("MuiRadio-root")).stream()
                 .map(radio -> radio.as(mui()).toRadio()).collect(toList());
 
         MuiRadio first = radios.get(0);
+        MuiRadio second = radios.get(1);
         assertTrue(first.isEnabled());
         assertTrue(first.isSelected());
-        first.click();
+        second.click();
         assertFalse(first.isSelected());
         first.click();
         assertTrue(first.isSelected());
@@ -289,6 +290,22 @@ public class MuiShowCase extends AbstractBrowserSupport {
         MuiRadio disabled = radios.get(4);
         assertTrue(disabled.isSelected());
         assertFalse(disabled.isEnabled());
+    }
+
+    public void testRadioGroup() {
+        driver.navigate().to("https://material-ui.com/components/radio-buttons/");
+
+        WebComponent contentDriverParent = driver
+                .findComponents(By2.attr("href", "#radiogroup").anyDepthAbsolute().contains().tag("a").build())
+                .get(1).findComponent(By.xpath("parent::*"));
+
+        MuiRadioGroup group = contentDriverParent.as(mui()).toRadioGroup();
+        List<MuiRadio> radios = group.getRadios();
+
+        assertEquals(4, radios.size());
+        assertEquals(4L, radios.stream().filter(MuiRadio::validate).count());
+        assertFalse(radios.get(3).isEnabled());
+        assertTrue(radios.get(0).isEnabled());
     }
 
     public void testBreadcrumbs() {
@@ -401,6 +418,7 @@ public class MuiShowCase extends AbstractBrowserSupport {
             test.testTabs();
             test.testDialog();
             test.testRadio();
+            test.testRadioGroup();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

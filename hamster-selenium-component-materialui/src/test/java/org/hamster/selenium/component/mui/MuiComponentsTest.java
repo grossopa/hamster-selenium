@@ -124,6 +124,11 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toRadioGroup() {
+        assertEquals(element, testSubject.toRadioGroup().getWrappedElement());
+    }
+
+    @Test
     void toLink() {
         assertEquals(element, testSubject.toLink().getWrappedElement());
     }

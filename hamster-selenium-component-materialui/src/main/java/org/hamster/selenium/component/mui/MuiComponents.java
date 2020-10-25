@@ -189,6 +189,15 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the current {@link WebComponent} to {@link MuiRadio}.
+     *
+     * @return the wrapped {@link MuiRadio} instance on the given component
+     */
+    public MuiRadioGroup toRadioGroup() {
+        return new MuiRadioGroup(component, driver, config);
+    }
+
+    /**
      * Wraps the current {@link WebComponent} to {@link MuiLink}.
      *
      * @return the wrapped {@link MuiLink} instance on the given component

@@ -65,6 +65,15 @@ public class MuiConfig {
     }
 
     /**
+     * For locating the radio from direct parent container
+     *
+     * @return the instance of radio locator
+     */
+    public By radioLocator() {
+        return By2.attr(ATTR_CLASS, getRootCss("Radio")).contains().build();
+    }
+
+    /**
      * For locating the popover layer of current page.
      * <p>
      * Default xpath: /html/body/div[contains(@class, 'MuiPopover')]
