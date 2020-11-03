@@ -54,7 +54,7 @@ class MuiTextFieldTest {
     @BeforeEach
     void setUp() {
         when(element.findElement(
-                eq(By2.attr("class", config.getCssPrefix() + "Input-input").contains().anyDepthChild().tag("input")
+                eq(By2.attr("class", config.getCssPrefix() + "InputBase-input").contains().anyDepthChild().tag("input")
                         .build()))).thenReturn(input);
         when(element.findElement(eq(By2.contains("class", config.getCssPrefix() + "InputLabel-root", "label"))))
                 .thenReturn(label);
