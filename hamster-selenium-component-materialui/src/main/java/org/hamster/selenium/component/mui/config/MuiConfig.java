@@ -70,7 +70,7 @@ public class MuiConfig {
      * @return the instance of radio locator
      */
     public By radioLocator() {
-        return By2.attr(ATTR_CLASS, getRootCss("Radio")).contains().build();
+        return By.className(getRootCss("Radio"));
     }
 
     /**
@@ -106,8 +106,7 @@ public class MuiConfig {
     /**
      * Checks whether the component has the checked css present.
      *
-     * @param component
-     *         the component to check
+     * @param component the component to check
      * @return whether the checked css presents
      * @see #getIsCheckedCss()
      */
@@ -118,8 +117,7 @@ public class MuiConfig {
     /**
      * Checks whether the component has the selected css present.
      *
-     * @param component
-     *         the component to check
+     * @param component the component to check
      * @return whether the selected css presents
      * @see #getIsSelectedCss()
      */
@@ -130,8 +128,7 @@ public class MuiConfig {
     /**
      * Checks whether the component has the disabled css present.
      *
-     * @param component
-     *         the component to check
+     * @param component the component to check
      * @return whether the disabled css presents
      * @see #getIsDisabledCss()
      */
@@ -170,8 +167,7 @@ public class MuiConfig {
      * Builds the root component css name from the component name, it is used for determining the root node of all MUI
      * component.
      *
-     * @param componentName
-     *         the component name in camel format
+     * @param componentName the component name in camel format
      * @return the built css
      */
     public String getRootCss(String componentName) {
@@ -181,10 +177,8 @@ public class MuiConfig {
     /**
      * Validates whether the given component is the desired component by checking the css present.
      *
-     * @param component
-     *         the target component to check
-     * @param componentName
-     *         the component name
+     * @param component the target component to check
+     * @param componentName the component name
      * @return true for the {@link WebComponent} is the desired component type
      * @see #getRootCss(String)
      */
@@ -195,10 +189,8 @@ public class MuiConfig {
     /**
      * Validates whether the given component / item is the desired component by checking the css present.
      *
-     * @param component
-     *         the target component to check
-     * @param cssName
-     *         the expected css name
+     * @param component the target component to check
+     * @param cssName the expected css name
      * @return true for the {@link WebComponent} is the desired component/ item type
      * @see #getRootCss(String)
      */
@@ -213,10 +205,9 @@ public class MuiConfig {
      * no matter it's displayed or not, hence we need to explicitly exclude them from the search result sometimes for a
      * more accurate searching for e.g. {@link org.hamster.selenium.component.mui.MuiSelect}. </p>
      *
-     * @param driver
-     *         the current driver
-     * @param includeMenu
-     *         whether should include the menu layer with child could be found by {@link #menuPagerLocator()}
+     * @param driver the current driver
+     * @param includeMenu whether should include the menu layer with child could be found by {@link
+     * #menuPagerLocator()}
      * @return the visible presentation layer
      */
     public List<WebComponent> findVisiblePopoverLayers(ComponentWebDriver driver, boolean includeMenu) {

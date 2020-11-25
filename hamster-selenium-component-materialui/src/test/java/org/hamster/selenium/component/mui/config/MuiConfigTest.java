@@ -54,7 +54,7 @@ class MuiConfigTest {
 
     @Test
     void radioLocator() {
-        assertEquals("By.xpath: *[contains(@class, 'MuiRadio-root')]", testSubject.radioLocator().toString());
+        assertEquals("By.className: MuiRadio-root", testSubject.radioLocator().toString());
     }
 
     @Test

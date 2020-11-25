@@ -45,8 +45,8 @@ public class MuiRadioGroup extends AbstractMuiComponent {
      * @return the found radios
      */
     public List<MuiRadio> getRadios() {
-        return element.findElements(config.radioLocator()).stream()
-                .map(radio -> new MuiRadio(radio, driver, config)).collect(toList());
+        return element.findElements(config.radioLocator()).stream().map(radio -> new MuiRadio(radio, driver, config))
+                .collect(toList());
     }
 
     private WebComponent getFormGroup() {

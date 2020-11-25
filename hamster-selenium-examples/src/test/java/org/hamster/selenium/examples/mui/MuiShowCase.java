@@ -287,8 +287,8 @@ public class MuiShowCase extends AbstractBrowserSupport {
         first.click();
         assertTrue(first.isSelected());
 
-        MuiRadio disabled = radios.get(4);
-        assertTrue(disabled.isSelected());
+        MuiRadio disabled = radios.get(3);
+        assertFalse(disabled.isSelected());
         assertFalse(disabled.isEnabled());
     }
 
@@ -296,8 +296,7 @@ public class MuiShowCase extends AbstractBrowserSupport {
         driver.navigate().to("https://material-ui.com/components/radio-buttons/");
 
         WebComponent contentDriverParent = driver
-                .findComponents(By2.attr("href", "#radiogroup").anyDepthAbsolute().contains().tag("a").build())
-                .get(1).findComponent(By.xpath("parent::*"));
+                .findComponents(By2.attr("role", "radiogroup").anyDepthAbsolute().contains().build()).get(0);
 
         MuiRadioGroup group = contentDriverParent.as(mui()).toRadioGroup();
         List<MuiRadio> radios = group.getRadios();
