@@ -24,19 +24,20 @@
 
 package org.hamster.selenium.component.mui.navigation;
 
-import org.hamster.selenium.component.mui.MuiButton;
+import org.hamster.selenium.component.mui.AbstractMuiComponent;
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * The tab scrolling button when the tab items cannot be displayed within the {@link MuiTabs}.
+ * Accordions contain creation flows and allow lightweight editing of an element.
  *
  * @author Jack Yin
+ * @see <a href="https://material-ui.com/components/accordion/">
+ * https://material-ui.com/components/accordion/</a>
  * @since 1.0
  */
-public class MuiTabScrollButton extends MuiButton {
-
+public class MuiAccordionSummary extends AbstractMuiComponent {
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -44,12 +45,21 @@ public class MuiTabScrollButton extends MuiButton {
      * @param driver the root driver
      * @param config the Material UI configuration
      */
-    public MuiTabScrollButton(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    public MuiAccordionSummary(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
     @Override
     public String getComponentName() {
-        return "TabScrollButton";
+        return "AccordionSummary";
+    }
+
+    /**
+     * Determines whether the Accordion Summary part is expanded.
+     *
+     * @return whether the Accordion Summary part is expanded.
+     */
+    public boolean isExpand() {
+        return "true".equalsIgnoreCase(element.getAttribute("aria-expand"));
     }
 }

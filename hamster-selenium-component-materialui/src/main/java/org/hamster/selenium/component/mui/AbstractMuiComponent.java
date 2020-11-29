@@ -45,12 +45,9 @@ public abstract class AbstractMuiComponent extends DefaultWebComponent {
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public AbstractMuiComponent(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver);
