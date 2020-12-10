@@ -27,6 +27,7 @@ package org.hamster.selenium.examples.mui;
 import org.hamster.selenium.component.mui.MuiButton;
 import org.hamster.selenium.component.mui.MuiButtonGroup;
 import org.hamster.selenium.component.mui.MuiComponents;
+import org.hamster.selenium.component.mui.datadisplay.MuiAvatar;
 import org.hamster.selenium.component.mui.datadisplay.MuiBadge;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.locator.By2;
@@ -48,6 +49,27 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 1.0
  */
 public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
+
+    public void testAvatar() {
+        driver.navigate().to("https://material-ui.com/components/avatars/");
+
+        List<MuiAvatar> avatars = driver.findComponent(By.id("ImageAvatars.js")).findComponent(By.xpath("parent::*"))
+                .findComponents(By2.attr("class", "MuiAvatar-root").contains().anyDepthChild().build()).stream()
+                .map(c -> c.as(mui()).toAvatar()).collect(toList());
+
+        assertEquals(3, avatars.size());
+        assertEquals("Remy Sharp", avatars.get(0).getAlt());
+        assertEquals("https://material-ui.com/static/images/avatar/1.jpg", avatars.get(0).getSrc());
+
+        List<MuiAvatar> letterAvatars = driver.findComponent(By.id("LetterAvatars.js")).findComponent(By.xpath("parent::*"))
+                .findComponents(By2.attr("class", "MuiAvatar-root").contains().anyDepthChild().build()).stream()
+                .map(c -> c.as(mui()).toAvatar()).collect(toList());
+
+        assertEquals(3, letterAvatars.size());
+        assertEquals("H", letterAvatars.get(0).getText());
+        assertEquals("N", letterAvatars.get(1).getText());
+        assertEquals("OP", letterAvatars.get(2).getText());
+    }
 
     public void testBadge() {
         driver.navigate().to("https://material-ui.com/components/badges/");
@@ -82,6 +104,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
         MuiDataDisplayTestCases test = new MuiDataDisplayTestCases();
         try {
             test.setUpDriver(CHROME);
+            test.testAvatar();
             test.testBadge();
         } catch (Exception ex) {
             ex.printStackTrace();

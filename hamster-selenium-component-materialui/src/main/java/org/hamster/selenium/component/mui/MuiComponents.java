@@ -26,11 +26,9 @@ package org.hamster.selenium.component.mui;
 
 import lombok.Getter;
 import org.hamster.selenium.component.mui.config.MuiConfig;
+import org.hamster.selenium.component.mui.datadisplay.MuiAvatar;
 import org.hamster.selenium.component.mui.datadisplay.MuiBadge;
-import org.hamster.selenium.component.mui.navigation.MuiBottomNavigation;
-import org.hamster.selenium.component.mui.navigation.MuiBreadcrumbs;
-import org.hamster.selenium.component.mui.navigation.MuiLink;
-import org.hamster.selenium.component.mui.navigation.MuiTabs;
+import org.hamster.selenium.component.mui.navigation.*;
 import org.hamster.selenium.core.component.AbstractComponents;
 import org.hamster.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
@@ -229,6 +227,15 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiTabs toTabs() {
         return new MuiTabs(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAvatar}.
+     *
+     * @return the wrapped {@link MuiAvatar} instance on the given component
+     */
+    public MuiAvatar toAvatar() {
+        return new MuiAvatar(component, driver, config);
     }
 
     /**

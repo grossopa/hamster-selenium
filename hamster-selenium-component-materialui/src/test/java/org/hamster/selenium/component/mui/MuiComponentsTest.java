@@ -149,6 +149,11 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toAvatar() {
+        assertEquals(element, testSubject.toAvatar().getWrappedElement());
+    }
+
+    @Test
     void toBadge() {
         assertEquals(element, testSubject.toBadge().getWrappedElement());
     }
