@@ -28,6 +28,7 @@ import lombok.Getter;
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.component.mui.datadisplay.MuiAvatar;
 import org.hamster.selenium.component.mui.datadisplay.MuiBadge;
+import org.hamster.selenium.component.mui.datadisplay.MuiChip;
 import org.hamster.selenium.component.mui.navigation.*;
 import org.hamster.selenium.core.component.AbstractComponents;
 import org.hamster.selenium.core.component.WebComponent;
@@ -245,5 +246,14 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiBadge toBadge() {
         return new MuiBadge(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiChip}.
+     *
+     * @return the wrapped {@link MuiChip} instance on the given component
+     */
+    public MuiChip toChip() {
+        return new MuiChip(component, driver, config);
     }
 }
