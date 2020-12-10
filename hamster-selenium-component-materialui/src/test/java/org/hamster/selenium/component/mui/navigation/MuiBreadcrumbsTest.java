@@ -27,17 +27,13 @@ package org.hamster.selenium.component.mui.navigation;
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.component.mui.exception.BreadcrumbsAlreadyExpandedException;
 import org.hamster.selenium.core.ComponentWebDriver;
-import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.locator.By2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;

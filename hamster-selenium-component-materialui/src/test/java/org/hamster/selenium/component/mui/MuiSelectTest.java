@@ -44,7 +44,6 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link MuiSelect}

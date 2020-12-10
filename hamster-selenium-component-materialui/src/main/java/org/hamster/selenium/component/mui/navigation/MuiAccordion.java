@@ -34,8 +34,6 @@ import org.openqa.selenium.WebElement;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static org.hamster.selenium.component.mui.MuiComponents.mui;
-
 /**
  * Accordions contain creation flows and allow lightweight editing of an element.
  *

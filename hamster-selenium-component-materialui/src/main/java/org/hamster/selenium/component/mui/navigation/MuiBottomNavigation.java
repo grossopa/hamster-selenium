@@ -31,7 +31,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 

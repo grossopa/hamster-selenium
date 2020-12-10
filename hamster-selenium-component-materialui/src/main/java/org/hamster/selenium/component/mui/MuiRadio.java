@@ -2,8 +2,6 @@ package org.hamster.selenium.component.mui;
 
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
-import org.hamster.selenium.core.component.WebComponent;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 /**
