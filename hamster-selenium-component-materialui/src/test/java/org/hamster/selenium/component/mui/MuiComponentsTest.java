@@ -147,4 +147,9 @@ class MuiComponentsTest {
     void toTabs() {
         assertEquals(element, testSubject.toTabs().getWrappedElement());
     }
+
+    @Test
+    void toBadge() {
+        assertEquals(element, testSubject.toBadge().getWrappedElement());
+    }
 }

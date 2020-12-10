@@ -26,6 +26,7 @@ package org.hamster.selenium.component.mui;
 
 import lombok.Getter;
 import org.hamster.selenium.component.mui.config.MuiConfig;
+import org.hamster.selenium.component.mui.datadisplay.MuiBadge;
 import org.hamster.selenium.component.mui.navigation.MuiBottomNavigation;
 import org.hamster.selenium.component.mui.navigation.MuiBreadcrumbs;
 import org.hamster.selenium.component.mui.navigation.MuiLink;
@@ -59,8 +60,7 @@ public class MuiComponents extends AbstractComponents {
     /**
      * Constructs an instance with provided {@link MuiConfig}.
      *
-     * @param config
-     *         the MUI configuration instance
+     * @param config the MUI configuration instance
      */
     public MuiComponents(MuiConfig config) {
         this.config = requireNonNull(config);
@@ -78,8 +78,7 @@ public class MuiComponents extends AbstractComponents {
     /**
      * Creates an instance of {@link MuiComponents} with given {@link MuiConfig}.
      *
-     * @param config
-     *         the config instance
+     * @param config the config instance
      * @return the instance of {@link MuiComponents} with given {@link MuiConfig}.
      */
     public static MuiComponents mui(MuiConfig config) {
@@ -116,8 +115,8 @@ public class MuiComponents extends AbstractComponents {
     /**
      * Wraps the current {@link WebComponent} to {@link MuiSelect} instance.
      *
-     * @param optionLocator
-     *         the locator for locating the options (NOTE: it is the option element NOT the option container)
+     * @param optionLocator the locator for locating the options (NOTE: it is the option element NOT the option
+     * container)
      * @return wrapped {@link MuiSelect} instance on the given component
      */
     public MuiSelect toSelect(By optionLocator) {
@@ -128,11 +127,11 @@ public class MuiComponents extends AbstractComponents {
     /**
      * Wraps the current {@link WebComponent} to {@link MuiSelect} instance.
      *
-     * @param optionLocator
-     *         the locator for locating the options (NOTE: it is the option element NOT the option container)
-     * @param optionValueAttribute
-     *         if the option value will be marked somewhere in the element. with this attribute it will make sure {@link
-     *         MuiSelect#selectByValue(String)} and {@link MuiSelect#deselectByValue(String)} works properly.
+     * @param optionLocator the locator for locating the options (NOTE: it is the option element NOT the option
+     * container)
+     * @param optionValueAttribute if the option value will be marked somewhere in the element. with this attribute it
+     * will make sure {@link MuiSelect#selectByValue(String)} and {@link MuiSelect#deselectByValue(String)} works
+     * properly.
      * @return wrapped {@link MuiSelect} instance on the given component
      */
     public MuiSelect toSelect(By optionLocator, String optionValueAttribute) {
@@ -153,8 +152,7 @@ public class MuiComponents extends AbstractComponents {
     /**
      * Wraps the current {@link WebComponent} to {@link MuiSlider} instance with scale function configured.
      *
-     * @param inverseScaleFunction
-     *         the non-null customized inverse scale function
+     * @param inverseScaleFunction the non-null customized inverse scale function
      * @return the wrapped {@link MuiSlider} instance on the given component
      */
     public MuiSlider toSlider(Function<Double, Double> inverseScaleFunction) {
@@ -231,5 +229,14 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiTabs toTabs() {
         return new MuiTabs(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiBadge}.
+     *
+     * @return the wrapped {@link MuiBadge} instance on the given component
+     */
+    public MuiBadge toBadge() {
+        return new MuiBadge(component, driver, config);
     }
 }

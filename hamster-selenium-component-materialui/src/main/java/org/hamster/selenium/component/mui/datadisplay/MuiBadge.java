@@ -1,6 +1,6 @@
 package org.hamster.selenium.component.mui.datadisplay;
 
-import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hamster.selenium.component.mui.AbstractMuiComponent;
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
@@ -8,7 +8,10 @@ import org.hamster.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nullable;
+import static java.lang.Integer.parseInt;
+import static java.util.Arrays.stream;
+import static org.apache.commons.lang3.StringUtils.endsWith;
+import static org.apache.commons.lang3.math.NumberUtils.isParsable;
 
 /**
  * Badge generates a small badge to the top-right of its child(ren).
@@ -46,11 +49,34 @@ public class MuiBadge extends AbstractMuiComponent {
      */
     public int getBadgeNumber() {
         String badgeText = getBadge().getText();
-        return NumberUtils.isParsable(badgeText) ? Integer.parseInt(badgeText) : 0;
+        if (endsWith(badgeText, "+")) {
+            badgeText = badgeText.substring(0, badgeText.length() - 1);
+        }
+        return isParsable(badgeText) ? parseInt(badgeText) : 0;
+    }
+
+    /**
+     * Whether the dot is displayed instead of numbers.
+     *
+     * @return whether the dot is displayed
+     */
+    public boolean isDotDisplayed() {
+        return stream(getBadge().getAttribute("class").split(" "))
+                .anyMatch(str -> str.equalsIgnoreCase(config.getCssPrefix() + "Badge-dot"));
     }
 
     @Override
     public String getComponentName() {
         return "Badge";
+    }
+
+    /**
+     * Whether the badge is displayed or not.
+     *
+     * @return whether the badge is displayed or not
+     */
+    public boolean isBadgeDisplayed() {
+        return stream(getBadge().getAttribute("class").split(" ")).map(StringUtils::trim)
+                .noneMatch(str -> str.equalsIgnoreCase(config.getCssPrefix() + "Badge-invisible"));
     }
 }
