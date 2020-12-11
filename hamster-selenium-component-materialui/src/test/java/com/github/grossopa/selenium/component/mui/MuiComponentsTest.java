@@ -78,6 +78,12 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toFab() {
+        assertEquals(element, testSubject.toFab().getWrappedElement());
+    }
+
+
+    @Test
     void toButtonGroup() {
         assertEquals(element, testSubject.toButtonGroup().getWrappedElement());
     }

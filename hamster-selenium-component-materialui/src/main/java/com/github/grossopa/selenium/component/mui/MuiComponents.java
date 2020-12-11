@@ -96,6 +96,15 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the current {@link WebComponent} to {@link MuiFab} instance.
+     *
+     * @return wrapped {@link MuiFab} instance on the given component
+     */
+    public MuiFab toFab() {
+        return new MuiFab(component, driver, config);
+    }
+
+    /**
      * Wraps the current {@link WebComponent} to {@link MuiButtonGroup} instance.
      *
      * @return wrapped {@link MuiButtonGroup} instance on the given component
