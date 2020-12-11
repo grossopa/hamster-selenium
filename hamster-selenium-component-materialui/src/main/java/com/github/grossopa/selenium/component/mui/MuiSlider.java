@@ -24,18 +24,18 @@
 
 package com.github.grossopa.selenium.component.mui;
 
-import lombok.SneakyThrows;
-import org.apache.commons.math3.util.Precision;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.util.WebComponentUtils;
+import lombok.SneakyThrows;
+import org.apache.commons.math3.util.Precision;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
@@ -101,7 +101,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets the raw value.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>59049</b></p>
+     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>59049</b></p>
      *
      * @return the raw value in String.
      */
@@ -113,7 +113,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets value in Integer.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>59049</b></p>
+     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>59049</b></p>
      *
      * @return the value in Integer.
      */
@@ -125,7 +125,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets value in Long.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>59049</b></p>
+     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>59049</b></p>
      *
      * @return the value in Long
      */
@@ -137,7 +137,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets value in Double.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>59049</b></p>
+     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>59049</b></p>
      *
      * @return the value in double
      */
@@ -149,7 +149,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets raw min value.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={2}, max={8}, scale={(x) => x ** 10}, then it should return <b>1024</b></p>
+     * position is at 50%, min={2}, max={8}, scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
      *
      * @return the raw min value.
      */
@@ -161,7 +161,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets min value in Integer.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={2}, max={8}, scale={(x) => x ** 10}, then it should return <b>1024</b></p>
+     * position is at 50%, min={2}, max={8}, scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
      *
      * @return the min value in Integer.
      */
@@ -173,7 +173,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets min value in Long.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={2}, max={8}, scale={(x) => x ** 10}, then it should return <b>1024</b></p>
+     * position is at 50%, min={2}, max={8}, scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
      *
      * @return the min value in Long
      */
@@ -185,7 +185,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets min value in Double.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={2}, max={8}, scale={(x) => x ** 10}, then it should return <b>1024</b></p>
+     * position is at 50%, min={2}, max={8}, scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
      *
      * @return the min value in double
      */
@@ -197,7 +197,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets raw max value.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>60466176</b></p>
+     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>60466176</b></p>
      *
      * @return the raw max value.
      */
@@ -209,7 +209,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets max value in Integer.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>60466176</b></p>
+     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>60466176</b></p>
      *
      * @return the max value in Integer.
      */
@@ -221,7 +221,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets max value in Long.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>60466176</b></p>
+     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>60466176</b></p>
      *
      * @return the max value in Long
      */
@@ -233,7 +233,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * Gets max value in Double.
      *
      * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then it should return <b>60466176</b></p>
+     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>60466176</b></p>
      *
      * @return the max value in double
      */
@@ -282,18 +282,19 @@ public class MuiSlider extends AbstractMuiComponent {
      * Move the first thumb to the specified value in Integer.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified value may not accurately reflect the real value, an example is that:
+     * specified value may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
      * for 550 and 560.
      * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
-     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then the value should be
      * <b>59049</b></p>
      *
      * @param value the new integer value to set
@@ -308,18 +309,19 @@ public class MuiSlider extends AbstractMuiComponent {
      * ascending order.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified value may not accurately reflect the real value, an example is that:
+     * specified value may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
      * for 550 and 560.
      * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
-     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then the value should be
      * <b>59049</b></p>
      *
      * @param index the thumb index
@@ -334,18 +336,19 @@ public class MuiSlider extends AbstractMuiComponent {
      * Move the target thumb to the specified value in Integer.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified value may not accurately reflect the real value, an example is that:
+     * specified value may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
      * for 550 and 560.
      * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
-     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then the value should be
      * <b>59049</b></p>
      *
      * @param thumb the target thumb to move
@@ -360,18 +363,19 @@ public class MuiSlider extends AbstractMuiComponent {
      * Move the first thumb by value.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified value may not accurately reflect the real value, an example is that:
+     * specified value may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
      * for 550 and 560.
      * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
-     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then the value should be
      * <b>59049</b></p>
      *
      * @param value the new long value to set
@@ -386,18 +390,19 @@ public class MuiSlider extends AbstractMuiComponent {
      * order.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified value may not accurately reflect the real value, an example is that:
+     * specified value may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
      * for 550 and 560.
      * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
-     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then the value should be
      * <b>59049</b></p>
      *
      * @param index the thumb index
@@ -412,18 +417,19 @@ public class MuiSlider extends AbstractMuiComponent {
      * Move the target thumb to the specified value in long.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified value may not accurately reflect the real value, an example is that:
+     * specified value may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
      * for 550 and 560.
      * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
-     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then the value should be
      * <b>59049</b></p>
      *
      * @param thumb the target thumb to move
@@ -438,18 +444,19 @@ public class MuiSlider extends AbstractMuiComponent {
      * Move the first thumb to the specified value in double.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified value may not accurately reflect the real value, an example is that:
+     * specified value may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
      * for 550 and 560.
      * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
-     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then the value should be
      * <b>59049</b></p>
      *
      * @param value the new double value to set
@@ -464,18 +471,19 @@ public class MuiSlider extends AbstractMuiComponent {
      * ascending order.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified value may not accurately reflect the real value, an example is that:
+     * specified value may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
      * for 550 and 560.
      * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
-     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then the value should be
      * <b>59049</b></p>
      *
      * @param index the thumb index
@@ -490,18 +498,19 @@ public class MuiSlider extends AbstractMuiComponent {
      * Move the target thumb to the specified value in double.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified value may not accurately reflect the real value, an example is that:
+     * specified value may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately set the value as 555 as the only possible locations are 55px and 56px
      * for 550 and 560.
      * </p>
      *
      * <p>If the slider is with scale function configured, it will accept the value as scaled value, for example, when
-     * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
+     * when the expected position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then the value should be
      * <b>59049</b></p>
      *
      * @param thumb the target thumb to move
@@ -512,7 +521,7 @@ public class MuiSlider extends AbstractMuiComponent {
         doSetValue(value, percentage -> moveThumb(thumb, percentage));
     }
 
-    private void doSetValue(Double value, Consumer<Double> moveThumbAction) {
+    private void doSetValue(Double value, DoubleConsumer moveThumbAction) {
         Double val = inverseScaleFunction.apply(value);
         Double maxValue = inverseScaleFunction.apply(getMaxValueDouble());
         Double minValue = inverseScaleFunction.apply(getMinValueDouble());
@@ -528,12 +537,13 @@ public class MuiSlider extends AbstractMuiComponent {
      * Moves the first thumb to the desired location in percentage.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified percentage may not accurately reflect the real value, an example is that:
+     * specified percentage may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately move the thumb to a position like 55.5% for value 555 as the only possible
      * locations are 55px and 56px for 550 and 560.
      * </p>
@@ -548,12 +558,13 @@ public class MuiSlider extends AbstractMuiComponent {
      * Moves the thumb to the desired location in percentage.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified percentage may not accurately reflect the real value, an example is that:
+     * specified percentage may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately move the thumb to a position like 55.5% for value 555 as the only possible
      * locations are 55px and 56px for 550 and 560.
      * </p>
@@ -569,12 +580,13 @@ public class MuiSlider extends AbstractMuiComponent {
      * Moves the thumb to the desired location in percentage.
      *
      * <p>Please note that due to this action is to simulate the user web page behaviour so it is possible that the
-     * specified percentage may not accurately reflect the real value, an example is that:
+     * specified percentage may not accurately reflect the real value, an example is that:</p>
      * <ul>
      *     <li>min value : 0</li>
      *     <li>min value : 1000</li>
      *     <li>slide width: 100px</li>
      * </ul>
+     * <p>
      * so it is not possible to accurately move the thumb to a position like 55.5% for value 555 as the only possible
      * locations are 55px and 56px for 550 and 560.
      * </p>
