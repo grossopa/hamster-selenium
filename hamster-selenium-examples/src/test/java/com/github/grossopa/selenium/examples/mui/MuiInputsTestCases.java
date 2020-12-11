@@ -24,10 +24,7 @@
 
 package com.github.grossopa.selenium.examples.mui;
 
-import com.github.grossopa.selenium.component.mui.*;
-import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
-import com.github.grossopa.selenium.component.mui.locator.MuiDialogLocator;
+import com.github.grossopa.selenium.component.mui.inputs.*;
 import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
@@ -49,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.0
  */
-public class MuiShowCase extends AbstractBrowserSupport {
+public class MuiInputsTestCases extends AbstractBrowserSupport {
 
     public void testButtonGroup() {
         driver.navigate().to("https://material-ui.com/components/buttons/");
@@ -376,6 +373,7 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertTrue(actions.get(0).isSelected());
     }
 
+    @SuppressWarnings("squid:S2925")
     public void testTabs() throws InterruptedException {
         driver.navigate().to("https://material-ui.com/components/tabs/");
 
@@ -411,22 +409,8 @@ public class MuiShowCase extends AbstractBrowserSupport {
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-0")).isDisplayed());
     }
 
-    public void testDialog() throws InterruptedException {
-        driver.navigate().to("https://material-ui.com/components/dialogs/");
-        MuiButton openSimpleDialogButton = driver.findComponent(By.xpath("//*[contains(text(), 'Open simple dialog')]"))
-                .findComponent(By.xpath("parent::*")).as(mui()).toButton();
-        openSimpleDialogButton.click();
-        List<MuiDialog> visibleDialogs = new MuiDialogLocator(driver, new MuiConfig()).findVisibleDialogs();
-        assertEquals(1, visibleDialogs.size());
-        Thread.sleep(500L);
-        visibleDialogs.get(0).closeDialog();
-        Thread.sleep(800L);
-        visibleDialogs = new MuiDialogLocator(driver, new MuiConfig()).findVisibleDialogs();
-        assertTrue(visibleDialogs.isEmpty());
-    }
-
     public static void main(String[] args) {
-        MuiShowCase test = new MuiShowCase();
+        MuiInputsTestCases test = new MuiInputsTestCases();
         try {
             test.setUpDriver(CHROME);
             test.testBreadcrumbs();
@@ -439,7 +423,6 @@ public class MuiShowCase extends AbstractBrowserSupport {
             test.testCheckBox();
             test.testBottomNavigation();
             test.testTabs();
-            test.testDialog();
             test.testRadio();
             test.testRadioGroup();
         } catch (Exception ex) {

@@ -22,30 +22,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui;
+package com.github.grossopa.selenium.component.mui.inputs;
 
+import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
-
 /**
- * The Material UI Radio implementation
+ * The Material UI Switch implementation
  *
- * @author Chenyu Wang
- * @see <a href="https://material-ui.com/components/radio-buttons/">
- * https://material-ui.com/components/radio-buttons/</a>
+ * @author Jack Yin
+ * @see <a href="https://material-ui.com/components/switches/">
+ * https://material-ui.com/components/switches/</a>
  * @since 1.0
  */
-public class MuiRadioGroup extends AbstractMuiComponent {
+public class MuiSwitch extends AbstractMuiComponent {
 
     /**
-     * Constructs an MuiRadioGroup instance with the delegated element and root driver
+     * Constructs an MuiSwitch instance with the delegated element and root driver
      *
      * @param element
      *         the delegated element
@@ -54,26 +51,26 @@ public class MuiRadioGroup extends AbstractMuiComponent {
      * @param config
      *         the Material UI configuration
      */
-    public MuiRadioGroup(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    public MuiSwitch(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
     @Override
     public String getComponentName() {
-        return "RadioGroup";
+        return "Switch";
     }
 
-    /**
-     * Finds and returns the radios belongs to this container.
-     *
-     * @return the found radios
-     */
-    public List<MuiRadio> getRadios() {
-        return element.findElements(config.radioLocator()).stream().map(radio -> new MuiRadio(radio, driver, config))
-                .collect(toList());
+    @Override
+    public boolean isSelected() {
+        return config.isChecked(getButton());
     }
 
-    private WebComponent getFormGroup() {
-        return this.findComponent(By.className(config.getCssPrefix() + "MuiFormGroup-root"));
+    @Override
+    public boolean isEnabled() {
+        return !config.isDisabled(getButton());
+    }
+
+    private WebComponent getButton() {
+        return this.findComponent(By.className(config.getCssPrefix() + "IconButton-root"));
     }
 }

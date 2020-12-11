@@ -22,43 +22,45 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui;
+package com.github.grossopa.selenium.component.mui.inputs;
 
+import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * The Material UI CheckBox implementation
+ * a simple Material UI button
  *
  * @author Jack Yin
- * @see <a href="https://material-ui.com/components/checkboxes/">
- * https://material-ui.com/components/checkboxes/</a>
+ * @see <a href="https://material-ui.com/components/buttons/">
+ * https://material-ui.com/components/buttons/</a>
  * @since 1.0
  */
-public class MuiCheckbox extends AbstractMuiComponent {
+public class MuiButton extends AbstractMuiComponent {
 
     /**
-     * Constructs an MuiCheckBox instance with the delegated element and root driver
+     * Constructs an instance with the delegated element and root driver
      *
      * @param element
      *         the delegated element
      * @param driver
      *         the root driver
      * @param config
-     *         the Material UI configuration
+     *         the material UI global configuration
      */
-    public MuiCheckbox(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    public MuiButton(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
     @Override
     public String getComponentName() {
-        return "Checkbox";
+        return "Button";
     }
 
     @Override
     public boolean isSelected() {
-        return config.isChecked(this);
+        return config.isSelected(this);
     }
+
 }

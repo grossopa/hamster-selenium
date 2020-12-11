@@ -22,87 +22,89 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui;
+package com.github.grossopa.selenium.component.mui.inputs;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Tests for {@link MuiSwitch}
+ * Tests for {@link MuiSliderThumb}
  *
  * @author Jack Yin
  * @since 1.0
  */
-class MuiSwitchTest {
+class MuiSliderThumbTest {
 
-    MuiSwitch testSubject;
+    MuiSliderThumb testSubject;
+
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
-    WebElement button = mock(WebElement.class);
-
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("Mui");
-        when(config.getIsCheckedCss()).thenReturn("checked");
-        when(config.getIsDisabledCss()).thenReturn("disabled");
-
-        when(element.findElement(eq(By.className("MuiIconButton-root")))).thenReturn(button);
-        testSubject = new MuiSwitch(element, driver, config);
+        when(config.getCssPrefix()).thenReturn("Muiabc");
+        when(element.getAttribute("aria-valuetext")).thenReturn("The value is 30");
+        when(element.getAttribute("aria-valuemin")).thenReturn("20");
+        when(element.getAttribute("aria-valuemax")).thenReturn("800");
+        when(element.getAttribute("aria-valuenow")).thenReturn("30");
+        testSubject = new MuiSliderThumb(element, driver, config);
     }
-
 
     @Test
     void getComponentName() {
-        assertEquals("Switch", testSubject.getComponentName());
+        assertEquals("Slider-thumb", testSubject.getComponentName());
     }
 
     @Test
-    void isSelected() {
-        when(config.isChecked(any())).then(answer -> {
-            WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
-            return true;
-        });
-        assertTrue(testSubject.isSelected());
+    void validate() {
+        when(config.validateByCss(any(), eq("MuiabcSlider-thumb"))).thenReturn(true);
+        assertTrue(testSubject.validate());
     }
 
     @Test
-    void isSelectedNegative() {
-        when(config.isChecked(any())).then(answer -> {
-            WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
-            return false;
-        });
-        assertFalse(testSubject.isSelected());
+    void getPercentageHorizontal() {
+        when(element.getAttribute("aria-orientation")).thenReturn("horizontal");
+        when(element.getCssValue("left")).thenReturn("30%");
+        assertEquals("30%", testSubject.getPercentage());
     }
 
     @Test
-    void isEnabled() {
-        when(config.isSelected(any())).then(answer -> {
-            WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
-            return true;
-        });
-        assertTrue(testSubject.isEnabled());
+    void getPercentageVertical() {
+        when(element.getAttribute("aria-orientation")).thenReturn("vertical");
+        when(element.getCssValue("bottom")).thenReturn("30%");
+        assertEquals("30%", testSubject.getPercentage());
     }
 
     @Test
-    void isEnabledNegative() {
-        when(config.isSelected(any())).then(answer -> {
-            WebComponent component = answer.getArgument(0);
-            assertEquals(component.getWrappedElement(), button);
-            return false;
-        });
-        assertTrue(testSubject.isEnabled());
+    void getPercentageInvalid() {
+        when(element.getAttribute("orientation")).thenReturn("333");
+        assertThrows(IllegalStateException.class, () -> testSubject.getPercentage());
+    }
+
+    @Test
+    void getValueText() {
+        assertEquals("The value is 30", testSubject.getValueText());
+    }
+
+    @Test
+    void getMaxValue() {
+        assertEquals("800", testSubject.getMaxValue());
+    }
+
+    @Test
+    void getMinValue() {
+        assertEquals("20", testSubject.getMinValue());
+    }
+
+    @Test
+    void getValue() {
+        assertEquals("30", testSubject.getValue());
     }
 }

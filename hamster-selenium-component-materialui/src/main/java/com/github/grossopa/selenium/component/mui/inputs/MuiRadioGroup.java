@@ -22,50 +22,59 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui;
+package com.github.grossopa.selenium.component.mui.inputs;
 
+import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
- * Tests for {@link MuiCheckbox}
+ * The Material UI Radio implementation
  *
- * @author Jack Yin
+ * @author Chenyu Wang
+ * @see <a href="https://material-ui.com/components/radio-buttons/">
+ * https://material-ui.com/components/radio-buttons/</a>
  * @since 1.0
  */
-class MuiCheckboxTest {
+public class MuiRadioGroup extends AbstractMuiComponent {
 
-    MuiCheckbox testSubject;
-    WebElement element = mock(WebElement.class);
-    ComponentWebDriver driver = mock(ComponentWebDriver.class);
-    MuiConfig config = mock(MuiConfig.class);
-
-    @BeforeEach
-    void setUp() {
-        testSubject = new MuiCheckbox(element, driver, config);
+    /**
+     * Constructs an MuiRadioGroup instance with the delegated element and root driver
+     *
+     * @param element
+     *         the delegated element
+     * @param driver
+     *         the root driver
+     * @param config
+     *         the Material UI configuration
+     */
+    public MuiRadioGroup(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+        super(element, driver, config);
     }
 
-
-    @Test
-    void getComponentName() {
-        assertEquals("Checkbox", testSubject.getComponentName());
+    @Override
+    public String getComponentName() {
+        return "RadioGroup";
     }
 
-    @Test
-    void isSelected() {
-        when(config.isChecked(eq(testSubject))).thenReturn(true);
-        assertTrue(testSubject.isSelected());
+    /**
+     * Finds and returns the radios belongs to this container.
+     *
+     * @return the found radios
+     */
+    public List<MuiRadio> getRadios() {
+        return element.findElements(config.radioLocator()).stream().map(radio -> new MuiRadio(radio, driver, config))
+                .collect(toList());
     }
 
-    @Test
-    void isSelectedNegative() {
-        when(config.isChecked(eq(testSubject))).thenReturn(false);
-        assertFalse(testSubject.isSelected());
+    private WebComponent getFormGroup() {
+        return this.findComponent(By.className(config.getCssPrefix() + "MuiFormGroup-root"));
     }
 }

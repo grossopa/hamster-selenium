@@ -24,7 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.config;
 
-import com.github.grossopa.selenium.component.mui.MuiSelect;
+import com.github.grossopa.selenium.component.mui.inputs.MuiSelect;
 import lombok.Getter;
 import lombok.Setter;
 import com.github.grossopa.selenium.core.ComponentWebDriver;

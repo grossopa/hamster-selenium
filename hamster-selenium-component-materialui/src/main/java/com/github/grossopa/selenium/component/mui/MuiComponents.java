@@ -26,6 +26,7 @@ package com.github.grossopa.selenium.component.mui;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.datadisplay.*;
+import com.github.grossopa.selenium.component.mui.inputs.*;
 import com.github.grossopa.selenium.component.mui.navigation.MuiBottomNavigation;
 import com.github.grossopa.selenium.component.mui.navigation.MuiBreadcrumbs;
 import com.github.grossopa.selenium.component.mui.navigation.MuiLink;

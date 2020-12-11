@@ -22,48 +22,62 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui;
+package com.github.grossopa.selenium.component.mui.inputs;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.locator.By2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**
- * Tests for {@link MuiButtonGroup}
+ * Tests for {@link MuiTextField}
  *
  * @author Jack Yin
  * @since 1.0
  */
-class MuiButtonGroupTest {
+class MuiTextFieldTest {
 
-    MuiButtonGroup testSubject;
+    MuiTextField testSubject;
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
+    WebElement input = mock(WebElement.class);
+    WebElement label = mock(WebElement.class);
+
     @BeforeEach
     void setUp() {
-        testSubject = new MuiButtonGroup(element, driver, config);
+        when(element.findElement(
+                eq(By2.attr("class", config.getCssPrefix() + "InputBase-input").contains().anyDepthChild().tag("input")
+                        .build()))).thenReturn(input);
+        when(element.findElement(eq(By2.contains("class", config.getCssPrefix() + "InputLabel-root", "label"))))
+                .thenReturn(label);
+        testSubject = new MuiTextField(element, driver, config);
     }
-
 
     @Test
     void getComponentName() {
-        assertEquals("ButtonGroup", testSubject.getComponentName());
+        assertEquals("TextField", testSubject.getComponentName());
     }
 
     @Test
-    void getButtons() {
-        when(config.buttonLocator()).thenReturn(By.cssSelector("MuiButton-root"));
-        when(element.findElements(eq(config.buttonLocator())))
-                .thenReturn(asList(mock(MuiButton.class), mock(MuiButton.class), mock(MuiButton.class)));
-        assertEquals(3, testSubject.getButtons().size());
+    void sendText() {
+        testSubject.sendText("abc");
+        verify(input, only()).sendKeys(eq("abc"));
+    }
+
+    @Test
+    void getInput() {
+        assertEquals(input, testSubject.getInput().getWrappedElement());
+    }
+
+    @Test
+    void getLabel() {
+        assertEquals(label, testSubject.getLabel().getWrappedElement());
     }
 }

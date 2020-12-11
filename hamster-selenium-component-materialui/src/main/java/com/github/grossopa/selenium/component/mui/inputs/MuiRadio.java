@@ -22,44 +22,44 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui;
+package com.github.grossopa.selenium.component.mui.inputs;
 
+import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * a simple Material UI button
+ * The Material UI Radio implementation
  *
- * @author Jack Yin
- * @see <a href="https://material-ui.com/components/buttons/">
- * https://material-ui.com/components/buttons/</a>
+ * @author Chenyu Wang
+ * @see <a href="https://material-ui.com/components/radio-buttons/">
+ * https://material-ui.com/components/radio-buttons/</a>
  * @since 1.0
  */
-public class MuiButton extends AbstractMuiComponent {
+public class MuiRadio extends AbstractMuiComponent {
 
     /**
-     * Constructs an instance with the delegated element and root driver
+     * Constructs an MuiRadio instance with the delegated element and root driver
      *
      * @param element
      *         the delegated element
      * @param driver
      *         the root driver
      * @param config
-     *         the material UI global configuration
+     *         the Material UI configuration
      */
-    public MuiButton(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    public MuiRadio(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
     @Override
     public String getComponentName() {
-        return "Button";
+        return "Radio";
     }
 
     @Override
     public boolean isSelected() {
-        return config.isSelected(this);
+        return config.isChecked(this);
     }
-
 }

@@ -22,54 +22,50 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui;
+package com.github.grossopa.selenium.component.mui.inputs;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.core.component.WebComponent;
-import org.openqa.selenium.By;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 /**
- * The Material UI Switch implementation
+ * Tests for {@link MuiCheckbox}
  *
  * @author Jack Yin
- * @see <a href="https://material-ui.com/components/switches/">
- * https://material-ui.com/components/switches/</a>
  * @since 1.0
  */
-public class MuiSwitch extends AbstractMuiComponent {
+class MuiCheckboxTest {
 
-    /**
-     * Constructs an MuiSwitch instance with the delegated element and root driver
-     *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
-     */
-    public MuiSwitch(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        super(element, driver, config);
+    MuiCheckbox testSubject;
+    WebElement element = mock(WebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
+    MuiConfig config = mock(MuiConfig.class);
+
+    @BeforeEach
+    void setUp() {
+        testSubject = new MuiCheckbox(element, driver, config);
     }
 
-    @Override
-    public String getComponentName() {
-        return "Switch";
+
+    @Test
+    void getComponentName() {
+        assertEquals("Checkbox", testSubject.getComponentName());
     }
 
-    @Override
-    public boolean isSelected() {
-        return config.isChecked(getButton());
+    @Test
+    void isSelected() {
+        when(config.isChecked(eq(testSubject))).thenReturn(true);
+        assertTrue(testSubject.isSelected());
     }
 
-    @Override
-    public boolean isEnabled() {
-        return !config.isDisabled(getButton());
-    }
-
-    private WebComponent getButton() {
-        return this.findComponent(By.className(config.getCssPrefix() + "IconButton-root"));
+    @Test
+    void isSelectedNegative() {
+        when(config.isChecked(eq(testSubject))).thenReturn(false);
+        assertFalse(testSubject.isSelected());
     }
 }

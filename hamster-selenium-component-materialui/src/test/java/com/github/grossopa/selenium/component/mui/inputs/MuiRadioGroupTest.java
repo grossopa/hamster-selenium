@@ -22,43 +22,48 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui;
+package com.github.grossopa.selenium.component.mui.inputs;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 /**
- * The Material UI Radio implementation
+ * Tests for {@link MuiRadioGroup}
  *
  * @author Chenyu Wang
- * @see <a href="https://material-ui.com/components/radio-buttons/">
- * https://material-ui.com/components/radio-buttons/</a>
  * @since 1.0
  */
-public class MuiRadio extends AbstractMuiComponent {
+public class MuiRadioGroupTest {
+    MuiRadioGroup testSubject;
+    WebElement element = mock(WebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
+    MuiConfig config = mock(MuiConfig.class);
 
-    /**
-     * Constructs an MuiRadio instance with the delegated element and root driver
-     *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
-     */
-    public MuiRadio(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        super(element, driver, config);
+    @BeforeEach
+    void setUp() {
+        testSubject = new MuiRadioGroup(element, driver, config);
     }
 
-    @Override
-    public String getComponentName() {
-        return "Radio";
+    @Test
+    void getComponentName() {
+        assertEquals("RadioGroup", testSubject.getComponentName());
     }
 
-    @Override
-    public boolean isSelected() {
-        return config.isChecked(this);
+    @Test
+    void getRadios() {
+        when(config.radioLocator()).thenReturn(By.cssSelector(".MuiRadio-root"));
+        when(element.findElements(eq(config.radioLocator())))
+                .thenReturn(asList(mock(MuiRadio.class), mock(MuiRadio.class), mock(MuiRadio.class)));
+        assertEquals(3, testSubject.getRadios().size());
     }
 }
