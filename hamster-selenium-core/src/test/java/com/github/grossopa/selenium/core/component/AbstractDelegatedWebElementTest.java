@@ -177,4 +177,15 @@ class AbstractDelegatedWebElementTest {
         testSubject.getId();
         verify(element, only()).getId();
     }
+
+    @Test
+    void getWrappedDriver() {
+        testSubject.getWrappedDriver();
+        verify(element, only()).getWrappedDriver();
+    }
+
+    @Test
+    void testToString() {
+        assertEquals(element.toString(), testSubject.toString());
+    }
 }
