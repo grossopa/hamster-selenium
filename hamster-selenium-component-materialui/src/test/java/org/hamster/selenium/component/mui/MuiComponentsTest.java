@@ -167,4 +167,14 @@ class MuiComponentsTest {
     void toDivider() {
         assertEquals(element, testSubject.toDivider().getWrappedElement());
     }
+
+    @Test
+    void toList() {
+        assertEquals(element, testSubject.toList().getWrappedElement());
+    }
+
+    @Test
+    void toListItem() {
+        assertEquals(element, testSubject.toListItem().getWrappedElement());
+    }
 }
