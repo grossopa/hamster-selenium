@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -104,7 +104,7 @@ class MuiComponentsTest {
 
     @Test
     void toSliderWithInverseScaleFunction() {
-        Function<Double, Double> inverseScaleFunction = x -> x * 3d;
+        UnaryOperator<Double> inverseScaleFunction = x -> x * 3d;
         assertEquals(inverseScaleFunction, testSubject.toSlider(inverseScaleFunction).getInverseScaleFunction());
     }
 
@@ -161,5 +161,10 @@ class MuiComponentsTest {
     @Test
     void toChip() {
         assertEquals(element, testSubject.toChip().getWrappedElement());
+    }
+
+    @Test
+    void toDivider() {
+        assertEquals(element, testSubject.toDivider().getWrappedElement());
     }
 }

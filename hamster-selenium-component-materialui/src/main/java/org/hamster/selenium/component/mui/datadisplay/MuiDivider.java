@@ -22,22 +22,43 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.hamster.selenium.core.component.factory;
+package org.hamster.selenium.component.mui.datadisplay;
 
+import org.hamster.selenium.component.mui.AbstractMuiComponent;
+import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
-import org.hamster.selenium.core.component.WebComponent;
 import org.openqa.selenium.WebElement;
 
-import java.util.function.BiFunction;
-
 /**
- * A simple WebComponent factory definition. The factory produces a customized instance of {@link WebComponent} with the
- * original {@link WebElement} and root {@link ComponentWebDriver}.
+ * Guidance and suggestions for using icons with Material-UI.
  *
- * @param <T> the  type of customized web component
  * @author Jack Yin
  * @since 1.0
  */
-public interface WebComponentFactory<T extends WebComponent>
-        extends BiFunction<WebElement, ComponentWebDriver, WebComponent> {
+public class MuiDivider extends AbstractMuiComponent {
+
+    /**
+     * Constructs an instance with the delegated element and root driver
+     *
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
+     */
+    public MuiDivider(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+        super(element, driver, config);
+    }
+
+    @Override
+    public String getComponentName() {
+        return "Divider";
+    }
+
+    /**
+     * Whether the divider is vertical.
+     *
+     * @return whether the divider is vertical.
+     */
+    public boolean isVertical() {
+        return this.attributeContains("class", config.getCssPrefix() + "Divider-vertical");
+    }
 }

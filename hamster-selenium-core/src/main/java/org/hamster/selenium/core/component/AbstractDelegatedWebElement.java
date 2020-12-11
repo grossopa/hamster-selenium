@@ -24,15 +24,12 @@
 
 package org.hamster.selenium.core.component;
 
-import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.internal.HasIdentity;
-import org.openqa.selenium.remote.Dialect;
 
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
@@ -55,7 +52,7 @@ public abstract class AbstractDelegatedWebElement
      *         the element to delegate. it will find the ultimate {@link WebElement} element if given object is actually
      *         a {@link WebComponent}.
      */
-    public AbstractDelegatedWebElement(WebElement element) {
+    protected AbstractDelegatedWebElement(WebElement element) {
         requireNonNull(element);
         WebElement targetElement = element;
 

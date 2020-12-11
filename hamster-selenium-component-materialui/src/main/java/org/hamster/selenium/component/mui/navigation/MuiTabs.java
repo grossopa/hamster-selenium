@@ -49,12 +49,9 @@ public class MuiTabs extends AbstractMuiComponent {
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiTabs(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -82,7 +79,7 @@ public class MuiTabs extends AbstractMuiComponent {
      */
     public Optional<MuiTabScrollButton> getPreviousScrollButton() {
         List<MuiTabScrollButton> buttons = findTabScrollButtons();
-        if (buttons.size() > 0) {
+        if (!buttons.isEmpty()) {
             return Optional.of(buttons.get(0));
         } else {
             return Optional.empty();

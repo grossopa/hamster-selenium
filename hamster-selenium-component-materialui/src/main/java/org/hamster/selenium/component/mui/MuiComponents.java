@@ -29,12 +29,16 @@ import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.component.mui.datadisplay.MuiAvatar;
 import org.hamster.selenium.component.mui.datadisplay.MuiBadge;
 import org.hamster.selenium.component.mui.datadisplay.MuiChip;
-import org.hamster.selenium.component.mui.navigation.*;
+import org.hamster.selenium.component.mui.datadisplay.MuiDivider;
+import org.hamster.selenium.component.mui.navigation.MuiBottomNavigation;
+import org.hamster.selenium.component.mui.navigation.MuiBreadcrumbs;
+import org.hamster.selenium.component.mui.navigation.MuiLink;
+import org.hamster.selenium.component.mui.navigation.MuiTabs;
 import org.hamster.selenium.core.component.AbstractComponents;
 import org.hamster.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import static java.util.Objects.requireNonNull;
 
@@ -154,7 +158,7 @@ public class MuiComponents extends AbstractComponents {
      * @param inverseScaleFunction the non-null customized inverse scale function
      * @return the wrapped {@link MuiSlider} instance on the given component
      */
-    public MuiSlider toSlider(Function<Double, Double> inverseScaleFunction) {
+    public MuiSlider toSlider(UnaryOperator<Double> inverseScaleFunction) {
         return new MuiSlider(component, driver, config, inverseScaleFunction);
     }
 
@@ -255,5 +259,14 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiChip toChip() {
         return new MuiChip(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiDivider}.
+     *
+     * @return the wrapped {@link MuiDivider} instance on the given component
+     */
+    public MuiDivider toDivider() {
+        return new MuiDivider(component, driver, config);
     }
 }

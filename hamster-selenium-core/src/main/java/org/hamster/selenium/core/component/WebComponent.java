@@ -56,8 +56,7 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
      * list if the timeout is reached.
      * </p>
      *
-     * @param by
-     *         The locating mechanism to use
+     * @param by The locating mechanism to use
      * @return A list of all {@link WebComponent}s, or an empty list if nothing matches.
      * @see org.openqa.selenium.By
      * @see org.openqa.selenium.WebDriver.Timeouts
@@ -76,11 +75,9 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
      * length response instead.
      * </p>
      *
-     * @param by
-     *         The locating mechanism
+     * @param by The locating mechanism
      * @return The first matching element on the current context.
-     * @throws NoSuchElementException
-     *         If no matching elements are found
+     * @throws NoSuchElementException If no matching elements are found
      * @see org.openqa.selenium.By
      * @see org.openqa.selenium.WebDriver.Timeouts
      */
@@ -89,23 +86,21 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
     /**
      * deprecated, in favor of {@link #findComponents(By)}
      *
-     * @param by
-     *         The locating mechanism to use
+     * @param by The locating mechanism to use
      * @return A list of all {@link WebElement}s, or an empty list if nothing matches
      * @deprecated in favor of {@link #findComponents(By)}
      */
-    @Deprecated
+    @Deprecated(since = "1.0")
     List<WebElement> findElements(By by);
 
     /**
      * deprecated, in favor of {@link #findComponent(By)}
      *
-     * @param by
-     *         The locating mechanism to use
+     * @param by The locating mechanism to use
      * @return A list of all {@link WebElement}s, or an empty list if nothing matches
      * @deprecated in favor of {@link #findComponent(By)}
      */
-    @Deprecated
+    @Deprecated(since = "1.0")
     WebElement findElement(By by);
 
     /**
@@ -113,10 +108,8 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
      * <br>
      * For example, {@code HtmlTable table = driver.findComponent(By.id("customers")).as(HtmlComponents.html()).toTable();}
      *
-     * @param components
-     *         the components instance
-     * @param <T>
-     *         the components type
+     * @param components the components instance
+     * @param <T> the components type
      * @return the created instance of {@link Components} with {@link Components#setContext(WebComponent,
      * ComponentWebDriver)} invoked.
      */
@@ -125,10 +118,8 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
     /**
      * Converts the current web component to particular component constructed by the factory.
      *
-     * @param factory
-     *         the factory instance to build the Component.
-     * @param <T>
-     *         the component type
+     * @param factory the factory instance to build the Component.
+     * @param <T> the component type
      * @return the built {@link WebComponent} instance
      */
     <T extends WebComponent> T to(WebComponentFactory<T> factory);
@@ -136,10 +127,8 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
     /**
      * Whether the attribute has the value, it uses space as the splitter.
      *
-     * @param attributeName
-     *         the name of the attribute
-     * @param attributeValue
-     *         the expected containing value of the attribute
+     * @param attributeName the name of the attribute
+     * @param attributeValue the expected containing value of the attribute
      * @return true for contains, false otherwise
      */
     boolean attributeContains(String attributeName, String attributeValue);

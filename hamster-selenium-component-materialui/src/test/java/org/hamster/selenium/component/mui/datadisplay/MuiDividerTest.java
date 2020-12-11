@@ -22,22 +22,51 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.hamster.selenium.core.component.factory;
+package org.hamster.selenium.component.mui.datadisplay;
 
+import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
-import org.hamster.selenium.core.component.WebComponent;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
-import java.util.function.BiFunction;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
 
 /**
- * A simple WebComponent factory definition. The factory produces a customized instance of {@link WebComponent} with the
- * original {@link WebElement} and root {@link ComponentWebDriver}.
+ * Tests for {@link MuiDivider}
  *
- * @param <T> the  type of customized web component
  * @author Jack Yin
  * @since 1.0
  */
-public interface WebComponentFactory<T extends WebComponent>
-        extends BiFunction<WebElement, ComponentWebDriver, WebComponent> {
+class MuiDividerTest {
+
+    MuiDivider testSubject;
+    WebElement element = mock(WebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
+    MuiConfig config = mock(MuiConfig.class);
+
+    @BeforeEach
+    void setUp() {
+        when(config.getCssPrefix()).thenReturn("Mui");
+        when(element.getAttribute("class")).thenReturn("MuiDivider-root MuiDivider-flexItem MuiDivider-vertical");
+        testSubject = new MuiDivider(element, driver, config);
+    }
+
+    @Test
+    void getComponentName() {
+        assertEquals("Divider", testSubject.getComponentName());
+    }
+
+    @Test
+    void isVertical() {
+        assertTrue(testSubject.isVertical());
+    }
+
+    @Test
+    void isVerticalFalse() {
+        when(element.getAttribute("class")).thenReturn("MuiDivider-root MuiDivider-flexItem");
+        assertFalse(testSubject.isVertical());
+    }
 }

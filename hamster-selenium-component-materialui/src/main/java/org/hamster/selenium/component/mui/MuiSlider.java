@@ -37,6 +37,7 @@ import org.openqa.selenium.interactions.Actions;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -51,19 +52,16 @@ import static java.util.stream.Collectors.toList;
  */
 public class MuiSlider extends AbstractMuiComponent {
 
-    public static final Function<Double, Double> DEFAULT_INVERSE_SCALE_FUNCTION = x -> x;
+    public static final UnaryOperator<Double> DEFAULT_INVERSE_SCALE_FUNCTION = x -> x;
 
-    private final Function<Double, Double> inverseScaleFunction;
+    private final UnaryOperator<Double> inverseScaleFunction;
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiSlider(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         this(element, driver, config, DEFAULT_INVERSE_SCALE_FUNCTION);
@@ -72,17 +70,13 @@ public class MuiSlider extends AbstractMuiComponent {
     /**
      * Constructs an instance with the delegated element, root driver and customized scale function.
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
-     * @param inverseScaleFunction
-     *         the INVERSE function of the original scale function
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
+     * @param inverseScaleFunction the INVERSE function of the original scale function
      */
     public MuiSlider(WebElement element, ComponentWebDriver driver, MuiConfig config,
-            Function<Double, Double> inverseScaleFunction) {
+            UnaryOperator<Double> inverseScaleFunction) {
         super(element, driver, config);
         requireNonNull(inverseScaleFunction);
         this.inverseScaleFunction = inverseScaleFunction;
@@ -302,8 +296,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
      * <b>59049</b></p>
      *
-     * @param value
-     *         the new integer value to set
+     * @param value the new integer value to set
      * @see #moveThumb(double)
      */
     public void setValue(Integer value) {
@@ -329,10 +322,8 @@ public class MuiSlider extends AbstractMuiComponent {
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
      * <b>59049</b></p>
      *
-     * @param index
-     *         the thumb index
-     * @param value
-     *         the new integer value to set
+     * @param index the thumb index
+     * @param value the new integer value to set
      * @see #moveThumb(double)
      */
     public void setValue(int index, Integer value) {
@@ -357,10 +348,8 @@ public class MuiSlider extends AbstractMuiComponent {
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
      * <b>59049</b></p>
      *
-     * @param thumb
-     *         the target thumb to move
-     * @param value
-     *         the new double value to set
+     * @param thumb the target thumb to move
+     * @param value the new double value to set
      * @see #moveThumb(double)
      */
     public void setValue(MuiSliderThumb thumb, Integer value) {
@@ -385,8 +374,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
      * <b>59049</b></p>
      *
-     * @param value
-     *         the new long value to set
+     * @param value the new long value to set
      * @see #moveThumb(double)
      */
     public void setValue(Long value) {
@@ -412,10 +400,8 @@ public class MuiSlider extends AbstractMuiComponent {
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
      * <b>59049</b></p>
      *
-     * @param index
-     *         the thumb index
-     * @param value
-     *         the new integer value to set
+     * @param index the thumb index
+     * @param value the new integer value to set
      * @see #moveThumb(double)
      */
     public void setValue(int index, Long value) {
@@ -440,10 +426,8 @@ public class MuiSlider extends AbstractMuiComponent {
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
      * <b>59049</b></p>
      *
-     * @param thumb
-     *         the target thumb to move
-     * @param value
-     *         the new double value to set
+     * @param thumb the target thumb to move
+     * @param value the new double value to set
      * @see #moveThumb(double)
      */
     public void setValue(MuiSliderThumb thumb, Long value) {
@@ -468,8 +452,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
      * <b>59049</b></p>
      *
-     * @param value
-     *         the new double value to set
+     * @param value the new double value to set
      * @see #moveThumb(double)
      */
     public void setValue(Double value) {
@@ -495,10 +478,8 @@ public class MuiSlider extends AbstractMuiComponent {
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
      * <b>59049</b></p>
      *
-     * @param index
-     *         the thumb index
-     * @param value
-     *         the new double value to set
+     * @param index the thumb index
+     * @param value the new double value to set
      * @see #moveThumb(double)
      */
     public void setValue(int index, Double value) {
@@ -523,10 +504,8 @@ public class MuiSlider extends AbstractMuiComponent {
      * when the expected position is at 50%, min={0}, max={6}, scale={(x) => x ** 10}, then the value should be
      * <b>59049</b></p>
      *
-     * @param thumb
-     *         the target thumb to move
-     * @param value
-     *         the new double value to set
+     * @param thumb the target thumb to move
+     * @param value the new double value to set
      * @see #moveThumb(double)
      */
     public void setValue(MuiSliderThumb thumb, Double value) {
@@ -559,8 +538,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * locations are 55px and 56px for 550 and 560.
      * </p>
      *
-     * @param percentage
-     *         the percentage to move to, must between [0.0, 1.0]
+     * @param percentage the percentage to move to, must between [0.0, 1.0]
      */
     public void moveThumb(double percentage) {
         moveThumb(getFirstThumb(), percentage);
@@ -580,10 +558,8 @@ public class MuiSlider extends AbstractMuiComponent {
      * locations are 55px and 56px for 550 and 560.
      * </p>
      *
-     * @param index
-     *         the index of the thumbs
-     * @param percentage
-     *         the percentage to move to, must between [0.0, 1.0]
+     * @param index the index of the thumbs
+     * @param percentage the percentage to move to, must between [0.0, 1.0]
      */
     public void moveThumb(int index, double percentage) {
         moveThumb(getAllThumbs().get(index), percentage);
@@ -603,10 +579,8 @@ public class MuiSlider extends AbstractMuiComponent {
      * locations are 55px and 56px for 550 and 560.
      * </p>
      *
-     * @param thumb
-     *         the thumb component to move
-     * @param percentage
-     *         the percentage to move to, must between [0.0, 1.0]
+     * @param thumb the thumb component to move
+     * @param percentage the percentage to move to, must between [0.0, 1.0]
      */
     @SneakyThrows
     @SuppressWarnings("squid:S2184")

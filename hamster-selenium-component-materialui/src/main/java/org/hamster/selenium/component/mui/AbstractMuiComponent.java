@@ -49,7 +49,7 @@ public abstract class AbstractMuiComponent extends DefaultWebComponent {
      * @param driver the root driver
      * @param config the Material UI configuration
      */
-    public AbstractMuiComponent(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    protected AbstractMuiComponent(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver);
         this.config = requireNonNull(config);
     }

@@ -54,8 +54,7 @@ public interface ComponentWebDriver
      * list if the timeout is reached.
      * </p>
      *
-     * @param by
-     *         The locating mechanism to use
+     * @param by The locating mechanism to use
      * @return A list of all {@link WebComponent}s, or an empty list if nothing matches
      * @see org.openqa.selenium.By
      * @see org.openqa.selenium.WebDriver.Timeouts
@@ -73,11 +72,9 @@ public interface ComponentWebDriver
      * length response instead.
      * </p>
      *
-     * @param by
-     *         The locating mechanism
+     * @param by The locating mechanism
      * @return The first matching element on the current page
-     * @throws NoSuchElementException
-     *         If no matching elements are found
+     * @throws NoSuchElementException If no matching elements are found
      * @see org.openqa.selenium.By
      * @see org.openqa.selenium.WebDriver.Timeouts
      */
@@ -86,30 +83,27 @@ public interface ComponentWebDriver
     /**
      * deprecated, in favor of {@link #findComponents(By)}
      *
-     * @param by
-     *         The locating mechanism to use
+     * @param by The locating mechanism to use
      * @return A list of all {@link WebElement}s, or an empty list if nothing matches
      * @deprecated in favor of {@link #findComponents(By)}
      */
-    @Deprecated
+    @Deprecated(since = "1.0")
     List<WebElement> findElements(By by);
 
     /**
      * deprecated, in favor of {@link #findComponent(By)}
      *
-     * @param by
-     *         The locating mechanism to use
+     * @param by The locating mechanism to use
      * @return A list of all {@link WebElement}s, or an empty list if nothing matches
      * @deprecated in favor of {@link #findComponent(By)}
      */
-    @Deprecated
+    @Deprecated(since = "1.0")
     WebElement findElement(By by);
 
     /**
      * Maps a given {@link WebElement} to {@link WebComponent}.
      *
-     * @param element
-     *         the element instance to map
+     * @param element the element instance to map
      * @return the mapped {@link WebComponent} instance
      */
     WebComponent mapElement(WebElement element);
