@@ -27,6 +27,7 @@ package org.hamster.selenium.examples.mui;
 import org.hamster.selenium.component.mui.datadisplay.MuiAvatar;
 import org.hamster.selenium.component.mui.datadisplay.MuiBadge;
 import org.hamster.selenium.component.mui.datadisplay.MuiChip;
+import org.hamster.selenium.component.mui.datadisplay.MuiList;
 import org.hamster.selenium.core.locator.By2;
 import org.hamster.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
@@ -146,6 +147,19 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
         assertEquals(expectedLabel, chip.getLabel().getText());
     }
 
+    public void testList() {
+        driver.navigate().to("https://material-ui.com/components/lists/");
+
+        List<MuiList> simpleLists = driver.findComponent(By.id("SimpleList.js")).findComponent(By.xpath("parent::*"))
+                .findComponents(By2.attr("class", "MuiList-root").contains().anyDepthChild().build()).stream()
+                .map(c -> c.as(mui()).toList()).collect(toList());
+
+        assertEquals(2, simpleLists.size());
+        assertEquals(2, simpleLists.get(0).getListItems().size());
+        assertEquals(2, simpleLists.get(1).getListItems().size());
+
+    }
+
     public static void main(String[] args) {
         MuiDataDisplayTestCases test = new MuiDataDisplayTestCases();
         try {
@@ -153,6 +167,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
             test.testAvatar();
             test.testBadge();
             test.testChip();
+            test.testList();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

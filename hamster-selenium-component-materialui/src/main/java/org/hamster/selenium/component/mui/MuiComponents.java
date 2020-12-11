@@ -26,10 +26,7 @@ package org.hamster.selenium.component.mui;
 
 import lombok.Getter;
 import org.hamster.selenium.component.mui.config.MuiConfig;
-import org.hamster.selenium.component.mui.datadisplay.MuiAvatar;
-import org.hamster.selenium.component.mui.datadisplay.MuiBadge;
-import org.hamster.selenium.component.mui.datadisplay.MuiChip;
-import org.hamster.selenium.component.mui.datadisplay.MuiDivider;
+import org.hamster.selenium.component.mui.datadisplay.*;
 import org.hamster.selenium.component.mui.navigation.MuiBottomNavigation;
 import org.hamster.selenium.component.mui.navigation.MuiBreadcrumbs;
 import org.hamster.selenium.component.mui.navigation.MuiLink;
@@ -268,5 +265,23 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiDivider toDivider() {
         return new MuiDivider(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiList}.
+     *
+     * @return the wrapped {@link MuiList} instance on the given component
+     */
+    public MuiList toList() {
+        return new MuiList(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiListItem}.
+     *
+     * @return the wrapped {@link MuiListItem} instance on the given component
+     */
+    public MuiListItem toListItem() {
+        return new MuiListItem(component, driver, config);
     }
 }

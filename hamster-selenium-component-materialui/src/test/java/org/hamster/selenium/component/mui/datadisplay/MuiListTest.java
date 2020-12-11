@@ -24,42 +24,50 @@
 
 package org.hamster.selenium.component.mui.datadisplay;
 
-import org.hamster.selenium.component.mui.AbstractMuiComponent;
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+import static org.openqa.selenium.By.xpath;
+
 /**
- * Guidance and suggestions for using icons with Material-UI.
+ * Tests for {@link MuiList}
  *
  * @author Jack Yin
- * @see <a href="https://material-ui.com/components/dividers/">https://material-ui.com/components/dividers/</a>
  * @since 1.0
  */
-public class MuiDivider extends AbstractMuiComponent {
+class MuiListTest {
 
-    /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     */
-    public MuiDivider(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        super(element, driver, config);
+    MuiList testSubject;
+    WebElement element = mock(WebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
+    MuiConfig config = mock(MuiConfig.class);
+
+    @BeforeEach
+    void setUp() {
+        List<WebElement> listItems = newArrayList(mock(WebElement.class), mock(WebElement.class),
+                mock(WebElement.class));
+
+        when(config.getCssPrefix()).thenReturn("Mui");
+        when(config.getRootCss(eq("ListItem"))).thenReturn("MuiListItem-root");
+        when(element.findElements(eq(xpath("*[contains(@class, 'MuiListItem-root')]")))).thenReturn(listItems);
+        testSubject = new MuiList(element, driver, config);
     }
 
-    @Override
-    public String getComponentName() {
-        return "Divider";
+    @Test
+    void getComponentName() {
+        assertEquals("List", testSubject.getComponentName());
     }
 
-    /**
-     * Whether the divider is vertical.
-     *
-     * @return whether the divider is vertical.
-     */
-    public boolean isVertical() {
-        return this.attributeContains("class", config.getCssPrefix() + "Divider-vertical");
+    @Test
+    void getListItems() {
+        assertEquals(3, testSubject.getListItems().size());
     }
 }

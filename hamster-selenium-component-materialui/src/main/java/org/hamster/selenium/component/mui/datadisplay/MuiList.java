@@ -27,16 +27,22 @@ package org.hamster.selenium.component.mui.datadisplay;
 import org.hamster.selenium.component.mui.AbstractMuiComponent;
 import org.hamster.selenium.component.mui.config.MuiConfig;
 import org.hamster.selenium.core.ComponentWebDriver;
+import org.hamster.selenium.core.component.WebComponent;
+import org.hamster.selenium.core.locator.By2;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
+
 /**
- * Guidance and suggestions for using icons with Material-UI.
+ * Lists are continuous, vertical indexes of text or images.
  *
  * @author Jack Yin
- * @see <a href="https://material-ui.com/components/dividers/">https://material-ui.com/components/dividers/</a>
+ * @see <a href="https://material-ui.com/components/lists/">https://material-ui.com/components/lists/</a>
  * @since 1.0
  */
-public class MuiDivider extends AbstractMuiComponent {
+public class MuiList extends AbstractMuiComponent {
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -45,21 +51,23 @@ public class MuiDivider extends AbstractMuiComponent {
      * @param driver the root driver
      * @param config the Material UI configuration
      */
-    public MuiDivider(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    public MuiList(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
     @Override
     public String getComponentName() {
-        return "Divider";
+        return "List";
     }
 
     /**
-     * Whether the divider is vertical.
+     * Finds all the {@link MuiListItem} under this list.
      *
-     * @return whether the divider is vertical.
+     * @return all the {@link MuiListItem} under this list.
      */
-    public boolean isVertical() {
-        return this.attributeContains("class", config.getCssPrefix() + "Divider-vertical");
+    public List<MuiListItem> getListItems() {
+        List<WebComponent> components = this.findComponents(
+                By2.attr("class", config.getRootCss("ListItem")).depthRelative().contains().build());
+        return components.stream().map(c -> new MuiListItem(c, driver, config)).collect(toList());
     }
 }
