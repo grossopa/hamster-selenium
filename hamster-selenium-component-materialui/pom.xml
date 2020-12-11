@@ -14,7 +14,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.hamster</groupId>
+      <groupId>org.github.grossopa</groupId>
       <artifactId>hamster-selenium-core</artifactId>
     </dependency>
   </dependencies>
