@@ -31,6 +31,7 @@ import com.github.grossopa.selenium.component.mui.navigation.MuiBottomNavigation
 import com.github.grossopa.selenium.component.mui.navigation.MuiBreadcrumbs;
 import com.github.grossopa.selenium.component.mui.navigation.MuiLink;
 import com.github.grossopa.selenium.component.mui.navigation.MuiTabs;
+import com.github.grossopa.selenium.component.mui.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.surfaces.MuiPager;
 import com.github.grossopa.selenium.core.component.AbstractComponents;
 import com.github.grossopa.selenium.core.component.WebComponent;
@@ -294,6 +295,15 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiListItem toListItem() {
         return new MuiListItem(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAppBar}.
+     *
+     * @return the wrapped {@link MuiAppBar} instance on the given component
+     */
+    public MuiAppBar toAppBar() {
+        return new MuiAppBar(component, driver, config);
     }
 
     /**

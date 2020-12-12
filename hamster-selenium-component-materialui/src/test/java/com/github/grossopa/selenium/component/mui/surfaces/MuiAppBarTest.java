@@ -34,25 +34,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
 /**
- * Tests for {@link MuiPager}
+ * Tests for {@link MuiAppBar}
  *
  * @author Jack Yin
  * @since 1.0
  */
-class MuiPagerTest {
+class MuiAppBarTest {
 
-    MuiPager testSubject;
+    MuiAppBar testSubject;
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
     @BeforeEach
     void setUp() {
-        testSubject = new MuiPager(element, driver, config);
+        testSubject = new MuiAppBar(element, driver, config);
     }
 
     @Test
     void getComponentName() {
-        assertEquals("Pager", testSubject.getComponentName());
+        assertEquals("AppBar", testSubject.getComponentName());
     }
 }

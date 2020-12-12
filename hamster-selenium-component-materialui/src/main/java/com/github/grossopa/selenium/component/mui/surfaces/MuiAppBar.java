@@ -24,35 +24,31 @@
 
 package com.github.grossopa.selenium.component.mui.surfaces;
 
+import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-
 /**
- * Tests for {@link MuiPager}
+ * The App Bar displays information and actions relating to the current screen.
  *
  * @author Jack Yin
  * @since 1.0
  */
-class MuiPagerTest {
-
-    MuiPager testSubject;
-    WebElement element = mock(WebElement.class);
-    ComponentWebDriver driver = mock(ComponentWebDriver.class);
-    MuiConfig config = mock(MuiConfig.class);
-
-    @BeforeEach
-    void setUp() {
-        testSubject = new MuiPager(element, driver, config);
+public class MuiAppBar extends AbstractMuiComponent {
+    /**
+     * Constructs an instance with the delegated element and root driver
+     *
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
+     */
+    public MuiAppBar(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+        super(element, driver, config);
     }
 
-    @Test
-    void getComponentName() {
-        assertEquals("Pager", testSubject.getComponentName());
+    @Override
+    public String getComponentName() {
+        return "AppBar";
     }
 }
