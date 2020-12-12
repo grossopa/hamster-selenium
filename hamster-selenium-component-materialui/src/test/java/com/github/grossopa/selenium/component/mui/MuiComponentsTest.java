@@ -183,4 +183,9 @@ class MuiComponentsTest {
     void toListItem() {
         assertEquals(element, testSubject.toListItem().getWrappedElement());
     }
+
+    @Test
+    void toPager() {
+        assertEquals(element, testSubject.toPager().getWrappedElement());
+    }
 }
