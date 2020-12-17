@@ -34,7 +34,7 @@
 
   <scm>
     <connection>scm:git:git://github.com/grossopa/hamster-selenium.git</connection>
-    <developerConnection>scm:git:ssh://github.com:grossopa/hamster-selenium.git</developerConnection>
+    <developerConnection>scm:git:ssh://github.com/grossopa/hamster-selenium.git</developerConnection>
     <url>http://github.com/grossopa/hamster-selenium/tree/main</url>
     <tag>HEAD</tag>
   </scm>
