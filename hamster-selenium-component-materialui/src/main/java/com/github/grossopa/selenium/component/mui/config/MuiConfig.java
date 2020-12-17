@@ -202,7 +202,7 @@ public class MuiConfig {
     /**
      * Finds the currently visible Popover layers.
      *
-     * <p>As of 2020-10, It seems that Menu component will by default produce a lot of presentation layer on the page
+     * <p>As of 2020-10, It seems that Menu component will by default produce a lot of presentation layers on the page
      * no matter it's displayed or not, hence we need to explicitly exclude them from the search result sometimes for a
      * more accurate searching for e.g. {@link MuiSelect}. </p>
      *
