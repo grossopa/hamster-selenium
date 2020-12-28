@@ -22,6 +22,22 @@ in the Material UI official page:
 Check hamster-selenium-examples module for the sample code.
 
 ## How to Use
+Plain HTML:
+
+    <dependency>
+      <groupId>com.github.grossopa</groupId>
+      <artifactId>hamster-selenium-component-html</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+Material UI:
+
+    <dependency>
+      <groupId>com.github.grossopa</groupId>
+      <artifactId>hamster-selenium-component-materialui</artifactId>
+      <version>1.0</version>
+    </dependency>
+
 Create a ComponentWebDriver from existing WebDriver:
 
 `ComponentWebDriver driver = new DefaultComponentWebDriver(webDriver);`
