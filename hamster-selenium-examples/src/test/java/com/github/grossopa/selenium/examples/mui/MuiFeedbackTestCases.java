@@ -55,7 +55,7 @@ public class MuiFeedbackTestCases extends AbstractBrowserSupport {
         List<MuiDialog> visibleDialogs = new MuiDialogLocator(driver, new MuiConfig()).findVisibleDialogs();
         assertEquals(1, visibleDialogs.size());
         Thread.sleep(500L);
-        visibleDialogs.get(0).closeDialog();
+        visibleDialogs.get(0).close();
         Thread.sleep(800L);
         visibleDialogs = new MuiDialogLocator(driver, new MuiConfig()).findVisibleDialogs();
         assertTrue(visibleDialogs.isEmpty());
