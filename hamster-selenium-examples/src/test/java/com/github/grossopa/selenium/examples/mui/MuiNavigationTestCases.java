@@ -24,7 +24,11 @@
 
 package com.github.grossopa.selenium.examples.mui;
 
+import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
+import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.component.mui.navigation.*;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
@@ -124,6 +128,24 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-0")).isDisplayed());
     }
 
+    @SuppressWarnings("squid:S2925")
+    public void testMenu() throws InterruptedException {
+        driver.navigate().to("https://material-ui.com/components/menus/");
+        MuiModalFinder modalFinder = new MuiModalFinder(driver, new MuiConfig());
+        // 6 Menu has keepMounted properties
+        assertEquals(6, modalFinder.findOverlays("Popover").size());
+        assertEquals(0, modalFinder.findVisibleOverlays("Popover").size());
+
+        // Simple Menu
+        MuiButton button = driver.findComponent(By.id("SimpleMenu.js")).findComponent(By.xpath("parent::*"))
+                .findComponent(By.className("MuiButton-root")).as(mui()).toButton();
+        button.click();
+        Thread.sleep(500L);
+        List<WebComponent> components = modalFinder.findVisibleOverlays("Popover");
+        assertEquals(1, components.size());
+        MuiMenu menu = components.get(0).findComponent(By.className("MuiMenu-list")).as(mui()).toMenu();
+        assertEquals(3, menu.getMenuItems().size());
+    }
 
     public static void main(String[] args) {
         MuiNavigationTestCases test = new MuiNavigationTestCases();
@@ -132,6 +154,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
             test.testBottomNavigation();
             test.testBreadcrumbs();
             test.testTabs();
+            test.testMenu();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

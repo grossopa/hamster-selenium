@@ -193,4 +193,9 @@ class MuiComponentsTest {
     void toAppBar() {
         assertEquals(element, testSubject.toAppBar().getWrappedElement());
     }
+
+    @Test
+    void toMenu() {
+        assertEquals(element, testSubject.toMenu().getWrappedElement());
+    }
 }

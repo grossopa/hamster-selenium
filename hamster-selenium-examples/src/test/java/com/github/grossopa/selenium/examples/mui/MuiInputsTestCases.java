@@ -396,7 +396,6 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
 
         automaticScrollTabs.getTabs().get(3).click();
         Thread.sleep(600L);
-        //driver.moveTo(driver.findComponent(By.id("scrollable-force-tabpanel-3")));
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-3")).isDisplayed());
         automaticScrollTabs.getTabs().get(5).click();
         Thread.sleep(600L);
@@ -413,18 +412,18 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
         MuiInputsTestCases test = new MuiInputsTestCases();
         try {
             test.setUpDriver(CHROME);
-//            test.testBreadcrumbs();
-//            test.testTextInput();
-//            test.testSwitch();
-//            test.testSlider();
+            test.testBreadcrumbs();
+            test.testTextInput();
+            test.testSwitch();
+            test.testSlider();
             test.testSelect();
-//            test.testSelectWithMenu();
-//            test.testButtonGroup();
-//            test.testCheckBox();
-//            test.testBottomNavigation();
-//            test.testTabs();
-//            test.testRadio();
-//            test.testRadioGroup();
+            test.testSelectWithMenu();
+            test.testButtonGroup();
+            test.testCheckBox();
+            test.testBottomNavigation();
+            test.testTabs();
+            test.testRadio();
+            test.testRadioGroup();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

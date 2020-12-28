@@ -27,10 +27,7 @@ package com.github.grossopa.selenium.component.mui;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.inputs.*;
-import com.github.grossopa.selenium.component.mui.navigation.MuiBottomNavigation;
-import com.github.grossopa.selenium.component.mui.navigation.MuiBreadcrumbs;
-import com.github.grossopa.selenium.component.mui.navigation.MuiLink;
-import com.github.grossopa.selenium.component.mui.navigation.MuiTabs;
+import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.component.mui.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.surfaces.MuiPager;
 import com.github.grossopa.selenium.core.component.AbstractComponents;
@@ -313,5 +310,14 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiPager toPager() {
         return new MuiPager(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiMenu}.
+     *
+     * @return the wrapped {@link MuiMenu} instance on the given component
+     */
+    public MuiMenu toMenu() {
+        return new MuiMenu(component, driver, config);
     }
 }
