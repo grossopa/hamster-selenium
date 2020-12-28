@@ -24,12 +24,11 @@
 
 package com.github.grossopa.selenium.component.mui.feedback;
 
-import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.core.MuiModal;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -41,7 +40,7 @@ import org.openqa.selenium.WebElement;
  * https://material-ui.com/components/dialogs/</a>
  * @since 1.0
  */
-public class MuiDialog extends AbstractMuiComponent {
+public class MuiDialog extends MuiModal {
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -98,13 +97,6 @@ public class MuiDialog extends AbstractMuiComponent {
      */
     public WebComponent getDialogActions() {
         return this.findComponent(By.className(config.getCssPrefix() + "DialogActions-root"));
-    }
-
-    /**
-     * Closes current Dialog
-     */
-    public void closeDialog() {
-        driver.createActions().sendKeys(Keys.ESCAPE).perform();
     }
 
 }

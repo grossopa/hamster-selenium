@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.component.mui.inputs;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.core.MuiPopover;
 import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
@@ -81,9 +82,9 @@ class MuiSelectTest {
 
     @SuppressWarnings("deprecation")
     private void mockOptionOpen() {
-        when(driver.findComponent(eq(config.popoverLocator()))).thenReturn(optionContainer);
-        when(driver.findComponents(eq(config.popoverLocator()))).thenReturn(singletonList(optionContainer));
-        when(driver.findElement(eq(config.popoverLocator()))).thenReturn(optionContainer);
+        when(driver.findComponent(eq(By.xpath("/html/body/div")))).thenReturn(optionContainer);
+        when(driver.findComponents(eq(By.xpath("/html/body/div")))).thenReturn(singletonList(optionContainer));
+        when(driver.findElement(eq(By.xpath("/html/body/div")))).thenReturn(optionContainer);
         when(driver.mapElement(eq(optionContainer))).thenReturn(optionContainer);
         when(optionContainer.findComponents(eq(By.className("option")))).thenReturn(options);
         when(optionContainer.isDisplayed()).thenReturn(true);
@@ -92,9 +93,9 @@ class MuiSelectTest {
 
     @SuppressWarnings("deprecation")
     private void mockOptionsClose() {
-        when(driver.findComponent(eq(config.popoverLocator()))).thenReturn(null);
-        when(driver.findComponents(eq(config.popoverLocator()))).thenReturn(emptyList());
-        when(driver.findElement(eq(config.popoverLocator()))).thenThrow(new NoSuchElementException("some"));
+        when(driver.findComponent(eq(By.xpath("/html/body/div")))).thenReturn(null);
+        when(driver.findComponents(eq(By.xpath("/html/body/div")))).thenReturn(emptyList());
+        when(driver.findElement(eq(By.xpath("/html/body/div")))).thenThrow(new NoSuchElementException("some"));
         when(driver.mapElement(eq(optionContainer))).thenReturn(null);
         when(optionContainer.findComponents(eq(By.className("option")))).thenReturn(emptyList());
         when(optionContainer.isDisplayed()).thenReturn(false);
@@ -109,16 +110,18 @@ class MuiSelectTest {
         when(menuPagerComponent.isDisplayed()).thenReturn(true);
         when(menuPagerContainer.findComponents(eq(config.menuPagerLocator())))
                 .thenReturn(singletonList(menuPagerComponent));
-        when(driver.findComponents(eq(config.popoverLocator())))
-                .thenReturn(asList(menuPagerContainer, optionContainer));
+        when(driver.findComponents(By.xpath("/html/body/div"))).thenReturn(asList(menuPagerContainer, optionContainer));
     }
 
     @BeforeEach
     void setUp() {
-        when(config.findVisiblePopoverLayers(any(), anyBoolean())).thenCallRealMethod();
-        when(config.popoverLocator()).thenReturn(By.xpath("/pop/over"));
+        when(driver.findComponents(By.xpath("/html/body/div"))).thenReturn(singletonList(optionContainer));
+        when(optionContainer.getAttribute("class")).thenReturn("MuiPopover-root");
+        when(optionContainer.isDisplayed()).thenReturn(true);
+
+        when(config.getOverlayAbsolutePath()).thenReturn("/html/body");
         when(config.menuPagerLocator()).thenReturn(By.className("MuiMenu-pager"));
-        when(driver.findComponents(eq(config.popoverLocator()))).thenReturn(singletonList(optionContainer));
+        when(config.getRootCss(eq(MuiPopover.COMPONENT_NAME))).thenReturn("MuiPopover-root");
 
         options = asList(createOptions("val-0", "Label 0", false),
                 createOptions("val-1", "Label 1 some label 123", true),
@@ -126,6 +129,8 @@ class MuiSelectTest {
                 createOptions("val-3", "Label 3 some label 123", false),
                 createOptions("val-4", "Label 4 some label 123", true),
                 createOptions("val-5", "Label 5 some label 123", true));
+
+
 
         testSubject = new MuiSelect(element, driver, config, By.className("option"), "attr-val", openOptionsAction,
                 closeOptionsAction);
@@ -243,7 +248,7 @@ class MuiSelectTest {
         WebComponent container = testSubject.openOptions();
         assertEquals(this.optionContainer, container);
         verify(openOptionsAction, never()).open(any(), any());
-        verify(driver, only()).findComponents(eq(config.popoverLocator()));
+        verify(driver, only()).findComponents(eq(By.xpath("/html/body/div")));
         assertTrue(optionOpen);
     }
 

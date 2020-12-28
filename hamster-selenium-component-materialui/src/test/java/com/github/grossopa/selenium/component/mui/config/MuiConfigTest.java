@@ -58,12 +58,6 @@ class MuiConfigTest {
     }
 
     @Test
-    void popoverLocator() {
-        assertEquals("By.xpath: /html/body/div[contains(@class, 'MuiPopover-root')]",
-                testSubject.popoverLocator().toString());
-    }
-
-    @Test
     void sliderThumbLocator() {
         assertEquals("By.className: MuiSlider-thumb", testSubject.sliderThumbLocator().toString());
     }
@@ -170,4 +164,19 @@ class MuiConfigTest {
         assertEquals("some-other-prefix", testSubject.getCssPrefix());
     }
 
+    @Test
+    void setOverlayAbsolutePath() {
+        testSubject.setOverlayAbsolutePath("/some/absolute/path");
+        assertEquals("/some/absolute/path", testSubject.getOverlayAbsolutePath());
+    }
+
+    @Test
+    void getOverlayAbsolutePath() {
+        assertEquals("/html/body", testSubject.getOverlayAbsolutePath());
+    }
+
+    @Test
+    void getModalClasses() {
+        assertEquals(5, testSubject.getModalClasses().size());
+    }
 }

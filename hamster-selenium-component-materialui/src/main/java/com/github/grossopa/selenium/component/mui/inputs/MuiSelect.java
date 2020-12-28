@@ -28,7 +28,9 @@ import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.core.MuiPopover;
 import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
+import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
 import org.apache.commons.lang3.StringUtils;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
@@ -82,19 +84,17 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
     private final OpenOptionsAction openOptionsAction;
     private final CloseOptionsAction closeOptionsAction;
 
+    private final MuiModalFinder modalFinder;
+
     /**
      * Constructs an instance with the delegated element and root driver.
      *
      * <p>both Open option and Close option are default.</p>
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
-     * @param optionsLocator
-     *         the locator for finding the options
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
+     * @param optionsLocator the locator for finding the options
      */
     public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, By optionsLocator) {
         this(element, driver, config, optionsLocator, "data-value", DEFAULT_OPEN_OPTIONS_ACTION,
@@ -104,16 +104,11 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
-     * @param optionsLocator
-     *         the locator for finding the options
-     * @param optionValueAttribute
-     *         the value attribute of each option item
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
+     * @param optionsLocator the locator for finding the options
+     * @param optionValueAttribute the value attribute of each option item
      */
     public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, By optionsLocator,
             String optionValueAttribute) {
@@ -124,20 +119,13 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
-     * @param optionsLocator
-     *         the locator for finding the options
-     * @param optionValueAttribute
-     *         the value attribute of each option item
-     * @param openOptionsAction
-     *         the action to open the options
-     * @param closeOptionsAction
-     *         the action to close the options
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
+     * @param optionsLocator the locator for finding the options
+     * @param optionValueAttribute the value attribute of each option item
+     * @param openOptionsAction the action to open the options
+     * @param closeOptionsAction the action to close the options
      */
     public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, By optionsLocator,
             String optionValueAttribute, OpenOptionsAction openOptionsAction, CloseOptionsAction closeOptionsAction) {
@@ -146,6 +134,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
         this.optionsLocator = requireNonNull(optionsLocator);
         this.openOptionsAction = requireNonNull(openOptionsAction);
         this.closeOptionsAction = requireNonNull(closeOptionsAction);
+        this.modalFinder = new MuiModalFinder(driver, config);
     }
 
     @Override
@@ -198,9 +187,9 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
 
     @Override
     public WebComponent openOptions(Long delayInMillis) {
-        List<WebComponent> components = config.findVisiblePopoverLayers(driver, false);
-        if (!components.isEmpty()) {
-            return components.get(0);
+        WebComponent component = modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME);
+        if (component != null) {
+            return component;
         }
 
         this.openOptionsAction.open(this, driver);
@@ -209,9 +198,10 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
         if (delayInMillis > 0L) {
             WebDriverWait wait = new WebDriverWait(driver, 0L);
             wait.withTimeout(Duration.ofMillis(delayInMillis));
-            container = driver.mapElement(wait.until(d -> config.findVisiblePopoverLayers(driver, false).get(0)));
+            container = driver
+                    .mapElement(wait.until(d -> modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME)));
         } else {
-            container = config.findVisiblePopoverLayers(driver, false).get(0);
+            container = modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME);
         }
         return container;
     }
@@ -223,8 +213,8 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
 
     @Override
     public void closeOptions(Long delayInMillis) {
-        List<WebComponent> components = config.findVisiblePopoverLayers(driver, false);
-        if (components.isEmpty()) {
+        WebComponent component = modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME);
+        if (component == null) {
             return;
         }
 
@@ -235,13 +225,12 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
             WebDriverWait wait = new WebDriverWait(driver, 0L);
             wait.withTimeout(Duration.ofMillis(delayInMillis));
             wait.until(d -> {
-                List<WebComponent> visiblePopoverLayers = config.findVisiblePopoverLayers(driver, false);
-                return visiblePopoverLayers.isEmpty();
+                return modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME) == null;
             });
         } else {
-            List<WebComponent> containers = config.findVisiblePopoverLayers(driver, false);
-            if (!containers.isEmpty() && containers.get(0).isDisplayed()) {
-                throw new OptionNotClosedException("Option Popover is not properly closed " + config.popoverLocator());
+            WebComponent closedComponents = modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME);
+            if (closedComponents != null && closedComponents.isDisplayed()) {
+                throw new OptionNotClosedException("Option Popover is not properly closed.");
             }
         }
     }

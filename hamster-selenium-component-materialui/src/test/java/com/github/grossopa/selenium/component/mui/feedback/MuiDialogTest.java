@@ -94,7 +94,7 @@ class MuiDialogTest {
         Actions actions = mock(Actions.class);
         when(actions.sendKeys(any())).thenReturn(actions);
         when(driver.createActions()).thenReturn(actions);
-        testSubject.closeDialog();
+        testSubject.close();
         verify(actions, times(1)).sendKeys(eq(Keys.ESCAPE));
         verify(actions, times(1)).perform();
     }

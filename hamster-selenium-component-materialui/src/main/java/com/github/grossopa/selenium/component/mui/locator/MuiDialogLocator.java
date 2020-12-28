@@ -49,10 +49,8 @@ public class MuiDialogLocator {
     /**
      * Constructs an instance with given root driver.
      *
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material-UI configuration
+     * @param driver the root driver
+     * @param config the Material-UI configuration
      */
     public MuiDialogLocator(ComponentWebDriver driver, MuiConfig config) {
         requireNonNull(driver);
@@ -68,8 +66,9 @@ public class MuiDialogLocator {
      */
     public List<MuiDialog> findAllDialogs() {
         return driver.findComponents(By.xpath(
-                String.format("/html/body/div[contains(@class, '%s')]", config.getCssPrefix() + "Dialog-root")))
-                .stream().map(component -> new MuiDialog(component, driver, config)).collect(toList());
+                String.format("%s/div[contains(@class, '%s')]", config.getOverlayAbsolutePath(),
+                        config.getCssPrefix() + "Dialog-root"))).stream()
+                .map(component -> new MuiDialog(component, driver, config)).collect(toList());
     }
 
     /**

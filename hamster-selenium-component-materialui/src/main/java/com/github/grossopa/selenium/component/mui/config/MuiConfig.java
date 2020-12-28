@@ -24,18 +24,16 @@
 
 package com.github.grossopa.selenium.component.mui.config;
 
-import com.github.grossopa.selenium.component.mui.inputs.MuiSelect;
-import lombok.Getter;
-import lombok.Setter;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
+import lombok.Getter;
+import lombok.Setter;
 import org.openqa.selenium.By;
 
-import java.util.List;
+import java.util.Set;
 
-import static java.util.stream.Collectors.toList;
 import static com.github.grossopa.selenium.core.component.util.WebComponentUtils.attributeContains;
+import static com.google.common.collect.Sets.newHashSet;
 
 /**
  * The root configuration for material UI components
@@ -56,6 +54,33 @@ public class MuiConfig {
     @Getter
     private String cssPrefix = "Mui";
 
+    @SuppressWarnings("squid:S1075")
+    private String overlayAbsolutePath = "/html/body";
+
+    /**
+     * The overlays are displayed in the root level of React applications, this attribute helps to locate the container
+     * of the overlays such as Modal, Dialog, etc.
+     *
+     * <p>The default value is {@code /html/body}.</p>
+     *
+     * @param overlayAbsolutePath the new overlay absolute path to set
+     */
+    public void setOverlayAbsolutePath(String overlayAbsolutePath) {
+        this.overlayAbsolutePath = overlayAbsolutePath;
+    }
+
+    /**
+     * The overlays are displayed in the root level of React applications, this attribute helps to locate the container
+     * of the overlays such as Modal, Dialog, etc.
+     *
+     * <p>The default value is {@code /html/body}.</p>
+     *
+     * @return the overlay absolute xpath.
+     */
+    public String getOverlayAbsolutePath() {
+        return overlayAbsolutePath;
+    }
+
     /**
      * For locating the button from direct parent container
      *
@@ -72,18 +97,6 @@ public class MuiConfig {
      */
     public By radioLocator() {
         return By.className(getRootCss("Radio"));
-    }
-
-    /**
-     * For locating the popover layer of current page.
-     * <p>
-     * Default xpath: /html/body/div[contains(@class, 'MuiPopover')]
-     * </p>
-     *
-     * @return the instance of popover locator
-     */
-    public By popoverLocator() {
-        return By.xpath("/html/body/div[contains(@class, '" + getRootCss("Popover") + "')]");
     }
 
     /**
@@ -200,20 +213,12 @@ public class MuiConfig {
     }
 
     /**
-     * Finds the currently visible Popover layers.
+     * Gets the modals class list, they are Drawer, Dialog, Popover and Pager.
      *
-     * <p>As of 2020-10, It seems that Menu component will by default produce a lot of presentation layers on the page
-     * no matter it's displayed or not, hence we need to explicitly exclude them from the search result sometimes for a
-     * more accurate searching for e.g. {@link MuiSelect}. </p>
-     *
-     * @param driver the current driver
-     * @param includeMenu whether should include the menu layer with child could be found by {@link
-     * #menuPagerLocator()}
-     * @return the visible presentation layer
+     * @return the modals class list
      */
-    public List<WebComponent> findVisiblePopoverLayers(ComponentWebDriver driver, boolean includeMenu) {
-        return driver.findComponents(popoverLocator()).stream()
-                .filter(component -> component.isDisplayed() && !(!includeMenu && !component
-                        .findComponents(menuPagerLocator()).isEmpty())).collect(toList());
+    public Set<String> getModalClasses() {
+        return newHashSet(getRootCss("Drawer"), getRootCss("Dialog"), getRootCss("Popover"), getRootCss("Pager"),
+                getRootCss("Menu"));
     }
 }
