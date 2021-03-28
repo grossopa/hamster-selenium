@@ -36,8 +36,10 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static java.lang.System.out;
 import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**

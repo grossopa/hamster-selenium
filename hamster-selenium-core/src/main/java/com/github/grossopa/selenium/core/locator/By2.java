@@ -40,8 +40,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public abstract class By2 extends By {
 
     /**
-     * @param id
-     *         The value of the "id" attribute to search for.
+     * @param id The value of the "id" attribute to search for.
      * @return A By which locates elements by the value of the "id" attribute.
      */
     public static By id(String id) {
@@ -49,8 +48,7 @@ public abstract class By2 extends By {
     }
 
     /**
-     * @param linkText
-     *         The exact text to match against.
+     * @param linkText The exact text to match against.
      * @return A By which locates A elements by the exact text it displays.
      */
     public static By linkText(String linkText) {
@@ -58,8 +56,7 @@ public abstract class By2 extends By {
     }
 
     /**
-     * @param partialLinkText
-     *         The partial text to match against
+     * @param partialLinkText The partial text to match against
      * @return a By which locates elements that contain the given link text.
      */
     public static By partialLinkText(String partialLinkText) {
@@ -67,8 +64,7 @@ public abstract class By2 extends By {
     }
 
     /**
-     * @param name
-     *         The value of the "name" attribute to search for.
+     * @param name The value of the "name" attribute to search for.
      * @return A By which locates elements by the value of the "name" attribute.
      */
     public static By name(String name) {
@@ -76,8 +72,7 @@ public abstract class By2 extends By {
     }
 
     /**
-     * @param tagName
-     *         The element's tag name.
+     * @param tagName The element's tag name.
      * @return A By which locates elements by their tag name.
      */
     public static By tagName(String tagName) {
@@ -85,8 +80,7 @@ public abstract class By2 extends By {
     }
 
     /**
-     * @param xpathExpression
-     *         The XPath to use.
+     * @param xpathExpression The XPath to use.
      * @return A By which locates elements via XPath.
      */
     public static By xpath(String xpathExpression) {
@@ -98,8 +92,7 @@ public abstract class By2 extends By {
      * match against each of them. For example, if the value is "one two onone", then the class names "one" and "two"
      * will match.
      *
-     * @param className
-     *         The value of the "class" attribute to search for.
+     * @param className The value of the "class" attribute to search for.
      * @return A By which locates elements by the value of the "class" attribute.
      */
     public static By className(String className) {
@@ -111,8 +104,7 @@ public abstract class By2 extends By {
      * API, a best effort is made to emulate the API. In this case, we strive for at least CSS2 support, but offer no
      * guarantees.
      *
-     * @param cssSelector
-     *         CSS expression.
+     * @param cssSelector CSS expression.
      * @return A By which locates elements by CSS.
      */
     public static By cssSelector(String cssSelector) {
@@ -139,6 +131,10 @@ public abstract class By2 extends By {
         return new ByAttributeBuilder(attributeName, attributeValue);
     }
 
+    public static By text(String text) {
+        return By.xpath(String.format("//*[contains(text(), '%s')]", text.replace("'", "\\'")));
+    }
+
     /**
      * Builds the xpath for finding by attributes.
      *
@@ -158,10 +154,8 @@ public abstract class By2 extends By {
         /**
          * Constructs an instance with target searching attribute name and the desired value\
          *
-         * @param attributeName
-         *         the attribute name to search
-         * @param attributeValue
-         *         the attribute value to match
+         * @param attributeName the attribute name to search
+         * @param attributeValue the attribute value to match
          */
         public ByAttributeBuilder(String attributeName, String attributeValue) {
             this.attributeName = requireNonNull(attributeName);
@@ -221,8 +215,7 @@ public abstract class By2 extends By {
         /**
          * Specifies the target tag name, by default it is "*" to match any tags.
          *
-         * @param tagName
-         *         the tag name to search
+         * @param tagName the tag name to search
          * @return this builder instance
          */
         public ByAttributeBuilder tag(String tagName) {
