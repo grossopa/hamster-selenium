@@ -39,7 +39,7 @@ import java.io.IOException;
  */
 public class StartDriverService {
 
-    public static final String EXECUTABLE_PATH = "D://software/drivers/chromedriver-87.exe";
+    public static final String EXECUTABLE_PATH = "D://software/drivers/chromedriver-89.exe";
     public static final int PORT = 38383;
 
     public static void main(String[] args) throws IOException {

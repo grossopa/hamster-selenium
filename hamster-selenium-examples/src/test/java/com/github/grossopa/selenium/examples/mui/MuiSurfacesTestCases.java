@@ -24,9 +24,15 @@
 
 package com.github.grossopa.selenium.examples.mui;
 
+import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
+import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
+import org.openqa.selenium.By;
 
+import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test cases for Surfaces components.
@@ -38,12 +44,18 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
 
     public void testBackdrop() {
         driver.navigate().to("https://material-ui.com/components/backdrop/");
+        MuiButton button = driver.findComponent(By2.text("Show backdrop")).findComponent(By.xpath("parent::*"))
+                .as(mui()).toButton();
+        assertFalse(driver.findComponent(By.className("MuiBackdrop-root")).isDisplayed());
+        button.click();
+        assertTrue(driver.findComponent(By.className("MuiBackdrop-root")).isDisplayed());
     }
 
     public static void main(String[] args) {
         MuiSurfacesTestCases test = new MuiSurfacesTestCases();
         try {
             test.setUpDriver(CHROME);
+            test.testBackdrop();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
