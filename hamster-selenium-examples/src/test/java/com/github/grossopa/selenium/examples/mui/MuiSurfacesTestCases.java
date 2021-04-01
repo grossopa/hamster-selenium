@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.examples.mui;
 
+import com.github.grossopa.selenium.component.mui.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
@@ -46,9 +47,9 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://material-ui.com/components/backdrop/");
         MuiButton button = driver.findComponent(By2.text("Show backdrop")).findComponent(By.xpath("parent::*"))
                 .as(mui()).toButton();
-        assertFalse(driver.findComponent(By.className("MuiBackdrop-root")).isDisplayed());
+        assertFalse(driver.findComponent(By.className("MuiBackdrop-root")).as(mui()).toBackdrop().isDisplayed());
         button.click();
-        assertTrue(driver.findComponent(By.className("MuiBackdrop-root")).isDisplayed());
+        assertTrue(driver.findComponent(By.className("MuiBackdrop-root")).as(mui()).toBackdrop().isDisplayed());
     }
 
     public static void main(String[] args) {
