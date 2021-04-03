@@ -30,6 +30,7 @@ import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Interactive;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -113,6 +114,13 @@ public interface ComponentWebDriver
      * @return the created Actions instance
      */
     Actions createActions();
+
+    /**
+     * A shortcut to create new instance of {@link WebDriverWait} with milliseconds.
+     *
+     * @return the created {@link WebDriverWait} instance.
+     */
+    WebDriverWait createWait(long timeOutInMilliseconds);
 
     /**
      * Move mouse to the element. shortcut of {@code createActions().moveToElement(element).perform()}

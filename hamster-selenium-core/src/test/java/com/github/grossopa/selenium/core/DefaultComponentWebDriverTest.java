@@ -32,14 +32,14 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static java.lang.System.out;
 import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -80,7 +80,7 @@ class DefaultComponentWebDriverTest {
     @Test
     void get() {
         testSubject.get("some-url");
-        verify(driver, only()).get(eq("some-url"));
+        verify(driver, only()).get("some-url");
     }
 
     @Test
@@ -177,19 +177,19 @@ class DefaultComponentWebDriverTest {
     @Test
     void executeScript() {
         testSubject.executeScript("abc");
-        verify(driver, only()).executeScript(eq("abc"));
+        verify(driver, only()).executeScript("abc");
     }
 
     @Test
     void executeAsyncScript() {
         testSubject.executeAsyncScript("abc");
-        verify(driver, only()).executeAsyncScript(eq("abc"));
+        verify(driver, only()).executeAsyncScript("abc");
     }
 
     @Test
     void getScreenshotAs() {
         testSubject.getScreenshotAs(OutputType.BASE64);
-        verify(driver, only()).getScreenshotAs(eq(OutputType.BASE64));
+        verify(driver, only()).getScreenshotAs(OutputType.BASE64);
     }
 
     @Test
@@ -207,7 +207,7 @@ class DefaultComponentWebDriverTest {
     @Test
     void perform() {
         testSubject.perform(emptyList());
-        verify(driver, only()).perform(eq(emptyList()));
+        verify(driver, only()).perform(emptyList());
     }
 
     @Test
@@ -231,5 +231,11 @@ class DefaultComponentWebDriverTest {
         RemoteWebElement element = mock(RemoteWebElement.class);
         testSubject.moveTo(element);
         verify(element, never()).getLocation();
+    }
+
+    @Test
+    void createWait() {
+        WebDriverWait wait = testSubject.createWait(100L);
+        assertNotNull(wait);
     }
 }

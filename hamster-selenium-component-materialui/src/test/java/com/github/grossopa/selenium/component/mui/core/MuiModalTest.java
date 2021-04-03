@@ -28,12 +28,12 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
+import static org.openqa.selenium.Keys.ESCAPE;
 
 /**
  * Tests for {@link MuiModal}
@@ -63,10 +63,24 @@ class MuiModalTest {
     void close() {
         Actions actions = mock(Actions.class);
         when(driver.createActions()).thenReturn(actions);
-        when(actions.sendKeys(eq(Keys.ESCAPE))).thenReturn(actions);
+        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
 
         testSubject.close();
 
         verify(actions, times(1)).perform();
+    }
+
+    @Test
+    void closeWithWait() {
+        Actions actions = mock(Actions.class);
+        when(driver.createActions()).thenReturn(actions);
+        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
+
+        WebDriverWait wait = mock(WebDriverWait.class);
+        when(driver.createWait(anyLong())).thenReturn(wait);
+        testSubject.close(800L);
+
+        verify(actions, times(1)).perform();
+        verify(wait, times(1)).until(any());
     }
 }

@@ -28,7 +28,9 @@ import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.*;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -101,6 +103,13 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     @Override
     public Actions createActions() {
         return new Actions(this);
+    }
+
+    @Override
+    public WebDriverWait createWait(long waitInMilliseconds) {
+        WebDriverWait wait = new WebDriverWait(this, 0);
+        wait.withTimeout(Duration.ofMillis(waitInMilliseconds));
+        return wait;
     }
 
     @Override

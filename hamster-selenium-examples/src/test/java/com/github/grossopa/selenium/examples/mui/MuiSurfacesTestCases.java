@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.examples.mui;
 
+import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.core.locator.By2;
@@ -45,12 +46,14 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class MuiSurfacesTestCases extends AbstractBrowserSupport {
 
-    public void testBackdrop() {
+    @SuppressWarnings("java:S2925")
+    public void testBackdrop() throws InterruptedException {
         driver.navigate().to("https://material-ui.com/components/backdrop/");
         MuiButton button = driver.findComponent(By2.text("Show backdrop")).findComponent(By.xpath("parent::*"))
                 .as(mui()).toButton();
         assertFalse(driver.findComponent(By.className("MuiBackdrop-root")).as(mui()).toBackdrop().isDisplayed());
         button.click();
+        Thread.sleep(200L);
         assertTrue(driver.findComponent(By.className("MuiBackdrop-root")).as(mui()).toBackdrop().isDisplayed());
     }
 
@@ -71,7 +74,24 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
         MuiDialog dialog = dialogOpt.get();
         assertTrue(dialog.validate());
         assertEquals("Set backup account", dialog.getDialogTitle().getText());
+        dialog.close(800L);
 
+        MuiButton openAlertButton = driver.findComponent(By2.text("Open alert dialog")).findComponent(By2.parent())
+                .as(mui()).toButton();
+        driver.moveTo(openAlertButton);
+        openAlertButton.click();
+        Optional<MuiDialog> alertDialogOpt = driver.findComponents(By.className("MuiDialog-root")).stream()
+                .map(webComponent -> webComponent.as(mui()).toDialog()).filter(WebElement::isDisplayed).findFirst();
+        assertTrue(alertDialogOpt.isPresent());
+        MuiDialog alertDialog = alertDialogOpt.get();
+        assertTrue(alertDialog.validate());
+
+        assertEquals("Use Google's location service?", alertDialog.getDialogTitle().getText());
+        assertEquals("Let Google help apps determine location. This means sending anonymous "
+                + "location data to Google, even when no apps are running.", alertDialog.getDialogContent().getText());
+        assertEquals(2L, alertDialog.getDialogActions().findComponents(By.className("MuiButton-root")).stream()
+                .map(webComponent -> webComponent.as(mui()).toButton()).filter(AbstractMuiComponent::validate).count());
+        dialog.close(800L);
     }
 
     public static void main(String[] args) {

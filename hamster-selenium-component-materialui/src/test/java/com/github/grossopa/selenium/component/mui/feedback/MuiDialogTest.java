@@ -34,7 +34,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -89,7 +88,7 @@ class MuiDialogTest {
         when(actions.sendKeys(any())).thenReturn(actions);
         when(driver.createActions()).thenReturn(actions);
         testSubject.close();
-        verify(actions, times(1)).sendKeys(eq(Keys.ESCAPE));
+        verify(actions, times(1)).sendKeys(Keys.ESCAPE);
         verify(actions, times(1)).perform();
     }
 }
