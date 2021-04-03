@@ -63,12 +63,6 @@ class MuiDialogTest {
     }
 
     @Test
-    void validate() {
-        when(config.validateByCss(eq(testSubject), eq("MuiDialog-container"))).thenReturn(true);
-        assertTrue(testSubject.validate());
-    }
-
-    @Test
     void getDialogTitle() {
         WebElement titleElement = mock(WebElement.class);
         when(element.findElement(By.className("MuiDialogTitle-root"))).thenReturn(titleElement);

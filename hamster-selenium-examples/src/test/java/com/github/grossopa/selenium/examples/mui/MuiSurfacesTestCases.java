@@ -24,7 +24,6 @@
 
 package com.github.grossopa.selenium.examples.mui;
 
-import com.github.grossopa.selenium.component.mui.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.core.locator.By2;
