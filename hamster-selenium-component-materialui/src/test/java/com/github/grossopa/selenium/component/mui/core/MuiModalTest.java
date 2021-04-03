@@ -83,4 +83,19 @@ class MuiModalTest {
         verify(actions, times(1)).perform();
         verify(wait, times(1)).until(any());
     }
+
+    @Test
+    void closeWithWaitPositive() {
+        Actions actions = mock(Actions.class);
+        when(driver.createActions()).thenReturn(actions);
+        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
+        when(element.isDisplayed()).thenReturn(true);
+
+        WebDriverWait wait = mock(WebDriverWait.class);
+        when(driver.createWait(anyLong())).thenReturn(wait);
+        testSubject.close(50L);
+
+        verify(actions, times(1)).perform();
+        verify(wait, times(1)).until(any());
+    }
 }

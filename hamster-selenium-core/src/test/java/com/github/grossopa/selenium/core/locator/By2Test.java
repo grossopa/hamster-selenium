@@ -173,4 +173,15 @@ class By2Test {
         assertEquals("By.xpath: .//span[contains(@some-name, 'some-attr')]", result.toString());
     }
 
+    @Test
+    void text() {
+        By result = By2.text("some-test ''sbc");
+        assertEquals("By.xpath: //*[contains(text(), 'some-test \\'\\'sbc')]", result.toString());
+    }
+
+    @Test
+    void parent() {
+        By result = By2.parent();
+        assertEquals("By.xpath: parent::*", result.toString());
+    }
 }
