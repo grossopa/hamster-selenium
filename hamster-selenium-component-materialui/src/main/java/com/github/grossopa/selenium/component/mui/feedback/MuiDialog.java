@@ -44,12 +44,9 @@ public class MuiDialog extends MuiModal {
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material-UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material-UI configuration
      */
     public MuiDialog(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -58,16 +55,6 @@ public class MuiDialog extends MuiModal {
     @Override
     public String getComponentName() {
         return "Dialog";
-    }
-
-    /**
-     * Note the root element is MuiDialog-container which unlike other components ended with -root.
-     *
-     * @return true if the wrapped element is valid
-     */
-    @Override
-    public boolean validate() {
-        return config.validateByCss(this, config.getCssPrefix() + "Dialog-container");
     }
 
     /**

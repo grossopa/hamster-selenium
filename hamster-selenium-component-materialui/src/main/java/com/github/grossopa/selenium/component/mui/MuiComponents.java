@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.component.mui;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.feedback.MuiBackdrop;
+import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.inputs.*;
 import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.component.mui.surfaces.MuiAppBar;
@@ -35,7 +36,6 @@ import com.github.grossopa.selenium.core.component.AbstractComponents;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import lombok.Getter;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.util.function.UnaryOperator;
 
@@ -330,5 +330,14 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiBackdrop toBackdrop() {
         return new MuiBackdrop(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiDialog}.
+     *
+     * @return the wrapped {@link MuiDialog} instance on the given component
+     */
+    public MuiDialog toDialog() {
+        return new MuiDialog(component, driver, config);
     }
 }
