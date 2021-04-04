@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
+import com.github.grossopa.selenium.component.mui.feedback.MuiSnackbar;
 import com.github.grossopa.selenium.component.mui.inputs.*;
 import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.component.mui.surfaces.MuiAppBar;
@@ -339,5 +340,24 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiDialog toDialog() {
         return new MuiDialog(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSnackbar}.
+     *
+     * @return the wrapped {@link MuiSnackbar} instance on the given component
+     */
+    public MuiSnackbar toSnackbar() {
+        return new MuiSnackbar(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSnackbar}.
+     *
+     * @param autoHideDuration the autoHideDuration, should be a little longer than the value set in the component.
+     * @return the wrapped {@link MuiSnackbar} instance on the given component
+     */
+    public MuiSnackbar toSnackbar(long autoHideDuration) {
+        return new MuiSnackbar(component, driver, config, autoHideDuration);
     }
 }

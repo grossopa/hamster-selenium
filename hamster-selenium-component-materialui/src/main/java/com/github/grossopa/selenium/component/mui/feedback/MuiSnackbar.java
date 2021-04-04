@@ -30,9 +30,11 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.annotation.Nullable;
-import java.util.List;
+
+import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnoringStaleElementReference;
 
 /**
  * Snackbars provide brief messages about app processes. The component is also known as a toast.
@@ -43,6 +45,8 @@ import java.util.List;
  */
 public class MuiSnackbar extends AbstractMuiComponent {
 
+    private final Long autoHideDuration;
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -51,7 +55,20 @@ public class MuiSnackbar extends AbstractMuiComponent {
      * @param config the Material UI configuration
      */
     public MuiSnackbar(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+        this(element, driver, config, null);
+    }
+
+    /**
+     * Constructs an instance with the delegated element and root driver
+     *
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
+     * @param autoHideDuration optional, the autoHideDuration in milliseconds
+     */
+    public MuiSnackbar(WebElement element, ComponentWebDriver driver, MuiConfig config, Long autoHideDuration) {
         super(element, driver, config);
+        this.autoHideDuration = autoHideDuration;
     }
 
     /**
@@ -63,14 +80,49 @@ public class MuiSnackbar extends AbstractMuiComponent {
      *
      * @return the inner {@link MuiSnackbarContent} element.
      */
-    @Nullable
     public MuiSnackbarContent getContent() {
-        List<WebComponent> components = this.findComponents(By.className(config.getCssPrefix() + "SnackbarContent"));
-        return components.isEmpty() ? null : new MuiSnackbarContent(components.get(0), driver, config);
+        WebComponent component = this.findComponent(By.className(config.getCssPrefix() + "SnackbarContent-root"));
+        return new MuiSnackbarContent(component, driver, config);
     }
 
     @Override
     public String getComponentName() {
         return "Snackbar";
+    }
+
+
+    /**
+     * Kicks off the check for the snackbar to disappear automatically.
+     *
+     * @return the wait for waiting this to be disappeared
+     */
+    public WebDriverWait startAutoHideCheck() {
+        return startAutoHideCheck(autoHideDuration);
+    }
+
+    /**
+     * Kicks off the check for the snackbar to disappear automatically. throws {@link IllegalArgumentException} when
+     * the autoHideDuration is null or &lt;= 0.
+     *
+     * @param autoHideDuration the expected auto hide duration
+     * @return the wait for waiting this to be disappeared
+     */
+    public WebDriverWait startAutoHideCheck(Long autoHideDuration) {
+        if (autoHideDuration == null || autoHideDuration <= 0) {
+            throw new IllegalArgumentException("Invalid autoHideDuration value: " + autoHideDuration);
+        }
+        WebDriverWait wait = driver.createWait(autoHideDuration);
+        wait.until(d -> executeIgnoringStaleElementReference(() -> !this.isDisplayed(), true));
+        return wait;
+    }
+
+    /**
+     * Gets the autoHideDuration in Milliseconds.
+     *
+     * @return the autoHideDuration in Milliseconds.
+     */
+    @Nullable
+    public Long getAutoHideDuration() {
+        return this.autoHideDuration;
     }
 }

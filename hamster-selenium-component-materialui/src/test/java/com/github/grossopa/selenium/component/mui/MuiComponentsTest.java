@@ -208,4 +208,14 @@ class MuiComponentsTest {
     void toDialog() {
         assertEquals(element, testSubject.toDialog().getWrappedElement());
     }
+
+    @Test
+    void toSnackbar() {
+        assertEquals(element, testSubject.toSnackbar().getWrappedElement());
+    }
+
+    @Test
+    void toSnackbarWithDuration() {
+        assertEquals(element, testSubject.toSnackbar(800L).getWrappedElement());
+    }
 }

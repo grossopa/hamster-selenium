@@ -26,6 +26,7 @@ package com.github.grossopa.selenium.examples.mui;
 
 import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
+import com.github.grossopa.selenium.component.mui.feedback.MuiSnackbar;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
@@ -94,12 +95,27 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
         dialog.close(800L);
     }
 
+    public void testSnackbar() {
+        driver.navigate().to("https://material-ui.com/components/snackbars/");
+
+        MuiButton simpleButton = driver.findComponent(By2.text("Open simple snackbar")).findComponent(By2.parent()).as(mui())
+                .toButton();
+        simpleButton.click();
+        MuiSnackbar simpleSnackbar = simpleButton.findComponent(By2.parent())
+                .findComponent(By.className("MuiSnackbar-root")).as(mui()).toSnackbar(6500);
+
+        assertEquals("Note archived", simpleSnackbar.getContent().getMessage().getText());
+        assertEquals(2, simpleSnackbar.getContent().getAction().findComponents(By.className("MuiButtonBase-root")).size());
+        simpleSnackbar.startAutoHideCheck();
+    }
+
     public static void main(String[] args) {
         MuiSurfacesTestCases test = new MuiSurfacesTestCases();
         try {
             test.setUpDriver(CHROME);
             test.testBackdrop();
             test.testDialog();
+            test.testSnackbar();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
