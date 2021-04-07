@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.component.util.WebComponentUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -85,6 +86,11 @@ public class MuiAccordion extends AbstractMuiComponent {
     public boolean isExpand() {
         MuiAccordionSummary summary = getAccordionSummary();
         return summary != null && summary.isExpand();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return !WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "-disabled");
     }
 
     @Override

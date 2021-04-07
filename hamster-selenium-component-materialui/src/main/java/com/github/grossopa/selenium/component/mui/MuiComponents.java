@@ -360,4 +360,13 @@ public class MuiComponents extends AbstractComponents {
     public MuiSnackbar toSnackbar(long autoHideDuration) {
         return new MuiSnackbar(component, driver, config, autoHideDuration);
     }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAccordion}.
+     *
+     * @return the wrapped {@link MuiAccordion} instance on the given component
+     */
+    public MuiAccordion toAccordion() {
+        return new MuiAccordion(component, driver, config);
+    }
 }

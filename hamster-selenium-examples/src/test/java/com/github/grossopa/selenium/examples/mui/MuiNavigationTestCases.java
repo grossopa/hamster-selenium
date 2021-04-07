@@ -29,13 +29,17 @@ import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -147,14 +151,31 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         assertEquals(3, menu.getMenuItems().size());
     }
 
+    public void testAccordion() {
+        driver.navigate().to("https://material-ui.com/components/accordion/");
+
+        List<MuiAccordion> simpleAccordionList = driver.findComponent(By.id("SimpleAccordion.js"))
+                .findComponent(By2.parent()).findComponents(By.className("MuiAccordion-root")).stream()
+                .map(component -> component.as(mui()).toAccordion()).collect(toList());
+        assertEquals(3, simpleAccordionList.size());
+        assertEquals("Accordion 1", requireNonNull(simpleAccordionList.get(0).getAccordionSummary()).getText());
+//        assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+//                        + "Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
+//                requireNonNull(simpleAccordionList.get(0).getAccordionDetails()).getText());
+
+        assertFalse(simpleAccordionList.get(2).isEnabled());
+    }
+
     public static void main(String[] args) {
         MuiNavigationTestCases test = new MuiNavigationTestCases();
         try {
             test.setUpDriver(CHROME);
-            test.testBottomNavigation();
-            test.testBreadcrumbs();
-            test.testTabs();
-            test.testMenu();
+//            test.testBottomNavigation();
+//            test.testBreadcrumbs();
+//            test.testTabs();
+//            test.testMenu();
+
+            test.testAccordion();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
