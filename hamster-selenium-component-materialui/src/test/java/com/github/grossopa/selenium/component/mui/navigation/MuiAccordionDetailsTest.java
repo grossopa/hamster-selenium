@@ -24,53 +24,37 @@
 
 package com.github.grossopa.selenium.component.mui.navigation;
 
-import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.core.component.WebComponent;
-import org.openqa.selenium.By;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
+
 /**
- * Accordions contain creation flows and allow lightweight editing of an element.
+ * Tests for {@link MuiAccordionDetails}
  *
  * @author Jack Yin
- * @see <a href="https://material-ui.com/components/accordion/">
- * https://material-ui.com/components/accordion/</a>
  * @since 1.0
  */
-public class MuiAccordionSummary extends AbstractMuiComponent {
-    /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     */
-    public MuiAccordionSummary(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        super(element, driver, config);
+class MuiAccordionDetailsTest {
+
+    MuiAccordionDetails testSubject;
+    WebElement element = mock(WebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
+    MuiConfig config = mock(MuiConfig.class);
+
+    @BeforeEach
+    void setUp() {
+        testSubject = new MuiAccordionDetails(element, driver, config);
     }
 
-    @Override
-    public String getComponentName() {
-        return "AccordionSummary";
-    }
 
-    /**
-     * Determines whether the Accordion Summary part is expanded.
-     *
-     * @return whether the Accordion Summary part is expanded.
-     */
-    public boolean isExpand() {
-        return "true".equalsIgnoreCase(element.getAttribute("aria-expanded"));
-    }
-
-    /**
-     * Gets the expand button within the summary content.
-     *
-     * @return the expand button component
-     */
-    public WebComponent getExpandButton() {
-        return this.findComponent(By.className(config.getCssPrefix() + "AccordionSummary-expandIcon"));
+    @Test
+    void getComponentName() {
+        assertEquals("AccordionDetails", testSubject.getComponentName());
     }
 }

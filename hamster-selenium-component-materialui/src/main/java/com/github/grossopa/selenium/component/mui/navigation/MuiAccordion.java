@@ -78,6 +78,17 @@ public class MuiAccordion extends AbstractMuiComponent {
     }
 
     /**
+     * Gets the accordion actions component. could be null if it's not defined.
+     *
+     * @return the accordion actions component. could be null if it's not defined.
+     */
+    @Nullable
+    public MuiAccordionActions getAccordionActions() {
+        List<WebComponent> result = this.findComponents(By.className(config.getRootCss("AccordionActions")));
+        return result.isEmpty() ? null : new MuiAccordionActions(result.get(0), driver, config);
+    }
+
+    /**
      * Determines whether the Accordion Summary part is expanded.
      *
      * @return whether the Accordion Summary part is expanded.
@@ -87,6 +98,20 @@ public class MuiAccordion extends AbstractMuiComponent {
         MuiAccordionSummary summary = getAccordionSummary();
         return summary != null && summary.isExpand();
     }
+
+    /**
+     * Try to expand the accordion
+     */
+    public void expand() {
+        MuiAccordionSummary summary = getAccordionSummary();
+        if (summary == null) {
+            // try to click itself
+            this.element.click();
+        } else {
+            summary.getExpandButton().click();
+        }
+    }
+
 
     @Override
     public boolean isEnabled() {

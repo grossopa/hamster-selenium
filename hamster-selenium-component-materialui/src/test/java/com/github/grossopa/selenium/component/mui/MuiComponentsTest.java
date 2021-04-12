@@ -218,4 +218,9 @@ class MuiComponentsTest {
     void toSnackbarWithDuration() {
         assertEquals(element, testSubject.toSnackbar(800L).getWrappedElement());
     }
+
+    @Test
+    void toAccordion() {
+        assertEquals(element, testSubject.toAccordion().getWrappedElement());
+    }
 }

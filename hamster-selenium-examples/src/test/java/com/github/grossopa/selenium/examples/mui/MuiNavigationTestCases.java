@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.examples.mui;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
+import com.github.grossopa.selenium.component.mui.inputs.MuiCheckbox;
 import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
@@ -164,8 +165,8 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         assertEquals("Accordion 2", requireNonNull(simpleAccordionList.get(1).getAccordionSummary()).getText());
         assertEquals("", requireNonNull(simpleAccordionList.get(1).getAccordionDetails()).getText());
 
-        simpleAccordionList.get(0).click();
-        simpleAccordionList.get(1).click();
+        simpleAccordionList.get(0).expand();
+        simpleAccordionList.get(1).expand();
         Thread.sleep(400L);
 
         assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
@@ -178,6 +179,24 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
 
         assertFalse(simpleAccordionList.get(2).isEnabled());
         assertEquals("Disabled Accordion", simpleAccordionList.get(2).getText());
+
+        //action
+        List<MuiAccordion> actionAccordionList = driver.findComponent(By.id("ActionsInAccordionSummary.js"))
+                .findComponent(By2.parent()).findComponents(By.className("MuiAccordion-root")).stream()
+                .map(component -> component.as(mui()).toAccordion()).collect(toList());
+
+        MuiAccordion actionAccordion1 = actionAccordionList.get(0);
+        assertFalse(actionAccordion1.isExpand());
+        driver.moveTo(actionAccordion1);
+        actionAccordion1.expand();
+        Thread.sleep(400L);
+        assertTrue(actionAccordion1.isExpand());
+        MuiCheckbox checkbox1 = requireNonNull(actionAccordion1.getAccordionSummary())
+                .findComponent(By.className("MuiCheckbox-root")).as(mui()).toCheckbox();
+        assertFalse(checkbox1.isSelected());
+        checkbox1.click();
+        assertTrue(checkbox1.isSelected());
+        assertTrue(actionAccordion1.isExpand());
     }
 
     public static void main(String[] args) {
@@ -188,7 +207,6 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
             test.testBreadcrumbs();
             test.testTabs();
             test.testMenu();
-
             test.testAccordion();
         } catch (Exception ex) {
             ex.printStackTrace();
