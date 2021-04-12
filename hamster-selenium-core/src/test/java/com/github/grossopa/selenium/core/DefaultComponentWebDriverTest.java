@@ -36,7 +36,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -237,5 +239,27 @@ class DefaultComponentWebDriverTest {
     void createWait() {
         WebDriverWait wait = testSubject.createWait(100L);
         assertNotNull(wait);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void findComponentsAs() {
+        WebElement component1 = mock(WebElement.class);
+        WebElement component2 = mock(WebElement.class);
+        WebElement component3 = mock(WebElement.class);
+        Function<WebComponent, WebComponent> mappingFunction = mock(Function.class);
+        when(driver.findElements(By.id("ddd"))).thenReturn(newArrayList(component1, component2, component3));
+        testSubject.findComponentsAs(By.id("ddd"), mappingFunction);
+        verify(mappingFunction, times(3)).apply(any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void findComponentAs() {
+        WebElement component1 = mock(WebElement.class);
+        Function<WebComponent, WebComponent> mappingFunction = mock(Function.class);
+        when(driver.findElement(By.id("ddd"))).thenReturn(component1);
+        testSubject.findComponentAs(By.id("ddd"), mappingFunction);
+        verify(mappingFunction, times(1)).apply(any());
     }
 }

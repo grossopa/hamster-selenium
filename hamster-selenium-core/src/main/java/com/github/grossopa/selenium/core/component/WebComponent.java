@@ -31,6 +31,7 @@ import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Wrapper of an found {@link WebElement} to provide factory methods that to be able to convert itself to a
@@ -82,6 +83,49 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
      * @see org.openqa.selenium.WebDriver.Timeouts
      */
     WebComponent findComponent(By by);
+
+    /**
+     * Find all elements within the current context using the given mechanism and encapsulate the {@link WebElement}
+     * list into {@link T}, which is a sub type of {@link WebComponent}.
+     * <p>
+     * See the note in {@link #findElements(By)} about finding via XPath. This method is affected by the 'implicit wait'
+     * times in force at the time of execution. The findElement(..) invocation will return a matching row, or try again
+     * repeatedly until the configured timeout is reached.
+     * </p>
+     * <p>
+     * findElement should not be used to look for non-present elements, use {@link #findComponents(By)} and assert zero
+     * length response instead.
+     * </p>
+     *
+     * @param by The locating mechanism
+     * @param mappingFunction mapping functions to convert component to instance of type {@link T}
+     * @param <T> the target component type
+     * @return A list of all {@link WebComponent}s, or an empty list if nothing matches.
+     */
+    <T extends WebComponent> List<T> findComponentsAs(By by, Function<WebComponent, T> mappingFunction);
+
+    /**
+     * Find the first {@link WebComponent} using the given method and encapsulate it into {@link T}, which is a sub type
+     * of {@link WebComponent}.
+     * <p>
+     * See the note in {@link #findElements(By)} about finding via XPath. This method is affected by the 'implicit wait'
+     * times in force at the time of execution. The findElement(..) invocation will return a matching row, or try again
+     * repeatedly until the configured timeout is reached.
+     * </p>
+     * <p>
+     * findElement should not be used to look for non-present elements, use {@link #findComponents(By)} and assert zero
+     * length response instead.
+     * </p>
+     *
+     * @param by The locating mechanism
+     * @param mappingFunction mapping functions to convert component to instance of type {@link T}
+     * @param <T> the target component type
+     * @return The first matching element on the current context.
+     * @throws NoSuchElementException If no matching elements are found
+     * @see org.openqa.selenium.By
+     * @see org.openqa.selenium.WebDriver.Timeouts
+     */
+    <T extends WebComponent> WebComponent findComponentAs(By by, Function<WebComponent, T> mappingFunction);
 
     /**
      * deprecated, in favor of {@link #findComponents(By)}

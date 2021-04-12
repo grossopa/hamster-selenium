@@ -31,6 +31,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
 
@@ -47,10 +48,8 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         root driver
+     * @param element the delegated element
+     * @param driver root driver
      */
     public DefaultWebComponent(WebElement element, ComponentWebDriver driver) {
         super(element);
@@ -65,6 +64,16 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     @Override
     public WebComponent findComponent(By by) {
         return new DefaultWebComponent(element.findElement(by), driver);
+    }
+
+    @Override
+    public <T extends WebComponent> List<T> findComponentsAs(By by, Function<WebComponent, T> mappingFunction) {
+        return findComponents(by).stream().map(mappingFunction).collect(toList());
+    }
+
+    @Override
+    public <T extends WebComponent> WebComponent findComponentAs(By by, Function<WebComponent, T> mappingFunction) {
+        return mappingFunction.apply(findComponent(by));
     }
 
     @Override
