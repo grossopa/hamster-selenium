@@ -113,6 +113,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         MuiTabs automaticScrollTabs = tabsList.get(5);
         driver.moveTo(automaticScrollTabs);
         assertEquals(7, automaticScrollTabs.getTabs().size());
+        assertFalse(automaticScrollTabs.isVertical());
         assertTrue(automaticScrollTabs.getNextScrollButton().isPresent());
         assertTrue(automaticScrollTabs.getPreviousScrollButton().isPresent());
 
@@ -129,6 +130,12 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         automaticScrollTabs.getTabs().get(0).click();
         Thread.sleep(600L);
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-0")).isDisplayed());
+
+        MuiTabs verticalTabs = driver.findComponent(By.id("VerticalTabs.js")).findComponent(By2.parent())
+                .findComponent(By.className("MuiTabs-root")).as(mui()).toTabs();
+
+        driver.moveTo(verticalTabs);
+        assertTrue(verticalTabs.isVertical());
     }
 
     @SuppressWarnings("squid:S2925")

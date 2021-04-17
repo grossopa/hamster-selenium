@@ -28,8 +28,10 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -48,6 +50,7 @@ class MuiTabsTest {
 
     @BeforeEach
     void setUp() {
+        when(config.getRootCss("Tab")).thenReturn("MuiTab-root");
         testSubject = new MuiTabs(element, driver, config);
     }
 
@@ -59,6 +62,10 @@ class MuiTabsTest {
 
     @Test
     void getTabs() {
+        WebElement tab1 = mock(WebElement.class);
+        WebElement tab2 = mock(WebElement.class);
+        when(element.findElements(By.className("MuiTab-root"))).thenReturn(asList(tab1, tab2));
+        assertEquals(2, testSubject.getTabs().size());
     }
 
     @Test
