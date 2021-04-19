@@ -22,80 +22,64 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.core;
+package com.github.grossopa.selenium.component.mui.locator;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.openqa.selenium.Keys.ESCAPE;
+import static org.mockito.ArgumentMatchers.*;
 
 /**
- * Tests for {@link MuiModal}
+ * Tests for {@link MuiDialogLocator}
  *
  * @author Jack Yin
  * @since 1.0
  */
-class MuiModalTest {
+class MuiDialogLocatorTest {
 
-    MuiModal testSubject;
-    WebElement element = mock(WebElement.class);
+    MuiDialogLocator testSubject;
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
     @BeforeEach
     void setUp() {
-        testSubject = new MuiModal(element, driver, config) {
+        when(config.getOverlayAbsolutePath()).thenReturn("/html/body");
+        when(config.getCssPrefix()).thenReturn("Mui");
+        List<WebComponent> dialogs = asList(createMockDialog(false), createMockDialog(false), createMockDialog(true));
+        when(driver.findComponents(By.xpath("/html/body/div[contains(@class, 'MuiDialog-root')]"))).thenReturn(dialogs);
 
-            @Override
-            public String getComponentName() {
-                return "Some";
-            }
-        };
+        testSubject = new MuiDialogLocator(driver, config);
+    }
+
+    private WebComponent createMockDialog(boolean visible) {
+        WebComponent component = mock(WebComponent.class);
+        WebElement element = mock(WebElement.class);
+        when(component.getWrappedElement()).thenReturn(element);
+        when(element.isDisplayed()).thenReturn(visible);
+        return component;
     }
 
     @Test
-    void close() {
-        Actions actions = mock(Actions.class);
-        when(driver.createActions()).thenReturn(actions);
-        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
-
-        testSubject.close();
-
-        verify(actions, times(1)).perform();
+    void findAllDialogs() {
+        List<MuiDialog> dialogList = testSubject.findAllDialogs();
+        assertEquals(3, dialogList.size());
     }
 
     @Test
-    void closeWithWait() {
-        Actions actions = mock(Actions.class);
-        when(driver.createActions()).thenReturn(actions);
-        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
-
-        WebDriverWait wait = mock(WebDriverWait.class);
-        when(driver.createWait(anyLong())).thenReturn(wait);
-        testSubject.close(800L);
-
-        verify(actions, times(1)).perform();
-        verify(wait, times(1)).until(any());
-    }
-
-    @Test
-    void closeWithWaitPositive() {
-        Actions actions = mock(Actions.class);
-        when(driver.createActions()).thenReturn(actions);
-        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
-        when(element.isDisplayed()).thenReturn(true);
-
-        WebDriverWait wait = mock(WebDriverWait.class);
-        when(driver.createWait(anyLong())).thenReturn(wait);
-        testSubject.close(50L);
-
-        verify(actions, times(1)).perform();
-        verify(wait, times(1)).until(any());
+    void findVisibleDialogs() {
+        List<MuiDialog> dialogList = testSubject.findVisibleDialogs();
+        assertEquals(1, dialogList.size());
     }
 }

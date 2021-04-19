@@ -29,6 +29,7 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
+import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnoringStaleElementReference;
 import static org.openqa.selenium.Keys.ESCAPE;
 
 /**
@@ -54,7 +55,20 @@ public abstract class MuiModal extends AbstractMuiComponent {
      * Closes current Modal
      */
     public void close() {
+        this.close(0L);
+    }
+
+    /**
+     * Closes the current Modal and wait until it invisible or detached from DOM.
+     *
+     * @param waitInMilliseconds the max time to wait
+     */
+    public void close(long waitInMilliseconds) {
         driver.createActions().sendKeys(ESCAPE).perform();
+        if (waitInMilliseconds > 0) {
+            driver.createWait(waitInMilliseconds)
+                    .until(driver -> executeIgnoringStaleElementReference(() -> !this.isDisplayed(), true));
+        }
     }
 
 }

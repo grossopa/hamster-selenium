@@ -27,8 +27,6 @@ package com.github.grossopa.selenium.component.mui.inputs;
 import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.core.component.WebComponent;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -48,12 +46,9 @@ public class MuiRadioGroup extends AbstractMuiComponent {
     /**
      * Constructs an MuiRadioGroup instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiRadioGroup(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -72,9 +67,5 @@ public class MuiRadioGroup extends AbstractMuiComponent {
     public List<MuiRadio> getRadios() {
         return element.findElements(config.radioLocator()).stream().map(radio -> new MuiRadio(radio, driver, config))
                 .collect(toList());
-    }
-
-    private WebComponent getFormGroup() {
-        return this.findComponent(By.className(config.getCssPrefix() + "MuiFormGroup-root"));
     }
 }

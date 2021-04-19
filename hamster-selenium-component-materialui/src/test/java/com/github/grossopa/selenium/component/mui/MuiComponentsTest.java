@@ -198,4 +198,29 @@ class MuiComponentsTest {
     void toMenu() {
         assertEquals(element, testSubject.toMenu().getWrappedElement());
     }
+
+    @Test
+    void toBackdrop() {
+        assertEquals(element, testSubject.toBackdrop().getWrappedElement());
+    }
+
+    @Test
+    void toDialog() {
+        assertEquals(element, testSubject.toDialog().getWrappedElement());
+    }
+
+    @Test
+    void toSnackbar() {
+        assertEquals(element, testSubject.toSnackbar().getWrappedElement());
+    }
+
+    @Test
+    void toSnackbarWithDuration() {
+        assertEquals(element, testSubject.toSnackbar(800L).getWrappedElement());
+    }
+
+    @Test
+    void toAccordion() {
+        assertEquals(element, testSubject.toAccordion().getWrappedElement());
+    }
 }

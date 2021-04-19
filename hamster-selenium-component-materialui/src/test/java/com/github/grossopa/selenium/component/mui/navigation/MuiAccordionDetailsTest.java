@@ -22,80 +22,39 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.core;
+package com.github.grossopa.selenium.component.mui.navigation;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.openqa.selenium.Keys.ESCAPE;
+import static org.mockito.ArgumentMatchers.*;
 
 /**
- * Tests for {@link MuiModal}
+ * Tests for {@link MuiAccordionDetails}
  *
  * @author Jack Yin
  * @since 1.0
  */
-class MuiModalTest {
+class MuiAccordionDetailsTest {
 
-    MuiModal testSubject;
+    MuiAccordionDetails testSubject;
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
     @BeforeEach
     void setUp() {
-        testSubject = new MuiModal(element, driver, config) {
-
-            @Override
-            public String getComponentName() {
-                return "Some";
-            }
-        };
+        testSubject = new MuiAccordionDetails(element, driver, config);
     }
 
-    @Test
-    void close() {
-        Actions actions = mock(Actions.class);
-        when(driver.createActions()).thenReturn(actions);
-        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
-
-        testSubject.close();
-
-        verify(actions, times(1)).perform();
-    }
 
     @Test
-    void closeWithWait() {
-        Actions actions = mock(Actions.class);
-        when(driver.createActions()).thenReturn(actions);
-        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
-
-        WebDriverWait wait = mock(WebDriverWait.class);
-        when(driver.createWait(anyLong())).thenReturn(wait);
-        testSubject.close(800L);
-
-        verify(actions, times(1)).perform();
-        verify(wait, times(1)).until(any());
-    }
-
-    @Test
-    void closeWithWaitPositive() {
-        Actions actions = mock(Actions.class);
-        when(driver.createActions()).thenReturn(actions);
-        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
-        when(element.isDisplayed()).thenReturn(true);
-
-        WebDriverWait wait = mock(WebDriverWait.class);
-        when(driver.createWait(anyLong())).thenReturn(wait);
-        testSubject.close(50L);
-
-        verify(actions, times(1)).perform();
-        verify(wait, times(1)).until(any());
+    void getComponentName() {
+        assertEquals("AccordionDetails", testSubject.getComponentName());
     }
 }

@@ -68,7 +68,7 @@ public class MuiTabs extends AbstractMuiComponent {
      * @return the inner tabs.
      */
     public List<MuiTab> getTabs() {
-        return this.findComponents(By.className(config.getCssPrefix() + "Tab-root")).stream()
+        return this.findComponents(By.className(config.getRootCss("Tab"))).stream()
                 .map(component -> new MuiTab(component, driver, config)).collect(toList());
     }
 
@@ -112,7 +112,7 @@ public class MuiTabs extends AbstractMuiComponent {
      * @return true if the Tabs is vertical.
      */
     public boolean isVertical() {
-        return this.attributeContains("class", config.getCssPrefix() + "TabScrollButton-vertical");
+        return this.attributeContains("class", config.getCssPrefix() + "Tabs-vertical");
     }
 
 }

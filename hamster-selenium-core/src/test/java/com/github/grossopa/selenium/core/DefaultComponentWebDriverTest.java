@@ -32,14 +32,16 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static java.lang.System.out;
 import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -80,7 +82,7 @@ class DefaultComponentWebDriverTest {
     @Test
     void get() {
         testSubject.get("some-url");
-        verify(driver, only()).get(eq("some-url"));
+        verify(driver, only()).get("some-url");
     }
 
     @Test
@@ -177,19 +179,19 @@ class DefaultComponentWebDriverTest {
     @Test
     void executeScript() {
         testSubject.executeScript("abc");
-        verify(driver, only()).executeScript(eq("abc"));
+        verify(driver, only()).executeScript("abc");
     }
 
     @Test
     void executeAsyncScript() {
         testSubject.executeAsyncScript("abc");
-        verify(driver, only()).executeAsyncScript(eq("abc"));
+        verify(driver, only()).executeAsyncScript("abc");
     }
 
     @Test
     void getScreenshotAs() {
         testSubject.getScreenshotAs(OutputType.BASE64);
-        verify(driver, only()).getScreenshotAs(eq(OutputType.BASE64));
+        verify(driver, only()).getScreenshotAs(OutputType.BASE64);
     }
 
     @Test
@@ -207,7 +209,7 @@ class DefaultComponentWebDriverTest {
     @Test
     void perform() {
         testSubject.perform(emptyList());
-        verify(driver, only()).perform(eq(emptyList()));
+        verify(driver, only()).perform(emptyList());
     }
 
     @Test
@@ -231,5 +233,33 @@ class DefaultComponentWebDriverTest {
         RemoteWebElement element = mock(RemoteWebElement.class);
         testSubject.moveTo(element);
         verify(element, never()).getLocation();
+    }
+
+    @Test
+    void createWait() {
+        WebDriverWait wait = testSubject.createWait(100L);
+        assertNotNull(wait);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void findComponentsAs() {
+        WebElement component1 = mock(WebElement.class);
+        WebElement component2 = mock(WebElement.class);
+        WebElement component3 = mock(WebElement.class);
+        Function<WebComponent, WebComponent> mappingFunction = mock(Function.class);
+        when(driver.findElements(By.id("ddd"))).thenReturn(newArrayList(component1, component2, component3));
+        testSubject.findComponentsAs(By.id("ddd"), mappingFunction);
+        verify(mappingFunction, times(3)).apply(any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void findComponentAs() {
+        WebElement component1 = mock(WebElement.class);
+        Function<WebComponent, WebComponent> mappingFunction = mock(Function.class);
+        when(driver.findElement(By.id("ddd"))).thenReturn(component1);
+        testSubject.findComponentAs(By.id("ddd"), mappingFunction);
+        verify(mappingFunction, times(1)).apply(any());
     }
 }

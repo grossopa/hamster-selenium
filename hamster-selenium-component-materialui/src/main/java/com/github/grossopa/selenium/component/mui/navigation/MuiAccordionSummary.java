@@ -27,6 +27,8 @@ package com.github.grossopa.selenium.component.mui.navigation;
 import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -60,6 +62,15 @@ public class MuiAccordionSummary extends AbstractMuiComponent {
      * @return whether the Accordion Summary part is expanded.
      */
     public boolean isExpand() {
-        return "true".equalsIgnoreCase(element.getAttribute("aria-expand"));
+        return "true".equalsIgnoreCase(element.getAttribute("aria-expanded"));
+    }
+
+    /**
+     * Gets the expand button within the summary content.
+     *
+     * @return the expand button component
+     */
+    public WebComponent getExpandButton() {
+        return this.findComponent(By.className(config.getCssPrefix() + "AccordionSummary-expandIcon"));
     }
 }

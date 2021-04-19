@@ -33,7 +33,9 @@ import org.openqa.selenium.WebElement;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
@@ -89,7 +91,7 @@ class DefaultWebComponentTest {
 
     @Test
     void attributeContains() {
-        when(element.getAttribute(eq("aaa"))).thenReturn("aaa bbb ccc");
+        when(element.getAttribute("aaa")).thenReturn("aaa bbb ccc");
         assertTrue(testSubject.attributeContains("aaa", "bbb"));
         verify(element, only()).getAttribute("aaa");
     }
@@ -99,5 +101,27 @@ class DefaultWebComponentTest {
         Components components = mock(Components.class);
         assertEquals(components, testSubject.as(components));
         verify(components, only()).setContext(eq(testSubject), eq(driver));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void findComponentsAs() {
+        WebElement component1 = mock(WebElement.class);
+        WebElement component2 = mock(WebElement.class);
+        WebElement component3 = mock(WebElement.class);
+        Function<WebComponent, WebComponent> mappingFunction = mock(Function.class);
+        when(element.findElements(By.id("ddd"))).thenReturn(newArrayList(component1, component2, component3));
+        testSubject.findComponentsAs(By.id("ddd"), mappingFunction);
+        verify(mappingFunction, times(3)).apply(any());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void findComponentAs() {
+        WebElement component1 = mock(WebElement.class);
+        Function<WebComponent, WebComponent> mappingFunction = mock(Function.class);
+        when(element.findElement(By.id("ddd"))).thenReturn(component1);
+        testSubject.findComponentAs(By.id("ddd"), mappingFunction);
+        verify(mappingFunction, times(1)).apply(any());
     }
 }

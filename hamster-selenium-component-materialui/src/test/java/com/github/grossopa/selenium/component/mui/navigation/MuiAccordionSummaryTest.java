@@ -22,80 +22,73 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.core;
+package com.github.grossopa.selenium.component.mui.navigation;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static org.mockito.Mockito.*;
-import static org.openqa.selenium.Keys.ESCAPE;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link MuiModal}
+ * Tests for {@link MuiAccordionSummary}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.1
  */
-class MuiModalTest {
+class MuiAccordionSummaryTest {
 
-    MuiModal testSubject;
+    MuiAccordionSummary testSubject;
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
     @BeforeEach
     void setUp() {
-        testSubject = new MuiModal(element, driver, config) {
+        when(config.getCssPrefix()).thenReturn("Mui");
+        testSubject = new MuiAccordionSummary(element, driver, config);
+    }
 
-            @Override
-            public String getComponentName() {
-                return "Some";
-            }
-        };
+
+    @Test
+    void getComponentName() {
+        assertEquals("AccordionSummary", testSubject.getComponentName());
     }
 
     @Test
-    void close() {
-        Actions actions = mock(Actions.class);
-        when(driver.createActions()).thenReturn(actions);
-        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
-
-        testSubject.close();
-
-        verify(actions, times(1)).perform();
+    void isExpandTrue() {
+        when(element.getAttribute("aria-expanded")).thenReturn("true");
+        assertTrue(testSubject.isExpand());
     }
 
     @Test
-    void closeWithWait() {
-        Actions actions = mock(Actions.class);
-        when(driver.createActions()).thenReturn(actions);
-        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
-
-        WebDriverWait wait = mock(WebDriverWait.class);
-        when(driver.createWait(anyLong())).thenReturn(wait);
-        testSubject.close(800L);
-
-        verify(actions, times(1)).perform();
-        verify(wait, times(1)).until(any());
+    void isExpandTrueUpper() {
+        when(element.getAttribute("aria-expanded")).thenReturn("TRUE");
+        assertTrue(testSubject.isExpand());
     }
 
     @Test
-    void closeWithWaitPositive() {
-        Actions actions = mock(Actions.class);
-        when(driver.createActions()).thenReturn(actions);
-        when(actions.sendKeys(ESCAPE)).thenReturn(actions);
-        when(element.isDisplayed()).thenReturn(true);
+    void isExpandFalse() {
+        when(element.getAttribute("aria-expanded")).thenReturn("false");
+        assertFalse(testSubject.isExpand());
+    }
 
-        WebDriverWait wait = mock(WebDriverWait.class);
-        when(driver.createWait(anyLong())).thenReturn(wait);
-        testSubject.close(50L);
+    @Test
+    void isExpandFalse2() {
+        when(element.getAttribute("aria-expanded")).thenReturn("false");
+        assertFalse(testSubject.isExpand());
+    }
 
-        verify(actions, times(1)).perform();
-        verify(wait, times(1)).until(any());
+    @Test
+    void expandButton() {
+        WebElement expandIcon = mock(WebElement.class);
+        when(element.findElement(By.className("MuiAccordionSummary-expandIcon"))).thenReturn(expandIcon);
+        assertEquals(expandIcon, testSubject.getExpandButton().getWrappedElement());
     }
 }

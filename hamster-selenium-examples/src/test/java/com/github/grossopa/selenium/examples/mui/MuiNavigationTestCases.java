@@ -27,8 +27,10 @@ package com.github.grossopa.selenium.examples.mui;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
+import com.github.grossopa.selenium.component.mui.inputs.MuiCheckbox;
 import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
@@ -36,6 +38,7 @@ import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -110,6 +113,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         MuiTabs automaticScrollTabs = tabsList.get(5);
         driver.moveTo(automaticScrollTabs);
         assertEquals(7, automaticScrollTabs.getTabs().size());
+        assertFalse(automaticScrollTabs.isVertical());
         assertTrue(automaticScrollTabs.getNextScrollButton().isPresent());
         assertTrue(automaticScrollTabs.getPreviousScrollButton().isPresent());
 
@@ -126,6 +130,12 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         automaticScrollTabs.getTabs().get(0).click();
         Thread.sleep(600L);
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-0")).isDisplayed());
+
+        MuiTabs verticalTabs = driver.findComponent(By.id("VerticalTabs.js")).findComponent(By2.parent())
+                .findComponent(By.className("MuiTabs-root")).as(mui()).toTabs();
+
+        driver.moveTo(verticalTabs);
+        assertTrue(verticalTabs.isVertical());
     }
 
     @SuppressWarnings("squid:S2925")
@@ -147,6 +157,55 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         assertEquals(3, menu.getMenuItems().size());
     }
 
+    @SuppressWarnings("squid:S2925")
+    public void testAccordion() throws InterruptedException {
+        driver.navigate().to("https://material-ui.com/components/accordion/");
+
+        List<MuiAccordion> simpleAccordionList = driver.findComponent(By.id("SimpleAccordion.js"))
+                .findComponent(By2.parent()).findComponents(By.className("MuiAccordion-root")).stream()
+                .map(component -> component.as(mui()).toAccordion()).collect(toList());
+        assertEquals(3, simpleAccordionList.size());
+
+        assertEquals("Accordion 1", requireNonNull(simpleAccordionList.get(0).getAccordionSummary()).getText());
+        assertEquals("", requireNonNull(simpleAccordionList.get(0).getAccordionDetails()).getText());
+
+        assertEquals("Accordion 2", requireNonNull(simpleAccordionList.get(1).getAccordionSummary()).getText());
+        assertEquals("", requireNonNull(simpleAccordionList.get(1).getAccordionDetails()).getText());
+
+        simpleAccordionList.get(0).expand();
+        simpleAccordionList.get(1).expand();
+        Thread.sleep(400L);
+
+        assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+                        + "Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
+                requireNonNull(simpleAccordionList.get(0).getAccordionDetails()).getText());
+
+        assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+                        + "Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
+                requireNonNull(simpleAccordionList.get(1).getAccordionDetails()).getText());
+
+        assertFalse(simpleAccordionList.get(2).isEnabled());
+        assertEquals("Disabled Accordion", simpleAccordionList.get(2).getText());
+
+        //action
+        List<MuiAccordion> actionAccordionList = driver.findComponent(By.id("ActionsInAccordionSummary.js"))
+                .findComponent(By2.parent()).findComponents(By.className("MuiAccordion-root")).stream()
+                .map(component -> component.as(mui()).toAccordion()).collect(toList());
+
+        MuiAccordion actionAccordion1 = actionAccordionList.get(0);
+        assertFalse(actionAccordion1.isExpand());
+        driver.moveTo(actionAccordion1);
+        actionAccordion1.expand();
+        Thread.sleep(400L);
+        assertTrue(actionAccordion1.isExpand());
+        MuiCheckbox checkbox1 = requireNonNull(actionAccordion1.getAccordionSummary())
+                .findComponent(By.className("MuiCheckbox-root")).as(mui()).toCheckbox();
+        assertFalse(checkbox1.isSelected());
+        checkbox1.click();
+        assertTrue(checkbox1.isSelected());
+        assertTrue(actionAccordion1.isExpand());
+    }
+
     public static void main(String[] args) {
         MuiNavigationTestCases test = new MuiNavigationTestCases();
         try {
@@ -155,6 +214,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
             test.testBreadcrumbs();
             test.testTabs();
             test.testMenu();
+            test.testAccordion();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

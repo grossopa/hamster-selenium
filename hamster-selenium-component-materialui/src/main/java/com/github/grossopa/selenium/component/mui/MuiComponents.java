@@ -26,6 +26,9 @@ package com.github.grossopa.selenium.component.mui;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.datadisplay.*;
+import com.github.grossopa.selenium.component.mui.feedback.MuiBackdrop;
+import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
+import com.github.grossopa.selenium.component.mui.feedback.MuiSnackbar;
 import com.github.grossopa.selenium.component.mui.inputs.*;
 import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.component.mui.surfaces.MuiAppBar;
@@ -319,5 +322,51 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiMenu toMenu() {
         return new MuiMenu(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiBackdrop}.
+     *
+     * @return the wrapped {@link MuiBackdrop} instance on the given component
+     */
+    public MuiBackdrop toBackdrop() {
+        return new MuiBackdrop(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiDialog}.
+     *
+     * @return the wrapped {@link MuiDialog} instance on the given component
+     */
+    public MuiDialog toDialog() {
+        return new MuiDialog(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSnackbar}.
+     *
+     * @return the wrapped {@link MuiSnackbar} instance on the given component
+     */
+    public MuiSnackbar toSnackbar() {
+        return new MuiSnackbar(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSnackbar}.
+     *
+     * @param autoHideDuration the autoHideDuration, should be a little longer than the value set in the component.
+     * @return the wrapped {@link MuiSnackbar} instance on the given component
+     */
+    public MuiSnackbar toSnackbar(long autoHideDuration) {
+        return new MuiSnackbar(component, driver, config, autoHideDuration);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAccordion}.
+     *
+     * @return the wrapped {@link MuiAccordion} instance on the given component
+     */
+    public MuiAccordion toAccordion() {
+        return new MuiAccordion(component, driver, config);
     }
 }

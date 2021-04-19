@@ -30,8 +30,10 @@ import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Interactive;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * An encapsulated {@link WebDriver} instance that supports to get the web element as {@link WebComponent}.
@@ -59,6 +61,46 @@ public interface ComponentWebDriver
      * @see org.openqa.selenium.WebDriver.Timeouts
      */
     List<WebComponent> findComponents(By by);
+
+    /**
+     * Find the first {@link WebElement} using the given method and encapsulate it into {@link T} which is sub type of
+     * WebComponent.
+     * <p>
+     * This method is affected by the 'implicit wait' times in force at the time of execution. The findElement(..)
+     * invocation will return a matching row, or try again repeatedly until the configured timeout is reached.
+     * </p>
+     * <p>
+     * findElement should not be used to look for non-present elements, use {@link #findComponents(By)} and assert zero
+     * length response instead.
+     * </p>
+     *
+     * @param by The locating mechanism
+     * @param mappingFunction the mapping function to convert {@link WebComponent} to {@link T}.
+     * @param <T> the target type
+     * @return The first matching element on the current page
+     * @throws NoSuchElementException If no matching elements are found
+     * @see org.openqa.selenium.By
+     * @see org.openqa.selenium.WebDriver.Timeouts
+     */
+    <T extends WebComponent> WebComponent findComponentAs(By by, Function<WebComponent, T> mappingFunction);
+
+    /**
+     * Finds all elements within the current page using the given mechanism and encapsulate the {@link WebElement} list
+     * into {@link T} which is sub type of WebComponent.
+     * <p>
+     * This method is affected by the 'implicit wait' times in force at the time of execution. When implicitly waiting,
+     * this method will return as soon as there are more than 0 items in the found collection, or will return an empty
+     * list if the timeout is reached.
+     * </p>
+     *
+     * @param by The locating mechanism to use
+     * @param mappingFunction the mapping function to convert {@link WebComponent} to {@link T}.
+     * @param <T> the target type
+     * @return A list of all {@link WebComponent}s, or an empty list if nothing matches
+     * @see org.openqa.selenium.By
+     * @see org.openqa.selenium.WebDriver.Timeouts
+     */
+    <T extends WebComponent> List<WebComponent> findComponentsAs(By by, Function<WebComponent, T> mappingFunction);
 
     /**
      * Find the first {@link WebElement} using the given method and encapsulate it into {@link WebComponent}.
@@ -113,6 +155,13 @@ public interface ComponentWebDriver
      * @return the created Actions instance
      */
     Actions createActions();
+
+    /**
+     * A shortcut to create new instance of {@link WebDriverWait} with milliseconds.
+     *
+     * @return the created {@link WebDriverWait} instance.
+     */
+    WebDriverWait createWait(long timeOutInMilliseconds);
 
     /**
      * Move mouse to the element. shortcut of {@code createActions().moveToElement(element).perform()}

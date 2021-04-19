@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.component.util.WebComponentUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -77,6 +78,17 @@ public class MuiAccordion extends AbstractMuiComponent {
     }
 
     /**
+     * Gets the accordion actions component. could be null if it's not defined.
+     *
+     * @return the accordion actions component. could be null if it's not defined.
+     */
+    @Nullable
+    public MuiAccordionActions getAccordionActions() {
+        List<WebComponent> result = this.findComponents(By.className(config.getRootCss("AccordionActions")));
+        return result.isEmpty() ? null : new MuiAccordionActions(result.get(0), driver, config);
+    }
+
+    /**
      * Determines whether the Accordion Summary part is expanded.
      *
      * @return whether the Accordion Summary part is expanded.
@@ -85,6 +97,25 @@ public class MuiAccordion extends AbstractMuiComponent {
     public boolean isExpand() {
         MuiAccordionSummary summary = getAccordionSummary();
         return summary != null && summary.isExpand();
+    }
+
+    /**
+     * Try to expand the accordion
+     */
+    public void expand() {
+        MuiAccordionSummary summary = getAccordionSummary();
+        if (summary == null) {
+            // try to click itself
+            this.element.click();
+        } else {
+            summary.getExpandButton().click();
+        }
+    }
+
+
+    @Override
+    public boolean isEnabled() {
+        return !WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "-disabled");
     }
 
     @Override

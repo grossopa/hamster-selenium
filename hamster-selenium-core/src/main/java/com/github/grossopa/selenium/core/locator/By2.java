@@ -40,6 +40,8 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 public abstract class By2 extends By {
 
     /**
+     * Finds by id.
+     *
      * @param id The value of the "id" attribute to search for.
      * @return A By which locates elements by the value of the "id" attribute.
      */
@@ -48,6 +50,8 @@ public abstract class By2 extends By {
     }
 
     /**
+     * Finds by link text.
+     *
      * @param linkText The exact text to match against.
      * @return A By which locates A elements by the exact text it displays.
      */
@@ -56,6 +60,8 @@ public abstract class By2 extends By {
     }
 
     /**
+     * Finds by partial link text.
+     *
      * @param partialLinkText The partial text to match against
      * @return a By which locates elements that contain the given link text.
      */
@@ -64,6 +70,8 @@ public abstract class By2 extends By {
     }
 
     /**
+     * Finds by attribute "name".
+     *
      * @param name The value of the "name" attribute to search for.
      * @return A By which locates elements by the value of the "name" attribute.
      */
@@ -72,6 +80,8 @@ public abstract class By2 extends By {
     }
 
     /**
+     * Finds by the div tag name.
+     *
      * @param tagName The element's tag name.
      * @return A By which locates elements by their tag name.
      */
@@ -80,6 +90,8 @@ public abstract class By2 extends By {
     }
 
     /**
+     * Finds by XPath.
+     *
      * @param xpathExpression The XPath to use.
      * @return A By which locates elements via XPath.
      */
@@ -88,7 +100,7 @@ public abstract class By2 extends By {
     }
 
     /**
-     * Find elements based on the value of the "class" attribute. If an element has multiple classes, then this will
+     * Finds elements based on the value of the "class" attribute. If an element has multiple classes, then this will
      * match against each of them. For example, if the value is "one two onone", then the class names "one" and "two"
      * will match.
      *
@@ -100,7 +112,7 @@ public abstract class By2 extends By {
     }
 
     /**
-     * Find elements via the driver's underlying W3C Selector engine. If the browser does not implement the Selector
+     * Finds elements via the driver's underlying W3C Selector engine. If the browser does not implement the Selector
      * API, a best effort is made to emulate the API. In this case, we strive for at least CSS2 support, but offer no
      * guarantees.
      *
@@ -111,10 +123,25 @@ public abstract class By2 extends By {
         return By.cssSelector(cssSelector);
     }
 
+    /**
+     * Finds elements by exact attribute value match.
+     *
+     * @param attributeName the attribute name to find
+     * @param attributeValue the attribute value to find
+     * @return A By which locates elements by exact attribute value match.
+     */
     public static By exact(String attributeName, String attributeValue) {
         return exact(attributeName, attributeValue, "*");
     }
 
+    /**
+     * Finds elements by exact attribute value and tag name match
+     *
+     * @param attributeName the attribute name to find
+     * @param attributeValue the attribute value to find
+     * @param tag the tag name to find
+     * @return A By which locates elements by exact attribute value and tag name match.
+     */
     public static By exact(String attributeName, String attributeValue, String tag) {
         return attr(attributeName, attributeValue).exact().depthRelative().tag(tag).build();
     }
@@ -131,8 +158,23 @@ public abstract class By2 extends By {
         return new ByAttributeBuilder(attributeName, attributeValue);
     }
 
+    /**
+     * Finds the element by text.
+     *
+     * @param text the text to find
+     * @return A By which locates the elements by xpath <tt>"//*[contains(text(), the_text)]"</tt>
+     */
     public static By text(String text) {
         return By.xpath(String.format("//*[contains(text(), '%s')]", text.replace("'", "\\'")));
+    }
+
+    /**
+     * Finds the direct parent element by xpath <tt>"parent::*"</tt>.
+     *
+     * @return A By which locates elements by xpath <tt>"parent::*"</tt>
+     */
+    public static By parent() {
+        return By.xpath("parent::*");
     }
 
     /**

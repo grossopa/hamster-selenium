@@ -28,10 +28,13 @@ import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.*;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -50,8 +53,7 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     /**
      * Constructs an instance with given non-null {@link WebDriver} instance.
      *
-     * @param driver
-     *         the existing non-null driver to encapsulate
+     * @param driver the existing non-null driver to encapsulate
      */
     public DefaultComponentWebDriver(WebDriver driver) {
         requireNonNull(driver);
@@ -61,6 +63,17 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     @Override
     public List<WebComponent> findComponents(By by) {
         return driver.findElements(by).stream().map(this::mapElement).collect(toList());
+    }
+
+    @Override
+    public <T extends WebComponent> WebComponent findComponentAs(By by, Function<WebComponent, T> mappingFunction) {
+        return mappingFunction.apply(this.findComponent(by));
+    }
+
+    @Override
+    public <T extends WebComponent> List<WebComponent> findComponentsAs(By by,
+            Function<WebComponent, T> mappingFunction) {
+        return findComponents(by).stream().map(mappingFunction).collect(toList());
     }
 
     @Override
@@ -101,6 +114,13 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     @Override
     public Actions createActions() {
         return new Actions(this);
+    }
+
+    @Override
+    public WebDriverWait createWait(long waitInMilliseconds) {
+        WebDriverWait wait = new WebDriverWait(this, 0);
+        wait.withTimeout(Duration.ofMillis(waitInMilliseconds));
+        return wait;
     }
 
     @Override
