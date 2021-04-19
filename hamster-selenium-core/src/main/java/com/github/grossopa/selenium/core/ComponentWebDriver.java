@@ -159,6 +159,7 @@ public interface ComponentWebDriver
     /**
      * A shortcut to create new instance of {@link WebDriverWait} with milliseconds.
      *
+     * @param timeOutInMilliseconds the timeout in milliseconds
      * @return the created {@link WebDriverWait} instance.
      */
     WebDriverWait createWait(long timeOutInMilliseconds);
