@@ -19,7 +19,7 @@ in the Material UI official page:
  
   https://material-ui.com/
 
-Check hamster-selenium-examples module for the sample code.
+Check hamster-selenium-examples module for the sample code. 
 
 ## How to Use
 Plain HTML:
