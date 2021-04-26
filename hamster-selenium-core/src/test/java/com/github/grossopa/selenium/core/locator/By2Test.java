@@ -174,9 +174,15 @@ class By2Test {
     }
 
     @Test
-    void text() {
-        By result = By2.text("some-test ''sbc");
-        assertEquals("By.xpath: //*[contains(text(), 'some-test \\'\\'sbc')]", result.toString());
+    void textContains() {
+        By result = By2.textContains("some-test ''sbc");
+        assertEquals("By.xpath: .//*[contains(text(), 'some-test \\'\\'sbc')]", result.toString());
+    }
+
+    @Test
+    void textExact() {
+        By result = By2.textExact("some-test ''sbc");
+        assertEquals("By.xpath: .//*[text()='some-test \\'\\'sbc']", result.toString());
     }
 
     @Test

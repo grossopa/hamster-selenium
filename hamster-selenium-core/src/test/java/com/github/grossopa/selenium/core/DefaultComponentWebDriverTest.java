@@ -236,6 +236,13 @@ class DefaultComponentWebDriverTest {
     }
 
     @Test
+    void scrollTo() {
+        RemoteWebElement element = mock(RemoteWebElement.class);
+        testSubject.scrollTo(element);
+        verify(driver, only()).executeScript(eq("arguments[0].scrollIntoView();"), eq(element));
+    }
+
+    @Test
     void createWait() {
         WebDriverWait wait = testSubject.createWait(100L);
         assertNotNull(wait);

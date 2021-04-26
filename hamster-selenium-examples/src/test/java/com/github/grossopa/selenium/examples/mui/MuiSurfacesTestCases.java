@@ -50,7 +50,7 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
     @SuppressWarnings("java:S2925")
     public void testBackdrop() throws InterruptedException {
         driver.navigate().to("https://material-ui.com/components/backdrop/");
-        MuiButton button = driver.findComponent(By2.text("Show backdrop")).findComponent(By.xpath("parent::*"))
+        MuiButton button = driver.findComponent(By2.textContains("Show backdrop")).findComponent(By.xpath("parent::*"))
                 .as(mui()).toButton();
         assertFalse(driver.findComponent(By.className("MuiBackdrop-root")).as(mui()).toBackdrop().isDisplayed());
         button.click();
@@ -65,7 +65,7 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
                 .map(webComponent -> webComponent.as(mui()).toDialog()).filter(WebElement::isDisplayed).findFirst();
         assertTrue(dialogFirstOpt.isEmpty());
 
-        MuiButton button = driver.findComponent(By2.text("Open simple dialog")).findComponent(By2.parent()).as(mui())
+        MuiButton button = driver.findComponent(By2.textContains("Open simple dialog")).findComponent(By2.parent()).as(mui())
                 .toButton();
         button.click();
 
@@ -77,7 +77,7 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
         assertEquals("Set backup account", dialog.getDialogTitle().getText());
         dialog.close(800L);
 
-        MuiButton openAlertButton = driver.findComponent(By2.text("Open alert dialog")).findComponent(By2.parent())
+        MuiButton openAlertButton = driver.findComponent(By2.textContains("Open alert dialog")).findComponent(By2.parent())
                 .as(mui()).toButton();
         driver.moveTo(openAlertButton);
         openAlertButton.click();
@@ -98,7 +98,7 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
     public void testSnackbar() {
         driver.navigate().to("https://material-ui.com/components/snackbars/");
 
-        MuiButton simpleButton = driver.findComponent(By2.text("Open simple snackbar")).findComponent(By2.parent()).as(mui())
+        MuiButton simpleButton = driver.findComponent(By2.textContains("Open simple snackbar")).findComponent(By2.parent()).as(mui())
                 .toButton();
         simpleButton.click();
         MuiSnackbar simpleSnackbar = simpleButton.findComponent(By2.parent())

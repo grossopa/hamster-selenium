@@ -71,8 +71,7 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     }
 
     @Override
-    public <T extends WebComponent> List<T> findComponentsAs(By by,
-            Function<WebComponent, T> mappingFunction) {
+    public <T extends WebComponent> List<T> findComponentsAs(By by, Function<WebComponent, T> mappingFunction) {
         return findComponents(by).stream().map(mappingFunction).collect(toList());
     }
 
@@ -126,6 +125,11 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     @Override
     public void moveTo(WebElement element) {
         createActions().moveToElement(element).perform();
+    }
+
+    @Override
+    public void scrollTo(WebElement element) {
+        executeScript("arguments[0].scrollIntoView();", element);
     }
 
     @Override

@@ -170,4 +170,11 @@ public interface ComponentWebDriver
      * @param element the element to move to.
      */
     void moveTo(WebElement element);
+
+    /**
+     * A neat solution for scrolling to an element
+     *
+     * @param element the element to scroll to
+     */
+    void scrollTo(WebElement element);
 }

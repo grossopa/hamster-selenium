@@ -22,7 +22,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.inputs;
+package com.github.grossopa.selenium.component.mui.surfaces;
 
 import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -30,28 +30,24 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * a simple Material UI button
+ * The wrappers for Material UI Toolbar.
  *
  * @author Jack Yin
- * @see <a href="https://material-ui.com/components/buttons/">
- * https://material-ui.com/components/buttons/</a>
- * @since 1.0
+ * @see <a href="https://material-ui.com/api/toolbar/">https://material-ui.com/api/toolbar/</a>
+ * @since 1.2
  */
-public class MuiButton extends AbstractMuiComponent {
+public class MuiToolbar extends AbstractMuiComponent {
 
-    /**
-     * the component name
-     */
-    public static final String NAME = "Button";
+    public static final String NAME = "Toolbar";
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
      * @param driver the root driver
-     * @param config the material UI global configuration
+     * @param config the Material UI configuration
      */
-    public MuiButton(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    public MuiToolbar(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
@@ -59,10 +55,4 @@ public class MuiButton extends AbstractMuiComponent {
     public String getComponentName() {
         return NAME;
     }
-
-    @Override
-    public boolean isSelected() {
-        return config.isSelected(this);
-    }
-
 }

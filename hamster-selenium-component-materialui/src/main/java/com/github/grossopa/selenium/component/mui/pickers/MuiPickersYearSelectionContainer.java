@@ -22,36 +22,37 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.inputs;
+package com.github.grossopa.selenium.component.mui.pickers;
 
 import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.locator.By2;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 /**
- * a simple Material UI button
+ * The container for year only selection list
  *
  * @author Jack Yin
- * @see <a href="https://material-ui.com/components/buttons/">
- * https://material-ui.com/components/buttons/</a>
- * @since 1.0
+ * @since 1.2
  */
-public class MuiButton extends AbstractMuiComponent {
+public class MuiPickersYearSelectionContainer extends AbstractMuiComponent {
 
-    /**
-     * the component name
-     */
-    public static final String NAME = "Button";
+    public static final String NAME = "PickersYearSelection-container";
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
      * @param driver the root driver
-     * @param config the material UI global configuration
+     * @param config the Material UI configuration
      */
-    public MuiButton(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    protected MuiPickersYearSelectionContainer(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
@@ -60,9 +61,36 @@ public class MuiButton extends AbstractMuiComponent {
         return NAME;
     }
 
-    @Override
-    public boolean isSelected() {
-        return config.isSelected(this);
+    /**
+     * Gets the full year list, note it could be large as seems the Picker by default populates all possible values from
+     * year 1900 to 2100.
+     *
+     * @return the full year list component
+     */
+    public List<MuiPickersYear> getYearList() {
+        return this.findComponentsAs(By.className(config.getRootCss(MuiPickersYear.NAME)),
+                component -> new MuiPickersYear(component, driver, config));
     }
 
+    /**
+     * Gets the selected year.
+     *
+     * @return the selected year, null if nothing selected.
+     */
+    @Nullable
+    public MuiPickersYear getSelectedYear() {
+        return getYearList().stream().filter(MuiPickersYear::isSelected).findAny().orElse(null);
+    }
+
+    /**
+     * Selects by year text
+     *
+     * @param year the year text to select
+     */
+    public void select(String year) {
+        WebComponent component = this.findComponent(By2.textContains(year));
+        driver.scrollTo(component);
+        driver.moveTo(component);
+        component.click();
+    }
 }

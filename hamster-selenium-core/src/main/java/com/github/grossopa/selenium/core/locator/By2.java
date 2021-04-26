@@ -159,19 +159,29 @@ public abstract class By2 extends By {
     }
 
     /**
-     * Finds the element by text.
+     * Finds the element by text contains match.
      *
-     * @param text the text to find
-     * @return A By which locates the elements by xpath <code>"//*[contains(text(), the_text)]"</code>
+     * @param text the text to find that contains
+     * @return A By which locates the elements by xpath {@code ".//*[contains(text(), the_text)]"}
      */
-    public static By text(String text) {
-        return By.xpath(String.format("//*[contains(text(), '%s')]", text.replace("'", "\\'")));
+    public static By textContains(String text) {
+        return By.xpath(String.format(".//*[contains(text(), '%s')]", text.replace("'", "\\'")));
     }
 
     /**
-     * Finds the direct parent element by xpath <code>"parent::*"</code>.
+     * Finds the element by text exact match.
      *
-     * @return A By which locates elements by xpath <code>"parent::*"</code>
+     * @param text the text to find
+     * @return A By which locates the elements by xpath {@code ".//*[text()='%s']"}
+     */
+    public static By textExact(String text) {
+        return By.xpath(String.format(".//*[text()='%s']", text.replace("'", "\\'")));
+    }
+
+    /**
+     * Finds the direct parent element by xpath {@code "parent::*"}.
+     *
+     * @return A By which locates elements by xpath {@code "parent::*"}
      */
     public static By parent() {
         return By.xpath("parent::*");
