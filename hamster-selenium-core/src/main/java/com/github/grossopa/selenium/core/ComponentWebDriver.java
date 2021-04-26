@@ -82,7 +82,7 @@ public interface ComponentWebDriver
      * @see org.openqa.selenium.By
      * @see org.openqa.selenium.WebDriver.Timeouts
      */
-    <T extends WebComponent> WebComponent findComponentAs(By by, Function<WebComponent, T> mappingFunction);
+    <T extends WebComponent> T findComponentAs(By by, Function<WebComponent, T> mappingFunction);
 
     /**
      * Finds all elements within the current page using the given mechanism and encapsulate the {@link WebElement} list
@@ -100,7 +100,7 @@ public interface ComponentWebDriver
      * @see org.openqa.selenium.By
      * @see org.openqa.selenium.WebDriver.Timeouts
      */
-    <T extends WebComponent> List<WebComponent> findComponentsAs(By by, Function<WebComponent, T> mappingFunction);
+    <T extends WebComponent> List<T> findComponentsAs(By by, Function<WebComponent, T> mappingFunction);
 
     /**
      * Find the first {@link WebElement} using the given method and encapsulate it into {@link WebComponent}.

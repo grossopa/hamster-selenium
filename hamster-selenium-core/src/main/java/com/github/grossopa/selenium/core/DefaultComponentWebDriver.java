@@ -66,12 +66,12 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     }
 
     @Override
-    public <T extends WebComponent> WebComponent findComponentAs(By by, Function<WebComponent, T> mappingFunction) {
+    public <T extends WebComponent> T findComponentAs(By by, Function<WebComponent, T> mappingFunction) {
         return mappingFunction.apply(this.findComponent(by));
     }
 
     @Override
-    public <T extends WebComponent> List<WebComponent> findComponentsAs(By by,
+    public <T extends WebComponent> List<T> findComponentsAs(By by,
             Function<WebComponent, T> mappingFunction) {
         return findComponents(by).stream().map(mappingFunction).collect(toList());
     }
