@@ -24,7 +24,6 @@
 
 package com.github.grossopa.selenium.component.mui.pickers;
 
-import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;

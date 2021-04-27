@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -58,7 +58,6 @@ class MuiPickersBasePickerContainerTest {
     void setUp() {
         testSubject = new MuiPickersBasePickerContainer(element, driver, config);
     }
-
 
     @Test
     void getComponentName() {

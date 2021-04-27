@@ -34,7 +34,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 /**
- * The default Dialog implementation
+ * The default Pickers Dialog implementation
  *
  * @author Jack Yin
  * @since 1.2
@@ -92,7 +92,7 @@ public class MuiPickersDialog extends MuiDialog {
      */
     public MuiButton getOkButton() {
         WebComponent actionsContainer = this.getDialogActions();
-        WebComponent okButton = actionsContainer.findComponent(okButtonLocator);
+        WebComponent okButton = actionsContainer.findComponent(getOkButtonLocator());
         return new MuiButton(okButton.getWrappedElement(), driver, config);
     }
 
@@ -103,7 +103,7 @@ public class MuiPickersDialog extends MuiDialog {
      */
     public MuiButton getCancelButton() {
         WebComponent actionsContainer = this.getDialogActions();
-        WebComponent cancelButton = actionsContainer.findComponent(cancelButtonLocator);
+        WebComponent cancelButton = actionsContainer.findComponent(getCancelButtonLocator());
         return new MuiButton(cancelButton.getWrappedElement(), driver, config);
     }
 

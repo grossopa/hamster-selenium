@@ -36,8 +36,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * The transition container for days selection, a transition container should contain the current month dates
- * from 1 to 30 for example.
+ * The transition container for days selection, a transition container should contain the current month dates from 1 to
+ * 30 for example.
  *
  * @author Jack Yin
  * @since 1.2
@@ -53,8 +53,8 @@ public class MuiPickersCalendarTransitionContainer extends AbstractMuiComponent 
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver  the root driver
-     * @param config  the Material UI configuration
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     protected MuiPickersCalendarTransitionContainer(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -92,10 +92,8 @@ public class MuiPickersCalendarTransitionContainer extends AbstractMuiComponent 
      */
     public void select(String day) {
         // Not perfect solution
-        WebComponent component = this.findComponent(By2.textExact(day))
-                .findComponent(By2.parent()).findComponent(By2.parent()).findComponent(By2.parent());
-        System.out.println(component.getAttribute("innerHTML"));
-        System.out.println(component.isDisplayed());
+        WebComponent component = this.findComponent(By2.textExact(day)).findComponent(By2.parent())
+                .findComponent(By2.parent());
         component.click();
     }
 }

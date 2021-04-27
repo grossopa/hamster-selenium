@@ -29,10 +29,8 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import lombok.SneakyThrows;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Represents the header switch header of the Calendar picker dialog, The GUI structure is "&lt;" "April 2021" "&gt;"
@@ -79,7 +77,7 @@ public class MuiPickersCalendarHeaderSwitchHeader extends AbstractMuiComponent {
     public MuiButton getLeftButton() {
         WebComponent component = this
                 .findComponent(By.className(config.getCssPrefix() + "PickersCalendarHeader-iconButton"));
-        return new MuiButton(component.getWrappedElement(), driver, config);
+        return new MuiButton(component, driver, config);
     }
 
     /**
@@ -109,7 +107,7 @@ public class MuiPickersCalendarHeaderSwitchHeader extends AbstractMuiComponent {
     public MuiButton getRightButton() {
         WebComponent component = this
                 .findComponents(By.className(config.getCssPrefix() + "PickersCalendarHeader-iconButton")).get(1);
-        return new MuiButton(component.getWrappedElement(), driver, config);
+        return new MuiButton(component, driver, config);
     }
 
     /**
@@ -117,9 +115,8 @@ public class MuiPickersCalendarHeaderSwitchHeader extends AbstractMuiComponent {
      *
      * @param waitInMillis the wait time in milliseconds
      */
-    @SneakyThrows
     public void clickRightButton(long waitInMillis) {
-        getLeftButton().click();
+        getRightButton().click();
         driver.threadSleep(waitInMillis);
     }
 
