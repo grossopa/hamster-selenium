@@ -223,4 +223,9 @@ class MuiComponentsTest {
     void toAccordion() {
         assertEquals(element, testSubject.toAccordion().getWrappedElement());
     }
+
+    @Test
+    void toPickersDialog() {
+        assertEquals(element, testSubject.toPickersDialog().getWrappedElement());
+    }
 }

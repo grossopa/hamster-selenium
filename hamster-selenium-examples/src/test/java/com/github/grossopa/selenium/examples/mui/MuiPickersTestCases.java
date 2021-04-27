@@ -73,7 +73,7 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
         assertEquals("1905", inputField.getInput().getAttribute("value"));
     }
 
-    public void testBasicExample() throws InterruptedException {
+    public void testBasicExample() {
         driver.navigate().to("https://material-ui-pickers.dev/demo/datepicker");
 
         MuiTextField inputField = driver.findComponent(By2.xpath("//label[text()='Basic example']"))
@@ -96,13 +96,10 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
 
         assertTrue(basicPickerViewComponents.getTransitionContainer().getDayList().size() >= 28);
         assertEquals(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)),
-                basicPickerViewComponents.getTransitionContainer().getSelectedDay().getText());
+                requireNonNull(basicPickerViewComponents.getTransitionContainer().getSelectedDay()).getText());
 
-        basicPickerViewComponents.getSwitchHeader().getLeftButton().click();
+        basicPickerViewComponents.getSwitchHeader().clickLeftButton(1000);
 
-        Thread.sleep( 1000L);
-
-       //  basicPickerViewComponents = dialog.getPickersContainer().getAsBasic();
         basicPickerViewComponents.getTransitionContainer().select("14");
 
         assertEquals("14", basicPickerViewComponents.getTransitionContainer().getSelectedDay().getText());
@@ -140,6 +137,7 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
         MuiPickersTestCases test = new MuiPickersTestCases();
         try {
             test.setUpDriver(CHROME);
+            test.testYearSelectionPopup();
             test.testBasicExample();
         } catch (Exception ex) {
             ex.printStackTrace();
