@@ -100,7 +100,7 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
     public MuiPickersYearSelectionContainer getAsYearSelection() {
         WebComponent component = this
                 .findComponent(By.className(config.getCssPrefix() + MuiPickersYearSelectionContainer.NAME));
-        return new MuiPickersYearSelectionContainer(component.getWrappedElement(), driver, config);
+        return new MuiPickersYearSelectionContainer(component, driver, config);
     }
 
     /**
