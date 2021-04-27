@@ -26,14 +26,20 @@ package com.github.grossopa.selenium.component.mui.navigation;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.locator.By2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+import java.util.Optional;
+
+import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link MuiTabs}
@@ -70,13 +76,72 @@ class MuiTabsTest {
 
     @Test
     void getPreviousScrollButton() {
+        WebElement previousButtonElement = mock(WebElement.class);
+        WebElement nextButtonElement = mock(WebElement.class);
+
+        List<WebElement> buttons = asList(previousButtonElement, nextButtonElement);
+
+        when(element.findElements(
+                By2.attr("class", config.getCssPrefix() + "TabScrollButton-root").depthRelative().contains().build()))
+                .thenReturn(buttons);
+
+        Optional<MuiTabScrollButton> buttonOptional = testSubject.getPreviousScrollButton();
+        assertTrue(buttonOptional.isPresent());
+        assertEquals(previousButtonElement, buttonOptional.get().getWrappedElement());
     }
 
     @Test
     void getNextScrollButton() {
+        WebElement previousButtonElement = mock(WebElement.class);
+        WebElement nextButtonElement = mock(WebElement.class);
+
+        List<WebElement> buttons = asList(previousButtonElement, nextButtonElement);
+
+        when(element.findElements(
+                By2.attr("class", config.getCssPrefix() + "TabScrollButton-root").depthRelative().contains().build()))
+                .thenReturn(buttons);
+
+        Optional<MuiTabScrollButton> buttonOptional = testSubject.getNextScrollButton();
+        assertTrue(buttonOptional.isPresent());
+        assertEquals(nextButtonElement, buttonOptional.get().getWrappedElement());
+    }
+
+
+    @Test
+    void getPreviousScrollButtonNotPresent() {
+        List<WebElement> buttons = newArrayList();
+
+        when(element.findElements(
+                By2.attr("class", config.getCssPrefix() + "TabScrollButton-root").depthRelative().contains().build()))
+                .thenReturn(buttons);
+
+        Optional<MuiTabScrollButton> buttonOptional = testSubject.getPreviousScrollButton();
+        assertTrue(buttonOptional.isEmpty());
+    }
+
+    @Test
+    void getNextScrollButtonNotPresent() {
+        List<WebElement> buttons = newArrayList();
+
+        when(element.findElements(
+                By2.attr("class", config.getCssPrefix() + "TabScrollButton-root").depthRelative().contains().build()))
+                .thenReturn(buttons);
+
+        Optional<MuiTabScrollButton> buttonOptional = testSubject.getNextScrollButton();
+        assertTrue(buttonOptional.isEmpty());
     }
 
     @Test
     void isVertical() {
+        when(config.getCssPrefix()).thenReturn("Mui");
+        when(element.getAttribute("class")).thenReturn("MuiTabs-vertical MuiTabs-other");
+        assertTrue(testSubject.isVertical());
+    }
+
+    @Test
+    void isVerticalNegative() {
+        when(config.getCssPrefix()).thenReturn("Mui");
+        when(element.getAttribute("class")).thenReturn("MuiTabs-some MuiTabs-other");
+        assertFalse(testSubject.isVertical());
     }
 }
