@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -82,7 +82,7 @@ public class MuiPickersDialog extends MuiDialog {
     public MuiPickersBasePickerContainer getPickersContainer() {
         WebComponent component = this.getDialogContent()
                 .findComponent(By.className(config.getCssPrefix() + MuiPickersBasePickerContainer.NAME));
-        return new MuiPickersBasePickerContainer(component.getWrappedElement(), driver, config);
+        return new MuiPickersBasePickerContainer(component, driver, config);
     }
 
     /**
@@ -93,7 +93,7 @@ public class MuiPickersDialog extends MuiDialog {
     public MuiButton getOkButton() {
         WebComponent actionsContainer = this.getDialogActions();
         WebComponent okButton = actionsContainer.findComponent(getOkButtonLocator());
-        return new MuiButton(okButton.getWrappedElement(), driver, config);
+        return new MuiButton(okButton, driver, config);
     }
 
     /**
@@ -104,7 +104,7 @@ public class MuiPickersDialog extends MuiDialog {
     public MuiButton getCancelButton() {
         WebComponent actionsContainer = this.getDialogActions();
         WebComponent cancelButton = actionsContainer.findComponent(getCancelButtonLocator());
-        return new MuiButton(cancelButton.getWrappedElement(), driver, config);
+        return new MuiButton(cancelButton, driver, config);
     }
 
     /**

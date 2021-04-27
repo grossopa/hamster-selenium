@@ -88,7 +88,7 @@ public class MuiPickersYearSelectionContainer extends AbstractMuiComponent {
      * @param year the year text to select
      */
     public void select(String year) {
-        WebComponent component = this.findComponent(By2.textContains(year));
+        WebComponent component = this.findComponent(By2.textExact(year));
         driver.scrollTo(component);
         driver.moveTo(component);
         component.click();
