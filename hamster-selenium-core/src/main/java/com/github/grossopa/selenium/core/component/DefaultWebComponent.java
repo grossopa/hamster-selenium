@@ -72,7 +72,7 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     }
 
     @Override
-    public <T extends WebComponent> WebComponent findComponentAs(By by, Function<WebComponent, T> mappingFunction) {
+    public <T extends WebComponent> T findComponentAs(By by, Function<WebComponent, T> mappingFunction) {
         return mappingFunction.apply(findComponent(by));
     }
 

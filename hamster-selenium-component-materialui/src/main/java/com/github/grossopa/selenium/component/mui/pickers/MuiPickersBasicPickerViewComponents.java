@@ -24,44 +24,25 @@
 
 package com.github.grossopa.selenium.component.mui.pickers;
 
-import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
-import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.openqa.selenium.WebElement;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
- * The default date picker view
+ * the basic components contains 3 components:
+ *
+ * <ul>
+ *     <li>{@link MuiPickersCalendarHeaderSwitchHeader} for navigating the month and year</li>
+ *     <li>{@link MuiPickersCalendarHeaderDaysHeader} for displaying the weekdays label from SU to SA</li>
+ *     <li>{@link MuiPickersCalendarTransitionContainer} for day selection</li>
+ * </ul>
  *
  * @author Jack Yin
  * @since 1.2
  */
-public class MuiPickersBasePickerPickerView extends AbstractMuiComponent {
-
-    public static final String NAME = "PickersBasePicker-pickerView";
-
-    /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     */
-    protected MuiPickersBasePickerPickerView(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        super(element, driver, config);
-    }
-
-    @Override
-    public String getComponentName() {
-        return NAME;
-    }
-
-    /**
-     * Overrides the default behaviour as the Date Picker root is actually a picker view
-     *
-     * @return true if the wrapped element is picker view
-     */
-    @Override
-    public boolean validate() {
-        return config.validateByCss(this, config.getCssPrefix() + NAME);
-    }
+@Getter
+@AllArgsConstructor
+public class MuiPickersBasicPickerViewComponents {
+    private final MuiPickersCalendarHeaderSwitchHeader switchHeader;
+    private final MuiPickersCalendarHeaderDaysHeader daysHeader;
+    private final MuiPickersCalendarTransitionContainer transitionContainer;
 }

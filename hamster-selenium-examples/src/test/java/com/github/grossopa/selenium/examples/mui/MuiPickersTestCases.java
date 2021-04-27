@@ -27,17 +27,20 @@ package com.github.grossopa.selenium.examples.mui;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.inputs.MuiTextField;
 import com.github.grossopa.selenium.component.mui.locator.MuiDialogLocator;
+import com.github.grossopa.selenium.component.mui.pickers.MuiPickersBasicPickerViewComponents;
 import com.github.grossopa.selenium.component.mui.pickers.MuiPickersDialog;
 import com.github.grossopa.selenium.component.mui.pickers.MuiPickersYearSelectionContainer;
-import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
 import static java.util.Objects.requireNonNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The Mui Date and Date time pickers test cases
@@ -70,12 +73,74 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
         assertEquals("1905", inputField.getInput().getAttribute("value"));
     }
 
+    public void testBasicExample() throws InterruptedException {
+        driver.navigate().to("https://material-ui-pickers.dev/demo/datepicker");
+
+        MuiTextField inputField = driver.findComponent(By2.xpath("//label[text()='Basic example']"))
+                .findComponent(By2.parent()).findComponent(By.className("MuiInput-root")).as(mui()).toTextField();
+
+        assertEquals(getCurrentDayInString(), inputField.getInput().getAttribute("value"));
+
+        driver.moveTo(inputField);
+        inputField.click();
+
+        MuiDialogLocator locator = new MuiDialogLocator(driver, new MuiConfig());
+        MuiPickersDialog dialog = locator.findVisibleDialogs().get(0).as(mui()).toPickersDialog();
+        MuiPickersBasicPickerViewComponents basicPickerViewComponents = dialog.getPickersContainer().getAsBasic();
+
+        assertNotNull(basicPickerViewComponents.getDaysHeader());
+        assertNotNull(basicPickerViewComponents.getTransitionContainer());
+        assertNotNull(basicPickerViewComponents.getSwitchHeader());
+
+        Calendar calendar = Calendar.getInstance();
+
+        assertTrue(basicPickerViewComponents.getTransitionContainer().getDayList().size() >= 28);
+        assertEquals(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)),
+                basicPickerViewComponents.getTransitionContainer().getSelectedDay().getText());
+
+        basicPickerViewComponents.getSwitchHeader().getLeftButton().click();
+
+        Thread.sleep( 1000L);
+
+       //  basicPickerViewComponents = dialog.getPickersContainer().getAsBasic();
+        basicPickerViewComponents.getTransitionContainer().select("14");
+
+        assertEquals("14", basicPickerViewComponents.getTransitionContainer().getSelectedDay().getText());
+        dialog.getOkButton().click();
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.set(Calendar.MONTH, calendar2.get(Calendar.MONTH) - 1);
+        calendar2.set(Calendar.DAY_OF_MONTH, 14);
+        assertEquals(getDayInString(calendar2), inputField.getInput().getAttribute("value"));
+    }
+
+    private String getCurrentDayInString() {
+        return getDayInString(Calendar.getInstance());
+    }
+
+    private String getDayInString(Calendar calendar) {
+        String month = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH);
+        String day = getDisplayDay(calendar.get(Calendar.DAY_OF_MONTH));
+        return month + " " + day;
+    }
+
+    private String getDisplayDay(int day) {
+        String suffix = "th";
+        if (day % 20 == 1 || day == 31) {
+            suffix = "st";
+        } else if (day % 20 == 2) {
+            suffix = "nd";
+        } else if (day % 20 == 3) {
+            suffix = "rd";
+        }
+        return day + suffix;
+    }
 
     public static void main(String[] args) {
         MuiPickersTestCases test = new MuiPickersTestCases();
         try {
             test.setUpDriver(CHROME);
-            test.testYearSelectionPopup();
+            test.testBasicExample();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

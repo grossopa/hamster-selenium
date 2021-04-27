@@ -50,8 +50,8 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
+     * @param driver  the root driver
+     * @param config  the Material UI configuration
      */
     public MuiPickersBasePickerContainer(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -101,6 +101,26 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
         WebComponent component = this
                 .findComponent(By.className(config.getCssPrefix() + MuiPickersYearSelectionContainer.NAME));
         return new MuiPickersYearSelectionContainer(component.getWrappedElement(), driver, config);
+    }
+
+    /**
+     * Tries to get the selection component as basic selection. a basic selection should include a month switch header,
+     * a days header and days of the month for selection.
+     *
+     * @return the basic components instance with all 3 sub components in
+     */
+    public MuiPickersBasicPickerViewComponents getAsBasic() {
+        MuiPickersCalendarHeaderSwitchHeader switchHeader = this.findComponentAs(
+                By.className(config.getCssPrefix() + MuiPickersCalendarHeaderSwitchHeader.NAME),
+                c -> new MuiPickersCalendarHeaderSwitchHeader(c.getWrappedElement(), driver, config));
+        MuiPickersCalendarHeaderDaysHeader daysHeader = this.findComponentAs(
+                By.className(config.getCssPrefix() + MuiPickersCalendarHeaderDaysHeader.NAME),
+                c -> new MuiPickersCalendarHeaderDaysHeader(c.getWrappedElement(), driver, config));
+        MuiPickersCalendarTransitionContainer transitionContainer = this.findComponentAs(
+                By.className(config.getCssPrefix() + MuiPickersCalendarTransitionContainer.NAME),
+                c -> new MuiPickersCalendarTransitionContainer(c.getWrappedElement(), driver, config));
+
+        return new MuiPickersBasicPickerViewComponents(switchHeader, daysHeader, transitionContainer);
     }
 
 }

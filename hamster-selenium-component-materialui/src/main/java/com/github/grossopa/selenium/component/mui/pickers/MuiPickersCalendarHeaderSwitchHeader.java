@@ -26,27 +26,33 @@ package com.github.grossopa.selenium.component.mui.pickers;
 
 import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 /**
- * The default date picker view
+ * Represents the header switch header of the Calendar picker dialog, The GUI structure is "&lt;" "April 2021" "&gt;"
  *
  * @author Jack Yin
  * @since 1.2
  */
-public class MuiPickersBasePickerPickerView extends AbstractMuiComponent {
+public class MuiPickersCalendarHeaderSwitchHeader extends AbstractMuiComponent {
 
-    public static final String NAME = "PickersBasePicker-pickerView";
+    /**
+     * The component name
+     */
+    public static final String NAME = "PickersCalendarHeader-switchHeader";
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
+     * @param driver  the root driver
+     * @param config  the Material UI configuration
      */
-    protected MuiPickersBasePickerPickerView(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    protected MuiPickersCalendarHeaderSwitchHeader(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
@@ -55,13 +61,40 @@ public class MuiPickersBasePickerPickerView extends AbstractMuiComponent {
         return NAME;
     }
 
-    /**
-     * Overrides the default behaviour as the Date Picker root is actually a picker view
-     *
-     * @return true if the wrapped element is picker view
-     */
     @Override
     public boolean validate() {
         return config.validateByCss(this, config.getCssPrefix() + NAME);
     }
+
+    /**
+     * Gets the left button for navigating to past dates
+     *
+     * @return the left button component
+     */
+    public MuiButton getLeftButton() {
+        WebComponent component = this.findComponent(
+                By.className(config.getCssPrefix() + "PickersCalendarHeader-iconButton"));
+        return new MuiButton(component.getWrappedElement(), driver, config);
+    }
+
+    /**
+     * Get the middle header component, the container contains the date label for example "April 2021"
+     *
+     * @return the middle header component
+     */
+    public WebComponent getMiddleHeader() {
+        return this.findComponent(By.className(config.getCssPrefix() + "PickersCalendarHeader-transitionContainer"));
+    }
+
+    /**
+     * Gets the right button for navigating to future dates
+     *
+     * @return the right button component
+     */
+    public MuiButton getRightButton() {
+        WebComponent component = this.findComponents(
+                By.className(config.getCssPrefix() + "PickersCalendarHeader-iconButton")).get(1);
+        return new MuiButton(component.getWrappedElement(), driver, config);
+    }
+
 }

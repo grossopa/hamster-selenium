@@ -30,23 +30,26 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * The default date picker view
+ * Represents the Weekdays header it contains 7 elements from SU (Sunday) to SA (Saturday)
  *
  * @author Jack Yin
  * @since 1.2
  */
-public class MuiPickersBasePickerPickerView extends AbstractMuiComponent {
+public class MuiPickersCalendarHeaderDaysHeader extends AbstractMuiComponent {
 
-    public static final String NAME = "PickersBasePicker-pickerView";
+    /**
+     * The component name
+     */
+    public static final String NAME = "PickersCalendarHeader-daysHeader";
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
+     * @param driver  the root driver
+     * @param config  the Material UI configuration
      */
-    protected MuiPickersBasePickerPickerView(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    protected MuiPickersCalendarHeaderDaysHeader(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
@@ -55,11 +58,6 @@ public class MuiPickersBasePickerPickerView extends AbstractMuiComponent {
         return NAME;
     }
 
-    /**
-     * Overrides the default behaviour as the Date Picker root is actually a picker view
-     *
-     * @return true if the wrapped element is picker view
-     */
     @Override
     public boolean validate() {
         return config.validateByCss(this, config.getCssPrefix() + NAME);

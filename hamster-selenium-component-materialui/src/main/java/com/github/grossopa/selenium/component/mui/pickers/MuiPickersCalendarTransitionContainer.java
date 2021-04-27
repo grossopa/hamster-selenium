@@ -27,26 +27,36 @@ package com.github.grossopa.selenium.component.mui.pickers;
 import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.locator.By2;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 /**
- * The default date picker view
+ * The transition container for days selection, a transition container should contain the current month dates
+ * from 1 to 30 for example.
  *
  * @author Jack Yin
  * @since 1.2
  */
-public class MuiPickersBasePickerPickerView extends AbstractMuiComponent {
+public class MuiPickersCalendarTransitionContainer extends AbstractMuiComponent {
 
-    public static final String NAME = "PickersBasePicker-pickerView";
+    /**
+     * The component name
+     */
+    public static final String NAME = "PickersCalendar-transitionContainer";
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
+     * @param driver  the root driver
+     * @param config  the Material UI configuration
      */
-    protected MuiPickersBasePickerPickerView(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    protected MuiPickersCalendarTransitionContainer(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
@@ -56,12 +66,36 @@ public class MuiPickersBasePickerPickerView extends AbstractMuiComponent {
     }
 
     /**
-     * Overrides the default behaviour as the Date Picker root is actually a picker view
+     * Finds the current days button list
      *
-     * @return true if the wrapped element is picker view
+     * @return the current days button list
      */
-    @Override
-    public boolean validate() {
-        return config.validateByCss(this, config.getCssPrefix() + NAME);
+    public List<MuiPickersDay> getDayList() {
+        return this.findComponentsAs(By.className(config.getCssPrefix() + MuiPickersDay.NAME),
+                c -> new MuiPickersDay(c, driver, config));
+    }
+
+    /**
+     * Finds the current selected day
+     *
+     * @return the selected day component or null if nothing selected
+     */
+    @Nullable
+    public MuiPickersDay getSelectedDay() {
+        return getDayList().stream().filter(MuiPickersDay::isSelected).findAny().orElse(null);
+    }
+
+    /**
+     * Selects a day by locating by date string and clicking
+     *
+     * @param day the day in string to select
+     */
+    public void select(String day) {
+        // Not perfect solution
+        WebComponent component = this.findComponent(By2.textExact(day))
+                .findComponent(By2.parent()).findComponent(By2.parent()).findComponent(By2.parent());
+        System.out.println(component.getAttribute("innerHTML"));
+        System.out.println(component.isDisplayed());
+        component.click();
     }
 }
