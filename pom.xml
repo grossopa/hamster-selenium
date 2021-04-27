@@ -51,10 +51,10 @@
     <java.version>11</java.version>
 
     <!-- project dependencies -->
-    <commons-lang3.version>3.11</commons-lang3.version>
+    <commons-lang3.version>3.12.0</commons-lang3.version>
     <commons-math3.version>3.6.1</commons-math3.version>
     <selenium-java.version>3.141.59</selenium-java.version>
-    <lombok.version>RELEASE</lombok.version>
+    <lombok.version>1.18.20</lombok.version>
 
     <!-- testing dependencies -->
     <junit-jupiter.version>RELEASE</junit-jupiter.version>
