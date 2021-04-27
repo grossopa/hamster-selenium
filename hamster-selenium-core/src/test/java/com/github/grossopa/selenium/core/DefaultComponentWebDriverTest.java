@@ -25,6 +25,7 @@
 package com.github.grossopa.selenium.core;
 
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.util.GracefulThreadSleep;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -239,7 +240,7 @@ class DefaultComponentWebDriverTest {
     void scrollTo() {
         RemoteWebElement element = mock(RemoteWebElement.class);
         testSubject.scrollTo(element);
-        verify(driver, only()).executeScript(eq("arguments[0].scrollIntoView();"), eq(element));
+        verify(driver, only()).executeScript("arguments[0].scrollIntoView();", element);
     }
 
     @Test
@@ -268,5 +269,13 @@ class DefaultComponentWebDriverTest {
         when(driver.findElement(By.id("ddd"))).thenReturn(component1);
         testSubject.findComponentAs(By.id("ddd"), mappingFunction);
         verify(mappingFunction, times(1)).apply(any());
+    }
+
+    @Test
+    void threadSleep() {
+        GracefulThreadSleep mockThreadSleep = mock(GracefulThreadSleep.class);
+        testSubject = new DefaultComponentWebDriver(driver, mockThreadSleep);
+        testSubject.threadSleep(3565);
+        verify(mockThreadSleep, only()).sleep(3565);
     }
 }

@@ -29,8 +29,10 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import lombok.SneakyThrows;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Represents the header switch header of the Calendar picker dialog, The GUI structure is "&lt;" "April 2021" "&gt;"
@@ -49,8 +51,8 @@ public class MuiPickersCalendarHeaderSwitchHeader extends AbstractMuiComponent {
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver  the root driver
-     * @param config  the Material UI configuration
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     protected MuiPickersCalendarHeaderSwitchHeader(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -68,13 +70,26 @@ public class MuiPickersCalendarHeaderSwitchHeader extends AbstractMuiComponent {
 
     /**
      * Gets the left button for navigating to past dates
+     * <p>
+     * Use {@link #clickLeftButton(long)} for click and wait for the animation to be completed
+     * </p>
      *
      * @return the left button component
      */
     public MuiButton getLeftButton() {
-        WebComponent component = this.findComponent(
-                By.className(config.getCssPrefix() + "PickersCalendarHeader-iconButton"));
+        WebComponent component = this
+                .findComponent(By.className(config.getCssPrefix() + "PickersCalendarHeader-iconButton"));
         return new MuiButton(component.getWrappedElement(), driver, config);
+    }
+
+    /**
+     * Clicks the left button and wait until the slide animation is completed.
+     *
+     * @param waitInMillis the wait time in milliseconds
+     */
+    public void clickLeftButton(long waitInMillis) {
+        getLeftButton().click();
+        driver.threadSleep(waitInMillis);
     }
 
     /**
@@ -92,9 +107,20 @@ public class MuiPickersCalendarHeaderSwitchHeader extends AbstractMuiComponent {
      * @return the right button component
      */
     public MuiButton getRightButton() {
-        WebComponent component = this.findComponents(
-                By.className(config.getCssPrefix() + "PickersCalendarHeader-iconButton")).get(1);
+        WebComponent component = this
+                .findComponents(By.className(config.getCssPrefix() + "PickersCalendarHeader-iconButton")).get(1);
         return new MuiButton(component.getWrappedElement(), driver, config);
+    }
+
+    /**
+     * Clicks the left button and wait until the slide animation is completed.
+     *
+     * @param waitInMillis the wait time in milliseconds
+     */
+    @SneakyThrows
+    public void clickRightButton(long waitInMillis) {
+        getLeftButton().click();
+        driver.threadSleep(waitInMillis);
     }
 
 }

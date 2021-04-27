@@ -26,6 +26,7 @@ package com.github.grossopa.selenium.core;
 
 import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.util.GracefulThreadSleep;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -50,6 +51,8 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
 
     private final WebDriver driver;
 
+    private final GracefulThreadSleep threadSleep;
+
     /**
      * Constructs an instance with given non-null {@link WebDriver} instance.
      *
@@ -58,6 +61,19 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     public DefaultComponentWebDriver(WebDriver driver) {
         requireNonNull(driver);
         this.driver = driver;
+        this.threadSleep = new GracefulThreadSleep();
+    }
+
+    /**
+     * Constructs an instance with given non-null {@link WebDriver} and {@link GracefulThreadSleep} instances.
+     *
+     * @param driver the existing non-null driver to encapsulate
+     * @param threadSleep the graceful thread sleep instance
+     */
+    public DefaultComponentWebDriver(WebDriver driver, GracefulThreadSleep threadSleep) {
+        requireNonNull(driver);
+        this.driver = driver;
+        this.threadSleep = threadSleep;
     }
 
     @Override
@@ -130,6 +146,11 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
     @Override
     public void scrollTo(WebElement element) {
         executeScript("arguments[0].scrollIntoView();", element);
+    }
+
+    @Override
+    public void threadSleep(long millis) {
+        threadSleep.sleep(millis);
     }
 
     @Override

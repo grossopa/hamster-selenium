@@ -24,41 +24,32 @@
 
 package com.github.grossopa.selenium.core.util;
 
-import org.openqa.selenium.StaleElementReferenceException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import javax.annotation.Nullable;
-import java.util.function.Supplier;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
 
 /**
- * The Selenium framework utils
+ * Tests for {@link GracefulThreadSleep}
  *
  * @author Jack Yin
- * @since 1.1
+ * @since 1.2
  */
-public class SeleniumUtils {
+class GracefulThreadSleepTest {
 
-    /**
-     * private constructor
-     */
-    private SeleniumUtils() {
-        throw new AssertionError();
+    GracefulThreadSleep testSubject;
+
+    @BeforeEach
+    void setUp() {
+        testSubject = new GracefulThreadSleep();
     }
 
-    /**
-     * Executes a method with allowance of throwing the {@link org.openqa.selenium.StaleElementReferenceException}.
-     *
-     * @param <T> the return type
-     * @param function the function to execute, if {@link StaleElementReferenceException} is thrown then will return the
-     * default Value.
-     * @param defaultValue the default value to return
-     * @return result or defaultValue if function throws {@link StaleElementReferenceException}
-     */
-    @Nullable
-    public static <T> T executeIgnoringStaleElementReference(Supplier<T> function, T defaultValue) {
-        try {
-            return function.get();
-        } catch (StaleElementReferenceException exception) {
-            return defaultValue;
-        }
+    @Test
+    void sleep() {
+        long currentMs = System.currentTimeMillis();
+        testSubject.sleep(200);
+        assertTrue(System.currentTimeMillis() - currentMs > 100);
     }
 }

@@ -177,4 +177,11 @@ public interface ComponentWebDriver
      * @param element the element to scroll to
      */
     void scrollTo(WebElement element);
+
+    /**
+     * Sleeps current thread in millisecond
+     *
+     * @param millis the time to sleep in millisecond
+     */
+    void threadSleep(long millis);
 }

@@ -24,41 +24,24 @@
 
 package com.github.grossopa.selenium.core.util;
 
-import org.openqa.selenium.StaleElementReferenceException;
-
-import javax.annotation.Nullable;
-import java.util.function.Supplier;
+import lombok.SneakyThrows;
 
 /**
- * The Selenium framework utils
+ * a graceful implementation of thread sleep which muted the checked Exception signature and provide possibility for
+ * unit testing by passing the mocked thread sleeping into other objects.
  *
  * @author Jack Yin
- * @since 1.1
+ * @since 1.2
  */
-public class SeleniumUtils {
+public class GracefulThreadSleep {
 
     /**
-     * private constructor
-     */
-    private SeleniumUtils() {
-        throw new AssertionError();
-    }
-
-    /**
-     * Executes a method with allowance of throwing the {@link org.openqa.selenium.StaleElementReferenceException}.
+     * Invokes the {@link Thread#sleep(long)} method.
      *
-     * @param <T> the return type
-     * @param function the function to execute, if {@link StaleElementReferenceException} is thrown then will return the
-     * default Value.
-     * @param defaultValue the default value to return
-     * @return result or defaultValue if function throws {@link StaleElementReferenceException}
+     * @param millis sleep in millis
      */
-    @Nullable
-    public static <T> T executeIgnoringStaleElementReference(Supplier<T> function, T defaultValue) {
-        try {
-            return function.get();
-        } catch (StaleElementReferenceException exception) {
-            return defaultValue;
-        }
+    @SneakyThrows
+    public void sleep(long millis) {
+        Thread.sleep(millis);
     }
 }
