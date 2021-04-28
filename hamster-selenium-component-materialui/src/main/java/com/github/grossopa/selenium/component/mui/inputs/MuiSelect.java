@@ -224,9 +224,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
         if (delayInMillis > 0L) {
             WebDriverWait wait = new WebDriverWait(driver, 0L);
             wait.withTimeout(Duration.ofMillis(delayInMillis));
-            wait.until(d -> {
-                return modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME) == null;
-            });
+            wait.until(d -> modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME) == null);
         } else {
             WebComponent closedComponents = modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME);
             if (closedComponents != null && closedComponents.isDisplayed()) {
