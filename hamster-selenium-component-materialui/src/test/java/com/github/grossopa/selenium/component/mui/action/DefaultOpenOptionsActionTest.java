@@ -22,63 +22,35 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.core.component.api;
+package com.github.grossopa.selenium.component.mui.action;
 
+import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ISelect;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import static org.mockito.Mockito.*;
 
 /**
- * The select provides {@link WebComponent} support on top of {@link org.openqa.selenium.support.ui.ISelect}.
+ * Tests for {@link DefaultOpenOptionsAction}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.3
  */
-public interface Select extends ISelect {
+class DefaultOpenOptionsActionTest {
 
-    /**
-     * Returns all options belonging to this select tag
-     *
-     * @return All options belonging to this select tag
-     */
-    List<WebComponent> getOptions2();
+    DefaultOpenOptionsAction testSubject;
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
 
-    /**
-     * Returns all selected options belonging to this select tag
-     *
-     * @return All selected options belonging to this select tag
-     */
-    List<WebComponent> getAllSelectedOptions2();
+    @BeforeEach
+    void setUp() {
+        testSubject = new DefaultOpenOptionsAction();
+    }
 
-    /**
-     * Opens the options list
-     *
-     * @return the options container
-     */
-    WebComponent openOptions();
-
-    /**
-     * Closes the options list
-     */
-    void closeOptions();
-
-    /**
-     * deprecated
-     *
-     * @return All options belonging to this select tag
-     * @deprecated favor {@link #getOptions2()}
-     */
-    @Deprecated(since = "1.0")
-    List<WebElement> getOptions();
-
-    /**
-     * deprecated
-     *
-     * @return All selected options belonging to this select tag
-     * @deprecated favor {@link #getAllSelectedOptions2()}
-     */
-    @Deprecated(since = "1.0")
-    List<WebElement> getAllSelectedOptions();
+    @Test
+    void open() {
+        WebComponent targetSelect = mock(WebComponent.class);
+        testSubject.open(targetSelect, driver);
+        verify(targetSelect, only()).click();
+    }
 }

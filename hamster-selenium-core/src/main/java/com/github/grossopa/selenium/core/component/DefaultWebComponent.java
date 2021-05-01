@@ -88,6 +88,16 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     }
 
     @Override
+    public boolean isFocused() {
+        return element.equals(driver.switchTo().activeElement());
+    }
+
+    @Override
+    public String outerHTML() {
+        return element.getAttribute("outerHTML");
+    }
+
+    @Override
     public <T extends Components> T as(T components) {
         components.setContext(this, driver);
         return components;

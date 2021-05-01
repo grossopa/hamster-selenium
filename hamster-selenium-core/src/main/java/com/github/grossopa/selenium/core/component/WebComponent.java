@@ -176,4 +176,18 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
      * @return true for contains, false otherwise
      */
     boolean attributeContains(String attributeName, String attributeValue);
+
+    /**
+     * Whether the underlying element is currently focused.
+     *
+     * @return true if the underlying element is currently focused.
+     */
+    boolean isFocused();
+
+    /**
+     * Gets the outerHTML of the current component
+     *
+     * @return outerHTML attribute
+     */
+    String outerHTML();
 }

@@ -22,63 +22,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.core.component.api;
+package com.github.grossopa.selenium.component.mui.action;
 
+import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ISelect;
-
-import java.util.List;
 
 /**
- * The select provides {@link WebComponent} support on top of {@link org.openqa.selenium.support.ui.ISelect}.
+ * The default action for opening the options by clicking the owner component.
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.3
  */
-public interface Select extends ISelect {
+public class DefaultOpenOptionsAction implements OpenOptionsAction {
 
-    /**
-     * Returns all options belonging to this select tag
-     *
-     * @return All options belonging to this select tag
-     */
-    List<WebComponent> getOptions2();
-
-    /**
-     * Returns all selected options belonging to this select tag
-     *
-     * @return All selected options belonging to this select tag
-     */
-    List<WebComponent> getAllSelectedOptions2();
-
-    /**
-     * Opens the options list
-     *
-     * @return the options container
-     */
-    WebComponent openOptions();
-
-    /**
-     * Closes the options list
-     */
-    void closeOptions();
-
-    /**
-     * deprecated
-     *
-     * @return All options belonging to this select tag
-     * @deprecated favor {@link #getOptions2()}
-     */
-    @Deprecated(since = "1.0")
-    List<WebElement> getOptions();
-
-    /**
-     * deprecated
-     *
-     * @return All selected options belonging to this select tag
-     * @deprecated favor {@link #getAllSelectedOptions2()}
-     */
-    @Deprecated(since = "1.0")
-    List<WebElement> getAllSelectedOptions();
+    @Override
+    public void open(WebComponent ownerComponent, ComponentWebDriver driver) {
+        ownerComponent.click();
+    }
 }

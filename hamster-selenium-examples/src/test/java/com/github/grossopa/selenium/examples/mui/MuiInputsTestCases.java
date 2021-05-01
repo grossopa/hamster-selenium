@@ -43,6 +43,8 @@ import static java.util.stream.Collectors.toSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
+ * Test cases for input components
+ *
  * @author Jack Yin
  * @since 1.0
  */
