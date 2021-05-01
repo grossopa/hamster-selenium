@@ -25,6 +25,8 @@
 package com.github.grossopa.selenium.component.mui.inputs;
 
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
+import com.github.grossopa.selenium.component.mui.action.DefaultCloseOptionsAction;
+import com.github.grossopa.selenium.component.mui.action.DefaultOpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.core.MuiPopover;
@@ -34,11 +36,12 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -52,6 +55,7 @@ import static org.mockito.Mockito.*;
  * @author Jack Yin
  * @since 1.0
  */
+@SuppressWarnings("java:S6068")
 class MuiSelectTest {
 
     MuiSelect testSubject;
@@ -61,18 +65,19 @@ class MuiSelectTest {
     OpenOptionsAction openOptionsAction = mock(OpenOptionsAction.class);
     CloseOptionsAction closeOptionsAction = mock(CloseOptionsAction.class);
 
+    WebDriverWait webDriverWait = mock(WebDriverWait.class);
+
     WebComponent optionContainer = mock(WebComponent.class);
     WebComponent menuPagerContainer = mock(WebComponent.class);
     List<WebComponent> options;
 
-
     private WebComponent createOptions(String value, String label, boolean selected) {
         WebComponent option = mock(WebComponent.class);
-        when(option.getAttribute(eq("attr-val"))).thenReturn(value);
+        when(option.getAttribute("attr-val")).thenReturn(value);
         when(option.getText()).thenReturn(label);
-        when(config.isSelected(eq(option))).thenReturn(selected);
+        when(config.isSelected(option)).thenReturn(selected);
         doAnswer(a -> {
-            when(config.isSelected(eq(option))).thenReturn(!selected);
+            when(config.isSelected(option)).thenReturn(!selected);
             return null;
         }).when(option).click();
         return option;
@@ -82,22 +87,22 @@ class MuiSelectTest {
 
     @SuppressWarnings("deprecation")
     private void mockOptionOpen() {
-        when(driver.findComponent(eq(By.xpath("/html/body/div")))).thenReturn(optionContainer);
-        when(driver.findComponents(eq(By.xpath("/html/body/div")))).thenReturn(singletonList(optionContainer));
+        when(driver.findComponent(By.xpath("/html/body/div"))).thenReturn(optionContainer);
+        when(driver.findComponents(By.xpath("/html/body/div"))).thenReturn(singletonList(optionContainer));
         when(driver.findElement(eq(By.xpath("/html/body/div")))).thenReturn(optionContainer);
-        when(driver.mapElement(eq(optionContainer))).thenReturn(optionContainer);
-        when(optionContainer.findComponents(eq(By.className("option")))).thenReturn(options);
+        when(driver.mapElement(optionContainer)).thenReturn(optionContainer);
+        when(optionContainer.findComponents(By.className("option"))).thenReturn(options);
         when(optionContainer.isDisplayed()).thenReturn(true);
         optionOpen = true;
     }
 
     @SuppressWarnings("deprecation")
     private void mockOptionsClose() {
-        when(driver.findComponent(eq(By.xpath("/html/body/div")))).thenReturn(null);
-        when(driver.findComponents(eq(By.xpath("/html/body/div")))).thenReturn(emptyList());
+        when(driver.findComponent(By.xpath("/html/body/div"))).thenReturn(null);
+        when(driver.findComponents(By.xpath("/html/body/div"))).thenReturn(emptyList());
         when(driver.findElement(eq(By.xpath("/html/body/div")))).thenThrow(new NoSuchElementException("some"));
-        when(driver.mapElement(eq(optionContainer))).thenReturn(null);
-        when(optionContainer.findComponents(eq(By.className("option")))).thenReturn(emptyList());
+        when(driver.mapElement(optionContainer)).thenReturn(null);
+        when(optionContainer.findComponents(By.className("option"))).thenReturn(emptyList());
         when(optionContainer.isDisplayed()).thenReturn(false);
         optionOpen = false;
     }
@@ -108,20 +113,38 @@ class MuiSelectTest {
     private void mockMenuPager() {
         WebComponent menuPagerComponent = mock(WebComponent.class);
         when(menuPagerComponent.isDisplayed()).thenReturn(true);
-        when(menuPagerContainer.findComponents(eq(config.menuPagerLocator())))
+        when(menuPagerContainer.findComponents(config.menuPagerLocator()))
                 .thenReturn(singletonList(menuPagerComponent));
         when(driver.findComponents(By.xpath("/html/body/div"))).thenReturn(asList(menuPagerContainer, optionContainer));
     }
 
     @BeforeEach
     void setUp() {
+        element = mock(WebElement.class);
+        driver = mock(ComponentWebDriver.class);
+        config = mock(MuiConfig.class);
+        openOptionsAction = mock(OpenOptionsAction.class);
+        closeOptionsAction = mock(CloseOptionsAction.class);
+
+        webDriverWait = mock(WebDriverWait.class);
+
+        optionContainer = mock(WebComponent.class);
+        menuPagerContainer = mock(WebComponent.class);
+
         when(driver.findComponents(By.xpath("/html/body/div"))).thenReturn(singletonList(optionContainer));
+        when(driver.createWait(anyLong())).thenReturn(webDriverWait);
+
+        when(webDriverWait.until(any())).then(answer -> {
+            Function<ComponentWebDriver, ?> isTrueFunction = answer.getArgument(0);
+            return isTrueFunction.apply(driver);
+        });
+
         when(optionContainer.getAttribute("class")).thenReturn("MuiPopover-root");
         when(optionContainer.isDisplayed()).thenReturn(true);
 
         when(config.getOverlayAbsolutePath()).thenReturn("/html/body");
         when(config.menuPagerLocator()).thenReturn(By.className("MuiMenu-pager"));
-        when(config.getRootCss(eq(MuiPopover.COMPONENT_NAME))).thenReturn("MuiPopover-root");
+        when(config.getRootCss(MuiPopover.COMPONENT_NAME)).thenReturn("MuiPopover-root");
 
         options = asList(createOptions("val-0", "Label 0", false),
                 createOptions("val-1", "Label 1 some label 123", true),
@@ -129,8 +152,6 @@ class MuiSelectTest {
                 createOptions("val-3", "Label 3 some label 123", false),
                 createOptions("val-4", "Label 4 some label 123", true),
                 createOptions("val-5", "Label 5 some label 123", true));
-
-
 
         testSubject = new MuiSelect(element, driver, config, By.className("option"), "attr-val", openOptionsAction,
                 closeOptionsAction);
@@ -140,12 +161,12 @@ class MuiSelectTest {
         doAnswer(a -> {
             this.mockOptionOpen();
             return null;
-        }).when(openOptionsAction).open(eq(testSubject), eq(driver));
+        }).when(openOptionsAction).open(testSubject, driver);
 
         doAnswer(a -> {
             this.mockOptionsClose();
             return null;
-        }).when(closeOptionsAction).close(eq(testSubject), eq(options), eq(driver));
+        }).when(closeOptionsAction).close(testSubject, options, driver);
     }
 
     @Test
@@ -153,8 +174,8 @@ class MuiSelectTest {
         MuiSelect select = new MuiSelect(element, driver, config, By.className("asdf"));
         assertEquals("data-value", select.getOptionValueAttribute());
         assertEquals(By.className("asdf"), select.getOptionsLocator());
-        assertEquals(MuiSelect.DEFAULT_OPEN_OPTIONS_ACTION, select.getOpenOptionsAction());
-        assertEquals(MuiSelect.DEFAULT_CLOSE_OPTIONS_ACTION, select.getCloseOptionsAction());
+        assertEquals(DefaultOpenOptionsAction.class, select.getOpenOptionsAction().getClass());
+        assertEquals(DefaultCloseOptionsAction.class, select.getCloseOptionsAction().getClass());
     }
 
     @Test
@@ -162,24 +183,8 @@ class MuiSelectTest {
         MuiSelect select = new MuiSelect(element, driver, config, By.className("asdf"), "some-other");
         assertEquals("some-other", select.getOptionValueAttribute());
         assertEquals(By.className("asdf"), select.getOptionsLocator());
-        assertEquals(MuiSelect.DEFAULT_OPEN_OPTIONS_ACTION, select.getOpenOptionsAction());
-        assertEquals(MuiSelect.DEFAULT_CLOSE_OPTIONS_ACTION, select.getCloseOptionsAction());
-    }
-
-    @Test
-    void defaultOpenOptionsAction() {
-        WebComponent targetSelect = mock(WebComponent.class);
-        MuiSelect.DEFAULT_OPEN_OPTIONS_ACTION.open(targetSelect, driver);
-        verify(targetSelect, only()).click();
-    }
-
-    @Test
-    void defaultCloseOptionsAction() {
-        WebComponent targetSelect = mock(WebComponent.class);
-        WebComponent option = mock(WebComponent.class);
-        List<WebComponent> options = singletonList(option);
-        MuiSelect.DEFAULT_CLOSE_OPTIONS_ACTION.close(targetSelect, options, driver);
-        verify(option, only()).sendKeys(eq(Keys.ESCAPE));
+        assertEquals(DefaultOpenOptionsAction.class, select.getOpenOptionsAction().getClass());
+        assertEquals(DefaultCloseOptionsAction.class, select.getCloseOptionsAction().getClass());
     }
 
     @Test
@@ -248,7 +253,7 @@ class MuiSelectTest {
         WebComponent container = testSubject.openOptions();
         assertEquals(this.optionContainer, container);
         verify(openOptionsAction, never()).open(any(), any());
-        verify(driver, only()).findComponents(eq(By.xpath("/html/body/div")));
+        verify(driver, only()).findComponents(By.xpath("/html/body/div"));
         assertTrue(optionOpen);
     }
 

@@ -40,10 +40,8 @@ public interface OpenOptionsAction {
     /**
      * Opens the options by operating on parentOptionContainer and / or the options list.
      *
-     * @param parentOptionContainer
-     *         the parent option container to operate onto
-     * @param driver
-     *         current Web Driver instance
+     * @param ownerComponent owner component to operate onto
+     * @param driver current Web Driver instance
      */
-    void open(WebComponent parentOptionContainer, ComponentWebDriver driver);
+    void open(WebComponent ownerComponent, ComponentWebDriver driver);
 }

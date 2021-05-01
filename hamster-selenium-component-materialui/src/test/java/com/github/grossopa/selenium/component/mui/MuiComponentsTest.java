@@ -228,4 +228,9 @@ class MuiComponentsTest {
     void toPickersDialog() {
         assertEquals(element, testSubject.toPickersDialog().getWrappedElement());
     }
+
+    @Test
+    void toAutocomplete() {
+        assertEquals(element, testSubject.toAutocomplete().getWrappedElement());
+    }
 }

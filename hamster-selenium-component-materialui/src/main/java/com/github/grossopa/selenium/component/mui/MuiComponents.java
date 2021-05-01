@@ -30,6 +30,7 @@ import com.github.grossopa.selenium.component.mui.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.feedback.MuiSnackbar;
 import com.github.grossopa.selenium.component.mui.inputs.*;
+import com.github.grossopa.selenium.component.mui.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.component.mui.pickers.MuiPickersDialog;
 import com.github.grossopa.selenium.component.mui.surfaces.MuiAppBar;
@@ -378,5 +379,14 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiPickersDialog toPickersDialog() {
         return new MuiPickersDialog(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete}.
+     *
+     * @return the wrapped {@link MuiAutocomplete} instance on the given component
+     */
+    public MuiAutocomplete toAutocomplete() {
+        return new MuiAutocomplete(component, driver, config);
     }
 }

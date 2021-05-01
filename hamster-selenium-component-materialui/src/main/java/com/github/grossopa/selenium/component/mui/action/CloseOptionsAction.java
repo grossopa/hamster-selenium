@@ -42,12 +42,9 @@ public interface CloseOptionsAction {
     /**
      * Closes the options by operating on parentOptionContainer and / or the options list.
      *
-     * @param parentOptionContainer
-     *         the parent option container to operate onto
-     * @param options
-     *         the options list to operate onto
-     * @param driver
-     *         current Web Driver instance
+     * @param ownerComponent the owner component to operate onto
+     * @param options the options list to operate onto
+     * @param driver current Web Driver instance
      */
-    void close(WebComponent parentOptionContainer, List<? extends WebComponent> options, ComponentWebDriver driver);
+    void close(WebComponent ownerComponent, List<? extends WebComponent> options, ComponentWebDriver driver);
 }
