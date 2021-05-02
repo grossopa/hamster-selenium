@@ -39,7 +39,7 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
  * The tags in multiple values feature of {@link MuiAutocomplete}.
  *
  * @author Jack Yin
- * @since 1.3
+ * @since 1.2
  */
 public class MuiAutocompleteTag extends AbstractMuiComponent {
 

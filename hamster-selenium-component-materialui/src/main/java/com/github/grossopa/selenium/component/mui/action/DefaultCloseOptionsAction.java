@@ -35,7 +35,7 @@ import static org.openqa.selenium.Keys.ESCAPE;
  * Default close options actions by sending the ESCAPE key press event.
  *
  * @author Jack Yin
- * @since 1.3
+ * @since 1.2
  */
 public class DefaultCloseOptionsAction implements CloseOptionsAction {
 

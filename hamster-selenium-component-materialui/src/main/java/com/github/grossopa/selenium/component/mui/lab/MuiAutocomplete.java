@@ -51,7 +51,7 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
  *
  * @author Jack Yin
  * @see <a href="https://material-ui.com/components/autocomplete/">https://material-ui.com/components/autocomplete/</a>
- * @since 1.3
+ * @since 1.2
  */
 public class MuiAutocomplete extends AbstractMuiComponent implements Select {
 
@@ -229,7 +229,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
      * @deprecated use {@link #getOptions2()} instead.
      */
     @Override
-    @Deprecated(since = "1.3")
+    @Deprecated(since = "1.2")
     @SuppressWarnings("java:S1133")
     public List<WebElement> getOptions() {
         return new ArrayList<>(getOptions2());
@@ -242,7 +242,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
      * @deprecated use {@link #getAllSelectedOptions2()} instead.
      */
     @Override
-    @Deprecated(since = "1.3")
+    @Deprecated(since = "1.2")
     @SuppressWarnings("java:S1133")
     public List<WebElement> getAllSelectedOptions() {
         return new ArrayList<>(getAllSelectedOptions2());

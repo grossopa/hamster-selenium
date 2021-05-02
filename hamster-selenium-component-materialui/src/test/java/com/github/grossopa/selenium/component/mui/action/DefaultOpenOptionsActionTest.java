@@ -35,7 +35,7 @@ import static org.mockito.Mockito.*;
  * Tests for {@link DefaultOpenOptionsAction}
  *
  * @author Jack Yin
- * @since 1.3
+ * @since 1.2
  */
 class DefaultOpenOptionsActionTest {
 

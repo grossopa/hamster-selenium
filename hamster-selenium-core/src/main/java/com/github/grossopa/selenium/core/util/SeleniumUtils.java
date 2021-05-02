@@ -69,7 +69,7 @@ public class SeleniumUtils {
      * Cleans the text of an input element by simulating to press backspace key.
      *
      * @param inputElement the input element to clean
-     * @since 1.3
+     * @since 1.2
      */
     @SuppressWarnings("java:S6212")
     public static void cleanText(WebElement inputElement) {

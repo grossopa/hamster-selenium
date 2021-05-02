@@ -39,7 +39,7 @@ import static org.openqa.selenium.Keys.BACK_SPACE;
  * Test cases for lab components
  *
  * @author Jack Yin
- * @since 1.3
+ * @since 1.2
  */
 public class MuiLabTestCases extends AbstractBrowserSupport {
 

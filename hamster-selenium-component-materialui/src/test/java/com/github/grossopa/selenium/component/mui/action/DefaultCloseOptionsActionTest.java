@@ -39,7 +39,7 @@ import static org.mockito.Mockito.*;
  * Tests for {@link DefaultCloseOptionsAction}
  *
  * @author Jack Yin
- * @since 1.3
+ * @since 1.2
  */
 class DefaultCloseOptionsActionTest {
 

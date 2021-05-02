@@ -36,7 +36,7 @@ import static java.util.Objects.requireNonNull;
  * The locators for {@link MuiAutocompleteTag}
  *
  * @author Jack Yin
- * @since 1.3
+ * @since 1.2
  */
 public class MuiAutocompleteTagLocators {
 
