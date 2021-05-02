@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui;
 
+import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
+import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.feedback.MuiBackdrop;
@@ -31,6 +33,7 @@ import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.feedback.MuiSnackbar;
 import com.github.grossopa.selenium.component.mui.inputs.*;
 import com.github.grossopa.selenium.component.mui.lab.MuiAutocomplete;
+import com.github.grossopa.selenium.component.mui.lab.MuiAutocompleteTagLocators;
 import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.component.mui.pickers.MuiPickersDialog;
 import com.github.grossopa.selenium.component.mui.surfaces.MuiAppBar;
@@ -40,6 +43,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import lombok.Getter;
 import org.openqa.selenium.By;
 
+import javax.annotation.Nullable;
 import java.util.function.UnaryOperator;
 
 import static java.util.Objects.requireNonNull;
@@ -388,5 +392,42 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiAutocomplete toAutocomplete() {
         return new MuiAutocomplete(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator
+     *
+     * @param optionLocator the option locator for finding the option elements
+     * @return the wrapped {@link MuiAutocomplete} instance on the given component
+     */
+    public MuiAutocomplete toAutocomplete(@Nullable By optionLocator) {
+        return new MuiAutocomplete(component, driver, config, optionLocator);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator
+     *
+     * @param optionLocator the option locator for finding the option elements
+     * @param tagLocators the tag locators for finding the selected option elements
+     * @return the wrapped {@link MuiAutocomplete} instance on the given component
+     */
+    public MuiAutocomplete toAutocomplete(@Nullable By optionLocator,
+            @Nullable MuiAutocompleteTagLocators tagLocators) {
+        return new MuiAutocomplete(component, driver, config, optionLocator, tagLocators);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator
+     *
+     * @param optionLocator the option locator for finding the option elements
+     * @param tagLocators the tag locators for finding the selected option elements
+     * @param openOptionsAction the customized open options action
+     * @param closeOptionsAction the customized close options action
+     * @return the wrapped {@link MuiAutocomplete} instance on the given component
+     */
+    public MuiAutocomplete toAutocomplete(@Nullable By optionLocator, @Nullable MuiAutocompleteTagLocators tagLocators,
+            @Nullable OpenOptionsAction openOptionsAction, @Nullable CloseOptionsAction closeOptionsAction) {
+        return new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
+                closeOptionsAction);
     }
 }

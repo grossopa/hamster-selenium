@@ -33,7 +33,7 @@ import java.util.function.Function;
 import static java.util.Objects.requireNonNull;
 
 /**
- * the locators for {@link MuiAutocompleteTag}
+ * The locators for {@link MuiAutocompleteTag}
  *
  * @author Jack Yin
  * @since 1.3
@@ -94,6 +94,7 @@ public class MuiAutocompleteTagLocators {
      * @param config the mui configuration
      * @return create {@link MuiAutocompleteTagLocators} for locating the Chip as tag item
      */
+    @SuppressWarnings("java:S6212")
     public static MuiAutocompleteTagLocators chipLocators(MuiConfig config) {
         Function<MuiAutocompleteTag, String> labelFinder = tag -> {
             WebComponent component = tag.findComponent(By.tagName("span"));
@@ -102,5 +103,4 @@ public class MuiAutocompleteTagLocators {
         By deleteButtonLocator = By.className(config.getCssPrefix() + "Chip-deleteIcon");
         return new MuiAutocompleteTagLocators(labelFinder, labelFinder, deleteButtonLocator);
     }
-
 }

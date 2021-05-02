@@ -101,6 +101,15 @@ public class MuiAutocompleteTag extends AbstractMuiComponent {
     }
 
     /**
+     * Gets the tag locators.
+     *
+     * @return the tag locators.
+     */
+    public MuiAutocompleteTagLocators getLocators() {
+        return this.locators;
+    }
+
+    /**
      * Finds the delete button.
      *
      * @return the delete button.

@@ -55,7 +55,15 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
  */
 public class MuiAutocomplete extends AbstractMuiComponent implements Select {
 
+    /**
+     * The component name
+     */
     public static final String NAME = "Autocomplete";
+
+    /**
+     * The inner input component name
+     */
+    public static final String INPUT_NAME = "Autocomplete-inputRoot";
 
     private final MuiModalFinder modalFinder;
     private final By optionLocator;
@@ -131,7 +139,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
 
     @Override
     public boolean isEnabled() {
-        return !config.isDisabled(this.findComponent(By.className(config.getCssPrefix() + "Autocomplete-inputRoot")));
+        return !config.isDisabled(this.findComponent(By.className(config.getCssPrefix() + INPUT_NAME)));
     }
 
     /**
@@ -185,9 +193,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
      */
     @Override
     public List<WebComponent> getAllSelectedOptions2() {
-        return this.findComponent(By.className(config.getCssPrefix() + "Autocomplete-inputRoot"))
-                .findComponentsAs(By.className(config.getCssPrefix() + MuiAutocompleteTag.NAME),
-                        c -> new MuiAutocompleteTag(c, driver, config, tagLocators));
+        return new ArrayList<>(getVisibleTags());
     }
 
     @Override
@@ -213,7 +219,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
 
     @Override
     public boolean isMultiple() {
-        return false;
+        return true;
     }
 
     /**
@@ -271,6 +277,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
     }
 
     @Override
+    @SuppressWarnings("java:S6212")
     public void deselectAll() {
         int index = 0;
         List<MuiAutocompleteTag> options;
@@ -344,9 +351,53 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
     }
 
     private List<MuiAutocompleteTag> getVisibleTags() {
-        return this.findComponent(By.className(config.getCssPrefix() + "Autocomplete-inputRoot"))
+        return this.findComponent(By.className(config.getCssPrefix() + INPUT_NAME))
                 .findComponentsAs(By.className(config.getCssPrefix() + MuiAutocompleteTag.NAME),
                         c -> new MuiAutocompleteTag(c, driver, config, tagLocators));
     }
 
+    /**
+     * Gets the modal finder for locating the popup modal / overlay.
+     *
+     * @return the modal finder instance.
+     */
+    public MuiModalFinder getModalFinder() {
+        return modalFinder;
+    }
+
+    /**
+     * Gets the option locator.
+     *
+     * @return the option locator.
+     */
+    public By getOptionLocator() {
+        return optionLocator;
+    }
+
+    /**
+     * Gets the action for open the options.
+     *
+     * @return the action for open the options.
+     */
+    public OpenOptionsAction getOpenOptionsAction() {
+        return openOptionsAction;
+    }
+
+    /**
+     * Gets the action for closing the options.
+     *
+     * @return the action for closing the options.
+     */
+    public CloseOptionsAction getCloseOptionsAction() {
+        return closeOptionsAction;
+    }
+
+    /**
+     * Gets the locators for tag component.
+     *
+     * @return the locators for tag component.
+     */
+    public MuiAutocompleteTagLocators getTagLocators() {
+        return tagLocators;
+    }
 }
