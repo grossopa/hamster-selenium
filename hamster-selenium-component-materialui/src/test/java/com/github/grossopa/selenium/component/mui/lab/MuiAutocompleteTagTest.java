@@ -39,7 +39,7 @@ import static org.mockito.Mockito.when;
  * Tests for {@link MuiAutocompleteTag}
  *
  * @author Jack Yin
- * @since 1.2
+ * @since 1.3
  */
 class MuiAutocompleteTagTest {
 

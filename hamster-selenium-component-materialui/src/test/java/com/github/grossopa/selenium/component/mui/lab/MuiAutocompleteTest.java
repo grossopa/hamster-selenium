@@ -47,7 +47,7 @@ import static org.mockito.Mockito.*;
  * Tests for {@link MuiAutocomplete}
  *
  * @author Jack Yin
- * @since 1.2
+ * @since 1.3
  */
 @SuppressWarnings("deprecation")
 class MuiAutocompleteTest {

@@ -31,7 +31,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
  * The default action for opening the options by clicking the owner component.
  *
  * @author Jack Yin
- * @since 1.2
+ * @since 1.3
  */
 public class DefaultOpenOptionsAction implements OpenOptionsAction {
 

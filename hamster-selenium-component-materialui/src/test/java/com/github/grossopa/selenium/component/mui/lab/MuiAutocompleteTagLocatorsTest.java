@@ -40,7 +40,7 @@ import static org.mockito.Mockito.when;
  * Tests for {@link MuiAutocompleteTagLocators}
  *
  * @author Jack Yin
- * @since 1.2
+ * @since 1.3
  */
 class MuiAutocompleteTagLocatorsTest {
 
