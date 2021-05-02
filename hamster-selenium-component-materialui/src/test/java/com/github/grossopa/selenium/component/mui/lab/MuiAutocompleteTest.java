@@ -270,7 +270,7 @@ class MuiAutocompleteTest {
     @Test
     void getFirstSelectedOptionNull() {
         visibleTags.clear();
-        assertNull(testSubject.getFirstSelectedOption().getText());
+        assertNull(testSubject.getFirstSelectedOption());
     }
 
     @Test
