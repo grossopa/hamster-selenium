@@ -26,7 +26,6 @@ package com.github.grossopa.selenium.component.mui.lab;
 
 import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
-import com.github.grossopa.selenium.component.mui.action.DefaultOpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
@@ -41,6 +40,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -61,6 +61,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
     private final By optionLocator;
     private final OpenOptionsAction openOptionsAction;
     private final CloseOptionsAction closeOptionsAction;
+    private final MuiAutocompleteTagLocators tagLocators;
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -70,7 +71,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
      * @param config the Material UI configuration
      */
     public MuiAutocomplete(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        this(element, driver, config, null, null, null);
+        this(element, driver, config, null, null, null, null);
     }
 
     /**
@@ -83,7 +84,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
      */
     public MuiAutocomplete(WebElement element, ComponentWebDriver driver, MuiConfig config,
             @Nullable By optionLocator) {
-        this(element, driver, config, optionLocator, null, null);
+        this(element, driver, config, optionLocator, null, null, null);
     }
 
     /**
@@ -93,21 +94,53 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
      * @param driver the root driver
      * @param config the Material UI configuration
      * @param optionLocator optional, the locator for finding the option
+     * @param tagLocators optional for the multiple value tag locators
+     */
+    public MuiAutocomplete(WebElement element, ComponentWebDriver driver, MuiConfig config, @Nullable By optionLocator,
+            @Nullable MuiAutocompleteTagLocators tagLocators) {
+        this(element, driver, config, optionLocator, tagLocators, null, null);
+    }
+
+    /**
+     * Constructs an instance with the delegated element and root driver
+     *
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
+     * @param optionLocator optional, the locator for finding the option
+     * @param tagLocators optional for the multiple value tag locators
      * @param openOptionsAction the action to open the options
      * @param closeOptionsAction the action to close the options
      */
     public MuiAutocomplete(WebElement element, ComponentWebDriver driver, MuiConfig config, @Nullable By optionLocator,
-            OpenOptionsAction openOptionsAction, CloseOptionsAction closeOptionsAction) {
+            @Nullable MuiAutocompleteTagLocators tagLocators, @Nullable OpenOptionsAction openOptionsAction,
+            @Nullable CloseOptionsAction closeOptionsAction) {
         super(element, driver, config);
         this.modalFinder = new MuiModalFinder(driver, config);
         this.optionLocator = defaultIfNull(optionLocator, By.className(config.getCssPrefix() + "Autocomplete-option"));
-        this.openOptionsAction = defaultIfNull(openOptionsAction, new DefaultOpenOptionsAction());
-        this.closeOptionsAction = defaultIfNull(closeOptionsAction, (component, options, d) -> getInput().sendKeys(Keys.ESCAPE));
+        this.tagLocators = defaultIfNull(tagLocators, MuiAutocompleteTagLocators.chipLocators(config));
+        this.openOptionsAction = defaultIfNull(openOptionsAction, (component, d) -> getInput().click());
+        this.closeOptionsAction = defaultIfNull(closeOptionsAction,
+                (component, options, d) -> getInput().sendKeys(Keys.ESCAPE));
     }
 
     @Override
     public String getComponentName() {
         return NAME;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return !config.isDisabled(this.findComponent(By.className(config.getCssPrefix() + "Autocomplete-inputRoot")));
+    }
+
+    /**
+     * Finds the input component within the Autocomplete.
+     *
+     * @return the input component within the Autocomplete.
+     */
+    public WebComponent getLabel() {
+        return this.findComponent(By.tagName("label"));
     }
 
     /**
@@ -129,23 +162,39 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
                 c -> new MuiButton(c, driver, config));
     }
 
+    /**
+     * Finds the popup button, note the button might be not interactable if it's not shown.
+     *
+     * @return the popup button
+     */
+    public MuiButton getPopupButton() {
+        return findComponentAs(By.className(config.getCssPrefix() + "Autocomplete-popupIndicator"),
+                c -> new MuiButton(c, driver, config));
+    }
+
     @Override
     public List<WebComponent> getOptions2() {
         WebComponent overlay = openOptions();
         return overlay.findComponents(optionLocator);
     }
 
+    /**
+     * The selected options within the body, this method will only work under Multiple values model.
+     *
+     * @return the selected {@link MuiAutocompleteTag} components.
+     */
     @Override
     public List<WebComponent> getAllSelectedOptions2() {
-        return null;
+        return this.findComponent(By.className(config.getCssPrefix() + "Autocomplete-inputRoot"))
+                .findComponentsAs(By.className(config.getCssPrefix() + MuiAutocompleteTag.NAME),
+                        c -> new MuiAutocompleteTag(c, driver, config, tagLocators));
     }
 
     @Override
     public WebComponent openOptions() {
         WebComponent overlay = tryGetOverlay();
         if (overlay == null) {
-            WebComponent input = getInput();
-            input.click();
+            openOptionsAction.open(this, driver);
         }
         overlay = tryGetOverlay();
         if (overlay == null) {
@@ -167,20 +216,36 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
         return false;
     }
 
+    /**
+     * Finds the options list.
+     *
+     * @return the selected options list.
+     * @deprecated use {@link #getOptions2()} instead.
+     */
     @Override
+    @Deprecated(since = "1.3")
+    @SuppressWarnings("java:S1133")
     public List<WebElement> getOptions() {
-        WebComponent overlay = openOptions();
-        return overlay.findElements(optionLocator);
+        return new ArrayList<>(getOptions2());
     }
 
+    /**
+     * Finds the selected options (tags) list.
+     *
+     * @return the selected options (tags) list.
+     * @deprecated use {@link #getAllSelectedOptions2()} instead.
+     */
     @Override
+    @Deprecated(since = "1.3")
+    @SuppressWarnings("java:S1133")
     public List<WebElement> getAllSelectedOptions() {
-        return null;
+        return new ArrayList<>(getAllSelectedOptions2());
     }
 
     @Override
     public WebElement getFirstSelectedOption() {
-        return null;
+        List<WebComponent> selectedOptions = getAllSelectedOptions2();
+        return selectedOptions.isEmpty() ? null : selectedOptions.get(0);
     }
 
     @Override
@@ -207,29 +272,81 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
 
     @Override
     public void deselectAll() {
-
+        int index = 0;
+        List<MuiAutocompleteTag> options;
+        // refreshes the visible tags for each while loop as all components will be recreated after removing an element.
+        while ((options = getVisibleTags()).size() > index) {
+            if (!options.get(index).isEnabled()) {
+                // skip disabled
+                index++;
+                continue;
+            }
+            options.get(index).getDeleteButton().click();
+        }
     }
 
     @Override
     public void deselectByValue(String value) {
-
+        List<MuiAutocompleteTag> options = getVisibleTags();
+        for (MuiAutocompleteTag option : options) {
+            if (StringUtils.equals(value, option.getValue())) {
+                option.getDeleteButton().click();
+                // return here as all components will be recreated after removing the element that caused
+                // the options are not valid after deletion. A potential side effect is that the deselect action
+                // will only remove one element (e.g. duplicated value).
+                return;
+            }
+        }
     }
 
     @Override
     public void deselectByIndex(int index) {
-
+        List<MuiAutocompleteTag> options = getVisibleTags();
+        options.get(index).getDeleteButton().click();
     }
 
     @Override
     public void deselectByVisibleText(String text) {
+        List<MuiAutocompleteTag> options = getVisibleTags();
+        for (MuiAutocompleteTag option : options) {
+            if (StringUtils.equals(text, option.getLabel())) {
+                option.getDeleteButton().click();
+                // return here as all components will be recreated after removing the element that caused
+                // the options are not valid after deletion. A potential side effect is that the deselect action
+                // will only remove one element (e.g. duplicated visible text).
+                return;
+            }
+        }
+    }
 
+    /**
+     * Whether there is no options.
+     *
+     * @return true if there is no options and "No Options" is shown.
+     */
+    public boolean isNoOptions() {
+        WebComponent overlay = this.openOptions();
+        List<WebComponent> noOptions = overlay
+                .findComponents(By.className(config.getCssPrefix() + "Autocomplete-noOptions"));
+        return !noOptions.isEmpty();
     }
 
     @Nullable
     private WebComponent tryGetOverlay() {
+        WebComponent input = this.getInput();
+        if (!input.isFocused()) {
+            // Make sure the input is focused so we have only one overlay there
+            driver.moveTo(input);
+        }
         List<WebComponent> overlays = modalFinder
                 .findOverlays(Set.of(config.getCssPrefix() + "Autocomplete-popper"), false);
         return overlays.isEmpty() ? null : overlays.get(0);
+    }
+
+    private List<MuiAutocompleteTag> getVisibleTags() {
+        return this.findComponent(By.className(config.getCssPrefix() + "Autocomplete-inputRoot"))
+                .findComponentsAs(By.className(config.getCssPrefix() + MuiAutocompleteTag.NAME),
+                        c -> new MuiAutocompleteTag(c, driver, config, tagLocators));
     }
 
 }

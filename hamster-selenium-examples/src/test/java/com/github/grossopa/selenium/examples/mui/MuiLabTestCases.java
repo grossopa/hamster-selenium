@@ -26,13 +26,14 @@ package com.github.grossopa.selenium.examples.mui;
 
 import com.github.grossopa.selenium.component.mui.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.core.locator.By2;
+import com.github.grossopa.selenium.core.util.SeleniumUtils;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.openqa.selenium.Keys.BACK_SPACE;
 
 /**
  * Test cases for lab components
@@ -49,6 +50,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
                 .findComponent(By2.parent()).as(mui()).toAutocomplete();
 
         assertTrue(autoComplete.validate());
+        assertEquals("Combo box", autoComplete.getLabel().getText());
 
         assertEquals("", autoComplete.getInput().getAttribute("value"));
         autoComplete.selectByIndex(0);
@@ -67,14 +69,97 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
         autoComplete.getClearButton().click();
         autoComplete.selectByVisibleText("3 Idiots");
         assertEquals("3 Idiots", autoComplete.getInput().getAttribute("value"));
+
+        autoComplete.getInput()
+                .sendKeys(BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE,
+                        BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE);
+        assertFalse(autoComplete.isNoOptions());
+        autoComplete.getInput().sendKeys("fffffffffffff");
+        assertTrue(autoComplete.isNoOptions());
+        SeleniumUtils.cleanText(autoComplete.getInput());
+
+        autoComplete.closeOptions();
+
+        autoComplete.getPopupButton().click();
+        autoComplete.closeOptions();
     }
 
+    public void testAutocompleteDisabled() {
+        driver.navigate().to("https://material-ui.com/components/autocomplete/");
+
+        MuiAutocomplete disabledAutocomplete = driver.findComponent(By.id("disabled-label")).findComponent(By2.parent())
+                .findComponent(By2.parent()).as(mui()).toAutocomplete();
+
+        assertTrue(disabledAutocomplete.validate());
+        assertFalse(disabledAutocomplete.isEnabled());
+        assertEquals("disabled", disabledAutocomplete.getLabel().getText());
+    }
+
+    public void testAutocompleteMultipleValues() {
+        driver.navigate().to("https://material-ui.com/components/autocomplete/");
+        MuiAutocomplete multiAutocomplete = driver.findComponent(By.id("tags-standard-label"))
+                .findComponent(By2.parent()).findComponent(By2.parent()).as(mui()).toAutocomplete();
+
+        assertTrue(multiAutocomplete.validate());
+
+        multiAutocomplete.selectByVisibleText("The Lord of the Rings: The Fellowship of the Ring");
+        assertEquals(2, multiAutocomplete.getAllSelectedOptions2().size());
+
+        multiAutocomplete.selectByValue("The Godfather");
+        assertEquals(3, multiAutocomplete.getAllSelectedOptions2().size());
+
+        multiAutocomplete.selectByVisibleText("Spirited Away");
+        assertEquals(4, multiAutocomplete.getAllSelectedOptions2().size());
+
+        multiAutocomplete.selectByIndex(0);
+        //The Shawshank Redemption
+        assertEquals(5, multiAutocomplete.getAllSelectedOptions2().size());
+
+        multiAutocomplete.deselectByIndex(0);
+        driver.threadSleep(200L);
+        assertEquals(4, multiAutocomplete.getAllSelectedOptions2().size());
+
+        multiAutocomplete.deselectByValue("Spirited Away");
+        driver.threadSleep(200L);
+        assertEquals(3, multiAutocomplete.getAllSelectedOptions2().size());
+
+        multiAutocomplete.deselectByVisibleText("The Shawshank Redemption");
+        driver.threadSleep(200L);
+        assertEquals(2, multiAutocomplete.getAllSelectedOptions2().size());
+
+        multiAutocomplete.selectByVisibleText("Spirited Away");
+        assertEquals(3, multiAutocomplete.getAllSelectedOptions2().size());
+
+        multiAutocomplete.getInput().sendKeys("pia");
+        assertEquals("The Pianist", multiAutocomplete.getOptions2().get(0).getText());
+        multiAutocomplete.selectByIndex(0);
+
+        assertEquals(4, multiAutocomplete.getAllSelectedOptions2().size());
+
+        multiAutocomplete.deselectAll();
+        assertEquals(0, multiAutocomplete.getAllSelectedOptions2().size());
+    }
+
+    public void testAutocompleteFixedOptions() {
+        driver.navigate().to("https://material-ui.com/components/autocomplete/");
+
+        MuiAutocomplete fixedOptionsAutocomplete = driver.findComponent(By.id("fixed-tags-demo-label"))
+                .findComponent(By2.parent()).findComponent(By2.parent()).as(mui()).toAutocomplete();
+
+        assertTrue(fixedOptionsAutocomplete.validate());
+        driver.moveTo(fixedOptionsAutocomplete);
+        fixedOptionsAutocomplete.deselectAll();
+        assertEquals(1, fixedOptionsAutocomplete.getAllSelectedOptions2().size());
+    }
 
     public static void main(String[] args) {
         MuiLabTestCases test = new MuiLabTestCases();
         try {
             test.setUpDriver(CHROME);
             test.testAutocompleteComboBox();
+            test.testAutocompleteDisabled();
+            test.testAutocompleteMultipleValues();
+            test.testAutocompleteFixedOptions();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
