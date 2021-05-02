@@ -43,7 +43,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -157,32 +156,6 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     @Override
     public List<WebComponent> getAllSelectedOptions2(Long delayInMillis) {
         return getOptions2(delayInMillis).stream().filter(config::isSelected).collect(toList());
-    }
-
-    /**
-     * Gets the options
-     *
-     * @return the options as {@link WebElement} collection.
-     * @deprecated the interface method from Selenium returns the {@link WebElement} collection.
-     */
-    @Override
-    @Deprecated(since = "1.0")
-    @SuppressWarnings("java:S1133")
-    public List<WebElement> getOptions() {
-        return new ArrayList<>(getOptions2());
-    }
-
-    /**
-     * Gets all selected options
-     *
-     * @return the selected options as {@link WebElement} collection.
-     * @deprecated the interface method from Selenium returns the {@link WebElement} collection.
-     */
-    @Override
-    @Deprecated(since = "1.0")
-    @SuppressWarnings("java:S1133")
-    public List<WebElement> getAllSelectedOptions() {
-        return new ArrayList<>(getAllSelectedOptions2());
     }
 
     @Override

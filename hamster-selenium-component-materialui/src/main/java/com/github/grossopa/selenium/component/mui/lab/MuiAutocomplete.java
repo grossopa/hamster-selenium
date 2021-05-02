@@ -222,32 +222,6 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
         return true;
     }
 
-    /**
-     * Finds the options list.
-     *
-     * @return the selected options list.
-     * @deprecated use {@link #getOptions2()} instead.
-     */
-    @Override
-    @Deprecated(since = "1.2")
-    @SuppressWarnings("java:S1133")
-    public List<WebElement> getOptions() {
-        return new ArrayList<>(getOptions2());
-    }
-
-    /**
-     * Finds the selected options (tags) list.
-     *
-     * @return the selected options (tags) list.
-     * @deprecated use {@link #getAllSelectedOptions2()} instead.
-     */
-    @Override
-    @Deprecated(since = "1.2")
-    @SuppressWarnings("java:S1133")
-    public List<WebElement> getAllSelectedOptions() {
-        return new ArrayList<>(getAllSelectedOptions2());
-    }
-
     @Override
     public WebElement getFirstSelectedOption() {
         List<WebComponent> selectedOptions = getAllSelectedOptions2();

@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ISelect;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -71,7 +72,10 @@ public interface Select extends ISelect {
      * @deprecated favor {@link #getOptions2()}
      */
     @Deprecated(since = "1.0")
-    List<WebElement> getOptions();
+    @SuppressWarnings("java:S1133")
+    default List<WebElement> getOptions() {
+        return new ArrayList<>(getOptions2());
+    }
 
     /**
      * deprecated
@@ -80,5 +84,8 @@ public interface Select extends ISelect {
      * @deprecated favor {@link #getAllSelectedOptions2()}
      */
     @Deprecated(since = "1.0")
-    List<WebElement> getAllSelectedOptions();
+    @SuppressWarnings("java:S1133")
+    default List<WebElement> getAllSelectedOptions() {
+        return new ArrayList<>(getAllSelectedOptions2());
+    }
 }
