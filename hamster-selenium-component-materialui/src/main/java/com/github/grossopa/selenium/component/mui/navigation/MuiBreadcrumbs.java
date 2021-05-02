@@ -50,12 +50,9 @@ public class MuiBreadcrumbs extends AbstractMuiComponent {
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiBreadcrumbs(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -69,8 +66,7 @@ public class MuiBreadcrumbs extends AbstractMuiComponent {
     /**
      * Finds the breadcrumb item by index. note if it's collapsed then only includes the visible items.
      *
-     * @param index
-     *         the index of the breadcrumb
+     * @param index the index of the breadcrumb
      * @return the found item
      */
     public WebComponent getItemAt(int index) {
@@ -104,8 +100,7 @@ public class MuiBreadcrumbs extends AbstractMuiComponent {
     public void expand() {
         List<WebComponent> touchRipples = this.findComponents(getTouchRippleLocator());
         if (touchRipples.isEmpty()) {
-            throw new BreadcrumbsAlreadyExpandedException(
-                    String.format("breadcrumb %s is already expanded.", this.toString()));
+            throw new BreadcrumbsAlreadyExpandedException(String.format("breadcrumb %s is already expanded.", this));
         }
 
         touchRipples.forEach(touchRipple -> touchRipple.findComponent(By.xpath("parent::*")).click());

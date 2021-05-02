@@ -50,7 +50,7 @@ public abstract class AbstractBrowserSupport {
         DriverConfig config = new DriverConfig();
         config.setDriverExecutablePath(EXECUTABLE_PATH);
         config.setDriverVersion("85");
-        config.setType(WebDriverType.CHROME);
+        config.setType(type);
 
         Capabilities options = config.getType().apply(new CreateOptionsAction(), null);
         WebDriver temp = config.getType()
@@ -61,7 +61,7 @@ public abstract class AbstractBrowserSupport {
     }
 
     public void stopDriver() {
-        // driver.close();
+        // do nothing
     }
 
 }

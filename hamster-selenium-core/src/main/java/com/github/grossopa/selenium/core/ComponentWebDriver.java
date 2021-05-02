@@ -26,7 +26,6 @@ package com.github.grossopa.selenium.core;
 
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.*;
-import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Interactive;

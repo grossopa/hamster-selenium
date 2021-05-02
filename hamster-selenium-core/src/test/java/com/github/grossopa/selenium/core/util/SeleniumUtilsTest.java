@@ -25,7 +25,6 @@
 package com.github.grossopa.selenium.core.util;
 
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
@@ -35,7 +34,6 @@ import java.lang.reflect.InvocationTargetException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.openqa.selenium.Keys.BACK_SPACE;
-import static org.openqa.selenium.Keys.ESCAPE;
 
 /**
  * Tests for {@link SeleniumUtils}
