@@ -25,12 +25,17 @@
 package com.github.grossopa.selenium.core.util;
 
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.openqa.selenium.Keys.BACK_SPACE;
+import static org.openqa.selenium.Keys.ESCAPE;
 
 /**
  * Tests for {@link SeleniumUtils}
@@ -78,5 +83,21 @@ class SeleniumUtilsTest {
             throw new IllegalArgumentException("ddd");
         }, defaultValue));
 
+    }
+
+    @Test
+    void cleanText() {
+        WebElement element = mock(WebElement.class);
+        when(element.getAttribute("value")).thenReturn("aaaaaaaaaa");
+        SeleniumUtils.cleanText(element);
+        verify(element, times(10)).sendKeys(BACK_SPACE);
+    }
+
+    @Test
+    void cleanTextEmpty() {
+        WebElement element = mock(WebElement.class);
+        when(element.getAttribute("value")).thenReturn("");
+        SeleniumUtils.cleanText(element);
+        verify(element, never()).sendKeys(BACK_SPACE);
     }
 }
