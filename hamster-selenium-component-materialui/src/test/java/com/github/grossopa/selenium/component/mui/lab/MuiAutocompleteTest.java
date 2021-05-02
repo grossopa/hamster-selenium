@@ -268,6 +268,12 @@ class MuiAutocompleteTest {
     }
 
     @Test
+    void getFirstSelectedOptionNull() {
+        visibleTags.clear();
+        assertNull(testSubject.getFirstSelectedOption().getText());
+    }
+
+    @Test
     void selectByVisibleText() {
         testSubject.selectByVisibleText("option2");
         verify(options.get(1), times(1)).click();

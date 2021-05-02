@@ -29,6 +29,7 @@ import com.github.grossopa.selenium.core.component.factory.WebComponentFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.Arrays;
@@ -36,8 +37,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -56,7 +56,6 @@ class DefaultWebComponentTest {
     void setUp() {
         testSubject = new DefaultWebComponent(element, driver);
     }
-
 
     @Test
     void getWrappedElement() {
@@ -86,7 +85,7 @@ class DefaultWebComponentTest {
     void to() {
         WebComponentFactory<WebComponent> factory = mock(WebComponentFactory.class);
         testSubject.to(factory);
-        verify(factory, only()).apply(eq(element), eq(driver));
+        verify(factory, only()).apply(element, driver);
     }
 
     @Test
@@ -100,7 +99,7 @@ class DefaultWebComponentTest {
     void as() {
         Components components = mock(Components.class);
         assertEquals(components, testSubject.as(components));
-        verify(components, only()).setContext(eq(testSubject), eq(driver));
+        verify(components, only()).setContext(testSubject, driver);
     }
 
     @Test
@@ -123,5 +122,29 @@ class DefaultWebComponentTest {
         when(element.findElement(By.id("ddd"))).thenReturn(component1);
         testSubject.findComponentAs(By.id("ddd"), mappingFunction);
         verify(mappingFunction, times(1)).apply(any());
+    }
+
+    @Test
+    void isFocusedTrue() {
+        WebDriver.TargetLocator targetLocator = mock(WebDriver.TargetLocator.class);
+        when(driver.switchTo()).thenReturn(targetLocator);
+        when(targetLocator.activeElement()).thenReturn(element);
+
+        assertTrue(testSubject.isFocused());
+    }
+
+    @Test
+    void isFocusedFalse() {
+        WebDriver.TargetLocator targetLocator = mock(WebDriver.TargetLocator.class);
+        when(driver.switchTo()).thenReturn(targetLocator);
+        when(targetLocator.activeElement()).thenReturn(null);
+
+        assertFalse(testSubject.isFocused());
+    }
+
+    @Test
+    void outerHTML() {
+        when(element.getAttribute("outerHTML")).thenReturn("some-outer-html");
+        assertEquals("some-outer-html", testSubject.outerHTML());
     }
 }
