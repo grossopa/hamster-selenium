@@ -27,7 +27,7 @@ Plain HTML:
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-html</artifactId>
-      <version>1.2</version>
+      <version>1.3</version>
     </dependency>
 
 Material UI:
@@ -35,7 +35,7 @@ Material UI:
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-materialui</artifactId>
-      <version>1.2</version>
+      <version>1.3</version>
     </dependency>
 
 Create a ComponentWebDriver from existing WebDriver:
