@@ -86,4 +86,9 @@ class AbstractMuiComponentTest {
     void getComponentName() {
         assertEquals("MockComponent", testSubject.getComponentName());
     }
+
+    @Test
+    void config() {
+        assertEquals(config, testSubject.config());
+    }
 }

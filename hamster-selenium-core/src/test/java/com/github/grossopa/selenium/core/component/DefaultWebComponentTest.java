@@ -147,4 +147,9 @@ class DefaultWebComponentTest {
         when(element.getAttribute("outerHTML")).thenReturn("some-outer-html");
         assertEquals("some-outer-html", testSubject.outerHTML());
     }
+
+    @Test
+    void driver() {
+        assertEquals(driver, testSubject.driver());
+    }
 }

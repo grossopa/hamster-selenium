@@ -25,10 +25,14 @@
 package com.github.grossopa.selenium.examples.mui;
 
 import com.github.grossopa.selenium.component.mui.lab.MuiAutocomplete;
+import com.github.grossopa.selenium.component.mui.lab.MuiPagination;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.core.util.SeleniumUtils;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+
+import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
@@ -152,6 +156,59 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
         assertEquals(1, fixedOptionsAutocomplete.getAllSelectedOptions2().size());
     }
 
+    public void testPaginationBasic() {
+        driver.navigate().to("https://material-ui.com/components/pagination/");
+
+        MuiPagination pagination = driver.findComponent(By.id("BasicPagination.js")).findComponent(By2.parent())
+                .findComponent(By.className("MuiPagination-root")).as(mui()).toPagination();
+        assertTrue(pagination.validate());
+        assertEquals(1, pagination.getCurrentPageIndex());
+        assertFalse(pagination.previousButton().isEnabled());
+        assertTrue(pagination.nextButton().isEnabled());
+
+        pagination.setPageIndex(3);
+        assertEquals(3, pagination.getCurrentPageIndex());
+        pagination.setPageIndex(8);
+        assertEquals(8, pagination.getCurrentPageIndex());
+        pagination.nextButton().click();
+        pagination.nextButton().click();
+        assertEquals(10, pagination.getCurrentPageIndex());
+        assertTrue(pagination.previousButton().isEnabled());
+        assertFalse(pagination.nextButton().isEnabled());
+
+        MuiPagination disabledPagination = driver.findComponent(By.id("BasicPagination.js")).findComponent(By2.parent())
+                .findComponents(By.className("MuiPagination-root")).get(3).as(mui()).toPagination();
+        assertFalse(disabledPagination.isEnabled());
+    }
+
+    public void testPaginationButtons() {
+        driver.navigate().to("https://material-ui.com/components/pagination/");
+
+        List<MuiPagination> paginationList = driver.findComponent(By.id("PaginationButtons.js"))
+                .findComponent(By2.parent())
+                .findComponentsAs(By.className("MuiPagination-root"), component -> component.as(mui()).toPagination());
+
+        MuiPagination pagination = paginationList.get(0);
+        assertNotNull(pagination.firstButton());
+        assertNotNull(pagination.lastButton());
+        assertNotNull(pagination.previousButton());
+        assertNotNull(pagination.nextButton());
+        pagination.setPageIndex(6);
+
+        assertEquals(6, pagination.getCurrentPageIndex());
+
+        pagination.firstButton().click();
+        assertEquals(1, pagination.getCurrentPageIndex());
+        pagination.lastButton().click();
+        assertEquals(10, pagination.getCurrentPageIndex());
+
+        MuiPagination pagination2 = paginationList.get(1);
+        assertThrows(NoSuchElementException.class, pagination2::firstButton);
+        assertThrows(NoSuchElementException.class, pagination2::lastButton);
+        assertThrows(NoSuchElementException.class, pagination2::previousButton);
+        assertThrows(NoSuchElementException.class, pagination2::nextButton);
+    }
+
     public static void main(String[] args) {
         MuiLabTestCases test = new MuiLabTestCases();
         try {
@@ -160,6 +217,8 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
             test.testAutocompleteDisabled();
             test.testAutocompleteMultipleValues();
             test.testAutocompleteFixedOptions();
+            test.testPaginationBasic();
+            test.testPaginationButtons();
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

@@ -44,6 +44,13 @@ import java.util.function.Function;
 public interface WebComponent extends WrapsElement, WebElement, HasIdentity, TakesScreenshot, Locatable, WrapsDriver {
 
     /**
+     * Gets the web driver
+     *
+     * @return the web driver
+     */
+    ComponentWebDriver driver();
+
+    /**
      * Find all elements within the current context using the given mechanism and encapsulate the {@link WebElement}
      * list into {@link WebComponent}.
      * <p>

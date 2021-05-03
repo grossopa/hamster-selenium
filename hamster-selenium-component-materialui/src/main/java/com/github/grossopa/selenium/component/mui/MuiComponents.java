@@ -34,6 +34,8 @@ import com.github.grossopa.selenium.component.mui.feedback.MuiSnackbar;
 import com.github.grossopa.selenium.component.mui.inputs.*;
 import com.github.grossopa.selenium.component.mui.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.lab.MuiAutocompleteTagLocators;
+import com.github.grossopa.selenium.component.mui.lab.MuiPagination;
+import com.github.grossopa.selenium.component.mui.lab.MuiPaginationLocators;
 import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.component.mui.pickers.MuiPickersDialog;
 import com.github.grossopa.selenium.component.mui.surfaces.MuiAppBar;
@@ -430,4 +432,25 @@ public class MuiComponents extends AbstractComponents {
         return new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
                 closeOptionsAction);
     }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiPagination}.
+     *
+     * @return the wrapped {@link MuiPagination} instance on the given component
+     */
+    public MuiPagination toPagination() {
+        return new MuiPagination(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiPagination} with customized button locators
+     *
+     * @param locators the customized locators for pagination buttons and index
+     * @return the wrapped {@link MuiPagination} instance on the given component
+     */
+    public MuiPagination toPagination(@Nullable MuiPaginationLocators locators) {
+        return new MuiPagination(component, driver, config, locators);
+    }
+
+
 }

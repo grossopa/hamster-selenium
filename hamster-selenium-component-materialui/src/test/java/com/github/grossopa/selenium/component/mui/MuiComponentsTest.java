@@ -29,6 +29,8 @@ import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.lab.MuiAutocompleteTagLocators;
+import com.github.grossopa.selenium.component.mui.lab.MuiPagination;
+import com.github.grossopa.selenium.component.mui.lab.MuiPaginationLocators;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
@@ -266,5 +268,17 @@ class MuiComponentsTest {
         assertEquals(tagLocators, autocomplete.getTagLocators());
         assertEquals(openOptionsAction, autocomplete.getOpenOptionsAction());
         assertEquals(closeOptionsAction, autocomplete.getCloseOptionsAction());
+    }
+
+    @Test
+    void toPagination() {
+        assertEquals(element, testSubject.toPagination().getWrappedElement());
+    }
+
+    @Test
+    void toPagination2() {
+        MuiPaginationLocators locators = mock(MuiPaginationLocators.class);
+        MuiPagination pagination = testSubject.toPagination(locators);
+        assertEquals(locators, pagination.getLocators());
     }
 }
