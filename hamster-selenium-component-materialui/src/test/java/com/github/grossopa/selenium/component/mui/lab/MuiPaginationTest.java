@@ -27,12 +27,9 @@ package com.github.grossopa.selenium.component.mui.lab;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -43,7 +40,6 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.ArgumentMatchers.*;
 
 /**
  * Tests for {@link MuiPagination}
@@ -228,6 +224,9 @@ class MuiPaginationTest {
         verify(all.get(2), never()).click();
         verify(all.get(1), never()).click();
         verify(all.get(0), never()).click();
+
+        testSubject.setPageIndex(2);
+        assertEquals(2, testSubject.getCurrentPageIndex());
     }
 
     @Test
