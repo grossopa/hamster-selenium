@@ -5,23 +5,27 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=grossopa_hamster-selenium&metric=code_smells)](https://sonarcloud.io/dashboard?id=grossopa_hamster-selenium)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=grossopa_hamster-selenium&metric=ncloc)](https://sonarcloud.io/dashboard?id=grossopa_hamster-selenium)
 
-On top of Selenium (web browser automation tool) for providing component-based abstraction of Html DOM with interaction 
+On top of Selenium (web browser automation tool) for providing component-based abstraction of Html DOM with interaction
 APIs for automating the web pages built by modern front-end frameworks such as Material UI.
 
 It depends on selenium-java 3.141.59 and JDK 11. please visit https://github.com/SeleniumHQ/selenium to understand how
 to use Selenium.
 
 ## Material UI
+
 Most of the commonly used components have been implemented in hamster-selenium-component-materialui module.
 
-All the supported MUI components could be found in `MuiComponents` class. They have been tested against the examples 
-in the Material UI official page:
- 
-  https://material-ui.com/
+All the supported MUI components could be found in `MuiComponents` class. They have been tested against the examples in
+the Material UI official page:
 
-Check hamster-selenium-examples module for the sample code. 
+https://material-ui.com/
+
+Check hamster-selenium-examples module for the sample code and
+https://github.com/grossopa/hamster-selenium/wiki/Supported-Material-UI-Components for supported Material UI
+components.
 
 ## How to Use
+
 Plain HTML:
 
     <dependency>
@@ -48,7 +52,8 @@ Locate the element root by class name (e.g. class="MuiSelect-root") or other ind
 
 Convert the WebComponent to the target class.
 
-`MuiSelect select = component.as(MuiComponents.mui()).toSelect(By2.attr("class", "MuiMenuItem-root").contains().anyDepthChild().build());`;
+`MuiSelect select = component.as(MuiComponents.mui()).toSelect(By2.attr("class", "MuiMenuItem-root").contains().anyDepthChild().build());`
+;
 
 # License
 
