@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -25,9 +25,12 @@
 package com.github.grossopa.selenium.core.util;
 
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
+
+import static org.openqa.selenium.Keys.BACK_SPACE;
 
 /**
  * The Selenium framework utils
@@ -45,7 +48,7 @@ public class SeleniumUtils {
     }
 
     /**
-     * Executes a method with allowance of throwing the {@link org.openqa.selenium.StaleElementReferenceException}.
+     * Executes a method with allowance of throwing the {@link StaleElementReferenceException}.
      *
      * @param <T> the return type
      * @param function the function to execute, if {@link StaleElementReferenceException} is thrown then will return the
@@ -59,6 +62,20 @@ public class SeleniumUtils {
             return function.get();
         } catch (StaleElementReferenceException exception) {
             return defaultValue;
+        }
+    }
+
+    /**
+     * Cleans the text of an input element by simulating to press backspace key.
+     *
+     * @param inputElement the input element to clean
+     * @since 1.3
+     */
+    @SuppressWarnings("java:S6212")
+    public static void cleanText(WebElement inputElement) {
+        String text = inputElement.getAttribute("value");
+        for (int i = 0; i < text.length(); i++) {
+            inputElement.sendKeys(BACK_SPACE);
         }
     }
 }

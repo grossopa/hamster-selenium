@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 
-import static java.util.Arrays.stream;
+import static com.github.grossopa.selenium.core.component.util.WebComponentUtils.attributeContains;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
@@ -127,8 +127,8 @@ public class MuiModalFinder {
      *
      * @return the found top overlay component or null if no overlays found.
      */
-    public @Nullable
-    WebComponent findTopVisibleOverlay() {
+    @Nullable
+    public WebComponent findTopVisibleOverlay() {
         List<WebComponent> overlays = findVisibleOverlays();
         return overlays.isEmpty() ? null : overlays.get(overlays.size() - 1);
     }
@@ -139,18 +139,25 @@ public class MuiModalFinder {
      * @param componentName any of @{@link MuiPopover#COMPONENT_NAME}
      * @return the found top overlay component or null if no overlays found.
      */
-    public @Nullable
-    WebComponent findTopVisibleOverlay(String componentName) {
+    @Nullable
+    public WebComponent findTopVisibleOverlay(String componentName) {
         List<WebComponent> overlays = findVisibleOverlays(componentName);
         return overlays.isEmpty() ? null : overlays.get(overlays.size() - 1);
     }
 
-    private List<WebComponent> findOverlays(Set<String> modalClasses, boolean includeHidden) {
+    /**
+     * Finds the overlays by a list of class names and whether includes hidden ones by invoking {@link
+     * WebComponent#isDisplayed()} of found overlays.
+     *
+     * @param classNames the class names to find
+     * @param includeHidden whether includes hidden overlays (for some components they will create hidden overlays even
+     * not triggered)
+     * @return the found overlays
+     */
+    public List<WebComponent> findOverlays(Set<String> classNames, boolean includeHidden) {
         List<WebComponent> divComponents = driver.findComponents(By.xpath(config.getOverlayAbsolutePath() + "/div"));
         return divComponents.stream().filter(component -> includeHidden || component.isDisplayed())
-                .filter(component -> {
-                    String classAttr = component.getAttribute("class");
-                    return stream(classAttr.split(" ")).anyMatch(s -> modalClasses.contains(s.trim()));
-                }).collect(toList());
+                .filter(component -> classNames.stream()
+                        .anyMatch(modalClass -> attributeContains(component, "class", modalClass))).collect(toList());
     }
 }

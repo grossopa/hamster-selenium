@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -43,14 +43,16 @@ import org.openqa.selenium.WebElement;
 public class MuiTextField extends AbstractMuiComponent implements FormField {
 
     /**
+     * The component name
+     */
+    public static final String NAME = "TextField";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiTextField(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -58,14 +60,13 @@ public class MuiTextField extends AbstractMuiComponent implements FormField {
 
     @Override
     public String getComponentName() {
-        return "TextField";
+        return NAME;
     }
 
     /**
      * Sets the text to the inner input.
      *
-     * @param text
-     *         the text to send to inner input by {@link #sendKeys(CharSequence...)}.
+     * @param text the text to send to inner input by {@link #sendKeys(CharSequence...)}.
      */
     public void sendText(CharSequence text) {
         getInput().sendKeys(text);

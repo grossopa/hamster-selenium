@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -26,22 +26,23 @@ package com.github.grossopa.selenium.component.mui.inputs;
 
 import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
+import com.github.grossopa.selenium.component.mui.action.DefaultCloseOptionsAction;
+import com.github.grossopa.selenium.component.mui.action.DefaultOpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.core.MuiPopover;
 import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
-import org.apache.commons.lang3.StringUtils;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
@@ -66,18 +67,7 @@ import static java.util.stream.Collectors.toList;
  * https://material-ui.com/components/selects/</a>
  * @since 1.0
  */
-public class MuiSelect extends AbstractMuiComponent implements Select {
-
-    /**
-     * The default action for opening the options
-     */
-    public static final OpenOptionsAction DEFAULT_OPEN_OPTIONS_ACTION = (component, driver) -> component.click();
-
-    /**
-     * The default action for closing the options
-     */
-    public static final CloseOptionsAction DEFAULT_CLOSE_OPTIONS_ACTION = (component, options, driver) -> options.get(0)
-            .sendKeys(Keys.ESCAPE);
+public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSelect {
 
     private final String optionValueAttribute;
     private final By optionsLocator;
@@ -97,8 +87,8 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
      * @param optionsLocator the locator for finding the options
      */
     public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, By optionsLocator) {
-        this(element, driver, config, optionsLocator, "data-value", DEFAULT_OPEN_OPTIONS_ACTION,
-                DEFAULT_CLOSE_OPTIONS_ACTION);
+        this(element, driver, config, optionsLocator, "data-value", new DefaultOpenOptionsAction(),
+                new DefaultCloseOptionsAction());
     }
 
     /**
@@ -112,8 +102,8 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
      */
     public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, By optionsLocator,
             String optionValueAttribute) {
-        this(element, driver, config, optionsLocator, optionValueAttribute, DEFAULT_OPEN_OPTIONS_ACTION,
-                DEFAULT_CLOSE_OPTIONS_ACTION);
+        this(element, driver, config, optionsLocator, optionValueAttribute, new DefaultOpenOptionsAction(),
+                new DefaultCloseOptionsAction());
     }
 
     /**
@@ -169,18 +159,6 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
     }
 
     @Override
-    @Deprecated
-    public List<WebElement> getOptions() {
-        return new ArrayList<>(getOptions2());
-    }
-
-    @Override
-    @Deprecated
-    public List<WebElement> getAllSelectedOptions() {
-        return new ArrayList<>(getAllSelectedOptions2());
-    }
-
-    @Override
     public WebComponent openOptions() {
         return openOptions(0L);
     }
@@ -196,8 +174,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
 
         WebComponent container;
         if (delayInMillis > 0L) {
-            WebDriverWait wait = new WebDriverWait(driver, 0L);
-            wait.withTimeout(Duration.ofMillis(delayInMillis));
+            WebDriverWait wait = driver.createWait(delayInMillis);
             container = driver
                     .mapElement(wait.until(d -> modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME)));
         } else {

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -42,6 +42,13 @@ import java.util.function.Function;
  */
 @SuppressWarnings("deprecation")
 public interface WebComponent extends WrapsElement, WebElement, HasIdentity, TakesScreenshot, Locatable, WrapsDriver {
+
+    /**
+     * Gets the web driver
+     *
+     * @return the web driver
+     */
+    ComponentWebDriver driver();
 
     /**
      * Find all elements within the current context using the given mechanism and encapsulate the {@link WebElement}
@@ -176,4 +183,18 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
      * @return true for contains, false otherwise
      */
     boolean attributeContains(String attributeName, String attributeValue);
+
+    /**
+     * Whether the underlying element is currently focused.
+     *
+     * @return true if the underlying element is currently focused.
+     */
+    boolean isFocused();
+
+    /**
+     * Gets the outerHTML of the current component
+     *
+     * @return outerHTML attribute
+     */
+    String outerHTML();
 }

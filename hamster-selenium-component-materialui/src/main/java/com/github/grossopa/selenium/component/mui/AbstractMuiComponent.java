@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -38,7 +38,7 @@ import static java.util.Objects.requireNonNull;
  * @author Jack Yin
  * @since 1.0
  */
-public abstract class AbstractMuiComponent extends DefaultWebComponent {
+public abstract class AbstractMuiComponent extends DefaultWebComponent implements MuiComponent {
 
     protected final MuiConfig config;
 
@@ -52,6 +52,11 @@ public abstract class AbstractMuiComponent extends DefaultWebComponent {
     protected AbstractMuiComponent(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver);
         this.config = requireNonNull(config);
+    }
+
+    @Override
+    public MuiConfig config() {
+        return config;
     }
 
     @Override
@@ -74,5 +79,6 @@ public abstract class AbstractMuiComponent extends DefaultWebComponent {
      * @return the current component name
      */
     public abstract String getComponentName();
+
 
 }

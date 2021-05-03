@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -85,5 +85,10 @@ class AbstractMuiComponentTest {
     @Test
     void getComponentName() {
         assertEquals("MockComponent", testSubject.getComponentName());
+    }
+
+    @Test
+    void config() {
+        assertEquals(config, testSubject.config());
     }
 }

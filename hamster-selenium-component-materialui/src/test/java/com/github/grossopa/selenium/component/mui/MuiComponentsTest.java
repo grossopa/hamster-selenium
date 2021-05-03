@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -24,7 +24,13 @@
 
 package com.github.grossopa.selenium.component.mui;
 
+import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
+import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.lab.MuiAutocomplete;
+import com.github.grossopa.selenium.component.mui.lab.MuiAutocompleteTagLocators;
+import com.github.grossopa.selenium.component.mui.lab.MuiPagination;
+import com.github.grossopa.selenium.component.mui.lab.MuiPaginationLocators;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
@@ -227,5 +233,52 @@ class MuiComponentsTest {
     @Test
     void toPickersDialog() {
         assertEquals(element, testSubject.toPickersDialog().getWrappedElement());
+    }
+
+    @Test
+    void toAutocomplete() {
+        assertEquals(element, testSubject.toAutocomplete().getWrappedElement());
+    }
+
+    @Test
+    void toAutocomplete1() {
+        MuiAutocomplete autocomplete = testSubject.toAutocomplete(By.className("options"));
+        assertEquals(element, autocomplete.getWrappedElement());
+        assertEquals(By.className("options"), autocomplete.getOptionLocator());
+    }
+
+    @Test
+    void toAutocomplete2() {
+        MuiAutocompleteTagLocators tagLocators = mock(MuiAutocompleteTagLocators.class);
+        MuiAutocomplete autocomplete = testSubject.toAutocomplete(By.className("options"), tagLocators);
+        assertEquals(element, autocomplete.getWrappedElement());
+        assertEquals(By.className("options"), autocomplete.getOptionLocator());
+        assertEquals(tagLocators, autocomplete.getTagLocators());
+    }
+
+    @Test
+    void toAutocomplete3() {
+        MuiAutocompleteTagLocators tagLocators = mock(MuiAutocompleteTagLocators.class);
+        OpenOptionsAction openOptionsAction = mock(OpenOptionsAction.class);
+        CloseOptionsAction closeOptionsAction = mock(CloseOptionsAction.class);
+        MuiAutocomplete autocomplete = testSubject
+                .toAutocomplete(By.className("options"), tagLocators, openOptionsAction, closeOptionsAction);
+        assertEquals(element, autocomplete.getWrappedElement());
+        assertEquals(By.className("options"), autocomplete.getOptionLocator());
+        assertEquals(tagLocators, autocomplete.getTagLocators());
+        assertEquals(openOptionsAction, autocomplete.getOpenOptionsAction());
+        assertEquals(closeOptionsAction, autocomplete.getCloseOptionsAction());
+    }
+
+    @Test
+    void toPagination() {
+        assertEquals(element, testSubject.toPagination().getWrappedElement());
+    }
+
+    @Test
+    void toPagination2() {
+        MuiPaginationLocators locators = mock(MuiPaginationLocators.class);
+        MuiPagination pagination = testSubject.toPagination(locators);
+        assertEquals(locators, pagination.getLocators());
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -28,11 +28,11 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ISelect;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The select provides {@link WebComponent} support on top of {@link
- * org.openqa.selenium.support.ui.ISelect}.
+ * The select provides {@link WebComponent} support on top of {@link org.openqa.selenium.support.ui.ISelect}.
  *
  * @author Jack Yin
  * @since 1.0
@@ -47,29 +47,11 @@ public interface Select extends ISelect {
     List<WebComponent> getOptions2();
 
     /**
-     * Returns all options belonging to this select tag
-     *
-     * @param delayInMillis
-     *         the delays in milliseconds
-     * @return All options belonging to this select tag
-     */
-    List<WebComponent> getOptions2(Long delayInMillis);
-
-    /**
      * Returns all selected options belonging to this select tag
      *
      * @return All selected options belonging to this select tag
      */
     List<WebComponent> getAllSelectedOptions2();
-
-    /**
-     * Returns all selected options belonging to this select tag
-     *
-     * @param delayInMillis
-     *         the delays in milliseconds
-     * @return All selected options belonging to this select tag
-     */
-    List<WebComponent> getAllSelectedOptions2(Long delayInMillis);
 
     /**
      * Opens the options list
@@ -79,26 +61,9 @@ public interface Select extends ISelect {
     WebComponent openOptions();
 
     /**
-     * Opens the options list with delays
-     *
-     * @param delayInMillis
-     *         the delays in milliseconds
-     * @return the options container
-     */
-    WebComponent openOptions(Long delayInMillis);
-
-    /**
      * Closes the options list
      */
     void closeOptions();
-
-    /**
-     * Closes the options list with delays
-     *
-     * @param delayInMillis
-     *         the delays in milliseconds
-     */
-    void closeOptions(Long delayInMillis);
 
     /**
      * deprecated
@@ -107,7 +72,10 @@ public interface Select extends ISelect {
      * @deprecated favor {@link #getOptions2()}
      */
     @Deprecated(since = "1.0")
-    List<WebElement> getOptions();
+    @SuppressWarnings("java:S1133")
+    default List<WebElement> getOptions() {
+        return new ArrayList<>(getOptions2());
+    }
 
     /**
      * deprecated
@@ -116,21 +84,8 @@ public interface Select extends ISelect {
      * @deprecated favor {@link #getAllSelectedOptions2()}
      */
     @Deprecated(since = "1.0")
-    List<WebElement> getAllSelectedOptions();
-
-    WebElement getFirstSelectedOption(Long delayInMillis);
-
-    void selectByVisibleText(String text, Long delayInMillis);
-
-    void selectByIndex(int index, Long delayInMillis);
-
-    void selectByValue(String value, Long delayInMillis);
-
-    void deselectAll(Long delayInMillis);
-
-    void deselectByValue(String value, Long delayInMillis);
-
-    void deselectByIndex(int index, Long delayInMillis);
-
-    void deselectByVisibleText(String text, Long delayInMillis);
+    @SuppressWarnings("java:S1133")
+    default List<WebElement> getAllSelectedOptions() {
+        return new ArrayList<>(getAllSelectedOptions2());
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -40,10 +40,8 @@ public interface OpenOptionsAction {
     /**
      * Opens the options by operating on parentOptionContainer and / or the options list.
      *
-     * @param parentOptionContainer
-     *         the parent option container to operate onto
-     * @param driver
-     *         current Web Driver instance
+     * @param ownerComponent owner component to operate onto
+     * @param driver current Web Driver instance
      */
-    void open(WebComponent parentOptionContainer, ComponentWebDriver driver);
+    void open(WebComponent ownerComponent, ComponentWebDriver driver);
 }

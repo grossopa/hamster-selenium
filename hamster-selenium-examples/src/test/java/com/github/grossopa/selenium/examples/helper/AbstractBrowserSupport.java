@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -50,7 +50,7 @@ public abstract class AbstractBrowserSupport {
         DriverConfig config = new DriverConfig();
         config.setDriverExecutablePath(EXECUTABLE_PATH);
         config.setDriverVersion("85");
-        config.setType(WebDriverType.CHROME);
+        config.setType(type);
 
         Capabilities options = config.getType().apply(new CreateOptionsAction(), null);
         WebDriver temp = config.getType()
@@ -61,7 +61,7 @@ public abstract class AbstractBrowserSupport {
     }
 
     public void stopDriver() {
-        // driver.close();
+        // do nothing
     }
 
 }

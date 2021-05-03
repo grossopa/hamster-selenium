@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -57,6 +57,11 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     }
 
     @Override
+    public ComponentWebDriver driver() {
+        return driver;
+    }
+
+    @Override
     public List<WebComponent> findComponents(By by) {
         return element.findElements(by).stream().map(e -> new DefaultWebComponent(e, driver)).collect(toList());
     }
@@ -85,6 +90,16 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     @Override
     public boolean attributeContains(String attributeName, String attributeValue) {
         return WebComponentUtils.attributeContains(this, attributeName, attributeValue);
+    }
+
+    @Override
+    public boolean isFocused() {
+        return element.equals(driver.switchTo().activeElement());
+    }
+
+    @Override
+    public String outerHTML() {
+        return element.getAttribute("outerHTML");
     }
 
     @Override
