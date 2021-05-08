@@ -22,49 +22,50 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.inputs;
+package com.github.grossopa.selenium.core.element;
 
-import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 /**
- * Tests for {@link MuiButtonGroup}
+ * Provides the composition of multiple decorators into one decorator. the decorator will be executed in order.
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.4
  */
-@SuppressWarnings("unchecked")
-class MuiButtonGroupTest {
+public class CompositeWebElementDecorator implements WebElementDecorator {
 
-    MuiButtonGroup testSubject;
-    WebElement element = mock(WebElement.class);
-    ComponentWebDriver driver = mock(ComponentWebDriver.class);
-    MuiConfig config = mock(MuiConfig.class);
+    private final List<WebElementDecorator> decoratorList;
 
-    @BeforeEach
-    void setUp() {
-        testSubject = new MuiButtonGroup(element, driver, config);
+    /**
+     * Constructs an instance with the given inner decorators.
+     *
+     * @param decoratorList the decorator list to be wrapped
+     */
+    public CompositeWebElementDecorator(List<WebElementDecorator> decoratorList) {
+        this.decoratorList = decoratorList;
     }
 
 
-    @Test
-    void getComponentName() {
-        assertEquals("ButtonGroup", testSubject.getComponentName());
+    @Override
+    public WebElement decorate(WebElement originalElement, WebDriver driver) {
+        WebElement result = originalElement;
+        for (WebElementDecorator decorator : decoratorList) {
+            result = decorator.decorate(result, driver);
+        }
+        return result;
     }
 
-    @Test
-    void getButtons() {
-        when(config.buttonLocator()).thenReturn(By.cssSelector("MuiButton-root"));
-        when(element.findElements(eq(config.buttonLocator())))
-                .thenReturn(asList(mock(WebElement.class), mock(WebElement.class), mock(WebElement.class)));
-        assertEquals(3, testSubject.getButtons().size());
+    /**
+     * Gets a copy list of decorator list.
+     *
+     * @return the copy list of decorator list.
+     */
+    public List<WebElementDecorator> getDecoratorList() {
+        return newArrayList(decoratorList);
     }
 }

@@ -26,32 +26,23 @@ package com.github.grossopa.selenium.core;
 
 import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.element.NoOpWebElementDecorator;
+import com.github.grossopa.selenium.core.element.WebElementDecorator;
 import com.github.grossopa.selenium.core.util.GracefulThreadSleep;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.*;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-import java.time.Duration;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
-
-import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 /**
- * the default implementation of {@link ComponentWebDriver}
+ * The default implementation of {@link ComponentWebDriver}
  *
  * @author Jack Yin
  * @since 1.0
  */
-@SuppressWarnings("deprecation")
-public class DefaultComponentWebDriver implements ComponentWebDriver {
+public class DefaultComponentWebDriver extends AbstractComponentWebDriver {
 
-    private final WebDriver driver;
-
-    private final GracefulThreadSleep threadSleep;
+    protected final WebElementDecorator decorator;
 
     /**
      * Constructs an instance with given non-null {@link WebDriver} instance.
@@ -59,9 +50,7 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
      * @param driver the existing non-null driver to encapsulate
      */
     public DefaultComponentWebDriver(WebDriver driver) {
-        requireNonNull(driver);
-        this.driver = driver;
-        this.threadSleep = new GracefulThreadSleep();
+        this(driver, null, null);
     }
 
     /**
@@ -71,170 +60,30 @@ public class DefaultComponentWebDriver implements ComponentWebDriver {
      * @param threadSleep the graceful thread sleep instance
      */
     public DefaultComponentWebDriver(WebDriver driver, GracefulThreadSleep threadSleep) {
-        requireNonNull(driver);
-        this.driver = driver;
-        this.threadSleep = threadSleep;
+        this(driver, threadSleep, null);
     }
 
-    @Override
-    public List<WebComponent> findComponents(By by) {
-        return driver.findElements(by).stream().map(this::mapElement).collect(toList());
-    }
-
-    @Override
-    public <T extends WebComponent> T findComponentAs(By by, Function<WebComponent, T> mappingFunction) {
-        return mappingFunction.apply(this.findComponent(by));
-    }
-
-    @Override
-    public <T extends WebComponent> List<T> findComponentsAs(By by, Function<WebComponent, T> mappingFunction) {
-        return findComponents(by).stream().map(mappingFunction).collect(toList());
-    }
-
-    @Override
-    public WebComponent findComponent(By by) {
-        return mapElement(driver.findElement(by));
-    }
-
-    @Override
-    public void get(String url) {
-        driver.get(url);
-    }
-
-    @Override
-    public String getCurrentUrl() {
-        return driver.getCurrentUrl();
-    }
-
-    @Override
-    public String getTitle() {
-        return driver.getTitle();
-    }
-
-    @Override
-    public List<WebElement> findElements(By by) {
-        return driver.findElements(by);
-    }
-
-    @Override
-    public WebElement findElement(By by) {
-        return driver.findElement(by);
+    /**
+     * Constructs an instance with given non-null {@link WebDriver},  {@link GracefulThreadSleep} and {@link
+     * WebElementDecorator} for decorating the found elements.
+     *
+     * @param driver the existing non-null driver to encapsulate
+     * @param threadSleep the graceful thread sleep instance
+     * @param decorator optional, the decorator for decorating the found {@link WebElement}
+     */
+    public DefaultComponentWebDriver(WebDriver driver, GracefulThreadSleep threadSleep, WebElementDecorator decorator) {
+        super(driver, threadSleep);
+        this.decorator = defaultIfNull(decorator, new NoOpWebElementDecorator());
     }
 
     @Override
     public WebComponent mapElement(WebElement element) {
-        return new DefaultWebComponent(element, this);
-    }
+        // if given element is already a web component then do nothing and return.
+        if (element instanceof WebComponent) {
+            return (WebComponent) element;
+        }
+        WebElement decoratedElement = decorator.decorate(element, driver);
+        return new DefaultWebComponent(decoratedElement, this, this.decorator);
 
-    @Override
-    public Actions createActions() {
-        return new Actions(this);
-    }
-
-    @Override
-    public WebDriverWait createWait(long waitInMilliseconds) {
-        WebDriverWait wait = new WebDriverWait(this, 0);
-        wait.withTimeout(Duration.ofMillis(waitInMilliseconds));
-        return wait;
-    }
-
-    @Override
-    public void moveTo(WebElement element) {
-        createActions().moveToElement(element).perform();
-    }
-
-    @Override
-    public void scrollTo(WebElement element) {
-        executeScript("arguments[0].scrollIntoView();", element);
-    }
-
-    @Override
-    public void threadSleep(long millis) {
-        threadSleep.sleep(millis);
-    }
-
-    @Override
-    public String getPageSource() {
-        return driver.getPageSource();
-    }
-
-    @Override
-    public void close() {
-        driver.close();
-    }
-
-    @Override
-    public void quit() {
-        driver.quit();
-    }
-
-    @Override
-    public Set<String> getWindowHandles() {
-        return driver.getWindowHandles();
-    }
-
-    @Override
-    public String getWindowHandle() {
-        return driver.getWindowHandle();
-    }
-
-    @Override
-    public TargetLocator switchTo() {
-        return driver.switchTo();
-    }
-
-    @Override
-    public Navigation navigate() {
-        return driver.navigate();
-    }
-
-    @Override
-    public Options manage() {
-        return driver.manage();
-    }
-
-    @Override
-    public Capabilities getCapabilities() {
-        return ((HasCapabilities) driver).getCapabilities();
-    }
-
-    @Override
-    public Object executeScript(String script, Object... args) {
-        return ((JavascriptExecutor) driver).executeScript(script, args);
-    }
-
-    @Override
-    public Object executeAsyncScript(String script, Object... args) {
-        return ((JavascriptExecutor) driver).executeAsyncScript(script, args);
-    }
-
-    @Override
-    public <X> X getScreenshotAs(OutputType<X> target) {
-        return ((TakesScreenshot) driver).getScreenshotAs(target);
-    }
-
-    @Override
-    public Keyboard getKeyboard() {
-        return ((HasInputDevices) driver).getKeyboard();
-    }
-
-    @Override
-    public Mouse getMouse() {
-        return ((HasInputDevices) driver).getMouse();
-    }
-
-    @Override
-    public void perform(Collection<Sequence> actions) {
-        ((Interactive) driver).perform(actions);
-    }
-
-    @Override
-    public void resetInputState() {
-        ((Interactive) driver).resetInputState();
-    }
-
-    @Override
-    public WebDriver getWrappedDriver() {
-        return driver;
     }
 }

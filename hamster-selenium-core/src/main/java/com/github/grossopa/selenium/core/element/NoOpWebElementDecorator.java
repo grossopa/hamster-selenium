@@ -22,49 +22,21 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.inputs;
+package com.github.grossopa.selenium.core.element;
 
-import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
 /**
- * Tests for {@link MuiButtonGroup}
+ * No operations {@link org.openqa.selenium.WebElement} decorator.
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.4
  */
-@SuppressWarnings("unchecked")
-class MuiButtonGroupTest {
+public class NoOpWebElementDecorator implements WebElementDecorator {
 
-    MuiButtonGroup testSubject;
-    WebElement element = mock(WebElement.class);
-    ComponentWebDriver driver = mock(ComponentWebDriver.class);
-    MuiConfig config = mock(MuiConfig.class);
-
-    @BeforeEach
-    void setUp() {
-        testSubject = new MuiButtonGroup(element, driver, config);
-    }
-
-
-    @Test
-    void getComponentName() {
-        assertEquals("ButtonGroup", testSubject.getComponentName());
-    }
-
-    @Test
-    void getButtons() {
-        when(config.buttonLocator()).thenReturn(By.cssSelector("MuiButton-root"));
-        when(element.findElements(eq(config.buttonLocator())))
-                .thenReturn(asList(mock(WebElement.class), mock(WebElement.class), mock(WebElement.class)));
-        assertEquals(3, testSubject.getButtons().size());
+    @Override
+    public WebElement decorate(WebElement originalElement, WebDriver driver) {
+        return originalElement;
     }
 }

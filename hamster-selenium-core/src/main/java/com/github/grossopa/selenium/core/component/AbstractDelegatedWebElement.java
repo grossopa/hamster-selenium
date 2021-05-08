@@ -43,14 +43,14 @@ import static java.util.Objects.requireNonNull;
 public abstract class AbstractDelegatedWebElement
         implements WrapsElement, WebElement, HasIdentity, TakesScreenshot, Locatable, WrapsDriver {
 
-    protected WebElement element;
+    protected final WebElement element;
 
     /**
      * Constructs an instance with target delegated {@link WebElement} instance.
      *
-     * @param element
-     *         the element to delegate. it will find the ultimate {@link WebElement} element if given object is actually
-     *         a {@link WebComponent}.
+     * @param element the element to delegate. it will find the ultimate {@link WebElement} element if given object is
+     * actually a {@link WebComponent}. Note it will not try to find the wrapped element if the given element is a
+     * {@link WrapsElement}.
      */
     protected AbstractDelegatedWebElement(WebElement element) {
         requireNonNull(element);
@@ -60,6 +60,7 @@ public abstract class AbstractDelegatedWebElement
             targetElement = ((WebComponent) targetElement).getWrappedElement();
         }
 
+        requireNonNull(targetElement);
         this.element = targetElement;
     }
 

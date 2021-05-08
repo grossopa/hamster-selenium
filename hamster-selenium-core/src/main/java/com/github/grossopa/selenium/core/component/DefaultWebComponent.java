@@ -24,16 +24,20 @@
 
 package com.github.grossopa.selenium.core.component;
 
-import com.github.grossopa.selenium.core.component.util.WebComponentUtils;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.factory.WebComponentFactory;
+import com.github.grossopa.selenium.core.component.util.WebComponentUtils;
+import com.github.grossopa.selenium.core.element.NoOpWebElementDecorator;
+import com.github.grossopa.selenium.core.element.WebElementDecorator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 /**
  * The default implementation of {@link WebComponent}.
@@ -44,6 +48,7 @@ import static java.util.stream.Collectors.toList;
 public class DefaultWebComponent extends AbstractDelegatedWebElement implements WebComponent {
 
     protected final ComponentWebDriver driver;
+    protected final WebElementDecorator decorator;
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -52,8 +57,21 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
      * @param driver root driver
      */
     public DefaultWebComponent(WebElement element, ComponentWebDriver driver) {
+        this(element, driver, null);
+    }
+
+    /**
+     * Constructs an instance with the delegated element, root driver and
+     *
+     * @param element the delegated element
+     * @param driver root driver
+     * @param decorator the decorator for decorating the found sub {@link WebElement} instances
+     */
+    public DefaultWebComponent(WebElement element, ComponentWebDriver driver,
+            @Nullable WebElementDecorator decorator) {
         super(element);
         this.driver = driver;
+        this.decorator = defaultIfNull(decorator, new NoOpWebElementDecorator());
     }
 
     @Override
@@ -63,12 +81,16 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
 
     @Override
     public List<WebComponent> findComponents(By by) {
-        return element.findElements(by).stream().map(e -> new DefaultWebComponent(e, driver)).collect(toList());
+        return element.findElements(by).stream().map(e -> {
+            WebElement decoratedElement = decorator.decorate(e, driver);
+            return new DefaultWebComponent(decoratedElement, driver);
+        }).collect(toList());
     }
 
     @Override
     public WebComponent findComponent(By by) {
-        return new DefaultWebComponent(element.findElement(by), driver);
+        WebElement result = element.findElement(by);
+        return new DefaultWebComponent(decorator.decorate(result, driver), driver);
     }
 
     @Override

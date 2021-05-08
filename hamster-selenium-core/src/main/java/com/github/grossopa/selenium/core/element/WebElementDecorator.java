@@ -22,49 +22,33 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.inputs;
+package com.github.grossopa.selenium.core.element;
 
-import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
 /**
- * Tests for {@link MuiButtonGroup}
+ * Decorates the generated {@link org.openqa.selenium.WebElement} generated from {@link
+ * org.openqa.selenium.remote.RemoteWebDriver} and another {@link org.openqa.selenium.WebElement}. the decorator will
+ * applied all elements that derived from the root driver.
+ *
+ * <p>
+ * Please note if the returned new {@link org.openqa.selenium.WebElement} implements {@link
+ * org.openqa.selenium.WrapsElement} it will be unwrapped in many cases hence suggesting not to implement it.
+ * </p>
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.4
  */
-@SuppressWarnings("unchecked")
-class MuiButtonGroupTest {
+@FunctionalInterface
+public interface WebElementDecorator {
 
-    MuiButtonGroup testSubject;
-    WebElement element = mock(WebElement.class);
-    ComponentWebDriver driver = mock(ComponentWebDriver.class);
-    MuiConfig config = mock(MuiConfig.class);
-
-    @BeforeEach
-    void setUp() {
-        testSubject = new MuiButtonGroup(element, driver, config);
-    }
-
-
-    @Test
-    void getComponentName() {
-        assertEquals("ButtonGroup", testSubject.getComponentName());
-    }
-
-    @Test
-    void getButtons() {
-        when(config.buttonLocator()).thenReturn(By.cssSelector("MuiButton-root"));
-        when(element.findElements(eq(config.buttonLocator())))
-                .thenReturn(asList(mock(WebElement.class), mock(WebElement.class), mock(WebElement.class)));
-        assertEquals(3, testSubject.getButtons().size());
-    }
+    /**
+     * Decorates the original element.
+     *
+     * @param originalElement the target element to decorate
+     * @param driver the root driver
+     * @return decorated web element
+     */
+    WebElement decorate(WebElement originalElement, WebDriver driver);
 }

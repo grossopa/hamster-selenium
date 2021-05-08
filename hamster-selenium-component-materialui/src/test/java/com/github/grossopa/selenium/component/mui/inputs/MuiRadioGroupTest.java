@@ -43,6 +43,7 @@ import static org.mockito.Mockito.when;
  * @author Chenyu Wang
  * @since 1.0
  */
+@SuppressWarnings("unchecked")
 public class MuiRadioGroupTest {
     MuiRadioGroup testSubject;
     WebElement element = mock(WebElement.class);
@@ -63,7 +64,7 @@ public class MuiRadioGroupTest {
     void getRadios() {
         when(config.radioLocator()).thenReturn(By.cssSelector(".MuiRadio-root"));
         when(element.findElements(eq(config.radioLocator())))
-                .thenReturn(asList(mock(MuiRadio.class), mock(MuiRadio.class), mock(MuiRadio.class)));
+                .thenReturn(asList(mock(WebElement.class), mock(WebElement.class), mock(WebElement.class)));
         assertEquals(3, testSubject.getRadios().size());
     }
 }

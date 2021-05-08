@@ -81,7 +81,7 @@ public interface ComponentWebDriver
      * @see org.openqa.selenium.By
      * @see org.openqa.selenium.WebDriver.Timeouts
      */
-    <T extends WebComponent> T findComponentAs(By by, Function<WebComponent, T> mappingFunction);
+    <T> T findComponentAs(By by, Function<WebComponent, T> mappingFunction);
 
     /**
      * Finds all elements within the current page using the given mechanism and encapsulate the {@link WebElement} list
@@ -99,7 +99,7 @@ public interface ComponentWebDriver
      * @see org.openqa.selenium.By
      * @see org.openqa.selenium.WebDriver.Timeouts
      */
-    <T extends WebComponent> List<T> findComponentsAs(By by, Function<WebComponent, T> mappingFunction);
+    <T> List<T> findComponentsAs(By by, Function<WebComponent, T> mappingFunction);
 
     /**
      * Find the first {@link WebElement} using the given method and encapsulate it into {@link WebComponent}.
@@ -183,4 +183,6 @@ public interface ComponentWebDriver
      * @param millis the time to sleep in millisecond
      */
     void threadSleep(long millis);
+
+
 }
