@@ -24,7 +24,6 @@
 
 package com.github.grossopa.selenium.examples.antd;
 
-import com.github.grossopa.selenium.component.antd.AntdComponents;
 import com.github.grossopa.selenium.component.antd.general.AntdButton;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
@@ -56,6 +55,12 @@ public class AntdGeneralTestCases extends AbstractBrowserSupport {
                 .findComponent(By2.textExact("Loading")).findComponent(By2.parent()).as(antd()).toButton();
         assertTrue(loadingButton.validate());
         assertTrue(loadingButton.isLoading());
+
+        AntdButton disabledButton = driver.findComponent(By.id("components-button-demo-disabled"))
+                .findComponent(By2.textExact("Primary(disabled)")).findComponent(By2.parent()).as(antd()).toButton();
+
+        assertTrue(disabledButton.validate());
+        assertFalse(disabledButton.isEnabled());
     }
 
     public static void main(String[] args) {
