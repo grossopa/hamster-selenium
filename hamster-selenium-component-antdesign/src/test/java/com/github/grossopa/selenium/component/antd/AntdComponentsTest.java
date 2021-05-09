@@ -22,55 +22,57 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.antd.general;
+package com.github.grossopa.selenium.component.antd;
 
-import com.github.grossopa.selenium.component.antd.AbstractAntdComponent;
 import com.github.grossopa.selenium.component.antd.config.AntdConfig;
+import com.github.grossopa.selenium.component.antd.general.AntdButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.openqa.selenium.WebElement;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.remote.RemoteWebElement;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- * To trigger an operation.
+ * Tests for {@link AntdComponents}
  *
  * @author Jack Yin
  * @since 1.4
  */
-public class AntdButton extends AbstractAntdComponent {
+class AntdComponentsTest {
 
-    /**
-     * The component name
-     */
-    public static final String NAME = "btn";
+    AntdComponents testSubject;
+    AntdConfig config = mock(AntdConfig.class);
+    WebComponent component = mock(WebComponent.class);
+    RemoteWebElement element = mock(RemoteWebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
 
-    /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver root driver
-     * @param config the global Antd configuration
-     */
-    public AntdButton(WebElement element, ComponentWebDriver driver, AntdConfig config) {
-        super(element, driver, config);
+    @BeforeEach
+    void setUp() {
+        when(component.getWrappedElement()).thenReturn(element);
+        when(element.getWrappedDriver()).thenReturn(driver);
+
+        testSubject = new AntdComponents();
+        testSubject.setContext(component, driver);
     }
 
-    @Override
-    public String getComponentName() {
-        return NAME;
+    @Test
+    void antd() {
+        assertNotNull(AntdComponents.antd());
     }
 
-    @Override
-    public boolean validate() {
-        return "button".equalsIgnoreCase(element.getTagName()) && attributeContains("class",
-                config.getPrefixCls() + "-" + NAME);
+    @Test
+    void antdWithConfig() {
+        assertSame(config, AntdComponents.antd(config).config);
     }
 
-    /**
-     * Whether the button is under loading status. The button will not be interactable if it is under loading.
-     *
-     * @return the button is under loading status.
-     */
-    public boolean isLoading() {
-        return attributeContains("class", config.getPrefixCls() + "-" + NAME + "-loading");
+    @Test
+    void toButton() {
+        AntdButton button = testSubject.toButton();
+        assertEquals(element, button.getWrappedElement());
+        assertEquals(driver, button.getWrappedDriver());
     }
-
 }

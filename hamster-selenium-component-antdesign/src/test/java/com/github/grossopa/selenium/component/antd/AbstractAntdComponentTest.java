@@ -22,55 +22,53 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.antd.general;
+package com.github.grossopa.selenium.component.antd;
 
-import com.github.grossopa.selenium.component.antd.AbstractAntdComponent;
 import com.github.grossopa.selenium.component.antd.config.AntdConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 /**
- * To trigger an operation.
+ * Tests for {@link AbstractAntdComponent}
  *
  * @author Jack Yin
  * @since 1.4
  */
-public class AntdButton extends AbstractAntdComponent {
+class AbstractAntdComponentTest {
 
-    /**
-     * The component name
-     */
-    public static final String NAME = "btn";
+    AbstractAntdComponent testSubject;
+    WebElement element = mock(WebElement.class);
+    WebComponent component = mock(WebComponent.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
+    AntdConfig config = mock(AntdConfig.class);
 
-    /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver root driver
-     * @param config the global Antd configuration
-     */
-    public AntdButton(WebElement element, ComponentWebDriver driver, AntdConfig config) {
-        super(element, driver, config);
+    @BeforeEach
+    void setUp() {
+        when(component.getWrappedElement()).thenReturn(element);
+        testSubject = new AbstractAntdComponent(component, driver, config) {
+            @Override
+            public String getComponentName() {
+                return "testName";
+            }
+        };
     }
 
-    @Override
-    public String getComponentName() {
-        return NAME;
+
+    @Test
+    void validate() {
+        assertFalse(testSubject.validate());
     }
 
-    @Override
-    public boolean validate() {
-        return "button".equalsIgnoreCase(element.getTagName()) && attributeContains("class",
-                config.getPrefixCls() + "-" + NAME);
+    @Test
+    void config() {
+        assertSame(config, testSubject.config());
     }
-
-    /**
-     * Whether the button is under loading status. The button will not be interactable if it is under loading.
-     *
-     * @return the button is under loading status.
-     */
-    public boolean isLoading() {
-        return attributeContains("class", config.getPrefixCls() + "-" + NAME + "-loading");
-    }
-
 }
