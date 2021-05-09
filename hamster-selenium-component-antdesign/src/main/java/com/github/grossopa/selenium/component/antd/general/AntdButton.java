@@ -54,4 +54,20 @@ public class AntdButton extends AbstractAntdComponent {
     public String getComponentName() {
         return NAME;
     }
+
+    @Override
+    public boolean validate() {
+        return "button".equalsIgnoreCase(element.getTagName()) && attributeContains("class",
+                config.getPrefixCls() + "-btn");
+    }
+
+    /**
+     * Whether the button is under loading status. The button will not be interactable if it is under loading.
+     *
+     * @return the button is under loading status.
+     */
+    public boolean isLoading() {
+        return attributeContains("class", config.getPrefixCls() + "-btn-loading");
+    }
+
 }

@@ -25,7 +25,11 @@
 package com.github.grossopa.selenium.component.antd;
 
 import com.github.grossopa.selenium.component.antd.config.AntdConfig;
+import com.github.grossopa.selenium.component.antd.general.AntdButton;
 import com.github.grossopa.selenium.core.component.AbstractComponents;
+import com.github.grossopa.selenium.core.component.WebComponent;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * This class contains all Antd components that a {@link com.github.grossopa.selenium.core.component.WebComponent} could
@@ -37,4 +41,48 @@ import com.github.grossopa.selenium.core.component.AbstractComponents;
 public class AntdComponents extends AbstractComponents {
 
     AntdConfig config;
+
+    /**
+     * Constructs an instance with default {@link AntdConfig}.
+     */
+    public AntdComponents() {
+        this(new AntdConfig());
+    }
+
+    /**
+     * Constructs an instance with provided {@link AntdConfig}.
+     *
+     * @param config the Antd configuration instance
+     */
+    public AntdComponents(AntdConfig config) {
+        this.config = requireNonNull(config);
+    }
+
+    /**
+     * Creates an instance of {@link AntdComponents} with default {@link AntdConfig}.
+     *
+     * @return the newly created instance with default {@link AntdConfig}.
+     */
+    public static AntdComponents antd() {
+        return new AntdComponents();
+    }
+
+    /**
+     * Creates an instance of {@link AntdComponents} with given {@link AntdConfig}.
+     *
+     * @param config the config instance
+     * @return the instance of {@link AntdComponents} with given {@link AntdConfig}.
+     */
+    public static AntdComponents antd(AntdConfig config) {
+        return new AntdComponents(config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link AntdButton} instance.
+     *
+     * @return wrapped {@link AntdButton} instance on the given component
+     */
+    public AntdButton toButton() {
+        return new AntdButton(component, driver, config);
+    }
 }

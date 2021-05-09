@@ -132,6 +132,12 @@
       </dependency>
 
       <dependency>
+        <groupId>com.github.grossopa</groupId>
+        <artifactId>hamster-selenium-component-antdesign</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
         <version>${selenium-java.version}</version>

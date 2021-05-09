@@ -87,7 +87,7 @@ public class MuiBreadcrumbs extends AbstractMuiComponent {
      * Whether one of the item is MuiTouchRipple-root. Due to lack of information of other items it requires a click
      * event on the TouchRipple item in order to expand other hidden items.
      *
-     * @return true if the breadthumb is collapsed
+     * @return true if the breadcrumb is collapsed
      */
     public boolean isCollapsed() {
         return !this.findComponents(getTouchRippleLocator()).isEmpty();

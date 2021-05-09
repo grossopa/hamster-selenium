@@ -48,7 +48,7 @@ public abstract class AbstractAntdComponent extends DefaultWebComponent implemen
      * @param driver root driver
      * @param config the global Antd configuration
      */
-    public AbstractAntdComponent(WebElement element, ComponentWebDriver driver, AntdConfig config) {
+    protected AbstractAntdComponent(WebElement element, ComponentWebDriver driver, AntdConfig config) {
         super(element, driver);
         requireNonNull(config);
         this.config = config;
