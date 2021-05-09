@@ -67,8 +67,7 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
      * @param driver root driver
      * @param decorator the decorator for decorating the found sub {@link WebElement} instances
      */
-    public DefaultWebComponent(WebElement element, ComponentWebDriver driver,
-            @Nullable WebElementDecorator decorator) {
+    public DefaultWebComponent(WebElement element, ComponentWebDriver driver, @Nullable WebElementDecorator decorator) {
         super(element);
         this.driver = driver;
         this.decorator = defaultIfNull(decorator, new NoOpWebElementDecorator());
@@ -122,6 +121,12 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     @Override
     public String outerHTML() {
         return element.getAttribute("outerHTML");
+    }
+
+    @Override
+    public boolean validate() {
+        // always return true as this simply wraps the inner element
+        return true;
     }
 
     @Override

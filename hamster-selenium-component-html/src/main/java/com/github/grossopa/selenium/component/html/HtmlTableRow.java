@@ -38,10 +38,13 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 /**
+ * The HTML table row element
+ *
  * @author Jack Yin
  * @since 1.0
  */
 public class HtmlTableRow extends DefaultWebComponent implements TableRow {
+
     private final By colsLocator;
     private final List<String> headerLabels;
 
@@ -49,6 +52,11 @@ public class HtmlTableRow extends DefaultWebComponent implements TableRow {
         super(element, driver);
         this.colsLocator = requireNonNull(colsLocator);
         this.headerLabels = requireNonNull(headerLabels);
+    }
+
+    @Override
+    public boolean validate() {
+        return "tr".equalsIgnoreCase(element.getTagName());
     }
 
     @Override

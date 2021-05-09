@@ -30,7 +30,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
 import java.util.List;
 
@@ -97,7 +96,7 @@ class HtmlTableTest {
     void constructorNotTable() {
         WebElement element = mock(WebElement.class);
         when(element.getTagName()).thenReturn("div");
-        assertThrows(UnexpectedTagNameException.class, () -> new HtmlTable(element, driver));
+        assertFalse(new HtmlTable(element, driver).validate());
     }
 
     @Test

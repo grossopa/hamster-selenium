@@ -30,35 +30,33 @@ import com.github.grossopa.selenium.core.component.api.Table;
 import com.github.grossopa.selenium.core.component.api.TableRow;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.StringUtils.endsWithIgnoreCase;
 
 /**
+ * Represents the native HTML table element.
+ *
  * @author Jack Yin
  * @since 1.0
  */
 public class HtmlTable extends DefaultWebComponent implements Table {
 
+    /**
+     * Constructs an html table instance with element and driver.
+     *
+     * @param element the table element
+     * @param driver the root driver
+     */
     public HtmlTable(WebElement element, ComponentWebDriver driver) {
         super(element, driver);
-
-        validate();
     }
 
-    /**
-     * Sub classes could override this method to change the validation behaviour.
-     */
-    protected void validate() {
-        String tagName = element.getTagName();
-
-        if (!endsWithIgnoreCase("table", tagName)) {
-            throw new UnexpectedTagNameException("table", tagName);
-        }
+    @Override
+    public boolean validate() {
+        return "table".equalsIgnoreCase(element.getTagName());
     }
 
     @Override

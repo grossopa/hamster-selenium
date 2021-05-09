@@ -41,7 +41,6 @@ import static org.mockito.Mockito.*;
  * @author Jack Yin
  * @since 1.0
  */
-@SuppressWarnings("unchecked")
 class MuiButtonGroupTest {
 
     MuiButtonGroup testSubject;

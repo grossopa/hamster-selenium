@@ -69,6 +69,7 @@ public abstract class AbstractMuiComponent extends DefaultWebComponent implement
      *
      * @return true if the component matches the java type.
      */
+    @Override
     public boolean validate() {
         return config.validateComponentByCss(this, getComponentName());
     }

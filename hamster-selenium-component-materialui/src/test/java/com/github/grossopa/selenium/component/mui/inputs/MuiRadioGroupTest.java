@@ -43,7 +43,6 @@ import static org.mockito.Mockito.when;
  * @author Chenyu Wang
  * @since 1.0
  */
-@SuppressWarnings("unchecked")
 public class MuiRadioGroupTest {
     MuiRadioGroup testSubject;
     WebElement element = mock(WebElement.class);

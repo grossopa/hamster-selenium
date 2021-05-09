@@ -45,10 +45,8 @@ public class HtmlSelect extends DefaultWebComponent implements ISelect {
     /**
      * Constructs an instance with element and driver.
      *
-     * @param element
-     *         the web element to wrap with, should be with tag select.
-     * @param driver
-     *         the current web driver
+     * @param element the web element to wrap with, should be with tag select.
+     * @param driver the current web driver
      */
     public HtmlSelect(WebElement element, ComponentWebDriver driver) {
         super(element, driver);

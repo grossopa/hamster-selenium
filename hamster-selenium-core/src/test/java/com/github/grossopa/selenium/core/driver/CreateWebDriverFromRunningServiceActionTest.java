@@ -39,7 +39,6 @@ import static org.mockito.Mockito.*;
  * @author Jack Yin
  * @since 1.0
  */
-@SuppressWarnings("ResultOfMethodCallIgnored")
 class CreateWebDriverFromRunningServiceActionTest {
 
     CreateWebDriverFromRunningServiceAction testSubject;

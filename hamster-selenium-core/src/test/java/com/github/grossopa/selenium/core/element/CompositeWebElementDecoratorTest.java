@@ -22,65 +22,53 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.core.driver;
+package com.github.grossopa.selenium.core.element;
 
+import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.opera.OperaOptions;
-import org.openqa.selenium.safari.SafariOptions;
+import org.openqa.selenium.WebElement;
 
-import java.util.Objects;
+import java.util.List;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link CreateOptionsAction}
+ * Tests for {@link CompositeWebElementDecorator}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.4
  */
-class CreateOptionsActionTest {
+class CompositeWebElementDecoratorTest {
 
-    CreateOptionsAction testSubject;
+    CompositeWebElementDecorator testSubject;
+    List<WebElementDecorator> decoratorList;
+    WebElement originalElement = mock(WebElement.class);
+    WebElement element1 = mock(WebElement.class);
+    WebElement element2 = mock(WebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
 
     @BeforeEach
     void setUp() {
-        testSubject = new CreateOptionsAction();
-    }
+        WebElementDecorator decorator1 = mock(WebElementDecorator.class);
+        WebElementDecorator decorator2 = mock(WebElementDecorator.class);
+        when(decorator1.decorate(originalElement, driver)).thenReturn(element1);
+        when(decorator2.decorate(element1, driver)).thenReturn(element2);
 
-
-    @Test
-    void applyChrome() {
-        assertEquals(ChromeOptions.class, requireNonNull(testSubject.applyChrome(null)).getClass());
-    }
-
-    @Test
-    void applyEdge() {
-        assertEquals(EdgeOptions.class, requireNonNull(testSubject.applyEdge(null)).getClass());
+        decoratorList = newArrayList(decorator1, decorator2);
+        testSubject = new CompositeWebElementDecorator(decoratorList);
     }
 
     @Test
-    void applyFirefox() {
-        assertEquals(FirefoxOptions.class, requireNonNull(testSubject.applyFirefox(null)).getClass());
+    void decorate() {
+        assertEquals(element2, testSubject.decorate(originalElement, driver));
     }
 
     @Test
-    void applyIE() {
-        assertEquals(InternetExplorerOptions.class, requireNonNull(testSubject.applyIE(null)).getClass());
-    }
-
-    @Test
-    void applyOpera() {
-        assertEquals(OperaOptions.class, requireNonNull(testSubject.applyOpera(null)).getClass());
-    }
-
-    @Test
-    void applySafari() {
-        assertEquals(SafariOptions.class, requireNonNull(testSubject.applySafari(null)).getClass());
+    void getDecoratorList() {
+        assertArrayEquals(decoratorList.toArray(), testSubject.getDecoratorList().toArray());
     }
 }
