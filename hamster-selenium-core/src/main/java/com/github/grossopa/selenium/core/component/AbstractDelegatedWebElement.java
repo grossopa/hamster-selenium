@@ -165,12 +165,12 @@ public abstract class AbstractDelegatedWebElement
     }
 
     @Override
-    public String toString() {
-        return element.toString();
+    public WebElement getWrappedElement() {
+        return element;
     }
 
     @Override
-    public WebElement getWrappedElement() {
-        return element;
+    public String toString() {
+        return "AbstractDelegatedWebElement{" + "element=" + element + '}';
     }
 }
