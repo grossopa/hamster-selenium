@@ -152,4 +152,9 @@ class DefaultWebComponentTest {
     void driver() {
         assertEquals(driver, testSubject.driver());
     }
+
+    @Test
+    void validate() {
+        assertTrue(testSubject.validate());
+    }
 }
