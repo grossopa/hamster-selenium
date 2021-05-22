@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests for {@link InterceptingHandler}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.4
  */
 class InterceptingHandlerTest {
 

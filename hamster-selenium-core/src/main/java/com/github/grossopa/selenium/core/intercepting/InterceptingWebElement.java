@@ -34,6 +34,7 @@ import java.util.Objects;
 
 import static com.github.grossopa.selenium.core.intercepting.InterceptingMethods.*;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Intercepting the actions with customized handlers.
@@ -108,7 +109,7 @@ public class InterceptingWebElement extends AbstractDelegatedWebElement {
 
     @Override
     public boolean isEnabled() {
-        return handler.execute(super::isEnabled, MethodInfo.create(element, ELEMENT_IS_SELECTED));
+        return handler.execute(super::isEnabled, MethodInfo.create(element, ELEMENT_IS_ENABLED));
     }
 
     @Override
@@ -118,12 +119,14 @@ public class InterceptingWebElement extends AbstractDelegatedWebElement {
 
     @Override
     public List<WebElement> findElements(By by) {
-        return handler.execute(() -> super.findElements(by), MethodInfo.create(element, ELEMENT_FIND_ELEMENTS, by));
+        return handler.execute(() -> super.findElements(by).stream().map(el -> new InterceptingWebElement(el, handler))
+                .collect(toList()), MethodInfo.create(element, ELEMENT_FIND_ELEMENTS, by));
     }
 
     @Override
     public WebElement findElement(By by) {
-        return handler.execute(() -> super.findElement(by), MethodInfo.create(element, ELEMENT_FIND_ELEMENT, by));
+        return handler.execute(() -> new InterceptingWebElement(super.findElement(by), handler),
+                MethodInfo.create(element, ELEMENT_FIND_ELEMENT, by));
     }
 
     @Override
@@ -156,11 +159,6 @@ public class InterceptingWebElement extends AbstractDelegatedWebElement {
     public <X> X getScreenshotAs(OutputType<X> target) {
         return handler.execute(() -> super.getScreenshotAs(target),
                 MethodInfo.create(element, ELEMENT_GET_SCREENSHOT_AS, target));
-    }
-
-    @Override
-    public Coordinates getCoordinates() {
-        return handler.execute(super::getCoordinates, MethodInfo.create(element, ELEMENT_GET_COORDINATES));
     }
 
     @Override

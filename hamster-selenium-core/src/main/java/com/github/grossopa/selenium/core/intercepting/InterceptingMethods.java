@@ -83,6 +83,11 @@ public class InterceptingMethods {
     public static final String ELEMENT_IS_SELECTED = "element.isSelected";
 
     /**
+     * Represents the {@link WebElement#isEnabled()}
+     */
+    public static final String ELEMENT_IS_ENABLED = "element.isEnabled";
+
+    /**
      * Represents the {@link WebElement#getText()}
      */
     public static final String ELEMENT_GET_TEXT = "element.getText";
@@ -126,11 +131,6 @@ public class InterceptingMethods {
      * Represents the {@link WebElement#getScreenshotAs(OutputType)}
      */
     public static final String ELEMENT_GET_SCREENSHOT_AS = "element.getScreenshotAs";
-
-    /**
-     * Represents the {@link Locatable#getCoordinates()}
-     */
-    public static final String ELEMENT_GET_COORDINATES = "element.getCoordinates";
 
     /**
      * Represents the {@link HasIdentity#getId()}

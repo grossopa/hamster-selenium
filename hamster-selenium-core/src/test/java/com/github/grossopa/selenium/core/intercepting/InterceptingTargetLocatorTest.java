@@ -40,7 +40,7 @@ import static org.mockito.Mockito.*;
  * Tests for {@link InterceptingTargetLocator}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.4
  */
 class InterceptingTargetLocatorTest {
 
