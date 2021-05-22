@@ -26,59 +26,59 @@ package com.github.grossopa.selenium.core.intercepting;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Alert;
+import org.openqa.selenium.NoSuchElementException;
 
-import static com.github.grossopa.selenium.core.intercepting.InterceptingMethods.*;
-import static com.github.grossopa.selenium.core.intercepting.InterceptingTestHelper.afterEachVerify;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests for {@link InterceptingAlert}
+ * Tests for {@link InterceptingHandler}
  *
  * @author Jack Yin
  * @since 1.0
  */
-class InterceptingAlertTest {
+class InterceptingHandlerTest {
 
-    InterceptingAlert testSubject;
-    private final Alert alert = mock(Alert.class);
-    private final InterceptingHandler handler = mock(InterceptingHandler.class);
+    InterceptingHandler testSubject;
+    boolean beforeCalled;
+    boolean afterCalled;
+    boolean exceptionCalled;
 
     @BeforeEach
     void setUp() {
-        when(handler.execute(any(), any())).thenCallRealMethod();
-        testSubject = new InterceptingAlert(alert, handler);
+        testSubject = new InterceptingHandler() {
+            @Override
+            public void onBefore(MethodInfo<?> methodInfo) {
+                beforeCalled = true;
+            }
+
+            @Override
+            public void onAfter(MethodInfo<?> methodInfo, Object resultValue) {
+                afterCalled = true;
+            }
+
+            @Override
+            public void onException(MethodInfo<?> methodInfo, Exception exception) {
+                exceptionCalled = true;
+            }
+        };
     }
 
     @Test
-    void dismiss() {
-        testSubject.dismiss();
-        verify(alert, times(1)).dismiss();
-        afterEachVerify(handler, alert, ALERT_DISMISS, null);
+    void execute() {
+        testSubject.execute(() -> "", MethodInfo.create("", ""));
+        assertTrue(beforeCalled);
+        assertTrue(afterCalled);
+        assertFalse(exceptionCalled);
     }
 
     @Test
-    void accept() {
-        testSubject.accept();
-        verify(alert, times(1)).accept();
-        afterEachVerify(handler, alert, ALERT_ACCEPT, null);
+    @SuppressWarnings("all")
+    void executeException() {
+        assertThrows(NoSuchElementException.class, () -> testSubject.execute(() -> {
+            throw new NoSuchElementException("");
+        }, MethodInfo.create("", "")));
+        assertTrue(beforeCalled);
+        assertFalse(afterCalled);
+        assertTrue(exceptionCalled);
     }
-
-    @Test
-    void getText() {
-        when(alert.getText()).thenReturn("aaa");
-        assertEquals("aaa", testSubject.getText());
-        verify(alert, times(1)).getText();
-        afterEachVerify(handler, alert, ALERT_GET_TEXT, "aaa");
-    }
-
-    @Test
-    void sendKeys() {
-        testSubject.sendKeys("somekey");
-        verify(alert, times(1)).sendKeys("somekey");
-        afterEachVerify(handler, alert, ALERT_SEND_KEYS, null, "somekey");
-    }
-
-
 }

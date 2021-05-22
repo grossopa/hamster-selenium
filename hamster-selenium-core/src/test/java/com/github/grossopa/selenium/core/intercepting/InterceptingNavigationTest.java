@@ -32,7 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import static com.github.grossopa.selenium.core.intercepting.InterceptingMethods.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.github.grossopa.selenium.core.intercepting.InterceptingTestHelper.afterEachVerify;
 import static org.mockito.Mockito.*;
 
 /**
@@ -44,8 +44,8 @@ import static org.mockito.Mockito.*;
 class InterceptingNavigationTest {
 
     InterceptingNavigation testSubject;
-    private final WebDriver.Navigation navigation = mock(WebDriver.Navigation.class);
-    private final InterceptingHandler handler = mock(InterceptingHandler.class);
+    WebDriver.Navigation navigation = mock(WebDriver.Navigation.class);
+    InterceptingHandler handler = mock(InterceptingHandler.class);
 
     @BeforeEach
     void setUp() {
@@ -57,48 +57,36 @@ class InterceptingNavigationTest {
     void back() {
         testSubject.back();
         verify(navigation, times(1)).back();
-        afterEachVerify(NAVIGATION_BACK);
+        afterEachVerify(handler, navigation, NAVIGATION_BACK, null);
     }
 
     @Test
     void forward() {
         testSubject.forward();
         verify(navigation, times(1)).forward();
-        afterEachVerify(NAVIGATION_FORWARD);
+        afterEachVerify(handler, navigation, NAVIGATION_FORWARD, null);
     }
 
     @Test
     void to() {
         testSubject.to("http://www.apple.com");
         verify(navigation, times(1)).to("http://www.apple.com");
-        afterEachVerify(NAVIGATION_TO, "http://www.apple.com");
+        afterEachVerify(handler, navigation, NAVIGATION_TO, null, "http://www.apple.com");
     }
 
     @Test
     void toUrl() throws MalformedURLException {
         testSubject.to(new URL("http://www.apple.com"));
         verify(navigation, times(1)).to(new URL("http://www.apple.com"));
-        afterEachVerify(NAVIGATION_TO, new URL("http://www.apple.com"));
+        afterEachVerify(handler, navigation, NAVIGATION_TO, null, new URL("http://www.apple.com"));
     }
 
     @Test
     void refresh() {
         testSubject.refresh();
         verify(navigation, times(1)).refresh();
-        afterEachVerify(NAVIGATION_REFRESH);
+        afterEachVerify(handler, navigation, NAVIGATION_REFRESH, null);
     }
 
-    void afterEachVerify(String methodName, Object... params) {
-        verify(handler, times(1)).onBefore(argThat(methodInfo -> {
-            assertEquals(methodName, methodInfo.getName());
-            assertEquals(navigation, methodInfo.getSource());
-            assertArrayEquals(params, methodInfo.getParams());
-            assertTrue(methodInfo.getTimeElapsedInMillis() >= 0);
-            return true;
-        }));
-        verify(handler, times(1)).onAfter(any(), argThat(r -> {
-            assertNull(r);
-            return true;
-        }));
-    }
+
 }
