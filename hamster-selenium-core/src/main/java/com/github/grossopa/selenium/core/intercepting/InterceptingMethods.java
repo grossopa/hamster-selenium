@@ -145,7 +145,7 @@ public class InterceptingMethods {
     /**
      * Represents the {@link WebDriver#get(String)}
      */
-    public static final String DRIVER_GET_URL = "driver.getUrl";
+    public static final String DRIVER_GET = "driver.get";
 
     /**
      * Represents the {@link WebDriver#getCurrentUrl()}

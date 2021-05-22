@@ -30,6 +30,7 @@ import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
@@ -167,6 +168,23 @@ public abstract class AbstractDelegatedWebElement
     @Override
     public WebElement getWrappedElement() {
         return element;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof AbstractDelegatedWebElement)) {
+            return false;
+        }
+        AbstractDelegatedWebElement that = (AbstractDelegatedWebElement) o;
+        return element.equals(that.element);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(element);
     }
 
     @Override

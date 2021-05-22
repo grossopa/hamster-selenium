@@ -66,7 +66,7 @@ public class InterceptingWebDriver
         handler.execute(() -> {
             driver.get(url);
             return null;
-        }, MethodInfo.create(driver, DRIVER_GET_URL, url));
+        }, MethodInfo.create(driver, DRIVER_GET, url));
     }
 
     @Override

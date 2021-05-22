@@ -30,6 +30,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.github.grossopa.selenium.core.intercepting.InterceptingMethods.*;
 import static java.util.Objects.requireNonNull;
@@ -165,5 +166,30 @@ public class InterceptingWebElement extends AbstractDelegatedWebElement {
     @Override
     public String getId() {
         return handler.execute(super::getId, MethodInfo.create(element, ELEMENT_GET_ID));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof InterceptingWebElement)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        InterceptingWebElement that = (InterceptingWebElement) o;
+        return handler.equals(that.handler);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), handler);
+    }
+
+    @Override
+    public String toString() {
+        return "InterceptingWebElement{" + "element=" + element + ", handler=" + handler + '}';
     }
 }
