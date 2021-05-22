@@ -28,12 +28,6 @@ import com.github.grossopa.selenium.component.antd.general.AntdButton;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static com.github.grossopa.selenium.component.antd.AntdComponents.antd;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;

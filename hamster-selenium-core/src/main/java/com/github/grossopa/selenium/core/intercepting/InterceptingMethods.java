@@ -24,14 +24,10 @@
 
 package com.github.grossopa.selenium.core.intercepting;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Interactive;
 import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.internal.HasIdentity;
-import org.openqa.selenium.*;
 
 import java.net.URL;
 import java.util.Collection;
