@@ -80,6 +80,6 @@ public class InterceptingAlert implements Alert {
         handler.execute(() -> {
             alert.sendKeys(keysToSend);
             return null;
-        }, MethodInfo.create(alert, ALERT_SEND_KEYS));
+        }, MethodInfo.create(alert, ALERT_SEND_KEYS, keysToSend));
     }
 }
