@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.element.NoOpWebElementDecorator;
 import com.github.grossopa.selenium.core.element.WebElementDecorator;
+import com.github.grossopa.selenium.core.intercepting.LoggingHandler;
 import com.github.grossopa.selenium.core.util.GracefulThreadSleep;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -43,6 +44,8 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 public class DefaultComponentWebDriver extends AbstractComponentWebDriver {
 
     protected final WebElementDecorator decorator;
+    protected final LoggingHandler loggingHandler;
+
 
     /**
      * Constructs an instance with given non-null {@link WebDriver} instance.
@@ -73,6 +76,7 @@ public class DefaultComponentWebDriver extends AbstractComponentWebDriver {
      */
     public DefaultComponentWebDriver(WebDriver driver, GracefulThreadSleep threadSleep, WebElementDecorator decorator) {
         super(driver, threadSleep);
+        this.loggingHandler = new LoggingHandler(0L);
         this.decorator = defaultIfNull(decorator, new NoOpWebElementDecorator());
     }
 
@@ -84,6 +88,7 @@ public class DefaultComponentWebDriver extends AbstractComponentWebDriver {
         }
         WebElement decoratedElement = decorator.decorate(element, driver);
         return new DefaultWebComponent(decoratedElement, this, this.decorator);
-
     }
+
+
 }
