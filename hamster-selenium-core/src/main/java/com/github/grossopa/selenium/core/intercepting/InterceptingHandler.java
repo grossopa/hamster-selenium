@@ -62,13 +62,14 @@ public interface InterceptingHandler {
      *
      * @param supplier the supplier to be executed
      * @param methodInfo the method information
-     * @param <T> the result type
+     * @param <T> the source type
+     * @param <R> the result type
      * @return the execution result
      */
     default <T, R> R execute(Supplier<R> supplier, MethodInfo<T> methodInfo) {
         try {
             this.onBefore(methodInfo);
-            var result = supplier.get();
+            R result = supplier.get();
             methodInfo.executionDone();
             this.onAfter(methodInfo, result);
             return result;

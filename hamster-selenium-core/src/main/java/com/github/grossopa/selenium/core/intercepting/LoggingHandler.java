@@ -59,6 +59,7 @@ public class LoggingHandler implements InterceptingHandler {
      *
      * @param thresholdInMillis only when the time spent is longer than the threshold then log will be printed. 0 for
      * printing all actions.
+     * @param log the customized logger
      */
     public LoggingHandler(long thresholdInMillis, Logger log) {
         requireNonNull(log);
@@ -100,7 +101,7 @@ public class LoggingHandler implements InterceptingHandler {
 
     @SuppressWarnings("rawtypes")
     private String buildResultString(Object resultValue) {
-        var result = "      Result: {0}\n";
+        String result = "      Result: {0}\n";
         if (resultValue == null) {
             return null;
         }

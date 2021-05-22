@@ -118,6 +118,7 @@ public class MethodInfo<T> {
      * @param methodName the current invoked driver method name
      * @param params the parameters of the invoked method
      * @param source the source object
+     * @param <T> the source type
      * @return the created method info instance for driver
      */
     public static <T> MethodInfo<T> create(T source, String methodName, Object... params) {
