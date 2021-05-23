@@ -24,26 +24,62 @@
 
 package com.github.grossopa.selenium.core.intercepting;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
- * No actions Intercepting handler
+ * Tests for {@link MethodInfo}
  *
  * @author Jack Yin
  * @since 1.4
  */
-public class NoOpInterceptingHandler implements InterceptingHandler {
+class MethodInfoTest {
 
-    @Override
-    public void onBefore(MethodInfo<?> methodInfo) {
-        // do nothing
+    MethodInfo<String> testSubject;
+    String source = "source";
+    String methodName = "methodName";
+    String params = "params";
+
+    @BeforeEach
+    void setUp() {
+        testSubject = MethodInfo.create(source, methodName, params);
     }
 
-    @Override
-    public void onAfter(MethodInfo<?> methodInfo, Object resultValue) {
-        // do nothing
+
+    @Test
+    void getName() {
+        assertEquals("methodName", testSubject.getName());
     }
 
-    @Override
-    public void onException(MethodInfo<?> methodInfo, Exception exception) {
-        // do nothing
+    @Test
+    void getParams() {
+        assertEquals("params", testSubject.getParams()[0]);
+    }
+
+    @Test
+    void getSource() {
+        assertEquals("source", testSubject.getSource());
+    }
+
+    @Test
+    void getStartTimeInMillis() {
+        testSubject = MethodInfo.create(source, methodName, params);
+        assertTrue(200L > System.currentTimeMillis() - testSubject.getStartTimeInMillis());
+    }
+
+    @Test
+    void getEndTimeInMillis() {
+        assertNull(testSubject.getEndTimeInMillis());
+        testSubject.executionDone();
+        assertNotNull(testSubject.getEndTimeInMillis());
+    }
+
+    @Test
+    void getTimeElapsedInMillis() {
+        testSubject = new MethodInfo<>(source, methodName, params);
+        testSubject.executionDone();
+        assertTrue(100 > testSubject.getTimeElapsedInMillis());
     }
 }
