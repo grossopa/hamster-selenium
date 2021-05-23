@@ -27,7 +27,6 @@ package com.github.grossopa.selenium.core.intercepting;
 import com.github.grossopa.selenium.core.component.AbstractDelegatedWebElement;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Coordinates;
 
 import java.util.List;
 import java.util.Objects;
@@ -179,6 +178,15 @@ public class InterceptingWebElement extends AbstractDelegatedWebElement {
         }
         InterceptingWebElement that = (InterceptingWebElement) o;
         return handler.equals(that.handler);
+    }
+
+    /**
+     * Gets the intercepting handler
+     *
+     * @return the intercepting handler
+     */
+    public InterceptingHandler getHandler() {
+        return handler;
     }
 
     @Override

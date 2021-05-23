@@ -99,7 +99,7 @@ public class LoggingHandler implements InterceptingHandler {
                 buildParamsString(methodInfo), methodInfo.getTimeElapsedInMillis(), methodInfo.getSource());
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({"rawtypes", "java:S6212"})
     private String buildResultString(Object resultValue) {
         String result = "      Result: {0}\n";
         if (resultValue == null) {

@@ -24,6 +24,13 @@
 
 package com.github.grossopa.selenium.core.intercepting;
 
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
+import com.openpojo.reflection.PojoClass;
+import com.openpojo.reflection.impl.PojoClassFactory;
+import com.openpojo.validation.Validator;
+import com.openpojo.validation.ValidatorBuilder;
+import com.openpojo.validation.rule.impl.GetterMustExistRule;
+import com.openpojo.validation.test.impl.GetterTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
@@ -213,5 +220,42 @@ class InterceptingWebElementTest {
         assertEquals("dddd", result);
         verify(element, times(1)).getId();
         afterEachVerify(handler, element, ELEMENT_GET_ID, "dddd");
+    }
+
+    @Test
+    void testGetter() {
+        PojoClass pojoClass = PojoClassFactory.getPojoClass(InterceptingWebElement.class);
+        Validator validator = ValidatorBuilder.create().with(new GetterMustExistRule()).with(new GetterTester())
+                .build();
+        validator.validate(pojoClass);
+    }
+
+    @Test
+    void testEqualsAndHashCode() {
+        WebElement element1 = mock(WebElement.class);
+        WebElement element2 = mock(WebElement.class);
+        InterceptingHandler handler1 = mock(InterceptingHandler.class);
+        InterceptingHandler handler2 = mock(InterceptingHandler.class);
+
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+        tester.addEqualityGroup(new InterceptingWebElement(element1, handler1),
+                new InterceptingWebElement(element1, handler1));
+        tester.addEqualityGroup(new InterceptingWebElement(element2, handler1),
+                new InterceptingWebElement(element2, handler1));
+        tester.addEqualityGroup(new InterceptingWebElement(element1, handler2),
+                new InterceptingWebElement(element1, handler2));
+        tester.addEqualityGroup(new InterceptingWebElement(element2, handler2),
+                new InterceptingWebElement(element2, handler2));
+        tester.testEquals();
+    }
+
+    @Test
+    void testToString() {
+        WebElement element = mock(WebElement.class);
+        InterceptingHandler handler = mock(InterceptingHandler.class);
+        when(element.toString()).thenReturn("WebElement[aaabbb]");
+        when(handler.toString()).thenReturn("InterceptingHandler[cccddd]");
+        assertEquals("InterceptingWebElement{element=WebElement[aaabbb], handler=InterceptingHandler[cccddd]}",
+                new InterceptingWebElement(element, handler).toString());
     }
 }
