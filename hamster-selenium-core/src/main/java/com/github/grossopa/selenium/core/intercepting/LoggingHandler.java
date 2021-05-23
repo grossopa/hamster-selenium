@@ -24,7 +24,6 @@
 
 package com.github.grossopa.selenium.core.intercepting;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.logging.Level;
@@ -32,6 +31,8 @@ import java.util.logging.Logger;
 
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
+import static org.apache.commons.lang3.StringUtils.join;
 
 /**
  * Prints log before, after and when exception happens with time spent in millisecond.
@@ -69,11 +70,15 @@ public class LoggingHandler implements InterceptingHandler {
 
     @Override
     public void onBefore(MethodInfo<?> methodInfo) {
-        // do not log on before
+        log.fine(() -> format("{0}({1})\n      Source: {2}\n", methodInfo.getName(), buildParamsString(methodInfo),
+                methodInfo.getSource()));
     }
 
     @Override
     public void onAfter(MethodInfo<?> methodInfo, Object resultValue) {
+        if (methodInfo.getEndTimeInMillis() == null) {
+            methodInfo.executionDone();
+        }
         if (methodInfo.getTimeElapsedInMillis() > thresholdInMillis) {
             log.info(() -> buildLoggingString(methodInfo) + buildResultString(resultValue));
         }
@@ -81,17 +86,14 @@ public class LoggingHandler implements InterceptingHandler {
 
     @Override
     public void onException(MethodInfo<?> methodInfo, Exception exception) {
+        if (methodInfo.getEndTimeInMillis() == null) {
+            methodInfo.executionDone();
+        }
         log.log(Level.SEVERE, exception, () -> buildLoggingString(methodInfo));
     }
 
     private String buildParamsString(MethodInfo<?> methodInfo) {
-        if (methodInfo.getParams().length == 0) {
-            return "";
-        } else if (methodInfo.getParams().length == 1) {
-            return String.valueOf(methodInfo.getParams()[0]);
-        } else {
-            return Arrays.toString(methodInfo.getParams());
-        }
+        return defaultIfBlank(join(methodInfo.getParams(), ", "), "");
     }
 
     private String buildLoggingString(MethodInfo<?> methodInfo) {
@@ -102,10 +104,6 @@ public class LoggingHandler implements InterceptingHandler {
     @SuppressWarnings({"rawtypes", "java:S6212"})
     private String buildResultString(Object resultValue) {
         String result = "      Result: {0}\n";
-        if (resultValue == null) {
-            return null;
-        }
-
         if (resultValue instanceof Map) {
             result = "      Result: count: " + ((Map) resultValue).size() + ", {0}\n";
         } else if (resultValue instanceof Collection) {

@@ -26,6 +26,8 @@ package com.github.grossopa.selenium.core.intercepting;
 
 import org.openqa.selenium.WebDriver;
 
+import javax.annotation.Nullable;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -94,6 +96,16 @@ public class MethodInfo<T> {
      */
     public Long getStartTimeInMillis() {
         return startTimeInMillis;
+    }
+
+    /**
+     * Gets the end time in milliseconds
+     *
+     * @return the end time in milliseconds
+     */
+    @Nullable
+    public Long getEndTimeInMillis() {
+        return endTimeInMillis;
     }
 
     /**

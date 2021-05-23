@@ -188,4 +188,22 @@ class AbstractDelegatedWebElementTest {
     void testToString() {
         assertEquals("AbstractDelegatedWebElement{element=" + element.toString() + "}", testSubject.toString());
     }
+
+    @Test
+    @SuppressWarnings("all")
+    void testEqualsSame() {
+        assertTrue(testSubject.equals(testSubject));
+    }
+
+    @Test
+    @SuppressWarnings("all")
+    void testEqualsNull() {
+        assertFalse(testSubject.equals(null));
+    }
+
+    @Test
+    @SuppressWarnings("all")
+    void testEqualsOther() {
+        assertFalse(testSubject.equals(new Exception()));
+    }
 }
