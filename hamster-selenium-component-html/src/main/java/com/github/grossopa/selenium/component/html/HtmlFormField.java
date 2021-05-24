@@ -42,10 +42,8 @@ public class HtmlFormField extends DefaultWebComponent implements FormField {
     /**
      * Constructs an instance with element and driver.
      *
-     * @param element
-     *         the web element to wrap with, should be the parent container of a label and / or an input.
-     * @param driver
-     *         the current web driver
+     * @param element the web element to wrap with, should be the parent container of a label and / or an input.
+     * @param driver the current web driver
      */
     public HtmlFormField(WebElement element, ComponentWebDriver driver) {
         super(element, driver);
@@ -59,5 +57,10 @@ public class HtmlFormField extends DefaultWebComponent implements FormField {
     @Override
     public WebComponent getInput() {
         return findComponent(By.tagName("input"));
+    }
+
+    @Override
+    public String toString() {
+        return "HtmlFormField{" + "element=" + element + '}';
     }
 }

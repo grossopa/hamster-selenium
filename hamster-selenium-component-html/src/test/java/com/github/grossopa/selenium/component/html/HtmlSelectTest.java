@@ -25,6 +25,7 @@
 package com.github.grossopa.selenium.component.html;
 
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -68,7 +69,7 @@ class HtmlSelectTest {
         options = asList(createOption("val1", "Label 1", 0, false), createOption("val2", "Label 2", 1, true),
                 createOption("val3", "Label 3", 2, false));
         when(element.getTagName()).thenReturn("select");
-        when(element.findElements(eq(By.tagName("option")))).thenReturn(options);
+        when(element.findElements(By.tagName("option"))).thenReturn(options);
         when(element.getAttribute("multiple")).thenReturn("true");
         testSubject = new HtmlSelect(element, driver);
     }
@@ -95,7 +96,7 @@ class HtmlSelectTest {
 
     @Test
     void selectByVisibleText() {
-        when(element.findElements(eq(By.xpath(".//option[normalize-space(.) = " + Quotes.escape("Label 1") + "]"))))
+        when(element.findElements(By.xpath(".//option[normalize-space(.) = " + Quotes.escape("Label 1") + "]")))
                 .thenReturn(options);
         testSubject.selectByVisibleText("Label 1");
         assertEquals("Label 1", testSubject.getFirstSelectedOption().getText());
@@ -109,8 +110,7 @@ class HtmlSelectTest {
 
     @Test
     void selectByValue() {
-        when(element.findElements(eq(By.xpath(".//option[@value = " + Quotes.escape("val1") + "]"))))
-                .thenReturn(options);
+        when(element.findElements(By.xpath(".//option[@value = " + Quotes.escape("val1") + "]"))).thenReturn(options);
         testSubject.selectByValue("val1");
         assertEquals("Label 1", testSubject.getFirstSelectedOption().getText());
     }
@@ -123,8 +123,7 @@ class HtmlSelectTest {
 
     @Test
     void deselectByValue() {
-        when(element.findElements(eq(By.xpath(".//option[@value = " + Quotes.escape("val1") + "]"))))
-                .thenReturn(options);
+        when(element.findElements(By.xpath(".//option[@value = " + Quotes.escape("val1") + "]"))).thenReturn(options);
         testSubject.deselectByValue("val1");
         assertEquals(0, testSubject.getAllSelectedOptions().size());
     }
@@ -137,9 +136,29 @@ class HtmlSelectTest {
 
     @Test
     void deselectByVisibleText() {
-        when(element.findElements(eq(By.xpath(".//option[normalize-space(.) = " + Quotes.escape("Label 1") + "]"))))
+        when(element.findElements(By.xpath(".//option[normalize-space(.) = " + Quotes.escape("Label 1") + "]")))
                 .thenReturn(options);
         testSubject.deselectByVisibleText("Label 1");
         assertEquals(0, testSubject.getAllSelectedOptions().size());
+    }
+
+    @Test
+    void testEquals() {
+        WebElement element1 = mock(WebElement.class);
+        WebElement element2 = mock(WebElement.class);
+
+        when(element1.getTagName()).thenReturn("select");
+        when(element2.getTagName()).thenReturn("select");
+
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+        tester.addEqualityGroup(new HtmlSelect(element1, driver), new HtmlSelect(element1, driver));
+        tester.addEqualityGroup(new HtmlSelect(element2, driver));
+        tester.testEquals();
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("HtmlSelect{element=element-toString}", testSubject.toString());
     }
 }

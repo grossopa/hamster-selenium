@@ -123,7 +123,6 @@ class MuiAutocompleteTest {
                 closeOptionsAction);
     }
 
-
     @Test
     void constructor1() {
         MuiAutocomplete autocomplete = new MuiAutocomplete(element, driver, config);

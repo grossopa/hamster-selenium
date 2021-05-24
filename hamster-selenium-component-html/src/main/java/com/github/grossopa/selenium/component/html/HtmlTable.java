@@ -134,4 +134,9 @@ public class HtmlTable extends DefaultWebComponent implements Table {
     public By getColsLocator() {
         return By.xpath("./td");
     }
+
+    @Override
+    public String toString() {
+        return "HtmlTable{" + "element=" + element + '}';
+    }
 }

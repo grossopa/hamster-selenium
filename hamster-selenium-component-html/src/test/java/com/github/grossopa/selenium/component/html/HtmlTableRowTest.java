@@ -25,14 +25,14 @@
 package com.github.grossopa.selenium.component.html;
 
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -63,5 +63,24 @@ class HtmlTableRowTest {
     void validateFalse() {
         when(element.getTagName()).thenReturn("td");
         assertFalse(testSubject.validate());
+    }
+
+    @Test
+    void testEquals() {
+        WebElement element1 = mock(WebElement.class);
+        WebElement element2 = mock(WebElement.class);
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+        tester.addEqualityGroup(new HtmlTableRow(element1, driver, By.tagName("td"), asList("aa", "bb")));
+        tester.addEqualityGroup(new HtmlTableRow(element1, driver, By.tagName("td1"), asList("aa", "bb")));
+        tester.addEqualityGroup(new HtmlTableRow(element1, driver, By.tagName("td"), asList("aa1", "bb")));
+        tester.addEqualityGroup(new HtmlTableRow(element2, driver, By.tagName("td"), asList("aa1", "bb")));
+        tester.testEquals();
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("HtmlTableRow{colsLocator=By.tagName: td, headerLabels=[aa, bb], element=element-toString}",
+                testSubject.toString());
     }
 }

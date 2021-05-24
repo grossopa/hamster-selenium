@@ -68,6 +68,11 @@ class MuiPickersDialogTest {
         when(dialogActions.findElement(testSubject.getCancelButtonLocator())).thenReturn(cancelButton);
     }
 
+    @Test
+    void getComponentName() {
+        assertEquals("PickersDialog", testSubject.getComponentName());
+    }
+
 
     @Test
     void getPickersContainer() {

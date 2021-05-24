@@ -64,4 +64,11 @@ class HtmlFormFieldTest {
         when(element.findElement(eq(By.tagName("input")))).thenReturn(input);
         assertEquals(input, testSubject.getInput().getWrappedElement());
     }
+
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("HtmlFormField{element=element-toString}", testSubject.toString());
+    }
 }

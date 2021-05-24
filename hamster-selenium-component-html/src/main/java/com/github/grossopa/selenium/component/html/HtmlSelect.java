@@ -31,6 +31,7 @@ import org.openqa.selenium.support.ui.ISelect;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * the simple HTML Select elements delegates selenium {@link Select}.
@@ -106,5 +107,30 @@ public class HtmlSelect extends DefaultWebComponent implements ISelect {
     @Override
     public void deselectByVisibleText(String text) {
         selectComponent.deselectByVisibleText(text);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof HtmlSelect)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        HtmlSelect that = (HtmlSelect) o;
+        return element.equals(that.element);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), element);
+    }
+
+    @Override
+    public String toString() {
+        return "HtmlSelect{" + "element=" + element + '}';
     }
 }
