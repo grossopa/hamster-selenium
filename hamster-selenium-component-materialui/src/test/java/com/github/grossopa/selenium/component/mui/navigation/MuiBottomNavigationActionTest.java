@@ -62,4 +62,10 @@ class MuiBottomNavigationActionTest {
         when(config.isSelected(eq(testSubject))).thenReturn(true);
         assertTrue(testSubject.isSelected());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiBottomNavigationAction{element=element-toString}", testSubject.toString());
+    }
 }

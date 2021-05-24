@@ -72,4 +72,10 @@ class MuiPickersYearTest {
         assertFalse(testSubject.isSelected());
         verify(config, times(1)).getCssPrefix();
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiPickersYear{element=element-toString}", testSubject.toString());
+    }
 }

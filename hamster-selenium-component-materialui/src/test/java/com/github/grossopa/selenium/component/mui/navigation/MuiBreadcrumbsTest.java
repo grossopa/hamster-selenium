@@ -133,4 +133,10 @@ class MuiBreadcrumbsTest {
         assertEquals("->", testSubject.getSeparators().get(0).getText());
         assertEquals("->", testSubject.getSeparators().get(1).getText());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiBreadcrumbs{element=element-toString}", testSubject.toString());
+    }
 }

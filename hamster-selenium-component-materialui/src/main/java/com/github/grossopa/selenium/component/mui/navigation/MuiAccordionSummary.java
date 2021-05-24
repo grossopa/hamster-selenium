@@ -40,6 +40,12 @@ import org.openqa.selenium.WebElement;
  * @since 1.0
  */
 public class MuiAccordionSummary extends AbstractMuiComponent {
+
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "AccordionSummary";
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -53,7 +59,7 @@ public class MuiAccordionSummary extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "AccordionSummary";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -72,5 +78,10 @@ public class MuiAccordionSummary extends AbstractMuiComponent {
      */
     public WebComponent getExpandButton() {
         return this.findComponent(By.className(config.getCssPrefix() + "AccordionSummary-expandIcon"));
+    }
+
+    @Override
+    public String toString() {
+        return "MuiAccordionSummary{" + "element=" + element + '}';
     }
 }

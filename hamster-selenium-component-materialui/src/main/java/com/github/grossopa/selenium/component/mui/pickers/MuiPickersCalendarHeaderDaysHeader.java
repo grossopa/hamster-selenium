@@ -40,7 +40,7 @@ public class MuiPickersCalendarHeaderDaysHeader extends AbstractMuiComponent {
     /**
      * The component name
      */
-    public static final String NAME = "PickersCalendarHeader-daysHeader";
+    public static final String COMPONENT_NAME = "PickersCalendarHeader-daysHeader";
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -55,11 +55,16 @@ public class MuiPickersCalendarHeaderDaysHeader extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return NAME;
+        return COMPONENT_NAME;
     }
 
     @Override
     public boolean validate() {
-        return config.validateByCss(this, config.getCssPrefix() + NAME);
+        return config.validateByCss(this, config.getCssPrefix() + COMPONENT_NAME);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiPickersCalendarHeaderDaysHeader{" + "element=" + element + '}';
     }
 }

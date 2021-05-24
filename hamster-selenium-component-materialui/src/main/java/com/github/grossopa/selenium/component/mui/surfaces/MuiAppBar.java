@@ -36,6 +36,12 @@ import org.openqa.selenium.WebElement;
  * @since 1.0
  */
 public class MuiAppBar extends AbstractMuiComponent {
+
+    /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "AppBar";
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -49,6 +55,11 @@ public class MuiAppBar extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "AppBar";
+        return COMPONENT_NAME;
+    }
+
+    @Override
+    public String toString() {
+        return "MuiAppBar{" + "element=" + element + '}';
     }
 }

@@ -38,7 +38,10 @@ import org.openqa.selenium.WebElement;
  */
 public class MuiToolbar extends AbstractMuiComponent {
 
-    public static final String NAME = "Toolbar";
+    /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "Toolbar";
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -53,6 +56,11 @@ public class MuiToolbar extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return NAME;
+        return COMPONENT_NAME;
+    }
+
+    @Override
+    public String toString() {
+        return "MuiToolbar{" + "element=" + element + '}';
     }
 }

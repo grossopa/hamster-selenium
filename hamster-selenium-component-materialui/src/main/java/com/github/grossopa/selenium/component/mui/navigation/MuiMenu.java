@@ -73,4 +73,9 @@ public class MuiMenu extends MuiModal {
         return this.findComponents(By.className(config.getRootCss(MuiMenuItem.COMPONENT_NAME))).stream()
                 .map(component -> new MuiMenuItem(component, driver, config)).collect(toList());
     }
+
+    @Override
+    public String toString() {
+        return "MuiMenu{" + "element=" + element + '}';
+    }
 }

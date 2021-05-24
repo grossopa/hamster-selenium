@@ -56,4 +56,10 @@ class MuiAccordionDetailsTest {
     void getComponentName() {
         assertEquals("AccordionDetails", testSubject.getComponentName());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiAccordionDetails{element=element-toString}", testSubject.toString());
+    }
 }

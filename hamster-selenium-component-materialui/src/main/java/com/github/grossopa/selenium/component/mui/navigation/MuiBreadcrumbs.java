@@ -48,6 +48,11 @@ import static java.util.stream.Collectors.toList;
 public class MuiBreadcrumbs extends AbstractMuiComponent {
 
     /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Breadcrumbs";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -60,7 +65,7 @@ public class MuiBreadcrumbs extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Breadcrumbs";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -115,15 +120,20 @@ public class MuiBreadcrumbs extends AbstractMuiComponent {
         return this.findComponents(getSeparatorLocator());
     }
 
-    private By getSeparatorLocator() {
+    protected By getSeparatorLocator() {
         return By2.className(config.getCssPrefix() + "Breadcrumbs-separator");
     }
 
-    private By getTouchRippleLocator() {
+    protected By getTouchRippleLocator() {
         return By2.className(config.getCssPrefix() + "TouchRipple-root");
     }
 
-    private By getItemContainersLocator() {
+    protected By getItemContainersLocator() {
         return By2.className(config.getCssPrefix() + "Breadcrumbs-li");
+    }
+
+    @Override
+    public String toString() {
+        return "MuiBreadcrumbs{" + "element=" + element + '}';
     }
 }

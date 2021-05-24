@@ -43,7 +43,10 @@ import java.util.List;
  */
 public class MuiPickersYearSelectionContainer extends AbstractMuiComponent {
 
-    public static final String NAME = "PickersYearSelection-container";
+    /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "PickersYearSelection-container";
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -58,7 +61,7 @@ public class MuiPickersYearSelectionContainer extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return NAME;
+        return COMPONENT_NAME;
     }
 
     /**
@@ -68,7 +71,7 @@ public class MuiPickersYearSelectionContainer extends AbstractMuiComponent {
      * @return the full year list component
      */
     public List<MuiPickersYear> getYearList() {
-        return this.findComponentsAs(By.className(config.getRootCss(MuiPickersYear.NAME)),
+        return this.findComponentsAs(By.className(config.getRootCss(MuiPickersYear.COMPONENT_NAME)),
                 component -> new MuiPickersYear(component, driver, config));
     }
 
@@ -92,5 +95,10 @@ public class MuiPickersYearSelectionContainer extends AbstractMuiComponent {
         driver.scrollTo(component);
         driver.moveTo(component);
         component.click();
+    }
+
+    @Override
+    public String toString() {
+        return "MuiPickersYearSelectionContainer{" + "element=" + element + '}';
     }
 }

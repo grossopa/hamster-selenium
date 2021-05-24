@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.component.mui.pickers;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.locator.By2;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -71,7 +72,7 @@ class MuiPickersDialogTest {
     @Test
     void getPickersContainer() {
         WebElement pickersContainer = mock(WebElement.class);
-        when(dialogContent.findElement(By.className("Mui" + MuiPickersBasePickerContainer.NAME)))
+        when(dialogContent.findElement(By.className("Mui" + MuiPickersBasePickerContainer.COMPONENT_NAME)))
                 .thenReturn(pickersContainer);
         assertEquals(pickersContainer, testSubject.getPickersContainer().getWrappedElement());
     }
@@ -106,5 +107,31 @@ class MuiPickersDialogTest {
     void getCancelButtonLocator2() {
         testSubject = new MuiPickersDialog(element, driver, config, By.className("333"), By.className("444"));
         assertEquals(By2.className("444"), testSubject.getCancelButtonLocator());
+    }
+
+    @Test
+    void testEquals() {
+        WebElement element1 = mock(WebElement.class);
+        WebElement element2 = mock(WebElement.class);
+
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+        tester.addEqualityGroup(
+                new MuiPickersDialog(element1, driver, config, By.className("333"), By.className("444")),
+                new MuiPickersDialog(element1, driver, config, By.className("333"), By.className("444")));
+        tester.addEqualityGroup(
+                new MuiPickersDialog(element2, driver, config, By.className("333"), By.className("444")));
+        tester.addEqualityGroup(
+                new MuiPickersDialog(element1, driver, config, By.className("3333"), By.className("444")));
+        tester.addEqualityGroup(
+                new MuiPickersDialog(element1, driver, config, By.className("333"), By.className("4444")));
+        tester.testEquals();
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiPickersDialog{okButtonLocator=By.className: 333, "
+                        + "cancelButtonLocator=By.className: 444, element=element-toString}",
+                new MuiPickersDialog(element, driver, config, By.className("333"), By.className("444")).toString());
     }
 }

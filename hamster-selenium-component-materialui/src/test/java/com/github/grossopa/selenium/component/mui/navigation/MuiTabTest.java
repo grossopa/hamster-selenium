@@ -51,9 +51,14 @@ class MuiTabTest {
         testSubject = new MuiTab(element, driver, config);
     }
 
-
     @Test
     void getComponentName() {
         assertEquals("Tab", testSubject.getComponentName());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiTab{element=element-toString}", testSubject.toString());
     }
 }

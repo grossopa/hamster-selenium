@@ -63,4 +63,10 @@ class MuiLinkTest {
         when(element.getAttribute("href")).thenReturn("abc");
         assertEquals("abc", testSubject.getHref());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiLink{element=element-toString}", testSubject.toString());
+    }
 }

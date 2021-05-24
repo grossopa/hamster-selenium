@@ -38,15 +38,18 @@ import org.openqa.selenium.WebElement;
  * @since 1.0
  */
 public class MuiBottomNavigationAction extends MuiButton {
+
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "BottomNavigationAction";
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiBottomNavigationAction(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -54,11 +57,16 @@ public class MuiBottomNavigationAction extends MuiButton {
 
     @Override
     public String getComponentName() {
-        return "BottomNavigationAction";
+        return COMPONENT_NAME;
     }
 
     @Override
     public boolean isSelected() {
         return config.isSelected(this);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiBottomNavigationAction{" + "element=" + element + '}';
     }
 }

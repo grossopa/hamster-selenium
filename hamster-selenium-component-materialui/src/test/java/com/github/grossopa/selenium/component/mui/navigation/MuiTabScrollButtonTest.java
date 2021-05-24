@@ -51,9 +51,14 @@ class MuiTabScrollButtonTest {
         testSubject = new MuiTabScrollButton(element, driver, config);
     }
 
-
     @Test
     void getComponentName() {
         assertEquals("TabScrollButton", testSubject.getComponentName());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiTabScrollButton{element=element-toString}", testSubject.toString());
     }
 }

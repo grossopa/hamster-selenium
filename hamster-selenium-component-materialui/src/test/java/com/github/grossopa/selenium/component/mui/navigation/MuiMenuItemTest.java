@@ -51,9 +51,14 @@ class MuiMenuItemTest {
         testSubject = new MuiMenuItem(element, driver, config);
     }
 
-
     @Test
     void getComponentName() {
         assertEquals("MenuItem", testSubject.getComponentName());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiMenuItem{element=element-toString}", testSubject.toString());
     }
 }

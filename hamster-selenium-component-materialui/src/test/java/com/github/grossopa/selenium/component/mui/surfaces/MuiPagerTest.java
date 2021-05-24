@@ -32,6 +32,7 @@ import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link MuiPager}
@@ -54,5 +55,11 @@ class MuiPagerTest {
     @Test
     void getComponentName() {
         assertEquals("Pager", testSubject.getComponentName());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiPager{element=element-toString}", testSubject.toString());
     }
 }

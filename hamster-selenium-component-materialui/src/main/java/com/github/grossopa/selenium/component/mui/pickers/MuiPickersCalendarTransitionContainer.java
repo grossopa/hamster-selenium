@@ -47,7 +47,7 @@ public class MuiPickersCalendarTransitionContainer extends AbstractMuiComponent 
     /**
      * The component name
      */
-    public static final String NAME = "PickersCalendar-transitionContainer";
+    public static final String COMPONENT_NAME = "PickersCalendar-transitionContainer";
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -62,7 +62,7 @@ public class MuiPickersCalendarTransitionContainer extends AbstractMuiComponent 
 
     @Override
     public String getComponentName() {
-        return NAME;
+        return COMPONENT_NAME;
     }
 
     /**
@@ -95,5 +95,10 @@ public class MuiPickersCalendarTransitionContainer extends AbstractMuiComponent 
         WebComponent component = this.findComponent(By2.textExact(day)).findComponent(By2.parent())
                 .findComponent(By2.parent());
         component.click();
+    }
+
+    @Override
+    public String toString() {
+        return "MuiPickersCalendarTransitionContainer{" + "element=" + element + '}';
     }
 }

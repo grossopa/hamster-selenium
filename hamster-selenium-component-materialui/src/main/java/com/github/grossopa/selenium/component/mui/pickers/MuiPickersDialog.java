@@ -33,6 +33,8 @@ import com.github.grossopa.selenium.core.locator.By2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.Objects;
+
 /**
  * The default Pickers Dialog implementation
  *
@@ -41,6 +43,11 @@ import org.openqa.selenium.WebElement;
  */
 @SuppressWarnings("java:S110")
 public class MuiPickersDialog extends MuiDialog {
+
+    /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "PickersDialog";
 
     private final By okButtonLocator;
     private final By cancelButtonLocator;
@@ -73,6 +80,11 @@ public class MuiPickersDialog extends MuiDialog {
         this.cancelButtonLocator = cancelButtonLocator;
     }
 
+    @Override
+    public String getComponentName() {
+        return COMPONENT_NAME;
+    }
+
     /**
      * Gets the pickers container with the toolbar (for year / day selection model switch) and the container for year /
      * day selection.
@@ -81,7 +93,7 @@ public class MuiPickersDialog extends MuiDialog {
      */
     public MuiPickersBasePickerContainer getPickersContainer() {
         WebComponent component = this.getDialogContent()
-                .findComponent(By.className(config.getCssPrefix() + MuiPickersBasePickerContainer.NAME));
+                .findComponent(By.className(config.getCssPrefix() + MuiPickersBasePickerContainer.COMPONENT_NAME));
         return new MuiPickersBasePickerContainer(component, driver, config);
     }
 
@@ -123,5 +135,31 @@ public class MuiPickersDialog extends MuiDialog {
      */
     public By getCancelButtonLocator() {
         return cancelButtonLocator;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiPickersDialog)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        MuiPickersDialog that = (MuiPickersDialog) o;
+        return okButtonLocator.equals(that.okButtonLocator) && cancelButtonLocator.equals(that.cancelButtonLocator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), okButtonLocator, cancelButtonLocator);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiPickersDialog{" + "okButtonLocator=" + okButtonLocator + ", cancelButtonLocator="
+                + cancelButtonLocator + ", element=" + element + '}';
     }
 }
