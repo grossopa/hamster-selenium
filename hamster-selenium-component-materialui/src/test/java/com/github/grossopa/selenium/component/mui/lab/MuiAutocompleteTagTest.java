@@ -26,6 +26,7 @@ package com.github.grossopa.selenium.component.mui.lab;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -85,5 +86,32 @@ class MuiAutocompleteTagTest {
     @Test
     void getDeleteButton() {
         assertEquals(button, testSubject.getDeleteButton().getWrappedElement());
+    }
+
+    @Test
+    void testEquals() {
+        WebElement element1 = mock(WebElement.class);
+        MuiAutocompleteTagLocators locators1 = mock(MuiAutocompleteTagLocators.class);
+        WebElement element2 = mock(WebElement.class);
+        MuiAutocompleteTagLocators locators2 = mock(MuiAutocompleteTagLocators.class);
+
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+        tester.addEqualityGroup(new MuiAutocompleteTag(element1, driver, config, locators1),
+                new MuiAutocompleteTag(element1, driver, config, locators1));
+        tester.addEqualityGroup(new MuiAutocompleteTag(element1, driver, config, locators2));
+        tester.addEqualityGroup(new MuiAutocompleteTag(element2, driver, config, locators1));
+        tester.addEqualityGroup(new MuiAutocompleteTag(element2, driver, config, locators2));
+        tester.testEquals();
+    }
+
+    @Test
+    void testToString() {
+        WebElement element = mock(WebElement.class);
+        when(element.toString()).thenReturn("element-toString");
+        MuiAutocompleteTagLocators locators = mock(MuiAutocompleteTagLocators.class);
+        when(locators.toString()).thenReturn("locators-toString");
+        testSubject = new MuiAutocompleteTag(element, driver, config, locators);
+        assertEquals("MuiAutocompleteTag{locators=locators-toString, element=element-toString}",
+                testSubject.toString());
     }
 }

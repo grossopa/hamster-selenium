@@ -42,6 +42,7 @@ import org.openqa.selenium.WebElement;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
@@ -58,7 +59,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
     /**
      * The component name
      */
-    public static final String NAME = "Autocomplete";
+    public static final String COMPONENT_NAME = "Autocomplete";
 
     /**
      * The inner input component name
@@ -134,7 +135,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
 
     @Override
     public String getComponentName() {
-        return NAME;
+        return COMPONENT_NAME;
     }
 
     @Override
@@ -326,7 +327,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
 
     private List<MuiAutocompleteTag> getVisibleTags() {
         return this.findComponent(By.className(config.getCssPrefix() + INPUT_NAME))
-                .findComponentsAs(By.className(config.getCssPrefix() + MuiAutocompleteTag.NAME),
+                .findComponentsAs(By.className(config.getCssPrefix() + MuiAutocompleteTag.COMPONENT_NAME),
                         c -> new MuiAutocompleteTag(c, driver, config, tagLocators));
     }
 
@@ -373,5 +374,35 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
      */
     public MuiAutocompleteTagLocators getTagLocators() {
         return tagLocators;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiAutocomplete)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        MuiAutocomplete that = (MuiAutocomplete) o;
+        return modalFinder.equals(that.modalFinder) && optionLocator.equals(that.optionLocator) && openOptionsAction
+                .equals(that.openOptionsAction) && closeOptionsAction.equals(that.closeOptionsAction) && tagLocators
+                .equals(that.tagLocators);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects
+                .hash(super.hashCode(), modalFinder, optionLocator, openOptionsAction, closeOptionsAction, tagLocators);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiAutocomplete{" + "modalFinder=" + modalFinder + ", optionLocator=" + optionLocator
+                + ", openOptionsAction=" + openOptionsAction + ", closeOptionsAction=" + closeOptionsAction
+                + ", tagLocators=" + tagLocators + '}';
     }
 }

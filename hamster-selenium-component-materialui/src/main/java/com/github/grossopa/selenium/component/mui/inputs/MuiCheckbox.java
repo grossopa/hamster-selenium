@@ -56,13 +56,13 @@ public class MuiCheckbox extends AbstractMuiComponent {
     }
 
     @Override
-    public String getComponentName() {
-        return COMPONENT_NAME;
+    public boolean isSelected() {
+        return config.isChecked(this);
     }
 
     @Override
-    public boolean isSelected() {
-        return config.isChecked(this);
+    public String getComponentName() {
+        return COMPONENT_NAME;
     }
 
     @Override

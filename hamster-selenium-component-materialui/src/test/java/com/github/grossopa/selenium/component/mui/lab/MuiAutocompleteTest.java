@@ -31,6 +31,7 @@ import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
@@ -405,5 +406,68 @@ class MuiAutocompleteTest {
     @Test
     void getTagLocators() {
         assertEquals(tagLocators, testSubject.getTagLocators());
+    }
+
+    @Test
+    void testEquals() {
+        WebElement element1 = mock(WebElement.class);
+        By optionLocator1 = mock(By.class);
+        OpenOptionsAction openOptionsAction1 = mock(OpenOptionsAction.class);
+        CloseOptionsAction closeOptionsAction1 = mock(CloseOptionsAction.class);
+        MuiAutocompleteTagLocators tagLocators1 = mock(MuiAutocompleteTagLocators.class);
+
+        WebElement element2 = mock(WebElement.class);
+        By optionLocator2 = mock(By.class);
+        OpenOptionsAction openOptionsAction2 = mock(OpenOptionsAction.class);
+        CloseOptionsAction closeOptionsAction2 = mock(CloseOptionsAction.class);
+        MuiAutocompleteTagLocators tagLocators2 = mock(MuiAutocompleteTagLocators.class);
+
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+        tester.addEqualityGroup(
+                new MuiAutocomplete(element1, driver, config, optionLocator1, tagLocators1, openOptionsAction1,
+                        closeOptionsAction1),
+                new MuiAutocomplete(element1, driver, config, optionLocator1, tagLocators1, openOptionsAction1,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiAutocomplete(element2, driver, config, optionLocator1, tagLocators1, openOptionsAction1,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiAutocomplete(element1, driver, config, optionLocator2, tagLocators1, openOptionsAction1,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiAutocomplete(element1, driver, config, optionLocator1, tagLocators2, openOptionsAction1,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiAutocomplete(element1, driver, config, optionLocator1, tagLocators1, openOptionsAction2,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiAutocomplete(element1, driver, config, optionLocator1, tagLocators1, openOptionsAction1,
+                        closeOptionsAction2));
+        tester.testEquals();
+    }
+
+    @Test
+    void testToString() {
+        WebElement element = mock(WebElement.class);
+        By optionLocator = mock(By.class);
+        OpenOptionsAction openOptionsAction = mock(OpenOptionsAction.class);
+        CloseOptionsAction closeOptionsAction = mock(CloseOptionsAction.class);
+        MuiAutocompleteTagLocators tagLocators = mock(MuiAutocompleteTagLocators.class);
+
+        when(driver.toString()).thenReturn("driver-toString");
+        when(config.toString()).thenReturn("config-toString");
+        when(element.toString()).thenReturn("element-toString");
+        when(optionLocator.toString()).thenReturn("optionLocator-toString");
+        when(openOptionsAction.toString()).thenReturn("openOptionsAction-toString");
+        when(closeOptionsAction.toString()).thenReturn("closeOptionsAction-toString");
+        when(tagLocators.toString()).thenReturn("tagLocators-toString");
+
+        testSubject = new MuiAutocomplete(element, driver, config, optionLocator, tagLocators, openOptionsAction,
+                closeOptionsAction);
+
+        assertEquals("MuiAutocomplete{modalFinder=MuiModalFinder{driver=driver-toString, "
+                + "config=config-toString}, optionLocator=optionLocator-toString, "
+                + "openOptionsAction=openOptionsAction-toString, closeOptionsAction=closeOptionsAction-toString, "
+                + "tagLocators=tagLocators-toString}", testSubject.toString());
     }
 }
