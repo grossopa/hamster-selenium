@@ -102,7 +102,7 @@ class MuiPickersBasePickerContainerTest {
         when(button2.getWrappedElement()).thenReturn(button2Element);
         when(button3.getWrappedElement()).thenReturn(button3Element);
 
-        when(config.getRootCss(MuiButton.NAME)).thenReturn("MuiButton-root");
+        when(config.getRootCss(MuiButton.COMPONENT_NAME)).thenReturn("MuiButton-root");
         when(config.getRootCss(MuiToolbar.NAME)).thenReturn("MuiToolbar-root");
 
         WebElement toolbarElement = mock(WebElement.class);

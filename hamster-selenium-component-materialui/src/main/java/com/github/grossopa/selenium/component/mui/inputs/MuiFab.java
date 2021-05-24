@@ -40,6 +40,11 @@ import org.openqa.selenium.WebElement;
 public class MuiFab extends AbstractMuiComponent {
 
     /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "Fab";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -52,6 +57,11 @@ public class MuiFab extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Fab";
+        return COMPONENT_NAME;
+    }
+
+    @Override
+    public String toString() {
+        return "MuiFab{" + "element=" + element + '}';
     }
 }

@@ -91,4 +91,10 @@ class MuiDialogTest {
         verify(actions, times(1)).sendKeys(Keys.ESCAPE);
         verify(actions, times(1)).perform();
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiDialog{element=element-toString}", testSubject.toString());
+    }
 }

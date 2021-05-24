@@ -70,4 +70,10 @@ class MuiButtonTest {
         when(config.isSelected(any())).thenReturn(false);
         assertFalse(testSubject.isSelected());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiButton{element=element-toString}", testSubject.toString());
+    }
 }

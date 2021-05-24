@@ -105,4 +105,10 @@ class MuiSwitchTest {
         });
         assertTrue(testSubject.isEnabled());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiSwitch{element=element-toString}", testSubject.toString());
+    }
 }

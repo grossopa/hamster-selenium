@@ -32,6 +32,7 @@ import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link MuiFab}
@@ -55,5 +56,11 @@ class MuiFabTest {
     @Test
     void getComponentName() {
         assertEquals("Fab", testSubject.getComponentName());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiFab{element=element-toString}", testSubject.toString());
     }
 }

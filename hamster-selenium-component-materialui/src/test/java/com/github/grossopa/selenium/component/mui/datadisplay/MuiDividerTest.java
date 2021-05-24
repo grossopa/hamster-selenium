@@ -69,4 +69,10 @@ class MuiDividerTest {
         when(element.getAttribute("class")).thenReturn("MuiDivider-root MuiDivider-flexItem");
         assertFalse(testSubject.isVertical());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiDivider{element=element-toString}", testSubject.toString());
+    }
 }

@@ -40,6 +40,11 @@ import org.openqa.selenium.WebElement;
 public class MuiSnackbarContent extends AbstractMuiComponent {
 
     /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "SnackbarContent";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -52,7 +57,7 @@ public class MuiSnackbarContent extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "SnackbarContent";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -64,7 +69,17 @@ public class MuiSnackbarContent extends AbstractMuiComponent {
         return this.findComponent(By.className(config.getCssPrefix() + getComponentName() + "-message"));
     }
 
+    /**
+     * Finds the action component.
+     *
+     * @return the action component.
+     */
     public WebComponent getAction() {
         return this.findComponent(By.className(config.getCssPrefix() + getComponentName() + "-action"));
+    }
+
+    @Override
+    public String toString() {
+        return "MuiSnackbarContent{" + "element=" + element + '}';
     }
 }

@@ -70,4 +70,10 @@ class MuiListTest {
     void getListItems() {
         assertEquals(3, testSubject.getListItems().size());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiList{element=element-toString}", testSubject.toString());
+    }
 }

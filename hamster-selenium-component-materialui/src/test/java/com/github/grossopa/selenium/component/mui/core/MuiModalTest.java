@@ -32,6 +32,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.openqa.selenium.Keys.ESCAPE;
 
@@ -97,5 +98,11 @@ class MuiModalTest {
 
         verify(actions, times(1)).perform();
         verify(wait, times(1)).until(any());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiModal{element=element-toString}", testSubject.toString());
     }
 }

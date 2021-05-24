@@ -56,4 +56,9 @@ public class MuiPopover extends MuiModal {
     public String getComponentName() {
         return COMPONENT_NAME;
     }
+
+    @Override
+    public String toString() {
+        return "MuiPopover{" + "element=" + element + '}';
+    }
 }

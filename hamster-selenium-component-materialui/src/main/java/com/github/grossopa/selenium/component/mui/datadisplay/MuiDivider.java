@@ -39,6 +39,11 @@ import org.openqa.selenium.WebElement;
 public class MuiDivider extends AbstractMuiComponent {
 
     /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Divider";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -51,7 +56,7 @@ public class MuiDivider extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Divider";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -61,5 +66,10 @@ public class MuiDivider extends AbstractMuiComponent {
      */
     public boolean isVertical() {
         return this.attributeContains("class", config.getCssPrefix() + "Divider-vertical");
+    }
+
+    @Override
+    public String toString() {
+        return "MuiDivider{" + "element=" + element + '}';
     }
 }

@@ -76,4 +76,10 @@ class MuiSnackbarContentTest {
 
         assertEquals(messageElement, testSubject.getAction().getWrappedElement());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiSnackbarContent{element=element-toString}", testSubject.toString());
+    }
 }

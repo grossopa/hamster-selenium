@@ -66,4 +66,10 @@ class MuiButtonGroupTest {
                 .thenReturn(asList(mock(WebElement.class), mock(WebElement.class), mock(WebElement.class)));
         assertEquals(3, testSubject.getButtons().size());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiButtonGroup{element=element-toString}", testSubject.toString());
+    }
 }

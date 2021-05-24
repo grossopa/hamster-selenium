@@ -45,7 +45,7 @@ public class MuiTextField extends AbstractMuiComponent implements FormField {
     /**
      * The component name
      */
-    public static final String NAME = "TextField";
+    public static final String COMPONENT_NAME = "TextField";
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -60,7 +60,7 @@ public class MuiTextField extends AbstractMuiComponent implements FormField {
 
     @Override
     public String getComponentName() {
-        return NAME;
+        return COMPONENT_NAME;
     }
 
     /**
@@ -92,5 +92,10 @@ public class MuiTextField extends AbstractMuiComponent implements FormField {
     @Override
     public WebComponent getLabel() {
         return this.findComponent(By2.contains("class", config.getCssPrefix() + "InputLabel-root", "label"));
+    }
+
+    @Override
+    public String toString() {
+        return "MuiTextField{" + "element=" + element + '}';
     }
 }

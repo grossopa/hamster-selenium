@@ -88,7 +88,7 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
      * @return the buttons within the top side toolbar
      */
     public List<MuiButton> getToolbarButtons() {
-        return getToolbar().findComponentsAs(By2.className(config.getRootCss(MuiButton.NAME)),
+        return getToolbar().findComponentsAs(By2.className(config.getRootCss(MuiButton.COMPONENT_NAME)),
                 c -> new MuiButton(c, driver, config));
     }
 

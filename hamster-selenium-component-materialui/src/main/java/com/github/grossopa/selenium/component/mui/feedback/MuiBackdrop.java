@@ -39,6 +39,11 @@ import org.openqa.selenium.WebElement;
 public class MuiBackdrop extends AbstractMuiComponent {
 
     /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Backdrop";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -51,6 +56,11 @@ public class MuiBackdrop extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Backdrop";
+        return COMPONENT_NAME;
+    }
+
+    @Override
+    public String toString() {
+        return "MuiBackdrop{" + "element=" + element + '}';
     }
 }

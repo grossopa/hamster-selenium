@@ -80,4 +80,10 @@ class MuiTextFieldTest {
     void getLabel() {
         assertEquals(label, testSubject.getLabel().getWrappedElement());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiTextField{element=element-toString}", testSubject.toString());
+    }
 }

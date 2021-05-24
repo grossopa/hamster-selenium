@@ -181,4 +181,10 @@ class MuiChipTest {
     void isDeletableNegative() {
         assertFalse(testSubject.isDeletable());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiChip{element=element-toString}", testSubject.toString());
+    }
 }

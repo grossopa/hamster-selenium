@@ -66,4 +66,10 @@ public class MuiRadioGroupTest {
                 .thenReturn(asList(mock(WebElement.class), mock(WebElement.class), mock(WebElement.class)));
         assertEquals(3, testSubject.getRadios().size());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiRadioGroup{element=element-toString}", testSubject.toString());
+    }
 }

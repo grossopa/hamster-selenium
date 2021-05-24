@@ -40,14 +40,16 @@ import org.openqa.selenium.WebElement;
 public class MuiRadio extends AbstractMuiComponent {
 
     /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "Radio";
+
+    /**
      * Constructs an MuiRadio instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiRadio(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -55,11 +57,16 @@ public class MuiRadio extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Radio";
+        return COMPONENT_NAME;
     }
 
     @Override
     public boolean isSelected() {
         return config.isChecked(this);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiRadio{" + "element=" + element + '}';
     }
 }
