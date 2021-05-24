@@ -61,12 +61,12 @@ public class MuiBottomNavigationAction extends MuiButton {
     }
 
     @Override
-    public boolean isSelected() {
-        return config.isSelected(this);
+    public String toString() {
+        return "MuiBottomNavigationAction{" + "element=" + element + '}';
     }
 
     @Override
-    public String toString() {
-        return "MuiBottomNavigationAction{" + "element=" + element + '}';
+    public boolean isSelected() {
+        return config.isSelected(this);
     }
 }

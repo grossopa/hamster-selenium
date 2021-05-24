@@ -66,6 +66,7 @@ public interface InterceptingHandler {
      * @param <R> the result type
      * @return the execution result
      */
+    @SuppressWarnings("java:S6212")
     default <T, R> R execute(Supplier<R> supplier, MethodInfo<T> methodInfo) {
         try {
             this.onBefore(methodInfo);

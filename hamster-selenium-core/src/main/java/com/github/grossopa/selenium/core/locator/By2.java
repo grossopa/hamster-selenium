@@ -146,14 +146,36 @@ public abstract class By2 extends By {
         return attr(attributeName, attributeValue).exact().depthRelative().tag(tag).build();
     }
 
+    /**
+     * Finds elements by contains attribute value
+     *
+     * @param attributeName the attribute name to find
+     * @param attributeValue the attribute value to find
+     * @return A By which locates elements by contains attribute value
+     */
     public static By contains(String attributeName, String attributeValue) {
         return contains(attributeName, attributeValue, "*");
     }
 
+    /**
+     * Finds elements by contains attribute value and tag match
+     *
+     * @param attributeName the attribute name to find
+     * @param attributeValue the attribute value to find
+     * @param tag the tag name to find
+     * @return A By which locates elements by contains attribute value and tag name match.
+     */
     public static By contains(String attributeName, String attributeValue, String tag) {
         return attr(attributeName, attributeValue).contains().depthRelative().tag(tag).build();
     }
 
+    /**
+     * Creates the By attribute builder.
+     *
+     * @param attributeName the attribute name to find
+     * @param attributeValue the attribute value to find
+     * @return the builder instance
+     */
     public static ByAttributeBuilder attr(String attributeName, String attributeValue) {
         return new ByAttributeBuilder(attributeName, attributeValue);
     }
