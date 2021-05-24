@@ -33,6 +33,8 @@ import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nullable;
 
+import java.util.Objects;
+
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 /**
@@ -46,7 +48,7 @@ public class MuiAutocompleteTag extends AbstractMuiComponent {
     /**
      * The component name
      */
-    public static final String NAME = "Autocomplete-tag";
+    public static final String COMPONENT_NAME = "Autocomplete-tag";
 
     private final MuiAutocompleteTagLocators locators;
 
@@ -79,7 +81,7 @@ public class MuiAutocompleteTag extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return NAME;
+        return COMPONENT_NAME;
     }
 
     /**
@@ -119,4 +121,28 @@ public class MuiAutocompleteTag extends AbstractMuiComponent {
         return new MuiButton(component, driver, config);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiAutocompleteTag)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        MuiAutocompleteTag that = (MuiAutocompleteTag) o;
+        return locators.equals(that.locators);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), locators);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiAutocompleteTag{" + "locators=" + locators + ", element=" + element + '}';
+    }
 }

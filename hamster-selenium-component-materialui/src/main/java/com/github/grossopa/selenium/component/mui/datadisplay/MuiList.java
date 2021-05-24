@@ -45,6 +45,11 @@ import static java.util.stream.Collectors.toList;
 public class MuiList extends AbstractMuiComponent {
 
     /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "List";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -57,7 +62,7 @@ public class MuiList extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "List";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -66,8 +71,13 @@ public class MuiList extends AbstractMuiComponent {
      * @return all the {@link MuiListItem} under this list.
      */
     public List<MuiListItem> getListItems() {
-        List<WebComponent> components = this.findComponents(
-                By2.attr("class", config.getRootCss("ListItem")).depthRelative().contains().build());
+        List<WebComponent> components = this
+                .findComponents(By2.attr("class", config.getRootCss("ListItem")).depthRelative().contains().build());
         return components.stream().map(c -> new MuiListItem(c, driver, config)).collect(toList());
+    }
+
+    @Override
+    public String toString() {
+        return "MuiList{" + "element=" + element + '}';
     }
 }

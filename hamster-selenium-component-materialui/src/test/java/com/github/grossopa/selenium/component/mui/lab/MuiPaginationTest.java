@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.locator.By2;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
@@ -239,5 +240,33 @@ class MuiPaginationTest {
     @Test
     void getLocators() {
         assertEquals(locators, testSubject.getLocators());
+    }
+
+    @Test
+    void testEquals() {
+        WebElement element1 = mock(WebElement.class);
+        MuiPaginationLocators locators1 = mock(MuiPaginationLocators.class);
+
+        WebElement element2 = mock(WebElement.class);
+        MuiPaginationLocators locators2 = mock(MuiPaginationLocators.class);
+
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+
+        tester.addEqualityGroup(new MuiPagination(element1, driver, config, locators1),
+                new MuiPagination(element1, driver, config, locators1));
+        tester.addEqualityGroup(new MuiPagination(element1, driver, config, locators2));
+        tester.addEqualityGroup(new MuiPagination(element2, driver, config, locators1));
+        tester.addEqualityGroup(new MuiPagination(element2, driver, config, locators2));
+        tester.testEquals();
+    }
+
+    @Test
+    void testToString() {
+        WebElement element = mock(WebElement.class);
+        when(element.toString()).thenReturn("element-toString");
+        MuiPaginationLocators locators = mock(MuiPaginationLocators.class);
+        when(locators.toString()).thenReturn("locators-toString");
+        testSubject = new MuiPagination(element, driver, config, locators);
+        assertEquals("MuiPagination{locators=locators-toString, element=element-toString}", testSubject.toString());
     }
 }

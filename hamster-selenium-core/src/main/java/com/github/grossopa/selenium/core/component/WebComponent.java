@@ -197,4 +197,11 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
      * @return outerHTML attribute
      */
     String outerHTML();
+
+    /**
+     * Validates whether current wrapped {@link WebElement} is expected and controllable by current instance.
+     *
+     * @return whether current wrapped {@link WebElement} is expected and controllable by current instance.
+     */
+    boolean validate();
 }

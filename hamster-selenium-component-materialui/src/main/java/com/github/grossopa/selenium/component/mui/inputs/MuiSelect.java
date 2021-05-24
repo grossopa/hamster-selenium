@@ -44,6 +44,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -68,6 +69,11 @@ import static java.util.stream.Collectors.toList;
  * @since 1.0
  */
 public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSelect {
+
+    /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "Select";
 
     private final String optionValueAttribute;
     private final By optionsLocator;
@@ -129,7 +135,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public String getComponentName() {
-        return "Select";
+        return COMPONENT_NAME;
     }
 
     @Override
@@ -339,5 +345,37 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
      */
     public CloseOptionsAction getCloseOptionsAction() {
         return closeOptionsAction;
+    }
+
+    @Override
+    @SuppressWarnings("java:S6212")
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiSelect)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        MuiSelect muiSelect = (MuiSelect) o;
+        return optionValueAttribute.equals(muiSelect.optionValueAttribute) && optionsLocator
+                .equals(muiSelect.optionsLocator) && openOptionsAction.equals(muiSelect.openOptionsAction)
+                && closeOptionsAction.equals(muiSelect.closeOptionsAction) && modalFinder.equals(muiSelect.modalFinder);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects
+                .hash(super.hashCode(), optionValueAttribute, optionsLocator, openOptionsAction, closeOptionsAction,
+                        modalFinder);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiSelect{" + "optionValueAttribute='" + optionValueAttribute + '\'' + ", optionsLocator="
+                + optionsLocator + ", openOptionsAction=" + openOptionsAction + ", closeOptionsAction="
+                + closeOptionsAction + ", modalFinder=" + modalFinder + ", element=" + element + '}';
     }
 }

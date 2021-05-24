@@ -90,4 +90,10 @@ class MuiAccordionSummaryTest {
         when(element.findElement(By.className("MuiAccordionSummary-expandIcon"))).thenReturn(expandIcon);
         assertEquals(expandIcon, testSubject.getExpandButton().getWrappedElement());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiAccordionSummary{element=element-toString}", testSubject.toString());
+    }
 }

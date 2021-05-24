@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.invocation.InvocationOnMock;
@@ -35,6 +36,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+
+import java.util.function.UnaryOperator;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -96,7 +99,7 @@ class MuiSliderTest {
         when(driver.mapElement(any())).then(a -> new DefaultWebComponent(a.getArgument(0), driver));
         when(driver.createActions()).thenReturn(actions);
 
-        when(actions.moveToElement(eq(element))).thenReturn(actions);
+        when(actions.moveToElement(element)).thenReturn(actions);
         when(actions.clickAndHold(any())).then(a -> {
             MuiSliderThumb thumb = a.getArgument(0);
             if (thumb.getWrappedElement() == thumb1) {
@@ -528,5 +531,34 @@ class MuiSliderTest {
     void getInverseScaleFunction() {
         testSubject = new MuiSlider(element, driver, config, x -> x * 3);
         assertEquals(9, testSubject.getInverseScaleFunction().apply(3d).intValue());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void testEquals() {
+        WebElement element1 = mock(WebElement.class);
+        WebElement element2 = mock(WebElement.class);
+        UnaryOperator<Double> inverseFunction1 = mock(UnaryOperator.class);
+        UnaryOperator<Double> inverseFunction2 = mock(UnaryOperator.class);
+
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+        tester.addEqualityGroup(new MuiSlider(element1, driver, config, inverseFunction1),
+                new MuiSlider(element1, driver, config, inverseFunction1));
+        tester.addEqualityGroup(new MuiSlider(element1, driver, config, inverseFunction2));
+        tester.addEqualityGroup(new MuiSlider(element2, driver, config, inverseFunction1));
+        tester.addEqualityGroup(new MuiSlider(element2, driver, config, inverseFunction2));
+
+        tester.testEquals();
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void testToString() {
+        UnaryOperator<Double> inverseFunction = mock(UnaryOperator.class);
+        testSubject = new MuiSlider(element, driver, config, inverseFunction);
+        when(element.toString()).thenReturn("element-toString");
+        when(inverseFunction.toString()).thenReturn("inverseFunction-toString");
+        assertEquals("MuiSlider{inverseScaleFunction=inverseFunction-toString, element=element-toString}",
+                testSubject.toString());
     }
 }

@@ -126,4 +126,10 @@ class MuiBadgeTest {
                 "MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary MuiBadge-invisible");
         assertFalse(testSubject.isBadgeDisplayed());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiBadge{element=element-toString}", testSubject.toString());
+    }
 }

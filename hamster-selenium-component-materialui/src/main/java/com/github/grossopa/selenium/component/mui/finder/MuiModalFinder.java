@@ -33,6 +33,7 @@ import org.openqa.selenium.By;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.core.component.util.WebComponentUtils.attributeContains;
@@ -159,5 +160,27 @@ public class MuiModalFinder {
         return divComponents.stream().filter(component -> includeHidden || component.isDisplayed())
                 .filter(component -> classNames.stream()
                         .anyMatch(modalClass -> attributeContains(component, "class", modalClass))).collect(toList());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiModalFinder)) {
+            return false;
+        }
+        MuiModalFinder that = (MuiModalFinder) o;
+        return driver.equals(that.driver) && config.equals(that.config);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(driver, config);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiModalFinder{" + "driver=" + driver + ", config=" + config + '}';
     }
 }

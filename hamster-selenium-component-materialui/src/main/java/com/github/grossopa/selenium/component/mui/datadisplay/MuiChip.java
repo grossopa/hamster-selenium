@@ -41,6 +41,11 @@ import org.openqa.selenium.WebElement;
 public class MuiChip extends AbstractMuiComponent {
 
     /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Chip";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -53,7 +58,7 @@ public class MuiChip extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Chip";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -147,5 +152,10 @@ public class MuiChip extends AbstractMuiComponent {
      */
     public boolean isDeletable() {
         return hasDeleteIcon();
+    }
+
+    @Override
+    public String toString() {
+        return "MuiChip{" + "element=" + element + '}';
     }
 }

@@ -41,6 +41,12 @@ import org.openqa.selenium.WebElement;
  * @since 1.0
  */
 public class MuiDialog extends MuiModal {
+
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Dialog";
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -54,7 +60,7 @@ public class MuiDialog extends MuiModal {
 
     @Override
     public String getComponentName() {
-        return "Dialog";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -86,4 +92,8 @@ public class MuiDialog extends MuiModal {
         return this.findComponent(By.className(config.getCssPrefix() + "DialogActions-root"));
     }
 
+    @Override
+    public String toString() {
+        return "MuiDialog{" + "element=" + element + '}';
+    }
 }

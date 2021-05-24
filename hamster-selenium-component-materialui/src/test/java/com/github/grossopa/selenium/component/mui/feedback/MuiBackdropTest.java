@@ -56,4 +56,10 @@ class MuiBackdropTest {
     void getComponentName() {
         assertEquals("Backdrop", testSubject.getComponentName());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiBackdrop{element=element-toString}", testSubject.toString());
+    }
 }

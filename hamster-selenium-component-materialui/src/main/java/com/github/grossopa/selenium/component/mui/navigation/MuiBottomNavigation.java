@@ -43,15 +43,18 @@ import static java.util.stream.Collectors.toList;
  * @since 1.0
  */
 public class MuiBottomNavigation extends AbstractMuiComponent {
+
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "BottomNavigation";
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiBottomNavigation(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -59,7 +62,7 @@ public class MuiBottomNavigation extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "BottomNavigation";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -70,5 +73,10 @@ public class MuiBottomNavigation extends AbstractMuiComponent {
     public List<MuiBottomNavigationAction> getActions() {
         return this.findComponents(By.xpath("./button")).stream()
                 .map(component -> new MuiBottomNavigationAction(component, driver, config)).collect(toList());
+    }
+
+    @Override
+    public String toString() {
+        return "MuiBottomNavigation{" + "element=" + element + '}';
     }
 }

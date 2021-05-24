@@ -72,4 +72,10 @@ class MuiPickersCalendarHeaderDaysHeaderTest {
         assertFalse(testSubject.validate());
         verify(config, times(1)).validateByCss(any(), any());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiPickersCalendarHeaderDaysHeader{element=element-toString}", testSubject.toString());
+    }
 }

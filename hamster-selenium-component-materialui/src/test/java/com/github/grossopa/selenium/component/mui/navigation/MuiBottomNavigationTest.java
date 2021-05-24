@@ -67,4 +67,10 @@ class MuiBottomNavigationTest {
         when(element.findElements(By.xpath("./button"))).thenReturn(actions);
         assertEquals(3, testSubject.getActions().size());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiBottomNavigation{element=element-toString}", testSubject.toString());
+    }
 }

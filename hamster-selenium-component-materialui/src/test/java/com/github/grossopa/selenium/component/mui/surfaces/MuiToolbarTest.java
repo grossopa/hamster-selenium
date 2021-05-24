@@ -51,9 +51,14 @@ class MuiToolbarTest {
         testSubject = new MuiToolbar(element, driver, config);
     }
 
-
     @Test
     void getComponentName() {
         assertEquals("Toolbar", testSubject.getComponentName());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiToolbar{element=element-toString}", testSubject.toString());
     }
 }

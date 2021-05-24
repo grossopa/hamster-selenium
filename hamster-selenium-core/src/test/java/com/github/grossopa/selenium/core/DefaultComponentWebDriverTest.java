@@ -24,14 +24,15 @@
 
 package com.github.grossopa.selenium.core;
 
+import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.element.WebElementDecorator;
 import com.github.grossopa.selenium.core.util.GracefulThreadSleep;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -41,8 +42,7 @@ import java.util.function.Function;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -51,10 +51,11 @@ import static org.mockito.Mockito.*;
  * @author Jack Yin
  * @since 1.0
  */
+@SuppressWarnings("deprecation")
 class DefaultComponentWebDriverTest {
 
     DefaultComponentWebDriver testSubject;
-    RemoteWebDriver driver = mock(RemoteWebDriver.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
 
     @BeforeEach
     void setUp() {
@@ -278,4 +279,28 @@ class DefaultComponentWebDriverTest {
         testSubject.threadSleep(3565);
         verify(mockThreadSleep, only()).sleep(3565);
     }
+
+    @Test
+    void mapElementDecorator() {
+        WebElementDecorator decorator = mock(WebElementDecorator.class);
+        GracefulThreadSleep mockThreadSleep = mock(GracefulThreadSleep.class);
+        WebElement element = mock(WebElement.class);
+        testSubject = new DefaultComponentWebDriver(driver, mockThreadSleep, decorator);
+        when(decorator.decorate(element, driver)).then(answer -> new DefaultWebComponent(element, driver));
+        WebComponent component = testSubject.mapElement(element);
+        assertTrue(component instanceof DefaultWebComponent);
+        verify(decorator, times(1)).decorate(any(), any());
+    }
+
+    @Test
+    void mapElementDecoratorWebComponent() {
+        WebElementDecorator decorator = mock(WebElementDecorator.class);
+        GracefulThreadSleep mockThreadSleep = mock(GracefulThreadSleep.class);
+        WebComponent component = mock(WebComponent.class);
+        testSubject = new DefaultComponentWebDriver(driver, mockThreadSleep, decorator);
+        WebComponent component2 = testSubject.mapElement(component);
+        assertSame(component, component2);
+    }
+
+
 }

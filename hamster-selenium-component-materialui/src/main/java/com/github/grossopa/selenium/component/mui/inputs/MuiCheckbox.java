@@ -40,26 +40,33 @@ import org.openqa.selenium.WebElement;
 public class MuiCheckbox extends AbstractMuiComponent {
 
     /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "Checkbox";
+
+    /**
      * Constructs an MuiCheckBox instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiCheckbox(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
     @Override
-    public String getComponentName() {
-        return "Checkbox";
+    public boolean isSelected() {
+        return config.isChecked(this);
     }
 
     @Override
-    public boolean isSelected() {
-        return config.isChecked(this);
+    public String getComponentName() {
+        return COMPONENT_NAME;
+    }
+
+    @Override
+    public String toString() {
+        return "MuiCheckbox{" + "element=" + element + '}';
     }
 }

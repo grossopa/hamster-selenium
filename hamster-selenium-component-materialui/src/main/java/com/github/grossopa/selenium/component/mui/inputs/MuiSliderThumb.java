@@ -38,6 +38,11 @@ import org.openqa.selenium.WebElement;
 public class MuiSliderThumb extends AbstractMuiComponent {
 
     /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "SliderThumb";
+
+    /**
      * the value of orientation when the slider is horizontal
      */
     public static final String ORIENTATION_HORIZONTAL = "horizontal";
@@ -50,12 +55,9 @@ public class MuiSliderThumb extends AbstractMuiComponent {
     /**
      * Constructs {@link MuiSliderThumb} instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the mui configuration instance
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the mui configuration instance
      */
     public MuiSliderThumb(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -130,5 +132,10 @@ public class MuiSliderThumb extends AbstractMuiComponent {
             return element.getCssValue("left");
         }
         throw new IllegalStateException("Unknown orientation " + orientation);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiSliderThumb{" + "element=" + element + '}';
     }
 }

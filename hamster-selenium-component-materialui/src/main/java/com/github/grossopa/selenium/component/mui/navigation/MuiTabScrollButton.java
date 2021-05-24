@@ -38,6 +38,11 @@ import org.openqa.selenium.WebElement;
 public class MuiTabScrollButton extends MuiButton {
 
     /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "TabScrollButton";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -50,6 +55,11 @@ public class MuiTabScrollButton extends MuiButton {
 
     @Override
     public String getComponentName() {
-        return "TabScrollButton";
+        return COMPONENT_NAME;
+    }
+
+    @Override
+    public String toString() {
+        return "MuiTabScrollButton{" + "element=" + element + '}';
     }
 }

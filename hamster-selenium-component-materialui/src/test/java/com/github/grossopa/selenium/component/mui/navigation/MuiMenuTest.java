@@ -69,4 +69,10 @@ class MuiMenuTest {
         when(element.findElements(eq(By.className("MuiMenuList-root")))).thenReturn(singletonList(mockMenuList1));
         assertEquals(1, testSubject.getMenuItems().size());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiMenu{element=element-toString}", testSubject.toString());
+    }
 }

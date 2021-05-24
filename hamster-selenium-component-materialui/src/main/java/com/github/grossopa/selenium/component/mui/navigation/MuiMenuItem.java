@@ -57,4 +57,9 @@ public class MuiMenuItem extends AbstractMuiComponent {
     public String getComponentName() {
         return COMPONENT_NAME;
     }
+
+    @Override
+    public String toString() {
+        return "MuiMenuItem{" + "element=" + element + '}';
+    }
 }

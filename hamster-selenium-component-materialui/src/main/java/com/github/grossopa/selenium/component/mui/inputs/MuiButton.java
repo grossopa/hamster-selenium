@@ -42,7 +42,7 @@ public class MuiButton extends AbstractMuiComponent {
     /**
      * the component name
      */
-    public static final String NAME = "Button";
+    public static final String COMPONENT_NAME = "Button";
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -57,7 +57,7 @@ public class MuiButton extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return NAME;
+        return COMPONENT_NAME;
     }
 
     @Override
@@ -65,4 +65,8 @@ public class MuiButton extends AbstractMuiComponent {
         return config.isSelected(this);
     }
 
+    @Override
+    public String toString() {
+        return "MuiButton{" + "element=" + element + '}';
+    }
 }

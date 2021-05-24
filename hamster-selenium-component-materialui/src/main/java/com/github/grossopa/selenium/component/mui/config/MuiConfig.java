@@ -30,6 +30,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.By;
 
+import java.util.Objects;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.core.component.util.WebComponentUtils.attributeContains;
@@ -220,5 +221,29 @@ public class MuiConfig {
     public Set<String> getModalClasses() {
         return newHashSet(getRootCss("Drawer"), getRootCss("Dialog"), getRootCss("Popover"), getRootCss("Pager"),
                 getRootCss("Menu"));
+    }
+
+    @Override
+    @SuppressWarnings("java:S6212")
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiConfig)) {
+            return false;
+        }
+        MuiConfig muiConfig = (MuiConfig) o;
+        return cssPrefix.equals(muiConfig.cssPrefix) && overlayAbsolutePath.equals(muiConfig.overlayAbsolutePath);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cssPrefix, overlayAbsolutePath);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiConfig{" + "cssPrefix='" + cssPrefix + '\'' + ", overlayAbsolutePath='" + overlayAbsolutePath + '\''
+                + '}';
     }
 }

@@ -79,7 +79,7 @@ class AbstractDelegatedWebElementTest {
     @Test
     void sendKeys() {
         testSubject.sendKeys(Keys.END);
-        verify(element, only()).sendKeys(eq(Keys.END));
+        verify(element, only()).sendKeys(Keys.END);
     }
 
     @Test
@@ -96,7 +96,7 @@ class AbstractDelegatedWebElementTest {
 
     @Test
     void getAttribute() {
-        when(element.getAttribute(eq("attribute-1"))).thenReturn("some-value");
+        when(element.getAttribute("attribute-1")).thenReturn("some-value");
         assertEquals("some-value", testSubject.getAttribute("attribute-1"));
     }
 
@@ -157,13 +157,13 @@ class AbstractDelegatedWebElementTest {
     @Test
     void getCssValue() {
         testSubject.getCssValue("some-property");
-        verify(element, only()).getCssValue(eq("some-property"));
+        verify(element, only()).getCssValue("some-property");
     }
 
     @Test
     void getScreenshotAs() {
         testSubject.getScreenshotAs(OutputType.BASE64);
-        verify(element, only()).getScreenshotAs(eq(OutputType.BASE64));
+        verify(element, only()).getScreenshotAs(OutputType.BASE64);
     }
 
     @Test
@@ -186,6 +186,24 @@ class AbstractDelegatedWebElementTest {
 
     @Test
     void testToString() {
-        assertEquals(element.toString(), testSubject.toString());
+        assertEquals("AbstractDelegatedWebElement{element=" + element.toString() + "}", testSubject.toString());
+    }
+
+    @Test
+    @SuppressWarnings("all")
+    void testEqualsSame() {
+        assertTrue(testSubject.equals(testSubject));
+    }
+
+    @Test
+    @SuppressWarnings("all")
+    void testEqualsNull() {
+        assertFalse(testSubject.equals(null));
+    }
+
+    @Test
+    @SuppressWarnings("all")
+    void testEqualsOther() {
+        assertFalse(testSubject.equals(new Exception()));
     }
 }

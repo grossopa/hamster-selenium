@@ -60,7 +60,6 @@ class MuiTabsTest {
         testSubject = new MuiTabs(element, driver, config);
     }
 
-
     @Test
     void getComponentName() {
         assertEquals("Tabs", testSubject.getComponentName());
@@ -143,5 +142,11 @@ class MuiTabsTest {
         when(config.getCssPrefix()).thenReturn("Mui");
         when(element.getAttribute("class")).thenReturn("MuiTabs-some MuiTabs-other");
         assertFalse(testSubject.isVertical());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiTabs{element=element-toString}", testSubject.toString());
     }
 }

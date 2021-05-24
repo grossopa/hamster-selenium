@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
@@ -102,5 +103,29 @@ public class MuiAutocompleteTagLocators {
         };
         By deleteButtonLocator = By.className(config.getCssPrefix() + "Chip-deleteIcon");
         return new MuiAutocompleteTagLocators(labelFinder, labelFinder, deleteButtonLocator);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiAutocompleteTagLocators)) {
+            return false;
+        }
+        MuiAutocompleteTagLocators that = (MuiAutocompleteTagLocators) o;
+        return labelFinder.equals(that.labelFinder) && valueFinder.equals(that.valueFinder) && deleteButtonLocator
+                .equals(that.deleteButtonLocator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(labelFinder, valueFinder, deleteButtonLocator);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiAutocompleteTagLocators{" + "labelFinder=" + labelFinder + ", valueFinder=" + valueFinder
+                + ", deleteButtonLocator=" + deleteButtonLocator + '}';
     }
 }

@@ -36,6 +36,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.DoubleConsumer;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
@@ -52,6 +53,11 @@ import static java.util.stream.Collectors.toList;
  * @since 1.0
  */
 public class MuiSlider extends AbstractMuiComponent {
+
+    /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "Slider";
 
     public static final UnaryOperator<Double> DEFAULT_INVERSE_SCALE_FUNCTION = x -> x;
 
@@ -85,7 +91,7 @@ public class MuiSlider extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Slider";
+        return COMPONENT_NAME;
     }
 
 
@@ -623,5 +629,31 @@ public class MuiSlider extends AbstractMuiComponent {
             actions.moveToElement(element).clickAndHold(thumb).moveByOffset(target - thumbCenter.x, 0).release()
                     .perform();
         }
+    }
+
+    @Override
+    @SuppressWarnings("java:S6212")
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiSlider)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        MuiSlider muiSlider = (MuiSlider) o;
+        return inverseScaleFunction.equals(muiSlider.inverseScaleFunction);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), inverseScaleFunction);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiSlider{" + "inverseScaleFunction=" + inverseScaleFunction + ", element=" + element + '}';
     }
 }

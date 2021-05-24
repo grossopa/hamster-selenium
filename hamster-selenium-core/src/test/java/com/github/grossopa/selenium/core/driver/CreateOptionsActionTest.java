@@ -33,6 +33,7 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.safari.SafariOptions;
 
+import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -53,31 +54,31 @@ class CreateOptionsActionTest {
 
     @Test
     void applyChrome() {
-        assertEquals(ChromeOptions.class, testSubject.applyChrome(null).getClass());
+        assertEquals(ChromeOptions.class, requireNonNull(testSubject.applyChrome(null)).getClass());
     }
 
     @Test
     void applyEdge() {
-        assertEquals(EdgeOptions.class, testSubject.applyEdge(null).getClass());
+        assertEquals(EdgeOptions.class, requireNonNull(testSubject.applyEdge(null)).getClass());
     }
 
     @Test
     void applyFirefox() {
-        assertEquals(FirefoxOptions.class, testSubject.applyFirefox(null).getClass());
+        assertEquals(FirefoxOptions.class, requireNonNull(testSubject.applyFirefox(null)).getClass());
     }
 
     @Test
     void applyIE() {
-        assertEquals(InternetExplorerOptions.class, testSubject.applyIE(null).getClass());
+        assertEquals(InternetExplorerOptions.class, requireNonNull(testSubject.applyIE(null)).getClass());
     }
 
     @Test
     void applyOpera() {
-        assertEquals(OperaOptions.class, testSubject.applyOpera(null).getClass());
+        assertEquals(OperaOptions.class, requireNonNull(testSubject.applyOpera(null)).getClass());
     }
 
     @Test
     void applySafari() {
-        assertEquals(SafariOptions.class, testSubject.applySafari(null).getClass());
+        assertEquals(SafariOptions.class, requireNonNull(testSubject.applySafari(null)).getClass());
     }
 }

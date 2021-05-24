@@ -44,14 +44,16 @@ import static java.util.stream.Collectors.toList;
 public class MuiButtonGroup extends AbstractMuiComponent {
 
     /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "ButtonGroup";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiButtonGroup(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -59,7 +61,7 @@ public class MuiButtonGroup extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "ButtonGroup";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -70,5 +72,10 @@ public class MuiButtonGroup extends AbstractMuiComponent {
     public List<MuiButton> getButtons() {
         return element.findElements(config.buttonLocator()).stream()
                 .map(button -> new MuiButton(button, driver, config)).collect(toList());
+    }
+
+    @Override
+    public String toString() {
+        return "MuiButtonGroup{" + "element=" + element + '}';
     }
 }

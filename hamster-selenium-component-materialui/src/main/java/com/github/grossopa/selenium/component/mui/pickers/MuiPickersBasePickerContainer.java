@@ -44,14 +44,17 @@ import java.util.List;
  */
 public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
 
-    public static final String NAME = "PickersBasePicker-container";
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "PickersBasePicker-container";
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver  the root driver
-     * @param config  the Material UI configuration
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiPickersBasePickerContainer(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -59,7 +62,7 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return NAME;
+        return COMPONENT_NAME;
     }
 
     /**
@@ -69,7 +72,7 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
      */
     @Override
     public boolean validate() {
-        return config.validateByCss(this, config.getCssPrefix() + NAME);
+        return config.validateByCss(this, config.getCssPrefix() + COMPONENT_NAME);
     }
 
     /**
@@ -78,7 +81,7 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
      * @return the toolbar
      */
     public MuiToolbar getToolbar() {
-        WebComponent toolbar = this.findComponent(By.className(config.getRootCss(MuiToolbar.NAME)));
+        WebComponent toolbar = this.findComponent(By.className(config.getRootCss(MuiToolbar.COMPONENT_NAME)));
         return new MuiToolbar(toolbar, driver, config);
     }
 
@@ -88,7 +91,7 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
      * @return the buttons within the top side toolbar
      */
     public List<MuiButton> getToolbarButtons() {
-        return getToolbar().findComponentsAs(By2.className(config.getRootCss(MuiButton.NAME)),
+        return getToolbar().findComponentsAs(By2.className(config.getRootCss(MuiButton.COMPONENT_NAME)),
                 c -> new MuiButton(c, driver, config));
     }
 
@@ -99,7 +102,7 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
      */
     public MuiPickersYearSelectionContainer getAsYearSelection() {
         WebComponent component = this
-                .findComponent(By.className(config.getCssPrefix() + MuiPickersYearSelectionContainer.NAME));
+                .findComponent(By.className(config.getCssPrefix() + MuiPickersYearSelectionContainer.COMPONENT_NAME));
         return new MuiPickersYearSelectionContainer(component, driver, config);
     }
 
@@ -110,17 +113,21 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
      * @return the basic components instance with all 3 sub components in
      */
     public MuiPickersBasicPickerViewComponents getAsBasic() {
-        MuiPickersCalendarHeaderSwitchHeader switchHeader = this.findComponentAs(
-                By.className(config.getCssPrefix() + MuiPickersCalendarHeaderSwitchHeader.NAME),
-                c -> new MuiPickersCalendarHeaderSwitchHeader(c.getWrappedElement(), driver, config));
+        MuiPickersCalendarHeaderSwitchHeader switchHeader = this
+                .findComponentAs(By.className(config.getCssPrefix() + MuiPickersCalendarHeaderSwitchHeader.NAME),
+                        c -> new MuiPickersCalendarHeaderSwitchHeader(c.getWrappedElement(), driver, config));
         MuiPickersCalendarHeaderDaysHeader daysHeader = this.findComponentAs(
-                By.className(config.getCssPrefix() + MuiPickersCalendarHeaderDaysHeader.NAME),
+                By.className(config.getCssPrefix() + MuiPickersCalendarHeaderDaysHeader.COMPONENT_NAME),
                 c -> new MuiPickersCalendarHeaderDaysHeader(c.getWrappedElement(), driver, config));
         MuiPickersCalendarTransitionContainer transitionContainer = this.findComponentAs(
-                By.className(config.getCssPrefix() + MuiPickersCalendarTransitionContainer.NAME),
+                By.className(config.getCssPrefix() + MuiPickersCalendarTransitionContainer.COMPONENT_NAME),
                 c -> new MuiPickersCalendarTransitionContainer(c.getWrappedElement(), driver, config));
 
         return new MuiPickersBasicPickerViewComponents(switchHeader, daysHeader, transitionContainer);
     }
 
+    @Override
+    public String toString() {
+        return "MuiPickersBasePickerContainer{" + "element=" + element + '}';
+    }
 }

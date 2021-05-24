@@ -44,6 +44,12 @@ import java.util.List;
  * @since 1.0
  */
 public class MuiAccordion extends AbstractMuiComponent {
+
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Accordion";
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -120,8 +126,11 @@ public class MuiAccordion extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Accordion";
+        return COMPONENT_NAME;
     }
 
-
+    @Override
+    public String toString() {
+        return "MuiAccordion{" + "element=" + element + '}';
+    }
 }

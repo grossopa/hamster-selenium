@@ -29,6 +29,8 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import org.openqa.selenium.WebElement;
 
+import java.util.Objects;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -69,6 +71,7 @@ public abstract class AbstractMuiComponent extends DefaultWebComponent implement
      *
      * @return true if the component matches the java type.
      */
+    @Override
     public boolean validate() {
         return config.validateComponentByCss(this, getComponentName());
     }
@@ -80,5 +83,28 @@ public abstract class AbstractMuiComponent extends DefaultWebComponent implement
      */
     public abstract String getComponentName();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof AbstractMuiComponent)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        AbstractMuiComponent that = (AbstractMuiComponent) o;
+        return config.equals(that.config);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), config);
+    }
+
+    @Override
+    public String toString() {
+        return "AbstractMuiComponent{" + "config=" + config + ", element=" + element + '}';
+    }
 }

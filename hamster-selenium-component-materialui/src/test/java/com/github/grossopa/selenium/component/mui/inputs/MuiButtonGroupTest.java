@@ -63,7 +63,13 @@ class MuiButtonGroupTest {
     void getButtons() {
         when(config.buttonLocator()).thenReturn(By.cssSelector("MuiButton-root"));
         when(element.findElements(eq(config.buttonLocator())))
-                .thenReturn(asList(mock(MuiButton.class), mock(MuiButton.class), mock(MuiButton.class)));
+                .thenReturn(asList(mock(WebElement.class), mock(WebElement.class), mock(WebElement.class)));
         assertEquals(3, testSubject.getButtons().size());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiButtonGroup{element=element-toString}", testSubject.toString());
     }
 }

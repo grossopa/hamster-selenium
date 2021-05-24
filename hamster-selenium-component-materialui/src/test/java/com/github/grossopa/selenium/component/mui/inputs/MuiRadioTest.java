@@ -100,4 +100,10 @@ public class MuiRadioTest {
         });
         assertTrue(testSubject.isEnabled());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiRadio{element=element-toString}", testSubject.toString());
+    }
 }

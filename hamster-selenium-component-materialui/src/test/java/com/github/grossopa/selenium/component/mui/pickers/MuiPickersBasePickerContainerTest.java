@@ -83,7 +83,7 @@ class MuiPickersBasePickerContainerTest {
     @Test
     void getToolbar() {
         WebElement toolbarElement = mock(WebElement.class);
-        when(config.getRootCss(MuiToolbar.NAME)).thenReturn("MMuiToolbar-root");
+        when(config.getRootCss(MuiToolbar.COMPONENT_NAME)).thenReturn("MMuiToolbar-root");
         when(element.findElement(By.className("MMuiToolbar-root"))).thenReturn(toolbarElement);
 
         MuiToolbar toolbar = testSubject.getToolbar();
@@ -102,8 +102,8 @@ class MuiPickersBasePickerContainerTest {
         when(button2.getWrappedElement()).thenReturn(button2Element);
         when(button3.getWrappedElement()).thenReturn(button3Element);
 
-        when(config.getRootCss(MuiButton.NAME)).thenReturn("MuiButton-root");
-        when(config.getRootCss(MuiToolbar.NAME)).thenReturn("MuiToolbar-root");
+        when(config.getRootCss(MuiButton.COMPONENT_NAME)).thenReturn("MuiButton-root");
+        when(config.getRootCss(MuiToolbar.COMPONENT_NAME)).thenReturn("MuiToolbar-root");
 
         WebElement toolbarElement = mock(WebElement.class);
         MuiToolbar toolbar = new MuiToolbar(toolbarElement, driver, config);
@@ -122,7 +122,7 @@ class MuiPickersBasePickerContainerTest {
     void getAsYearSelection() {
         WebElement yearSelectionContainer = mock(WebElement.class);
         when(config.getCssPrefix()).thenReturn("ddd");
-        when(element.findElement(By.className("ddd" + MuiPickersYearSelectionContainer.NAME)))
+        when(element.findElement(By.className("ddd" + MuiPickersYearSelectionContainer.COMPONENT_NAME)))
                 .thenReturn(yearSelectionContainer);
         MuiPickersYearSelectionContainer container = testSubject.getAsYearSelection();
         assertEquals(yearSelectionContainer, container.getWrappedElement());
@@ -138,8 +138,8 @@ class MuiPickersBasePickerContainerTest {
 
         when(element.findElement(By.className("Mui" + MuiPickersCalendarHeaderSwitchHeader.NAME)))
                 .thenReturn(switchHeader);
-        when(element.findElement(By.className("Mui" + MuiPickersCalendarHeaderDaysHeader.NAME))).thenReturn(daysHeader);
-        when(element.findElement(By.className("Mui" + MuiPickersCalendarTransitionContainer.NAME)))
+        when(element.findElement(By.className("Mui" + MuiPickersCalendarHeaderDaysHeader.COMPONENT_NAME))).thenReturn(daysHeader);
+        when(element.findElement(By.className("Mui" + MuiPickersCalendarTransitionContainer.COMPONENT_NAME)))
                 .thenReturn(transitionContainer);
 
         MuiPickersBasicPickerViewComponents components = testSubject.getAsBasic();
@@ -147,5 +147,11 @@ class MuiPickersBasePickerContainerTest {
         assertEquals(switchHeader, components.getSwitchHeader().getWrappedElement());
         assertEquals(daysHeader, components.getDaysHeader().getWrappedElement());
         assertEquals(transitionContainer, components.getTransitionContainer().getWrappedElement());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiPickersBasePickerContainer{element=element-toString}", testSubject.toString());
     }
 }

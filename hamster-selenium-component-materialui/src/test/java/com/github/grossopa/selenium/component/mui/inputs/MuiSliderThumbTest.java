@@ -107,4 +107,10 @@ class MuiSliderThumbTest {
     void getValue() {
         assertEquals("30", testSubject.getValue());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiSliderThumb{element=element-toString}", testSubject.toString());
+    }
 }

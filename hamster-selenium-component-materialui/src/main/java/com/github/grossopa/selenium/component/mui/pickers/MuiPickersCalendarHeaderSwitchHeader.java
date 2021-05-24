@@ -120,4 +120,8 @@ public class MuiPickersCalendarHeaderSwitchHeader extends AbstractMuiComponent {
         driver.threadSleep(waitInMillis);
     }
 
+    @Override
+    public String toString() {
+        return "MuiPickersCalendarHeaderSwitchHeader{" + "element=" + element + '}';
+    }
 }

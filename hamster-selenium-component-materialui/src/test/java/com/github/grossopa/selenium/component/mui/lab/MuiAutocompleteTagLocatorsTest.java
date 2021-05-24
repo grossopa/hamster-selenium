@@ -26,6 +26,7 @@ package com.github.grossopa.selenium.component.mui.lab;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -83,5 +84,37 @@ class MuiAutocompleteTagLocatorsTest {
         assertEquals(By.className(config.getCssPrefix() + "Chip-deleteIcon"), locators.getDeleteButtonLocator());
         assertEquals(locators.getLabelFinder(), locators.getValueFinder());
         assertEquals("abc", locators.getLabelFinder().apply(tag));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void testEquals() {
+        Function<MuiAutocompleteTag, String> labelFinder1 = mock(Function.class);
+        Function<MuiAutocompleteTag, String> labelFinder2 = mock(Function.class);
+        Function<MuiAutocompleteTag, String> valueFinder1 = mock(Function.class);
+        Function<MuiAutocompleteTag, String> valueFinder2 = mock(Function.class);
+        By deleteButtonLocator1 = mock(By.class);
+        By deleteButtonLocator2 = mock(By.class);
+
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+        tester.addEqualityGroup(new MuiAutocompleteTagLocators(labelFinder1, valueFinder1, deleteButtonLocator1),
+                new MuiAutocompleteTagLocators(labelFinder1, valueFinder1, deleteButtonLocator1));
+        tester.addEqualityGroup(new MuiAutocompleteTagLocators(labelFinder2, valueFinder1, deleteButtonLocator1));
+        tester.addEqualityGroup(new MuiAutocompleteTagLocators(labelFinder1, valueFinder2, deleteButtonLocator1));
+        tester.addEqualityGroup(new MuiAutocompleteTagLocators(labelFinder1, valueFinder1, deleteButtonLocator2));
+
+        tester.testEquals();
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void testToString() {
+        Function<MuiAutocompleteTag, String> labelFinder = mock(Function.class);
+        when(labelFinder.toString()).thenReturn("labelFinder-toString");
+        Function<MuiAutocompleteTag, String> valueFinder = mock(Function.class);
+        when(valueFinder.toString()).thenReturn("valueFinder-toString");
+        testSubject = new MuiAutocompleteTagLocators(labelFinder, valueFinder, deleteButtonLocator);
+        assertEquals("MuiAutocompleteTagLocators{labelFinder=labelFinder-toString, "
+                + "valueFinder=valueFinder-toString, deleteButtonLocator=By.className: ccc}", testSubject.toString());
     }
 }

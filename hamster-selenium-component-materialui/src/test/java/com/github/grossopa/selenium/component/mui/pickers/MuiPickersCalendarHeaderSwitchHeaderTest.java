@@ -126,4 +126,10 @@ class MuiPickersCalendarHeaderSwitchHeaderTest {
         verify(leftButton, never()).click();
         verify(driver, times(1)).threadSleep(100);
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiPickersCalendarHeaderSwitchHeader{element=element-toString}", testSubject.toString());
+    }
 }

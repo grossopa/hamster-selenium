@@ -38,6 +38,11 @@ import org.openqa.selenium.WebElement;
 public class MuiListItem extends AbstractMuiComponent {
 
     /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "ListItem";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -50,6 +55,11 @@ public class MuiListItem extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "ListItem";
+        return COMPONENT_NAME;
+    }
+
+    @Override
+    public String toString() {
+        return "MuiListItem{" + "element=" + element + '}';
     }
 }

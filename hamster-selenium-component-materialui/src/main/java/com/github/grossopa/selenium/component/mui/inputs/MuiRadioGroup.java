@@ -44,6 +44,11 @@ import static java.util.stream.Collectors.toList;
 public class MuiRadioGroup extends AbstractMuiComponent {
 
     /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "RadioGroup";
+
+    /**
      * Constructs an MuiRadioGroup instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -56,7 +61,7 @@ public class MuiRadioGroup extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "RadioGroup";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -67,5 +72,10 @@ public class MuiRadioGroup extends AbstractMuiComponent {
     public List<MuiRadio> getRadios() {
         return element.findElements(config.radioLocator()).stream().map(radio -> new MuiRadio(radio, driver, config))
                 .collect(toList());
+    }
+
+    @Override
+    public String toString() {
+        return "MuiRadioGroup{" + "element=" + element + '}';
     }
 }

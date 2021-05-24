@@ -47,6 +47,11 @@ import static java.util.stream.Collectors.toList;
 public class MuiTabs extends AbstractMuiComponent {
 
     /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Tabs";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -59,7 +64,7 @@ public class MuiTabs extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Tabs";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -115,4 +120,8 @@ public class MuiTabs extends AbstractMuiComponent {
         return this.attributeContains("class", config.getCssPrefix() + "Tabs-vertical");
     }
 
+    @Override
+    public String toString() {
+        return "MuiTabs{" + "element=" + element + '}';
+    }
 }

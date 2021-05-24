@@ -47,6 +47,11 @@ import org.openqa.selenium.WebElement;
 public class MuiAvatar extends AbstractMuiComponent {
 
     /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Avatar";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -59,7 +64,7 @@ public class MuiAvatar extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Avatar";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -92,5 +97,8 @@ public class MuiAvatar extends AbstractMuiComponent {
         return getImg().getAttribute("src");
     }
 
-
+    @Override
+    public String toString() {
+        return "MuiAvatar{" + "element=" + element + '}';
+    }
 }

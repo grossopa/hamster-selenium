@@ -33,6 +33,7 @@ import com.github.grossopa.selenium.core.locator.By2;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
@@ -48,7 +49,7 @@ public class MuiPagination extends AbstractMuiComponent implements Pagination<Mu
     /**
      * The component name
      */
-    public static final String NAME = "Pagination";
+    public static final String COMPONENT_NAME = "Pagination";
 
     private final MuiPaginationLocators locators;
 
@@ -79,7 +80,7 @@ public class MuiPagination extends AbstractMuiComponent implements Pagination<Mu
 
     @Override
     public String getComponentName() {
-        return NAME;
+        return COMPONENT_NAME;
     }
 
     @Override
@@ -168,5 +169,30 @@ public class MuiPagination extends AbstractMuiComponent implements Pagination<Mu
      */
     public MuiPaginationLocators getLocators() {
         return locators;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiPagination)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        MuiPagination that = (MuiPagination) o;
+        return locators.equals(that.locators);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), locators);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiPagination{" + "locators=" + locators + ", element=" + element + '}';
     }
 }

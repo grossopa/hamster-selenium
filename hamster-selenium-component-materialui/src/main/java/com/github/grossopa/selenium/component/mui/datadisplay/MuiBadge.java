@@ -45,6 +45,12 @@ import static org.apache.commons.lang3.math.NumberUtils.isParsable;
  * @since 1.0
  */
 public class MuiBadge extends AbstractMuiComponent {
+
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Badge";
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -91,7 +97,7 @@ public class MuiBadge extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Badge";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -102,5 +108,10 @@ public class MuiBadge extends AbstractMuiComponent {
     public boolean isBadgeDisplayed() {
         return stream(getBadge().getAttribute("class").split(" ")).map(StringUtils::trim)
                 .noneMatch(str -> str.equalsIgnoreCase(config.getCssPrefix() + "Badge-invisible"));
+    }
+
+    @Override
+    public String toString() {
+        return "MuiBadge{" + "element=" + element + '}';
     }
 }

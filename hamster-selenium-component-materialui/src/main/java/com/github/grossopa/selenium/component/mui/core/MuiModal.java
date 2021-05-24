@@ -71,4 +71,8 @@ public abstract class MuiModal extends AbstractMuiComponent {
         }
     }
 
+    @Override
+    public String toString() {
+        return "MuiModal{" + "element=" + element + '}';
+    }
 }

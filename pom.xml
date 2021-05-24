@@ -68,6 +68,7 @@
     <module>hamster-selenium-component-html</module>
     <module>hamster-selenium-component-materialui</module>
     <module>hamster-selenium-examples</module>
+    <module>hamster-selenium-component-antdesign</module>
   </modules>
 
   <properties>
@@ -85,7 +86,7 @@
     <junit-platform-surefire-provider.version>RELEASE</junit-platform-surefire-provider.version>
     <mockito.version>RELEASE</mockito.version>
     <byte-buddy.version>RELEASE</byte-buddy.version>
-    <openpojo.version>RELEASE</openpojo.version>
+    <openpojo.version>0.8.13</openpojo.version>
 
     <!-- Maven plugins -->
     <maven.compiler.target>11</maven.compiler.target>
@@ -127,6 +128,12 @@
       <dependency>
         <groupId>com.github.grossopa</groupId>
         <artifactId>hamster-selenium-component-materialui</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.grossopa</groupId>
+        <artifactId>hamster-selenium-component-antdesign</artifactId>
         <version>${project.version}</version>
       </dependency>
 

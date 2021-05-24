@@ -40,7 +40,7 @@ public class MuiPickersYear extends AbstractMuiComponent {
     /**
      * the component name
      */
-    public static final String NAME = "PickersYear";
+    public static final String COMPONENT_NAME = "PickersYear";
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -55,11 +55,16 @@ public class MuiPickersYear extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return NAME;
+        return COMPONENT_NAME;
     }
 
     @Override
     public boolean isSelected() {
         return attributeContains("class", config.getCssPrefix() + "PickersYear-yearSelected");
+    }
+
+    @Override
+    public String toString() {
+        return "MuiPickersYear{" + "element=" + element + '}';
     }
 }

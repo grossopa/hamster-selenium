@@ -39,6 +39,11 @@ import org.openqa.selenium.WebElement;
 public class MuiPager extends AbstractMuiComponent {
 
     /**
+     * the component name
+     */
+    public static final String COMPONENT_NAME = "Pager";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -51,6 +56,11 @@ public class MuiPager extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Pager";
+        return COMPONENT_NAME;
+    }
+
+    @Override
+    public String toString() {
+        return "MuiPager{" + "element=" + element + '}';
     }
 }

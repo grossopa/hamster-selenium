@@ -63,7 +63,13 @@ public class MuiRadioGroupTest {
     void getRadios() {
         when(config.radioLocator()).thenReturn(By.cssSelector(".MuiRadio-root"));
         when(element.findElements(eq(config.radioLocator())))
-                .thenReturn(asList(mock(MuiRadio.class), mock(MuiRadio.class), mock(MuiRadio.class)));
+                .thenReturn(asList(mock(WebElement.class), mock(WebElement.class), mock(WebElement.class)));
         assertEquals(3, testSubject.getRadios().size());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiRadioGroup{element=element-toString}", testSubject.toString());
     }
 }

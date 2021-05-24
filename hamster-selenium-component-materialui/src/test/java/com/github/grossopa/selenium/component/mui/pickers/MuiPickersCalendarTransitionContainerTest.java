@@ -113,6 +113,11 @@ class MuiPickersCalendarTransitionContainerTest {
         testSubject.select("27");
 
         verify(element3, times(1)).click();
+    }
 
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiPickersCalendarTransitionContainer{element=element-toString}", testSubject.toString());
     }
 }

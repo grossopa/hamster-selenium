@@ -29,7 +29,7 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import static java.util.Objects.requireNonNull;
 
 /**
- * The default abstraction implemention of {@link Components} to require a valid {@link WebComponent} and {@link
+ * The default abstraction implementation of {@link Components} to require a valid {@link WebComponent} and {@link
  * ComponentWebDriver} as the necessary parameter to construct a customized component.
  *
  * <p>

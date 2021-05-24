@@ -34,6 +34,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.annotation.Nullable;
 
+import java.util.Objects;
+
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnoringStaleElementReference;
 
 /**
@@ -44,6 +46,11 @@ import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnori
  * @since 1.0
  */
 public class MuiSnackbar extends AbstractMuiComponent {
+
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Snackbar";
 
     private final Long autoHideDuration;
 
@@ -87,7 +94,7 @@ public class MuiSnackbar extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Snackbar";
+        return COMPONENT_NAME;
     }
 
 
@@ -101,8 +108,8 @@ public class MuiSnackbar extends AbstractMuiComponent {
     }
 
     /**
-     * Kicks off the check for the snackbar to disappear automatically. throws {@link IllegalArgumentException} when
-     * the autoHideDuration is null or &lt;= 0.
+     * Kicks off the check for the snackbar to disappear automatically. throws {@link IllegalArgumentException} when the
+     * autoHideDuration is null or &lt;= 0.
      *
      * @param autoHideDuration the expected auto hide duration
      * @return the wait for waiting this to be disappeared
@@ -124,5 +131,30 @@ public class MuiSnackbar extends AbstractMuiComponent {
     @Nullable
     public Long getAutoHideDuration() {
         return this.autoHideDuration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiSnackbar)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        MuiSnackbar that = (MuiSnackbar) o;
+        return Objects.equals(autoHideDuration, that.autoHideDuration);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), autoHideDuration);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiSnackbar{" + "autoHideDuration=" + autoHideDuration + ", element=" + element + '}';
     }
 }

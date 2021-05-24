@@ -26,6 +26,7 @@ package com.github.grossopa.selenium.component.mui.feedback;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -134,5 +135,28 @@ class MuiSnackbarTest {
     @Test
     void getAutoHideDurationWithConstructorValue() {
         assertEquals(200L, new MuiSnackbar(element, driver, config, 200L).getAutoHideDuration());
+    }
+
+    @Test
+    void testEquals() {
+        WebElement element1 = mock(WebElement.class);
+        WebElement element2 = mock(WebElement.class);
+
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+
+        tester.addEqualityGroup(new MuiSnackbar(element1, driver, config, 200L),
+                new MuiSnackbar(element1, driver, config, 200L));
+        tester.addEqualityGroup(new MuiSnackbar(element1, driver, config, 300L));
+        tester.addEqualityGroup(new MuiSnackbar(element2, driver, config, 200L));
+        tester.addEqualityGroup(new MuiSnackbar(element2, driver, config, 300L));
+
+        tester.testEquals();
+    }
+
+    @Test
+    void testToString() {
+        testSubject = new MuiSnackbar(element, driver, config, 800L);
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiSnackbar{autoHideDuration=800, element=element-toString}", testSubject.toString());
     }
 }

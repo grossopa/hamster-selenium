@@ -83,4 +83,10 @@ class MuiPickersDayTest {
         when(element.getAttribute("class")).thenReturn("dddPickersDay-daySelectedfff");
         assertFalse(testSubject.isSelected());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiPickersDay{element=element-toString}", testSubject.toString());
+    }
 }

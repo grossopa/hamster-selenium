@@ -59,7 +59,7 @@ class MuiPickersYearSelectionContainerTest {
     @BeforeEach
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(config.getRootCss(MuiPickersYear.NAME)).thenReturn("MuiPickersYear-root");
+        when(config.getRootCss(MuiPickersYear.COMPONENT_NAME)).thenReturn("MuiPickersYear-root");
         when(element.findElements(By.className("MuiPickersYear-root")))
                 .thenReturn(newArrayList(year1, year2, year3, year4));
 
@@ -100,5 +100,11 @@ class MuiPickersYearSelectionContainerTest {
         verify(driver, times(1)).scrollTo(any());
         verify(driver, times(1)).moveTo(any());
         verify(yearMock, times(1)).click();
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiPickersYearSelectionContainer{element=element-toString}", testSubject.toString());
     }
 }

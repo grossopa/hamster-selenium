@@ -30,6 +30,7 @@ import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
@@ -43,14 +44,14 @@ import static java.util.Objects.requireNonNull;
 public abstract class AbstractDelegatedWebElement
         implements WrapsElement, WebElement, HasIdentity, TakesScreenshot, Locatable, WrapsDriver {
 
-    protected WebElement element;
+    protected final WebElement element;
 
     /**
      * Constructs an instance with target delegated {@link WebElement} instance.
      *
-     * @param element
-     *         the element to delegate. it will find the ultimate {@link WebElement} element if given object is actually
-     *         a {@link WebComponent}.
+     * @param element the element to delegate. it will find the ultimate {@link WebElement} element if given object is
+     * actually a {@link WebComponent}. Note it will not try to find the wrapped element if the given element is a
+     * {@link WrapsElement}.
      */
     protected AbstractDelegatedWebElement(WebElement element) {
         requireNonNull(element);
@@ -60,6 +61,7 @@ public abstract class AbstractDelegatedWebElement
             targetElement = ((WebComponent) targetElement).getWrappedElement();
         }
 
+        requireNonNull(targetElement);
         this.element = targetElement;
     }
 
@@ -164,12 +166,29 @@ public abstract class AbstractDelegatedWebElement
     }
 
     @Override
-    public String toString() {
-        return element.toString();
+    public WebElement getWrappedElement() {
+        return element;
     }
 
     @Override
-    public WebElement getWrappedElement() {
-        return element;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof AbstractDelegatedWebElement)) {
+            return false;
+        }
+        AbstractDelegatedWebElement that = (AbstractDelegatedWebElement) o;
+        return element.equals(that.element);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(element);
+    }
+
+    @Override
+    public String toString() {
+        return "AbstractDelegatedWebElement{" + "element=" + element + '}';
     }
 }

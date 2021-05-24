@@ -38,6 +38,11 @@ import org.openqa.selenium.WebElement;
 public class MuiAccordionDetails extends AbstractMuiComponent {
 
     /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "AccordionDetails";
+
+    /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
@@ -50,6 +55,11 @@ public class MuiAccordionDetails extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "AccordionDetails";
+        return COMPONENT_NAME;
+    }
+
+    @Override
+    public String toString() {
+        return "MuiAccordionDetails{" + "element=" + element + '}';
     }
 }

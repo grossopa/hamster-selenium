@@ -25,8 +25,11 @@
 package com.github.grossopa.selenium.component.mui.config;
 
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -178,5 +181,30 @@ class MuiConfigTest {
     @Test
     void getModalClasses() {
         assertEquals(5, testSubject.getModalClasses().size());
+    }
+
+    @Test
+    void testEquals() {
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+        tester.addEqualityGroup(new MuiConfig(), new MuiConfig());
+        MuiConfig config2 = new MuiConfig();
+        config2.setCssPrefix("Mui2");
+        tester.addEqualityGroup(config2);
+
+        MuiConfig config3 = new MuiConfig();
+        config3.setOverlayAbsolutePath("/other/path");
+        tester.addEqualityGroup(config3);
+
+        MuiConfig config4 = new MuiConfig();
+        config4.setCssPrefix("Mui2");
+        config4.setOverlayAbsolutePath("/other/path");
+        tester.addEqualityGroup(config4);
+
+        tester.testEquals();
+    }
+
+    @Test
+    void testToString() {
+        assertEquals("MuiConfig{cssPrefix='Mui', overlayAbsolutePath='/html/body'}", testSubject.toString());
     }
 }

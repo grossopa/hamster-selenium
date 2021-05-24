@@ -30,7 +30,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.UnexpectedTagNameException;
 
 import java.util.List;
 
@@ -57,14 +56,14 @@ class HtmlTableTest {
     WebElement header2 = mock(WebElement.class);
     WebElement header3 = mock(WebElement.class);
 
-    private WebElement createBodyRow(Integer index, String cell1, String cell2, String cell3) {
+    private WebElement createBodyRow(Integer index) {
         WebElement container = mock(WebElement.class);
         WebElement cellElement1 = mock(WebElement.class);
         WebElement cellElement2 = mock(WebElement.class);
         WebElement cellElement3 = mock(WebElement.class);
-        when(cellElement1.getText()).thenReturn(index + "," + cell1);
-        when(cellElement2.getText()).thenReturn(index + "," + cell2);
-        when(cellElement3.getText()).thenReturn(index + "," + cell3);
+        when(cellElement1.getText()).thenReturn(index + "," + "cell 1 some text 123");
+        when(cellElement2.getText()).thenReturn(index + "," + "cell 2 some text 223");
+        when(cellElement3.getText()).thenReturn(index + "," + "cell 3");
         when(container.findElements(testSubject.getColsLocator()))
                 .thenReturn(asList(cellElement1, cellElement2, cellElement3));
         return container;
@@ -83,12 +82,8 @@ class HtmlTableTest {
         when(headerRow1.findElements(testSubject.getHeaderColsLocator())).thenReturn(asList(header1, header2, header3));
         when(element.findElements(eq(testSubject.getHeaderRowsLocator()))).thenReturn(asList(headerRow1, headerRow2));
 
-        List<WebElement> bodyContainers = asList(
-                createBodyRow(0, "cell 1 some text 123", "cell 2 some text 223", "cell 3"),
-                createBodyRow(1, "cell 1 some text 123", "cell 2 some text 223", "cell 3"),
-                createBodyRow(2, "cell 1 some text 123", "cell 2 some text 223", "cell 3"),
-                createBodyRow(3, "cell 1 some text 123", "cell 2 some text 223", "cell 3"),
-                createBodyRow(4, "cell 1 some text 123", "cell 2 some text 223", "cell 3"));
+        List<WebElement> bodyContainers = asList(createBodyRow(0), createBodyRow(1), createBodyRow(2), createBodyRow(3),
+                createBodyRow(4));
         // body row
         when(element.findElements(eq(testSubject.getRowsLocator()))).thenReturn(bodyContainers);
     }
@@ -97,7 +92,7 @@ class HtmlTableTest {
     void constructorNotTable() {
         WebElement element = mock(WebElement.class);
         when(element.getTagName()).thenReturn("div");
-        assertThrows(UnexpectedTagNameException.class, () -> new HtmlTable(element, driver));
+        assertFalse(new HtmlTable(element, driver).validate());
     }
 
     @Test
@@ -180,5 +175,11 @@ class HtmlTableTest {
     @Test
     void getColsLocator() {
         assertEquals("By.xpath: ./td", testSubject.getColsLocator().toString());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("HtmlTable{element=element-toString}", testSubject.toString());
     }
 }

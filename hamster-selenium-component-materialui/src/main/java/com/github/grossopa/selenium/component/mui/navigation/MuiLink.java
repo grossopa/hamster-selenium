@@ -38,15 +38,18 @@ import org.openqa.selenium.WebElement;
  * @since 1.0
  */
 public class MuiLink extends AbstractMuiComponent {
+
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Link";
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element
-     *         the delegated element
-     * @param driver
-     *         the root driver
-     * @param config
-     *         the Material UI configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     public MuiLink(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -54,7 +57,7 @@ public class MuiLink extends AbstractMuiComponent {
 
     @Override
     public String getComponentName() {
-        return "Link";
+        return COMPONENT_NAME;
     }
 
     /**
@@ -64,5 +67,10 @@ public class MuiLink extends AbstractMuiComponent {
      */
     public String getHref() {
         return this.getAttribute("href");
+    }
+
+    @Override
+    public String toString() {
+        return "MuiLink{" + "element=" + element + '}';
     }
 }

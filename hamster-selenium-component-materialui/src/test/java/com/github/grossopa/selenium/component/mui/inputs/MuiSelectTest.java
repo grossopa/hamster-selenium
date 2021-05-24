@@ -33,6 +33,7 @@ import com.github.grossopa.selenium.component.mui.core.MuiPopover;
 import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -537,5 +538,68 @@ class MuiSelectTest {
             return null;
         }).when(closeOptionsAction).close(eq(testSubject), eq(options), eq(driver));
         assertThrows(OptionNotClosedException.class, () -> testSubject.closeOptions());
+    }
+
+    @Test
+    void testEquals() {
+        WebElement element1 = mock(WebElement.class);
+        WebElement element2 = mock(WebElement.class);
+        ComponentWebDriver driver1 = mock(ComponentWebDriver.class);
+        ComponentWebDriver driver2 = mock(ComponentWebDriver.class);
+        MuiConfig config1 = mock(MuiConfig.class);
+        MuiConfig config2 = mock(MuiConfig.class);
+        By optionsLocator1 = mock(By.class);
+        By optionsLocator2 = mock(By.class);
+        String optionValueAttribute1 = "value1";
+        String optionValueAttribute2 = "value2";
+        OpenOptionsAction openOptionsAction1 = mock(OpenOptionsAction.class);
+        OpenOptionsAction openOptionsAction2 = mock(OpenOptionsAction.class);
+        CloseOptionsAction closeOptionsAction1 = mock(CloseOptionsAction.class);
+        CloseOptionsAction closeOptionsAction2 = mock(CloseOptionsAction.class);
+
+
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+
+        tester.addEqualityGroup(
+                new MuiSelect(element1, driver1, config1, optionsLocator1, optionValueAttribute1, openOptionsAction1,
+                        closeOptionsAction1),
+                new MuiSelect(element1, driver1, config1, optionsLocator1, optionValueAttribute1, openOptionsAction1,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiSelect(element2, driver1, config1, optionsLocator1, optionValueAttribute1, openOptionsAction1,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiSelect(element1, driver2, config1, optionsLocator1, optionValueAttribute1, openOptionsAction1,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiSelect(element1, driver1, config2, optionsLocator1, optionValueAttribute1, openOptionsAction1,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiSelect(element1, driver1, config1, optionsLocator2, optionValueAttribute1, openOptionsAction1,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiSelect(element1, driver1, config1, optionsLocator1, optionValueAttribute2, openOptionsAction1,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiSelect(element1, driver1, config1, optionsLocator1, optionValueAttribute1, openOptionsAction2,
+                        closeOptionsAction1));
+        tester.addEqualityGroup(
+                new MuiSelect(element1, driver1, config1, optionsLocator1, optionValueAttribute1, openOptionsAction1,
+                        closeOptionsAction2));
+
+        tester.testEquals();
+    }
+
+    @Test
+    void testToString() {
+        when(openOptionsAction.toString()).thenReturn("openOptionsAction-toString");
+        when(closeOptionsAction.toString()).thenReturn("closeOptionsAction-toString");
+        when(driver.toString()).thenReturn("driver-toString");
+        when(element.toString()).thenReturn("element-toString");
+        when(config.toString()).thenReturn("config-toString");
+        assertEquals("MuiSelect{optionValueAttribute='attr-val', optionsLocator=By.className: option, "
+                + "openOptionsAction=openOptionsAction-toString, closeOptionsAction=closeOptionsAction-toString,"
+                + " modalFinder=MuiModalFinder{driver=driver-toString, config=config-toString},"
+                + " element=element-toString}", testSubject.toString());
     }
 }

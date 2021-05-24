@@ -68,4 +68,10 @@ class MuiCheckboxTest {
         when(config.isChecked(eq(testSubject))).thenReturn(false);
         assertFalse(testSubject.isSelected());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-toString");
+        assertEquals("MuiCheckbox{element=element-toString}", testSubject.toString());
+    }
 }

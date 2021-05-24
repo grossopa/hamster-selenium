@@ -24,11 +24,13 @@
 
 package com.github.grossopa.selenium.examples.helper;
 
-import com.github.grossopa.selenium.core.driver.*;
-import com.github.grossopa.selenium.examples.StartDriverService;
-import lombok.SneakyThrows;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.DefaultComponentWebDriver;
+import com.github.grossopa.selenium.core.driver.*;
+import com.github.grossopa.selenium.core.intercepting.InterceptingWebDriver;
+import com.github.grossopa.selenium.core.intercepting.LoggingHandler;
+import com.github.grossopa.selenium.examples.StartDriverService;
+import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
@@ -53,11 +55,10 @@ public abstract class AbstractBrowserSupport {
         config.setType(type);
 
         Capabilities options = config.getType().apply(new CreateOptionsAction(), null);
-        WebDriver temp = config.getType()
-                .apply(new CreateWebDriverFromRunningServiceAction(), new RunningServiceParams(options,
-                        "http://localhost:" + StartDriverService.PORT));
+        WebDriver temp = config.getType().apply(new CreateWebDriverFromRunningServiceAction(),
+                new RunningServiceParams(options, "http://localhost:" + StartDriverService.PORT));
 
-        driver = new DefaultComponentWebDriver(temp);
+        driver = new DefaultComponentWebDriver(new InterceptingWebDriver(temp, new LoggingHandler(200L)));
     }
 
     public void stopDriver() {

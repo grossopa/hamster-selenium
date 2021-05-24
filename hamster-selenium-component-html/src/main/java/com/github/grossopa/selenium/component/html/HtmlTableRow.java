@@ -33,22 +33,39 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 /**
+ * The HTML table row element
+ *
  * @author Jack Yin
  * @since 1.0
  */
 public class HtmlTableRow extends DefaultWebComponent implements TableRow {
+
     private final By colsLocator;
     private final List<String> headerLabels;
 
+    /**
+     * Constructs an instance with element, columns locator and the found header labels
+     *
+     * @param element the current row element
+     * @param driver the root driver
+     * @param colsLocator the columns locator
+     * @param headerLabels the found header labels
+     */
     public HtmlTableRow(WebElement element, ComponentWebDriver driver, By colsLocator, List<String> headerLabels) {
         super(element, driver);
         this.colsLocator = requireNonNull(colsLocator);
         this.headerLabels = requireNonNull(headerLabels);
+    }
+
+    @Override
+    public boolean validate() {
+        return "tr".equalsIgnoreCase(element.getTagName());
     }
 
     @Override
@@ -64,5 +81,31 @@ public class HtmlTableRow extends DefaultWebComponent implements TableRow {
             throw new NoSuchElementException("No such column with header label: " + headerLabel);
         }
         return getCells().get(index);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof HtmlTableRow)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        HtmlTableRow that = (HtmlTableRow) o;
+        return colsLocator.equals(that.colsLocator) && headerLabels.equals(that.headerLabels);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), colsLocator, headerLabels);
+    }
+
+    @Override
+    public String toString() {
+        return "HtmlTableRow{" + "colsLocator=" + colsLocator + ", headerLabels=" + headerLabels + ", element="
+                + element + '}';
     }
 }

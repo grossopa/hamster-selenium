@@ -46,8 +46,8 @@ public class MuiPickersDay extends MuiButton {
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver  the root driver
-     * @param config  the Material UI configuration
+     * @param driver the root driver
+     * @param config the Material UI configuration
      */
     protected MuiPickersDay(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -66,5 +66,10 @@ public class MuiPickersDay extends MuiButton {
     @Override
     public boolean isSelected() {
         return this.attributeContains("class", config.getCssPrefix() + "PickersDay-daySelected");
+    }
+
+    @Override
+    public String toString() {
+        return "MuiPickersDay{" + "element=" + element + '}';
     }
 }
