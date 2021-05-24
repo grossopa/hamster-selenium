@@ -34,6 +34,7 @@ import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 import static java.util.stream.Collectors.toList;
@@ -130,8 +131,34 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof DefaultWebComponent)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        DefaultWebComponent that = (DefaultWebComponent) o;
+        return driver.equals(that.driver);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), driver);
+    }
+
+    @Override
     public <T extends Components> T as(T components) {
         components.setContext(this, driver);
         return components;
+    }
+
+
+    @Override
+    public String toString() {
+        return "DefaultWebComponent{element=" + element + '}';
     }
 }

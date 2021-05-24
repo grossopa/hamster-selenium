@@ -26,6 +26,8 @@ package com.github.grossopa.selenium.core.component;
 
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.factory.WebComponentFactory;
+import com.github.grossopa.selenium.core.element.WebElementDecorator;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -156,5 +158,29 @@ class DefaultWebComponentTest {
     @Test
     void validate() {
         assertTrue(testSubject.validate());
+    }
+
+    @Test
+    void testEquals() {
+        WebElement element1 = mock(WebElement.class);
+        WebElement element2 = mock(WebElement.class);
+        ComponentWebDriver driver1 = mock(ComponentWebDriver.class);
+        ComponentWebDriver driver2 = mock(ComponentWebDriver.class);
+        WebElementDecorator decorator = mock(WebElementDecorator.class);
+
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+        tester.addEqualityGroup(new DefaultWebComponent(element1, driver1, decorator),
+                new DefaultWebComponent(element1, driver1, decorator));
+        tester.addEqualityGroup(new DefaultWebComponent(element1, driver2, decorator));
+        tester.addEqualityGroup(new DefaultWebComponent(element2, driver1, decorator));
+        tester.addEqualityGroup(new DefaultWebComponent(element2, driver2, decorator));
+
+        tester.testEquals();
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element-string");
+        assertEquals("DefaultWebComponent{element=element-string}", testSubject.toString());
     }
 }

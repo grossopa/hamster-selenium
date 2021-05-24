@@ -26,7 +26,6 @@ package com.github.grossopa.selenium.core.intercepting;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Interactive;
-import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.internal.HasIdentity;
 
 import java.net.URL;
