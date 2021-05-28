@@ -88,6 +88,47 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
         autoComplete.closeOptions();
     }
 
+    public void testAutocompleteComboBoxWithDelays() {
+        driver.navigate().to("https://material-ui.com/components/autocomplete/");
+
+        MuiAutocomplete autoComplete = driver.findComponent(By.id("combo-box-demo-label")).findComponent(By2.parent())
+                .findComponent(By2.parent()).as(mui()).toAutocomplete();
+
+        assertTrue(autoComplete.validate());
+        assertEquals("Combo box", autoComplete.getLabel().getText());
+
+        assertEquals("", autoComplete.getInput().getAttribute("value"));
+        autoComplete.selectByIndex(0, 500L);
+        assertEquals("The Shawshank Redemption", autoComplete.getInput().getAttribute("value"));
+        autoComplete.closeOptions(500L);
+
+
+        autoComplete.getClearButton().click();
+        assertEquals("", autoComplete.getInput().getAttribute("value"));
+
+        autoComplete.getInput().sendKeys("Godfat");
+        assertEquals("The Godfather", autoComplete.getOptions2(200L).get(0).getText());
+        autoComplete.selectByValue("The Godfather");
+        autoComplete.closeOptions(500L);
+
+        autoComplete.getClearButton().click();
+        autoComplete.selectByVisibleText("3 Idiots");
+        assertEquals("3 Idiots", autoComplete.getInput().getAttribute("value"));
+
+        autoComplete.getInput()
+                .sendKeys(BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE,
+                        BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE);
+        assertFalse(autoComplete.isNoOptions());
+        autoComplete.getInput().sendKeys("fffffffffffff");
+        assertTrue(autoComplete.isNoOptions());
+        SeleniumUtils.cleanText(autoComplete.getInput());
+
+        autoComplete.closeOptions(500L);
+
+        autoComplete.getPopupButton().click();
+        autoComplete.closeOptions(500L);
+    }
+
     public void testAutocompleteDisabled() {
         driver.navigate().to("https://material-ui.com/components/autocomplete/");
 
@@ -142,6 +183,20 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
 
         multiAutocomplete.deselectAll();
         assertEquals(0, multiAutocomplete.getAllSelectedOptions2().size());
+    }
+
+    public void testAutocompleteAsynchronousRequests() {
+        driver.navigate().to("https://material-ui.com/components/autocomplete/");
+
+        MuiAutocomplete autocomplete = driver.findComponent(By.id("Asynchronous.js")).findComponent(By2.parent())
+                .findComponent(By.className("MuiAutocomplete-root")).as(mui()).toAutocomplete();
+
+        assertTrue(autocomplete.validate());
+        assertFalse(autocomplete.isLoading());
+
+        driver.moveTo(autocomplete.getInput());
+        autocomplete.getInput().click();
+        assertTrue(autocomplete.isLoading());
     }
 
     public void testAutocompleteFixedOptions() {
@@ -214,6 +269,8 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
         try {
             test.setUpDriver(CHROME);
             test.testAutocompleteComboBox();
+            test.testAutocompleteComboBoxWithDelays();
+            test.testAutocompleteAsynchronousRequests();
             test.testAutocompleteDisabled();
             test.testAutocompleteMultipleValues();
             test.testAutocompleteFixedOptions();
@@ -221,6 +278,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
             test.testPaginationButtons();
         } catch (Exception ex) {
             ex.printStackTrace();
+            throw ex;
         } finally {
             test.stopDriver();
         }

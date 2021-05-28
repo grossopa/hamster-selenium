@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.component.mui.lab;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.DefaultWebComponent;
@@ -35,8 +36,10 @@ import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Collections.emptyList;
@@ -57,6 +60,7 @@ class MuiAutocompleteTest {
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     WebDriver.TargetLocator targetLocator = mock(WebDriver.TargetLocator.class);
+    WebDriverWait driverWait = mock(WebDriverWait.class);
 
     MuiConfig config = mock(MuiConfig.class);
     By optionLocator = By.id("option");
@@ -93,6 +97,7 @@ class MuiAutocompleteTest {
     }
 
     @BeforeEach
+    @SuppressWarnings({"unchecked", "rawtypes"})
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Mui");
         when(config.getOverlayAbsolutePath()).thenReturn("/html/body/some/app");
@@ -114,6 +119,11 @@ class MuiAutocompleteTest {
         when(tagLocators.getDeleteButtonLocator()).thenReturn(By.className("deleteButton"));
 
         when(driver.findComponents(By.xpath("/html/body/some/app/div"))).thenReturn(singletonList(overlay));
+        when(driver.createWait(anyLong())).thenReturn(driverWait);
+        when(driverWait.until(any())).then(answer -> {
+            Function function = answer.getArgument(0);
+            return function.apply(driver);
+        });
 
         when(overlay.isDisplayed()).thenReturn(true);
         when(overlay.getAttribute("class")).thenReturn("MuiAutocomplete-popper some-other-class");
@@ -204,11 +214,23 @@ class MuiAutocompleteTest {
 
     @Test
     void openOptionsNotFocused() {
+        when(driver.findComponents(By.xpath("/html/body/some/app/div"))).thenReturn(emptyList());
+        doAnswer(answer -> {
+            when(driver.findComponents(By.xpath("/html/body/some/app/div"))).thenReturn(singletonList(overlay));
+            return null;
+        }).when(openOptionsAction).open(any(), any());
+
         when(targetLocator.activeElement()).thenReturn(null);
         assertEquals(overlay, testSubject.openOptions());
-        verify(openOptionsAction, never()).open(any(), any());
-        verify(driver, times(2))
+        verify(openOptionsAction, times(1)).open(any(), any());
+        verify(driver, times(1))
                 .moveTo(argThat(element -> ((WebComponent) element).getWrappedElement() == inputElement));
+    }
+
+    @Test
+    void openOptionsTryFocus() {
+        assertEquals(overlay, testSubject.openOptions());
+        verify(openOptionsAction, never()).open(any(), any());
     }
 
     @Test
@@ -234,7 +256,22 @@ class MuiAutocompleteTest {
     }
 
     @Test
+    void openOptionsWithDelays() {
+        when(driver.findComponents(By.xpath("/html/body/some/app/div"))).thenReturn(emptyList());
+        doAnswer(answer -> {
+            when(driver.findComponents(By.xpath("/html/body/some/app/div"))).thenReturn(singletonList(overlay));
+            return null;
+        }).when(openOptionsAction).open(any(), any());
+        testSubject.openOptions(1000L);
+        verify(driverWait, times(1)).until(any());
+    }
+
+    @Test
     void closeOptions() {
+        doAnswer(answer -> {
+            when(driver.findComponents(By.xpath("/html/body/some/app/div"))).thenReturn(emptyList());
+            return null;
+        }).when(closeOptionsAction).close(any(), any(), any());
         testSubject.closeOptions();
         verify(closeOptionsAction, times(1)).close(any(), any(), any());
     }
@@ -244,6 +281,29 @@ class MuiAutocompleteTest {
         when(driver.findComponents(By.xpath("/html/body/some/app/div"))).thenReturn(emptyList());
         testSubject.closeOptions();
         verify(closeOptionsAction, never()).close(any(), any(), any());
+    }
+
+    @Test
+    void closeOptionsSuccessHidden() {
+        when(overlay.isDisplayed()).thenReturn(false);
+        assertDoesNotThrow(() -> testSubject.closeOptions());
+    }
+
+    @Test
+    void closeOptionsSuccessFailed() {
+        when(overlay.isDisplayed()).thenReturn(true);
+        assertThrows(OptionNotClosedException.class, () -> testSubject.closeOptions());
+    }
+
+    @Test
+    void closeOptionsWithDelays() {
+        doAnswer(answer -> {
+            when(driver.findComponents(By.xpath("/html/body/some/app/div"))).thenReturn(emptyList());
+            return null;
+        }).when(closeOptionsAction).close(any(), any(), any());
+        testSubject.closeOptions(1000L);
+        verify(closeOptionsAction, times(1)).close(any(), any(), any());
+        verify(driverWait, times(1)).until(any());
     }
 
     @Test
@@ -301,6 +361,12 @@ class MuiAutocompleteTest {
     }
 
     @Test
+    void selectByValueWithDelays() {
+        testSubject.selectByValue("option2", 1000L);
+        verify(options.get(1), times(1)).click();
+    }
+
+    @Test
     void selectByValueNone() {
         testSubject.selectByValue("333");
         verify(options.get(0), never()).click();
@@ -313,6 +379,13 @@ class MuiAutocompleteTest {
     void deselectAll() {
         assertFalse(testSubject.getAllSelectedOptions2().isEmpty());
         testSubject.deselectAll();
+        assertTrue(testSubject.getAllSelectedOptions2().isEmpty());
+    }
+
+    @Test
+    void deselectAllWithDelays() {
+        assertFalse(testSubject.getAllSelectedOptions2().isEmpty());
+        testSubject.deselectAll(1000L);
         assertTrue(testSubject.getAllSelectedOptions2().isEmpty());
     }
 
@@ -334,6 +407,13 @@ class MuiAutocompleteTest {
     }
 
     @Test
+    void deselectByValueWithDelays() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.deselectByValue("value option6", 1000L);
+        assertEquals(2, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
     void deselectByValueNotExists() {
         assertEquals(3, testSubject.getAllSelectedOptions2().size());
         testSubject.deselectByValue("value 6666666");
@@ -348,9 +428,23 @@ class MuiAutocompleteTest {
     }
 
     @Test
+    void deselectByIndexWithDelays() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.deselectByIndex(2, 1000L);
+        assertEquals(2, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
     void deselectByVisibleText() {
         assertEquals(3, testSubject.getAllSelectedOptions2().size());
         testSubject.deselectByVisibleText("option7");
+        assertEquals(2, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
+    void deselectByVisibleTextWithDelays() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.deselectByVisibleText("option7", 1000L);
         assertEquals(2, testSubject.getAllSelectedOptions2().size());
     }
 
@@ -468,5 +562,36 @@ class MuiAutocompleteTest {
                 + "config=config-toString}, optionLocator=optionLocator-toString, "
                 + "openOptionsAction=openOptionsAction-toString, closeOptionsAction=closeOptionsAction-toString, "
                 + "tagLocators=tagLocators-toString}", testSubject.toString());
+    }
+
+    @Test
+    void isLoadingPositive() {
+        WebComponent loading = mock(WebComponent.class);
+        when(loading.isDisplayed()).thenReturn(true);
+        when(overlay.findComponents(By.className("MuiAutocomplete-loading"))).thenReturn(singletonList(loading));
+        assertTrue(testSubject.isLoading());
+    }
+
+
+    @Test
+    void isLoadingNegativeNoOverlay() {
+        when(driver.findComponents(By.xpath("/html/body/some/app/div"))).thenReturn(emptyList());
+        assertFalse(testSubject.isLoading());
+    }
+
+    @Test
+    void isLoadingNegativeNoLoading() {
+        WebComponent loading = mock(WebComponent.class);
+        when(loading.isDisplayed()).thenReturn(false);
+        when(overlay.findComponents(By.className("MuiAutocomplete-loading"))).thenReturn(emptyList());
+        assertFalse(testSubject.isLoading());
+    }
+
+    @Test
+    void isLoadingNegativeLoadingNotDisplayed() {
+        WebComponent loading = mock(WebComponent.class);
+        when(loading.isDisplayed()).thenReturn(false);
+        when(overlay.findComponents(By.className("MuiAutocomplete-loading"))).thenReturn(singletonList(loading));
+        assertFalse(testSubject.isLoading());
     }
 }
