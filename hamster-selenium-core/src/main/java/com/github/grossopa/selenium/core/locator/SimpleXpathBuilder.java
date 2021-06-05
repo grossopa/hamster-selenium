@@ -61,7 +61,7 @@ public class SimpleXpathBuilder {
          * Adds the prefix ".//*" to search any depth child. For example:
          *
          * <p>
-         * div (current) -> span  -> span -> <b>li (target)</b>
+         * div (current) -&lt; span  -&lt; span -&lt; <b>li (target)</b>
          * </p>
          *
          * @return created next builder {@link SourceBuilder} instance
@@ -74,7 +74,7 @@ public class SimpleXpathBuilder {
          * Adds the prefix ".//tag" to search any depth child. For example:
          *
          * <p>
-         * div (current) -> span  -> span -> <b>li (target)</b>
+         * div (current) -&lt; span  -&lt; span -&lt; <b>li (target)</b>
          * </p>
          *
          * @param tag the target tag name to search, defaulted to * if blank
@@ -88,7 +88,7 @@ public class SimpleXpathBuilder {
          * Adds the prefix "//*" to search any depth element absolutely.
          *
          * <p>
-         * div (current)<br/> div (another) -> span -> span -> <b>li (target)</b>
+         * div (current)<br> div (another) -&lt; span -&lt; span -&lt; <b>li (target)</b>
          * </p>
          *
          * @return created next builder {@link SourceBuilder} instance
@@ -101,7 +101,7 @@ public class SimpleXpathBuilder {
          * Adds the prefix "//tag" to search any depth element absolutely.
          *
          * <p>
-         * div (current)<br/> div (another) -> span -> span -> <b>li (target)</b>
+         * div (current)<br> div (another) -&lt; span -&lt; span -&lt; <b>li (target)</b>
          * </p>
          *
          * @param tag the target tag name to search, defaulted to * if blank
@@ -115,7 +115,7 @@ public class SimpleXpathBuilder {
          * Adds the prefix "./*" to  to search relative elements
          *
          * <p>
-         * div (current) -> <b>li (target)</b>
+         * div (current) -&lt; <b>li (target)</b>
          * </p>
          *
          * @return created next builder {@link SourceBuilder} instance
@@ -128,7 +128,7 @@ public class SimpleXpathBuilder {
          * Adds the prefix "./tag" to  to search relative elements
          *
          * <p>
-         * div (current) -> <b>li (target)</b>
+         * div (current) -&lt; <b>li (target)</b>
          * </p>
          *
          * @param tag the target tag name to search, defaulted to * if blank
