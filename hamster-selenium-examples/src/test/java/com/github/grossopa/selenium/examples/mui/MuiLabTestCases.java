@@ -276,7 +276,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
             test.testAutocompleteFixedOptions();
             test.testPaginationBasic();
             test.testPaginationButtons();
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw ex;
         } finally {

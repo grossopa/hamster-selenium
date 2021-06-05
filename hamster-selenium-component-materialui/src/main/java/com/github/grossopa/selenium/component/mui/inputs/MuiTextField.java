@@ -79,9 +79,7 @@ public class MuiTextField extends AbstractMuiComponent implements FormField {
      */
     @Override
     public WebComponent getInput() {
-        return this.findComponent(
-                By2.attr("class", config.getCssPrefix() + "InputBase-input").contains().anyDepthChild().tag("input")
-                        .build());
+        return this.findComponent(By2.attrContains("class", config.getCssPrefix() + "InputBase-input", "input"));
     }
 
     /**
@@ -91,7 +89,7 @@ public class MuiTextField extends AbstractMuiComponent implements FormField {
      */
     @Override
     public WebComponent getLabel() {
-        return this.findComponent(By2.contains("class", config.getCssPrefix() + "InputLabel-root", "label"));
+        return this.findComponent(By2.attrContains("class", config.getCssPrefix() + "InputLabel-root", "label"));
     }
 
     @Override

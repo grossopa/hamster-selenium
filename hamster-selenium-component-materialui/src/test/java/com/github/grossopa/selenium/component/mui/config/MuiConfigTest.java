@@ -29,8 +29,6 @@ import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.function.Supplier;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -52,7 +50,7 @@ class MuiConfigTest {
 
     @Test
     void buttonLocator() {
-        assertEquals("By.xpath: *[contains(@class, 'MuiButton-root')]", testSubject.buttonLocator().toString());
+        assertEquals("By.xpath: .//*[contains(@class,\"MuiButton-root\")]", testSubject.buttonLocator().toString());
     }
 
     @Test

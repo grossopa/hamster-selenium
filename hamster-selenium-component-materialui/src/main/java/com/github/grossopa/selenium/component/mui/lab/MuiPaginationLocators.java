@@ -49,35 +49,35 @@ public class MuiPaginationLocators {
      * The default previous button finder function
      */
     public static final Function<MuiPagination, MuiButton> DEFAULT_PREVIOUS_BUTTON = pagination -> pagination
-            .findComponentAs(By2.attr(ARIA_LABEL, "Go to previous page").exact().anyDepthChild().build(),
+            .findComponentAs(By2.attrExact(ARIA_LABEL, "Go to previous page"),
                     c -> new MuiButton(c, pagination.driver(), pagination.config()));
 
     /**
      * The default next button finder function
      */
     public static final Function<MuiPagination, MuiButton> DEFAULT_NEXT_BUTTON = pagination -> pagination
-            .findComponentAs(By2.attr(ARIA_LABEL, "Go to next page").exact().anyDepthChild().build(),
+            .findComponentAs(By2.attrExact(ARIA_LABEL, "Go to next page"),
                     c -> new MuiButton(c, pagination.driver(), pagination.config()));
 
     /**
      * The default first button finder function
      */
     public static final Function<MuiPagination, MuiButton> DEFAULT_FIRST_BUTTON = pagination -> pagination
-            .findComponentAs(By2.attr(ARIA_LABEL, "Go to first page").exact().anyDepthChild().build(),
+            .findComponentAs(By2.attrExact(ARIA_LABEL, "Go to first page"),
                     c -> new MuiButton(c, pagination.driver(), pagination.config()));
 
     /**
      * The default last button finder function
      */
     public static final Function<MuiPagination, MuiButton> DEFAULT_LAST_BUTTON = pagination -> pagination
-            .findComponentAs(By2.attr(ARIA_LABEL, "Go to last page").exact().anyDepthChild().build(),
+            .findComponentAs(By2.attrExact(ARIA_LABEL, "Go to last page"),
                     c -> new MuiButton(c, pagination.driver(), pagination.config()));
 
     /**
      * The default page buttons finder function
      */
     public static final Function<MuiPagination, List<MuiButton>> DEFAULT_PAGE_BUTTONS = pagination -> pagination
-            .findComponentsAs(By2.attr(ARIA_LABEL, "Go to page").contains().anyDepthChild().build(),
+            .findComponentsAs(By2.attrContains(ARIA_LABEL, "Go to page"),
                     c -> new MuiButton(c, pagination.driver(), pagination.config()));
 
     /**

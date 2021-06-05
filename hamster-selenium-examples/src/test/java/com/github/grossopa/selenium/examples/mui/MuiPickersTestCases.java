@@ -139,8 +139,9 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
             test.setUpDriver(CHROME);
             test.testYearSelectionPopup();
             test.testBasicExample();
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
+            throw ex;
         } finally {
             test.stopDriver();
         }

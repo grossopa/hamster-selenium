@@ -133,9 +133,7 @@ class MuiPaginationLocatorsTest {
 
     @Test
     void testDefaultPreviousButton() {
-        when(pagination
-                .findComponentAs(eq(By2.attr("aria-label", "Go to previous page").exact().anyDepthChild().build()),
-                        any())).then(answer -> {
+        when(pagination.findComponentAs(eq(By2.attrExact("aria-label", "Go to previous page")), any())).then(answer -> {
             Function<WebComponent, MuiButton> arg2 = answer.getArgument(1);
             return arg2.apply(previousButtonComponent);
         });
@@ -146,12 +144,10 @@ class MuiPaginationLocatorsTest {
 
     @Test
     void testDefaultNextButton() {
-        when(pagination
-                .findComponentAs(eq(By2.attr("aria-label", "Go to next page").exact().anyDepthChild().build()), any()))
-                .then(answer -> {
-                    Function<WebComponent, MuiButton> arg2 = answer.getArgument(1);
-                    return arg2.apply(nextButtonComponent);
-                });
+        when(pagination.findComponentAs(eq(By2.attrExact("aria-label", "Go to next page")), any())).then(answer -> {
+            Function<WebComponent, MuiButton> arg2 = answer.getArgument(1);
+            return arg2.apply(nextButtonComponent);
+        });
 
         assertEquals(nextButtonElement,
                 MuiPaginationLocators.DEFAULT_NEXT_BUTTON.apply(pagination).getWrappedElement());
@@ -159,12 +155,10 @@ class MuiPaginationLocatorsTest {
 
     @Test
     void testDefaultFirstButton() {
-        when(pagination
-                .findComponentAs(eq(By2.attr("aria-label", "Go to first page").exact().anyDepthChild().build()), any()))
-                .then(answer -> {
-                    Function<WebComponent, MuiButton> arg2 = answer.getArgument(1);
-                    return arg2.apply(firstButtonComponent);
-                });
+        when(pagination.findComponentAs(eq(By2.attrExact("aria-label", "Go to first page")), any())).then(answer -> {
+            Function<WebComponent, MuiButton> arg2 = answer.getArgument(1);
+            return arg2.apply(firstButtonComponent);
+        });
 
         assertEquals(firstButtonElement,
                 MuiPaginationLocators.DEFAULT_FIRST_BUTTON.apply(pagination).getWrappedElement());
@@ -172,12 +166,10 @@ class MuiPaginationLocatorsTest {
 
     @Test
     void testDefaultLastButton() {
-        when(pagination
-                .findComponentAs(eq(By2.attr("aria-label", "Go to last page").exact().anyDepthChild().build()), any()))
-                .then(answer -> {
-                    Function<WebComponent, MuiButton> arg2 = answer.getArgument(1);
-                    return arg2.apply(lastButtonComponent);
-                });
+        when(pagination.findComponentAs(eq(By2.attrExact("aria-label", "Go to last page")), any())).then(answer -> {
+            Function<WebComponent, MuiButton> arg2 = answer.getArgument(1);
+            return arg2.apply(lastButtonComponent);
+        });
 
         assertEquals(lastButtonElement,
                 MuiPaginationLocators.DEFAULT_LAST_BUTTON.apply(pagination).getWrappedElement());
@@ -185,12 +177,10 @@ class MuiPaginationLocatorsTest {
 
     @Test
     void testDefaultPageButtons() {
-        when(pagination
-                .findComponentsAs(eq(By2.attr("aria-label", "Go to page").contains().anyDepthChild().build()), any()))
-                .then(answer -> {
-                    Function<WebComponent, MuiButton> arg2 = answer.getArgument(1);
-                    return singletonList(arg2.apply(lastButtonComponent));
-                });
+        when(pagination.findComponentsAs(eq(By2.attrContains("aria-label", "Go to page")), any())).then(answer -> {
+            Function<WebComponent, MuiButton> arg2 = answer.getArgument(1);
+            return singletonList(arg2.apply(lastButtonComponent));
+        });
 
         assertEquals(lastButtonElement,
                 MuiPaginationLocators.DEFAULT_PAGE_BUTTONS.apply(pagination).get(0).getWrappedElement());

@@ -102,86 +102,44 @@ class By2Test {
 
     @Test
     void exact() {
-        By result = By2.exact("some-name", "some-attr");
-        assertEquals("By.xpath: *[@some-name='some-attr']", result.toString());
+        By result = By2.attrExact("some-name", "some-attr");
+        assertEquals("By.xpath: .//*[@some-name=\"some-attr\"]", result.toString());
     }
 
     @Test
     void exactWithTag() {
-        By result = By2.exact("some-name", "some-attr", "div");
-        assertEquals("By.xpath: div[@some-name='some-attr']", result.toString());
+        By result = By2.attrExact("some-name", "some-attr", "div");
+        assertEquals("By.xpath: .//div[@some-name=\"some-attr\"]", result.toString());
     }
 
     @Test
     void contains() {
-        By result = By2.contains("some-name", "some-attr");
-        assertEquals("By.xpath: *[contains(@some-name, 'some-attr')]", result.toString());
+        By result = By2.attrContains("some-name", "some-attr");
+        assertEquals("By.xpath: .//*[contains(@some-name,\"some-attr\")]", result.toString());
     }
 
     @Test
     void containsWithTag() {
-        By result = By2.contains("some-name", "some-attr", "div");
-        assertEquals("By.xpath: div[contains(@some-name, 'some-attr')]", result.toString());
-    }
-
-    @Test
-    void attr() {
-        By result = By2.attr("some-name", "some-attr").build();
-        assertEquals("By.xpath: *[@some-name='some-attr']", result.toString());
-    }
-
-    @Test
-    void attrWithTag() {
-        By result = By2.attr("some-name", "some-attr").tag("span").build();
-        assertEquals("By.xpath: span[@some-name='some-attr']", result.toString());
-    }
-
-    @Test
-    void attrWithAnyDepthAbsolute() {
-        By result = By2.attr("some-name", "some-attr").anyDepthAbsolute().build();
-        assertEquals("By.xpath: //*[@some-name='some-attr']", result.toString());
-    }
-
-    @Test
-    void attrWithAnyDepthChild() {
-        By result = By2.attr("some-name", "some-attr").anyDepthChild().build();
-        assertEquals("By.xpath: .//*[@some-name='some-attr']", result.toString());
-    }
-
-    @Test
-    void attrWithAnyDepthRelative() {
-        By result = By2.attr("some-name", "some-attr").depthRelative().build();
-        assertEquals("By.xpath: *[@some-name='some-attr']", result.toString());
+        By result = By2.attrContains("some-name", "some-attr", "div");
+        assertEquals("By.xpath: .//div[contains(@some-name,\"some-attr\")]", result.toString());
     }
 
     @Test
     void attrContains() {
-        By result = By2.attr("some-name", "some-attr").contains().build();
-        assertEquals("By.xpath: *[contains(@some-name, 'some-attr')]", result.toString());
-    }
-
-    @Test
-    void attrExact() {
-        By result = By2.attr("some-name", "some-attr").exact().build();
-        assertEquals("By.xpath: *[@some-name='some-attr']", result.toString());
-    }
-
-    @Test
-    void attrFull() {
-        By result = By2.attr("some-name", "some-attr").contains().anyDepthChild().tag("span").build();
-        assertEquals("By.xpath: .//span[contains(@some-name, 'some-attr')]", result.toString());
+        By result = By2.attrContains("some-name", "some-attr");
+        assertEquals("By.xpath: .//*[contains(@some-name,\"some-attr\")]", result.toString());
     }
 
     @Test
     void textContains() {
         By result = By2.textContains("some-test ''sbc");
-        assertEquals("By.xpath: .//*[contains(text(), 'some-test \\'\\'sbc')]", result.toString());
+        assertEquals("By.xpath: .//*[contains(text(),\"some-test ''sbc\")]", result.toString());
     }
 
     @Test
     void textExact() {
         By result = By2.textExact("some-test ''sbc");
-        assertEquals("By.xpath: .//*[text()='some-test \\'\\'sbc']", result.toString());
+        assertEquals("By.xpath: .//*[text()=\"some-test ''sbc\"]", result.toString());
     }
 
     @Test

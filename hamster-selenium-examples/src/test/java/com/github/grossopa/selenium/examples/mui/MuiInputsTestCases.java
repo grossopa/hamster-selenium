@@ -53,8 +53,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     public void testButtonGroup() {
         driver.navigate().to("https://material-ui.com/components/buttons/");
 
-        WebComponent contentDriverParent = driver
-                .findComponents(By2.attr("href", "#contained-buttons").anyDepthAbsolute().contains().tag("a").build())
+        WebComponent contentDriverParent = driver.findComponents(By2.attrContains("href", "#contained-buttons", "a"))
                 .get(1).findComponent(By.xpath("parent::*"));
 
         MuiButtonGroup group = contentDriverParent.as(mui()).toButtonGroup();
@@ -69,10 +68,9 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     public void testCheckBox() {
         driver.navigate().to("https://material-ui.com/components/checkboxes/");
 
-        WebComponent checkBoxContainer = driver
-                .findComponent(By2.attr("class", "MuiCheckbox-root").contains().anyDepthAbsolute().build())
+        WebComponent checkBoxContainer = driver.findComponent(By2.className("MuiCheckbox-root"))
                 .findComponent(By.xpath("parent::*"));
-        List<MuiCheckbox> checkboxes = checkBoxContainer.findComponents(By2.contains("class", "MuiCheckbox-root"))
+        List<MuiCheckbox> checkboxes = checkBoxContainer.findComponents(By2.attrContains("class", "MuiCheckbox-root"))
                 .stream().map(checkbox -> checkbox.as(mui()).toCheckbox()).collect(toList());
 
         assertEquals(8, checkboxes.size());
@@ -86,19 +84,16 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     public void testSelect() {
         driver.navigate().to("https://material-ui.com/components/selects/");
 
-        WebComponent selectContainer = driver
-                .findComponent(By2.attr("class", "MuiFormControl-root").contains().anyDepthAbsolute().build())
+        WebComponent selectContainer = driver.findComponent(By2.className("MuiFormControl-root"))
                 .findComponent(By2.xpath("parent::*"));
 
-        List<MuiSelect> selects = selectContainer
-                .findComponents(By2.attr("class", "MuiSelect-root").anyDepthChild().contains().build()).stream()
-                .map(select -> select.as(mui()).toSelect(By2.attr("class", "MuiMenuItem-root").contains().build()))
-                .collect(toList());
+        List<MuiSelect> selects = selectContainer.findComponents(By2.className("MuiSelect-root")).stream()
+                .map(select -> select.as(mui()).toSelect(By2.className("MuiMenuItem-root"))).collect(toList());
 
         assertEquals(12, selects.size());
 
         MuiSelect demoSimpleSelect = driver.findComponent(By2.id("demo-simple-select")).as(mui())
-                .toSelect(By2.attr("class", "MuiMenuItem-root").contains().anyDepthChild().build());
+                .toSelect(By2.className("MuiMenuItem-root"));
 
         List<WebComponent> components = demoSimpleSelect.getOptions2(3000L);
         assertEquals(3, components.size());
@@ -109,7 +104,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
 
         // multi-select test
         MuiSelect multiSelect = driver.findComponent(By.id("demo-mutiple-name")).as(mui())
-                .toSelect(By2.attr("class", "MuiMenuItem-root").contains().anyDepthChild().build());
+                .toSelect(By2.className("MuiMenuItem-root"));
 
         multiSelect.selectByVisibleText("Oliver Hansen", 800L);
         multiSelect.selectByVisibleText("April Tucker");
@@ -160,8 +155,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     public void testSelectWithMenu() {
         driver.navigate().to("https://material-ui.com/components/menus/");
 
-        MuiSelect languageSelect = driver
-                .findComponent(By2.attr("aria-label", "Change language").anyDepthChild().build()).as(mui())
+        MuiSelect languageSelect = driver.findComponent(By2.attrContains("aria-label", "Change language")).as(mui())
                 .toSelect(By.tagName("a"));
 
         List<WebComponent> options = languageSelect.getOptions2(500L);
@@ -318,8 +312,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     public void testRadioGroup() {
         driver.navigate().to("https://material-ui.com/components/radio-buttons/");
 
-        WebComponent contentDriverParent = driver
-                .findComponents(By2.attr("role", "radiogroup").anyDepthAbsolute().contains().build()).get(0);
+        WebComponent contentDriverParent = driver.findComponents(By2.attrContains("role", "radiogroup")).get(0);
 
         MuiRadioGroup group = contentDriverParent.as(mui()).toRadioGroup();
         List<MuiRadio> radios = group.getRadios();
@@ -376,7 +369,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     }
 
     @SuppressWarnings("squid:S2925")
-    public void testTabs() throws InterruptedException {
+    public void testTabs() {
         driver.navigate().to("https://material-ui.com/components/tabs/");
 
         List<MuiTabs> tabsList = driver.findComponents(By.className("MuiTabs-root")).stream()
@@ -397,16 +390,16 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
         assertTrue(automaticScrollTabs.getPreviousScrollButton().isPresent());
 
         automaticScrollTabs.getTabs().get(3).click();
-        Thread.sleep(600L);
+        driver.threadSleep(600L);
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-3")).isDisplayed());
         automaticScrollTabs.getTabs().get(5).click();
-        Thread.sleep(600L);
+        driver.threadSleep(600L);
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-5")).isDisplayed());
         automaticScrollTabs.getTabs().get(6).click();
-        Thread.sleep(600L);
+        driver.threadSleep(600L);
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-6")).isDisplayed());
         automaticScrollTabs.getTabs().get(0).click();
-        Thread.sleep(600L);
+        driver.threadSleep(600L);
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-0")).isDisplayed());
     }
 
@@ -426,8 +419,9 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
             test.testTabs();
             test.testRadio();
             test.testRadioGroup();
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
+            throw ex;
         } finally {
             test.stopDriver();
         }

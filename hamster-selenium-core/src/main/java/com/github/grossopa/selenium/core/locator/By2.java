@@ -26,11 +26,6 @@ package com.github.grossopa.selenium.core.locator;
 
 import org.openqa.selenium.By;
 
-import static java.text.MessageFormat.format;
-import static java.util.Objects.requireNonNull;
-import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
-import static org.apache.commons.lang3.StringUtils.isBlank;
-
 /**
  * Delegates the {@link By} static methods and with additional helper methods
  *
@@ -130,8 +125,8 @@ public abstract class By2 extends By {
      * @param attributeValue the attribute value to find
      * @return A By which locates elements by exact attribute value match.
      */
-    public static By exact(String attributeName, String attributeValue) {
-        return exact(attributeName, attributeValue, "*");
+    public static By attrExact(String attributeName, String attributeValue) {
+        return attrExact(attributeName, attributeValue, "*");
     }
 
     /**
@@ -142,8 +137,8 @@ public abstract class By2 extends By {
      * @param tag the tag name to find
      * @return A By which locates elements by exact attribute value and tag name match.
      */
-    public static By exact(String attributeName, String attributeValue, String tag) {
-        return attr(attributeName, attributeValue).exact().depthRelative().tag(tag).build();
+    public static By attrExact(String attributeName, String attributeValue, String tag) {
+        return xpathBuilder().anywhereRelative(tag).attr(attributeName).exact(attributeValue);
     }
 
     /**
@@ -153,8 +148,8 @@ public abstract class By2 extends By {
      * @param attributeValue the attribute value to find
      * @return A By which locates elements by contains attribute value
      */
-    public static By contains(String attributeName, String attributeValue) {
-        return contains(attributeName, attributeValue, "*");
+    public static By attrContains(String attributeName, String attributeValue) {
+        return attrContains(attributeName, attributeValue, "*");
     }
 
     /**
@@ -165,39 +160,37 @@ public abstract class By2 extends By {
      * @param tag the tag name to find
      * @return A By which locates elements by contains attribute value and tag name match.
      */
-    public static By contains(String attributeName, String attributeValue, String tag) {
-        return attr(attributeName, attributeValue).contains().depthRelative().tag(tag).build();
+    public static By attrContains(String attributeName, String attributeValue, String tag) {
+        return xpathBuilder().anywhereRelative(tag).attr(attributeName).contains(attributeValue);
     }
 
     /**
-     * Creates the By attribute builder.
+     * Starts to build xpath.
      *
-     * @param attributeName the attribute name to find
-     * @param attributeValue the attribute value to find
-     * @return the builder instance
+     * @return the prefix builder to start the building
      */
-    public static ByAttributeBuilder attr(String attributeName, String attributeValue) {
-        return new ByAttributeBuilder(attributeName, attributeValue);
+    public static SimpleXpathBuilder.PrefixBuilder xpathBuilder() {
+        return new SimpleXpathBuilder.PrefixBuilder();
     }
 
     /**
-     * Finds the element by text contains match.
+     * Finds the element by text contains match and anywhere relative to the current element.
      *
      * @param text the text to find that contains
-     * @return A By which locates the elements by xpath {@code ".//*[contains(text(), the_text)]"}
+     * @return A By which locates the elements by xpath {@code .//*[contains(text(), the_text)]}
      */
     public static By textContains(String text) {
-        return By.xpath(String.format(".//*[contains(text(), '%s')]", text.replace("'", "\\'")));
+        return xpathBuilder().anywhereRelative().text().contains(text);
     }
 
     /**
-     * Finds the element by text exact match.
+     * Finds the element by text exact match and anywhere relative to the current element.
      *
      * @param text the text to find
-     * @return A By which locates the elements by xpath {@code ".//*[text()='%s']"}
+     * @return A By which locates the elements by xpath {@code .//*[text()="%s"]}
      */
     public static By textExact(String text) {
-        return By.xpath(String.format(".//*[text()='%s']", text.replace("'", "\\'")));
+        return xpathBuilder().anywhereRelative().text().exact(text);
     }
 
     /**
@@ -207,101 +200,6 @@ public abstract class By2 extends By {
      */
     public static By parent() {
         return By.xpath("parent::*");
-    }
-
-    /**
-     * Builds the xpath for finding by attributes.
-     *
-     * @author Jack Yin
-     * @since 1.0
-     */
-    public static class ByAttributeBuilder implements By2Builder {
-        public static final String EXACT_TEMPLATE = "{0}[@{1}=''{2}'']";
-        public static final String METHOD_TEMPLATE = "{0}[contains(@{1}, ''{2}'')]";
-
-        private String depth = "";
-        private String method;
-        private String tagName;
-        private final String attributeName;
-        private final String attributeValue;
-
-        /**
-         * Constructs an instance with target searching attribute name and the desired value\
-         *
-         * @param attributeName the attribute name to search
-         * @param attributeValue the attribute value to match
-         */
-        public ByAttributeBuilder(String attributeName, String attributeValue) {
-            this.attributeName = requireNonNull(attributeName);
-            this.attributeValue = requireNonNull(attributeValue);
-        }
-
-        /**
-         * Adds the criteria to search any depth child
-         *
-         * @return this builder instance
-         */
-        public ByAttributeBuilder anyDepthChild() {
-            this.depth = ".//";
-            return this;
-        }
-
-        /**
-         * Adds the criteria to search any depth element absolutely
-         *
-         * @return this builder instance
-         */
-        public ByAttributeBuilder anyDepthAbsolute() {
-            this.depth = "//";
-            return this;
-        }
-
-        /**
-         * Adds the criteria to search relative elements
-         *
-         * @return this builder instance
-         */
-        public ByAttributeBuilder depthRelative() {
-            this.depth = "";
-            return this;
-        }
-
-        /**
-         * Changes the search method to "contains".
-         *
-         * @return this builder instance.
-         */
-        public ByAttributeBuilder contains() {
-            method = "contains";
-            return this;
-        }
-
-        /**
-         * Changes the search method to "exactly match".
-         *
-         * @return this builder instance.
-         */
-        public ByAttributeBuilder exact() {
-            method = null;
-            return this;
-        }
-
-        /**
-         * Specifies the target tag name, by default it is "*" to match any tags.
-         *
-         * @param tagName the tag name to search
-         * @return this builder instance
-         */
-        public ByAttributeBuilder tag(String tagName) {
-            this.tagName = tagName;
-            return this;
-        }
-
-        @Override
-        public By build() {
-            String template = isBlank(method) ? EXACT_TEMPLATE : METHOD_TEMPLATE;
-            return By.xpath(depth + format(template, defaultIfBlank(tagName, "*"), attributeName, attributeValue));
-        }
     }
 
 

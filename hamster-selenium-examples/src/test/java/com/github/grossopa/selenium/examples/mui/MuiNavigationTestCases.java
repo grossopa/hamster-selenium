@@ -96,7 +96,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
     }
 
     @SuppressWarnings("squid:S2925")
-    public void testTabs() throws InterruptedException {
+    public void testTabs() {
         driver.navigate().to("https://material-ui.com/components/tabs/");
 
         List<MuiTabs> tabsList = driver.findComponents(By.className("MuiTabs-root")).stream()
@@ -118,17 +118,16 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         assertTrue(automaticScrollTabs.getPreviousScrollButton().isPresent());
 
         automaticScrollTabs.getTabs().get(3).click();
-        Thread.sleep(600L);
-        //driver.moveTo(driver.findComponent(By.id("scrollable-force-tabpanel-3")));
+        driver.threadSleep(600L);
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-3")).isDisplayed());
         automaticScrollTabs.getTabs().get(5).click();
-        Thread.sleep(600L);
+        driver.threadSleep(600L);
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-5")).isDisplayed());
         automaticScrollTabs.getTabs().get(6).click();
-        Thread.sleep(600L);
+        driver.threadSleep(600L);
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-6")).isDisplayed());
         automaticScrollTabs.getTabs().get(0).click();
-        Thread.sleep(600L);
+        driver.threadSleep(600L);
         assertTrue(driver.findComponent(By.id("scrollable-auto-tabpanel-0")).isDisplayed());
 
         MuiTabs verticalTabs = driver.findComponent(By.id("VerticalTabs.js")).findComponent(By2.parent())
@@ -139,7 +138,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
     }
 
     @SuppressWarnings("squid:S2925")
-    public void testMenu() throws InterruptedException {
+    public void testMenu() {
         driver.navigate().to("https://material-ui.com/components/menus/");
         MuiModalFinder modalFinder = new MuiModalFinder(driver, new MuiConfig());
         // 6 Menu has keepMounted properties
@@ -150,7 +149,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         MuiButton button = driver.findComponent(By.id("SimpleMenu.js")).findComponent(By.xpath("parent::*"))
                 .findComponent(By.className("MuiButton-root")).as(mui()).toButton();
         button.click();
-        Thread.sleep(500L);
+        driver.threadSleep(500L);
         List<WebComponent> components = modalFinder.findVisibleOverlays("Popover");
         assertEquals(1, components.size());
         MuiMenu menu = components.get(0).findComponent(By.className("MuiMenu-list")).as(mui()).toMenu();
@@ -158,7 +157,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
     }
 
     @SuppressWarnings("squid:S2925")
-    public void testAccordion() throws InterruptedException {
+    public void testAccordion() {
         driver.navigate().to("https://material-ui.com/components/accordion/");
 
         List<MuiAccordion> simpleAccordionList = driver.findComponent(By.id("SimpleAccordion.js"))
@@ -174,7 +173,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
 
         simpleAccordionList.get(0).expand();
         simpleAccordionList.get(1).expand();
-        Thread.sleep(400L);
+        driver.threadSleep(400L);
 
         assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
                         + "Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
@@ -196,7 +195,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         assertFalse(actionAccordion1.isExpand());
         driver.moveTo(actionAccordion1);
         actionAccordion1.expand();
-        Thread.sleep(400L);
+        driver.threadSleep(400L);
         assertTrue(actionAccordion1.isExpand());
         MuiCheckbox checkbox1 = requireNonNull(actionAccordion1.getAccordionSummary())
                 .findComponent(By.className("MuiCheckbox-root")).as(mui()).toCheckbox();
@@ -215,8 +214,9 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
             test.testTabs();
             test.testMenu();
             test.testAccordion();
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
+            throw ex;
         } finally {
             test.stopDriver();
         }
