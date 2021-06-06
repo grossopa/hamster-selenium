@@ -70,7 +70,7 @@ public class LocatorTestCases extends AbstractBrowserSupport {
         assertEquals("I'm Feeling Lucky", lucky.getAttribute("value"));
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         LocatorTestCases test = new LocatorTestCases();
         try {
             test.setUpDriver(CHROME);

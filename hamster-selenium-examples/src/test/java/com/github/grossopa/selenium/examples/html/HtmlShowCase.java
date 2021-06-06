@@ -28,7 +28,6 @@ import com.github.grossopa.selenium.component.html.HtmlSelect;
 import com.github.grossopa.selenium.component.html.HtmlTable;
 import com.github.grossopa.selenium.core.component.api.TableRow;
 import com.github.grossopa.selenium.core.driver.WebDriverType;
-import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
