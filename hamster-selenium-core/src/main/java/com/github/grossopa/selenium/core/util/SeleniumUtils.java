@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.core.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
@@ -76,6 +77,21 @@ public class SeleniumUtils {
         String text = inputElement.getAttribute("value");
         for (int i = 0; i < text.length(); i++) {
             inputElement.sendKeys(BACK_SPACE);
+        }
+    }
+
+    /**
+     * Wraps the term with single or double quotes for xpath query. The function most likely will NOT work if the term
+     * contains both single and double quotes.
+     *
+     * @param term the term to be wrapped
+     * @return the wrapped result
+     */
+    public static String enrichQuote(String term) {
+        if (StringUtils.contains(term, '\"')) {
+            return '\'' + term + '\'';
+        } else {
+            return '\"' + term + '\"';
         }
     }
 }

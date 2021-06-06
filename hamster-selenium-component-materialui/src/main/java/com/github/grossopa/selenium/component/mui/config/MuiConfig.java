@@ -88,7 +88,7 @@ public class MuiConfig {
      * @return the instance of button locator
      */
     public By buttonLocator() {
-        return By2.attr(ATTR_CLASS, getRootCss("Button")).contains().build();
+        return By2.attrContains(ATTR_CLASS, getRootCss("Button"));
     }
 
     /**

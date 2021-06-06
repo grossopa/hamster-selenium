@@ -34,6 +34,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static com.github.grossopa.selenium.component.html.HtmlComponents.html;
+import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
@@ -60,6 +61,26 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         assertEquals("Alfreds Futterkiste", table.getBodyRows().get(0).getCells().get(0).getText());
     }
 
+    public void testTableNoHeader() {
+        driver.navigate().to("https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table_basic");
+        driver.switchTo().frame("iframeResult");
+
+        HtmlTable table = driver.findComponent(
+                xpathBuilder().anywhere().text().exact("3 Rows and 3 Columns:").followingSibling("table").build())
+                .as(html()).toTable();
+        assertEquals(3, table.getBodyRows().size());
+
+        assertEquals("100", table.getBodyRow(0).getCells().get(0).getText());
+        assertEquals("200", table.getBodyRow(0).getCells().get(1).getText());
+        assertEquals("300", table.getBodyRow(0).getCells().get(2).getText());
+        assertEquals("400", table.getBodyRow(1).getCells().get(0).getText());
+        assertEquals("500", table.getBodyRow(1).getCells().get(1).getText());
+        assertEquals("600", table.getBodyRow(1).getCells().get(2).getText());
+        assertEquals("700", table.getBodyRow(2).getCells().get(0).getText());
+        assertEquals("800", table.getBodyRow(2).getCells().get(1).getText());
+        assertEquals("900", table.getBodyRow(2).getCells().get(2).getText());
+    }
+
     public void testSelect() {
         driver.navigate().to("https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select");
         WebDriverWait wait = new WebDriverWait(driver, 10L);
@@ -81,6 +102,7 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         HtmlShowCase test = new HtmlShowCase();
         test.setUpDriver(WebDriverType.CHROME);
         test.testTable();
+        test.testTableNoHeader();
         test.testSelect();
         test.stopDriver();
     }

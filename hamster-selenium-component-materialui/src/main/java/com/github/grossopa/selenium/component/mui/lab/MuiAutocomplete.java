@@ -28,16 +28,19 @@ import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
 import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -54,7 +57,7 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
  * @see <a href="https://material-ui.com/components/autocomplete/">https://material-ui.com/components/autocomplete/</a>
  * @since 1.3
  */
-public class MuiAutocomplete extends AbstractMuiComponent implements Select {
+public class MuiAutocomplete extends AbstractMuiComponent implements Select, DelayedSelect {
 
     /**
      * The component name
@@ -144,6 +147,21 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
     }
 
     /**
+     * Whether the autocomplete is loading.
+     *
+     * @return true if the autocomplete is loading the data from backend.
+     */
+    public boolean isLoading() {
+        WebComponent overlay = this.tryLocateOverlay();
+        if (overlay != null) {
+            List<WebComponent> loadings = overlay
+                    .findComponents(By.className(config.getCssPrefix() + "Autocomplete-loading"));
+            return !loadings.isEmpty() && loadings.get(0).isDisplayed();
+        }
+        return false;
+    }
+
+    /**
      * Finds the input component within the Autocomplete.
      *
      * @return the input component within the Autocomplete.
@@ -187,6 +205,12 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
         return overlay.findComponents(optionLocator);
     }
 
+    @Override
+    public List<WebComponent> getOptions2(Long delayInMillis) {
+        WebComponent overlay = openOptions(delayInMillis);
+        return overlay.findComponents(optionLocator);
+    }
+
     /**
      * The selected options within the body, this method will only work under Multiple values model.
      *
@@ -197,24 +221,73 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
         return new ArrayList<>(getVisibleTags());
     }
 
+    /**
+     * Gets the selected Options within the body, however the delay is not necessary as the tags are always displaying.
+     * use {@link #getAllSelectedOptions2()} instead.
+     *
+     * @param delayInMillis no-use, the delays in milliseconds
+     * @return the found tags
+     */
+    @Override
+    public List<WebComponent> getAllSelectedOptions2(Long delayInMillis) {
+        return getAllSelectedOptions2();
+    }
+
+
     @Override
     public WebComponent openOptions() {
-        WebComponent overlay = tryGetOverlay();
-        if (overlay == null) {
-            openOptionsAction.open(this, driver);
+        return openOptions(0L);
+    }
+
+    @Override
+    public WebComponent openOptions(Long delayInMillis) {
+        WebComponent overlay = tryLocateOverlay();
+        if (overlay != null) {
+            return overlay;
         }
-        overlay = tryGetOverlay();
+
+        WebComponent input = this.getInput();
+        if (!input.isFocused()) {
+            // Make sure the input is focused so we have only one overlay there
+            driver.moveTo(input);
+        }
+
+        this.openOptionsAction.open(this, driver);
+
+        if (delayInMillis > 0L) {
+            WebDriverWait wait = driver.createWait(delayInMillis);
+            overlay = wait.until(d -> tryLocateOverlay());
+        } else {
+            overlay = tryLocateOverlay();
+        }
+
         if (overlay == null) {
-            throw new NoSuchElementException("Cannot locate the options.");
+            throw new NoSuchElementException("Failed to open overlay for element:" + this);
         }
         return overlay;
     }
 
     @Override
     public void closeOptions() {
-        WebComponent overlay = tryGetOverlay();
-        if (overlay != null) {
-            closeOptionsAction.close(this, overlay.findComponents(optionLocator), driver);
+        closeOptions(0L);
+    }
+
+    @Override
+    public void closeOptions(Long delayInMillis) {
+        WebComponent overlay = tryLocateOverlay();
+        if (overlay == null) {
+            return;
+        }
+
+        closeOptionsAction.close(this, getOptions2(), driver);
+        if (delayInMillis > 0L) {
+            WebDriverWait wait = driver.createWait(delayInMillis);
+            wait.until(d -> tryLocateOverlay() == null);
+        } else {
+            overlay = tryLocateOverlay();
+            if (overlay != null && overlay.isDisplayed()) {
+                throw new OptionNotClosedException("Autocomplete Popover is not properly closed");
+            }
         }
     }
 
@@ -225,13 +298,23 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
 
     @Override
     public WebElement getFirstSelectedOption() {
-        List<WebComponent> selectedOptions = getAllSelectedOptions2();
+        return getFirstSelectedOption(0L);
+    }
+
+    @Override
+    public WebElement getFirstSelectedOption(Long delayInMillis) {
+        List<WebComponent> selectedOptions = getAllSelectedOptions2(delayInMillis);
         return selectedOptions.isEmpty() ? null : selectedOptions.get(0);
     }
 
     @Override
     public void selectByVisibleText(String text) {
-        List<WebComponent> options = getOptions2();
+        selectByVisibleText(text, 0L);
+    }
+
+    @Override
+    public void selectByVisibleText(String text, Long delayInMillis) {
+        List<WebComponent> options = getOptions2(delayInMillis);
         for (WebComponent option : options) {
             if (StringUtils.equals(text, option.getText())) {
                 option.click();
@@ -242,13 +325,23 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
 
     @Override
     public void selectByIndex(int index) {
-        WebComponent component = getOptions2().get(index);
+        selectByIndex(index, 0L);
+    }
+
+    @Override
+    public void selectByIndex(int index, Long delayInMillis) {
+        WebComponent component = getOptions2(delayInMillis).get(index);
         component.click();
     }
 
     @Override
     public void selectByValue(String value) {
         selectByVisibleText(value);
+    }
+
+    @Override
+    public void selectByValue(String value, Long delayInMillis) {
+        selectByVisibleText(value, delayInMillis);
     }
 
     @Override
@@ -267,6 +360,12 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
         }
     }
 
+
+    @Override
+    public void deselectAll(Long delayInMillis) {
+        deselectAll();
+    }
+
     @Override
     public void deselectByValue(String value) {
         List<MuiAutocompleteTag> options = getVisibleTags();
@@ -281,10 +380,21 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
         }
     }
 
+
+    @Override
+    public void deselectByValue(String value, Long delayInMillis) {
+        deselectByValue(value);
+    }
+
     @Override
     public void deselectByIndex(int index) {
         List<MuiAutocompleteTag> options = getVisibleTags();
         options.get(index).getDeleteButton().click();
+    }
+
+    @Override
+    public void deselectByIndex(int index, Long delayInMillis) {
+        deselectByIndex(index);
     }
 
     @Override
@@ -301,6 +411,11 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
         }
     }
 
+    @Override
+    public void deselectByVisibleText(String text, Long delayInMillis) {
+        deselectByVisibleText(text);
+    }
+
     /**
      * Whether there is no options.
      *
@@ -314,12 +429,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select {
     }
 
     @Nullable
-    private WebComponent tryGetOverlay() {
-        WebComponent input = this.getInput();
-        if (!input.isFocused()) {
-            // Make sure the input is focused so we have only one overlay there
-            driver.moveTo(input);
-        }
+    private WebComponent tryLocateOverlay() {
         List<WebComponent> overlays = modalFinder
                 .findOverlays(Set.of(config.getCssPrefix() + "Autocomplete-popper"), false);
         return overlays.isEmpty() ? null : overlays.get(0);

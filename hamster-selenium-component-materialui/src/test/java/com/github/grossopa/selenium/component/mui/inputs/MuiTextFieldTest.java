@@ -52,10 +52,9 @@ class MuiTextFieldTest {
 
     @BeforeEach
     void setUp() {
-        when(element.findElement(
-                eq(By2.attr("class", config.getCssPrefix() + "InputBase-input").contains().anyDepthChild().tag("input")
-                        .build()))).thenReturn(input);
-        when(element.findElement(eq(By2.contains("class", config.getCssPrefix() + "InputLabel-root", "label"))))
+        when(element.findElement(By2.attrContains("class", config.getCssPrefix() + "InputBase-input", "input")))
+                .thenReturn(input);
+        when(element.findElement(By2.attrContains("class", config.getCssPrefix() + "InputLabel-root", "label")))
                 .thenReturn(label);
         testSubject = new MuiTextField(element, driver, config);
     }

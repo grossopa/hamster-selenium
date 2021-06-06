@@ -29,11 +29,9 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.ArgumentMatchers.*;
 
 /**
  * Tests for {@link MuiModalFinder}

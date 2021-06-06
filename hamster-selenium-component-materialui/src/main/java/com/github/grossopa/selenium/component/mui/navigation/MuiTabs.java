@@ -106,9 +106,8 @@ public class MuiTabs extends AbstractMuiComponent {
     }
 
     private List<MuiTabScrollButton> findTabScrollButtons() {
-        return this.findComponents(
-                By2.attr("class", config.getCssPrefix() + "TabScrollButton-root").depthRelative().contains().build())
-                .stream().map(component -> new MuiTabScrollButton(component, driver, config)).collect(toList());
+        return this.findComponents(By2.attrContains("class", config.getCssPrefix() + "TabScrollButton-root")).stream()
+                .map(component -> new MuiTabScrollButton(component, driver, config)).collect(toList());
     }
 
     /**

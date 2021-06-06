@@ -39,13 +39,14 @@ import java.io.IOException;
  */
 public class StartDriverService {
 
-    public static final String EXECUTABLE_PATH = "D://software/drivers/chromedriver-89.exe";
+    public static final String EXECUTABLE_PATH = "D://software/drivers/chromedriver-91.exe";
     public static final int PORT = 38383;
 
+    @SuppressWarnings("all")
     public static void main(String[] args) throws IOException {
         DriverConfig config = new DriverConfig();
         config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("87");
+        config.setDriverVersion("91");
         config.setType(WebDriverType.CHROME);
         config.setPort(PORT);
 

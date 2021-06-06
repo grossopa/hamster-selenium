@@ -48,13 +48,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MuiSurfacesTestCases extends AbstractBrowserSupport {
 
     @SuppressWarnings("java:S2925")
-    public void testBackdrop() throws InterruptedException {
+    public void testBackdrop() {
         driver.navigate().to("https://material-ui.com/components/backdrop/");
         MuiButton button = driver.findComponent(By2.textContains("Show backdrop")).findComponent(By.xpath("parent::*"))
                 .as(mui()).toButton();
         assertFalse(driver.findComponent(By.className("MuiBackdrop-root")).as(mui()).toBackdrop().isDisplayed());
         button.click();
-        Thread.sleep(200L);
+        driver.threadSleep(200L);
         assertTrue(driver.findComponent(By.className("MuiBackdrop-root")).as(mui()).toBackdrop().isDisplayed());
     }
 
@@ -65,8 +65,8 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
                 .map(webComponent -> webComponent.as(mui()).toDialog()).filter(WebElement::isDisplayed).findFirst();
         assertTrue(dialogFirstOpt.isEmpty());
 
-        MuiButton button = driver.findComponent(By2.textContains("Open simple dialog")).findComponent(By2.parent()).as(mui())
-                .toButton();
+        MuiButton button = driver.findComponent(By2.textContains("Open simple dialog")).findComponent(By2.parent())
+                .as(mui()).toButton();
         button.click();
 
         Optional<MuiDialog> dialogOpt = driver.findComponents(By.className("MuiDialog-root")).stream()
@@ -77,8 +77,8 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
         assertEquals("Set backup account", dialog.getDialogTitle().getText());
         dialog.close(800L);
 
-        MuiButton openAlertButton = driver.findComponent(By2.textContains("Open alert dialog")).findComponent(By2.parent())
-                .as(mui()).toButton();
+        MuiButton openAlertButton = driver.findComponent(By2.textContains("Open alert dialog"))
+                .findComponent(By2.parent()).as(mui()).toButton();
         driver.moveTo(openAlertButton);
         openAlertButton.click();
         Optional<MuiDialog> alertDialogOpt = driver.findComponents(By.className("MuiDialog-root")).stream()
@@ -98,14 +98,15 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
     public void testSnackbar() {
         driver.navigate().to("https://material-ui.com/components/snackbars/");
 
-        MuiButton simpleButton = driver.findComponent(By2.textContains("Open simple snackbar")).findComponent(By2.parent()).as(mui())
-                .toButton();
+        MuiButton simpleButton = driver.findComponent(By2.textContains("Open simple snackbar"))
+                .findComponent(By2.parent()).as(mui()).toButton();
         simpleButton.click();
         MuiSnackbar simpleSnackbar = simpleButton.findComponent(By2.parent())
                 .findComponent(By.className("MuiSnackbar-root")).as(mui()).toSnackbar(6500);
 
         assertEquals("Note archived", simpleSnackbar.getContent().getMessage().getText());
-        assertEquals(2, simpleSnackbar.getContent().getAction().findComponents(By.className("MuiButtonBase-root")).size());
+        assertEquals(2,
+                simpleSnackbar.getContent().getAction().findComponents(By.className("MuiButtonBase-root")).size());
         simpleSnackbar.startAutoHideCheck();
     }
 
@@ -116,8 +117,9 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
             test.testBackdrop();
             test.testDialog();
             test.testSnackbar();
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
+            throw ex;
         } finally {
             test.stopDriver();
         }

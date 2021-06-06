@@ -42,6 +42,7 @@ public class StartDriverServiceMac {
     public static final String EXECUTABLE_PATH = "/Users/jack/software/webdrivers/chromedriver-90";
     public static final int PORT = 38383;
 
+    @SuppressWarnings("all")
     public static void main(String[] args) throws IOException {
         DriverConfig config = new DriverConfig();
         config.setDriverExecutablePath(EXECUTABLE_PATH);

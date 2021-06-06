@@ -52,17 +52,16 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://material-ui.com/components/avatars/");
 
         List<MuiAvatar> avatars = driver.findComponent(By.id("ImageAvatars.js")).findComponent(By.xpath("parent::*"))
-                .findComponents(By2.attr("class", "MuiAvatar-root").contains().anyDepthChild().build()).stream()
-                .map(c -> c.as(mui()).toAvatar()).collect(toList());
+                .findComponents(By2.attrContains("class", "MuiAvatar-root")).stream().map(c -> c.as(mui()).toAvatar())
+                .collect(toList());
 
         assertEquals(3, avatars.size());
         assertEquals("Remy Sharp", avatars.get(0).getAlt());
         assertEquals("https://material-ui.com/static/images/avatar/1.jpg", avatars.get(0).getSrc());
 
         List<MuiAvatar> letterAvatars = driver.findComponent(By.id("LetterAvatars.js"))
-                .findComponent(By.xpath("parent::*"))
-                .findComponents(By2.attr("class", "MuiAvatar-root").contains().anyDepthChild().build()).stream()
-                .map(c -> c.as(mui()).toAvatar()).collect(toList());
+                .findComponent(By.xpath("parent::*")).findComponents(By2.attrContains("class", "MuiAvatar-root"))
+                .stream().map(c -> c.as(mui()).toAvatar()).collect(toList());
 
         assertEquals(3, letterAvatars.size());
         assertEquals("H", letterAvatars.get(0).getText());
@@ -74,8 +73,8 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://material-ui.com/components/badges/");
 
         List<MuiBadge> badges = driver.findComponent(By.id("SimpleBadge.js")).findComponent(By.xpath("parent::*"))
-                .findComponents(By2.attr("class", "MuiBadge-root").contains().anyDepthChild().build()).stream()
-                .map(c -> c.as(mui()).toBadge()).collect(toList());
+                .findComponents(By2.className("MuiBadge-root")).stream().map(c -> c.as(mui()).toBadge())
+                .collect(toList());
 
         assertEquals(3, badges.size());
         assertEquals(4, badges.get(1).getBadgeNumber());
@@ -83,15 +82,15 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
         assertFalse(badges.get(2).isDotDisplayed());
 
         List<MuiBadge> badges2 = driver.findComponent(By.id("BadgeVisibility.js")).findComponent(By.xpath("parent::*"))
-                .findComponents(By2.attr("class", "MuiBadge-root").contains().anyDepthChild().build()).stream()
-                .map(c -> c.as(mui()).toBadge()).collect(toList());
+                .findComponents(By2.className("MuiBadge-root")).stream().map(c -> c.as(mui()).toBadge())
+                .collect(toList());
 
         assertEquals(2, badges2.size());
         assertTrue(badges2.get(1).isDotDisplayed());
 
         List<MuiBadge> badges3 = driver.findComponent(By.id("ShowZeroBadge.js")).findComponent(By.xpath("parent::*"))
-                .findComponents(By2.attr("class", "MuiBadge-root").contains().anyDepthChild().build()).stream()
-                .map(c -> c.as(mui()).toBadge()).collect(toList());
+                .findComponents(By2.className("MuiBadge-root")).stream().map(c -> c.as(mui()).toBadge())
+                .collect(toList());
 
         assertEquals(2, badges3.size());
         assertFalse(badges3.get(0).isBadgeDisplayed());
@@ -101,8 +100,8 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
     public void testChip() {
         driver.navigate().to("https://material-ui.com/components/chips/");
         List<MuiChip> chips = driver.findComponent(By.id("Chips.js")).findComponent(By.xpath("parent::*"))
-                .findComponents(By2.attr("class", "MuiChip-root").contains().anyDepthChild().build()).stream()
-                .map(c -> c.as(mui()).toChip()).collect(toList());
+                .findComponents(By2.className("MuiChip-root")).stream().map(c -> c.as(mui()).toChip())
+                .collect(toList());
 
         assertTrue(chips.size() > 9);
 
@@ -126,8 +125,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
         validateChip(chips.get(6), false, false, false, true, "Clickable Link");
 
         Supplier<List<MuiChip>> arrayChipsSupplier = () -> driver.findComponent(By.id("ChipsArray.js"))
-                .findComponent(By.xpath("parent::*"))
-                .findComponents(By2.attr("class", "MuiChip-root").contains().anyDepthChild().build()).stream()
+                .findComponent(By.xpath("parent::*")).findComponents(By2.className("MuiChip-root")).stream()
                 .map(c -> c.as(mui()).toChip()).collect(toList());
 
         List<MuiChip> arrayChips = arrayChipsSupplier.get();
@@ -151,13 +149,12 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://material-ui.com/components/lists/");
 
         List<MuiList> simpleLists = driver.findComponent(By.id("SimpleList.js")).findComponent(By.xpath("parent::*"))
-                .findComponents(By2.attr("class", "MuiList-root").contains().anyDepthChild().build()).stream()
-                .map(c -> c.as(mui()).toList()).collect(toList());
+                .findComponents(By2.className("MuiList-root")).stream().map(c -> c.as(mui()).toList())
+                .collect(toList());
 
         assertEquals(2, simpleLists.size());
         assertEquals(2, simpleLists.get(0).getListItems().size());
         assertEquals(2, simpleLists.get(1).getListItems().size());
-
     }
 
     public static void main(String[] args) {
@@ -168,8 +165,9 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
             test.testBadge();
             test.testChip();
             test.testList();
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
+            throw ex;
         } finally {
             test.stopDriver();
         }

@@ -85,8 +85,7 @@ class MuiPaginationTest {
         doAnswer(answer -> {
             pageButtons.clear();
             pageButtons.addAll(newArrayList(buttonsWhenClick));
-            when(element.findElements(By2.attr("aria-current", "true").exact().anyDepthChild().build()))
-                    .thenReturn(singletonList(button));
+            when(element.findElements(By2.attrExact("aria-current", "true"))).thenReturn(singletonList(button));
             return null;
         }).when(button).click();
     }
@@ -98,8 +97,7 @@ class MuiPaginationTest {
             allElements.add(all.get(i).getWrappedElement());
         }
 
-        when(element.findElements(By2.attr("aria-current", "true").exact().anyDepthChild().build()))
-                .thenReturn(singletonList(all.get(0)));
+        when(element.findElements(By2.attrExact("aria-current", "true"))).thenReturn(singletonList(all.get(0)));
         pageButtons.add(all.get(0));
         pageButtons.add(all.get(1));
         pageButtons.add(all.get(2));
@@ -143,8 +141,7 @@ class MuiPaginationTest {
     void isEnabledTrue() {
         WebElement buttonElement = mock(WebElement.class);
         when(config.isDisabled(argThat(c -> c.getWrappedElement() == buttonElement))).thenReturn(false);
-        when(element.findElement(By2.attr("aria-current", "true").exact().anyDepthChild().build()))
-                .thenReturn(buttonElement);
+        when(element.findElement(By2.attrExact("aria-current", "true"))).thenReturn(buttonElement);
         assertTrue(testSubject.isEnabled());
     }
 
@@ -152,8 +149,7 @@ class MuiPaginationTest {
     void isEnabledFalse() {
         WebElement buttonElement = mock(WebElement.class);
         when(config.isDisabled(argThat(c -> c.getWrappedElement() == buttonElement))).thenReturn(true);
-        when(element.findElement(By2.attr("aria-current", "true").exact().anyDepthChild().build()))
-                .thenReturn(buttonElement);
+        when(element.findElement(By2.attrExact("aria-current", "true"))).thenReturn(buttonElement);
         assertFalse(testSubject.isEnabled());
     }
 
@@ -232,8 +228,7 @@ class MuiPaginationTest {
 
     @Test
     void getCurrentPageIndexNotExists() {
-        when(element.findElements(By2.attr("aria-current", "true").exact().anyDepthChild().build()))
-                .thenReturn(emptyList());
+        when(element.findElements(By2.attrExact("aria-current", "true"))).thenReturn(emptyList());
         assertEquals(-1, testSubject.getCurrentPageIndex());
     }
 

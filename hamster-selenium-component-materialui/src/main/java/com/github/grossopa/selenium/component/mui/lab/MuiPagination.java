@@ -85,7 +85,7 @@ public class MuiPagination extends AbstractMuiComponent implements Pagination<Mu
 
     @Override
     public boolean isEnabled() {
-        MuiButton currentButton = this.findComponentAs(By2.attr("aria-current", "true").exact().anyDepthChild().build(),
+        MuiButton currentButton = this.findComponentAs(By2.attrExact("aria-current", "true"),
                 component -> new MuiButton(component, driver, config));
         return currentButton.isEnabled();
     }
@@ -156,9 +156,8 @@ public class MuiPagination extends AbstractMuiComponent implements Pagination<Mu
 
     @Override
     public int getCurrentPageIndex() {
-        List<MuiButton> currentButtons = this
-                .findComponentsAs(By2.attr("aria-current", "true").exact().anyDepthChild().build(),
-                        component -> new MuiButton(component, driver, config));
+        List<MuiButton> currentButtons = this.findComponentsAs(By2.attrExact("aria-current", "true"),
+                component -> new MuiButton(component, driver, config));
         return currentButtons.isEmpty() ? -1 : locators.getPageIndexFinder().apply(currentButtons.get(0));
     }
 

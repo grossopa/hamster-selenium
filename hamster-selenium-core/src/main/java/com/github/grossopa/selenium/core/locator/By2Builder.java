@@ -27,17 +27,19 @@ package com.github.grossopa.selenium.core.locator;
 import org.openqa.selenium.By;
 
 /**
- * Builds the {@link By} instance.
+ * Indicates that the chain builder could be terminate and generates a {@link org.openqa.selenium.By} instance based on
+ * the previous context.
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.5
  */
+@FunctionalInterface
 public interface By2Builder {
 
     /**
-     * Builds the {@link By} instance.
+     * Builds the {@link org.openqa.selenium.By} instance with the context.
      *
-     * @return the built {@link By} instance.
+     * @return the built by instance.
      */
     By build();
 }

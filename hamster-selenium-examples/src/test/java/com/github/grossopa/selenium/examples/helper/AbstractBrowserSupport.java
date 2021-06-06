@@ -58,7 +58,7 @@ public abstract class AbstractBrowserSupport {
         WebDriver temp = config.getType().apply(new CreateWebDriverFromRunningServiceAction(),
                 new RunningServiceParams(options, "http://localhost:" + StartDriverService.PORT));
 
-        driver = new DefaultComponentWebDriver(new InterceptingWebDriver(temp, new LoggingHandler(200L)));
+        driver = new DefaultComponentWebDriver(new InterceptingWebDriver(temp, new LoggingHandler(0L)));
     }
 
     public void stopDriver() {

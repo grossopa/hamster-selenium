@@ -56,8 +56,8 @@ class MuiListTest {
                 mock(WebElement.class));
 
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(config.getRootCss(eq("ListItem"))).thenReturn("MuiListItem-root");
-        when(element.findElements(eq(xpath("*[contains(@class, 'MuiListItem-root')]")))).thenReturn(listItems);
+        when(config.getRootCss("ListItem")).thenReturn("MuiListItem-root");
+        when(element.findElements(xpath(".//*[contains(@class,\"MuiListItem-root\")]"))).thenReturn(listItems);
         testSubject = new MuiList(element, driver, config);
     }
 

@@ -80,8 +80,7 @@ class MuiTabsTest {
 
         List<WebElement> buttons = asList(previousButtonElement, nextButtonElement);
 
-        when(element.findElements(
-                By2.attr("class", config.getCssPrefix() + "TabScrollButton-root").depthRelative().contains().build()))
+        when(element.findElements(By2.attrContains("class", config.getCssPrefix() + "TabScrollButton-root")))
                 .thenReturn(buttons);
 
         Optional<MuiTabScrollButton> buttonOptional = testSubject.getPreviousScrollButton();
@@ -96,8 +95,7 @@ class MuiTabsTest {
 
         List<WebElement> buttons = asList(previousButtonElement, nextButtonElement);
 
-        when(element.findElements(
-                By2.attr("class", config.getCssPrefix() + "TabScrollButton-root").depthRelative().contains().build()))
+        when(element.findElements(By2.attrContains("class", config.getCssPrefix() + "TabScrollButton-root")))
                 .thenReturn(buttons);
 
         Optional<MuiTabScrollButton> buttonOptional = testSubject.getNextScrollButton();
@@ -110,8 +108,7 @@ class MuiTabsTest {
     void getPreviousScrollButtonNotPresent() {
         List<WebElement> buttons = newArrayList();
 
-        when(element.findElements(
-                By2.attr("class", config.getCssPrefix() + "TabScrollButton-root").depthRelative().contains().build()))
+        when(element.findElements(By2.attrContains("class", config.getCssPrefix() + "TabScrollButton-root")))
                 .thenReturn(buttons);
 
         Optional<MuiTabScrollButton> buttonOptional = testSubject.getPreviousScrollButton();
@@ -122,8 +119,7 @@ class MuiTabsTest {
     void getNextScrollButtonNotPresent() {
         List<WebElement> buttons = newArrayList();
 
-        when(element.findElements(
-                By2.attr("class", config.getCssPrefix() + "TabScrollButton-root").depthRelative().contains().build()))
+        when(element.findElements(By2.attrContains("class", config.getCssPrefix() + "TabScrollButton-root")))
                 .thenReturn(buttons);
 
         Optional<MuiTabScrollButton> buttonOptional = testSubject.getNextScrollButton();

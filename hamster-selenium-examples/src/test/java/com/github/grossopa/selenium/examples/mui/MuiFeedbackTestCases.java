@@ -47,16 +47,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MuiFeedbackTestCases extends AbstractBrowserSupport {
 
     @SuppressWarnings("squid:S2925")
-    public void testDialog() throws InterruptedException {
+    public void testDialog() {
         driver.navigate().to("https://material-ui.com/components/dialogs/");
         MuiButton openSimpleDialogButton = driver.findComponent(By.xpath("//*[contains(text(), 'Open simple dialog')]"))
                 .findComponent(By.xpath("parent::*")).as(mui()).toButton();
         openSimpleDialogButton.click();
         List<MuiDialog> visibleDialogs = new MuiDialogLocator(driver, new MuiConfig()).findVisibleDialogs();
         assertEquals(1, visibleDialogs.size());
-        Thread.sleep(500L);
+        driver.threadSleep(500L);
         visibleDialogs.get(0).close();
-        Thread.sleep(800L);
+        driver.threadSleep(800L);
         visibleDialogs = new MuiDialogLocator(driver, new MuiConfig()).findVisibleDialogs();
         assertTrue(visibleDialogs.isEmpty());
     }
@@ -66,8 +66,9 @@ public class MuiFeedbackTestCases extends AbstractBrowserSupport {
         try {
             test.setUpDriver(CHROME);
             test.testDialog();
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             ex.printStackTrace();
+            throw ex;
         } finally {
             test.stopDriver();
         }

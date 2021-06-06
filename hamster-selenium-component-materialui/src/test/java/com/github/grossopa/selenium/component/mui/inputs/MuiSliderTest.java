@@ -125,7 +125,7 @@ class MuiSliderTest {
 
         when(element.findElement(sliderThumbLocator)).thenReturn(thumb1);
         when(element.findElements(sliderThumbLocator)).thenReturn(asList(thumb1, thumb2));
-        when(element.findElement(By2.attr("type", "hidden").exact().tag("input").build())).thenReturn(hiddenInput);
+        when(element.findElement(By2.attrExact("type", "hidden", "input"))).thenReturn(hiddenInput);
         when(element.getRect()).then(a -> new Rectangle(x, y, height, width));
         when(element.getAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary");
         when(hiddenInput.getAttribute("value")).then(a -> rawValue1);
