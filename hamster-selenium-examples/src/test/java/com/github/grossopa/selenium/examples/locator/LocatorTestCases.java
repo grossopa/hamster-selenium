@@ -47,25 +47,26 @@ public class LocatorTestCases extends AbstractBrowserSupport {
 
         WebComponent googleSearch;
 
-        googleSearch = driver.findComponent(xpathBuilder().anywhere("input").attr("value").contains("oogle Se"));
+        googleSearch = driver
+                .findComponent(xpathBuilder().anywhere("input").attr("value").contains("oogle Se").build());
         assertEquals("Google Search", googleSearch.getAttribute("value"));
-        googleSearch = driver.findComponent(xpathBuilder().anywhere().attr("value").contains("oogle Se"));
+        googleSearch = driver.findComponent(xpathBuilder().anywhere().attr("value").contains("oogle Se").build());
         assertEquals("Google Search", googleSearch.getAttribute("value"));
-        googleSearch = driver.findComponent(xpathBuilder().anywhere().attr("value").startsWith("Google Se"));
+        googleSearch = driver.findComponent(xpathBuilder().anywhere().attr("value").startsWith("Google Se").build());
         assertEquals("Google Search", googleSearch.getAttribute("value"));
-        googleSearch = driver.findComponent(xpathBuilder().anywhere().attr("value").exact("Google Search"));
+        googleSearch = driver.findComponent(xpathBuilder().anywhere().attr("value").exact("Google Search").build());
         assertEquals("Google Search", googleSearch.getAttribute("value"));
 
+        assertThrows(NoSuchElementException.class, () -> driver
+                .findComponent(xpathBuilder().relative("input").attr("value").contains("oogle Se").build()));
+        assertThrows(NoSuchElementException.class, () -> driver
+                .findComponent(xpathBuilder().anywhere("input").attr("value").startsWith("oogle Se").build()));
         assertThrows(NoSuchElementException.class,
-                () -> driver.findComponent(xpathBuilder().relative("input").attr("value").contains("oogle Se")));
+                () -> driver.findComponent(xpathBuilder().anywhere("input").attr("value").exact("oogle Se").build()));
         assertThrows(NoSuchElementException.class,
-                () -> driver.findComponent(xpathBuilder().anywhere("input").attr("value").startsWith("oogle Se")));
-        assertThrows(NoSuchElementException.class,
-                () -> driver.findComponent(xpathBuilder().anywhere("input").attr("value").exact("oogle Se")));
-        assertThrows(NoSuchElementException.class,
-                () -> driver.findComponent(xpathBuilder().anywhere().attr("value").startsWith("oogle Se")));
+                () -> driver.findComponent(xpathBuilder().anywhere().attr("value").startsWith("oogle Se").build()));
 
-        WebComponent lucky = driver.findComponent(xpathBuilder().anywhere().attr("value").startsWith("I'm"));
+        WebComponent lucky = driver.findComponent(xpathBuilder().anywhere().attr("value").startsWith("I'm").build());
         assertEquals("I'm Feeling Lucky", lucky.getAttribute("value"));
     }
 

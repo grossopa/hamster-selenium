@@ -138,7 +138,7 @@ public abstract class By2 extends By {
      * @return A By which locates elements by exact attribute value and tag name match.
      */
     public static By attrExact(String attributeName, String attributeValue, String tag) {
-        return xpathBuilder().anywhereRelative(tag).attr(attributeName).exact(attributeValue);
+        return xpathBuilder().anywhereRelative(tag).attr(attributeName).exact(attributeValue).build();
     }
 
     /**
@@ -161,7 +161,7 @@ public abstract class By2 extends By {
      * @return A By which locates elements by contains attribute value and tag name match.
      */
     public static By attrContains(String attributeName, String attributeValue, String tag) {
-        return xpathBuilder().anywhereRelative(tag).attr(attributeName).contains(attributeValue);
+        return xpathBuilder().anywhereRelative(tag).attr(attributeName).contains(attributeValue).build();
     }
 
     /**
@@ -180,7 +180,7 @@ public abstract class By2 extends By {
      * @return A By which locates the elements by xpath {@code .//*[contains(text(), the_text)]}
      */
     public static By textContains(String text) {
-        return xpathBuilder().anywhereRelative().text().contains(text);
+        return xpathBuilder().anywhereRelative().text().contains(text).build();
     }
 
     /**
@@ -190,7 +190,7 @@ public abstract class By2 extends By {
      * @return A By which locates the elements by xpath {@code .//*[text()="%s"]}
      */
     public static By textExact(String text) {
-        return xpathBuilder().anywhereRelative().text().exact(text);
+        return xpathBuilder().anywhereRelative().text().exact(text).build();
     }
 
     /**
@@ -201,6 +201,4 @@ public abstract class By2 extends By {
     public static By parent() {
         return By.xpath("parent::*");
     }
-
-
 }
