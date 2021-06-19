@@ -27,12 +27,16 @@ package com.github.grossopa.selenium.examples.helper;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.DefaultComponentWebDriver;
 import com.github.grossopa.selenium.core.driver.*;
-import com.github.grossopa.selenium.core.intercepting.InterceptingWebDriver;
-import com.github.grossopa.selenium.core.intercepting.LoggingHandler;
+import com.github.grossopa.selenium.core.intercepting.*;
 import com.github.grossopa.selenium.examples.StartDriverService;
 import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -57,8 +61,12 @@ public abstract class AbstractBrowserSupport {
         Capabilities options = config.getType().apply(new CreateOptionsAction(), null);
         WebDriver temp = config.getType().apply(new CreateWebDriverFromRunningServiceAction(),
                 new RunningServiceParams(options, "http://localhost:" + StartDriverService.PORT));
-
-        driver = new DefaultComponentWebDriver(new InterceptingWebDriver(temp, new LoggingHandler(0L)));
+        List<InterceptingHandler> handlerList = new ArrayList<>();
+        LoggingHandler loggingHandler = new LoggingHandler(0L);
+        ScreenshotHandler screenshotHandler = new ScreenshotHandler(driver, OutputType.BASE64);
+        handlerList.add(loggingHandler);
+        handlerList.add(screenshotHandler);
+        driver = new DefaultComponentWebDriver(new InterceptingWebDriver(temp, new CompositeInterceptingHandler(handlerList)));
     }
 
     public void stopDriver() {

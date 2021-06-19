@@ -54,7 +54,7 @@ class InterceptingWebDriverTest {
 
     InterceptingWebDriver testSubject;
     RemoteWebDriver driver = mock(RemoteWebDriver.class);
-    InterceptingHandler handler = mock(InterceptingHandler.class);
+    InterceptingHandler handler = mock(CompositeInterceptingHandler.class);
 
     WebElement element = mock(WebElement.class);
     List<WebElement> elements = Collections.singletonList(element);
