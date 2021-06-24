@@ -69,6 +69,7 @@
     <module>hamster-selenium-component-materialui</module>
     <module>hamster-selenium-examples</module>
     <module>hamster-selenium-component-antdesign</module>
+      <module>hamster-selenium-mta</module>
   </modules>
 
   <properties>
