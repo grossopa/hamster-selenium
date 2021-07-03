@@ -160,7 +160,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
                     driver.createWait(delayInMillis).until(d -> tryToFindAutocompletePanel().orElse(null)));
         }
         return autocompletePanel
-                .orElseThrow(() -> new NoSuchElementException("failed to locate the  autocomplete panel."));
+                .orElseThrow(() -> new NoSuchElementException("failed to locate the autocomplete panel."));
     }
 
     @Override

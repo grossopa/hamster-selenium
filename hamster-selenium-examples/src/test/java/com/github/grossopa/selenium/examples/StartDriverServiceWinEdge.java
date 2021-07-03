@@ -22,49 +22,34 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.hamster.selenium.component.mat;
+package com.github.grossopa.selenium.examples;
 
-import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
-import com.github.grossopa.hamster.selenium.component.mat.main.MatAutocomplete;
-import com.github.grossopa.selenium.core.component.AbstractComponents;
+import com.github.grossopa.selenium.core.driver.CreateDriverServiceAction;
+import com.github.grossopa.selenium.core.driver.DriverConfig;
+import com.github.grossopa.selenium.core.driver.WebDriverType;
+import org.openqa.selenium.remote.service.DriverService;
 
-import static java.util.Objects.requireNonNull;
+import java.io.IOException;
 
 /**
- * Contains the converters of Material UI Angular components.
- *
  * @author Jack Yin
- * @since 1.6
+ * @since 1.0
  */
-public class MatComponents extends AbstractComponents {
+public class StartDriverServiceWinEdge {
 
-    private final MatConfig config;
+    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_91.0.864.59.exe";
 
-    /**
-     * Constructs an instance with default {@link MatConfig}.
-     */
-    public MatComponents() {
-        this(new MatConfig());
-    }
+    public static final int PORT = 38383;
 
-    /**
-     * Constructs an instance with provided {@link MatConfig}.
-     *
-     * @param config the Material UI Angular configuration instance
-     */
-    public MatComponents(MatConfig config) {
-        this.config = requireNonNull(config);
-    }
+    @SuppressWarnings("all")
+    public static void main(String[] args) throws IOException {
+        DriverConfig config = new DriverConfig();
+        config.setDriverExecutablePath(EXECUTABLE_PATH);
+        config.setDriverVersion("91.0.864.59");
+        config.setType(WebDriverType.EDGE);
+        config.setPort(PORT);
 
-    public static MatComponents mat() {
-        return new MatComponents();
-    }
-
-    public static MatComponents mat(MatConfig config) {
-        return new MatComponents(config);
-    }
-
-    public MatAutocomplete toAutocomplete() {
-        return new MatAutocomplete(component, driver, config);
+        DriverService driverService = config.getType().apply(new CreateDriverServiceAction(), config);
+        driverService.start();
     }
 }

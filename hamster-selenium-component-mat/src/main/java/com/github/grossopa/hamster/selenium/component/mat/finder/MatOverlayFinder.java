@@ -72,7 +72,8 @@ public class MatOverlayFinder {
 
     public List<MatOverlayContainer> findContainers() {
         return driver.findComponentsAs(
-                xpath(config.getOverlayAbsolutePath() + "/div[contains(@class,'%s-overlay-container')]"),
+                xpath(config.getOverlayAbsolutePath() +
+                        String.format("/div[contains(@class,'%soverlay-container')]", config.getCdkPrefix())),
                 element -> new MatOverlayContainer(element, driver, config));
     }
 
