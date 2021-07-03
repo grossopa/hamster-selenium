@@ -28,21 +28,22 @@ import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.action.CloseOptionsAction;
 import com.github.grossopa.hamster.selenium.component.mat.action.OpenOptionsAction;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
+import com.github.grossopa.hamster.selenium.component.mat.exception.OptionNotClosedException;
 import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
-import com.github.grossopa.hamster.selenium.component.mat.main.sub.MatOption;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
 import com.github.grossopa.selenium.core.locator.By2;
-import org.apache.commons.lang3.ObjectUtils;
+import com.github.grossopa.selenium.core.util.SeleniumUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,8 +51,8 @@ import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfi
 import static com.github.grossopa.selenium.core.locator.By2.tagName;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
-import static org.openqa.selenium.Keys.ESCAPE;
 
 /**
  * The autocomplete is a normal text input enhanced by a panel of suggested options.
@@ -126,7 +127,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
         this.optionLocator = defaultIfNull(optionLocator, tagName(config.getTagPrefix() + "option"));
         this.openOptionsAction = defaultIfNull(openOptionsAction, (c, d) -> ((MatAutocomplete) c).getInput().click());
         this.closeOptionsAction = defaultIfNull(closeOptionsAction,
-                (c, ops, d) -> ((MatAutocomplete) c).getInput().sendKeys(ESCAPE));
+                (c, ops, d) -> ((MatAutocomplete) c).getInput().sendKeys(Keys.ESCAPE));
     }
 
     public WebComponent getInput() {
@@ -137,103 +138,120 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
 
     @Override
     public List<WebComponent> getOptions2(Long delayInMillis) {
+        return newArrayList(openOptions(delayInMillis).findComponents(optionLocator));
+    }
+
+    @Override
+    public List<WebComponent> getAllSelectedOptions2(Long delayInMillis) {
+        return getOptions2().stream().filter(WebElement::isSelected).collect(toList());
+    }
+
+    @Override
+    public WebComponent openOptions(Long delayInMillis) {
         Optional<WebComponent> autocompletePanel = tryToFindAutocompletePanel();
         if (autocompletePanel.isEmpty()) {
             openOptionsAction.open(this, driver);
         }
 
-
-        if (delayInMillis == 0) {
+        if (delayInMillis <= 0) {
             autocompletePanel = tryToFindAutocompletePanel();
-            return autocompletePanel.isEmpty() ? newArrayList() : autocompletePanel.get().findComponents(optionLocator);
-
         } else {
-            return null;
-//            return new ArrayList<>(driver.createWait(delayInMillis).until(d -> {
-//                List<MatOption> foundOptions = tryFindOptions();
-//                if (foundOptions.isEmpty()) {
-//                    // let's keep waiting
-//                    return null;
-//                } else {
-//                    return foundOptions;
-//                }
-//            }));
+            autocompletePanel = Optional.of(
+                    driver.createWait(delayInMillis).until(d -> tryToFindAutocompletePanel().orElse(null)));
         }
-    }
-
-    @Override
-    public List<WebComponent> getAllSelectedOptions2(Long delayInMillis) {
-        return null;
-    }
-
-    @Override
-    public WebComponent openOptions(Long delayInMillis) {
-        return null;
+        return autocompletePanel
+                .orElseThrow(() -> new NoSuchElementException("failed to locate the  autocomplete panel."));
     }
 
     @Override
     public void closeOptions(Long delayInMillis) {
+        Optional<WebComponent> autocompletePanel = tryToFindAutocompletePanel();
+        if (autocompletePanel.isEmpty()) {
+            return;
+        }
 
+        List<WebComponent> options = autocompletePanel.get().findComponents(optionLocator);
+
+        closeOptionsAction.close(this, options, driver);
+        if (delayInMillis <= 0) {
+            autocompletePanel = tryToFindAutocompletePanel();
+            if (autocompletePanel.isPresent() && autocompletePanel.get().isDisplayed()) {
+                throw new OptionNotClosedException("Autocomplete panel is not properly closed.");
+            }
+        } else {
+            WebDriverWait wait = driver.createWait(delayInMillis);
+            wait.until(d -> {
+                Optional<WebComponent> temp = tryToFindAutocompletePanel();
+                return temp.isEmpty() || !temp.get().isDisplayed();
+            });
+        }
     }
 
     @Override
     public WebElement getFirstSelectedOption(Long delayInMillis) {
-        return null;
+        List<WebComponent> components = getAllSelectedOptions2(delayInMillis);
+        return components.isEmpty() ? null : components.get(0);
     }
 
     @Override
     public void selectByVisibleText(String text, Long delayInMillis) {
-
+        List<WebComponent> options = getOptions2(delayInMillis);
+        for (WebComponent option : options) {
+            if (StringUtils.equals(text, option.getText())) {
+                option.click();
+                return;
+            }
+        }
     }
 
     @Override
     public void selectByIndex(int index, Long delayInMillis) {
-
+        getOptions2(delayInMillis).get(index).click();
     }
 
     @Override
     public void selectByValue(String value, Long delayInMillis) {
-
+        selectByVisibleText(value, delayInMillis);
     }
 
     @Override
     public void deselectAll(Long delayInMillis) {
-
+        SeleniumUtils.cleanText(this.getInput());
     }
 
     @Override
     public void deselectByValue(String value, Long delayInMillis) {
-
+        SeleniumUtils.cleanText(this.getInput());
     }
 
     @Override
     public void deselectByIndex(int index, Long delayInMillis) {
-
+        SeleniumUtils.cleanText(this.getInput());
     }
 
     @Override
     public void deselectByVisibleText(String text, Long delayInMillis) {
-
+        SeleniumUtils.cleanText(this.getInput());
     }
 
     @Override
     public List<WebComponent> getOptions2() {
-        return null;
+        return getOptions2(0L);
     }
 
     @Override
     public List<WebComponent> getAllSelectedOptions2() {
-        return null;
+        return getAllSelectedOptions2(0L);
     }
 
     @Override
     public WebComponent openOptions() {
-        return null;
+        return openOptions(0L);
     }
 
     @Override
     public void closeOptions() {
-
+        closeOptions(0L);
     }
 
     @Override
@@ -243,42 +261,42 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
 
     @Override
     public WebElement getFirstSelectedOption() {
-        return null;
+        return getFirstSelectedOption(0L);
     }
 
     @Override
-    public void selectByVisibleText(String s) {
-
+    public void selectByVisibleText(String text) {
+        selectByVisibleText(text, 0L);
     }
 
     @Override
     public void selectByIndex(int i) {
-
+        selectByIndex(i, 0L);
     }
 
     @Override
-    public void selectByValue(String s) {
-
+    public void selectByValue(String value) {
+        selectByValue(value, 0L);
     }
 
     @Override
     public void deselectAll() {
-
+        deselectAll(0L);
     }
 
     @Override
-    public void deselectByValue(String s) {
-
+    public void deselectByValue(String value) {
+        deselectByValue(value, 0L);
     }
 
     @Override
     public void deselectByIndex(int i) {
-
+        deselectByIndex(i, 0L);
     }
 
     @Override
-    public void deselectByVisibleText(String s) {
-
+    public void deselectByVisibleText(String visibleText) {
+        deselectByVisibleText(visibleText, 0L);
     }
 
     protected Optional<WebComponent> tryToFindAutocompletePanel() {
