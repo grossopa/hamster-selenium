@@ -30,6 +30,7 @@ import com.github.grossopa.hamster.selenium.component.mat.action.OpenOptionsActi
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.exception.OptionNotClosedException;
 import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
+import com.github.grossopa.hamster.selenium.component.mat.main.sub.MatOption;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.api.DelayedSelect;
@@ -53,13 +54,14 @@ import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import static org.openqa.selenium.Keys.ARROW_DOWN;
 
 /**
  * The autocomplete is a normal text input enhanced by a panel of suggested options.
  *
  * @author Jack Yin
  * @see <a href="https://material.angular.io/components/autocomplete/overview">
- *         https://material.angular.io/components/autocomplete/overview</a>
+ * https://material.angular.io/components/autocomplete/overview</a>
  * @since 1.6
  */
 public class MatAutocomplete extends AbstractMatComponent implements Select, DelayedSelect {
@@ -89,7 +91,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
      * @param overlayFinder optional, the overlay finder for locating the overlay container
      */
     public MatAutocomplete(WebElement element, ComponentWebDriver driver, MatConfig config,
-                           @Nullable MatOverlayFinder overlayFinder) {
+            @Nullable MatOverlayFinder overlayFinder) {
         this(element, driver, config, overlayFinder, null, null, null);
     }
 
@@ -103,7 +105,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
      * @param optionLocator optional, the option locator for locating the options within the overlay container
      */
     public MatAutocomplete(WebElement element, ComponentWebDriver driver, MatConfig config,
-                           @Nullable MatOverlayFinder overlayFinder, @Nullable By optionLocator) {
+            @Nullable MatOverlayFinder overlayFinder, @Nullable By optionLocator) {
         this(element, driver, config, overlayFinder, optionLocator, null, null);
     }
 
@@ -119,26 +121,26 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
      * @param closeOptionsAction optional, the action to close the option locator
      */
     public MatAutocomplete(WebElement element, ComponentWebDriver driver, MatConfig config,
-                           @Nullable MatOverlayFinder overlayFinder, @Nullable By optionLocator,
-                           @Nullable OpenOptionsAction openOptionsAction,
-                           @Nullable CloseOptionsAction closeOptionsAction) {
+            @Nullable MatOverlayFinder overlayFinder, @Nullable By optionLocator,
+            @Nullable OpenOptionsAction openOptionsAction, @Nullable CloseOptionsAction closeOptionsAction) {
         super(element, driver, config);
         this.overlayFinder = defaultIfNull(overlayFinder, new MatOverlayFinder(driver, config));
         this.optionLocator = defaultIfNull(optionLocator, tagName(config.getTagPrefix() + "option"));
-        this.openOptionsAction = defaultIfNull(openOptionsAction, (c, d) -> ((MatAutocomplete) c).getInput().click());
+        this.openOptionsAction = defaultIfNull(openOptionsAction,
+                (c, d) -> ((MatAutocomplete) c).getInput().sendKeys(ARROW_DOWN));
         this.closeOptionsAction = defaultIfNull(closeOptionsAction,
                 (c, ops, d) -> ((MatAutocomplete) c).getInput().sendKeys(Keys.ESCAPE));
     }
 
     public WebComponent getInput() {
-        return this.findComponent(xpathBuilder()
-                .anywhereRelative("input").attr(ATTR_CLASS).contains(config.getCssPrefix() + "autocomplete-trigger")
-                .build());
+        return this.findComponent(xpathBuilder().anywhereRelative("input").attr(ATTR_CLASS)
+                .contains(config.getCssPrefix() + "autocomplete-trigger").build());
     }
 
     @Override
     public List<WebComponent> getOptions2(Long delayInMillis) {
-        return newArrayList(openOptions(delayInMillis).findComponents(optionLocator));
+        return newArrayList(
+                openOptions(delayInMillis).findComponentsAs(optionLocator, c -> new MatOption(c, driver, config)));
     }
 
     @Override
@@ -156,8 +158,8 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
         if (delayInMillis <= 0) {
             autocompletePanel = tryToFindAutocompletePanel();
         } else {
-            autocompletePanel = Optional.of(
-                    driver.createWait(delayInMillis).until(d -> tryToFindAutocompletePanel().orElse(null)));
+            autocompletePanel = Optional
+                    .of(driver.createWait(delayInMillis).until(d -> tryToFindAutocompletePanel().orElse(null)));
         }
         return autocompletePanel
                 .orElseThrow(() -> new NoSuchElementException("failed to locate the autocomplete panel."));
@@ -302,8 +304,8 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     protected Optional<WebComponent> tryToFindAutocompletePanel() {
         MatOverlayContainer container = overlayFinder.findTopVisibleContainer();
         if (container != null) {
-            List<WebComponent> panels =
-                    container.findComponents(By2.className(config.getCssPrefix() + "autocomplete-panel"));
+            List<WebComponent> panels = container
+                    .findComponents(By2.className(config.getCssPrefix() + "autocomplete-panel"));
             return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(panels.size() - 1));
         }
         return Optional.empty();

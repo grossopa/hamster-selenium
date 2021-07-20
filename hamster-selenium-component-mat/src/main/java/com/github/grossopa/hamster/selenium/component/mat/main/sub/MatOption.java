@@ -53,4 +53,9 @@ public class MatOption extends AbstractMatComponent {
     public boolean validate() {
         return equalsIgnoreCase(config.getTagPrefix() + "option", this.getTagName());
     }
+
+    @Override
+    public boolean isSelected() {
+        return attributeContains("class", config.getCssPrefix() + "selected");
+    }
 }
