@@ -37,8 +37,7 @@ import java.util.List;
 import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Material UI Angular - Autocomplete related cases.
@@ -62,6 +61,10 @@ public class MatAutocompleteTestCases extends AbstractBrowserSupport {
         autocomplete.selectByIndex(0, 100L);
         assertEquals("One", autocomplete.getFirstSelectedOption().getText());
         assertEquals("One", autocomplete.getInput().getAttribute("value"));
+
+        autocomplete.deselectAll();
+        assertEquals("", autocomplete.getInput().getAttribute("value"));
+        autocomplete.closeOptions(100L);
     }
 
     public static void main(String[] args) {

@@ -25,6 +25,8 @@
 package com.github.grossopa.hamster.selenium.component.mat.main;
 
 import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
+import com.github.grossopa.hamster.selenium.component.mat.action.AutocompleteCloseOptionsAction;
+import com.github.grossopa.hamster.selenium.component.mat.action.AutocompleteOpenOptionsAction;
 import com.github.grossopa.hamster.selenium.component.mat.action.CloseOptionsAction;
 import com.github.grossopa.hamster.selenium.component.mat.action.OpenOptionsAction;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
@@ -55,6 +57,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import static org.openqa.selenium.Keys.ARROW_DOWN;
+import static org.openqa.selenium.Keys.ESCAPE;
 
 /**
  * The autocomplete is a normal text input enhanced by a panel of suggested options.
@@ -126,10 +129,8 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
         super(element, driver, config);
         this.overlayFinder = defaultIfNull(overlayFinder, new MatOverlayFinder(driver, config));
         this.optionLocator = defaultIfNull(optionLocator, tagName(config.getTagPrefix() + "option"));
-        this.openOptionsAction = defaultIfNull(openOptionsAction,
-                (c, d) -> ((MatAutocomplete) c).getInput().sendKeys(ARROW_DOWN));
-        this.closeOptionsAction = defaultIfNull(closeOptionsAction,
-                (c, ops, d) -> ((MatAutocomplete) c).getInput().sendKeys(Keys.ESCAPE));
+        this.openOptionsAction = defaultIfNull(openOptionsAction, new AutocompleteOpenOptionsAction());
+        this.closeOptionsAction = defaultIfNull(closeOptionsAction, new AutocompleteCloseOptionsAction());
     }
 
     public WebComponent getInput() {
