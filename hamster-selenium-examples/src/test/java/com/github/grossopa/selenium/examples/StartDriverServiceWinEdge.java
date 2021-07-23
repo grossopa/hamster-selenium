@@ -22,46 +22,36 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.examples.helper;
+package com.github.grossopa.selenium.examples;
 
-import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.core.DefaultComponentWebDriver;
-import com.github.grossopa.selenium.core.driver.*;
-import com.github.grossopa.selenium.core.intercepting.InterceptingWebDriver;
-import com.github.grossopa.selenium.core.intercepting.LoggingHandler;
-import lombok.SneakyThrows;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriver;
+import com.github.grossopa.selenium.core.driver.CreateDriverServiceAction;
+import com.github.grossopa.selenium.core.driver.DriverConfig;
+import com.github.grossopa.selenium.core.driver.WebDriverType;
+import org.openqa.selenium.remote.service.DriverService;
 
+import java.io.IOException;
 
 /**
- * The parent class of managing the driver
- *
  * @author Jack Yin
  * @since 1.0
  */
-public abstract class AbstractBrowserSupport {
+public class StartDriverServiceWinEdge {
 
-    public static final String EXECUTABLE_PATH = "D://software/drivers/chromedriver-84.exe";
+//    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_91.0.864.59.exe";
+    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_91.0.864.71.exe";
 
-    protected ComponentWebDriver driver;
 
-    @SneakyThrows
-    public void setUpDriver(WebDriverType type) {
+    public static final int PORT = 38383;
+
+    @SuppressWarnings("all")
+    public static void main(String[] args) throws IOException {
         DriverConfig config = new DriverConfig();
         config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("85");
-        config.setType(type);
+        config.setDriverVersion("91.0.864.59");
+        config.setType(WebDriverType.EDGE);
+        config.setPort(PORT);
 
-        Capabilities options = config.getType().apply(new CreateOptionsAction(), null);
-        WebDriver temp = config.getType().apply(new CreateWebDriverFromRunningServiceAction(),
-                new RunningServiceParams(options, "http://localhost:38383"));
-
-        driver = new DefaultComponentWebDriver(new InterceptingWebDriver(temp, new LoggingHandler(0L)));
+        DriverService driverService = config.getType().apply(new CreateDriverServiceAction(), config);
+        driverService.start();
     }
-
-    public void stopDriver() {
-        // do nothing
-    }
-
 }
