@@ -24,14 +24,13 @@
 
 package com.github.grossopa.hamster.selenium.component.mat.finder;
 
-import com.github.grossopa.hamster.selenium.component.mat.main.MatOverlayContainer;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatOverlayContainer;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -71,10 +70,9 @@ public class MatOverlayFinder {
     }
 
     public List<MatOverlayContainer> findContainers() {
-        return driver.findComponentsAs(
-                xpath(config.getOverlayAbsolutePath() +
-                        String.format("/div[contains(@class,'%soverlay-container')]", config.getCdkPrefix())),
-                element -> new MatOverlayContainer(element, driver, config));
+        return driver.findComponentsAs(xpath(config.getOverlayAbsolutePath() + String
+                        .format("/div[contains(@class,'%soverlay-container')]", config.getCdkPrefix())),
+                c -> new MatOverlayContainer(c, driver, config));
     }
 
     public List<MatOverlayContainer> findVisibleContainers() {
@@ -83,7 +81,7 @@ public class MatOverlayFinder {
 
     @Nullable
     public MatOverlayContainer findTopVisibleContainer() {
-        List<MatOverlayContainer> containers = findContainers();
+        List<MatOverlayContainer> containers = findVisibleContainers();
         return containers.isEmpty() ? null : containers.get(containers.size() - 1);
     }
 }

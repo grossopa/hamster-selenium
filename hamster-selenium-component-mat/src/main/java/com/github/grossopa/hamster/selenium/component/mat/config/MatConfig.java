@@ -46,34 +46,76 @@ public class MatConfig {
     @SuppressWarnings("java:S1075")
     private String overlayAbsolutePath = "/html/body";
 
+    /**
+     * Gets the prefix of the html tag, e.g. &lt;mat-option&gt;....default value is "mat-".
+     *
+     * @return the prefix of the html tag
+     */
     public String getTagPrefix() {
         return tagPrefix;
     }
 
+    /**
+     * Sets the prefix of the html tag.
+     *
+     * @param tagPrefix the new tag prefix to set
+     */
     public void setTagPrefix(String tagPrefix) {
         this.tagPrefix = tagPrefix;
     }
 
+    /**
+     * Gets the prefix of the css classes, e.g. &lt;mat-option class="<b>mat-selected</b>" &gt;....default value is
+     * "mat-".
+     *
+     * @return the prefix of the css classes
+     */
     public String getCssPrefix() {
         return cssPrefix;
     }
 
+    /**
+     * Sets the prefix of the css classes.
+     *
+     * @param cssPrefix the new prefix of css classes to set
+     */
     public void setCssPrefix(String cssPrefix) {
         this.cssPrefix = cssPrefix;
     }
 
+    /**
+     * Gets the overlay absolute path., default value is "/html/body".
+     *
+     * @return the overlay absolute path.
+     */
     public String getOverlayAbsolutePath() {
         return overlayAbsolutePath;
     }
 
+    /**
+     * Sets the overlay absolute path.
+     *
+     * @param overlayAbsolutePath the overlay absolute path to set
+     */
     public void setOverlayAbsolutePath(String overlayAbsolutePath) {
         this.overlayAbsolutePath = overlayAbsolutePath;
     }
 
+    /**
+     * Gets the prefix of the CDK (Component Dev Kit) classes, e.g. &lt;dev class="<b>cdk-overlay-container</b>"
+     * &gt;....default value is "cdk-".
+     *
+     * @return the prefix of the cdk classes
+     */
     public String getCdkPrefix() {
         return cdkPrefix;
     }
 
+    /**
+     * Sets the prefix of the CDK (Component Dev Kit) classes.
+     *
+     * @param cdkPrefix the new prefix of the cdk prefix to set
+     */
     public void setCdkPrefix(String cdkPrefix) {
         this.cdkPrefix = cdkPrefix;
     }

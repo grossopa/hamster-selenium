@@ -22,35 +22,46 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.examples;
+package com.github.grossopa.hamster.selenium.component.mat.action;
 
-import com.github.grossopa.selenium.core.driver.CreateDriverServiceAction;
-import com.github.grossopa.selenium.core.driver.DriverConfig;
-import com.github.grossopa.selenium.core.driver.WebDriverType;
-import org.openqa.selenium.remote.service.DriverService;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatAutocomplete;
+import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static org.mockito.Mockito.*;
+import static org.openqa.selenium.Keys.ESCAPE;
 
 /**
- * Starts a DriverService
+ * Tests for {@link AutocompleteCloseOptionsAction}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.6
  */
-public class StartDriverService {
+class AutocompleteCloseOptionsActionTest {
 
-    public static final String EXECUTABLE_PATH = "D://software/drivers/chromedriver-91.exe";
-    public static final int PORT = 38383;
+    AutocompleteCloseOptionsAction testSubject;
 
-    @SuppressWarnings("all")
-    public static void main(String[] args) throws IOException {
-        DriverConfig config = new DriverConfig();
-        config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("91");
-        config.setType(WebDriverType.CHROME);
-        config.setPort(PORT);
+    @BeforeEach
+    void setUp() {
+        testSubject = new AutocompleteCloseOptionsAction();
+    }
 
-        DriverService driverService = config.getType().apply(new CreateDriverServiceAction(), config);
-        driverService.start();
+
+    @Test
+    void close() {
+        WebComponent inputElement = mock(WebComponent.class);
+        MatAutocomplete autocomplete = mock(MatAutocomplete.class);
+        when(autocomplete.getInput()).thenReturn(inputElement);
+
+        List<WebComponent> options = newArrayList();
+        ComponentWebDriver driver = mock(ComponentWebDriver.class);
+        testSubject.close(autocomplete, options, driver);
+
+        verify(inputElement, times(1)).sendKeys(ESCAPE);
     }
 }

@@ -41,7 +41,6 @@ import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.core.util.SeleniumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -56,8 +55,6 @@ import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
-import static org.openqa.selenium.Keys.ARROW_DOWN;
-import static org.openqa.selenium.Keys.ESCAPE;
 
 /**
  * The autocomplete is a normal text input enhanced by a panel of suggested options.

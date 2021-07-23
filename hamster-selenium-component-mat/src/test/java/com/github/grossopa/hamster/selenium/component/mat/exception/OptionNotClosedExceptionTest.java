@@ -22,35 +22,25 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.examples;
+package com.github.grossopa.hamster.selenium.component.mat.exception;
 
-import com.github.grossopa.selenium.core.driver.CreateDriverServiceAction;
-import com.github.grossopa.selenium.core.driver.DriverConfig;
-import com.github.grossopa.selenium.core.driver.WebDriverType;
-import org.openqa.selenium.remote.service.DriverService;
+import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Starts a DriverService if the test case is running on a Mac
+ * Tests for {@link OptionNotClosedException}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.6
  */
-public class StartDriverServiceMac {
+class OptionNotClosedExceptionTest {
 
-    public static final String EXECUTABLE_PATH = "/Users/jack/software/webdrivers/chromedriver-90";
-    public static final int PORT = 38383;
-
-    @SuppressWarnings("all")
-    public static void main(String[] args) throws IOException {
-        DriverConfig config = new DriverConfig();
-        config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("90");
-        config.setType(WebDriverType.CHROME);
-        config.setPort(PORT);
-
-        DriverService driverService = config.getType().apply(new CreateDriverServiceAction(), config);
-        driverService.start();
+    @Test
+    void constructor() {
+        OptionNotClosedException testSubject = new OptionNotClosedException("some message");
+        assertEquals("some message", testSubject.getMessage());
     }
+
+
 }

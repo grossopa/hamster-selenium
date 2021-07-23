@@ -22,36 +22,42 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.examples;
+package com.github.grossopa.hamster.selenium.component.mat.action;
 
-import com.github.grossopa.selenium.core.driver.CreateDriverServiceAction;
-import com.github.grossopa.selenium.core.driver.DriverConfig;
-import com.github.grossopa.selenium.core.driver.WebDriverType;
-import org.openqa.selenium.remote.service.DriverService;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatAutocomplete;
+import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
+import static org.mockito.Mockito.*;
+import static org.openqa.selenium.Keys.ARROW_DOWN;
 
 /**
+ * Tests for {@link AutocompleteOpenOptionsAction}
+ *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.6
  */
-public class StartDriverServiceWinEdge {
+class AutocompleteOpenOptionsActionTest {
 
-//    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_91.0.864.59.exe";
-    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_91.0.864.71.exe";
+    AutocompleteOpenOptionsAction testSubject;
+
+    @BeforeEach
+    void setUp() {
+        testSubject = new AutocompleteOpenOptionsAction();
+    }
 
 
-    public static final int PORT = 38383;
+    @Test
+    void open() {
+        WebComponent inputElement = mock(WebComponent.class);
+        MatAutocomplete autocomplete = mock(MatAutocomplete.class);
+        when(autocomplete.getInput()).thenReturn(inputElement);
 
-    @SuppressWarnings("all")
-    public static void main(String[] args) throws IOException {
-        DriverConfig config = new DriverConfig();
-        config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("91.0.864.59");
-        config.setType(WebDriverType.EDGE);
-        config.setPort(PORT);
+        ComponentWebDriver driver = mock(ComponentWebDriver.class);
+        testSubject.open(autocomplete, driver);
 
-        DriverService driverService = config.getType().apply(new CreateDriverServiceAction(), config);
-        driverService.start();
+        verify(inputElement, times(1)).sendKeys(ARROW_DOWN);
     }
 }
