@@ -38,6 +38,12 @@ import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
  * @since 1.6
  */
 public class MatOption extends AbstractMatComponent {
+
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Option";
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -47,6 +53,11 @@ public class MatOption extends AbstractMatComponent {
      */
     public MatOption(WebElement element, ComponentWebDriver driver, MatConfig config) {
         super(element, driver, config);
+    }
+
+    @Override
+    public String getComponentName() {
+        return COMPONENT_NAME;
     }
 
     @Override

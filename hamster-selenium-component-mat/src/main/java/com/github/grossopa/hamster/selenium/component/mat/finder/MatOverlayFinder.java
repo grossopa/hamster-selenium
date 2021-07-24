@@ -31,6 +31,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -83,5 +84,22 @@ public class MatOverlayFinder {
     public MatOverlayContainer findTopVisibleContainer() {
         List<MatOverlayContainer> containers = findVisibleContainers();
         return containers.isEmpty() ? null : containers.get(containers.size() - 1);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MatOverlayFinder)) {
+            return false;
+        }
+        MatOverlayFinder that = (MatOverlayFinder) o;
+        return driver.equals(that.driver) && config.equals(that.config);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(driver, config);
     }
 }

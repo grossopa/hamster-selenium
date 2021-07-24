@@ -26,6 +26,7 @@ package com.github.grossopa.hamster.selenium.component.mat.finder;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatOverlayContainer;
+import com.github.grossopa.hamster.selenium.core.util.SimpleEqualsTester;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
@@ -149,5 +150,20 @@ class MatOverlayFinderTest {
 
         MatOverlayContainer result = testSubject.findTopVisibleContainer();
         assertNull(result);
+    }
+
+    @Test
+    void testEquals() {
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+
+        ComponentWebDriver driver1 = mock(ComponentWebDriver.class);
+        ComponentWebDriver driver2 = mock(ComponentWebDriver.class);
+        MatConfig config1 = mock(MatConfig.class);
+        MatConfig config2 = mock(MatConfig.class);
+        tester.addEqualityGroup(new MatOverlayFinder(driver1, config1), new MatOverlayFinder(driver1, config1));
+        tester.addEqualityGroup(new MatOverlayFinder(driver1, config2));
+        tester.addEqualityGroup(new MatOverlayFinder(driver2, config1));
+        tester.addEqualityGroup(new MatOverlayFinder(driver2, config2));
+        tester.testEquals();
     }
 }

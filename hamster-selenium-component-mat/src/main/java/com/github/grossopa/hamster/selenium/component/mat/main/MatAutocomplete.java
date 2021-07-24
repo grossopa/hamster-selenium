@@ -47,6 +47,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
@@ -66,6 +67,21 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
  */
 public class MatAutocomplete extends AbstractMatComponent implements Select, DelayedSelect {
 
+    /**
+     * The default open options action
+     */
+    protected static final AutocompleteOpenOptionsAction DEFAULT_OPEN_ACTION = new AutocompleteOpenOptionsAction();
+
+    /**
+     * The default close options action
+     */
+    protected static final AutocompleteCloseOptionsAction DEFAULT_CLOSE_ACTION = new AutocompleteCloseOptionsAction();
+
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Autocomplete";
+
     private final MatOverlayFinder overlayFinder;
     private final By optionLocator;
     private final OpenOptionsAction openOptionsAction;
@@ -80,6 +96,11 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
      */
     public MatAutocomplete(WebElement element, ComponentWebDriver driver, MatConfig config) {
         this(element, driver, config, null, null, null, null);
+    }
+
+    @Override
+    public String getComponentName() {
+        return COMPONENT_NAME;
     }
 
     /**
@@ -126,8 +147,8 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
         super(element, driver, config);
         this.overlayFinder = defaultIfNull(overlayFinder, new MatOverlayFinder(driver, config));
         this.optionLocator = defaultIfNull(optionLocator, tagName(config.getTagPrefix() + "option"));
-        this.openOptionsAction = defaultIfNull(openOptionsAction, new AutocompleteOpenOptionsAction());
-        this.closeOptionsAction = defaultIfNull(closeOptionsAction, new AutocompleteCloseOptionsAction());
+        this.openOptionsAction = defaultIfNull(openOptionsAction, DEFAULT_OPEN_ACTION);
+        this.closeOptionsAction = defaultIfNull(closeOptionsAction, DEFAULT_CLOSE_ACTION);
     }
 
     public WebComponent getInput() {
@@ -307,5 +328,25 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
             return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(panels.size() - 1));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MatAutocomplete)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        MatAutocomplete that = (MatAutocomplete) o;
+        return overlayFinder.equals(that.overlayFinder) && optionLocator.equals(that.optionLocator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), overlayFinder, optionLocator);
     }
 }

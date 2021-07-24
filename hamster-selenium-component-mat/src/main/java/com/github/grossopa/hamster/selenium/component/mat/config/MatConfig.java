@@ -24,6 +24,10 @@
 
 package com.github.grossopa.hamster.selenium.component.mat.config;
 
+import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
+
 /**
  * The root configuration for Material UI Angular components
  *
@@ -61,6 +65,7 @@ public class MatConfig {
      * @param tagPrefix the new tag prefix to set
      */
     public void setTagPrefix(String tagPrefix) {
+        requireNonNull(tagPrefix);
         this.tagPrefix = tagPrefix;
     }
 
@@ -80,6 +85,7 @@ public class MatConfig {
      * @param cssPrefix the new prefix of css classes to set
      */
     public void setCssPrefix(String cssPrefix) {
+        requireNonNull(cssPrefix);
         this.cssPrefix = cssPrefix;
     }
 
@@ -98,6 +104,7 @@ public class MatConfig {
      * @param overlayAbsolutePath the overlay absolute path to set
      */
     public void setOverlayAbsolutePath(String overlayAbsolutePath) {
+        requireNonNull(overlayAbsolutePath);
         this.overlayAbsolutePath = overlayAbsolutePath;
     }
 
@@ -117,6 +124,43 @@ public class MatConfig {
      * @param cdkPrefix the new prefix of the cdk prefix to set
      */
     public void setCdkPrefix(String cdkPrefix) {
+        requireNonNull(cdkPrefix);
         this.cdkPrefix = cdkPrefix;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MatConfig)) {
+            return false;
+        }
+        MatConfig matConfig = (MatConfig) o;
+        return tagPrefix.equals(matConfig.tagPrefix) && cssPrefix.equals(matConfig.cssPrefix) && cdkPrefix
+                .equals(matConfig.cdkPrefix) && overlayAbsolutePath.equals(matConfig.overlayAbsolutePath);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tagPrefix, cssPrefix, cdkPrefix, overlayAbsolutePath);
+    }
+
+    /**
+     * Creates an instance with all values.
+     *
+     * @param tagPrefix the prefix of the html tag.
+     * @param cssPrefix the prefix of the css tag.
+     * @param cdkPrefix the prefix of the cdk css tag.
+     * @param overlayAbsolutePath the prefix of the CDK (Component Dev Kit) classes,
+     * @return the created instance
+     */
+    public static MatConfig create(String tagPrefix, String cssPrefix, String cdkPrefix, String overlayAbsolutePath) {
+        MatConfig config = new MatConfig();
+        config.setTagPrefix(tagPrefix);
+        config.setCssPrefix(cssPrefix);
+        config.setCdkPrefix(cdkPrefix);
+        config.setOverlayAbsolutePath(overlayAbsolutePath);
+        return config;
     }
 }

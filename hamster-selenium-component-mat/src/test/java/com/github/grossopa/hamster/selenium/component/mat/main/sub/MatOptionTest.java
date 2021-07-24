@@ -22,46 +22,66 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.hamster.selenium.component.mat.main;
+package com.github.grossopa.hamster.selenium.component.mat.main.sub;
 
-import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- * The overlay container that contains the displayed overlay in the front of other components.
+ * Tests for {@link MatOption}
  *
  * @author Jack Yin
  * @since 1.6
  */
-public class MatOverlayContainer extends AbstractMatComponent {
+class MatOptionTest {
 
-    /**
-     * The component name
-     */
-    public static final String COMPONENT_NAME = "OverlayContainer";
+    MatOption testSubject;
+    WebElement element = mock(WebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
+    MatConfig config = mock(MatConfig.class);
 
-    /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI Angular configuration
-     */
-    public MatOverlayContainer(WebElement element, ComponentWebDriver driver, MatConfig config) {
-        super(element, driver, config);
+    @BeforeEach
+    void setUp() {
+        when(config.getTagPrefix()).thenReturn("mat-");
+        when(config.getCssPrefix()).thenReturn("mat-");
+
+        testSubject = new MatOption(element, driver, config);
     }
 
-    @Override
-    public String getComponentName() {
-        return COMPONENT_NAME;
+    @Test
+    void getComponentName() {
+        assertEquals("Option", testSubject.getComponentName());
     }
 
-    @Override
-    public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "overlay-container");
+    @Test
+    void validate() {
+        when(element.getTagName()).thenReturn("mat-option");
+        assertTrue(testSubject.validate());
+    }
+
+
+    @Test
+    void validateNegative() {
+        when(element.getTagName()).thenReturn("div");
+        assertFalse(testSubject.validate());
+    }
+
+    @Test
+    void isSelected() {
+        when(element.getAttribute("class")).thenReturn("mat-selected");
+        assertTrue(testSubject.isSelected());
+    }
+
+    @Test
+    void isSelectedNegative() {
+        when(element.getAttribute("class")).thenReturn("");
+        assertFalse(testSubject.isSelected());
     }
 }

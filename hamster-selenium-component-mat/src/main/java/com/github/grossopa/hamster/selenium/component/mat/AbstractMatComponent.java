@@ -29,6 +29,8 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import org.openqa.selenium.WebElement;
 
+import java.util.Objects;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -58,5 +60,32 @@ public abstract class AbstractMatComponent extends DefaultWebComponent implement
     @Override
     public MatConfig getConfig() {
         return config;
+    }
+
+    /**
+     * Returns the component name.
+     *
+     * @return the component name
+     */
+    public abstract String getComponentName();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof AbstractMatComponent)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        AbstractMatComponent that = (AbstractMatComponent) o;
+        return Objects.equals(config, that.config);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), config);
     }
 }

@@ -31,6 +31,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 
 /**
@@ -38,6 +39,11 @@ import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
  * @since 1.6
  */
 public class MatFormField extends AbstractMatComponent {
+
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "FormField";
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -48,6 +54,11 @@ public class MatFormField extends AbstractMatComponent {
      */
     public MatFormField(WebElement element, ComponentWebDriver driver, MatConfig config) {
         super(element, driver, config);
+    }
+
+    @Override
+    public String getComponentName() {
+        return COMPONENT_NAME;
     }
 
     public WebComponent getPrefix() {
@@ -68,7 +79,7 @@ public class MatFormField extends AbstractMatComponent {
 
     public WebComponent getLabel() {
         return this.getInfix().findComponent(
-                xpathBuilder().anywhereRelative().attr("class")
+                xpathBuilder().anywhereRelative().attr(ATTR_CLASS)
                         .contains(config.getCssPrefix() + "form-field-label-wrapper").child("label").axes()
                         .child("mat-label").build());
     }

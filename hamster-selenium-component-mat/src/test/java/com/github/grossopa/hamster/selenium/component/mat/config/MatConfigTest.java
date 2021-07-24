@@ -24,18 +24,17 @@
 
 package com.github.grossopa.hamster.selenium.component.mat.config;
 
+import com.github.grossopa.hamster.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Tests for {@link MatConfig}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.6
  */
 class MatConfigTest {
 
@@ -90,4 +89,20 @@ class MatConfigTest {
         testSubject.setCdkPrefix("abc-");
         assertEquals("abc-", testSubject.getCdkPrefix());
     }
+
+    @Test
+    void testEquals() {
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+
+        tester.addEqualityGroup(MatConfig.create("tag-", "css-", "cdk-", "/html/body"),
+                MatConfig.create("tag-", "css-", "cdk-", "/html/body"));
+
+        tester.addEqualityGroup(MatConfig.create("tag-1", "css-", "cdk-", "/html/body"));
+        tester.addEqualityGroup(MatConfig.create("tag-", "css-1", "cdk-", "/html/body"));
+        tester.addEqualityGroup(MatConfig.create("tag-", "css-", "cdk-1", "/html/body"));
+        tester.addEqualityGroup(MatConfig.create("tag-", "css-", "cdk-", "/html/body1"));
+
+        tester.testEquals();
+    }
+
 }
