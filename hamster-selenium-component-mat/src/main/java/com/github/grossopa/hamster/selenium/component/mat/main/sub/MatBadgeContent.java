@@ -22,35 +22,46 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.examples;
+package com.github.grossopa.hamster.selenium.component.mat.main.sub;
 
-import com.github.grossopa.selenium.core.driver.CreateDriverServiceAction;
-import com.github.grossopa.selenium.core.driver.DriverConfig;
-import com.github.grossopa.selenium.core.driver.WebDriverType;
-import org.openqa.selenium.remote.service.DriverService;
+import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
+import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
+import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.openqa.selenium.WebElement;
 
-import java.io.IOException;
+import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
 
 /**
+ * The major content that contains the badge number.
+ *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.6
  */
-public class StartDriverServiceWinEdge {
+public class MatBadgeContent extends AbstractMatComponent {
 
-//    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_91.0.864.59.exe";
-    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_91.0.864.71.exe";
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "BadgeContent";
 
-    public static final int PORT = 38383;
+    /**
+     * Constructs an instance with the delegated element and root driver
+     *
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI Angular configuration
+     */
+    public MatBadgeContent(WebElement element, ComponentWebDriver driver, MatConfig config) {
+        super(element, driver, config);
+    }
 
-    @SuppressWarnings("all")
-    public static void main(String[] args) throws IOException {
-        DriverConfig config = new DriverConfig();
-        config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("91.0.864.59");
-        config.setType(WebDriverType.EDGE);
-        config.setPort(PORT);
+    @Override
+    public String getComponentName() {
+        return COMPONENT_NAME;
+    }
 
-        DriverService driverService = config.getType().apply(new CreateDriverServiceAction(), config);
-        driverService.start();
+    @Override
+    public boolean validate() {
+        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "badge-content");
     }
 }

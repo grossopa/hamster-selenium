@@ -22,82 +22,63 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.hamster.selenium.component.mat;
+package com.github.grossopa.hamster.selenium.component.mat.main;
 
-import com.github.grossopa.hamster.selenium.component.mat.action.CloseOptionsAction;
-import com.github.grossopa.hamster.selenium.component.mat.action.OpenOptionsAction;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
-import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.ThrowingSupplier;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
 
 /**
- * Tests for {@link MatComponents}
+ * Tests for {@link MatBadge}
  *
  * @author Jack Yin
  * @since 1.6
  */
-class MatComponentsTest {
+class MatBadgeTest {
 
-    MatComponents testSubject;
+    MatBadge testSubject;
     WebElement element = mock(WebElement.class);
-    WebComponent component = mock(WebComponent.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MatConfig config = mock(MatConfig.class);
 
-
     @BeforeEach
     void setUp() {
-        testSubject = new MatComponents();
-        when(component.getWrappedElement()).thenReturn(element);
-        testSubject.setContext(component, driver);
+        when(config.getCssPrefix()).thenReturn("mat-");
+        testSubject = new MatBadge(element, driver, config);
+    }
+
+
+    @Test
+    void getComponentName() {
+        assertEquals("Badge", testSubject.getComponentName());
     }
 
     @Test
-    void mat() {
-        assertDoesNotThrow((ThrowingSupplier<MatComponents>) MatComponents::mat);
+    void validate() {
+        when(element.getAttribute("class")).thenReturn("mat-badge");
+        assertTrue(testSubject.validate());
     }
 
     @Test
-    void testMat() {
-        assertDoesNotThrow(() -> MatComponents.mat(config));
+    void validateFalse() {
+        when(element.getAttribute("class")).thenReturn("");
+        assertFalse(testSubject.validate());
     }
 
     @Test
-    void toAutocomplete() {
-        assertEquals(element, testSubject.toAutocomplete().getWrappedElement());
-    }
-
-    @Test
-    void toAutocomplete2() {
-        assertEquals(element, testSubject.toAutocomplete(mock(MatOverlayFinder.class)).getWrappedElement());
-    }
-
-    @Test
-    void toAutocomplete3() {
-        assertEquals(element,
-                testSubject.toAutocomplete(mock(MatOverlayFinder.class), mock(By.class)).getWrappedElement());
-    }
-
-    @Test
-    void toAutocomplete4() {
-        assertEquals(element, testSubject
-                .toAutocomplete(mock(MatOverlayFinder.class), mock(By.class), mock(OpenOptionsAction.class),
-                        mock(CloseOptionsAction.class)).getWrappedElement());
-    }
-
-    @Test
-    void toBadge() {
-        assertEquals(element, testSubject.toBadge().getWrappedElement());
+    void getBadgeContent() {
+        WebElement badgeElement = mock(WebElement.class);
+        when(element.findElement(By.xpath("./*[contains(@class,\"mat-badge-content\")]"))).thenReturn(badgeElement);
+        assertEquals(badgeElement, testSubject.getBadgeContent().getWrappedElement());
     }
 }

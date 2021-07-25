@@ -22,35 +22,51 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.examples;
+package com.github.grossopa.hamster.selenium.component.mat.main.sub;
 
-import com.github.grossopa.selenium.core.driver.CreateDriverServiceAction;
-import com.github.grossopa.selenium.core.driver.DriverConfig;
-import com.github.grossopa.selenium.core.driver.WebDriverType;
-import org.openqa.selenium.remote.service.DriverService;
+import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
+import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebElement;
 
-import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
+ * Tests for {@link MatBadgeContent}
+ *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.6
  */
-public class StartDriverServiceWinEdge {
+class MatBadgeContentTest {
 
-//    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_91.0.864.59.exe";
-    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_91.0.864.71.exe";
+    MatBadgeContent testSubject;
+    WebElement element = mock(WebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
+    MatConfig config = mock(MatConfig.class);
 
-    public static final int PORT = 38383;
+    @BeforeEach
+    void setUp() {
+        when(config.getCssPrefix()).thenReturn("mat-");
+        testSubject = new MatBadgeContent(element, driver, config);
+    }
 
-    @SuppressWarnings("all")
-    public static void main(String[] args) throws IOException {
-        DriverConfig config = new DriverConfig();
-        config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("91.0.864.59");
-        config.setType(WebDriverType.EDGE);
-        config.setPort(PORT);
+    @Test
+    void getComponentName() {
+        assertEquals("BadgeContent", testSubject.getComponentName());
+    }
 
-        DriverService driverService = config.getType().apply(new CreateDriverServiceAction(), config);
-        driverService.start();
+    @Test
+    void validate() {
+        when(element.getAttribute("class")).thenReturn("mat-badge-content");
+        assertTrue(testSubject.validate());
+    }
+
+    @Test
+    void validateFalse() {
+        when(element.getAttribute("class")).thenReturn("");
+        assertFalse(testSubject.validate());
     }
 }

@@ -29,6 +29,7 @@ import com.github.grossopa.hamster.selenium.component.mat.action.OpenOptionsActi
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatAutocomplete;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatBadge;
 import com.github.grossopa.selenium.core.component.AbstractComponents;
 import org.openqa.selenium.By;
 
@@ -124,5 +125,14 @@ public class MatComponents extends AbstractComponents {
             OpenOptionsAction openOptionsAction, CloseOptionsAction closeOptionsAction) {
         return new MatAutocomplete(component, driver, config, overlayFinder, optionLocator, openOptionsAction,
                 closeOptionsAction);
+    }
+
+    /**
+     * Wraps the given element to {@link MatBadge}.
+     *
+     * @return the {@link MatBadge} instance
+     */
+    public MatBadge toBadge() {
+        return new MatBadge(component, driver, config);
     }
 }

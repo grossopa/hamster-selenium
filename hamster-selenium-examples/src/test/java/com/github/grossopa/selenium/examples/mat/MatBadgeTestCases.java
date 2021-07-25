@@ -24,54 +24,48 @@
 
 package com.github.grossopa.selenium.examples.mat;
 
-import com.github.grossopa.hamster.selenium.component.mat.main.MatAutocomplete;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatBadge;
+import com.github.grossopa.selenium.component.mui.datadisplay.MuiBadge;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
-
-import com.github.grossopa.hamster.selenium.component.mat.*;
 
 import java.util.List;
 
 import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
-import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Material UI Angular - Autocomplete related cases.
+ * Tests the actual feature of {@link MatBadge}.
  *
  * @author Jack Yin
  * @since 1.6
  */
-public class MatAutocompleteTestCases extends AbstractBrowserSupport {
+public class MatBadgeTestCases extends AbstractBrowserSupport {
 
-    public void testAutocomplete() {
-        driver.navigate().to("https://material.angular.io/components/autocomplete/examples");
+    public void testBadge() {
+        driver.navigate().to("https://material.angular.io/components/badge/examples");
 
-        MatAutocomplete autocomplete = driver.findComponent(By2.id("autocomplete-auto-active-first-option"))
-                .findComponent(By.tagName("mat-form-field")).as(mat()).toAutocomplete();
-        List<WebComponent> options = autocomplete.getOptions2();
+        WebComponent container = driver.findComponent(By.tagName("badge-overview-example"));
+        List<MatBadge> badges = container.findComponentsAs(By.className("mat-badge"), c -> c.as(mat()).toBadge());
+        assertEquals(5, badges.size());
+        badges.stream().peek(badge -> assertTrue(badge.validate())).map(MatBadge::getBadgeContent)
+                .forEach(content -> assertTrue(content.validate()));
 
-        assertEquals(3, options.size());
-        assertArrayEquals(new String[]{"One", "Two", "Three"}, options.stream().map(WebComponent::getText).toArray());
-        autocomplete.closeOptions();
-
-        autocomplete.selectByIndex(0, 100L);
-        assertEquals("One", autocomplete.getFirstSelectedOption().getText());
-        assertEquals("One", autocomplete.getInput().getAttribute("value"));
-
-        autocomplete.deselectAll();
-        assertEquals("", autocomplete.getInput().getAttribute("value"));
-        autocomplete.closeOptions(100L);
+        assertEquals("4", badges.get(0).getBadgeContent().getText());
+        assertEquals("1", badges.get(1).getBadgeContent().getText());
+        assertEquals("8", badges.get(2).getBadgeContent().getText());
+        assertEquals("7", badges.get(3).getBadgeContent().getText());
+        assertEquals("15", badges.get(4).getBadgeContent().getText());
     }
 
     public static void main(String[] args) {
-        MatAutocompleteTestCases test = new MatAutocompleteTestCases();
+        MatBadgeTestCases test = new MatBadgeTestCases();
         try {
             test.setUpDriver(EDGE);
-            test.testAutocomplete();
+            test.testBadge();
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw ex;
