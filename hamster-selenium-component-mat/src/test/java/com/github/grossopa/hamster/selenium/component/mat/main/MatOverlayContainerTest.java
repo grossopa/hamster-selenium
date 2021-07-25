@@ -24,49 +24,55 @@
 
 package com.github.grossopa.hamster.selenium.component.mat.main;
 
-import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- * The overlay container that contains the displayed overlay in the front of other components.
+ * Tests for {@link MatOverlayContainer}
  *
  * @author Jack Yin
  * @since 1.6
  */
-public class MatOverlayContainer extends AbstractMatComponent {
+class MatOverlayContainerTest {
 
-    /**
-     * The component name
-     */
-    public static final String COMPONENT_NAME = "OverlayContainer";
+    MatOverlayContainer testSubject;
+    WebElement element = mock(WebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
+    MatConfig config = mock(MatConfig.class);
 
-    /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI Angular configuration
-     */
-    public MatOverlayContainer(WebElement element, ComponentWebDriver driver, MatConfig config) {
-        super(element, driver, config);
+    @BeforeEach
+    void setUp() {
+        when(config.getCdkPrefix()).thenReturn("cdk-");
+        testSubject = new MatOverlayContainer(element, driver, config);
     }
 
-    @Override
-    public String getComponentName() {
-        return COMPONENT_NAME;
+    @Test
+    void getComponentName() {
+        assertEquals("OverlayContainer", testSubject.getComponentName());
     }
 
-    @Override
-    public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCdkPrefix() + "overlay-container");
+    @Test
+    void validate() {
+        when(element.getAttribute("class")).thenReturn("cdk-overlay-container");
+        assertTrue(testSubject.validate());
     }
 
-    @Override
-    public String toString() {
-        return "MatOverlayContainer{" + "element=" + element + '}';
+    @Test
+    void validateFalse() {
+        when(element.getAttribute("class")).thenReturn("");
+        assertFalse(testSubject.validate());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element");
+        assertEquals("MatOverlayContainer{element=element}", testSubject.toString());
     }
 }

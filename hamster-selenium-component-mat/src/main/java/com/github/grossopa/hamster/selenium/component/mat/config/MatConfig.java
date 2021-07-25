@@ -146,6 +146,12 @@ public class MatConfig {
         return Objects.hash(tagPrefix, cssPrefix, cdkPrefix, overlayAbsolutePath);
     }
 
+    @Override
+    public String toString() {
+        return "MatConfig{" + "tagPrefix='" + tagPrefix + '\'' + ", cssPrefix='" + cssPrefix + '\'' + ", cdkPrefix='"
+                + cdkPrefix + '\'' + ", overlayAbsolutePath='" + overlayAbsolutePath + '\'' + '}';
+    }
+
     /**
      * Creates an instance with all values.
      *

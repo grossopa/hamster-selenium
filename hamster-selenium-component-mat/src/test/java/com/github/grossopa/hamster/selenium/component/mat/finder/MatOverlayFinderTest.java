@@ -166,4 +166,11 @@ class MatOverlayFinderTest {
         tester.addEqualityGroup(new MatOverlayFinder(driver2, config2));
         tester.testEquals();
     }
+
+    @Test
+    void testToString() {
+        when(driver.toString()).thenReturn("driver");
+        when(config.toString()).thenReturn("config");
+        assertEquals("MatOverlayFinder{driver=driver, config=config}", testSubject.toString());
+    }
 }

@@ -22,72 +22,78 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.hamster.selenium.component.mat.main.sub;
+package com.github.grossopa.hamster.selenium.component.mat;
 
+import com.github.grossopa.hamster.selenium.component.mat.action.CloseOptionsAction;
+import com.github.grossopa.hamster.selenium.component.mat.action.OpenOptionsAction;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
+import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.ThrowingSupplier;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link MatOption}
+ * Tests for {@link MatComponents}
  *
  * @author Jack Yin
  * @since 1.6
  */
-class MatOptionTest {
+class MatComponentsTest {
 
-    MatOption testSubject;
+    MatComponents testSubject;
     WebElement element = mock(WebElement.class);
+    WebComponent component = mock(WebComponent.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MatConfig config = mock(MatConfig.class);
 
+
     @BeforeEach
     void setUp() {
-        when(config.getTagPrefix()).thenReturn("mat-");
-        when(config.getCssPrefix()).thenReturn("mat-");
-
-        testSubject = new MatOption(element, driver, config);
+        testSubject = new MatComponents();
+        when(component.getWrappedElement()).thenReturn(element);
+        testSubject.setContext(component, driver);
     }
 
     @Test
-    void getComponentName() {
-        assertEquals("Option", testSubject.getComponentName());
+    void mat() {
+        assertDoesNotThrow((ThrowingSupplier<MatComponents>) MatComponents::mat);
     }
 
     @Test
-    void validate() {
-        when(element.getTagName()).thenReturn("mat-option");
-        assertTrue(testSubject.validate());
-    }
-
-
-    @Test
-    void validateNegative() {
-        when(element.getTagName()).thenReturn("div");
-        assertFalse(testSubject.validate());
+    void testMat() {
+        assertDoesNotThrow(() -> MatComponents.mat(config));
     }
 
     @Test
-    void isSelected() {
-        when(element.getAttribute("class")).thenReturn("mat-selected");
-        assertTrue(testSubject.isSelected());
+    void toAutocomplete() {
+        assertEquals(element, testSubject.toAutocomplete().getWrappedElement());
     }
 
     @Test
-    void isSelectedNegative() {
-        when(element.getAttribute("class")).thenReturn("");
-        assertFalse(testSubject.isSelected());
+    void toAutocomplete2() {
+        assertEquals(element, testSubject.toAutocomplete(mock(MatOverlayFinder.class)).getWrappedElement());
     }
 
     @Test
-    void testToString() {
-        when(element.toString()).thenReturn("element");
-        assertEquals("MatOption{element=element}", testSubject.toString());
+    void toAutocomplete3() {
+        assertEquals(element,
+                testSubject.toAutocomplete(mock(MatOverlayFinder.class), mock(By.class)).getWrappedElement());
     }
+
+    @Test
+    void toAutocomplete4() {
+        assertEquals(element, testSubject
+                .toAutocomplete(mock(MatOverlayFinder.class), mock(By.class), mock(OpenOptionsAction.class),
+                        mock(CloseOptionsAction.class)).getWrappedElement());
+    }
+
 }

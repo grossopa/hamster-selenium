@@ -105,4 +105,10 @@ class MatConfigTest {
         tester.testEquals();
     }
 
+    @Test
+    void testToString() {
+        assertEquals("MatConfig{tagPrefix='mat-', cssPrefix='mat-', "
+                + "cdkPrefix='cdk-', overlayAbsolutePath='/html/body'}", testSubject.toString());
+    }
+
 }

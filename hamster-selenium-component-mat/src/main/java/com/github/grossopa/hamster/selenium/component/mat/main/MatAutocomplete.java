@@ -349,4 +349,11 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     public int hashCode() {
         return Objects.hash(super.hashCode(), overlayFinder, optionLocator);
     }
+
+    @Override
+    public String toString() {
+        return "MatAutocomplete{" + "overlayFinder=" + overlayFinder + ", optionLocator=" + optionLocator
+                + ", openOptionsAction=" + openOptionsAction + ", closeOptionsAction=" + closeOptionsAction
+                + ", element=" + element + '}';
+    }
 }

@@ -102,4 +102,9 @@ public class MatOverlayFinder {
     public int hashCode() {
         return Objects.hash(driver, config);
     }
+
+    @Override
+    public String toString() {
+        return "MatOverlayFinder{" + "driver=" + driver + ", config=" + config + '}';
+    }
 }
