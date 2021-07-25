@@ -203,7 +203,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
             WebDriverWait wait = driver.createWait(delayInMillis);
             wait.until(d -> {
                 Optional<WebComponent> temp = tryToFindAutocompletePanel();
-                return temp.isEmpty() || !temp.get().isDisplayed();
+                return !(temp.isPresent() && temp.get().isDisplayed());
             });
         }
     }
