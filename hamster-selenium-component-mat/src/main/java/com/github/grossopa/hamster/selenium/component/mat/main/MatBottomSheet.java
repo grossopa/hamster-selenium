@@ -24,58 +24,48 @@
 
 package com.github.grossopa.hamster.selenium.component.mat.main;
 
+import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
 
 /**
- * Tests for {@link MatBadge}
+ * The MatBottomSheet service can be used to open Material Design panels to the bottom of the screen. These panels are
+ * intended primarily as an interaction on mobile devices where they can be used as an alternative to dialogs and
+ * menus.
  *
  * @author Jack Yin
+ * @see <a href="https://material.angular.io/components/bottom-sheet/overview">
+ * https://material.angular.io/components/bottom-sheet/overview</a>
  * @since 1.6
  */
-class MatBadgeTest {
+public class MatBottomSheet extends AbstractMatComponent {
 
-    MatBadge testSubject;
-    WebElement element = mock(WebElement.class);
-    ComponentWebDriver driver = mock(ComponentWebDriver.class);
-    MatConfig config = mock(MatConfig.class);
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "BottomSheet";
 
-    @BeforeEach
-    void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
-        testSubject = new MatBadge(element, driver, config);
+    /**
+     * Constructs an instance with the delegated element and root driver
+     *
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI Angular configuration
+     */
+    public MatBottomSheet(WebElement element, ComponentWebDriver driver, MatConfig config) {
+        super(element, driver, config);
     }
 
-
-    @Test
-    void getComponentName() {
-        assertEquals("Badge", testSubject.getComponentName());
+    @Override
+    public String getComponentName() {
+        return COMPONENT_NAME;
     }
 
-    @Test
-    void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-badge");
-        assertTrue(testSubject.validate());
-    }
-
-    @Test
-    void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("");
-        assertFalse(testSubject.validate());
-    }
-
-    @Test
-    void getBadgeContent() {
-        WebElement badgeElement = mock(WebElement.class);
-        when(element.findElement(By.xpath("./*[contains(@class,\"mat-badge-content\")]"))).thenReturn(badgeElement);
-        assertEquals(badgeElement, testSubject.getBadgeContent().getWrappedElement());
+    @Override
+    public boolean validate() {
+        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "bottom-sheet-container");
     }
 }

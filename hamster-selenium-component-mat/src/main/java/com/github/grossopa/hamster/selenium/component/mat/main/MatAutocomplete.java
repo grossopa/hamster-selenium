@@ -103,6 +103,11 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
         return COMPONENT_NAME;
     }
 
+    @Override
+    public boolean validate() {
+        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "autocomplete-trigger");
+    }
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -177,11 +182,11 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
         if (delayInMillis <= 0) {
             autocompletePanel = tryToFindAutocompletePanel();
         } else {
-            autocompletePanel = Optional
-                    .of(driver.createWait(delayInMillis).until(d -> tryToFindAutocompletePanel().orElse(null)));
+            autocompletePanel = Optional.of(
+                    driver.createWait(delayInMillis).until(d -> tryToFindAutocompletePanel().orElse(null)));
         }
-        return autocompletePanel
-                .orElseThrow(() -> new NoSuchElementException("failed to locate the autocomplete panel."));
+        return autocompletePanel.orElseThrow(
+                () -> new NoSuchElementException("failed to locate the autocomplete panel."));
     }
 
     @Override
@@ -323,8 +328,8 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     protected Optional<WebComponent> tryToFindAutocompletePanel() {
         MatOverlayContainer container = overlayFinder.findTopVisibleContainer();
         if (container != null) {
-            List<WebComponent> panels = container
-                    .findComponents(By2.className(config.getCssPrefix() + "autocomplete-panel"));
+            List<WebComponent> panels = container.findComponents(
+                    By2.className(config.getCssPrefix() + "autocomplete-panel"));
             return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(panels.size() - 1));
         }
         return Optional.empty();

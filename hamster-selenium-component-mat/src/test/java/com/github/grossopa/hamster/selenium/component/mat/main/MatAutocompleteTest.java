@@ -530,4 +530,18 @@ class MatAutocompleteTest {
                         + "openOptionsAction=openOptionsAction, closeOptionsAction=closeOptionsAction, element=element}",
                 testSubject.toString());
     }
+
+    @Test
+    void validate() {
+        when(config.getCssPrefix()).thenReturn("mat-");
+        when(element.getAttribute("class")).thenReturn("mat-autocomplete-trigger");
+        assertTrue(testSubject.validate());
+    }
+
+    @Test
+    void validateFalse() {
+        when(config.getCssPrefix()).thenReturn("mat-");
+        when(element.getAttribute("class")).thenReturn("mat-autocomplete-trigger-some-other");
+        assertFalse(testSubject.validate());
+    }
 }

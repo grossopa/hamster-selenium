@@ -91,13 +91,23 @@ class MatComponentsTest {
 
     @Test
     void toAutocomplete4() {
-        assertEquals(element, testSubject
-                .toAutocomplete(mock(MatOverlayFinder.class), mock(By.class), mock(OpenOptionsAction.class),
+        assertEquals(element,
+                testSubject.toAutocomplete(mock(MatOverlayFinder.class), mock(By.class), mock(OpenOptionsAction.class),
                         mock(CloseOptionsAction.class)).getWrappedElement());
     }
 
     @Test
     void toBadge() {
         assertEquals(element, testSubject.toBadge().getWrappedElement());
+    }
+
+    @Test
+    void toBottomSheet() {
+        assertEquals(element, testSubject.toBottomSheet().getWrappedElement());
+    }
+
+    @Test
+    void toButton() {
+        assertEquals(element, testSubject.toButton().getWrappedElement());
     }
 }

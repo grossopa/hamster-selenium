@@ -24,7 +24,10 @@
 
 package com.github.grossopa.selenium.examples.mat;
 
-import com.github.grossopa.hamster.selenium.component.mat.main.MatBadge;
+import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
+import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatBottomSheet;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatOverlayContainer;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
@@ -33,38 +36,41 @@ import java.util.List;
 
 import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
+import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
+import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Tests the actual feature of {@link MatBadge}.
+ * Tests the actual features of {@link MatBottomSheet}.
  *
  * @author Jack Yin
  * @since 1.6
  */
-public class MatBadgeTestCases extends AbstractBrowserSupport {
+public class MatBottomSheetTestCases extends AbstractBrowserSupport {
 
-    public void testBadge() {
-        driver.navigate().to("https://material.angular.io/components/badge/examples");
+    public void testBottomSheet() {
+        driver.navigate().to("https://material.angular.io/components/bottom-sheet/examples");
+        WebComponent openFileButton = driver.findComponent(
+                xpathBuilder().anywhere("p").text().exact("You have received a file called \"cat-picture.jpeg\".")
+                        .parent().build()).findComponent(By.tagName("button"));
 
-        WebComponent container = driver.findComponent(By.tagName("badge-overview-example"));
-        List<MatBadge> badges = container.findComponentsAs(By.className("mat-badge"), c -> c.as(mat()).toBadge());
-        assertEquals(5, badges.size());
-        badges.stream().peek(badge -> assertTrue(badge.validate())).map(MatBadge::getBadgeContent)
-                .forEach(content -> assertTrue(content.validate()));
+        assertEquals("Open file", openFileButton.getText());
+        openFileButton.click();
 
-        assertEquals("4", badges.get(0).getBadgeContent().getText());
-        assertEquals("1", badges.get(1).getBadgeContent().getText());
-        assertEquals("8", badges.get(2).getBadgeContent().getText());
-        assertEquals("7", badges.get(3).getBadgeContent().getText());
-        assertEquals("15", badges.get(4).getBadgeContent().getText());
+        MatOverlayFinder overlayFinder = new MatOverlayFinder(driver, new MatConfig());
+        MatOverlayContainer container = overlayFinder.findTopVisibleContainer();
+        MatBottomSheet bottomSheet = requireNonNull(container).findComponent(By.className("mat-bottom-sheet-container"))
+                .as(mat()).toBottomSheet();
+
+        List<WebComponent> hrefList = bottomSheet.findComponents(By.tagName("a"));
+        assertEquals(4, hrefList.size());
     }
 
     public static void main(String[] args) {
-        MatBadgeTestCases test = new MatBadgeTestCases();
+        MatBottomSheetTestCases test = new MatBottomSheetTestCases();
         try {
             test.setUpDriver(EDGE);
-            test.testBadge();
+            test.testBottomSheet();
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw ex;

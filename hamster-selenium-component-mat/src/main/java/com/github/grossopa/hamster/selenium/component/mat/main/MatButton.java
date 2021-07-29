@@ -24,58 +24,47 @@
 
 package com.github.grossopa.hamster.selenium.component.mat.main;
 
+import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
 
 /**
- * Tests for {@link MatBadge}
+ * Angular Material buttons are native <button> or <a> elements enhanced with Material Design styling and ink ripples.
  *
  * @author Jack Yin
+ * @see <a href="https://material.angular.io/components/button/overview">
+ * https://material.angular.io/components/button/overview</a>
  * @since 1.6
  */
-class MatBadgeTest {
+public class MatButton extends AbstractMatComponent {
 
-    MatBadge testSubject;
-    WebElement element = mock(WebElement.class);
-    ComponentWebDriver driver = mock(ComponentWebDriver.class);
-    MatConfig config = mock(MatConfig.class);
+    /**
+     * The component name
+     */
+    public static final String COMPONENT_NAME = "Button";
 
-    @BeforeEach
-    void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
-        testSubject = new MatBadge(element, driver, config);
+    /**
+     * Constructs an instance with the delegated element and root driver
+     *
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI Angular configuration
+     */
+    public MatButton(WebElement element, ComponentWebDriver driver, MatConfig config) {
+        super(element, driver, config);
     }
 
-
-    @Test
-    void getComponentName() {
-        assertEquals("Badge", testSubject.getComponentName());
+    @Override
+    public String getComponentName() {
+        return COMPONENT_NAME;
     }
 
-    @Test
-    void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-badge");
-        assertTrue(testSubject.validate());
+    @Override
+    public boolean validate() {
+        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "button-base");
     }
 
-    @Test
-    void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("");
-        assertFalse(testSubject.validate());
-    }
-
-    @Test
-    void getBadgeContent() {
-        WebElement badgeElement = mock(WebElement.class);
-        when(element.findElement(By.xpath("./*[contains(@class,\"mat-badge-content\")]"))).thenReturn(badgeElement);
-        assertEquals(badgeElement, testSubject.getBadgeContent().getWrappedElement());
-    }
 }

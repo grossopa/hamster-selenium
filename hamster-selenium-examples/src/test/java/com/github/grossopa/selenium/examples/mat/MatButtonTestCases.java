@@ -24,8 +24,9 @@
 
 package com.github.grossopa.selenium.examples.mat;
 
-import com.github.grossopa.hamster.selenium.component.mat.main.MatBadge;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatButton;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
@@ -33,38 +34,43 @@ import java.util.List;
 
 import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests the actual feature of {@link MatBadge}.
+ * Tests the actual features of {@link MatButton}
  *
  * @author Jack Yin
  * @since 1.6
  */
-public class MatBadgeTestCases extends AbstractBrowserSupport {
+public class MatButtonTestCases extends AbstractBrowserSupport {
 
-    public void testBadge() {
-        driver.navigate().to("https://material.angular.io/components/badge/examples");
+    public void testButtons() {
+        driver.navigate().to("https://material.angular.io/components/button/examples");
 
-        WebComponent container = driver.findComponent(By.tagName("badge-overview-example"));
-        List<MatBadge> badges = container.findComponentsAs(By.className("mat-badge"), c -> c.as(mat()).toBadge());
-        assertEquals(5, badges.size());
-        badges.stream().peek(badge -> assertTrue(badge.validate())).map(MatBadge::getBadgeContent)
-                .forEach(content -> assertTrue(content.validate()));
+        WebComponent raisedButtonContainer = driver.findComponent(By.id("button-overview"))
+                .findComponent(By.tagName("button-overview-example"))
+                .findComponents(By2.xpathBuilder().relative("section").build()).get(1);
 
-        assertEquals("4", badges.get(0).getBadgeContent().getText());
-        assertEquals("1", badges.get(1).getBadgeContent().getText());
-        assertEquals("8", badges.get(2).getBadgeContent().getText());
-        assertEquals("7", badges.get(3).getBadgeContent().getText());
-        assertEquals("15", badges.get(4).getBadgeContent().getText());
+        List<MatButton> buttons = raisedButtonContainer.findComponentsAs(By.className("mat-button-base"),
+                c -> c.as(mat()).toButton());
+        assertEquals(6, buttons.size());
+        assertEquals(6L, buttons.stream().filter(MatButton::validate).count());
+        assertTrue(buttons.get(0).isEnabled());
+        assertFalse(buttons.get(4).isEnabled());
+        assertEquals("Basic", buttons.get(0).getText());
+        assertEquals("Primary", buttons.get(1).getText());
+        assertEquals("Accent", buttons.get(2).getText());
+        assertEquals("Warn", buttons.get(3).getText());
+        assertEquals("Disabled", buttons.get(4).getText());
+        assertEquals("Link", buttons.get(5).getText());
+        assertDoesNotThrow(() -> buttons.get(2).click());
     }
 
     public static void main(String[] args) {
-        MatBadgeTestCases test = new MatBadgeTestCases();
+        MatButtonTestCases test = new MatButtonTestCases();
         try {
             test.setUpDriver(EDGE);
-            test.testBadge();
+            test.testButtons();
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw ex;

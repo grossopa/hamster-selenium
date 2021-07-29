@@ -30,14 +30,12 @@ import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
-import com.github.grossopa.hamster.selenium.component.mat.*;
-
 import java.util.List;
 
 import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
-import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Material UI Angular - Autocomplete related cases.

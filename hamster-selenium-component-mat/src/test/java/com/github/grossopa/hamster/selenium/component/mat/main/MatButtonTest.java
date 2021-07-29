@@ -28,7 +28,6 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -36,14 +35,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link MatBadge}
+ * Tests for {@link MatButton}
  *
  * @author Jack Yin
  * @since 1.6
  */
-class MatBadgeTest {
+class MatButtonTest {
 
-    MatBadge testSubject;
+    MatButton testSubject;
+
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MatConfig config = mock(MatConfig.class);
@@ -51,31 +51,23 @@ class MatBadgeTest {
     @BeforeEach
     void setUp() {
         when(config.getCssPrefix()).thenReturn("mat-");
-        testSubject = new MatBadge(element, driver, config);
+        testSubject = new MatButton(element, driver, config);
     }
-
 
     @Test
     void getComponentName() {
-        assertEquals("Badge", testSubject.getComponentName());
+        assertEquals("Button", testSubject.getComponentName());
     }
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-badge");
+        when(element.getAttribute("class")).thenReturn("mat-button-base");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("");
+        when(element.getAttribute("class")).thenReturn("mat-button-base-123");
         assertFalse(testSubject.validate());
-    }
-
-    @Test
-    void getBadgeContent() {
-        WebElement badgeElement = mock(WebElement.class);
-        when(element.findElement(By.xpath("./*[contains(@class,\"mat-badge-content\")]"))).thenReturn(badgeElement);
-        assertEquals(badgeElement, testSubject.getBadgeContent().getWrappedElement());
     }
 }

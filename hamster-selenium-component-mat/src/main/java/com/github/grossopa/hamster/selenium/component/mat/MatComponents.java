@@ -30,6 +30,8 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatAutocomplete;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatBadge;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatBottomSheet;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatButton;
 import com.github.grossopa.selenium.core.component.AbstractComponents;
 import org.openqa.selenium.By;
 
@@ -134,5 +136,23 @@ public class MatComponents extends AbstractComponents {
      */
     public MatBadge toBadge() {
         return new MatBadge(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatBottomSheet}.
+     *
+     * @return the {@link MatBottomSheet} instance
+     */
+    public MatBottomSheet toBottomSheet() {
+        return new MatBottomSheet(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatButton}.
+     *
+     * @return the {@link MatButton} instance
+     */
+    public MatButton toButton() {
+        return new MatButton(component, driver, config);
     }
 }
