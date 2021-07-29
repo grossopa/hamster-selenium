@@ -49,14 +49,15 @@ public class MuiGrid extends AbstractMuiComponent {
         return className.contains("MuiGrid-item");
     }
 
-    /**
-     * @param num the number defined in front
-     * @return true if it is a Grid component
-     */
-    public Boolean checkGridItemSpacingValue(int num) {
-        int spaceNumber = num * 4;
-
-    }
+    // Temp comment as building error
+//    /**
+//     * @param num the number defined in front
+//     * @return true if it is a Grid component
+//     */
+//    public Boolean checkGridItemSpacingValue(int num) {
+//        int spaceNumber = num * 4;
+//
+//    }
 
     @Override
     public String toString() {
