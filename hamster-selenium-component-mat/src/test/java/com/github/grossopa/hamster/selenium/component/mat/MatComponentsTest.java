@@ -110,4 +110,14 @@ class MatComponentsTest {
     void toButton() {
         assertEquals(element, testSubject.toButton().getWrappedElement());
     }
+
+    @Test
+    void toButtonToggleGroup() {
+        assertEquals(element, testSubject.toButtonToggleGroup().getWrappedElement());
+    }
+
+    @Test
+    void toButtonToggle() {
+        assertEquals(element, testSubject.toButtonToggle().getWrappedElement());
+    }
 }

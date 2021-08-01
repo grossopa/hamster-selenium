@@ -28,10 +28,7 @@ import com.github.grossopa.hamster.selenium.component.mat.action.CloseOptionsAct
 import com.github.grossopa.hamster.selenium.component.mat.action.OpenOptionsAction;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
-import com.github.grossopa.hamster.selenium.component.mat.main.MatAutocomplete;
-import com.github.grossopa.hamster.selenium.component.mat.main.MatBadge;
-import com.github.grossopa.hamster.selenium.component.mat.main.MatBottomSheet;
-import com.github.grossopa.hamster.selenium.component.mat.main.MatButton;
+import com.github.grossopa.hamster.selenium.component.mat.main.*;
 import com.github.grossopa.selenium.core.component.AbstractComponents;
 import org.openqa.selenium.By;
 
@@ -154,5 +151,23 @@ public class MatComponents extends AbstractComponents {
      */
     public MatButton toButton() {
         return new MatButton(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatButtonToggleGroup}.
+     *
+     * @return the {@link MatButtonToggleGroup} instance
+     */
+    public MatButtonToggleGroup toButtonToggleGroup() {
+        return new MatButtonToggleGroup(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatButtonToggle}.
+     *
+     * @return the {@link MatButtonToggle} instance
+     */
+    public MatButtonToggle toButtonToggle() {
+        return new MatButtonToggle(component, driver, config);
     }
 }
