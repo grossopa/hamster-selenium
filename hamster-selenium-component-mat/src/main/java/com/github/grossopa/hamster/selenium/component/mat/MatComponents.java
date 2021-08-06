@@ -170,4 +170,13 @@ public class MatComponents extends AbstractComponents {
     public MatButtonToggle toButtonToggle() {
         return new MatButtonToggle(component, driver, config);
     }
+
+    /**
+     * Wraps the given element to {@link MatCheckbox}.
+     *
+     * @return the {@link MatCheckbox} instance
+     */
+    public MatCheckbox toCheckbox() {
+        return new MatCheckbox(component, driver, config);
+    }
 }

@@ -38,6 +38,8 @@ import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
  * The group container of {@link MatButtonToggle}.
  *
  * @author Jack Yin
+ * @see <a href="https://material.angular.io/components/button-toggle/overview">
+ * https://material.angular.io/components/button-toggle/overview</a>
  * @since 1.6
  */
 public class MatButtonToggleGroup extends AbstractMatComponent {

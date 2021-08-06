@@ -28,27 +28,26 @@ import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
-import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 
 /**
- * &lt;mat-button-toggle&gt; are on/off toggles with the appearance of a button. These toggles can be configured to
- * behave as either radio-buttons or checkboxes. While they can be standalone, they are typically part of a
- * mat-button-toggle-group.
+ * &lt;mat-checkbox&gt; provides the same functionality as a native &lt;input type="checkbox"&gt;  enhanced with
+ * Material Design styling and animations.
  *
  * @author Jack Yin
  * @see <a href="https://material.angular.io/components/button-toggle/overview">
  * https://material.angular.io/components/button-toggle/overview</a>
  * @since 1.6
  */
-public class MatButtonToggle extends AbstractMatComponent {
+public class MatCheckbox extends AbstractMatComponent {
 
     /**
      * The component name
      */
-    public static final String COMPONENT_NAME = "ButtonToggle";
+    public static final String COMPONENT_NAME = "Checkbox";
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -57,7 +56,7 @@ public class MatButtonToggle extends AbstractMatComponent {
      * @param driver the root driver
      * @param config the Material UI Angular configuration
      */
-    public MatButtonToggle(WebElement element, ComponentWebDriver driver, MatConfig config) {
+    public MatCheckbox(WebElement element, ComponentWebDriver driver, MatConfig config) {
         super(element, driver, config);
     }
 
@@ -68,30 +67,27 @@ public class MatButtonToggle extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "button-toggle");
-    }
-
-    @Override
-    public void click() {
-        getButton().click();
+        return attributeContains(ATTR_CLASS, config.getCssPrefix() + "checkbox");
     }
 
     @Override
     public boolean isSelected() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "button-toggle-checked");
+        return getInput().isSelected();
     }
 
     @Override
     public boolean isEnabled() {
-        return getButton().isEnabled();
+        return !attributeContains(ATTR_CLASS, config.getCssPrefix() + "checkbox-disabled");
     }
 
     /**
-     * Gets the inner button element.
+     * Gets the inner input element.
      *
-     * @return the inner button element.
+     * @return the inner input element.
      */
-    public WebComponent getButton() {
-        return this.findComponent(xpathBuilder().relative("button").build());
+    public WebComponent getInput() {
+        return this.findComponent(By.className(config.getCssPrefix() + "checkbox-input"));
     }
+
 }
+

@@ -120,4 +120,9 @@ class MatComponentsTest {
     void toButtonToggle() {
         assertEquals(element, testSubject.toButtonToggle().getWrappedElement());
     }
+
+    @Test
+    void toCheckbox() {
+        assertEquals(element, testSubject.toCheckbox().getWrappedElement());
+    }
 }
