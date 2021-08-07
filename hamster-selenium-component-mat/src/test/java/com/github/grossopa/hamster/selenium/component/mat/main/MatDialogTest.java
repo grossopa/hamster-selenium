@@ -31,62 +31,72 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link MatChipList}
+ * Tests for {@link MatDialog}
  *
  * @author Jack Yin
- * @since 1.6
+ * @since 1.0
  */
-class MatChipListTest {
+class MatDialogTest {
 
-    MatChipList testSubject;
+    MatDialog testSubject;
 
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MatConfig config = mock(MatConfig.class);
 
-    WebElement chipElement1 = mock(WebElement.class);
-    WebElement chipElement2 = mock(WebElement.class);
-
     @BeforeEach
     void setUp() {
         when(config.getCssPrefix()).thenReturn("mat-");
         when(config.getTagPrefix()).thenReturn("mat-");
-        when(element.findElements(By.tagName("mat-chip"))).thenReturn(newArrayList(chipElement1, chipElement2));
-
-        testSubject = new MatChipList(element, driver, config);
-    }
-
-    @Test
-    void getComponentName() {
-        assertEquals("ChipList", testSubject.getComponentName());
+        testSubject = new MatDialog(element, driver, config);
     }
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-chip-list");
+        when(element.getAttribute("class")).thenReturn("mat-dialog-container");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-chip-list-333");
+        when(element.getAttribute("class")).thenReturn("mat-dialog-container-333");
         assertFalse(testSubject.validate());
     }
 
     @Test
-    void getChips() {
-        assertEquals(2, testSubject.getChips().size());
+    void getComponentName() {
+        assertEquals("Dialog", testSubject.getComponentName());
     }
 
     @Test
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
-        assertEquals("MatChipList{element=inner-element}", testSubject.toString());
+        assertEquals("MatDialog{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void getDialogTitle() {
+        WebElement dialogTitle = mock(WebElement.class);
+        when(element.findElement(By.className("mat-dialog-title"))).thenReturn(dialogTitle);
+        assertEquals(dialogTitle, testSubject.getDialogTitle().getWrappedElement());
+    }
+
+    @Test
+    void getDialogContent() {
+        WebElement dialogContent = mock(WebElement.class);
+        when(element.findElement(By.className("mat-dialog-content"))).thenReturn(dialogContent);
+        assertEquals(dialogContent, testSubject.getDialogContent().getWrappedElement());
+    }
+
+    @Test
+    void getDialogActions() {
+        WebElement dialogActions = mock(WebElement.class);
+        when(element.findElement(By.className("mat-dialog-actions"))).thenReturn(dialogActions);
+        assertEquals(dialogActions, testSubject.getDialogActions().getWrappedElement());
     }
 }

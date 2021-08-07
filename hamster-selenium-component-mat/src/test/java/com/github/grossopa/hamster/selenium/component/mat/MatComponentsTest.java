@@ -132,7 +132,14 @@ class MatComponentsTest {
     }
 
     @Test
+    void toDialog() {
+        assertEquals(element, testSubject.toDialog().getWrappedElement());
+    }
+
+    @Test
     void toFormField() {
         assertEquals(element, testSubject.toFormField().getWrappedElement());
     }
+
+
 }

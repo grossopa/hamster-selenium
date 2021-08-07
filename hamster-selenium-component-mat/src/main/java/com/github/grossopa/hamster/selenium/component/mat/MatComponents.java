@@ -190,6 +190,15 @@ public class MatComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the given element to {@link MatDialog}.
+     *
+     * @return the {@link MatDialog} instance
+     */
+    public MatDialog toDialog() {
+        return new MatDialog(component, driver, config);
+    }
+
+    /**
      * Wraps the given element to {@link MatFormField}.
      *
      * @return the {@link MatFormField} instance
