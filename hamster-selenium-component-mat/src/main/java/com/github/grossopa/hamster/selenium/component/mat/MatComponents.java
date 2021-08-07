@@ -179,4 +179,22 @@ public class MatComponents extends AbstractComponents {
     public MatCheckbox toCheckbox() {
         return new MatCheckbox(component, driver, config);
     }
+
+    /**
+     * Wraps the given element to {@link MatChipList}.
+     *
+     * @return the {@link MatChipList} instance
+     */
+    public MatChipList toChipList() {
+        return new MatChipList(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatFormField}.
+     *
+     * @return the {@link MatFormField} instance
+     */
+    public MatFormField toFormField() {
+        return new MatFormField(component, driver, config);
+    }
 }

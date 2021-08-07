@@ -125,4 +125,14 @@ class MatComponentsTest {
     void toCheckbox() {
         assertEquals(element, testSubject.toCheckbox().getWrappedElement());
     }
+
+    @Test
+    void toChipList() {
+        assertEquals(element, testSubject.toChipList().getWrappedElement());
+    }
+
+    @Test
+    void toFormField() {
+        assertEquals(element, testSubject.toFormField().getWrappedElement());
+    }
 }
