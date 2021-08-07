@@ -94,4 +94,9 @@ public class MatButtonToggle extends AbstractMatComponent {
     public WebComponent getButton() {
         return this.findComponent(xpathBuilder().relative("button").build());
     }
+
+    @Override
+    public String toString() {
+        return "MatButtonToggle{" + "element=" + element + '}';
+    }
 }

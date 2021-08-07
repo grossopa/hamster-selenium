@@ -68,4 +68,9 @@ public class MatBottomSheet extends AbstractMatComponent {
     public boolean validate() {
         return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "bottom-sheet-container");
     }
+
+    @Override
+    public String toString() {
+        return "MatBottomSheet{" + "element=" + element + '}';
+    }
 }

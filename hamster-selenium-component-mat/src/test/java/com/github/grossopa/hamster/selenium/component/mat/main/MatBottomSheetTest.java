@@ -70,4 +70,10 @@ class MatBottomSheetTest {
         when(element.getAttribute("class")).thenReturn("mat-bottom-sheet-container-123");
         assertFalse(testSubject.validate());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("inner-element");
+        assertEquals("MatBottomSheet{element=inner-element}", testSubject.toString());
+    }
 }

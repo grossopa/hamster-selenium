@@ -107,4 +107,10 @@ class MatButtonToggleTest {
     void getButton() {
         assertEquals(buttonElement, testSubject.getButton().getWrappedElement());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("inner-element");
+        assertEquals("MatButtonToggle{element=inner-element}", testSubject.toString());
+    }
 }

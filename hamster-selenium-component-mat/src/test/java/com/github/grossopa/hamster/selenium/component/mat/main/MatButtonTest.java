@@ -70,4 +70,10 @@ class MatButtonTest {
         when(element.getAttribute("class")).thenReturn("mat-button-base-123");
         assertFalse(testSubject.validate());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("inner-element");
+        assertEquals("MatButton{element=inner-element}", testSubject.toString());
+    }
 }

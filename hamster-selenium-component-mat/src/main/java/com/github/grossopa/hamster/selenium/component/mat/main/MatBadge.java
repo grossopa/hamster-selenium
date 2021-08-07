@@ -82,5 +82,8 @@ public class MatBadge extends AbstractMatComponent {
         return new MatBadgeContent(component, driver, config);
     }
 
-
+    @Override
+    public String toString() {
+        return "MatBadge{" + "element=" + element + '}';
+    }
 }

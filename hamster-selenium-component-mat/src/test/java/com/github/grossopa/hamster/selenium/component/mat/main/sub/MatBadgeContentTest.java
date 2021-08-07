@@ -69,4 +69,10 @@ class MatBadgeContentTest {
         when(element.getAttribute("class")).thenReturn("");
         assertFalse(testSubject.validate());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("inner-element");
+        assertEquals("MatBadgeContent{element=inner-element}", testSubject.toString());
+    }
 }

@@ -84,4 +84,10 @@ class MatButtonToggleGroupTest {
     void getButtonToggles() {
         assertEquals(2, testSubject.getButtonToggles().size());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("inner-element");
+        assertEquals("MatButtonToggleGroup{element=inner-element}", testSubject.toString());
+    }
 }

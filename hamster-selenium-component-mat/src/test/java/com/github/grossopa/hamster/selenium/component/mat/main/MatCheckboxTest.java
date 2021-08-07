@@ -105,4 +105,10 @@ class MatCheckboxTest {
     void getInput() {
         assertEquals(inputElement, testSubject.getInput().getWrappedElement());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("inner-element");
+        assertEquals("MatCheckbox{element=inner-element}", testSubject.toString());
+    }
 }

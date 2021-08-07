@@ -64,4 +64,10 @@ public class MatBadgeContent extends AbstractMatComponent {
     public boolean validate() {
         return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "badge-content");
     }
+
+    @Override
+    public String toString() {
+        return "MatBadgeContent{" + "element=" + element + '}';
+    }
+
 }

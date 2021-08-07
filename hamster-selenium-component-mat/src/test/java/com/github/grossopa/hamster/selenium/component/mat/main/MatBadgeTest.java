@@ -78,4 +78,10 @@ class MatBadgeTest {
         when(element.findElement(By.xpath("./*[contains(@class,\"mat-badge-content\")]"))).thenReturn(badgeElement);
         assertEquals(badgeElement, testSubject.getBadgeContent().getWrappedElement());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("inner-element");
+        assertEquals("MatBadge{element=inner-element}", testSubject.toString());
+    }
 }
