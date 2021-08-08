@@ -137,9 +137,12 @@ class MatComponentsTest {
     }
 
     @Test
+    void toAccordion() {
+        assertEquals(element, testSubject.toAccordion().getWrappedElement());
+    }
+
+    @Test
     void toFormField() {
         assertEquals(element, testSubject.toFormField().getWrappedElement());
     }
-
-
 }

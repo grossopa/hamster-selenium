@@ -199,6 +199,15 @@ public class MatComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the given element to {@link MatAccordion}.
+     *
+     * @return the {@link MatAccordion} instance
+     */
+    public MatAccordion toAccordion() {
+        return new MatAccordion(component, driver, config);
+    }
+
+    /**
      * Wraps the given element to {@link MatFormField}.
      *
      * @return the {@link MatFormField} instance
