@@ -38,7 +38,7 @@ import static org.mockito.Mockito.when;
  * Tests for {@link MatBottomSheet}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.6
  */
 class MatBottomSheetTest {
 

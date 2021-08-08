@@ -35,7 +35,12 @@ import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfi
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 
 /**
+ * {@code <mat-form-field>} is a component used to wrap several Angular Material components and apply common Text field
+ * styles such as the underline, floating label, and hint messages.
+ *
  * @author Jack Yin
+ * @see <a href="https://material.angular.io/components/form-field/overview">
+ * https://material.angular.io/components/form-field/overview</a>
  * @since 1.6
  */
 public class MatFormField extends AbstractMatComponent {
@@ -61,26 +66,79 @@ public class MatFormField extends AbstractMatComponent {
         return COMPONENT_NAME;
     }
 
+    @Override
+    public boolean validate() {
+        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "form-field");
+    }
+
+    /**
+     * Gets the prefix container that before the input tag.
+     *
+     * @return the prefix container that before the input tag.
+     */
     public WebComponent getPrefix() {
         return this.findComponent(By.className(config.getCssPrefix() + "form-field-prefix"));
     }
 
+    /**
+     * Gets the primary container that contains the input tag.
+     *
+     * @return the primary container that contains the input tag.
+     */
     public WebComponent getInfix() {
         return this.findComponent(By.className(config.getCssPrefix() + "form-field-infix"));
     }
 
+    /**
+     * Gets the prefix container that after the input tag.
+     *
+     * @return the prefix container that after the input tag.
+     */
     public WebComponent getSuffix() {
         return this.findComponent(By.className(config.getCssPrefix() + "form-field-suffix"));
     }
 
-    public WebComponent getInput() {
-        return this.getInfix().findComponent(By.xpath("./*"));
+    /**
+     * Gets the hint label.
+     *
+     * @return the hint label.
+     */
+    public WebComponent getHint() {
+        return this.findComponent(By.className(config.getCssPrefix() + "hint"));
     }
 
+    /**
+     * Gets the inner input element
+     *
+     * @return the inner input element
+     */
+    public WebComponent getInput() {
+        return this.getInfix().findComponent(By.xpath("./input"));
+    }
+
+    /**
+     * Gets the label element
+     *
+     * @return the label element
+     */
     public WebComponent getLabel() {
-        return this.getInfix().findComponent(
-                xpathBuilder().anywhereRelative().attr(ATTR_CLASS)
-                        .contains(config.getCssPrefix() + "form-field-label-wrapper").child("label").axes()
-                        .child("mat-label").build());
+        return this.getInfix().findComponent(xpathBuilder().anywhereRelative().attr(ATTR_CLASS)
+                .contains(config.getCssPrefix() + "form-field-label-wrapper").child("label").axes().child("mat-label")
+                .build());
+    }
+
+    /**
+     * Gets the error label element
+     *
+     * @return the error label element
+     */
+    public WebComponent getError() {
+        return this.findComponent(By.className(config.getCssPrefix() + "form-field-subscript-wrapper"))
+                .findComponent(By.className(config.getCssPrefix() + "error"));
+    }
+
+    @Override
+    public String toString() {
+        return "MatFormField{" + "element=" + element + '}';
     }
 }
