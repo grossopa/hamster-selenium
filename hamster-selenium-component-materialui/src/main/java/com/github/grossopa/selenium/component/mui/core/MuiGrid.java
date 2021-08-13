@@ -54,46 +54,13 @@ public class MuiGrid extends AbstractMuiComponent {
      * @param driver the root driver
      * @param config the Material UI configuration
      */
-    protected MuiGrid(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    public MuiGrid(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
     @Override
     public String getComponentName() {
         return COMPONENT_NAME;
-    }
-
-    /**
-     * TODO add comments for public method please
-     *
-     * @return
-     */
-    public boolean isContainer() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "Grid-container");
-    }
-
-    /**
-     * TODO add comments for public method please
-     *
-     * @return
-     */
-    public boolean isItem() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "Grid-item");
-    }
-
-    // Temp comment as building error
-    //    /**
-    //     * @param num the number defined in front
-    //     * @return true if it is a Grid component
-    //     */
-    //    public Boolean checkGridItemSpacingValue(int num) {
-    //        int spaceNumber = num * 4;
-    //
-    //    }
-
-    @Override
-    public String toString() {
-        return "MuiGrid{" + "element=" + element + '}';
     }
 
     /**
@@ -105,4 +72,39 @@ public class MuiGrid extends AbstractMuiComponent {
     public boolean validate() {
         return config.validateByCss(this, config.getCssPrefix() + COMPONENT_NAME);
     }
+
+    /**
+     * There are two types of layout: containers and items.
+     * This function is to check if the tested element is a container.
+     *
+     * @return true if it is a Grid container component
+     */
+    public boolean isContainer() {
+        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "Grid-container");
+    }
+
+    /**
+     * There are two types of layout: containers and items.
+     * This function is to check if the tested element is an item.
+     *
+     * @return true if it is a Grid container component
+     */
+    public boolean isItem() {
+        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "Grid-item");
+    }
+
+    /**
+     * @param num the number defined in front
+     * @return the padding value for item grid.
+     */
+    public Integer gridItemSpacingValue(int num) {
+        int spaceValue = num * 4;
+        return spaceValue;
+    }
+
+    @Override
+    public String toString() {
+        return "MuiGrid{" + "element=" + element + '}';
+    }
+
 }

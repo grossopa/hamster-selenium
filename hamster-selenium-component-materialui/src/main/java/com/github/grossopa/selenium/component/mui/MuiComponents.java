@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.component.mui;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.core.MuiGrid;
 import com.github.grossopa.selenium.component.mui.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
@@ -130,6 +131,15 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiCheckbox toCheckbox() {
         return new MuiCheckbox(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
+     *
+     * @return wrapped {@link MuiGrid} instance on the given component
+     */
+    public MuiGrid toGrid() {
+        return new MuiGrid(component, driver, config);
     }
 
     /**
