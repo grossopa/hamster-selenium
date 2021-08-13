@@ -25,7 +25,7 @@ public class MuiGridTest {
 
     @Test
     void getComponentName() {
-        assertEquals(MuiPopover.COMPONENT_NAME, testGrid.getComponentName());
+        assertEquals(MuiGrid.COMPONENT_NAME, testGrid.getComponentName());
     }
 
     @Test
