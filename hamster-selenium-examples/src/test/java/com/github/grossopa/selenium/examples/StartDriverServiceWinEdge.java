@@ -37,8 +37,7 @@ import java.io.IOException;
  */
 public class StartDriverServiceWinEdge {
 
-//    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_91.0.864.59.exe";
-    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_91.0.864.71.exe";
+    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_92.0.902.78.exe";
 
     public static final int PORT = 38383;
 
@@ -46,7 +45,7 @@ public class StartDriverServiceWinEdge {
     public static void main(String[] args) throws IOException {
         DriverConfig config = new DriverConfig();
         config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("91.0.864.59");
+        config.setDriverVersion("92.0.902.78");
         config.setType(WebDriverType.EDGE);
         config.setPort(PORT);
 

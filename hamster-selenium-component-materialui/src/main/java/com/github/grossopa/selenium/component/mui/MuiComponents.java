@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.component.mui;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
 import com.github.grossopa.selenium.component.mui.core.MuiGrid;
 import com.github.grossopa.selenium.component.mui.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.feedback.MuiBackdrop;
@@ -150,8 +151,7 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiSelect} instance on the given component
      */
     public MuiSelect toSelect(By optionLocator) {
-        requireNonNull(optionLocator);
-        return new MuiSelect(component, driver, config, optionLocator);
+        return new MuiSelect(component, driver, config, MuiSelectConfig.builder(optionLocator).build());
     }
 
     /**
@@ -165,9 +165,9 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiSelect} instance on the given component
      */
     public MuiSelect toSelect(By optionLocator, String optionValueAttribute) {
-        requireNonNull(optionLocator);
-        requireNonNull(optionValueAttribute);
-        return new MuiSelect(component, driver, config, optionLocator, optionValueAttribute);
+        MuiSelectConfig selectConfig = MuiSelectConfig.builder(optionLocator).optionValueAttribute(optionValueAttribute)
+                .build();
+        return new MuiSelect(component, driver, config, selectConfig);
     }
 
     /**

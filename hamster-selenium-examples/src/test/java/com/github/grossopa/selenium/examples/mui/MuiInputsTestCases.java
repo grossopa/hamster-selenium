@@ -29,6 +29,7 @@ import com.github.grossopa.selenium.component.mui.navigation.*;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
+import org.apache.commons.math3.geometry.spherical.twod.Edge;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -38,6 +39,7 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.junit.jupiter.api.Assertions.*;
@@ -406,7 +408,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiInputsTestCases test = new MuiInputsTestCases();
         try {
-            test.setUpDriver(CHROME);
+            test.setUpDriver(EDGE);
             test.testBreadcrumbs();
             test.testTextInput();
             test.testSwitch();
