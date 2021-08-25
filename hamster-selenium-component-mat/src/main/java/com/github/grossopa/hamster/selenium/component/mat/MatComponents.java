@@ -215,4 +215,22 @@ public class MatComponents extends AbstractComponents {
     public MatFormField toFormField() {
         return new MatFormField(component, driver, config);
     }
+
+    /**
+     * Wraps the given element to {@link MatGridList}.
+     *
+     * @return the {@link MatGridList} instance
+     */
+    public MatGridList toGridList() {
+        return new MatGridList(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatGridTile}.
+     *
+     * @return the {@link MatGridTile} instance
+     */
+    public MatGridTile toGridTile() {
+        return new MatGridTile(component, driver, config);
+    }
 }

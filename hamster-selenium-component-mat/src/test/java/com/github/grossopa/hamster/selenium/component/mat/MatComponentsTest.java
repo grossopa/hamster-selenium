@@ -145,4 +145,14 @@ class MatComponentsTest {
     void toFormField() {
         assertEquals(element, testSubject.toFormField().getWrappedElement());
     }
+
+    @Test
+    void toGridList() {
+        assertEquals(element, testSubject.toGridList().getWrappedElement());
+    }
+
+    @Test
+    void toGridTile() {
+        assertEquals(element, testSubject.toGridTile().getWrappedElement());
+    }
 }
