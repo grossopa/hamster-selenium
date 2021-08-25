@@ -48,6 +48,7 @@ import lombok.Getter;
 import org.openqa.selenium.By;
 
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
 import static java.util.Objects.requireNonNull;
@@ -168,6 +169,20 @@ public class MuiComponents extends AbstractComponents {
         MuiSelectConfig selectConfig = MuiSelectConfig.builder(optionLocator).optionValueAttribute(optionValueAttribute)
                 .build();
         return new MuiSelect(component, driver, config, selectConfig);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSelect} instance.
+     *
+     * @param optionLocator the locator for locating the options (NOTE: it is the option element NOT the option
+     * container)
+     * @param configEnrichConsumer allows developer to configure using the builder
+     * @return wrapped {@link MuiSelect} instance on the given component
+     */
+    public MuiSelect toSelect(By optionLocator, Consumer<MuiSelectConfig.MuiSelectConfigBuilder> configEnrichConsumer) {
+        MuiSelectConfig.MuiSelectConfigBuilder builder = MuiSelectConfig.builder(optionLocator);
+        configEnrichConsumer.accept(builder);
+        return new MuiSelect(component, driver, config, builder.build());
     }
 
     /**

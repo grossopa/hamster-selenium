@@ -66,7 +66,6 @@ class MuiComponentsTest {
         testSubject.setContext(component, driver);
     }
 
-
     @Test
     void mui() {
         assertNotNull(MuiComponents.mui().getConfig());
@@ -107,6 +106,12 @@ class MuiComponentsTest {
     @Test
     void testToSelect() {
         assertEquals(element, testSubject.toSelect(By.id("abc"), "attribute-value-name").getWrappedElement());
+    }
+
+    @Test
+    void testToSelect2() {
+        assertEquals(element,
+                testSubject.toSelect(By.id("abc"), builder -> builder.multiple(true)).getWrappedElement());
     }
 
     @Test
@@ -261,8 +266,8 @@ class MuiComponentsTest {
         MuiAutocompleteTagLocators tagLocators = mock(MuiAutocompleteTagLocators.class);
         OpenOptionsAction openOptionsAction = mock(OpenOptionsAction.class);
         CloseOptionsAction closeOptionsAction = mock(CloseOptionsAction.class);
-        MuiAutocomplete autocomplete = testSubject
-                .toAutocomplete(By.className("options"), tagLocators, openOptionsAction, closeOptionsAction);
+        MuiAutocomplete autocomplete = testSubject.toAutocomplete(By.className("options"), tagLocators,
+                openOptionsAction, closeOptionsAction);
         assertEquals(element, autocomplete.getWrappedElement());
         assertEquals(By.className("options"), autocomplete.getOptionLocator());
         assertEquals(tagLocators, autocomplete.getTagLocators());

@@ -41,6 +41,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -189,9 +190,8 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void selectByVisibleText(String text, Long delayInMillis) {
-        getOptions2(delayInMillis).stream()
-                .filter(option -> !config.isSelected(option) && StringUtils.equals(text, option.getText()))
-                .forEach(WebComponent::click);
+        doFilterAndAction(getOptions2(delayInMillis),
+                option -> !config.isSelected(option) && StringUtils.equals(text, option.getText()));
     }
 
     @Override
@@ -209,14 +209,13 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void selectByValue(String value) {
-        getOptions2().stream().filter(option -> !config.isSelected(option) && StringUtils.equals(value,
-                option.getAttribute(selectConfig.getOptionValueAttribute()))).forEach(WebComponent::click);
+        selectByValue(value, 0L);
     }
 
     @Override
     public void selectByValue(String value, Long delayInMillis) {
-        getOptions2(delayInMillis).stream().filter(option -> !config.isSelected(option) && StringUtils.equals(value,
-                option.getAttribute(selectConfig.getOptionValueAttribute()))).forEach(WebComponent::click);
+        doFilterAndAction(getOptions2(delayInMillis), option -> !config.isSelected(option) && StringUtils.equals(value,
+                option.getAttribute(selectConfig.getOptionValueAttribute())));
     }
 
     @Override
@@ -232,14 +231,13 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void deselectByValue(String value) {
-        getOptions2().stream().filter(option -> config.isSelected(option) && StringUtils.equals(value,
-                option.getAttribute(selectConfig.getOptionValueAttribute()))).forEach(WebComponent::click);
+        deselectByValue(value, 0L);
     }
 
     @Override
     public void deselectByValue(String value, Long delayInMillis) {
-        getOptions2(delayInMillis).stream().filter(option -> config.isSelected(option) && StringUtils.equals(value,
-                option.getAttribute(selectConfig.getOptionValueAttribute()))).forEach(WebComponent::click);
+        doFilterAndAction(getOptions2(delayInMillis), option -> config.isSelected(option) && StringUtils.equals(value,
+                option.getAttribute(selectConfig.getOptionValueAttribute())));
     }
 
     @Override
@@ -262,9 +260,19 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void deselectByVisibleText(String text, Long delayInMillis) {
-        getOptions2(delayInMillis).stream()
-                .filter(option -> config.isSelected(option) && StringUtils.equals(text, option.getText()))
-                .forEach(WebComponent::click);
+        doFilterAndAction(getOptions2(delayInMillis),
+                option -> config.isSelected(option) && StringUtils.equals(text, option.getText()));
+    }
+
+    private void doFilterAndAction(List<WebComponent> options, Predicate<WebComponent> isTrue) {
+        for (WebComponent option : options) {
+            if (isTrue.test(option)) {
+                option.click();
+                if (!selectConfig.isMultiple()) {
+                    return;
+                }
+            }
+        }
     }
 
     /**

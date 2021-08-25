@@ -234,7 +234,6 @@ public class MuiSelectConfig {
             return this;
         }
 
-
         @Override
         public MuiSelectConfig build() {
             String optionValueAttributeVal = defaultIfBlank(this.optionValueAttribute, "data-value");
