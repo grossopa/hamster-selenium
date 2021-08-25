@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -63,19 +64,19 @@ class WebComponentUtilsTest {
 
     @Test
     void attributeContains() {
-        when(component.getAttribute(eq("testAttributeName"))).thenReturn("som1 some2 some-value some3");
+        when(component.getAttribute("testAttributeName")).thenReturn("som1 some2 some-value some3");
         assertTrue(WebComponentUtils.attributeContains(component, "testAttributeName", "some-value"));
     }
 
     @Test
     void attributeContainsNegative() {
-        when(component.getAttribute(eq("testAttributeName"))).thenReturn("som1 some2 some some3");
+        when(component.getAttribute("testAttributeName")).thenReturn("som1 some2 some some3");
         assertFalse(WebComponentUtils.attributeContains(component, "testAttributeName", "some-value"));
     }
 
     @Test
     void attributeContainsSplit() {
-        when(component.getAttribute(eq("testAttributeName"))).thenReturn("som1;some2;some-value;some3");
+        when(component.getAttribute("testAttributeName")).thenReturn("som1;some2;some-value;some3");
         assertTrue(WebComponentUtils.attributeContains(component, "testAttributeName", "some-value", ";"));
     }
 
@@ -88,5 +89,23 @@ class WebComponentUtilsTest {
     @Test
     void getCenter() {
         assertEquals(new Point(60, 70), WebComponentUtils.getCenter(20, 40, 60, 80));
+    }
+
+    @Test
+    void styleContains() {
+        WebElement element = mock(WebElement.class);
+        when(element.getAttribute("style")).thenReturn("display : block; width: 200px; height: 50% ;  ");
+        assertTrue(WebComponentUtils.styleContains(element, "display", "block"));
+        assertFalse(WebComponentUtils.styleContains(element, "display", "none"));
+        assertFalse(WebComponentUtils.styleContains(element, "background-color", "white"));
+        assertTrue(WebComponentUtils.styleContains(element, "WIDTH", "200PX"));
+    }
+
+    @Test
+    void styleContainsSimple() {
+        WebElement element = mock(WebElement.class);
+        when(element.getAttribute("style")).thenReturn("display:block");
+        assertTrue(WebComponentUtils.styleContains(element, "display", "block"));
+        assertFalse(WebComponentUtils.styleContains(element, "display", "none"));
     }
 }
