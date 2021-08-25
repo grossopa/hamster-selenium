@@ -185,6 +185,15 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
     boolean attributeContains(String attributeName, String attributeValue);
 
     /**
+     * WHether the style contains the name and value, e.g. display:block.
+     *
+     * @param styleName the name of the style
+     * @param styleValue the value of the style
+     * @return true for contains, false otherwise
+     */
+    boolean styleContains(String styleName, String styleValue);
+
+    /**
      * Whether the underlying element is currently focused.
      *
      * @return true if the underlying element is currently focused.
