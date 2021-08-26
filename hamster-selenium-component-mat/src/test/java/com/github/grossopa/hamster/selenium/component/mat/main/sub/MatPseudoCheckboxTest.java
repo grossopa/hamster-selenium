@@ -28,89 +28,67 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link MatChip}
+ * Tests for {@link MatPseudoCheckbox}
  *
  * @author Jack Yin
  * @since 1.6
  */
-class MatChipTest {
+class MatPseudoCheckboxTest {
 
-    MatChip testSubject;
+    MatPseudoCheckbox testSubject;
 
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MatConfig config = mock(MatConfig.class);
 
-    WebElement removeIconElement = mock(WebElement.class);
-
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
         when(config.getTagPrefix()).thenReturn("mat-");
-        when(element.findElement(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
-                removeIconElement);
-        when(element.findElements(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
-                newArrayList(removeIconElement));
-        testSubject = new MatChip(element, driver, config);
+        when(config.getCssPrefix()).thenReturn("mat-");
+        testSubject = new MatPseudoCheckbox(element, driver, config);
     }
-
 
     @Test
     void getComponentName() {
-        assertEquals("Chip", testSubject.getComponentName());
-    }
-
-    @Test
-    void getRemoveIcon() {
-        assertEquals(removeIconElement, testSubject.getRemoveIcon().getWrappedElement());
-    }
-
-    @Test
-    void getText() {
-        when(element.getText()).thenReturn("Lemon\ncancel");
-        when(removeIconElement.getText()).thenReturn("cancel");
-        assertEquals("Lemon", testSubject.getText());
-    }
-
-    @Test
-    void getTextNotMatch() {
-        when(element.getText()).thenReturn("Lemon");
-        when(removeIconElement.getText()).thenReturn("cancel");
-        assertEquals("Lemon", testSubject.getText());
-    }
-
-    @Test
-    void getTextNoRemoveIcon() {
-        when(element.getText()).thenReturn("Lemon");
-        when(element.findElements(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
-                newArrayList());
-        assertEquals("Lemon", testSubject.getText());
-    }
-
-    @Test
-    void testToString() {
-        when(element.toString()).thenReturn("inner-element");
-        assertEquals("MatChip{element=inner-element}", testSubject.toString());
+        assertEquals("PseudoCheckbox", testSubject.getComponentName());
     }
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-chip");
+        when(element.getAttribute("class")).thenReturn("mat-pseudo-checkbox");
         assertTrue(testSubject.validate());
     }
 
+
     @Test
-    void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-chip-333");
+    void validateNegative() {
+        when(element.getAttribute("class")).thenReturn("mat-pseudo-checkbox-23");
         assertFalse(testSubject.validate());
     }
+
+    @Test
+    void isSelected() {
+        when(element.getAttribute("class")).thenReturn("mat-pseudo-checkbox-checked");
+        assertTrue(testSubject.isSelected());
+    }
+
+    @Test
+    void isSelectedNegative() {
+        when(element.getAttribute("class")).thenReturn("mat-pseudo-checkbox");
+        assertFalse(testSubject.isSelected());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element");
+        assertEquals("MatPseudoCheckbox{element=element}", testSubject.toString());
+    }
+
 }

@@ -155,4 +155,14 @@ class MatComponentsTest {
     void toGridTile() {
         assertEquals(element, testSubject.toGridTile().getWrappedElement());
     }
+
+    @Test
+    void toList() {
+        assertEquals(element, testSubject.toList().getWrappedElement());
+    }
+
+    @Test
+    void toSelectionList() {
+        assertEquals(element, testSubject.toSelectionList().getWrappedElement());
+    }
 }

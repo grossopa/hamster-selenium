@@ -22,7 +22,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.hamster.selenium.component.mat.main.sub;
+package com.github.grossopa.hamster.selenium.component.mat.main;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -37,80 +37,57 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link MatChip}
+ * Tests for {@link MatList}
  *
  * @author Jack Yin
  * @since 1.6
  */
-class MatChipTest {
+class MatListTest {
 
-    MatChip testSubject;
+    MatList testSubject;
 
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MatConfig config = mock(MatConfig.class);
 
-    WebElement removeIconElement = mock(WebElement.class);
-
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
         when(config.getTagPrefix()).thenReturn("mat-");
-        when(element.findElement(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
-                removeIconElement);
-        when(element.findElements(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
-                newArrayList(removeIconElement));
-        testSubject = new MatChip(element, driver, config);
-    }
+        when(config.getCssPrefix()).thenReturn("mat-");
 
+        testSubject = new MatList(element, driver, config);
+    }
 
     @Test
     void getComponentName() {
-        assertEquals("Chip", testSubject.getComponentName());
-    }
-
-    @Test
-    void getRemoveIcon() {
-        assertEquals(removeIconElement, testSubject.getRemoveIcon().getWrappedElement());
-    }
-
-    @Test
-    void getText() {
-        when(element.getText()).thenReturn("Lemon\ncancel");
-        when(removeIconElement.getText()).thenReturn("cancel");
-        assertEquals("Lemon", testSubject.getText());
-    }
-
-    @Test
-    void getTextNotMatch() {
-        when(element.getText()).thenReturn("Lemon");
-        when(removeIconElement.getText()).thenReturn("cancel");
-        assertEquals("Lemon", testSubject.getText());
-    }
-
-    @Test
-    void getTextNoRemoveIcon() {
-        when(element.getText()).thenReturn("Lemon");
-        when(element.findElements(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
-                newArrayList());
-        assertEquals("Lemon", testSubject.getText());
-    }
-
-    @Test
-    void testToString() {
-        when(element.toString()).thenReturn("inner-element");
-        assertEquals("MatChip{element=inner-element}", testSubject.toString());
+        assertEquals("List", testSubject.getComponentName());
     }
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-chip");
+        when(element.getAttribute("class")).thenReturn("mat-list");
         assertTrue(testSubject.validate());
     }
 
     @Test
-    void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-chip-333");
+    void validateNegative() {
+        when(element.getAttribute("class")).thenReturn("mat-list-23");
         assertFalse(testSubject.validate());
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element");
+        assertEquals("MatList{element=element}", testSubject.toString());
+    }
+
+    @Test
+    void getListItems() {
+        WebElement listItem1 = mock(WebElement.class);
+        WebElement listItem2 = mock(WebElement.class);
+        when(element.findElements(By.className("mat-list-item"))).thenReturn(newArrayList(listItem1, listItem2));
+
+        assertEquals(2, testSubject.getListItems().size());
+    }
+
 }

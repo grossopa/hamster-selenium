@@ -233,4 +233,22 @@ public class MatComponents extends AbstractComponents {
     public MatGridTile toGridTile() {
         return new MatGridTile(component, driver, config);
     }
+
+    /**
+     * Wraps the given element to {@link MatList}.
+     *
+     * @return the {@link MatList} instance
+     */
+    public MatList toList() {
+        return new MatList(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatSelectionList}.
+     *
+     * @return the {@link MatSelectionList} instance
+     */
+    public MatSelectionList toSelectionList() {
+        return new MatSelectionList(component, driver, config);
+    }
 }

@@ -37,80 +37,86 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link MatChip}
+ * Tests for {@link MatListOption}
  *
  * @author Jack Yin
  * @since 1.6
  */
-class MatChipTest {
+class MatListOptionTest {
 
-    MatChip testSubject;
+    MatListOption testSubject;
 
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MatConfig config = mock(MatConfig.class);
 
-    WebElement removeIconElement = mock(WebElement.class);
-
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
         when(config.getTagPrefix()).thenReturn("mat-");
-        when(element.findElement(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
-                removeIconElement);
-        when(element.findElements(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
-                newArrayList(removeIconElement));
-        testSubject = new MatChip(element, driver, config);
-    }
+        when(config.getCssPrefix()).thenReturn("mat-");
 
+        testSubject = new MatListOption(element, driver, config);
+    }
 
     @Test
     void getComponentName() {
-        assertEquals("Chip", testSubject.getComponentName());
-    }
-
-    @Test
-    void getRemoveIcon() {
-        assertEquals(removeIconElement, testSubject.getRemoveIcon().getWrappedElement());
-    }
-
-    @Test
-    void getText() {
-        when(element.getText()).thenReturn("Lemon\ncancel");
-        when(removeIconElement.getText()).thenReturn("cancel");
-        assertEquals("Lemon", testSubject.getText());
-    }
-
-    @Test
-    void getTextNotMatch() {
-        when(element.getText()).thenReturn("Lemon");
-        when(removeIconElement.getText()).thenReturn("cancel");
-        assertEquals("Lemon", testSubject.getText());
-    }
-
-    @Test
-    void getTextNoRemoveIcon() {
-        when(element.getText()).thenReturn("Lemon");
-        when(element.findElements(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
-                newArrayList());
-        assertEquals("Lemon", testSubject.getText());
-    }
-
-    @Test
-    void testToString() {
-        when(element.toString()).thenReturn("inner-element");
-        assertEquals("MatChip{element=inner-element}", testSubject.toString());
+        assertEquals("ListOption", testSubject.getComponentName());
     }
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-chip");
+        when(element.getAttribute("class")).thenReturn("mat-list-option");
         assertTrue(testSubject.validate());
     }
 
+
     @Test
-    void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-chip-333");
+    void validateNegative() {
+        when(element.getAttribute("class")).thenReturn("mat-list-option-23");
         assertFalse(testSubject.validate());
     }
+
+    @Test
+    void isSelected() {
+        when(element.getAttribute("aria-selected")).thenReturn("true");
+        assertTrue(testSubject.isSelected());
+    }
+
+    @Test
+    void isSelectedNegative() {
+        when(element.getAttribute("aria-selected")).thenReturn("");
+        assertFalse(testSubject.isSelected());
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element");
+        assertEquals("MatListOption{element=element}", testSubject.toString());
+    }
+
+    @Test
+    void isEnabledNegative() {
+        when(element.getAttribute("aria-disabled")).thenReturn("true");
+        assertFalse(testSubject.isEnabled());
+    }
+
+    @Test
+    void isEnabled() {
+        when(element.getAttribute("aria-disabled")).thenReturn("");
+        assertTrue(testSubject.isEnabled());
+    }
+
+    @Test
+    void getCheckbox() {
+        WebElement checkbox = mock(WebElement.class);
+        when(element.findElements(By.className("mat-pseudo-checkbox"))).thenReturn(newArrayList(checkbox));
+        assertNotNull(testSubject.getCheckbox());
+    }
+
+    @Test
+    void getCheckboxNull() {
+        when(element.findElements(By.tagName("mat-pseudo-checkbox"))).thenReturn(newArrayList());
+        assertNull(testSubject.getCheckbox());
+    }
+
 }
