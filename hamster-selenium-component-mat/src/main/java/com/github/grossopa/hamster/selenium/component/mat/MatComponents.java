@@ -29,6 +29,7 @@ import com.github.grossopa.hamster.selenium.component.mat.action.OpenOptionsActi
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.hamster.selenium.component.mat.main.*;
+import com.github.grossopa.hamster.selenium.component.mat.main.sub.MatMenuItem;
 import com.github.grossopa.selenium.core.component.AbstractComponents;
 import org.openqa.selenium.By;
 
@@ -250,5 +251,14 @@ public class MatComponents extends AbstractComponents {
      */
     public MatSelectionList toSelectionList() {
         return new MatSelectionList(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatMenuItem}.
+     *
+     * @return the {@link MatMenuItem} instance
+     */
+    public MatMenuItem toMenuItem() {
+        return new MatMenuItem(component, driver, config);
     }
 }

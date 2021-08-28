@@ -69,6 +69,12 @@ class WebComponentUtilsTest {
     }
 
     @Test
+    void attributeContainsNull() {
+        when(component.getAttribute("testAttributeName")).thenReturn(null);
+        assertFalse(WebComponentUtils.attributeContains(component, "testAttributeName", "some-value"));
+    }
+
+    @Test
     void attributeContainsNegative() {
         when(component.getAttribute("testAttributeName")).thenReturn("som1 some2 some some3");
         assertFalse(WebComponentUtils.attributeContains(component, "testAttributeName", "some-value"));

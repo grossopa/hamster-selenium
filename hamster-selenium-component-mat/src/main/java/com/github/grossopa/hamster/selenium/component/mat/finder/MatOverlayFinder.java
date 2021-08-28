@@ -45,8 +45,8 @@ import static org.openqa.selenium.By.xpath;
  */
 public class MatOverlayFinder {
 
-    private final ComponentWebDriver driver;
-    private final MatConfig config;
+    protected final ComponentWebDriver driver;
+    protected final MatConfig config;
 
     /**
      * Constructs an instance with given config.

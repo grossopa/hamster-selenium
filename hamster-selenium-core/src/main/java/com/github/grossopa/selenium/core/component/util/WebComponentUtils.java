@@ -74,7 +74,7 @@ public class WebComponentUtils {
 
     /**
      * Whether the style attribute contains desired value.
-     *
+     * <p>
      * {@code
      * <div style="display : block; width: 200px; height: 50% ;   ">
      *
@@ -92,8 +92,8 @@ public class WebComponentUtils {
      * @return true for found any matches
      */
     public static boolean styleContains(WebElement element, String styleName, String styleValue) {
-        return stream(element.getAttribute("style").split(";"))
-                .map(str -> stream(str.split(":")).map(String::strip).collect(Collectors.joining(":")))
+        return stream(element.getAttribute("style").split(";")).map(
+                        str -> stream(str.split(":")).map(String::strip).collect(Collectors.joining(":")))
                 .anyMatch(str -> StringUtils.equalsIgnoreCase(str, styleName + ":" + styleValue));
     }
 
@@ -118,8 +118,11 @@ public class WebComponentUtils {
      */
     public static boolean attributeContains(WebElement element, String attributeName, String attributeValue,
             String splitRegex) {
-        return stream(element.getAttribute(attributeName).split(splitRegex))
-                .anyMatch(css -> strip(css).equals(attributeValue));
+        String elementAttributeValue = element.getAttribute(attributeName);
+        if (StringUtils.isBlank(elementAttributeValue)) {
+            return false;
+        }
+        return stream(elementAttributeValue.split(splitRegex)).anyMatch(css -> strip(css).equals(attributeValue));
     }
 
     /**
