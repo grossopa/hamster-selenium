@@ -104,6 +104,5 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         test.testTable();
         test.testTableNoHeader();
         test.testSelect();
-        test.stopDriver();
     }
 }

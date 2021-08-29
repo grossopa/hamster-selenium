@@ -22,35 +22,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.examples;
+package com.github.grossopa.hamster.selenium.component.mat.action;
 
-import com.github.grossopa.selenium.core.driver.CreateDriverServiceAction;
-import com.github.grossopa.selenium.core.driver.DriverConfig;
-import com.github.grossopa.selenium.core.driver.WebDriverType;
-import org.openqa.selenium.remote.service.DriverService;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatAutocomplete;
+import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 
-import java.io.IOException;
+import java.util.List;
 
 /**
- * Starts a DriverService if the test case is running on a Mac
+ * Action for list based options such as {@link MatAutocomplete} to close the options.
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.6
  */
-public class StartDriverServiceMac {
+@FunctionalInterface
+public interface CloseOptionsAction {
 
-    public static final String EXECUTABLE_PATH = "/Users/jack/software/webdrivers/chromedriver-90";
-    public static final int PORT = 38383;
-
-    @SuppressWarnings("all")
-    public static void main(String[] args) throws IOException {
-        DriverConfig config = new DriverConfig();
-        config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("90");
-        config.setType(WebDriverType.CHROME);
-        config.setPort(PORT);
-
-        DriverService driverService = config.getType().apply(new CreateDriverServiceAction(), config);
-        driverService.start();
-    }
+    /**
+     * Closes the options by operating on parentOptionContainer and / or the options list.
+     *
+     * @param ownerComponent the owner component to operate onto
+     * @param options the options list to operate onto
+     * @param driver current Web Driver instance
+     */
+    void close(WebComponent ownerComponent, List<? extends WebComponent> options, ComponentWebDriver driver);
 }

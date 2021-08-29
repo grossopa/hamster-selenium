@@ -25,9 +25,12 @@
 package com.github.grossopa.selenium.core.component.util;
 
 import com.github.grossopa.selenium.core.component.WebComponent;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
+
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 import static org.apache.commons.lang3.StringUtils.strip;
@@ -48,7 +51,7 @@ public class WebComponentUtils {
     }
 
     /**
-     * Whether the attribute of the element contains the desired value, it use a single space as splitter. Examples:
+     * Whether the attribute of the element contains the desired value, it uses a single space as splitter. Examples:
      * <p>
      * &lt;div class="attr-1 attr-2 attr-3"&gt;Some text&lt;/div&gt;
      * </p>
@@ -60,16 +63,38 @@ public class WebComponentUtils {
      *   <li>attributeContains(element, "class", "ATTR-1") == false // case sensitive</li>
      * </ul>
      *
-     * @param element
-     *         the attribute of the element to evaluate
-     * @param attributeName
-     *         the name of the tested attribute
-     * @param attributeValue
-     *         the desired value of the attribute
+     * @param element the attribute of the element to evaluate
+     * @param attributeName the name of the tested attribute
+     * @param attributeValue the desired value of the attribute
      * @return true for found any matches
      */
     public static boolean attributeContains(WebElement element, String attributeName, String attributeValue) {
         return attributeContains(element, attributeName, attributeValue, " ");
+    }
+
+    /**
+     * Whether the style attribute contains desired value.
+     * <p>
+     * {@code
+     * <div style="display : block; width: 200px; height: 50% ;   ">
+     *
+     * <ul>
+     *   <li>styleContains(element, "display", "block") == true</li>
+     *   <li>styleContains(element, "display", "none") == false</li>
+     *   <li>styleContains(element, "background-color", "white") == false // require full value to be present</li>
+     *   <li>styleContains(element, "WIDTH", "200PX") == true // case insensitive</li>
+     * </ul>
+     * }
+     *
+     * @param element the element to find the style from
+     * @param styleName the name of the style to find
+     * @param styleValue the value of the style to find
+     * @return true for found any matches
+     */
+    public static boolean styleContains(WebElement element, String styleName, String styleValue) {
+        return stream(element.getAttribute("style").split(";")).map(
+                        str -> stream(str.split(":")).map(String::strip).collect(Collectors.joining(":")))
+                .anyMatch(str -> StringUtils.equalsIgnoreCase(str, styleName + ":" + styleValue));
     }
 
     /**
@@ -85,27 +110,25 @@ public class WebComponentUtils {
      *   <li>attributeContains(element, "class", "ATTR-1", ";") == false // case sensitive</li>
      * </ul>
      *
-     * @param element
-     *         the attribute of the element to evaluate
-     * @param attributeName
-     *         the name of the tested attribute
-     * @param attributeValue
-     *         the desired value of the attribute
-     * @param splitRegex
-     *         the split String
+     * @param element the attribute of the element to evaluate
+     * @param attributeName the name of the tested attribute
+     * @param attributeValue the desired value of the attribute
+     * @param splitRegex the split String
      * @return true for found any matches
      */
     public static boolean attributeContains(WebElement element, String attributeName, String attributeValue,
             String splitRegex) {
-        return stream(element.getAttribute(attributeName).split(splitRegex))
-                .anyMatch(css -> strip(css).equals(attributeValue));
+        String elementAttributeValue = element.getAttribute(attributeName);
+        if (StringUtils.isBlank(elementAttributeValue)) {
+            return false;
+        }
+        return stream(elementAttributeValue.split(splitRegex)).anyMatch(css -> strip(css).equals(attributeValue));
     }
 
     /**
      * Gets the center point of the given rectangle.
      *
-     * @param rect
-     *         the rectangle
+     * @param rect the rectangle
      * @return center point
      */
     public static Point getCenter(Rectangle rect) {
@@ -115,14 +138,10 @@ public class WebComponentUtils {
     /**
      * Gets the center point of the given rectangle.
      *
-     * @param x
-     *         x point
-     * @param y
-     *         y point
-     * @param height
-     *         height of the rectangle
-     * @param width
-     *         width of the rectangle
+     * @param x x point
+     * @param y y point
+     * @param height height of the rectangle
+     * @param width width of the rectangle
      * @return center point
      */
     public static Point getCenter(int x, int y, int height, int width) {

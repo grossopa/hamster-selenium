@@ -70,8 +70,6 @@ public class AntdGeneralTestCases extends AbstractBrowserSupport {
             test.testButton();
         } catch (Exception ex) {
             ex.printStackTrace();
-        } finally {
-            test.stopDriver();
         }
     }
 }

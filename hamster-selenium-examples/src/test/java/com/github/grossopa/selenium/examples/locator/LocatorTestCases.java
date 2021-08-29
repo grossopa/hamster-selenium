@@ -78,8 +78,6 @@ public class LocatorTestCases extends AbstractBrowserSupport {
         } catch (Exception ex) {
             ex.printStackTrace();
             throw ex;
-        } finally {
-            test.stopDriver();
         }
     }
 }

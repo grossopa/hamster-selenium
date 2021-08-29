@@ -25,11 +25,8 @@
 package com.github.grossopa.selenium.component.mui.inputs;
 
 import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
-import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
-import com.github.grossopa.selenium.component.mui.action.DefaultCloseOptionsAction;
-import com.github.grossopa.selenium.component.mui.action.DefaultOpenOptionsAction;
-import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
 import com.github.grossopa.selenium.component.mui.core.MuiPopover;
 import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
@@ -38,13 +35,13 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -75,27 +72,8 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
      */
     public static final String COMPONENT_NAME = "Select";
 
-    private final String optionValueAttribute;
-    private final By optionsLocator;
-    private final OpenOptionsAction openOptionsAction;
-    private final CloseOptionsAction closeOptionsAction;
-
     private final MuiModalFinder modalFinder;
-
-    /**
-     * Constructs an instance with the delegated element and root driver.
-     *
-     * <p>both Open option and Close option are default.</p>
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     * @param optionsLocator the locator for finding the options
-     */
-    public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, By optionsLocator) {
-        this(element, driver, config, optionsLocator, "data-value", new DefaultOpenOptionsAction(),
-                new DefaultCloseOptionsAction());
-    }
+    private final MuiSelectConfig selectConfig;
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -103,34 +81,13 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
      * @param element the delegated element
      * @param driver the root driver
      * @param config the Material UI configuration
-     * @param optionsLocator the locator for finding the options
-     * @param optionValueAttribute the value attribute of each option item
+     * @param selectConfig the component configuration class
      */
-    public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, By optionsLocator,
-            String optionValueAttribute) {
-        this(element, driver, config, optionsLocator, optionValueAttribute, new DefaultOpenOptionsAction(),
-                new DefaultCloseOptionsAction());
-    }
-
-    /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     * @param optionsLocator the locator for finding the options
-     * @param optionValueAttribute the value attribute of each option item
-     * @param openOptionsAction the action to open the options
-     * @param closeOptionsAction the action to close the options
-     */
-    public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, By optionsLocator,
-            String optionValueAttribute, OpenOptionsAction openOptionsAction, CloseOptionsAction closeOptionsAction) {
+    public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, MuiSelectConfig selectConfig) {
         super(element, driver, config);
-        this.optionValueAttribute = requireNonNull(optionValueAttribute);
-        this.optionsLocator = requireNonNull(optionsLocator);
-        this.openOptionsAction = requireNonNull(openOptionsAction);
-        this.closeOptionsAction = requireNonNull(closeOptionsAction);
+        requireNonNull(selectConfig);
         this.modalFinder = new MuiModalFinder(driver, config);
+        this.selectConfig = selectConfig;
     }
 
     @Override
@@ -151,7 +108,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     @Override
     public List<WebComponent> getOptions2(Long delayInMillis) {
         WebComponent container = this.openOptions(delayInMillis);
-        return container.findComponents(optionsLocator);
+        return container.findComponents(selectConfig.getOptionsLocator());
     }
 
     @Override
@@ -176,13 +133,13 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
             return component;
         }
 
-        this.openOptionsAction.open(this, driver);
+        this.selectConfig.getOpenOptionsAction().open(this, driver);
 
         WebComponent container;
         if (delayInMillis > 0L) {
             WebDriverWait wait = driver.createWait(delayInMillis);
-            container = driver
-                    .mapElement(wait.until(d -> modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME)));
+            container = driver.mapElement(
+                    wait.until(d -> modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME)));
         } else {
             container = modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME);
         }
@@ -202,7 +159,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
         }
 
         List<WebComponent> options = getOptions2();
-        closeOptionsAction.close(this, options, driver);
+        selectConfig.getCloseOptionsAction().close(this, options, driver);
 
         if (delayInMillis > 0L) {
             WebDriverWait wait = new WebDriverWait(driver, 0L);
@@ -233,9 +190,8 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void selectByVisibleText(String text, Long delayInMillis) {
-        getOptions2(delayInMillis).stream()
-                .filter(option -> !config.isSelected(option) && StringUtils.equals(text, option.getText()))
-                .forEach(WebComponent::click);
+        doFilterAndAction(getOptions2(delayInMillis),
+                option -> !config.isSelected(option) && StringUtils.equals(text, option.getText()));
     }
 
     @Override
@@ -253,14 +209,13 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void selectByValue(String value) {
-        getOptions2().stream().filter(option -> !config.isSelected(option) && StringUtils
-                .equals(value, option.getAttribute(optionValueAttribute))).forEach(WebComponent::click);
+        selectByValue(value, 0L);
     }
 
     @Override
     public void selectByValue(String value, Long delayInMillis) {
-        getOptions2(delayInMillis).stream().filter(option -> !config.isSelected(option) && StringUtils
-                .equals(value, option.getAttribute(optionValueAttribute))).forEach(WebComponent::click);
+        doFilterAndAction(getOptions2(delayInMillis), option -> !config.isSelected(option) && StringUtils.equals(value,
+                option.getAttribute(selectConfig.getOptionValueAttribute())));
     }
 
     @Override
@@ -276,14 +231,13 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void deselectByValue(String value) {
-        getOptions2().stream().filter(option -> config.isSelected(option) && StringUtils
-                .equals(value, option.getAttribute(optionValueAttribute))).forEach(WebComponent::click);
+        deselectByValue(value, 0L);
     }
 
     @Override
     public void deselectByValue(String value, Long delayInMillis) {
-        getOptions2(delayInMillis).stream().filter(option -> config.isSelected(option) && StringUtils
-                .equals(value, option.getAttribute(optionValueAttribute))).forEach(WebComponent::click);
+        doFilterAndAction(getOptions2(delayInMillis), option -> config.isSelected(option) && StringUtils.equals(value,
+                option.getAttribute(selectConfig.getOptionValueAttribute())));
     }
 
     @Override
@@ -306,49 +260,31 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void deselectByVisibleText(String text, Long delayInMillis) {
-        getOptions2(delayInMillis).stream()
-                .filter(option -> config.isSelected(option) && StringUtils.equals(text, option.getText()))
-                .forEach(WebComponent::click);
+        doFilterAndAction(getOptions2(delayInMillis),
+                option -> config.isSelected(option) && StringUtils.equals(text, option.getText()));
+    }
+
+    private void doFilterAndAction(List<WebComponent> options, Predicate<WebComponent> isTrue) {
+        for (WebComponent option : options) {
+            if (isTrue.test(option)) {
+                option.click();
+                if (!selectConfig.isMultiple()) {
+                    return;
+                }
+            }
+        }
     }
 
     /**
-     * Gets option value attribute.
+     * Gets the select configuration
      *
-     * @return the option value attribute
+     * @return the select configuration
      */
-    public String getOptionValueAttribute() {
-        return optionValueAttribute;
-    }
-
-    /**
-     * Gets options locator.
-     *
-     * @return the options locator
-     */
-    public By getOptionsLocator() {
-        return optionsLocator;
-    }
-
-    /**
-     * Gets open options action.
-     *
-     * @return the open options action
-     */
-    public OpenOptionsAction getOpenOptionsAction() {
-        return openOptionsAction;
-    }
-
-    /**
-     * Gets close options action.
-     *
-     * @return the close options action
-     */
-    public CloseOptionsAction getCloseOptionsAction() {
-        return closeOptionsAction;
+    public MuiSelectConfig selectConfig() {
+        return selectConfig;
     }
 
     @Override
-    @SuppressWarnings("java:S6212")
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -360,22 +296,18 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
             return false;
         }
         MuiSelect muiSelect = (MuiSelect) o;
-        return optionValueAttribute.equals(muiSelect.optionValueAttribute) && optionsLocator
-                .equals(muiSelect.optionsLocator) && openOptionsAction.equals(muiSelect.openOptionsAction)
-                && closeOptionsAction.equals(muiSelect.closeOptionsAction) && modalFinder.equals(muiSelect.modalFinder);
+        return Objects.equals(modalFinder, muiSelect.modalFinder) && Objects.equals(selectConfig,
+                muiSelect.selectConfig);
     }
 
     @Override
     public int hashCode() {
-        return Objects
-                .hash(super.hashCode(), optionValueAttribute, optionsLocator, openOptionsAction, closeOptionsAction,
-                        modalFinder);
+        return Objects.hash(super.hashCode(), modalFinder, selectConfig);
     }
 
     @Override
     public String toString() {
-        return "MuiSelect{" + "optionValueAttribute='" + optionValueAttribute + '\'' + ", optionsLocator="
-                + optionsLocator + ", openOptionsAction=" + openOptionsAction + ", closeOptionsAction="
-                + closeOptionsAction + ", modalFinder=" + modalFinder + ", element=" + element + '}';
+        return "MuiSelect{" + "modalFinder=" + modalFinder + ", selectConfig=" + selectConfig + ", element=" + element
+                + '}';
     }
 }

@@ -27,6 +27,8 @@ package com.github.grossopa.selenium.component.mui;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
+import com.github.grossopa.selenium.component.mui.core.MuiGrid;
 import com.github.grossopa.selenium.component.mui.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
@@ -46,6 +48,7 @@ import lombok.Getter;
 import org.openqa.selenium.By;
 
 import javax.annotation.Nullable;
+import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
 import static java.util.Objects.requireNonNull;
@@ -133,6 +136,15 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
+     *
+     * @return wrapped {@link MuiGrid} instance on the given component
+     */
+    public MuiGrid toGrid() {
+        return new MuiGrid(component, driver, config);
+    }
+
+    /**
      * Wraps the current {@link WebComponent} to {@link MuiSelect} instance.
      *
      * @param optionLocator the locator for locating the options (NOTE: it is the option element NOT the option
@@ -140,8 +152,7 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiSelect} instance on the given component
      */
     public MuiSelect toSelect(By optionLocator) {
-        requireNonNull(optionLocator);
-        return new MuiSelect(component, driver, config, optionLocator);
+        return new MuiSelect(component, driver, config, MuiSelectConfig.builder(optionLocator).build());
     }
 
     /**
@@ -155,9 +166,23 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiSelect} instance on the given component
      */
     public MuiSelect toSelect(By optionLocator, String optionValueAttribute) {
-        requireNonNull(optionLocator);
-        requireNonNull(optionValueAttribute);
-        return new MuiSelect(component, driver, config, optionLocator, optionValueAttribute);
+        MuiSelectConfig selectConfig = MuiSelectConfig.builder(optionLocator).optionValueAttribute(optionValueAttribute)
+                .build();
+        return new MuiSelect(component, driver, config, selectConfig);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSelect} instance.
+     *
+     * @param optionLocator the locator for locating the options (NOTE: it is the option element NOT the option
+     * container)
+     * @param configEnrichConsumer allows developer to configure using the builder
+     * @return wrapped {@link MuiSelect} instance on the given component
+     */
+    public MuiSelect toSelect(By optionLocator, Consumer<MuiSelectConfig.MuiSelectConfigBuilder> configEnrichConsumer) {
+        MuiSelectConfig.MuiSelectConfigBuilder builder = MuiSelectConfig.builder(optionLocator);
+        configEnrichConsumer.accept(builder);
+        return new MuiSelect(component, driver, config, builder.build());
     }
 
     /**

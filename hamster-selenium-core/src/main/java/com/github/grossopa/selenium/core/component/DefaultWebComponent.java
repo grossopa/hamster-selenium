@@ -111,7 +111,12 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
 
     @Override
     public boolean attributeContains(String attributeName, String attributeValue) {
-        return WebComponentUtils.attributeContains(this, attributeName, attributeValue);
+        return WebComponentUtils.attributeContains(element, attributeName, attributeValue);
+    }
+
+    @Override
+    public boolean styleContains(String styleName, String styleValue) {
+        return WebComponentUtils.styleContains(element, styleName, styleValue);
     }
 
     @Override

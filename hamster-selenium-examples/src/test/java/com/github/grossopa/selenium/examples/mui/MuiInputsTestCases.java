@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
-import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.junit.jupiter.api.Assertions.*;
@@ -104,7 +104,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
 
         // multi-select test
         MuiSelect multiSelect = driver.findComponent(By.id("demo-mutiple-name")).as(mui())
-                .toSelect(By2.className("MuiMenuItem-root"));
+                .toSelect(By2.className("MuiMenuItem-root"), builder -> builder.multiple(true));
 
         multiSelect.selectByVisibleText("Oliver Hansen", 800L);
         multiSelect.selectByVisibleText("April Tucker");
@@ -406,7 +406,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiInputsTestCases test = new MuiInputsTestCases();
         try {
-            test.setUpDriver(CHROME);
+            test.setUpDriver(EDGE);
             test.testBreadcrumbs();
             test.testTextInput();
             test.testSwitch();
@@ -422,8 +422,6 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw ex;
-        } finally {
-            test.stopDriver();
         }
     }
 }

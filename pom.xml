@@ -23,7 +23,8 @@
   ~ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.grossopa</groupId>
@@ -60,15 +61,16 @@
     <connection>scm:git:git@github.com:grossopa/hamster-selenium.git</connection>
     <developerConnection>scm:git:git@github.com:grossopa/hamster-selenium.git</developerConnection>
     <url>http://github.com/grossopa/hamster-selenium/tree/main</url>
-    <tag>1.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <modules>
     <module>hamster-selenium-core</module>
     <module>hamster-selenium-component-html</module>
     <module>hamster-selenium-component-materialui</module>
-    <module>hamster-selenium-examples</module>
     <module>hamster-selenium-component-antdesign</module>
+    <module>hamster-selenium-component-mat</module>
+    <module>hamster-selenium-examples</module>
   </modules>
 
   <properties>
@@ -106,7 +108,8 @@
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/jacoco.xml
+    </sonar.coverage.jacoco.xmlReportPaths>
     <sonar.language>java</sonar.language>
   </properties>
 
@@ -128,6 +131,12 @@
       <dependency>
         <groupId>com.github.grossopa</groupId>
         <artifactId>hamster-selenium-component-materialui</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.grossopa</groupId>
+        <artifactId>hamster-selenium-component-mat</artifactId>
         <version>${project.version}</version>
       </dependency>
 

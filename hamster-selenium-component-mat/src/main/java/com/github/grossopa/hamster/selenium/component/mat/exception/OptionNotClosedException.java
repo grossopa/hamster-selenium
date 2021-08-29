@@ -22,35 +22,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.examples;
-
-import com.github.grossopa.selenium.core.driver.CreateDriverServiceAction;
-import com.github.grossopa.selenium.core.driver.DriverConfig;
-import com.github.grossopa.selenium.core.driver.WebDriverType;
-import org.openqa.selenium.remote.service.DriverService;
-
-import java.io.IOException;
+package com.github.grossopa.hamster.selenium.component.mat.exception;
 
 /**
- * Starts a DriverService
+ * Thrown when option should be but not properly closed.
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.6
  */
-public class StartDriverService {
+public class OptionNotClosedException extends RuntimeException {
 
-    public static final String EXECUTABLE_PATH = "D://software/drivers/chromedriver-91.exe";
-    public static final int PORT = 38383;
-
-    @SuppressWarnings("all")
-    public static void main(String[] args) throws IOException {
-        DriverConfig config = new DriverConfig();
-        config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("91");
-        config.setType(WebDriverType.CHROME);
-        config.setPort(PORT);
-
-        DriverService driverService = config.getType().apply(new CreateDriverServiceAction(), config);
-        driverService.start();
+    /**
+     * Constructs an instance with message
+     *
+     * @param message the error message
+     */
+    public OptionNotClosedException(String message) {
+        super(message);
     }
 }

@@ -25,10 +25,9 @@
 package com.github.grossopa.selenium.component.mui.inputs;
 
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
-import com.github.grossopa.selenium.component.mui.action.DefaultCloseOptionsAction;
-import com.github.grossopa.selenium.component.mui.action.DefaultOpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
 import com.github.grossopa.selenium.component.mui.core.MuiPopover;
 import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -71,6 +70,7 @@ class MuiSelectTest {
     WebComponent optionContainer = mock(WebComponent.class);
     WebComponent menuPagerContainer = mock(WebComponent.class);
     List<WebComponent> options;
+    MuiSelectConfig selectConfig;
 
     private WebComponent createOptions(String value, String label, boolean selected) {
         WebComponent option = mock(WebComponent.class);
@@ -114,8 +114,8 @@ class MuiSelectTest {
     private void mockMenuPager() {
         WebComponent menuPagerComponent = mock(WebComponent.class);
         when(menuPagerComponent.isDisplayed()).thenReturn(true);
-        when(menuPagerContainer.findComponents(config.menuPagerLocator()))
-                .thenReturn(singletonList(menuPagerComponent));
+        when(menuPagerContainer.findComponents(config.menuPagerLocator())).thenReturn(
+                singletonList(menuPagerComponent));
         when(driver.findComponents(By.xpath("/html/body/div"))).thenReturn(asList(menuPagerContainer, optionContainer));
     }
 
@@ -131,6 +131,9 @@ class MuiSelectTest {
 
         optionContainer = mock(WebComponent.class);
         menuPagerContainer = mock(WebComponent.class);
+
+        selectConfig = MuiSelectConfig.builder(By.className("option")).optionValueAttribute("attr-val")
+                .openOptionsAction(openOptionsAction).closeOptionsAction(closeOptionsAction).multiple(false).build();
 
         when(driver.findComponents(By.xpath("/html/body/div"))).thenReturn(singletonList(optionContainer));
         when(driver.createWait(anyLong())).thenReturn(webDriverWait);
@@ -154,8 +157,8 @@ class MuiSelectTest {
                 createOptions("val-4", "Label 4 some label 123", true),
                 createOptions("val-5", "Label 5 some label 123", true));
 
-        testSubject = new MuiSelect(element, driver, config, By.className("option"), "attr-val", openOptionsAction,
-                closeOptionsAction);
+
+        testSubject = new MuiSelect(element, driver, config, selectConfig);
 
         mockOptionsClose();
 
@@ -168,24 +171,6 @@ class MuiSelectTest {
             this.mockOptionsClose();
             return null;
         }).when(closeOptionsAction).close(testSubject, options, driver);
-    }
-
-    @Test
-    void constructor1() {
-        MuiSelect select = new MuiSelect(element, driver, config, By.className("asdf"));
-        assertEquals("data-value", select.getOptionValueAttribute());
-        assertEquals(By.className("asdf"), select.getOptionsLocator());
-        assertEquals(DefaultOpenOptionsAction.class, select.getOpenOptionsAction().getClass());
-        assertEquals(DefaultCloseOptionsAction.class, select.getCloseOptionsAction().getClass());
-    }
-
-    @Test
-    void constructor2() {
-        MuiSelect select = new MuiSelect(element, driver, config, By.className("asdf"), "some-other");
-        assertEquals("some-other", select.getOptionValueAttribute());
-        assertEquals(By.className("asdf"), select.getOptionsLocator());
-        assertEquals(DefaultOpenOptionsAction.class, select.getOpenOptionsAction().getClass());
-        assertEquals(DefaultCloseOptionsAction.class, select.getCloseOptionsAction().getClass());
     }
 
     @Test
@@ -541,6 +526,11 @@ class MuiSelectTest {
     }
 
     @Test
+    void selectConfig() {
+        assertEquals(selectConfig, testSubject.selectConfig());
+    }
+
+    @Test
     void testEquals() {
         WebElement element1 = mock(WebElement.class);
         WebElement element2 = mock(WebElement.class);
@@ -548,44 +538,21 @@ class MuiSelectTest {
         ComponentWebDriver driver2 = mock(ComponentWebDriver.class);
         MuiConfig config1 = mock(MuiConfig.class);
         MuiConfig config2 = mock(MuiConfig.class);
-        By optionsLocator1 = mock(By.class);
-        By optionsLocator2 = mock(By.class);
-        String optionValueAttribute1 = "value1";
-        String optionValueAttribute2 = "value2";
-        OpenOptionsAction openOptionsAction1 = mock(OpenOptionsAction.class);
-        OpenOptionsAction openOptionsAction2 = mock(OpenOptionsAction.class);
-        CloseOptionsAction closeOptionsAction1 = mock(CloseOptionsAction.class);
-        CloseOptionsAction closeOptionsAction2 = mock(CloseOptionsAction.class);
 
+        MuiSelectConfig selectConfig1 = MuiSelectConfig.builder(By.className("option")).optionValueAttribute("attr-val")
+                .openOptionsAction(openOptionsAction).closeOptionsAction(closeOptionsAction).multiple(false).build();
+        MuiSelectConfig selectConfig2 = MuiSelectConfig.builder(By.className("option2"))
+                .optionValueAttribute("attr-val").openOptionsAction(openOptionsAction)
+                .closeOptionsAction(closeOptionsAction).multiple(false).build();
 
         SimpleEqualsTester tester = new SimpleEqualsTester();
 
-        tester.addEqualityGroup(
-                new MuiSelect(element1, driver1, config1, optionsLocator1, optionValueAttribute1, openOptionsAction1,
-                        closeOptionsAction1),
-                new MuiSelect(element1, driver1, config1, optionsLocator1, optionValueAttribute1, openOptionsAction1,
-                        closeOptionsAction1));
-        tester.addEqualityGroup(
-                new MuiSelect(element2, driver1, config1, optionsLocator1, optionValueAttribute1, openOptionsAction1,
-                        closeOptionsAction1));
-        tester.addEqualityGroup(
-                new MuiSelect(element1, driver2, config1, optionsLocator1, optionValueAttribute1, openOptionsAction1,
-                        closeOptionsAction1));
-        tester.addEqualityGroup(
-                new MuiSelect(element1, driver1, config2, optionsLocator1, optionValueAttribute1, openOptionsAction1,
-                        closeOptionsAction1));
-        tester.addEqualityGroup(
-                new MuiSelect(element1, driver1, config1, optionsLocator2, optionValueAttribute1, openOptionsAction1,
-                        closeOptionsAction1));
-        tester.addEqualityGroup(
-                new MuiSelect(element1, driver1, config1, optionsLocator1, optionValueAttribute2, openOptionsAction1,
-                        closeOptionsAction1));
-        tester.addEqualityGroup(
-                new MuiSelect(element1, driver1, config1, optionsLocator1, optionValueAttribute1, openOptionsAction2,
-                        closeOptionsAction1));
-        tester.addEqualityGroup(
-                new MuiSelect(element1, driver1, config1, optionsLocator1, optionValueAttribute1, openOptionsAction1,
-                        closeOptionsAction2));
+        tester.addEqualityGroup(new MuiSelect(element1, driver1, config1, selectConfig1),
+                new MuiSelect(element1, driver1, config1, selectConfig1));
+        tester.addEqualityGroup(new MuiSelect(element2, driver1, config1, selectConfig1));
+        tester.addEqualityGroup(new MuiSelect(element1, driver2, config1, selectConfig1));
+        tester.addEqualityGroup(new MuiSelect(element1, driver1, config2, selectConfig1));
+        tester.addEqualityGroup(new MuiSelect(element1, driver1, config1, selectConfig2));
 
         tester.testEquals();
     }
@@ -597,9 +564,9 @@ class MuiSelectTest {
         when(driver.toString()).thenReturn("driver-toString");
         when(element.toString()).thenReturn("element-toString");
         when(config.toString()).thenReturn("config-toString");
-        assertEquals("MuiSelect{optionValueAttribute='attr-val', optionsLocator=By.className: option, "
-                + "openOptionsAction=openOptionsAction-toString, closeOptionsAction=closeOptionsAction-toString,"
-                + " modalFinder=MuiModalFinder{driver=driver-toString, config=config-toString},"
-                + " element=element-toString}", testSubject.toString());
+        assertEquals("MuiSelect{modalFinder=MuiModalFinder{driver=driver-toString, config=config-toString}, "
+                + "selectConfig=MuiSelectConfig{optionValueAttribute='attr-val', optionsLocator=By.className:"
+                + " option, openOptionsAction=openOptionsAction-toString, closeOptionsAction=closeOptionsAction"
+                + "-toString, isMultiple=false}, element=element-toString}", testSubject.toString());
     }
 }

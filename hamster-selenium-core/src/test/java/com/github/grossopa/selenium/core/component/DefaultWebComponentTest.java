@@ -183,4 +183,11 @@ class DefaultWebComponentTest {
         when(element.toString()).thenReturn("element-string");
         assertEquals("DefaultWebComponent{element=element-string}", testSubject.toString());
     }
+
+    @Test
+    void styleContains() {
+        when(element.getAttribute("style")).thenReturn("display:block; background-color : black");
+        assertTrue(testSubject.styleContains("background-color", "black"));
+        assertFalse(testSubject.styleContains("background-color", "white"));
+    }
 }
