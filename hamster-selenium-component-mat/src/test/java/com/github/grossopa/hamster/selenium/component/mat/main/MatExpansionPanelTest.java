@@ -150,11 +150,11 @@ class MatExpansionPanelTest {
 
     @Test
     void collapseAlready() {
-        when(element.getAttribute("class")).thenReturn("mat-expanded");
-        assertTrue(testSubject.isExpanded());
-        testSubject.expand();
+        when(element.getAttribute("class")).thenReturn("");
+        assertFalse(testSubject.isExpanded());
+        testSubject.collapse();
         verify(headerElement, never()).click();
-        assertTrue(testSubject.isExpanded());
+        assertFalse(testSubject.isExpanded());
     }
 
     @Test
