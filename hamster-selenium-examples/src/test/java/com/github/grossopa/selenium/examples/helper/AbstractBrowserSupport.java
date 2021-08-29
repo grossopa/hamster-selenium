@@ -60,8 +60,4 @@ public abstract class AbstractBrowserSupport {
         driver = new DefaultComponentWebDriver(new InterceptingWebDriver(temp, new LoggingHandler(0L)));
     }
 
-    public void stopDriver() {
-        // do nothing
-    }
-
 }

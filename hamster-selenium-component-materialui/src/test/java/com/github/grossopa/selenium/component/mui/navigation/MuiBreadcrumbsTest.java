@@ -65,9 +65,9 @@ class MuiBreadcrumbsTest {
         return itemContainer;
     }
 
-    private WebElement createSeparator(String separator) {
+    private WebElement createSeparator() {
         WebElement separatorElement = mock(WebElement.class);
-        when(separatorElement.getText()).thenReturn(separator);
+        when(separatorElement.getText()).thenReturn("->");
         return separatorElement;
     }
 
@@ -78,7 +78,7 @@ class MuiBreadcrumbsTest {
                 createItemContainer("b2"));
         when(element.findElements(By2.className("MuiBreadcrumbs-li"))).thenReturn(itemContainers);
         when(element.findElements(By.className("MuiTouchRipple-root"))).thenReturn(new ArrayList<>());
-        List<WebElement> separators = asList(createSeparator("->"), createSeparator("->"));
+        List<WebElement> separators = asList(createSeparator(), createSeparator());
         when(element.findElements(By2.className("MuiBreadcrumbs-separator"))).thenReturn(separators);
         when(touchRipple.findElement(By.xpath("parent::*"))).thenReturn(touchRippleParent);
 

@@ -68,8 +68,6 @@ public class MatBadgeTestCases extends AbstractBrowserSupport {
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw ex;
-        } finally {
-            test.stopDriver();
         }
     }
 }

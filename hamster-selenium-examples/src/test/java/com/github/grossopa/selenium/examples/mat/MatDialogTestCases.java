@@ -37,7 +37,6 @@ import java.util.List;
 
 import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -81,8 +80,6 @@ public class MatDialogTestCases extends AbstractBrowserSupport {
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw ex;
-        } finally {
-            test.stopDriver();
         }
     }
 }

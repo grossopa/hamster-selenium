@@ -30,7 +30,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
 import java.util.List;
-import java.util.Locale;
 
 import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
@@ -103,8 +102,6 @@ public class MatFormFieldTestCases extends AbstractBrowserSupport {
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw ex;
-        } finally {
-            test.stopDriver();
         }
     }
 }

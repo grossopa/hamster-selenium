@@ -81,8 +81,6 @@ public class MatGridTestCases extends AbstractBrowserSupport {
         } catch (RuntimeException ex) {
             ex.printStackTrace();
             throw ex;
-        } finally {
-            test.stopDriver();
         }
     }
 }

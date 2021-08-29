@@ -36,9 +36,9 @@ import static com.github.grossopa.selenium.component.mui.config.MuiConfig.ATTR_C
  * Material Design’s responsive UI is based on a 12-column grid layout.
  *
  * @author Elena Wang
- * @since 1.6
  * @see <a href="https://material-ui.com/components/grid/">
  * https://material-ui.com/components/grid/</a>
+ * @since 1.6
  */
 public class MuiGrid extends AbstractMuiComponent {
 
@@ -74,8 +74,8 @@ public class MuiGrid extends AbstractMuiComponent {
     }
 
     /**
-     * There are two types of layout: containers and items.
-     * This function is to check if the tested element is a container.
+     * There are two types of layout: containers and items. This function is to check if the tested element is a
+     * container.
      *
      * @return true if it is a Grid container component
      */
@@ -84,8 +84,7 @@ public class MuiGrid extends AbstractMuiComponent {
     }
 
     /**
-     * There are two types of layout: containers and items.
-     * This function is to check if the tested element is an item.
+     * There are two types of layout: containers and items. This function is to check if the tested element is an item.
      *
      * @return true if it is a Grid container component
      */
@@ -94,12 +93,13 @@ public class MuiGrid extends AbstractMuiComponent {
     }
 
     /**
+     * ?
+     *
      * @param num the number defined in front
      * @return the padding value for item grid.
      */
     public Integer gridItemSpacingValue(int num) {
-        int spaceValue = num * 4;
-        return spaceValue;
+        return num * 4;
     }
 
     @Override
