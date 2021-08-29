@@ -165,4 +165,9 @@ class MatComponentsTest {
     void toSelectionList() {
         assertEquals(element, testSubject.toSelectionList().getWrappedElement());
     }
+
+    @Test
+    void toMenuItem() {
+        assertEquals(element, testSubject.toMenuItem().getWrappedElement());
+    }
 }

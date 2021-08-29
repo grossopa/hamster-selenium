@@ -113,6 +113,7 @@ public class MatMenu extends AbstractMatComponent {
      * @param animationInMillis wait for each selection due to animation
      * @param topMenuDelayInMillis top menu finding delays in milliseconds
      * @return the next expanded menu item
+     * @throws MenuItemNotFoundException when no matching menu items
      */
     public MatMenu expandItemByText(String text, long animationInMillis, long topMenuDelayInMillis) {
         return actionBy(menuItem -> StringUtils.equals(text, menuItem.getText()),
@@ -123,6 +124,7 @@ public class MatMenu extends AbstractMatComponent {
      * Selects the menu item by text
      *
      * @param text the index of the {@link MatMenuItem} to match
+     * @throws MenuItemNotFoundException when no matching menu items
      */
     public void selectItemByText(String text) {
         actionBy(menuItem -> StringUtils.equals(text, menuItem.getText()), menuItem -> {

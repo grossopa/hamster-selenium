@@ -206,6 +206,11 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toGrid() {
+        assertEquals(element, testSubject.toGrid().getWrappedElement());
+    }
+
+    @Test
     void toMenu() {
         assertEquals(element, testSubject.toMenu().getWrappedElement());
     }

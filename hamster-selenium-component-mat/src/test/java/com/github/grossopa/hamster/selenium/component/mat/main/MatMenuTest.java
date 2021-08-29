@@ -25,6 +25,7 @@
 package com.github.grossopa.hamster.selenium.component.mat.main;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
+import com.github.grossopa.hamster.selenium.component.mat.exception.MenuItemNotFoundException;
 import com.github.grossopa.hamster.selenium.component.mat.main.sub.MatMenuItem;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
@@ -35,6 +36,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.awt.*;
 import java.util.List;
 import java.util.function.Function;
 
@@ -171,6 +173,11 @@ class MatMenuTest {
     void selectItemByText() {
         testSubject.selectItemByText("Item 3");
         verify(menuItem3, times(1)).click();
+    }
+
+    @Test
+    void selectItemByTextNotMatch() {
+        assertThrows(MenuItemNotFoundException.class, () -> testSubject.selectItemByText("Item 4"));
     }
 
     @Test

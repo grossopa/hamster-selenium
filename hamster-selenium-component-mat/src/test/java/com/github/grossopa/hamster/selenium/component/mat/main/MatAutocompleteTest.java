@@ -76,8 +76,8 @@ class MatAutocompleteTest {
     WebElement inputElement = mock(WebElement.class);
 
     private void mockAutocompletePanelPresent() {
-        when(overlayContainer.findComponents(By2.className("mat-autocomplete-panel")))
-                .thenReturn(newArrayList(autocompletePanel));
+        when(overlayContainer.findComponents(By2.className("mat-autocomplete-panel"))).thenReturn(
+                newArrayList(autocompletePanel));
         when(autocompletePanel.isDisplayed()).thenReturn(true);
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
     }
@@ -100,8 +100,8 @@ class MatAutocompleteTest {
     }
 
     private void mockAutocompletePanelNotFound3() {
-        when(overlayContainer.findComponents(By2.className("mat-autocomplete-panel")))
-                .thenReturn(newArrayList(autocompletePanel));
+        when(overlayContainer.findComponents(By2.className("mat-autocomplete-panel"))).thenReturn(
+                newArrayList(autocompletePanel));
         when(autocompletePanel.isDisplayed()).thenReturn(false);
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
     }
@@ -141,6 +141,14 @@ class MatAutocompleteTest {
         }).when(closeOptionsAction).close(any(), any(), any());
     }
 
+    private void mockAutocompletePanelCloseUnsuccessful1() {
+        this.mockAutocompletePanelPresent();
+        doAnswer(answer -> {
+            this.mockAutocompletePanelPresent();
+            return null;
+        }).when(closeOptionsAction).close(any(), any(), any());
+    }
+
     private void mockOptionsList() {
         options.add(createOption("Option 1", false));
         options.add(createOption("Option 2", false));
@@ -160,8 +168,8 @@ class MatAutocompleteTest {
             return func.apply(driver);
         });
 
-        when(element.findElement(By.xpath(".//input[contains(@class,\"mat-autocomplete-trigger\")]")))
-                .thenReturn(inputElement);
+        when(element.findElement(By.xpath(".//input[contains(@class,\"mat-autocomplete-trigger\")]"))).thenReturn(
+                inputElement);
 
         testSubject = new MatAutocomplete(element, driver, config, overlayFinder, optionLocator, openOptionsAction,
                 closeOptionsAction);
@@ -317,6 +325,7 @@ class MatAutocompleteTest {
         verify(closeOptionsAction, times(1)).close(any(), any(), any());
     }
 
+
     @Test
     void closeOptionsSuccessful2WithDelays() {
         this.mockAutocompletePanelCloseSuccessful2();
@@ -332,6 +341,23 @@ class MatAutocompleteTest {
         assertFalse(autocompletePanel.isDisplayed());
         verify(closeOptionsAction, times(1)).close(any(), any(), any());
     }
+
+    @Test
+    void closeOptionsSuccessful4WithDelays() {
+        this.mockAutocompletePanelCloseSuccessful3();
+        testSubject.closeOptions(1000L);
+        assertFalse(autocompletePanel.isDisplayed());
+        verify(closeOptionsAction, times(1)).close(any(), any(), any());
+    }
+
+    @Test
+    void closeOptionsUnsuccessful1WithDelays() {
+        this.mockAutocompletePanelCloseUnsuccessful1();
+        testSubject.closeOptions(1000L);
+        assertTrue(autocompletePanel.isDisplayed());
+        verify(closeOptionsAction, times(1)).close(any(), any(), any());
+    }
+
 
     @Test
     void closeOptionsUnsuccessful1() {
