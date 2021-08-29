@@ -25,23 +25,27 @@
 package com.github.grossopa.hamster.selenium.component.mat.finder;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
-import com.github.grossopa.hamster.selenium.component.mat.exception.MenuItemNotFoundException;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatMenu;
+import com.github.grossopa.hamster.selenium.component.mat.main.MatOverlayContainer;
 import com.github.grossopa.hamster.selenium.component.mat.main.sub.MatMenuItem;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 
-import java.util.Arrays;
+import javax.annotation.Nullable;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
+
+import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
+import static com.google.common.collect.Lists.newArrayList;
 
 /**
  * The finder to locate the menu items in overlay.
  *
  * @author Jack Yin
+ * @see MatMenu
+ * @see MatMenuItem
  * @since 1.6
  */
 public class MatMenuItemFinder extends MatOverlayFinder {
@@ -56,57 +60,59 @@ public class MatMenuItemFinder extends MatOverlayFinder {
     }
 
     /**
-     * Finds the top layer menu items. It assumes the overlay has been expanded.
+     * Finds the top layer menu panel. It assumes the overlay has been expanded.
      *
      * @param delayInMillis the delay in milliseconds
-     * @return the found menu item list
+     * @return the found menu panel
+     * @throws TimeoutException if no top menus found.
      */
     public MatMenu findTopMenu(long delayInMillis) {
-        return driver.createWait(delayInMillis).until(d -> {
-            WebComponent container = findTopVisibleContainer();
-            if (container != null) {
-                List<WebComponent> boxes = container.findComponents(
-                        By.className(config.getCdkPrefix() + "overlay-connected-position-bounding-box"));
-                if (!boxes.isEmpty()) {
-                    WebComponent topVisibleBox = boxes.get(boxes.size() - 1);
+        return driver.createWait(delayInMillis).until(d -> findTopMenu());
+    }
 
-                    WebComponent panel = topVisibleBox.findComponent(
-                            By.className(config.getCssPrefix() + "menu-panel"));
-                    return new MatMenu(panel, driver, config);
-                }
+    /**
+     * Try finds the top layer menu panel, return null if no overlays found.
+     *
+     * @return the menu panel instance or null if not found
+     */
+    @Nullable
+    public MatMenu findTopMenu() {
+        MatOverlayContainer container = findTopVisibleContainer();
+        if (container != null) {
+            List<WebComponent> boxes = container.findComponents(
+                    By.className(config.getCdkPrefix() + "overlay-connected-position-bounding-box"));
+            if (!boxes.isEmpty()) {
+                WebComponent topVisibleBox = boxes.get(boxes.size() - 1);
+                WebComponent panel = topVisibleBox.findComponent(By.className(config.getCssPrefix() + "menu-panel"));
+                return new MatMenu(panel, driver, config);
             }
-            return null;
-        });
-    }
-
-    /**
-     * Navigates the sub menus by menu item text
-     *
-     * @param gapTimeInMillis wait for each selection, e.g. animation
-     * @param delayInMillis delay time for each top menu findings, please check {@link #findTopMenu(long)}
-     * @param menuTexts the text to match
-     */
-    public void navigateMenuItems(long gapTimeInMillis, long delayInMillis, String... menuTexts) {
-        navigateMenuItems(gapTimeInMillis, delayInMillis, Arrays.stream(menuTexts)
-                .<Predicate<MatMenuItem>>map(s -> menuItem -> StringUtils.equals(s, menuItem.getText()))
-                .collect(Collectors.toList()));
-    }
-
-    /**
-     * Navigates the sub menus.
-     *
-     * @param gapTimeInMillis wait for each selection, e.g. animation
-     * @param delayInMillis delay time for each top menu findings, please check {@link #findTopMenu(long)}
-     * @param menuItemToSelectPredicates the predicates for each layer to return true for the menu item to be select
-     */
-    public void navigateMenuItems(long gapTimeInMillis, long delayInMillis,
-            List<Predicate<MatMenuItem>> menuItemToSelectPredicates) {
-        for (Predicate<MatMenuItem> predicate : menuItemToSelectPredicates) {
-            List<MatMenuItem> menuItems = findTopMenu(delayInMillis).getMenuItems();
-            MatMenuItem item = menuItems.stream().filter(predicate).findAny()
-                    .orElseThrow(() -> new MenuItemNotFoundException("Menu item not found by predicate."));
-            driver.moveTo(item);
-            driver.threadSleep(gapTimeInMillis);
         }
+        return null;
+    }
+
+    /**
+     * Finds the menu panels. It assumes the overlay has been expanded.
+     *
+     * @param delayInMillis the delay in milliseconds
+     * @return the found menu panel
+     */
+    public List<MatMenu> findMenus(long delayInMillis) {
+        return driver.createWait(delayInMillis).until(d -> findMenus());
+    }
+
+    public List<MatMenu> findMenus() {
+        WebComponent container = findTopVisibleContainer();
+        if (container != null) {
+            return container.findComponentsAs(xpathBuilder().anywhereRelative().attr(ATTR_CLASS)
+                            .contains(config.getCdkPrefix() + "overlay-connected-position-bounding-box").descendant()
+                            .attr(ATTR_CLASS).contains(config.getCssPrefix() + "menu-panel").build(),
+                    c -> new MatMenu(c, driver, config));
+        }
+        return newArrayList();
+    }
+
+    @Override
+    public String toString() {
+        return "MatMenuItemFinder{" + "driver=" + driver + ", config=" + config + '}';
     }
 }

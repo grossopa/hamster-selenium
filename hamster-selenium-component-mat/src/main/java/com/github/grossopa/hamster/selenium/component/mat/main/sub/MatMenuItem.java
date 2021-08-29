@@ -32,9 +32,6 @@ import com.github.grossopa.hamster.selenium.component.mat.main.MatMenu;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.util.List;
-import java.util.function.Predicate;
-
 import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
 
 /**
@@ -52,8 +49,6 @@ public class MatMenuItem extends AbstractMatComponent {
      */
     public static final String COMPONENT_NAME = "MenuItem";
 
-    private final MatMenuItemFinder menuItemFinder;
-
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -63,7 +58,6 @@ public class MatMenuItem extends AbstractMatComponent {
      */
     public MatMenuItem(WebElement element, ComponentWebDriver driver, MatConfig config) {
         super(element, driver, config);
-        this.menuItemFinder = new MatMenuItemFinder(driver, config);
     }
 
     @Override
@@ -95,60 +89,24 @@ public class MatMenuItem extends AbstractMatComponent {
     }
 
     /**
-     * Whether the menu item is highlighted
-     *
-     * @return whether the menu item is highlighted
-     */
-    public boolean isHighlighted() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "menu-item-highlighted");
-    }
-
-    /**
      * Hovers to expand the menu item.
      *
-     * @param gapTimeInMillis wait for each selection, e.g. animation
-     * @param delayInMillis delays in milliseconds
+     * @param animationInMillis wait for each selection due to animation
+     * @param topMenuDelayInMillis top menu finding delays in milliseconds
      * @return the found nested menu items.
      * @throws MenuItemNotExpandableException if {@link #isExpandable()} returns false.
      */
-    public MatMenu expand(long gapTimeInMillis, long delayInMillis) {
+    public MatMenu expand(long animationInMillis, long topMenuDelayInMillis) {
         if (!isExpandable()) {
             throw new MenuItemNotExpandableException("the menu item is not expandable.");
         }
 
         driver.moveTo(this);
-        if (gapTimeInMillis > 0) {
-            driver.threadSleep(gapTimeInMillis);
+        if (animationInMillis > 0) {
+            driver.threadSleep(animationInMillis);
         }
 
-        return menuItemFinder.findTopMenu(delayInMillis);
-    }
-
-    /**
-     * Expands the menu then navigates the sub menus by menu item text
-     *
-     * @param gapTimeInMillis wait for each selection, e.g. animation
-     * @param delayInMillis delay time for each top menu findings, please check {@link
-     * MatMenuItemFinder#findTopMenu(long)}
-     * @param menuTexts the text to match
-     */
-    public void navigateMenuItems(long gapTimeInMillis, long delayInMillis, String... menuTexts) {
-        expand(gapTimeInMillis, delayInMillis);
-        menuItemFinder.navigateMenuItems(gapTimeInMillis, delayInMillis, menuTexts);
-    }
-
-    /**
-     * Expands the menu then navigates the sub menus.
-     *
-     * @param gapTimeInMillis wait for each selection, e.g. animation
-     * @param delayInMillis delay time for each top menu findings, please check {@link
-     * MatMenuItemFinder#findTopMenu(long)}
-     * @param menuItemToSelectPredicates the predicates for each layer to return true for the menu item to be select
-     */
-    public void navigateMenuItems(long gapTimeInMillis, long delayInMillis,
-            List<Predicate<MatMenuItem>> menuItemToSelectPredicates) {
-        expand(gapTimeInMillis, delayInMillis);
-        menuItemFinder.navigateMenuItems(gapTimeInMillis, delayInMillis, menuItemToSelectPredicates);
+        return new MatMenuItemFinder(driver, config).findTopMenu(topMenuDelayInMillis);
     }
 
     @Override

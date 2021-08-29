@@ -26,15 +26,19 @@ package com.github.grossopa.hamster.selenium.component.mat.main;
 
 import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
-import com.github.grossopa.hamster.selenium.component.mat.finder.MatMenuItemFinder;
+import com.github.grossopa.hamster.selenium.component.mat.exception.MenuItemNotFoundException;
 import com.github.grossopa.hamster.selenium.component.mat.main.sub.MatMenuItem;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static org.openqa.selenium.Keys.ESCAPE;
 
 /**
  * {@code <mat-menu>} is a floating panel containing list of options.
@@ -68,7 +72,7 @@ public class MatMenu extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "menu");
+        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "menu-panel");
     }
 
     /**
@@ -81,9 +85,69 @@ public class MatMenu extends AbstractMatComponent {
                 c -> new MatMenuItem(c, driver, config));
     }
 
+    /**
+     * Expands the menu item of this menu by index.
+     *
+     * @param index the index of the {@link MatMenuItem} to be expanded
+     * @param animationInMillis wait for each selection due to animation
+     * @param topMenuDelayInMillis top menu finding delays in milliseconds
+     * @return the next expanded menu item
+     */
+    public MatMenu expandItemByIndex(int index, long animationInMillis, long topMenuDelayInMillis) {
+        return this.getMenuItems().get(index).expand(animationInMillis, topMenuDelayInMillis);
+    }
+
+    /**
+     * Selects the menu item by index
+     *
+     * @param index the index of the {@link MatMenuItem} to be selected
+     */
+    public void selectItemByIndex(int index) {
+        this.getMenuItems().get(index).click();
+    }
+
+    /**
+     * Expands the menu item of this menu by text
+     *
+     * @param text the index of the {@link MatMenuItem} to match
+     * @param animationInMillis wait for each selection due to animation
+     * @param topMenuDelayInMillis top menu finding delays in milliseconds
+     * @return the next expanded menu item
+     */
+    public MatMenu expandItemByText(String text, long animationInMillis, long topMenuDelayInMillis) {
+        return actionBy(menuItem -> StringUtils.equals(text, menuItem.getText()),
+                menuItem -> menuItem.expand(animationInMillis, topMenuDelayInMillis));
+    }
+
+    /**
+     * Selects the menu item by text
+     *
+     * @param text the index of the {@link MatMenuItem} to match
+     */
+    public void selectItemByText(String text) {
+        actionBy(menuItem -> StringUtils.equals(text, menuItem.getText()), menuItem -> {
+            menuItem.click();
+            return null;
+        });
+    }
+
+    /**
+     * Closes the current menu.
+     */
+    public void close() {
+        this.sendKeys(ESCAPE);
+    }
+
     @Override
     public String toString() {
         return "MatMenu{" + "element=" + element + '}';
+    }
+
+    private <T> T actionBy(Predicate<MatMenuItem> menuItemToSelectPredicate, Function<MatMenuItem, T> actionConsumer) {
+        List<MatMenuItem> menuItems = this.getMenuItems();
+        MatMenuItem item = menuItems.stream().filter(menuItemToSelectPredicate).findAny()
+                .orElseThrow(() -> new MenuItemNotFoundException("Menu item not found by predicate."));
+        return actionConsumer.apply(item);
     }
 
 }
