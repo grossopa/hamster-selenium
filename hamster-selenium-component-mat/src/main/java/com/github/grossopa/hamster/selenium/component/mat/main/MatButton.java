@@ -32,7 +32,8 @@ import org.openqa.selenium.WebElement;
 import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
 
 /**
- * Angular Material buttons are native <button> or <a> elements enhanced with Material Design styling and ink ripples.
+ * Angular Material buttons are native {@code <button>} or {@code <a>} elements enhanced with Material Design styling
+ * and ink ripples.
  *
  * @author Jack Yin
  * @see <a href="https://material.angular.io/components/button/overview">
