@@ -64,16 +64,6 @@ public class MuiGrid extends AbstractMuiComponent {
     }
 
     /**
-     * Returns true if it is a Grid component
-     *
-     * @return true if it is a Grid component
-     */
-    @Override
-    public boolean validate() {
-        return config.validateByCss(this, config.getCssPrefix() + COMPONENT_NAME);
-    }
-
-    /**
      * There are two types of layout: containers and items. This function is to check if the tested element is a
      * container.
      *
@@ -93,7 +83,8 @@ public class MuiGrid extends AbstractMuiComponent {
     }
 
     /**
-     * ?
+     * By default, the spacing between two grid items follows a linear function: output(spacing) = spacing * 8px, e.g. spacing={2} creates a 16px wide gap.
+     * So the padding spacing for each item  follows a linear function: output(spacing) = spacing * 4px
      *
      * @param num the number defined in front
      * @return the padding value for item grid.
