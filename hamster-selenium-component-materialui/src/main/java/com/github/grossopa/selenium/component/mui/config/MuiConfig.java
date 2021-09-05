@@ -152,6 +152,26 @@ public class MuiConfig {
     }
 
     /**
+     * Checks whether the Grid has the container css present.
+     *
+     * @param component the component to check
+     * @return whether the container css presents
+     */
+    public boolean isGridContainer(WebComponent component) {
+        return attributeContains(component, ATTR_CLASS, cssPrefix + "Grid-container");
+    }
+
+    /**
+     * Checks whether the Grid has the item css present.
+     *
+     * @param component the component to check
+     * @return whether the item css presents
+     */
+    public boolean isGridItem(WebComponent component) {
+        return attributeContains(component, ATTR_CLASS, cssPrefix + "Grid-item");
+    }
+
+    /**
      * Gets the isChecked CSS. default value is "Mui-checked"
      *
      * @return the isChecked CSS

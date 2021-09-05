@@ -29,8 +29,6 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.selenium.component.mui.config.MuiConfig.ATTR_CLASS;
-
 /**
  * The grid creates visual consistency between layouts while allowing flexibility across a wide variety of designs.
  * Material Design’s responsive UI is based on a 12-column grid layout.
@@ -51,8 +49,8 @@ public class MuiGrid extends AbstractMuiComponent {
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
+     * @param driver  the root driver
+     * @param config  the Material UI configuration
      */
     public MuiGrid(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -64,23 +62,20 @@ public class MuiGrid extends AbstractMuiComponent {
     }
 
     /**
-     * There are two types of layout: containers and items. This function is to check if the tested element is a
-     * container.
+     * There are two types of layout: containers and items. This function is to check if the tested element is a container.
+     * An element can both have 2 types: container and item.
      *
      * @return true if it is a Grid container component
      */
-    public boolean isContainer() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "Grid-container");
-    }
+    public boolean isContainer() { return config.isGridContainer(this); }
 
     /**
      * There are two types of layout: containers and items. This function is to check if the tested element is an item.
+     * An element can both have 2 types: container and item.
      *
      * @return true if it is a Grid container component
      */
-    public boolean isItem() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "Grid-item");
-    }
+    public boolean isItem() { return config.isGridItem(this); }
 
     /**
      * By default, the spacing between two grid items follows a linear function: output(spacing) = spacing * 8px, e.g. spacing={2} creates a 16px wide gap.

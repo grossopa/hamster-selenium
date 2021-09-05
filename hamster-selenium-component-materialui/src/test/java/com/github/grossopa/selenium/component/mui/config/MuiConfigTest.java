@@ -111,6 +111,20 @@ class MuiConfigTest {
     }
 
     @Test
+    void isGridContainer() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.getAttribute(MuiConfig.ATTR_CLASS)).thenReturn("MuiGrid-container Muiabc Mui-some");
+        assertTrue(testSubject.isGridContainer(component));
+    }
+
+    @Test
+    void isGridItem() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.getAttribute(MuiConfig.ATTR_CLASS)).thenReturn("MuiGrid-item Muiabc Mui-some");
+        assertTrue(testSubject.isGridItem(component));
+    }
+
+    @Test
     void getIsCheckedCss() {
         assertEquals("Mui-checked", testSubject.getIsCheckedCss());
     }

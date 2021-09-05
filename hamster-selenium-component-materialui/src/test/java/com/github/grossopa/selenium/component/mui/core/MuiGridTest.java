@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,6 +28,31 @@ public class MuiGridTest {
     @Test
     void getComponentName() {
         assertEquals(MuiGrid.COMPONENT_NAME, testGrid.getComponentName());
+    }
+
+    @Test
+    void isContainer() {
+        when(config.isGridContainer(any())).thenReturn(true);
+        assertTrue(testGrid.isContainer());
+    }
+
+    @Test
+    void isItem() {
+        when(config.isGridItem(any())).thenReturn(true);
+        assertTrue(testGrid.isItem());
+    }
+
+    @Test
+    void isItemAndContainer() {
+        when(config.isGridItem(any())).thenReturn(true);
+        when(config.isGridContainer(any())).thenReturn(true);
+        assertTrue(testGrid.isItem());
+        assertTrue(testGrid.isContainer());
+    }
+
+    @Test
+    void getSpacingValue() {
+        assertEquals(8, testGrid.gridItemSpacingValue(2));
     }
 
     @Test
