@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
-import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MuiCoreTestCases extends AbstractBrowserSupport {
 
     public void testGrid() {
-        driver.navigate().to("https://material-ui.com/components/grid/");
+        driver.navigate().to("https://v4.mui.com/components/grid/");
         WebComponent divForLocate = driver.findComponents(By.id("SpacingGrid.js")).get(0).findComponent(By2.parent());
         WebComponent testGridParentDiv = divForLocate.findComponents(By.tagName("div")).get(0).findComponent(By.tagName("div"));
         MuiGrid testGridParent = testGridParentDiv.findComponents(By.className("MuiGrid-root")).get(0).as(mui()).toGrid();
@@ -40,7 +40,7 @@ public class MuiCoreTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiCoreTestCases test = new MuiCoreTestCases();
         try {
-            test.setUpDriver(CHROME);
+            test.setUpDriver(EDGE);
             test.testGrid();
         } catch (RuntimeException ex) {
             ex.printStackTrace();

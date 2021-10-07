@@ -35,9 +35,9 @@ import org.openqa.selenium.By;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static java.util.stream.Collectors.toList;
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
-import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
+import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -49,7 +49,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
 
     public void testAvatar() {
-        driver.navigate().to("https://material-ui.com/components/avatars/");
+        driver.navigate().to("https://v4.mui.com/components/avatars/");
 
         List<MuiAvatar> avatars = driver.findComponent(By.id("ImageAvatars.js")).findComponent(By.xpath("parent::*"))
                 .findComponents(By2.attrContains("class", "MuiAvatar-root")).stream().map(c -> c.as(mui()).toAvatar())
@@ -57,7 +57,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
 
         assertEquals(3, avatars.size());
         assertEquals("Remy Sharp", avatars.get(0).getAlt());
-        assertEquals("https://material-ui.com/static/images/avatar/1.jpg", avatars.get(0).getSrc());
+        assertEquals("https://v4.mui.com/static/images/avatar/1.jpg", avatars.get(0).getSrc());
 
         List<MuiAvatar> letterAvatars = driver.findComponent(By.id("LetterAvatars.js"))
                 .findComponent(By.xpath("parent::*")).findComponents(By2.attrContains("class", "MuiAvatar-root"))
@@ -70,7 +70,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
     }
 
     public void testBadge() {
-        driver.navigate().to("https://material-ui.com/components/badges/");
+        driver.navigate().to("https://v4.mui.com/components/badges/");
 
         List<MuiBadge> badges = driver.findComponent(By.id("SimpleBadge.js")).findComponent(By.xpath("parent::*"))
                 .findComponents(By2.className("MuiBadge-root")).stream().map(c -> c.as(mui()).toBadge())
@@ -98,7 +98,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
     }
 
     public void testChip() {
-        driver.navigate().to("https://material-ui.com/components/chips/");
+        driver.navigate().to("https://v4.mui.com/components/chips/");
         List<MuiChip> chips = driver.findComponent(By.id("Chips.js")).findComponent(By.xpath("parent::*"))
                 .findComponents(By2.className("MuiChip-root")).stream().map(c -> c.as(mui()).toChip())
                 .collect(toList());
@@ -146,7 +146,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
     }
 
     public void testList() {
-        driver.navigate().to("https://material-ui.com/components/lists/");
+        driver.navigate().to("https://v4.mui.com/components/lists/");
 
         List<MuiList> simpleLists = driver.findComponent(By.id("SimpleList.js")).findComponent(By.xpath("parent::*"))
                 .findComponents(By2.className("MuiList-root")).stream().map(c -> c.as(mui()).toList())
@@ -160,7 +160,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiDataDisplayTestCases test = new MuiDataDisplayTestCases();
         try {
-            test.setUpDriver(CHROME);
+            test.setUpDriver(EDGE);
             test.testAvatar();
             test.testBadge();
             test.testChip();

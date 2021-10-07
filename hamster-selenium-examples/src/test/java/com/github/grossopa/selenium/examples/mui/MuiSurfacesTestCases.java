@@ -36,7 +36,7 @@ import org.openqa.selenium.WebElement;
 import java.util.Optional;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
-import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -49,7 +49,7 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
 
     @SuppressWarnings("java:S2925")
     public void testBackdrop() {
-        driver.navigate().to("https://material-ui.com/components/backdrop/");
+        driver.navigate().to("https://v4.mui.com/components/backdrop/");
         MuiButton button = driver.findComponent(By2.textContains("Show backdrop")).findComponent(By.xpath("parent::*"))
                 .as(mui()).toButton();
         assertFalse(driver.findComponent(By.className("MuiBackdrop-root")).as(mui()).toBackdrop().isDisplayed());
@@ -59,7 +59,7 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
     }
 
     public void testDialog() {
-        driver.navigate().to("https://material-ui.com/components/dialogs/");
+        driver.navigate().to("https://v4.mui.com/components/dialogs/");
 
         Optional<MuiDialog> dialogFirstOpt = driver.findComponents(By.className("MuiDialog-root")).stream()
                 .map(webComponent -> webComponent.as(mui()).toDialog()).filter(WebElement::isDisplayed).findFirst();
@@ -96,7 +96,7 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
     }
 
     public void testSnackbar() {
-        driver.navigate().to("https://material-ui.com/components/snackbars/");
+        driver.navigate().to("https://v4.mui.com/components/snackbars/");
 
         MuiButton simpleButton = driver.findComponent(By2.textContains("Open simple snackbar"))
                 .findComponent(By2.parent()).as(mui()).toButton();
@@ -113,7 +113,7 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiSurfacesTestCases test = new MuiSurfacesTestCases();
         try {
-            test.setUpDriver(CHROME);
+            test.setUpDriver(EDGE);
             test.testBackdrop();
             test.testDialog();
             test.testSnackbar();

@@ -51,7 +51,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MuiInputsTestCases extends AbstractBrowserSupport {
 
     public void testButtonGroup() {
-        driver.navigate().to("https://material-ui.com/components/buttons/");
+        driver.navigate().to("https://v4.mui.com/components/buttons/");
 
         WebComponent contentDriverParent = driver.findComponents(By2.attrContains("href", "#contained-buttons", "a"))
                 .get(1).findComponent(By.xpath("parent::*"));
@@ -66,7 +66,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     }
 
     public void testCheckBox() {
-        driver.navigate().to("https://material-ui.com/components/checkboxes/");
+        driver.navigate().to("https://v4.mui.com/components/checkboxes/");
 
         WebComponent checkBoxContainer = driver.findComponent(By2.className("MuiCheckbox-root"))
                 .findComponent(By.xpath("parent::*"));
@@ -82,7 +82,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     }
 
     public void testSelect() {
-        driver.navigate().to("https://material-ui.com/components/selects/");
+        driver.navigate().to("https://v4.mui.com/components/selects/");
 
         WebComponent selectContainer = driver.findComponent(By2.className("MuiFormControl-root"))
                 .findComponent(By2.xpath("parent::*"));
@@ -153,7 +153,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
      * Tests whether the select works as expected when Menu is present with additional presentation layer.
      */
     public void testSelectWithMenu() {
-        driver.navigate().to("https://material-ui.com/components/menus/");
+        driver.navigate().to("https://v4.mui.com/components/menus/");
 
         MuiSelect languageSelect = driver.findComponent(By2.attrContains("aria-label", "Change language")).as(mui())
                 .toSelect(By.tagName("a"));
@@ -164,7 +164,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     }
 
     public void testSlider() {
-        driver.navigate().to("https://material-ui.com/components/slider/");
+        driver.navigate().to("https://v4.mui.com/components/slider/");
         MuiSlider continuousSlider = driver.findComponent(By.id("continuous-slider"))
                 .findComponent(By.xpath("parent::*")).findComponent(By.className("MuiSlider-root")).as(mui())
                 .toSlider();
@@ -261,7 +261,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     }
 
     public void testSwitch() {
-        driver.navigate().to("https://material-ui.com/components/switches/");
+        driver.navigate().to("https://v4.mui.com/components/switches/");
 
         List<MuiSwitch> switches = driver.findComponents(By2.className("MuiSwitch-root")).stream()
                 .map(checkbox -> checkbox.as(mui()).toSwitch()).collect(toList());
@@ -280,7 +280,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     }
 
     public void testTextInput() {
-        driver.navigate().to("https://material-ui.com/components/text-fields/");
+        driver.navigate().to("https://v4.mui.com/components/text-fields/");
 
         MuiTextField textField = driver.findComponent(By.id("standard-basic-label"))
                 .findComponent(By.xpath("parent::*")).as(mui()).toTextField();
@@ -290,7 +290,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     }
 
     public void testRadio() {
-        driver.navigate().to("https://material-ui.com/components/radio-buttons/");
+        driver.navigate().to("https://v4.mui.com/components/radio-buttons/");
 
         List<MuiRadio> radios = driver.findComponents(By2.className("MuiRadio-root")).stream()
                 .map(radio -> radio.as(mui()).toRadio()).collect(toList());
@@ -310,7 +310,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     }
 
     public void testRadioGroup() {
-        driver.navigate().to("https://material-ui.com/components/radio-buttons/");
+        driver.navigate().to("https://v4.mui.com/components/radio-buttons/");
 
         WebComponent contentDriverParent = driver.findComponents(By2.attrContains("role", "radiogroup")).get(0);
 
@@ -324,7 +324,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     }
 
     public void testBreadcrumbs() {
-        driver.navigate().to("https://material-ui.com/components/breadcrumbs/");
+        driver.navigate().to("https://v4.mui.com/components/breadcrumbs/");
 
         List<MuiBreadcrumbs> breadcrumbsList = driver.findComponents(By.className("MuiBreadcrumbs-root")).stream()
                 .map(component -> component.as(mui()).toBreadcrumbs()).collect(toList());
@@ -354,7 +354,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
     }
 
     public void testBottomNavigation() {
-        driver.navigate().to("https://material-ui.com/components/bottom-navigation/");
+        driver.navigate().to("https://v4.mui.com/components/bottom-navigation/");
 
         List<MuiBottomNavigation> bottomNavigationList = driver.findComponents(By.className("MuiBottomNavigation-root"))
                 .stream().map(component -> component.as(mui()).toBottomNavigation()).collect(toList());
@@ -370,7 +370,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
 
     @SuppressWarnings("squid:S2925")
     public void testTabs() {
-        driver.navigate().to("https://material-ui.com/components/tabs/");
+        driver.navigate().to("https://v4.mui.com/components/tabs/");
 
         List<MuiTabs> tabsList = driver.findComponents(By.className("MuiTabs-root")).stream()
                 .map(component -> component.as(mui()).toTabs()).collect(toList());

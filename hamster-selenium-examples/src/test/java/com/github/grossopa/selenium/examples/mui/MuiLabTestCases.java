@@ -35,7 +35,7 @@ import org.openqa.selenium.NoSuchElementException;
 import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
-import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.openqa.selenium.Keys.BACK_SPACE;
 
@@ -48,7 +48,7 @@ import static org.openqa.selenium.Keys.BACK_SPACE;
 public class MuiLabTestCases extends AbstractBrowserSupport {
 
     public void testAutocompleteComboBox() {
-        driver.navigate().to("https://material-ui.com/components/autocomplete/");
+        driver.navigate().to("https://v4.mui.com/components/autocomplete/");
 
         MuiAutocomplete autoComplete = driver.findComponent(By.id("combo-box-demo-label")).findComponent(By2.parent())
                 .findComponent(By2.parent()).as(mui()).toAutocomplete();
@@ -89,7 +89,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
     }
 
     public void testAutocompleteComboBoxWithDelays() {
-        driver.navigate().to("https://material-ui.com/components/autocomplete/");
+        driver.navigate().to("https://v4.mui.com/components/autocomplete/");
 
         MuiAutocomplete autoComplete = driver.findComponent(By.id("combo-box-demo-label")).findComponent(By2.parent())
                 .findComponent(By2.parent()).as(mui()).toAutocomplete();
@@ -130,7 +130,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
     }
 
     public void testAutocompleteDisabled() {
-        driver.navigate().to("https://material-ui.com/components/autocomplete/");
+        driver.navigate().to("https://v4.mui.com/components/autocomplete/");
 
         MuiAutocomplete disabledAutocomplete = driver.findComponent(By.id("disabled-label")).findComponent(By2.parent())
                 .findComponent(By2.parent()).as(mui()).toAutocomplete();
@@ -141,7 +141,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
     }
 
     public void testAutocompleteMultipleValues() {
-        driver.navigate().to("https://material-ui.com/components/autocomplete/");
+        driver.navigate().to("https://v4.mui.com/components/autocomplete/");
         MuiAutocomplete multiAutocomplete = driver.findComponent(By.id("tags-standard-label"))
                 .findComponent(By2.parent()).findComponent(By2.parent()).as(mui()).toAutocomplete();
 
@@ -186,7 +186,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
     }
 
     public void testAutocompleteAsynchronousRequests() {
-        driver.navigate().to("https://material-ui.com/components/autocomplete/");
+        driver.navigate().to("https://v4.mui.com/components/autocomplete/");
 
         MuiAutocomplete autocomplete = driver.findComponent(By.id("Asynchronous.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiAutocomplete-root")).as(mui()).toAutocomplete();
@@ -200,7 +200,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
     }
 
     public void testAutocompleteFixedOptions() {
-        driver.navigate().to("https://material-ui.com/components/autocomplete/");
+        driver.navigate().to("https://v4.mui.com/components/autocomplete/");
 
         MuiAutocomplete fixedOptionsAutocomplete = driver.findComponent(By.id("fixed-tags-demo-label"))
                 .findComponent(By2.parent()).findComponent(By2.parent()).as(mui()).toAutocomplete();
@@ -212,7 +212,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
     }
 
     public void testPaginationBasic() {
-        driver.navigate().to("https://material-ui.com/components/pagination/");
+        driver.navigate().to("https://v4.mui.com/components/pagination/");
 
         MuiPagination pagination = driver.findComponent(By.id("BasicPagination.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiPagination-root")).as(mui()).toPagination();
@@ -237,7 +237,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
     }
 
     public void testPaginationButtons() {
-        driver.navigate().to("https://material-ui.com/components/pagination/");
+        driver.navigate().to("https://v4.mui.com/components/pagination/");
 
         List<MuiPagination> paginationList = driver.findComponent(By.id("PaginationButtons.js"))
                 .findComponent(By2.parent())
@@ -267,7 +267,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiLabTestCases test = new MuiLabTestCases();
         try {
-            test.setUpDriver(CHROME);
+            test.setUpDriver(EDGE);
             test.testAutocompleteComboBox();
             test.testAutocompleteComboBoxWithDelays();
             test.testAutocompleteAsynchronousRequests();

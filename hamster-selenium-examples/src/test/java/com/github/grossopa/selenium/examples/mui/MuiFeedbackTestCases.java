@@ -34,7 +34,7 @@ import org.openqa.selenium.By;
 import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
-import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -48,7 +48,7 @@ public class MuiFeedbackTestCases extends AbstractBrowserSupport {
 
     @SuppressWarnings("squid:S2925")
     public void testDialog() {
-        driver.navigate().to("https://material-ui.com/components/dialogs/");
+        driver.navigate().to("https://v4.mui.com/components/dialogs/");
         MuiButton openSimpleDialogButton = driver.findComponent(By.xpath("//*[contains(text(), 'Open simple dialog')]"))
                 .findComponent(By.xpath("parent::*")).as(mui()).toButton();
         openSimpleDialogButton.click();
@@ -64,7 +64,7 @@ public class MuiFeedbackTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiFeedbackTestCases test = new MuiFeedbackTestCases();
         try {
-            test.setUpDriver(CHROME);
+            test.setUpDriver(EDGE);
             test.testDialog();
         } catch (RuntimeException ex) {
             ex.printStackTrace();

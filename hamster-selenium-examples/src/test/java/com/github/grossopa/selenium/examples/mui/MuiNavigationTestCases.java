@@ -37,7 +37,7 @@ import org.openqa.selenium.By;
 import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
-import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,7 +51,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MuiNavigationTestCases extends AbstractBrowserSupport {
 
     public void testBreadcrumbs() {
-        driver.navigate().to("https://material-ui.com/components/breadcrumbs/");
+        driver.navigate().to("https://v4.mui.com/components/breadcrumbs/");
 
         List<MuiBreadcrumbs> breadcrumbsList = driver.findComponents(By.className("MuiBreadcrumbs-root")).stream()
                 .map(component -> component.as(mui()).toBreadcrumbs()).collect(toList());
@@ -81,7 +81,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
     }
 
     public void testBottomNavigation() {
-        driver.navigate().to("https://material-ui.com/components/bottom-navigation/");
+        driver.navigate().to("https://v4.mui.com/components/bottom-navigation/");
 
         List<MuiBottomNavigation> bottomNavigationList = driver.findComponents(By.className("MuiBottomNavigation-root"))
                 .stream().map(component -> component.as(mui()).toBottomNavigation()).collect(toList());
@@ -97,7 +97,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
 
     @SuppressWarnings("squid:S2925")
     public void testTabs() {
-        driver.navigate().to("https://material-ui.com/components/tabs/");
+        driver.navigate().to("https://v4.mui.com/components/tabs/");
 
         List<MuiTabs> tabsList = driver.findComponents(By.className("MuiTabs-root")).stream()
                 .map(component -> component.as(mui()).toTabs()).collect(toList());
@@ -139,7 +139,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
 
     @SuppressWarnings("squid:S2925")
     public void testMenu() {
-        driver.navigate().to("https://material-ui.com/components/menus/");
+        driver.navigate().to("https://v4.mui.com/components/menus/");
         MuiModalFinder modalFinder = new MuiModalFinder(driver, new MuiConfig());
         // 6 Menu has keepMounted properties
         assertEquals(6, modalFinder.findOverlays("Popover").size());
@@ -158,7 +158,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
 
     @SuppressWarnings("squid:S2925")
     public void testAccordion() {
-        driver.navigate().to("https://material-ui.com/components/accordion/");
+        driver.navigate().to("https://v4.mui.com/components/accordion/");
 
         List<MuiAccordion> simpleAccordionList = driver.findComponent(By.id("SimpleAccordion.js"))
                 .findComponent(By2.parent()).findComponents(By.className("MuiAccordion-root")).stream()
@@ -208,7 +208,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiNavigationTestCases test = new MuiNavigationTestCases();
         try {
-            test.setUpDriver(CHROME);
+            test.setUpDriver(EDGE);
             test.testBottomNavigation();
             test.testBreadcrumbs();
             test.testTabs();

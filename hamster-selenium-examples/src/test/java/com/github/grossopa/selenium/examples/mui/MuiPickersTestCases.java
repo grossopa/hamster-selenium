@@ -38,7 +38,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
-import static com.github.grossopa.selenium.core.driver.WebDriverType.CHROME;
+import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -136,7 +136,7 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiPickersTestCases test = new MuiPickersTestCases();
         try {
-            test.setUpDriver(CHROME);
+            test.setUpDriver(EDGE);
             test.testYearSelectionPopup();
             test.testBasicExample();
         } catch (RuntimeException ex) {
