@@ -33,22 +33,18 @@ import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 
-
 /**
- * &lt;mat-checkbox&gt; provides the same functionality as a native &lt;input type="checkbox"&gt;  enhanced with
- * Material Design styling and animations.
+ * {@code <mat-slide-toggle>} is an on/off control that can be toggled via clicking.
  *
  * @author Jack Yin
- * @see <a href="https://material.angular.io/components/button-toggle/overview">
- * https://material.angular.io/components/button-toggle/overview</a>
- * @since 1.6
+ * @since 1.7
  */
-public class MatCheckbox extends AbstractMatComponent {
+public class MatSlideToggle extends AbstractMatComponent {
 
     /**
      * The component name
      */
-    public static final String COMPONENT_NAME = "Checkbox";
+    public static final String COMPONENT_NAME = "SlideToggle";
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -57,8 +53,27 @@ public class MatCheckbox extends AbstractMatComponent {
      * @param driver the root driver
      * @param config the Material UI Angular configuration
      */
-    public MatCheckbox(WebElement element, ComponentWebDriver driver, MatConfig config) {
+    public MatSlideToggle(WebElement element, ComponentWebDriver driver, MatConfig config) {
         super(element, driver, config);
+    }
+
+    @Override
+    public boolean validate() {
+        return this.attributeContains(CLASS, config.getCssPrefix() + "slide-toggle");
+    }
+
+    @Override
+    public boolean isSelected() {
+        return config.isChecked(this);
+    }
+
+    /**
+     * Gets the label content component
+     *
+     * @return the label content component
+     */
+    public WebComponent getLabel() {
+        return this.findComponent(By.className(config.getCssPrefix() + "slide-toggle-content"));
     }
 
     @Override
@@ -67,32 +82,7 @@ public class MatCheckbox extends AbstractMatComponent {
     }
 
     @Override
-    public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "checkbox");
-    }
-
-    @Override
-    public boolean isSelected() {
-        return getInput().isSelected();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return !attributeContains(CLASS, config.getCssPrefix() + "checkbox-disabled");
-    }
-
-    /**
-     * Gets the inner input element.
-     *
-     * @return the inner input element.
-     */
-    public WebComponent getInput() {
-        return this.findComponent(By.className(config.getCssPrefix() + "checkbox-input"));
-    }
-
-    @Override
     public String toString() {
-        return "MatCheckbox{" + "element=" + element + '}';
+        return "MatSlideToggle{" + "element=" + element + '}';
     }
 }
-

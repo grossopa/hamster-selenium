@@ -31,7 +31,8 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+
 
 /**
  * The MatDialog service can be used to open modal dialogs with Material Design styling and animations.
@@ -61,7 +62,7 @@ public class MatDialog extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(ATTR_CLASS, config.getCssPrefix() + "dialog-container");
+        return attributeContains(CLASS, config.getCssPrefix() + "dialog-container");
     }
 
     @Override

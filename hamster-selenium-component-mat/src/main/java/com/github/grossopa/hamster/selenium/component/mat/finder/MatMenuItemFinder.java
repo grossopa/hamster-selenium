@@ -36,7 +36,7 @@ import org.openqa.selenium.TimeoutException;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -103,9 +103,9 @@ public class MatMenuItemFinder extends MatOverlayFinder {
     public List<MatMenu> findMenus() {
         WebComponent container = findTopVisibleContainer();
         if (container != null) {
-            return container.findComponentsAs(xpathBuilder().anywhereRelative().attr(ATTR_CLASS)
+            return container.findComponentsAs(xpathBuilder().anywhereRelative().attr(CLASS)
                             .contains(config.getCdkPrefix() + "overlay-connected-position-bounding-box").descendant()
-                            .attr(ATTR_CLASS).contains(config.getCssPrefix() + "menu-panel").build(),
+                            .attr(CLASS).contains(config.getCssPrefix() + "menu-panel").build(),
                     c -> new MatMenu(c, driver, config));
         }
         return newArrayList();

@@ -32,7 +32,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 
 /**
  * mat-grid-list is a two-dimensional list view that arranges cells into grid-based layout. The grid list contains a
@@ -68,7 +68,7 @@ public class MatGridList extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "grid-list");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "grid-list");
     }
 
     /**

@@ -31,7 +31,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 
 /**
  * {@code <mat-expansion-panel>} provides an expandable details-summary view.
@@ -65,7 +65,7 @@ public class MatExpansionPanel extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "expansion-panel");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "expansion-panel");
     }
 
     @Override
@@ -89,7 +89,7 @@ public class MatExpansionPanel extends AbstractMatComponent {
      * @return true if the expansion panel has expanded
      */
     public boolean isExpanded() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "expanded");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "expanded");
     }
 
     /**

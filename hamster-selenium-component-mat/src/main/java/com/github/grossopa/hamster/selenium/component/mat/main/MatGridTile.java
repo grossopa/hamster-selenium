@@ -29,7 +29,7 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 
 /**
  * @author Jack Yin
@@ -60,7 +60,7 @@ public class MatGridTile extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "grid-tile");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "grid-tile");
     }
 
     /**

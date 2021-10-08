@@ -31,7 +31,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 
 /**
@@ -68,7 +68,7 @@ public class MatFormField extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "form-field");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "form-field");
     }
 
     /**
@@ -122,7 +122,7 @@ public class MatFormField extends AbstractMatComponent {
      * @return the label element
      */
     public WebComponent getLabel() {
-        return this.getInfix().findComponent(xpathBuilder().anywhereRelative().attr(ATTR_CLASS)
+        return this.getInfix().findComponent(xpathBuilder().anywhereRelative().attr(CLASS)
                 .contains(config.getCssPrefix() + "form-field-label-wrapper").child("label").axes().child("mat-label")
                 .build());
     }

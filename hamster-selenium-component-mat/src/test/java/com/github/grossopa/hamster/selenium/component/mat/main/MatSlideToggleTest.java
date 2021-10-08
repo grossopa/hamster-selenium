@@ -22,84 +22,54 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.hamster.selenium.component.mat;
+package com.github.grossopa.hamster.selenium.component.mat.main;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
-import com.github.grossopa.hamster.selenium.core.util.SimpleEqualsTester;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link AbstractMatComponent}
+ * Tests for {@link MatSlideToggle}
  *
  * @author Jack Yin
- * @since 1.6
+ * @since 1.7
  */
-class AbstractMatComponentTest {
+class MatSlideToggleTest {
 
+    MatSlideToggle testSubject;
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MatConfig config = mock(MatConfig.class);
 
-    AbstractMatComponent testSubject;
-
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("some-");
+        when(config.getCssPrefix()).thenReturn("mat-");
 
-        testSubject = new AbstractMatComponent(element, driver, config) {
-            @Override
-            public String getComponentName() {
-                return "TEST";
-            }
-        };
-    }
-
-
-    @Test
-    void getConfig() {
-        assertEquals(config, testSubject.getConfig());
+        testSubject = new MatSlideToggle(element, driver, config);
     }
 
     @Test
     void getComponentName() {
-        assertEquals("TEST", testSubject.getComponentName());
+        assertEquals("SlideToggle", testSubject.getComponentName());
     }
 
     @Test
-    void testEquals() {
-        SimpleEqualsTester tester = new SimpleEqualsTester();
-
-        WebElement element1 = mock(WebElement.class);
-        ComponentWebDriver driver1 = mock(ComponentWebDriver.class);
-        MatConfig config1 = mock(MatConfig.class);
-
-        WebElement element2 = mock(WebElement.class);
-        ComponentWebDriver driver2 = mock(ComponentWebDriver.class);
-        MatConfig config2 = mock(MatConfig.class);
-
-        tester.addEqualityGroup(createObject(element1, driver1, config1), createObject(element1, driver1, config1));
-        tester.addEqualityGroup(createObject(element2, driver1, config1));
-        tester.addEqualityGroup(createObject(element1, driver2, config1));
-        tester.addEqualityGroup(createObject(element1, driver1, config2));
-
-        tester.testEquals();
+    void validate() {
+        when(element.getAttribute("class")).thenReturn("mat-slide-toggle");
+        assertTrue(testSubject.validate());
     }
 
-    AbstractMatComponent createObject(WebElement element, ComponentWebDriver driver, MatConfig config) {
-        return new AbstractMatComponent(element, driver, config) {
-            @Override
-            public String getComponentName() {
-                return "TEST";
-            }
-        };
+    @Test
+    void validateNegative() {
+        when(element.getAttribute("class")).thenReturn("mat-slide-toggle-23");
+        assertFalse(testSubject.validate());
     }
 
     @Test
@@ -115,14 +85,15 @@ class AbstractMatComponentTest {
     }
 
     @Test
-    void isEnabled() {
-        when(config.isDisabled(testSubject)).thenReturn(false);
-        assertTrue(testSubject.isEnabled());
+    void getLabel() {
+        WebElement content = mock(WebElement.class);
+        when(element.findElement(By.className("mat-slide-toggle-content"))).thenReturn(content);
+        assertEquals(content, testSubject.getLabel().getWrappedElement());
     }
 
     @Test
-    void isEnabledTrue() {
-        when(config.isDisabled(testSubject)).thenReturn(true);
-        assertFalse(testSubject.isEnabled());
+    void testToString() {
+        when(element.toString()).thenReturn("element");
+        assertEquals("MatSlideToggle{element=element}", testSubject.toString());
     }
 }

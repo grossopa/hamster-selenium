@@ -29,7 +29,8 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+
 
 /**
  * a Pseudo Checkbox
@@ -62,12 +63,12 @@ public class MatPseudoCheckbox extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(ATTR_CLASS, config.getCssPrefix() + "pseudo-checkbox");
+        return attributeContains(CLASS, config.getCssPrefix() + "pseudo-checkbox");
     }
 
     @Override
     public boolean isSelected() {
-        return attributeContains(ATTR_CLASS, config.getCssPrefix() + "pseudo-checkbox-checked");
+        return attributeContains(CLASS, config.getCssPrefix() + "pseudo-checkbox-checked");
     }
 
     @Override

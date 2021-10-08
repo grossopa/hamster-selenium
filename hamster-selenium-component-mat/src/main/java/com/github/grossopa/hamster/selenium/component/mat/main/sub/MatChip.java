@@ -34,7 +34,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 
 /**
@@ -70,7 +70,7 @@ public class MatChip extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "chip");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "chip");
     }
 
     /**
@@ -83,7 +83,7 @@ public class MatChip extends AbstractMatComponent {
     }
 
     private By removeIconLocator() {
-        return xpathBuilder().anywhereRelative(config.getTagPrefix() + "icon").attr(ATTR_CLASS)
+        return xpathBuilder().anywhereRelative(config.getTagPrefix() + "icon").attr(CLASS)
                 .contains(config.getCssPrefix() + "chip-remove").build();
     }
 

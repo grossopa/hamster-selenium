@@ -32,7 +32,8 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+
 
 /**
  * The accordion wrapper for {@link MatExpansionPanel}.
@@ -62,7 +63,7 @@ public class MatAccordion extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "accordion");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "accordion");
     }
 
     @Override

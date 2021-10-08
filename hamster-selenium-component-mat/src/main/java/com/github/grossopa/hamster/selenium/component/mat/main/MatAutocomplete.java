@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.tagName;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
@@ -105,7 +105,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "autocomplete-trigger");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "autocomplete-trigger");
     }
 
     /**
@@ -157,7 +157,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     }
 
     public WebComponent getInput() {
-        return this.findComponent(xpathBuilder().anywhereRelative("input").attr(ATTR_CLASS)
+        return this.findComponent(xpathBuilder().anywhereRelative("input").attr(CLASS)
                 .contains(config.getCssPrefix() + "autocomplete-trigger").build());
     }
 

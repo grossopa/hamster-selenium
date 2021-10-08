@@ -33,7 +33,8 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+
 
 /**
  * &lt;mat-chip-list&gt; displays a list of values as individual, keyboard accessible, chips.
@@ -68,7 +69,7 @@ public class MatChipList extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "chip-list");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "chip-list");
     }
 
     /**

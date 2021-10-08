@@ -22,16 +22,16 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui;
+package com.github.grossopa.selenium.component.mui.v4;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -59,6 +59,10 @@ class AbstractMuiComponentV4Test {
         };
     }
 
+    @Test
+    void version() {
+        assertEquals(V4, testSubject.version());
+    }
 
     @Test
     void isEnabled() {

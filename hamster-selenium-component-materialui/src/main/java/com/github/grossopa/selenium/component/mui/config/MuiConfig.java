@@ -24,16 +24,16 @@
 
 package com.github.grossopa.selenium.component.mui.config;
 
+import com.github.grossopa.selenium.core.component.ComponentConfig;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
-import lombok.Getter;
-import lombok.Setter;
 import org.openqa.selenium.By;
 
 import java.util.Objects;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.core.component.util.WebComponentUtils.attributeContains;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.google.common.collect.Sets.newHashSet;
 
 /**
@@ -42,17 +42,11 @@ import static com.google.common.collect.Sets.newHashSet;
  * @author Jack Yin
  * @since 1.0
  */
-public class MuiConfig {
+public class MuiConfig implements ComponentConfig {
 
-    /**
-     * class attribute name
-     */
-    public static final String ATTR_CLASS = "class";
     /**
      * Default css prefix by Material UI framework
      */
-    @Setter
-    @Getter
     private String cssPrefix = "Mui";
 
     @SuppressWarnings("squid:S1075")
@@ -88,7 +82,7 @@ public class MuiConfig {
      * @return the instance of button locator
      */
     public By buttonLocator() {
-        return By2.attrContains(ATTR_CLASS, getRootCss("Button"));
+        return By2.attrContains(CLASS, getRootCss("Button"));
     }
 
     /**
@@ -125,8 +119,9 @@ public class MuiConfig {
      * @return whether the checked css presents
      * @see #getIsCheckedCss()
      */
+    @Override
     public boolean isChecked(WebComponent component) {
-        return attributeContains(component, ATTR_CLASS, getIsCheckedCss());
+        return attributeContains(component, CLASS, getIsCheckedCss());
     }
 
     /**
@@ -136,8 +131,9 @@ public class MuiConfig {
      * @return whether the selected css presents
      * @see #getIsSelectedCss()
      */
+    @Override
     public boolean isSelected(WebComponent component) {
-        return attributeContains(component, ATTR_CLASS, getIsSelectedCss());
+        return attributeContains(component, CLASS, getIsSelectedCss());
     }
 
     /**
@@ -147,8 +143,9 @@ public class MuiConfig {
      * @return whether the disabled css presents
      * @see #getIsDisabledCss()
      */
+    @Override
     public boolean isDisabled(WebComponent component) {
-        return attributeContains(component, ATTR_CLASS, getIsDisabledCss());
+        return attributeContains(component, CLASS, getIsDisabledCss());
     }
 
     /**
@@ -158,7 +155,7 @@ public class MuiConfig {
      * @return whether the container css presents
      */
     public boolean isGridContainer(WebComponent component) {
-        return attributeContains(component, ATTR_CLASS, cssPrefix + "Grid-container");
+        return attributeContains(component, CLASS, cssPrefix + "Grid-container");
     }
 
     /**
@@ -168,7 +165,7 @@ public class MuiConfig {
      * @return whether the item css presents
      */
     public boolean isGridItem(WebComponent component) {
-        return attributeContains(component, ATTR_CLASS, cssPrefix + "Grid-item");
+        return attributeContains(component, CLASS, cssPrefix + "Grid-item");
     }
 
     /**
@@ -176,6 +173,7 @@ public class MuiConfig {
      *
      * @return the isChecked CSS
      */
+    @Override
     public String getIsCheckedCss() {
         return cssPrefix + "-checked";
     }
@@ -185,6 +183,7 @@ public class MuiConfig {
      *
      * @return the isSelected CSS
      */
+    @Override
     public String getIsSelectedCss() {
         return cssPrefix + "-selected";
     }
@@ -194,6 +193,7 @@ public class MuiConfig {
      *
      * @return the isDisabled CSS
      */
+    @Override
     public String getIsDisabledCss() {
         return cssPrefix + "-disabled";
     }
@@ -230,7 +230,7 @@ public class MuiConfig {
      * @see #getRootCss(String)
      */
     public boolean validateByCss(WebComponent component, String cssName) {
-        return attributeContains(component, ATTR_CLASS, cssName);
+        return attributeContains(component, CLASS, cssName);
     }
 
     /**
@@ -241,6 +241,15 @@ public class MuiConfig {
     public Set<String> getModalClasses() {
         return newHashSet(getRootCss("Drawer"), getRootCss("Dialog"), getRootCss("Popover"), getRootCss("Pager"),
                 getRootCss("Menu"));
+    }
+
+    @Override
+    public String getCssPrefix() {
+        return cssPrefix;
+    }
+
+    public void setCssPrefix(String cssPrefix) {
+        this.cssPrefix = cssPrefix;
     }
 
     @Override

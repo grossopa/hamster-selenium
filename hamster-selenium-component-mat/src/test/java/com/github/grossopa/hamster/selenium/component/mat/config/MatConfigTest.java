@@ -111,4 +111,18 @@ class MatConfigTest {
                 + "cdkPrefix='cdk-', overlayAbsolutePath='/html/body'}", testSubject.toString());
     }
 
+    @Test
+    void getIsCheckedCss() {
+        assertEquals("mat-checked", testSubject.getIsCheckedCss());
+    }
+
+    @Test
+    void getIsSelectedCss() {
+        assertEquals("mat-selected", testSubject.getIsSelectedCss());
+    }
+
+    @Test
+    void getIsDisabledCss() {
+        assertEquals("mat-disabled", testSubject.getIsDisabledCss());
+    }
 }

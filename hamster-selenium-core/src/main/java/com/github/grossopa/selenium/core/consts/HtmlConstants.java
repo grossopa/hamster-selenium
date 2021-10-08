@@ -22,52 +22,25 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.hamster.selenium.component.mat.main.sub;
-
-import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
-import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.openqa.selenium.WebElement;
-
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+package com.github.grossopa.selenium.core.consts;
 
 /**
- * The major content that contains the badge number.
+ * Html related constants
  *
  * @author Jack Yin
- * @since 1.6
+ * @since 1.7
  */
-public class MatBadgeContent extends AbstractMatComponent {
+public class HtmlConstants {
 
     /**
-     * The component name
+     * private
      */
-    public static final String COMPONENT_NAME = "BadgeContent";
+    private HtmlConstants() {
+        throw new AssertionError();
+    }
 
     /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI Angular configuration
+     * The css class attribute
      */
-    public MatBadgeContent(WebElement element, ComponentWebDriver driver, MatConfig config) {
-        super(element, driver, config);
-    }
-
-    @Override
-    public String getComponentName() {
-        return COMPONENT_NAME;
-    }
-
-    @Override
-    public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "badge-content");
-    }
-
-    @Override
-    public String toString() {
-        return "MatBadgeContent{" + "element=" + element + '}';
-    }
-
+    public static final String CLASS = "class";
 }

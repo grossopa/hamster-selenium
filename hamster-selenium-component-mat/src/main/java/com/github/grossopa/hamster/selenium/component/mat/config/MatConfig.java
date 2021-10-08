@@ -24,6 +24,8 @@
 
 package com.github.grossopa.hamster.selenium.component.mat.config;
 
+import com.github.grossopa.selenium.core.component.ComponentConfig;
+
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
@@ -34,12 +36,7 @@ import static java.util.Objects.requireNonNull;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatConfig {
-
-    /**
-     * Attribute class
-     */
-    public static final String ATTR_CLASS = "class";
+public class MatConfig implements ComponentConfig {
 
     private String tagPrefix = "mat-";
 
@@ -126,6 +123,36 @@ public class MatConfig {
     public void setCdkPrefix(String cdkPrefix) {
         requireNonNull(cdkPrefix);
         this.cdkPrefix = cdkPrefix;
+    }
+
+    /**
+     * Gets the isChecked CSS. default value is "Mui-checked"
+     *
+     * @return the isChecked CSS
+     */
+    @Override
+    public String getIsCheckedCss() {
+        return getCssPrefix() + "checked";
+    }
+
+    /**
+     * Gets the isSelected CSS. default value is "Mui-selected"
+     *
+     * @return the isSelected CSS
+     */
+    @Override
+    public String getIsSelectedCss() {
+        return getCssPrefix() + "selected";
+    }
+
+    /**
+     * Gets the isDisabled CSS. default value is "Mui-disabled"
+     *
+     * @return the isDisabled CSS
+     */
+    @Override
+    public String getIsDisabledCss() {
+        return getCssPrefix() + "disabled";
     }
 
     @Override
