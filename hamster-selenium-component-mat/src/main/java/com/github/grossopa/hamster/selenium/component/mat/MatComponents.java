@@ -270,4 +270,13 @@ public class MatComponents extends AbstractComponents {
     public MatSlideToggle toSlideToggle() {
         return new MatSlideToggle(component, driver, config);
     }
+
+    /**
+     * Wraps the given element to {@link MatSnackbar}.
+     *
+     * @return the {@link MatSnackbar} instance
+     */
+    public MatSnackbar toSnackbar() {
+        return new MatSnackbar(component, driver, config);
+    }
 }

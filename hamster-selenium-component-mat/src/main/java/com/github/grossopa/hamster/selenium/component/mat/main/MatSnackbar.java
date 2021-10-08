@@ -34,19 +34,19 @@ import org.openqa.selenium.WebElement;
 import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 
 /**
- * {@code <mat-slide-toggle>} is an on/off control that can be toggled via clicking.
+ * MatSnackBar is a service for displaying snack-bar notifications.
  *
  * @author Jack Yin
- * @see <a href="https://material.angular.io/components/slide-toggle/api">
- * https://material.angular.io/components/slide-toggle/api</a>
+ * @see <a href="https://material.angular.io/components/snack-bar/overview">
+ * https://material.angular.io/components/snack-bar/overview</a>
  * @since 1.7
  */
-public class MatSlideToggle extends AbstractMatComponent {
+public class MatSnackbar extends AbstractMatComponent {
 
     /**
      * The component name
      */
-    public static final String COMPONENT_NAME = "SlideToggle";
+    public static final String COMPONENT_NAME = "Snackbar";
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -55,27 +55,8 @@ public class MatSlideToggle extends AbstractMatComponent {
      * @param driver the root driver
      * @param config the Material UI Angular configuration
      */
-    public MatSlideToggle(WebElement element, ComponentWebDriver driver, MatConfig config) {
+    public MatSnackbar(WebElement element, ComponentWebDriver driver, MatConfig config) {
         super(element, driver, config);
-    }
-
-    @Override
-    public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "slide-toggle");
-    }
-
-    @Override
-    public boolean isSelected() {
-        return config.isChecked(this);
-    }
-
-    /**
-     * Gets the label content component
-     *
-     * @return the label content component
-     */
-    public WebComponent getLabel() {
-        return this.findComponent(By.className(config.getCssPrefix() + "slide-toggle-content"));
     }
 
     @Override
@@ -83,8 +64,31 @@ public class MatSlideToggle extends AbstractMatComponent {
         return COMPONENT_NAME;
     }
 
+    /**
+     * Finds the label content.
+     *
+     * @return the label content.
+     */
+    public WebComponent getLabel() {
+        return this.findComponent(By.tagName("span"));
+    }
+
+    /**
+     * Finds the action content.
+     *
+     * @return the action content.
+     */
+    public MatButton getActionButton() {
+        return new MatButton(this.findComponent(By.tagName("button")), driver, config);
+    }
+
+    @Override
+    public boolean validate() {
+        return this.attributeContains(CLASS, config.getCssPrefix() + "simple-snackbar");
+    }
+
     @Override
     public String toString() {
-        return "MatSlideToggle{" + "element=" + element + '}';
+        return "MatSnackbar{" + "element=" + element + '}';
     }
 }

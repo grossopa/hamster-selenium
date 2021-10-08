@@ -175,4 +175,9 @@ class MatComponentsTest {
     void toSlideToggle() {
         assertEquals(element, testSubject.toSlideToggle().getWrappedElement());
     }
+
+    @Test
+    void toSnackbar() {
+        assertEquals(element, testSubject.toSnackbar().getWrappedElement());
+    }
 }
