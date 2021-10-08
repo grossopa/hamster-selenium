@@ -25,10 +25,10 @@
 package com.github.grossopa.selenium.examples.mui;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.finder.MuiModalFinder;
-import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
-import com.github.grossopa.selenium.component.mui.inputs.MuiCheckbox;
-import com.github.grossopa.selenium.component.mui.navigation.*;
+import com.github.grossopa.selenium.component.mui.v4.finder.MuiModalFinder;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiCheckbox;
+import com.github.grossopa.selenium.component.mui.v4.navigation.*;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;

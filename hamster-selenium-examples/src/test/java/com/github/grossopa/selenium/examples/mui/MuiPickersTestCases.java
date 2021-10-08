@@ -25,11 +25,11 @@
 package com.github.grossopa.selenium.examples.mui;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.inputs.MuiTextField;
-import com.github.grossopa.selenium.component.mui.locator.MuiDialogLocator;
-import com.github.grossopa.selenium.component.mui.pickers.MuiPickersBasicPickerViewComponents;
-import com.github.grossopa.selenium.component.mui.pickers.MuiPickersDialog;
-import com.github.grossopa.selenium.component.mui.pickers.MuiPickersYearSelectionContainer;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiTextField;
+import com.github.grossopa.selenium.component.mui.v4.locator.MuiDialogLocator;
+import com.github.grossopa.selenium.component.mui.v4.pickers.MuiPickersBasicPickerViewComponents;
+import com.github.grossopa.selenium.component.mui.v4.pickers.MuiPickersDialog;
+import com.github.grossopa.selenium.component.mui.v4.pickers.MuiPickersYearSelectionContainer;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;

@@ -24,10 +24,10 @@
 
 package com.github.grossopa.selenium.examples.mui;
 
-import com.github.grossopa.selenium.component.mui.datadisplay.MuiAvatar;
-import com.github.grossopa.selenium.component.mui.datadisplay.MuiBadge;
-import com.github.grossopa.selenium.component.mui.datadisplay.MuiChip;
-import com.github.grossopa.selenium.component.mui.datadisplay.MuiList;
+import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiAvatar;
+import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiBadge;
+import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiChip;
+import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiList;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;

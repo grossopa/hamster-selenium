@@ -25,9 +25,9 @@
 package com.github.grossopa.selenium.examples.mui;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
-import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
-import com.github.grossopa.selenium.component.mui.locator.MuiDialogLocator;
+import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
+import com.github.grossopa.selenium.component.mui.v4.locator.MuiDialogLocator;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 

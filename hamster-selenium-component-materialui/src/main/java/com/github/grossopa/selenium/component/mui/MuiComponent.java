@@ -40,4 +40,13 @@ public interface MuiComponent {
      * @return the config instance.
      */
     MuiConfig config();
+
+    /**
+     * Gets the implementation version
+     *
+     * @return the implementation version
+     */
+    MuiVersion version();
+
+
 }

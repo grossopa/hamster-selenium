@@ -24,7 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.action;
 
-import com.github.grossopa.selenium.component.mui.inputs.MuiSelect;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiSelect;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 

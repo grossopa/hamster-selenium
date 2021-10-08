@@ -1,6 +1,6 @@
 package com.github.grossopa.selenium.examples.mui;
 
-import com.github.grossopa.selenium.component.mui.core.MuiGrid;
+import com.github.grossopa.selenium.component.mui.v4.core.MuiGrid;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;

@@ -24,10 +24,10 @@
 
 package com.github.grossopa.selenium.examples.mui;
 
-import com.github.grossopa.selenium.component.mui.AbstractMuiComponent;
-import com.github.grossopa.selenium.component.mui.feedback.MuiDialog;
-import com.github.grossopa.selenium.component.mui.feedback.MuiSnackbar;
-import com.github.grossopa.selenium.component.mui.inputs.MuiButton;
+import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
+import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
+import com.github.grossopa.selenium.component.mui.v4.feedback.MuiSnackbar;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;

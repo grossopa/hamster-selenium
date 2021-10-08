@@ -24,8 +24,8 @@
 
 package com.github.grossopa.selenium.examples.mui;
 
-import com.github.grossopa.selenium.component.mui.lab.MuiAutocomplete;
-import com.github.grossopa.selenium.component.mui.lab.MuiPagination;
+import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
+import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.core.util.SeleniumUtils;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
