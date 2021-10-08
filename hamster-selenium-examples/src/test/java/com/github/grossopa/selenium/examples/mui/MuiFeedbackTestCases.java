@@ -63,12 +63,7 @@ public class MuiFeedbackTestCases extends AbstractBrowserSupport {
 
     public static void main(String[] args) {
         MuiFeedbackTestCases test = new MuiFeedbackTestCases();
-        try {
-            test.setUpDriver(EDGE);
-            test.testDialog();
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
+        test.setUpDriver(EDGE);
+        test.testDialog();
     }
 }

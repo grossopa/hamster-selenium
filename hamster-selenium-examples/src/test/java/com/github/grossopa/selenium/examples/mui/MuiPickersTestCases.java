@@ -135,13 +135,8 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
 
     public static void main(String[] args) {
         MuiPickersTestCases test = new MuiPickersTestCases();
-        try {
-            test.setUpDriver(EDGE);
-            test.testYearSelectionPopup();
-            test.testBasicExample();
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
+        test.setUpDriver(EDGE);
+        test.testYearSelectionPopup();
+        test.testBasicExample();
     }
 }

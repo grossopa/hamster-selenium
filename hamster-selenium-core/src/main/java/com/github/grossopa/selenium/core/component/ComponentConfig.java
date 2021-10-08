@@ -80,7 +80,7 @@ public interface ComponentConfig {
      * @see #getIsDisabledCss()
      */
     default boolean isDisabled(WebComponent component) {
-        return attributeContains(component, CLASS, getIsDisabledCss());
+        return !component.getWrappedElement().isEnabled() || attributeContains(component, CLASS, getIsDisabledCss());
     }
 
     /**

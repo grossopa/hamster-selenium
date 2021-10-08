@@ -159,15 +159,10 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
 
     public static void main(String[] args) {
         MuiDataDisplayTestCases test = new MuiDataDisplayTestCases();
-        try {
-            test.setUpDriver(EDGE);
-            test.testAvatar();
-            test.testBadge();
-            test.testChip();
-            test.testList();
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
+        test.setUpDriver(EDGE);
+        test.testAvatar();
+        test.testBadge();
+        test.testChip();
+        test.testList();
     }
 }

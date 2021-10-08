@@ -405,23 +405,18 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
 
     public static void main(String[] args) {
         MuiInputsTestCases test = new MuiInputsTestCases();
-        try {
-            test.setUpDriver(EDGE);
-            test.testBreadcrumbs();
-            test.testTextInput();
-            test.testSwitch();
-            test.testSlider();
-            test.testSelect();
-            test.testSelectWithMenu();
-            test.testButtonGroup();
-            test.testCheckBox();
-            test.testBottomNavigation();
-            test.testTabs();
-            test.testRadio();
-            test.testRadioGroup();
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
+        test.setUpDriver(EDGE);
+        test.testBreadcrumbs();
+        test.testTextInput();
+        test.testSwitch();
+        test.testSlider();
+        test.testSelect();
+        test.testSelectWithMenu();
+        test.testButtonGroup();
+        test.testCheckBox();
+        test.testBottomNavigation();
+        test.testTabs();
+        test.testRadio();
+        test.testRadioGroup();
     }
 }

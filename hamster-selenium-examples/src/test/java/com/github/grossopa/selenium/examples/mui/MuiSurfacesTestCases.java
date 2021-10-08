@@ -112,14 +112,9 @@ public class MuiSurfacesTestCases extends AbstractBrowserSupport {
 
     public static void main(String[] args) {
         MuiSurfacesTestCases test = new MuiSurfacesTestCases();
-        try {
-            test.setUpDriver(EDGE);
-            test.testBackdrop();
-            test.testDialog();
-            test.testSnackbar();
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
+        test.setUpDriver(EDGE);
+        test.testBackdrop();
+        test.testDialog();
+        test.testSnackbar();
     }
 }

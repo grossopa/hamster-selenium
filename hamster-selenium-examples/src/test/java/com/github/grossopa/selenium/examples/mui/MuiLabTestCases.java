@@ -266,19 +266,14 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
 
     public static void main(String[] args) {
         MuiLabTestCases test = new MuiLabTestCases();
-        try {
-            test.setUpDriver(EDGE);
-            test.testAutocompleteComboBox();
-            test.testAutocompleteComboBoxWithDelays();
-            test.testAutocompleteAsynchronousRequests();
-            test.testAutocompleteDisabled();
-            test.testAutocompleteMultipleValues();
-            test.testAutocompleteFixedOptions();
-            test.testPaginationBasic();
-            test.testPaginationButtons();
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
+        test.setUpDriver(EDGE);
+        test.testAutocompleteComboBox();
+        test.testAutocompleteComboBoxWithDelays();
+        test.testAutocompleteAsynchronousRequests();
+        test.testAutocompleteDisabled();
+        test.testAutocompleteMultipleValues();
+        test.testAutocompleteFixedOptions();
+        test.testPaginationBasic();
+        test.testPaginationButtons();
     }
 }

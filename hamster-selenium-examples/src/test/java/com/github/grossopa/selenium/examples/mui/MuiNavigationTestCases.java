@@ -197,8 +197,8 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         actionAccordion1.expand();
         driver.threadSleep(400L);
         assertTrue(actionAccordion1.isExpand());
-        MuiCheckbox checkbox1 = requireNonNull(actionAccordion1.getAccordionSummary())
-                .findComponent(By.className("MuiCheckbox-root")).as(mui()).toCheckbox();
+        MuiCheckbox checkbox1 = requireNonNull(actionAccordion1.getAccordionSummary()).findComponent(
+                By.className("MuiCheckbox-root")).as(mui()).toCheckbox();
         assertFalse(checkbox1.isSelected());
         checkbox1.click();
         assertTrue(checkbox1.isSelected());
@@ -207,16 +207,11 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
 
     public static void main(String[] args) {
         MuiNavigationTestCases test = new MuiNavigationTestCases();
-        try {
-            test.setUpDriver(EDGE);
-            test.testBottomNavigation();
-            test.testBreadcrumbs();
-            test.testTabs();
-            test.testMenu();
-            test.testAccordion();
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
+        test.setUpDriver(EDGE);
+        test.testBottomNavigation();
+        test.testBreadcrumbs();
+        test.testTabs();
+        test.testMenu();
+        test.testAccordion();
     }
 }

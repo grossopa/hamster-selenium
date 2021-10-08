@@ -26,6 +26,7 @@ package com.github.grossopa.selenium.core.component;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,9 +43,13 @@ class ComponentConfigTest {
 
     ComponentConfig testSubject;
     WebComponent component = mock(WebComponent.class);
+    WebElement element = mock(WebElement.class);
 
     @BeforeEach
     void setUp() {
+        when(element.isEnabled()).thenReturn(true);
+        when(component.getWrappedElement()).thenReturn(element);
+
         when(component.getAttribute(CLASS)).thenReturn("prefix-selected prefix-checked prefix-disabled");
 
         testSubject = new ComponentConfig() {
@@ -74,6 +79,12 @@ class ComponentConfigTest {
 
     @Test
     void isDisabled() {
+        assertTrue(testSubject.isDisabled(component));
+    }
+
+    @Test
+    void isDisabled2() {
+        when(element.isEnabled()).thenReturn(false);
         assertTrue(testSubject.isDisabled(component));
     }
 

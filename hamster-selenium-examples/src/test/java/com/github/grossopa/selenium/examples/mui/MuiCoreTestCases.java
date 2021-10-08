@@ -25,8 +25,10 @@ public class MuiCoreTestCases extends AbstractBrowserSupport {
     public void testGrid() {
         driver.navigate().to("https://v4.mui.com/components/grid/");
         WebComponent divForLocate = driver.findComponents(By.id("SpacingGrid.js")).get(0).findComponent(By2.parent());
-        WebComponent testGridParentDiv = divForLocate.findComponents(By.tagName("div")).get(0).findComponent(By.tagName("div"));
-        MuiGrid testGridParent = testGridParentDiv.findComponents(By.className("MuiGrid-root")).get(0).as(mui()).toGrid();
+        WebComponent testGridParentDiv = divForLocate.findComponents(By.tagName("div")).get(0)
+                .findComponent(By.tagName("div"));
+        MuiGrid testGridParent = testGridParentDiv.findComponents(By.className("MuiGrid-root")).get(0).as(mui())
+                .toGrid();
         assertTrue(testGridParent.isItem());
         MuiGrid testGrid = testGridParent.findComponent(By.className("MuiGrid-root")).as(mui()).toGrid();
         assertTrue(testGrid.isContainer());
@@ -39,12 +41,7 @@ public class MuiCoreTestCases extends AbstractBrowserSupport {
 
     public static void main(String[] args) {
         MuiCoreTestCases test = new MuiCoreTestCases();
-        try {
-            test.setUpDriver(EDGE);
-            test.testGrid();
-        } catch (RuntimeException ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
+        test.setUpDriver(EDGE);
+        test.testGrid();
     }
 }
