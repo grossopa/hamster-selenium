@@ -24,8 +24,6 @@
 
 package com.github.grossopa.selenium.core.driver;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.openqa.selenium.Capabilities;
 
 /**

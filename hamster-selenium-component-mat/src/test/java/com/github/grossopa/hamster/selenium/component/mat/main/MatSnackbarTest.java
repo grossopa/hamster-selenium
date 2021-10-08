@@ -39,7 +39,7 @@ import static org.mockito.Mockito.when;
  * Tests for {@link MatSnackbar}
  *
  * @author Jack Yin
- * @since 1.7
+ * @since 1.6
  */
 class MatSnackbarTest {
 
@@ -79,7 +79,6 @@ class MatSnackbarTest {
         when(element.getAttribute("class")).thenReturn("mat-simple-snackbar-23");
         assertFalse(testSubject.validate());
     }
-
 
     @Test
     void getLabel() {

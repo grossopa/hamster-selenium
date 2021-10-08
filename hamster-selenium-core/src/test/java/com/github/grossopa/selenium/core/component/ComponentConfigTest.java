@@ -37,7 +37,7 @@ import static org.mockito.Mockito.when;
  * Tests for {@link ComponentConfig}
  *
  * @author Jack Yin
- * @since 1.7
+ * @since 1.6
  */
 class ComponentConfigTest {
 

@@ -28,7 +28,7 @@ package com.github.grossopa.selenium.core.consts;
  * Html related constants
  *
  * @author Jack Yin
- * @since 1.7
+ * @since 1.6
  */
 public class HtmlConstants {
 

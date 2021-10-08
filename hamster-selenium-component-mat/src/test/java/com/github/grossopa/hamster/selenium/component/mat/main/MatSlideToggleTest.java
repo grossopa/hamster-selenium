@@ -39,7 +39,7 @@ import static org.mockito.Mockito.when;
  * Tests for {@link MatSlideToggle}
  *
  * @author Jack Yin
- * @since 1.7
+ * @since 1.6
  */
 class MatSlideToggleTest {
 

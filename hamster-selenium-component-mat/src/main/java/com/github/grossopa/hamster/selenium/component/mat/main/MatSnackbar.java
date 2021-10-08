@@ -39,7 +39,7 @@ import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
  * @author Jack Yin
  * @see <a href="https://material.angular.io/components/snack-bar/overview">
  * https://material.angular.io/components/snack-bar/overview</a>
- * @since 1.7
+ * @since 1.6
  */
 public class MatSnackbar extends AbstractMatComponent {
 

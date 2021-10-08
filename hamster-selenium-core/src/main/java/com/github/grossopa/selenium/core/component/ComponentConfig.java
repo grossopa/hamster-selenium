@@ -36,7 +36,7 @@ import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
  * </p>
  *
  * @author Jack Yin
- * @since 1.7
+ * @since 1.6
  */
 public interface ComponentConfig {
 
