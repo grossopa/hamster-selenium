@@ -24,10 +24,10 @@
 
 package com.github.grossopa.selenium.component.mui.v4.lab;
 
-import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.v4.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.component.mui.v4.finder.MuiModalFinder;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
@@ -35,6 +35,7 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
+import com.github.grossopa.selenium.core.locator.By2;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -48,6 +49,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 /**
@@ -154,8 +156,8 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     public boolean isLoading() {
         WebComponent overlay = this.tryLocateOverlay();
         if (overlay != null) {
-            List<WebComponent> loadings = overlay
-                    .findComponents(By.className(config.getCssPrefix() + "Autocomplete-loading"));
+            List<WebComponent> loadings = overlay.findComponents(
+                    By.className(config.getCssPrefix() + "Autocomplete-loading"));
             return !loadings.isEmpty() && loadings.get(0).isDisplayed();
         }
         return false;
@@ -423,15 +425,22 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
      */
     public boolean isNoOptions() {
         WebComponent overlay = this.openOptions();
-        List<WebComponent> noOptions = overlay
-                .findComponents(By.className(config.getCssPrefix() + "Autocomplete-noOptions"));
+        List<WebComponent> noOptions = overlay.findComponents(
+                By.className(config.getCssPrefix() + "Autocomplete-noOptions"));
         return !noOptions.isEmpty();
     }
 
     @Nullable
     private WebComponent tryLocateOverlay() {
-        List<WebComponent> overlays = modalFinder
-                .findOverlays(Set.of(config.getCssPrefix() + "Autocomplete-popper"), false);
+        List<WebComponent> overlays = modalFinder.findOverlays(Set.of(config.getCssPrefix() + "Autocomplete-popper"),
+                false);
+        if (overlays.isEmpty()) {
+            // try to locate the next sibling if disablePortal is set to true
+            overlays = this.findComponents(By2.axesBuilder().followingSibling("div").attr(CLASS)
+                            .contains(config.getCssPrefix() + "Autocomplete-popperDisablePortal").build()
+                    //        By.xpath("following-sibling::div[contains(@class,\"MuiAutocomplete-popperDisablePortal\")]")
+            );
+        }
         return overlays.isEmpty() ? null : overlays.get(0);
     }
 
@@ -498,15 +507,15 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
             return false;
         }
         MuiAutocomplete that = (MuiAutocomplete) o;
-        return modalFinder.equals(that.modalFinder) && optionLocator.equals(that.optionLocator) && openOptionsAction
-                .equals(that.openOptionsAction) && closeOptionsAction.equals(that.closeOptionsAction) && tagLocators
-                .equals(that.tagLocators);
+        return modalFinder.equals(that.modalFinder) && optionLocator.equals(that.optionLocator)
+                && openOptionsAction.equals(that.openOptionsAction) && closeOptionsAction.equals(
+                that.closeOptionsAction) && tagLocators.equals(that.tagLocators);
     }
 
     @Override
     public int hashCode() {
-        return Objects
-                .hash(super.hashCode(), modalFinder, optionLocator, openOptionsAction, closeOptionsAction, tagLocators);
+        return Objects.hash(super.hashCode(), modalFinder, optionLocator, openOptionsAction, closeOptionsAction,
+                tagLocators);
     }
 
     @Override

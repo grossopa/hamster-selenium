@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.config;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.core.component.ComponentConfig;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
@@ -43,6 +44,11 @@ import static com.google.common.collect.Sets.newHashSet;
  * @since 1.0
  */
 public class MuiConfig implements ComponentConfig {
+
+    /**
+     * The Mui version
+     */
+    private MuiVersion version = MuiVersion.V4;
 
     /**
      * Default css prefix by Material UI framework
@@ -248,12 +254,34 @@ public class MuiConfig implements ComponentConfig {
         return cssPrefix;
     }
 
+    /**
+     * Sets the global css prefix
+     *
+     * @param cssPrefix the global css prefix
+     */
     public void setCssPrefix(String cssPrefix) {
         this.cssPrefix = cssPrefix;
     }
 
+    /**
+     * Gets the Mui version
+     *
+     * @return the Mui version
+     */
+    public MuiVersion getVersion() {
+        return version;
+    }
+
+    /**
+     * Sets the Mui version
+     *
+     * @param version the Mui version
+     */
+    public void setVersion(MuiVersion version) {
+        this.version = version;
+    }
+
     @Override
-    @SuppressWarnings("java:S6212")
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -262,17 +290,18 @@ public class MuiConfig implements ComponentConfig {
             return false;
         }
         MuiConfig muiConfig = (MuiConfig) o;
-        return cssPrefix.equals(muiConfig.cssPrefix) && overlayAbsolutePath.equals(muiConfig.overlayAbsolutePath);
+        return version == muiConfig.version && Objects.equals(cssPrefix, muiConfig.cssPrefix) && Objects.equals(
+                overlayAbsolutePath, muiConfig.overlayAbsolutePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cssPrefix, overlayAbsolutePath);
+        return Objects.hash(version, cssPrefix, overlayAbsolutePath);
     }
 
     @Override
     public String toString() {
-        return "MuiConfig{" + "cssPrefix='" + cssPrefix + '\'' + ", overlayAbsolutePath='" + overlayAbsolutePath + '\''
-                + '}';
+        return "MuiConfig{" + "version=" + version + ", cssPrefix='" + cssPrefix + '\'' + ", overlayAbsolutePath='"
+                + overlayAbsolutePath + '\'' + '}';
     }
 }

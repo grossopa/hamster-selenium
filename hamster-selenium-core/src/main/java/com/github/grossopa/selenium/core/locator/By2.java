@@ -165,12 +165,21 @@ public abstract class By2 extends By {
     }
 
     /**
-     * Starts to build xpath.
+     * Xpath builder with starts with prefix.
      *
      * @return the prefix builder to start the building
      */
     public static SimpleXpathBuilder.PrefixBuilder xpathBuilder() {
         return new SimpleXpathBuilder.PrefixBuilder();
+    }
+
+    /**
+     * Xpath builder which starts with axes.
+     *
+     * @return the Axes builder to start the building
+     */
+    public static SimpleXpathBuilder.AxesBuilder axesBuilder() {
+        return new SimpleXpathBuilder.AxesBuilder(".");
     }
 
     /**

@@ -22,7 +22,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.examples.mui;
+package com.github.grossopa.selenium.examples.mui.v4;
 
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiAvatar;
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiBadge;

@@ -90,6 +90,17 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
+     * Creates an instance of {@link MuiComponents} with {@link MuiConfig} for Material UI version v5.
+     *
+     * @return the newly created instance with {@link MuiConfig} for Material UI version v5
+     */
+    public static MuiComponents muiV5() {
+        MuiConfig config = new MuiConfig();
+        config.setVersion(MuiVersion.V5);
+        return new MuiComponents(config);
+    }
+
+    /**
      * Creates an instance of {@link MuiComponents} with given {@link MuiConfig}.
      *
      * @param config the config instance

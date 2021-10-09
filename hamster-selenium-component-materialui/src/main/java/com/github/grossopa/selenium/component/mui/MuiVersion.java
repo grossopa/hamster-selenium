@@ -34,9 +34,57 @@ public enum MuiVersion {
     /**
      * Version 4, see <a href="https://v4.mui.com/">https://v4.mui.com/</a>
      */
-    V4,
+    V4 {
+        @Override
+        public <T, R> R apply(Func<T, R> func, T input) {
+            return func.applyV4(input);
+        }
+    },
     /**
      * Version 5, current version as of year 2021
      */
-    V5
+    V5 {
+        @Override
+        public <T, R> R apply(Func<T, R> func, T input) {
+            return func.applyV5(input);
+        }
+    };
+
+    /**
+     * Executes a function by current type.
+     *
+     * @param func the function to execute
+     * @param input the input parameter to be passed in
+     * @param <T> the input type
+     * @param <R> the result type
+     * @return execution result
+     */
+    public abstract <T, R> R apply(Func<T, R> func, T input);
+
+    /**
+     * The function for {@link MuiVersion} enums.
+     *
+     * @param <T> the input type
+     * @param <R> the result type
+     * @author Jack Yin
+     * @since 1.6
+     */
+    public interface Func<T, R> {
+
+        /**
+         * applies to {@link #V4}.
+         *
+         * @param input the input params
+         * @return the execution result
+         */
+        R applyV4(T input);
+
+        /**
+         * applies to {@link #V5}.
+         *
+         * @param input the input params
+         * @return the execution result
+         */
+        R applyV5(T input);
+    }
 }
