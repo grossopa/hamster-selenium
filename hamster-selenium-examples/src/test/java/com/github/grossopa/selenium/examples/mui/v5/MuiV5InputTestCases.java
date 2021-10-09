@@ -34,13 +34,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.muiV5;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.cleanText;
-import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -165,8 +163,8 @@ public class MuiV5InputTestCases extends AbstractBrowserSupport {
         test.setUpDriver(EDGE);
 
         AutocompleteTests autocompleteTests = test.createAutocompleteTests();
-        //        autocompleteTests.testComboBox();
-        //        autocompleteTests.testPlayground();
+        autocompleteTests.testComboBox();
+        autocompleteTests.testPlayground();
         autocompleteTests.testCountry();
     }
 }
