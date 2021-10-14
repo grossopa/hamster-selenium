@@ -43,6 +43,7 @@ import com.github.grossopa.selenium.component.mui.v4.navigation.*;
 import com.github.grossopa.selenium.component.mui.v4.pickers.MuiPickersDialog;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiPager;
+import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.core.component.AbstractComponents;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import lombok.Getter;
@@ -153,6 +154,23 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiButtonGroup(component, driver, config));
     }
 
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiCheckbox} instance for {@link MuiVersion#V4} and {@link
+     * MuiCheckboxV5} for {@link MuiVersion#V5}. Developer should cast the class to {@link MuiCheckboxV5} for additional
+     * APIs such as {@link MuiCheckboxV5#isIndeterminate()}.
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiCheckbox-root".
+     * </p>
+     *
+     * @return wrapped {@link MuiCheckbox} instance on the given component
+     */
+    public MuiCheckbox toCheckbox() {
+        return this.create(config, () -> new MuiCheckbox(component, driver, config),
+                () -> new MuiCheckboxV5(component, driver, config));
+    }
+
     /**
      * Wraps the current {@link WebComponent} to {@link MuiFab} instance.
      *
@@ -160,16 +178,6 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiFab toFab() {
         return new MuiFab(component, driver, config);
-    }
-
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiCheckbox} instance.
-     *
-     * @return wrapped {@link MuiCheckbox} instance on the given component
-     */
-    public MuiCheckbox toCheckbox() {
-        return new MuiCheckbox(component, driver, config);
     }
 
     /**

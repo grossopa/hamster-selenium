@@ -85,8 +85,8 @@ public class MuiButtonTestCases extends AbstractBrowserSupport {
         test.setUpDriver(EDGE);
         test.driver.navigate().to("https://mui.com/components/buttons/");
 
+        test.testBasicButtons();
         test.testTextButtons();
     }
-
 
 }

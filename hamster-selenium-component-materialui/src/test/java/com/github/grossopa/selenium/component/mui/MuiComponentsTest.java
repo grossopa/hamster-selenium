@@ -30,10 +30,12 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButtonGroup;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiCheckbox;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPaginationLocators;
+import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
@@ -117,14 +119,24 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toCheckboxV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toCheckbox().getWrappedElement());
+        assertEquals(MuiCheckbox.class, testSubject.toCheckbox().getClass());
+    }
+
+    @Test
+    void toCheckboxV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toCheckbox().getWrappedElement());
+        assertEquals(MuiCheckboxV5.class, testSubject.toCheckbox().getClass());
+    }
+
+    @Test
     void toFab() {
         assertEquals(element, testSubject.toFab().getWrappedElement());
     }
 
-    @Test
-    void toCheckbox() {
-        assertEquals(element, testSubject.toCheckbox().getWrappedElement());
-    }
 
     @Test
     void toSelect() {
