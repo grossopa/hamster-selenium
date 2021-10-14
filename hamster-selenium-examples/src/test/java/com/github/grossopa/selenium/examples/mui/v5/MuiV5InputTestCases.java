@@ -24,11 +24,9 @@
 
 package com.github.grossopa.selenium.examples.mui.v5;
 
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import com.github.grossopa.selenium.examples.mui.v5.inputs.MuiAutocompleteTestCases;
+import com.github.grossopa.selenium.examples.mui.v5.inputs.MuiButtonGroupTestCases;
 import com.github.grossopa.selenium.examples.mui.v5.inputs.MuiButtonTestCases;
-
-import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 
 /**
  * Test cases for Mui V5 inputs.
@@ -36,34 +34,11 @@ import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
  * @author Jack Yin
  * @since 1.6
  */
-public class MuiV5InputTestCases extends AbstractBrowserSupport {
-
-
-    public MuiAutocompleteTestCases createAutocompleteTests() {
-        return new MuiAutocompleteTestCases(driver);
-    }
-
-    public MuiButtonTestCases createButtonTestCases() {
-        return new MuiButtonTestCases(driver);
-    }
-
+public class MuiV5InputTestCases {
 
     public static void main(String[] args) {
-        MuiV5InputTestCases test = new MuiV5InputTestCases();
-        test.setUpDriver(EDGE);
-
-        MuiAutocompleteTestCases autocompleteTests = test.createAutocompleteTests();
-        autocompleteTests.testComboBox();
-        autocompleteTests.testPlayground();
-        autocompleteTests.testCountry();
-        autocompleteTests.testControlledStates();
-        autocompleteTests.testFreeSolo();
-        autocompleteTests.testDisabledOptions();
-        autocompleteTests.testMultipleValues();
-        autocompleteTests.testFixedOptions();
-
-        MuiButtonTestCases buttonTestCases = test.createButtonTestCases();
-        buttonTestCases.testBasicButtons();
-        buttonTestCases.testTextButtons();
+        MuiAutocompleteTestCases.main(args);
+        MuiButtonTestCases.main(args);
+        MuiButtonGroupTestCases.main(args);
     }
 }

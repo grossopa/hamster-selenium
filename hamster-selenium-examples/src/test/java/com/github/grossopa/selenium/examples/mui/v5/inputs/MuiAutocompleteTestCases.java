@@ -27,9 +27,9 @@ package com.github.grossopa.selenium.examples.mui.v5.inputs;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.finder.MuiModalFinder;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
+import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.muiV5;
+import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.cleanText;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,16 +49,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.7
  */
-public class MuiAutocompleteTestCases {
+public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
 
     private static final Logger log = Logger.getLogger("MuiAutocompleteTests");
-
-    private final ComponentWebDriver driver;
-
-    public MuiAutocompleteTestCases(ComponentWebDriver driver) {
-        this.driver = driver;
-        this.driver.navigate().to("https://mui.com/components/autocomplete/");
-    }
 
     /**
      * Simple combobox testing
@@ -272,6 +266,21 @@ public class MuiAutocompleteTestCases {
         // deselectAll should not be impacted by disabled one
         autocomplete.deselectAll();
         assertEquals(1, autocomplete.getAllSelectedOptions2().size());
+    }
+
+    public static void main(String[] args) {
+        MuiAutocompleteTestCases test = new MuiAutocompleteTestCases();
+        test.setUpDriver(EDGE);
+        test.driver.navigate().to("https://mui.com/components/autocomplete/");
+
+        test.testComboBox();
+        test.testPlayground();
+        test.testCountry();
+        test.testControlledStates();
+        test.testFreeSolo();
+        test.testDisabledOptions();
+        test.testMultipleValues();
+        test.testFixedOptions();
     }
 
 }
