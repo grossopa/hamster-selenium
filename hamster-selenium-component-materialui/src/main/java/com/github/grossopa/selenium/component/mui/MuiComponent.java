@@ -49,6 +49,4 @@ public interface MuiComponent {
      * @return all the supported versions
      */
     Set<MuiVersion> versions();
-
-
 }

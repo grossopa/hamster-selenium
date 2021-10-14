@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.inputs;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -43,6 +44,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 import java.util.function.Function;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -176,6 +179,11 @@ class MuiSelectTest {
     @Test
     void getComponentName() {
         assertEquals("Select", testSubject.getComponentName());
+    }
+
+    @Test
+    void versions() {
+        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
     }
 
     @Test

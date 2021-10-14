@@ -116,6 +116,10 @@ public class MuiComponents extends AbstractComponents {
         return new MuiComponents(config);
     }
 
+    ////////////
+    // Inputs //
+    ////////////
+
     /**
      * Wraps the current {@link WebComponent} to {@link MuiButton} instance.
      *
@@ -128,8 +132,7 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiButton} instance on the given component
      */
     public MuiButton toButton() {
-        return this.create(() -> new MuiButton(component, driver, config),
-                () -> new MuiButton(component, driver, config));
+        return create(() -> new MuiButton(component, driver, config), () -> new MuiButton(component, driver, config));
     }
 
     /**
@@ -150,7 +153,7 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiButtonGroup} instance on the given component
      */
     public MuiButtonGroup toButtonGroup() {
-        return this.create(() -> new MuiButtonGroup(component, driver, config),
+        return create(() -> new MuiButtonGroup(component, driver, config),
                 () -> new MuiButtonGroup(component, driver, config));
     }
 
@@ -167,7 +170,7 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiCheckbox} instance on the given component
      */
     public MuiCheckbox toCheckbox() {
-        return this.create(() -> new MuiCheckbox(component, driver, config),
+        return create(() -> new MuiCheckbox(component, driver, config),
                 () -> new MuiCheckboxV5(component, driver, config));
     }
 
@@ -183,7 +186,7 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiFab} instance on the given component
      */
     public MuiFab toFab() {
-        return this.create(() -> new MuiFab(component, driver, config), () -> new MuiFab(component, driver, config));
+        return create(() -> new MuiFab(component, driver, config), () -> new MuiFab(component, driver, config));
     }
 
     /**
@@ -198,8 +201,7 @@ public class MuiComponents extends AbstractComponents {
      * @return the wrapped {@link MuiRadio} instance on the given component
      */
     public MuiRadio toRadio() {
-        return this.create(() -> new MuiRadio(component, driver, config),
-                () -> new MuiRadio(component, driver, config));
+        return create(() -> new MuiRadio(component, driver, config), () -> new MuiRadio(component, driver, config));
     }
 
     /**
@@ -221,32 +223,36 @@ public class MuiComponents extends AbstractComponents {
      * @return the wrapped {@link MuiRadioGroup} instance on the given component
      */
     public MuiRadioGroup toRadioGroup() {
-        return this.create(() -> new MuiRadioGroup(component, driver, config),
+        return create(() -> new MuiRadioGroup(component, driver, config),
                 () -> new MuiRadioGroup(component, driver, config));
     }
 
     /**
-     * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
-     *
-     * @return wrapped {@link MuiGrid} instance on the given component
-     */
-    public MuiGrid toGrid() {
-        return new MuiGrid(component, driver, config);
-    }
-
-    /**
      * Wraps the current {@link WebComponent} to {@link MuiSelect} instance.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiSelect-root".
+     * </p>
      *
      * @param optionLocator the locator for locating the options (NOTE: it is the option element NOT the option
      * container)
      * @return wrapped {@link MuiSelect} instance on the given component
      */
     public MuiSelect toSelect(By optionLocator) {
-        return new MuiSelect(component, driver, config, MuiSelectConfig.builder(optionLocator).build());
+        return create(() -> new MuiSelect(component, driver, config, MuiSelectConfig.builder(optionLocator).build()),
+                () -> new MuiSelect(component, driver, config, MuiSelectConfig.builder(optionLocator).build()));
     }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiSelect} instance.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiSelect-root".
+     * </p>
      *
      * @param optionLocator the locator for locating the options (NOTE: it is the option element NOT the option
      * container)
@@ -258,11 +264,18 @@ public class MuiComponents extends AbstractComponents {
     public MuiSelect toSelect(By optionLocator, String optionValueAttribute) {
         MuiSelectConfig selectConfig = MuiSelectConfig.builder(optionLocator).optionValueAttribute(optionValueAttribute)
                 .build();
-        return new MuiSelect(component, driver, config, selectConfig);
+        return create(() -> new MuiSelect(component, driver, config, selectConfig),
+                () -> new MuiSelect(component, driver, config, selectConfig));
     }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiSelect} instance.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiSelect-root".
+     * </p>
      *
      * @param optionLocator the locator for locating the options (NOTE: it is the option element NOT the option
      * container)
@@ -272,7 +285,23 @@ public class MuiComponents extends AbstractComponents {
     public MuiSelect toSelect(By optionLocator, Consumer<MuiSelectConfig.MuiSelectConfigBuilder> configEnrichConsumer) {
         MuiSelectConfig.MuiSelectConfigBuilder builder = MuiSelectConfig.builder(optionLocator);
         configEnrichConsumer.accept(builder);
-        return new MuiSelect(component, driver, config, builder.build());
+        return create(() -> new MuiSelect(component, driver, config, builder.build()),
+                () -> new MuiSelect(component, driver, config, builder.build()));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiSelect-root".
+     * </p>
+     *
+     * @return wrapped {@link MuiGrid} instance on the given component
+     */
+    public MuiGrid toGrid() {
+        return new MuiGrid(component, driver, config);
     }
 
     /**

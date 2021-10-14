@@ -173,19 +173,47 @@ class MuiComponentsTest {
     }
 
     @Test
-    void toSelect() {
+    void toSelectV4() {
+        when(config.getVersion()).thenReturn(V4);
         assertEquals(element, testSubject.toSelect(By.id("abc")).getWrappedElement());
+        assertEquals(MuiSelect.class, testSubject.toSelect(By.id("abc")).getClass());
     }
 
     @Test
-    void testToSelect() {
+    void toSelectV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toSelect(By.id("abc")).getWrappedElement());
+        assertEquals(MuiSelect.class, testSubject.toSelect(By.id("abc")).getClass());
+    }
+
+    @Test
+    void testToSelectV4() {
+        when(config.getVersion()).thenReturn(V4);
         assertEquals(element, testSubject.toSelect(By.id("abc"), "attribute-value-name").getWrappedElement());
+        assertEquals(MuiSelect.class, testSubject.toSelect(By.id("abc"), "attribute-value-name").getClass());
     }
 
     @Test
-    void testToSelect2() {
+    void testToSelectV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toSelect(By.id("abc"), "attribute-value-name").getWrappedElement());
+        assertEquals(MuiSelect.class, testSubject.toSelect(By.id("abc"), "attribute-value-name").getClass());
+    }
+
+    @Test
+    void testToSelect2V4() {
+        when(config.getVersion()).thenReturn(V4);
         assertEquals(element,
                 testSubject.toSelect(By.id("abc"), builder -> builder.multiple(true)).getWrappedElement());
+        assertEquals(MuiSelect.class, testSubject.toSelect(By.id("abc"), "attribute-value-name").getClass());
+    }
+
+    @Test
+    void testToSelect2V5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element,
+                testSubject.toSelect(By.id("abc"), builder -> builder.multiple(true)).getWrappedElement());
+        assertEquals(MuiSelect.class, testSubject.toSelect(By.id("abc"), "attribute-value-name").getClass());
     }
 
     @Test
