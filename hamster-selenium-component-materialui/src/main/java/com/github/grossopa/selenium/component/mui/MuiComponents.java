@@ -118,10 +118,17 @@ public class MuiComponents extends AbstractComponents {
     /**
      * Wraps the current {@link WebComponent} to {@link MuiButton} instance.
      *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiButton-root".
+     * </p>
+     *
      * @return wrapped {@link MuiButton} instance on the given component
      */
     public MuiButton toButton() {
-        return new MuiButton(component, driver, config);
+        return this.create(config, () -> new MuiButton(component, driver, config),
+                () -> new MuiButton(component, driver, config));
     }
 
     /**

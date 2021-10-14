@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
@@ -87,8 +88,17 @@ class MuiComponentsTest {
     }
 
     @Test
-    void toButton() {
+    void toButtonV4() {
+        when(config.getVersion()).thenReturn(V4);
         assertEquals(element, testSubject.toButton().getWrappedElement());
+        assertEquals(MuiButton.class, testSubject.toButton().getClass());
+    }
+
+    @Test
+    void toButtonV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toButton().getWrappedElement());
+        assertEquals(MuiButton.class, testSubject.toButton().getClass());
     }
 
     @Test
