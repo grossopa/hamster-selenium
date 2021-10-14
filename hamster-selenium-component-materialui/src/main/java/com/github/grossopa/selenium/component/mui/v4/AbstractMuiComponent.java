@@ -31,7 +31,9 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import org.openqa.selenium.WebElement;
 
+import java.util.EnumSet;
 import java.util.Objects;
+import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static java.util.Objects.requireNonNull;
@@ -60,8 +62,8 @@ public abstract class AbstractMuiComponent extends DefaultWebComponent implement
     }
 
     @Override
-    public MuiVersion version() {
-        return V4;
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V4);
     }
 
     @Override

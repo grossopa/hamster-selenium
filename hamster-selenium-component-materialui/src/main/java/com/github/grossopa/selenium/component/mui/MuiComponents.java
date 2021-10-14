@@ -30,6 +30,7 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
 import com.github.grossopa.selenium.component.mui.v4.core.MuiGrid;
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.*;
+import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiSnackbar;
@@ -46,11 +47,15 @@ import com.github.grossopa.selenium.core.component.AbstractComponents;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import lombok.Getter;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -96,7 +101,7 @@ public class MuiComponents extends AbstractComponents {
      */
     public static MuiComponents muiV5() {
         MuiConfig config = new MuiConfig();
-        config.setVersion(MuiVersion.V5);
+        config.setVersion(V5);
         return new MuiComponents(config);
     }
 
@@ -426,24 +431,45 @@ public class MuiComponents extends AbstractComponents {
     /**
      * Wraps the current {@link WebComponent} to {@link MuiAutocomplete}.
      *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiAutocomplete-root".
+     * </p>
+     *
      * @return the wrapped {@link MuiAutocomplete} instance on the given component
      */
     public MuiAutocomplete toAutocomplete() {
-        return new MuiAutocomplete(component, driver, config);
+        return create(config, () -> new MuiAutocomplete(component, driver, config),
+                () -> new MuiAutocomplete(component, driver, config));
     }
 
     /**
-     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator
+     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiAutocomplete-root".
+     * </p>
      *
      * @param optionLocator the option locator for finding the option elements
      * @return the wrapped {@link MuiAutocomplete} instance on the given component
      */
     public MuiAutocomplete toAutocomplete(@Nullable By optionLocator) {
-        return new MuiAutocomplete(component, driver, config, optionLocator);
+        return create(config, () -> new MuiAutocomplete(component, driver, config, optionLocator),
+                () -> new MuiAutocomplete(component, driver, config, optionLocator));
     }
 
     /**
-     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator
+     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator and tagLocators
+     * (for multiple selection feature).
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiAutocomplete-root".
+     * </p>
      *
      * @param optionLocator the option locator for finding the option elements
      * @param tagLocators the tag locators for finding the selected option elements
@@ -451,11 +477,19 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiAutocomplete toAutocomplete(@Nullable By optionLocator,
             @Nullable MuiAutocompleteTagLocators tagLocators) {
-        return new MuiAutocomplete(component, driver, config, optionLocator, tagLocators);
+        return create(config, () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators),
+                () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators));
     }
 
     /**
-     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator
+     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator, tagLocators (for
+     * multiple selection feature), and actions for opening and closing the options.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiAutocomplete-root".
+     * </p>
      *
      * @param optionLocator the option locator for finding the option elements
      * @param tagLocators the tag locators for finding the selected option elements
@@ -465,8 +499,11 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiAutocomplete toAutocomplete(@Nullable By optionLocator, @Nullable MuiAutocompleteTagLocators tagLocators,
             @Nullable OpenOptionsAction openOptionsAction, @Nullable CloseOptionsAction closeOptionsAction) {
-        return new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
-                closeOptionsAction);
+        return create(config,
+                () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
+                        closeOptionsAction),
+                () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
+                        closeOptionsAction));
     }
 
     /**
@@ -488,5 +525,13 @@ public class MuiComponents extends AbstractComponents {
         return new MuiPagination(component, driver, config, locators);
     }
 
+    private <T> T create(MuiConfig config, Supplier<T> v4creatorFunc, Supplier<T> v5creatorFunc) {
+        if (config.getVersion() == V4) {
+            return v4creatorFunc.get();
+        } else if (config.getVersion() == V5) {
+            return v5creatorFunc.get();
+        }
+        throw new InvalidVersionException("Given version is not recognizable. " + config.getVersion());
+    }
 
 }

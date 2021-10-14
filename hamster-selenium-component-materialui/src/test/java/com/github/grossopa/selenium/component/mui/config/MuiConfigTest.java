@@ -218,6 +218,7 @@ class MuiConfigTest {
 
     @Test
     void testToString() {
-        assertEquals("MuiConfig{cssPrefix='Mui', overlayAbsolutePath='/html/body'}", testSubject.toString());
+        assertEquals("MuiConfig{version=V4, cssPrefix='Mui', overlayAbsolutePath='/html/body'}",
+                testSubject.toString());
     }
 }

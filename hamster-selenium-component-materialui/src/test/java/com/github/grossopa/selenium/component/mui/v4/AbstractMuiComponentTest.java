@@ -31,6 +31,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import java.util.EnumSet;
+
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -60,8 +62,8 @@ class AbstractMuiComponentV4Test {
     }
 
     @Test
-    void version() {
-        assertEquals(V4, testSubject.version());
+    void versions() {
+        assertArrayEquals(EnumSet.of(V4).toArray(), testSubject.versions().toArray());
     }
 
     @Test

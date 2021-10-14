@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.lab;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -44,11 +45,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
@@ -141,6 +141,11 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     @Override
     public String getComponentName() {
         return COMPONENT_NAME;
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V4, V5);
     }
 
     @Override

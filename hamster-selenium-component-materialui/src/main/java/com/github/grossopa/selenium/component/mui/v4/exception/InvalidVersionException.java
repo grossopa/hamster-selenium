@@ -22,33 +22,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui;
-
-import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-
-import java.util.Set;
+package com.github.grossopa.selenium.component.mui.v4.exception;
 
 /**
- * The default Mui component interface
+ * Throws when the version is not valid for component creation
  *
  * @author Jack Yin
- * @since 1.3
+ * @since 1.7
  */
-public interface MuiComponent {
+public class InvalidVersionException extends RuntimeException {
 
     /**
-     * Gets the config instance.
+     * Constructs an instance with message.
      *
-     * @return the config instance.
+     * @param message the error message
      */
-    MuiConfig config();
-
-    /**
-     * Gets all the supported versions
-     *
-     * @return all the supported versions
-     */
-    Set<MuiVersion> versions();
-
-
+    public InvalidVersionException(String message) {
+        super(message);
+    }
 }

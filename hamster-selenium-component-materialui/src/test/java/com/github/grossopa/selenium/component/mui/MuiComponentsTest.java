@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.component.mui;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
@@ -40,8 +41,9 @@ import org.openqa.selenium.WebElement;
 
 import java.util.function.UnaryOperator;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -69,6 +71,13 @@ class MuiComponentsTest {
     @Test
     void mui() {
         assertNotNull(MuiComponents.mui().getConfig());
+        assertEquals(V4, MuiComponents.mui().getConfig().getVersion());
+    }
+
+    @Test
+    void muiV5() {
+        assertNotNull(MuiComponents.muiV5().getConfig());
+        assertEquals(V5, MuiComponents.muiV5().getConfig().getVersion());
     }
 
     @Test
@@ -246,19 +255,44 @@ class MuiComponentsTest {
     }
 
     @Test
-    void toAutocomplete() {
-        assertEquals(element, testSubject.toAutocomplete().getWrappedElement());
+    void testNoVersions() {
+        when(config.getVersion()).thenReturn(null);
+        assertThrows(InvalidVersionException.class, () -> testSubject.toAutocomplete());
     }
 
     @Test
-    void toAutocomplete1() {
+    void toAutocompleteV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toAutocomplete().getWrappedElement());
+        assertEquals(MuiAutocomplete.class, testSubject.toAutocomplete().getClass());
+    }
+
+    @Test
+    void toAutocompleteV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toAutocomplete().getWrappedElement());
+        assertEquals(MuiAutocomplete.class, testSubject.toAutocomplete().getClass());
+    }
+
+    @Test
+    void toAutocomplete1V4() {
+        when(config.getVersion()).thenReturn(V4);
         MuiAutocomplete autocomplete = testSubject.toAutocomplete(By.className("options"));
         assertEquals(element, autocomplete.getWrappedElement());
         assertEquals(By.className("options"), autocomplete.getOptionLocator());
     }
 
     @Test
-    void toAutocomplete2() {
+    void toAutocomplete1V5() {
+        when(config.getVersion()).thenReturn(V5);
+        MuiAutocomplete autocomplete = testSubject.toAutocomplete(By.className("options"));
+        assertEquals(element, autocomplete.getWrappedElement());
+        assertEquals(By.className("options"), autocomplete.getOptionLocator());
+    }
+
+    @Test
+    void toAutocomplete2V4() {
+        when(config.getVersion()).thenReturn(V4);
         MuiAutocompleteTagLocators tagLocators = mock(MuiAutocompleteTagLocators.class);
         MuiAutocomplete autocomplete = testSubject.toAutocomplete(By.className("options"), tagLocators);
         assertEquals(element, autocomplete.getWrappedElement());
@@ -267,7 +301,33 @@ class MuiComponentsTest {
     }
 
     @Test
-    void toAutocomplete3() {
+    void toAutocomplete2V5() {
+        when(config.getVersion()).thenReturn(V5);
+        MuiAutocompleteTagLocators tagLocators = mock(MuiAutocompleteTagLocators.class);
+        MuiAutocomplete autocomplete = testSubject.toAutocomplete(By.className("options"), tagLocators);
+        assertEquals(element, autocomplete.getWrappedElement());
+        assertEquals(By.className("options"), autocomplete.getOptionLocator());
+        assertEquals(tagLocators, autocomplete.getTagLocators());
+    }
+
+    @Test
+    void toAutocomplete3V4() {
+        when(config.getVersion()).thenReturn(V4);
+        MuiAutocompleteTagLocators tagLocators = mock(MuiAutocompleteTagLocators.class);
+        OpenOptionsAction openOptionsAction = mock(OpenOptionsAction.class);
+        CloseOptionsAction closeOptionsAction = mock(CloseOptionsAction.class);
+        MuiAutocomplete autocomplete = testSubject.toAutocomplete(By.className("options"), tagLocators,
+                openOptionsAction, closeOptionsAction);
+        assertEquals(element, autocomplete.getWrappedElement());
+        assertEquals(By.className("options"), autocomplete.getOptionLocator());
+        assertEquals(tagLocators, autocomplete.getTagLocators());
+        assertEquals(openOptionsAction, autocomplete.getOpenOptionsAction());
+        assertEquals(closeOptionsAction, autocomplete.getCloseOptionsAction());
+    }
+
+    @Test
+    void toAutocomplete3V5() {
+        when(config.getVersion()).thenReturn(V5);
         MuiAutocompleteTagLocators tagLocators = mock(MuiAutocompleteTagLocators.class);
         OpenOptionsAction openOptionsAction = mock(OpenOptionsAction.class);
         CloseOptionsAction closeOptionsAction = mock(CloseOptionsAction.class);

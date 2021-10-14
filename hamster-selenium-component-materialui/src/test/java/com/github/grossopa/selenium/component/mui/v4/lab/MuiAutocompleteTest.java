@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.lab;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -41,6 +42,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 import java.util.function.Function;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -163,6 +166,11 @@ class MuiAutocompleteTest {
     }
 
     @Test
+    void versions() {
+        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+    }
+
+    @Test
     void isEnabledTrue() {
         when(config.isDisabled(argThat(component -> component.getWrappedElement() == inputElement))).thenReturn(false);
         assertTrue(testSubject.isEnabled());
@@ -223,8 +231,8 @@ class MuiAutocompleteTest {
         when(targetLocator.activeElement()).thenReturn(null);
         assertEquals(overlay, testSubject.openOptions());
         verify(openOptionsAction, times(1)).open(any(), any());
-        verify(driver, times(1))
-                .moveTo(argThat(element -> ((WebComponent) element).getWrappedElement() == inputElement));
+        verify(driver, times(1)).moveTo(
+                argThat(element -> ((WebComponent) element).getWrappedElement() == inputElement));
     }
 
     @Test
