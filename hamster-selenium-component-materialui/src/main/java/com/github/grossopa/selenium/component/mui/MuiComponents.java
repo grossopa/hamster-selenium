@@ -128,7 +128,7 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiButton} instance on the given component
      */
     public MuiButton toButton() {
-        return this.create(config, () -> new MuiButton(component, driver, config),
+        return this.create(() -> new MuiButton(component, driver, config),
                 () -> new MuiButton(component, driver, config));
     }
 
@@ -150,7 +150,7 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiButtonGroup} instance on the given component
      */
     public MuiButtonGroup toButtonGroup() {
-        return this.create(config, () -> new MuiButtonGroup(component, driver, config),
+        return this.create(() -> new MuiButtonGroup(component, driver, config),
                 () -> new MuiButtonGroup(component, driver, config));
     }
 
@@ -167,7 +167,7 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiCheckbox} instance on the given component
      */
     public MuiCheckbox toCheckbox() {
-        return this.create(config, () -> new MuiCheckbox(component, driver, config),
+        return this.create(() -> new MuiCheckbox(component, driver, config),
                 () -> new MuiCheckboxV5(component, driver, config));
     }
 
@@ -183,8 +183,46 @@ public class MuiComponents extends AbstractComponents {
      * @return wrapped {@link MuiFab} instance on the given component
      */
     public MuiFab toFab() {
-        return this.create(config, () -> new MuiFab(component, driver, config),
-                () -> new MuiFab(component, driver, config));
+        return this.create(() -> new MuiFab(component, driver, config), () -> new MuiFab(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiRadio}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiRadio-root".
+     * </p>
+     *
+     * @return the wrapped {@link MuiRadio} instance on the given component
+     */
+    public MuiRadio toRadio() {
+        return this.create(() -> new MuiRadio(component, driver, config),
+                () -> new MuiRadio(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiRadioGroup}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have below structure: {@code
+     * <div class="MuiFormGroup-root">
+     *     ....
+     *     <span class="MuiRadio-root ..."></span>
+     *     <span class="MuiRadio-root ..."></span>
+     *     <span class="MuiRadio-root ..."></span>
+     * </div>
+     * }
+     * </p>
+     *
+     * @return the wrapped {@link MuiRadioGroup} instance on the given component
+     */
+    public MuiRadioGroup toRadioGroup() {
+        return this.create(() -> new MuiRadioGroup(component, driver, config),
+                () -> new MuiRadioGroup(component, driver, config));
     }
 
     /**
@@ -272,24 +310,6 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiTextField toTextField() {
         return new MuiTextField(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiRadio}.
-     *
-     * @return the wrapped {@link MuiRadio} instance on the given component
-     */
-    public MuiRadio toRadio() {
-        return new MuiRadio(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiRadio}.
-     *
-     * @return the wrapped {@link MuiRadio} instance on the given component
-     */
-    public MuiRadioGroup toRadioGroup() {
-        return new MuiRadioGroup(component, driver, config);
     }
 
     /**
@@ -476,7 +496,7 @@ public class MuiComponents extends AbstractComponents {
      * @return the wrapped {@link MuiAutocomplete} instance on the given component
      */
     public MuiAutocomplete toAutocomplete() {
-        return create(config, () -> new MuiAutocomplete(component, driver, config),
+        return create(() -> new MuiAutocomplete(component, driver, config),
                 () -> new MuiAutocomplete(component, driver, config));
     }
 
@@ -493,7 +513,7 @@ public class MuiComponents extends AbstractComponents {
      * @return the wrapped {@link MuiAutocomplete} instance on the given component
      */
     public MuiAutocomplete toAutocomplete(@Nullable By optionLocator) {
-        return create(config, () -> new MuiAutocomplete(component, driver, config, optionLocator),
+        return create(() -> new MuiAutocomplete(component, driver, config, optionLocator),
                 () -> new MuiAutocomplete(component, driver, config, optionLocator));
     }
 
@@ -513,7 +533,7 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiAutocomplete toAutocomplete(@Nullable By optionLocator,
             @Nullable MuiAutocompleteTagLocators tagLocators) {
-        return create(config, () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators),
+        return create(() -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators),
                 () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators));
     }
 
@@ -535,7 +555,7 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiAutocomplete toAutocomplete(@Nullable By optionLocator, @Nullable MuiAutocompleteTagLocators tagLocators,
             @Nullable OpenOptionsAction openOptionsAction, @Nullable CloseOptionsAction closeOptionsAction) {
-        return create(config,
+        return create(
                 () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
                         closeOptionsAction),
                 () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
@@ -561,7 +581,7 @@ public class MuiComponents extends AbstractComponents {
         return new MuiPagination(component, driver, config, locators);
     }
 
-    private <T> T create(MuiConfig config, Supplier<T> v4creatorFunc, Supplier<T> v5creatorFunc) {
+    private <T> T create(Supplier<T> v4creatorFunc, Supplier<T> v5creatorFunc) {
         if (config.getVersion() == V4) {
             return v4creatorFunc.get();
         } else if (config.getVersion() == V5) {

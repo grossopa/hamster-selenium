@@ -54,6 +54,7 @@ public class MuiCheckboxTestCases extends AbstractBrowserSupport {
     public void testBasicCheckboxes() {
         List<MuiCheckbox> checkboxList = driver.findComponent(By.id("Checkboxes.js")).findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiCheckbox-root"), c -> c.as(muiV5()).toCheckbox());
+        checkboxList.forEach(checkbox -> assertTrue(checkbox.validate()));
 
         assertEquals(4, checkboxList.size());
         assertTrue(checkboxList.get(0).isSelected());
@@ -76,6 +77,7 @@ public class MuiCheckboxTestCases extends AbstractBrowserSupport {
     public void testLabel() {
         List<MuiCheckbox> checkboxList = driver.findComponent(By.id("CheckboxLabels.js")).findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiCheckbox-root"), c -> c.as(muiV5()).toCheckbox());
+        checkboxList.forEach(checkbox -> assertTrue(checkbox.validate()));
 
         assertEquals(2, checkboxList.size());
         assertTrue(checkboxList.get(0).isSelected());
@@ -98,6 +100,7 @@ public class MuiCheckboxTestCases extends AbstractBrowserSupport {
         List<MuiCheckbox> checkboxList = driver.findComponent(By.id("IndeterminateCheckbox.js"))
                 .findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiCheckbox-root"), c -> c.as(muiV5()).toCheckbox());
+        checkboxList.forEach(checkbox -> assertTrue(checkbox.validate()));
 
         assertEquals(3, checkboxList.size());
         // Indeterminate is not considered as checked

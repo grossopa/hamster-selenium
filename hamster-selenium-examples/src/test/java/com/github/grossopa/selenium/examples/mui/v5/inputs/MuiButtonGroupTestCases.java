@@ -32,6 +32,7 @@ import org.openqa.selenium.By;
 import static com.github.grossopa.selenium.component.mui.MuiComponents.muiV5;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test cases for {@link MuiButtonGroup}
@@ -50,11 +51,12 @@ public class MuiButtonGroupTestCases extends AbstractBrowserSupport {
     public void testBasicButtonGroup() {
         MuiButtonGroup buttonGroup = driver.findComponent(By.id("BasicButtonGroup.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiButtonGroup-root")).as(muiV5()).toButtonGroup();
+        assertTrue(buttonGroup.validate());
 
         assertEquals(3, buttonGroup.getButtons().size());
         assertEquals("one", buttonGroup.getButtons().get(0).getText().toLowerCase());
-        assertEquals("two", buttonGroup.getButtons().get(0).getText().toLowerCase());
-        assertEquals("three", buttonGroup.getButtons().get(0).getText().toLowerCase());
+        assertEquals("two", buttonGroup.getButtons().get(1).getText().toLowerCase());
+        assertEquals("three", buttonGroup.getButtons().get(2).getText().toLowerCase());
     }
 
     public static void main(String[] args) {

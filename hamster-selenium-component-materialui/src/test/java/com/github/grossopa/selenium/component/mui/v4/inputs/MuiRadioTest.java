@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.inputs;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
@@ -32,6 +33,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -62,10 +65,14 @@ class MuiRadioTest {
         testSubject = new MuiRadio(element, driver, config);
     }
 
-
     @Test
     void getComponentName() {
         assertEquals("Radio", testSubject.getComponentName());
+    }
+
+    @Test
+    void versions() {
+        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
     }
 
     @Test

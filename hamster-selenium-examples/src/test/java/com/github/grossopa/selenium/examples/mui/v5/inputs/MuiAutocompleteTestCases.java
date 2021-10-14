@@ -63,6 +63,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("ComboBox.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiAutocomplete-root")).as(muiV5()).toAutocomplete();
 
+        assertTrue(autocomplete.validate());
+
         autocomplete.getInput().sendKeys("se");
 
         List<String> options = autocomplete.getOptions2().stream().map(WebElement::getText).collect(toList());
@@ -96,6 +98,7 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
 
         autocompleteList.forEach(autocomplete -> {
             log.info("Testing MuiAutocomplete" + autocomplete.getInput().getAttribute("value"));
+            assertTrue(autocomplete.validate());
 
             if (!autocomplete.isEnabled()) {
                 log.info("Skipping disabled autocomplete component");
@@ -132,6 +135,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("CountrySelect.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiAutocomplete-root")).as(muiV5()).toAutocomplete();
 
+        assertTrue(autocomplete.validate());
+
         assertTrue(autocomplete.getOptions2().size() >= 100);
         autocomplete.getInput().sendKeys("china");
         assertEquals(2, autocomplete.getOptions2().size());
@@ -164,6 +169,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("ControllableStates.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiAutocomplete-root")).as(muiV5()).toAutocomplete();
 
+        assertTrue(autocomplete.validate());
+
         autocomplete.getInput().sendKeys("ffffdddd");
         // The "no options" selection should not be caught by #getOptions2()
         assertEquals(0, autocomplete.getOptions2().size());
@@ -188,6 +195,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("FreeSolo.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiAutocomplete-root")).as(muiV5()).toAutocomplete();
 
+        assertTrue(autocomplete.validate());
+
         autocomplete.getInput().sendKeys("abcdefg");
         assertThrows(NoSuchElementException.class, autocomplete::getOptions2);
         assertThrows(NoSuchElementException.class, () -> driver.findComponent(
@@ -207,6 +216,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("DisabledOptions.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiAutocomplete-root")).as(muiV5()).toAutocomplete();
 
+        assertTrue(autocomplete.validate());
+
         List<WebComponent> components = autocomplete.getOptions2();
         // tricky - the option does have aria-disabled as true but nothing else
         assertEquals("true", components.get(0).getAttribute("aria-disabled"));
@@ -223,6 +234,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
     public void testMultipleValues() {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("Tags.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiAutocomplete-root")).as(muiV5()).toAutocomplete();
+
+        assertTrue(autocomplete.validate());
 
         assertEquals(1, autocomplete.getAllSelectedOptions2().size());
         autocomplete.deselectByValue("Inception");
@@ -259,6 +272,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
     public void testFixedOptions() {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("FixedTags.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiAutocomplete-root")).as(muiV5()).toAutocomplete();
+
+        assertTrue(autocomplete.validate());
 
         assertFalse(autocomplete.getAllSelectedOptions2().get(0).isEnabled());
         assertEquals(2, autocomplete.getAllSelectedOptions2().size());

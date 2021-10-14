@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.inputs;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,8 +32,10 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -51,6 +54,26 @@ class MuiRadioGroupTest {
     @BeforeEach
     void setUp() {
         testSubject = new MuiRadioGroup(element, driver, config);
+    }
+
+    @Test
+    void versions() {
+        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+    }
+
+
+    @Test
+    void validate() {
+        when(config.getRootCss("FormGroup")).thenReturn("MuiFormGroup-root");
+        when(element.getAttribute("class")).thenReturn("MuiFormGroup-root");
+        assertTrue(testSubject.validate());
+    }
+
+    @Test
+    void validateFalse() {
+        when(config.getRootCss("FormGroup")).thenReturn("MuiFormGroup-root");
+        when(element.getAttribute("class")).thenReturn("MuiFormGroup-root-123");
+        assertFalse(testSubject.validate());
     }
 
     @Test

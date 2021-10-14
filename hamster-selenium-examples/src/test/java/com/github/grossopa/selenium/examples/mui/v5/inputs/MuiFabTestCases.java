@@ -52,6 +52,7 @@ public class MuiFabTestCases extends AbstractBrowserSupport {
     public void testBasicFab() {
         List<MuiFab> fabList = driver.findComponent(By.id("FloatingActionButtons.js")).findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiFab-root"), c -> c.as(muiV5()).toFab());
+        fabList.forEach(fab -> assertTrue(fab.validate()));
 
         assertEquals(4, fabList.size());
         assertEquals("add", fabList.get(0).getAttribute("aria-label"));

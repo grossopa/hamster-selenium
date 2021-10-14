@@ -28,10 +28,7 @@ import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
-import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
-import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButtonGroup;
-import com.github.grossopa.selenium.component.mui.v4.inputs.MuiCheckbox;
-import com.github.grossopa.selenium.component.mui.v4.inputs.MuiFab;
+import com.github.grossopa.selenium.component.mui.v4.inputs.*;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
@@ -147,6 +144,33 @@ class MuiComponentsTest {
         assertEquals(MuiFab.class, testSubject.toFab().getClass());
     }
 
+    @Test
+    void toRadioV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toRadio().getWrappedElement());
+        assertEquals(MuiRadio.class, testSubject.toRadio().getClass());
+    }
+
+    @Test
+    void toRadioV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toRadio().getWrappedElement());
+        assertEquals(MuiRadio.class, testSubject.toRadio().getClass());
+    }
+
+    @Test
+    void toRadioGroupV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toRadioGroup().getWrappedElement());
+        assertEquals(MuiRadioGroup.class, testSubject.toRadioGroup().getClass());
+    }
+
+    @Test
+    void toRadioGroupV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toRadioGroup().getWrappedElement());
+        assertEquals(MuiRadioGroup.class, testSubject.toRadioGroup().getClass());
+    }
 
     @Test
     void toSelect() {
@@ -183,16 +207,6 @@ class MuiComponentsTest {
     @Test
     void toTextField() {
         assertEquals(element, testSubject.toTextField().getWrappedElement());
-    }
-
-    @Test
-    void toRadio() {
-        assertEquals(element, testSubject.toRadio().getWrappedElement());
-    }
-
-    @Test
-    void toRadioGroup() {
-        assertEquals(element, testSubject.toRadioGroup().getWrappedElement());
     }
 
     @Test

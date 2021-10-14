@@ -53,6 +53,7 @@ public class MuiButtonTestCases extends AbstractBrowserSupport {
     public void testBasicButtons() {
         List<MuiButton> buttonList = driver.findComponent(By.id("BasicButtons.js")).findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiButton-root"), c -> c.as(muiV5()).toButton());
+        buttonList.forEach(button -> assertTrue(button.validate()));
 
         assertEquals(3, buttonList.size());
         assertEquals("text", lowerCase(buttonList.get(0).getText()));
@@ -69,6 +70,7 @@ public class MuiButtonTestCases extends AbstractBrowserSupport {
     public void testTextButtons() {
         List<MuiButton> buttonList = driver.findComponent(By.id("TextButtons.js")).findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiButton-root"), c -> c.as(muiV5()).toButton());
+        buttonList.forEach(button -> assertTrue(button.validate()));
 
         assertEquals(3, buttonList.size());
         assertEquals("primary", lowerCase(buttonList.get(0).getText()));

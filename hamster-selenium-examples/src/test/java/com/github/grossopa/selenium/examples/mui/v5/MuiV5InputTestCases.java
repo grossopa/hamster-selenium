@@ -40,5 +40,6 @@ public class MuiV5InputTestCases {
         MuiButtonGroupTestCases.main(args);
         MuiCheckboxTestCases.main(args);
         MuiFabTestCases.main(args);
+        MuiRadioTestCases.main(args);
     }
 }
