@@ -24,10 +24,7 @@
 
 package com.github.grossopa.selenium.examples.mui.v5;
 
-import com.github.grossopa.selenium.examples.mui.v5.inputs.MuiAutocompleteTestCases;
-import com.github.grossopa.selenium.examples.mui.v5.inputs.MuiButtonGroupTestCases;
-import com.github.grossopa.selenium.examples.mui.v5.inputs.MuiButtonTestCases;
-import com.github.grossopa.selenium.examples.mui.v5.inputs.MuiCheckboxTestCases;
+import com.github.grossopa.selenium.examples.mui.v5.inputs.*;
 
 /**
  * Test cases for Mui V5 inputs.
@@ -42,5 +39,6 @@ public class MuiV5InputTestCases {
         MuiButtonTestCases.main(args);
         MuiButtonGroupTestCases.main(args);
         MuiCheckboxTestCases.main(args);
+        MuiFabTestCases.main(args);
     }
 }

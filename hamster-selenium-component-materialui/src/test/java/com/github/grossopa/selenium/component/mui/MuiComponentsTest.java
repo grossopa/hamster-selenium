@@ -31,6 +31,7 @@ import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionExc
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButtonGroup;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiCheckbox;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiFab;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
@@ -133,8 +134,17 @@ class MuiComponentsTest {
     }
 
     @Test
-    void toFab() {
+    void toFabV4() {
+        when(config.getVersion()).thenReturn(V4);
         assertEquals(element, testSubject.toFab().getWrappedElement());
+        assertEquals(MuiFab.class, testSubject.toFab().getClass());
+    }
+
+    @Test
+    void toFabV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toFab().getWrappedElement());
+        assertEquals(MuiFab.class, testSubject.toFab().getClass());
     }
 
 

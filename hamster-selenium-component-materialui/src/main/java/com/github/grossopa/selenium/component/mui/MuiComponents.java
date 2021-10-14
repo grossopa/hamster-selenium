@@ -174,10 +174,17 @@ public class MuiComponents extends AbstractComponents {
     /**
      * Wraps the current {@link WebComponent} to {@link MuiFab} instance.
      *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiFab-root".
+     * </p>
+     *
      * @return wrapped {@link MuiFab} instance on the given component
      */
     public MuiFab toFab() {
-        return new MuiFab(component, driver, config);
+        return this.create(config, () -> new MuiFab(component, driver, config),
+                () -> new MuiFab(component, driver, config));
     }
 
     /**
