@@ -132,6 +132,28 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the current {@link WebComponent} to {@link MuiButtonGroup} instance.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have below structure: {@code
+     * <div class="MuiButtonGroup-root">
+     *     <div class="MuiButton-root ..."></div>
+     *     <div class="MuiButton-root ..."></div>
+     *     <div class="MuiButton-root ..."></div>
+     * </div>
+     * }
+     * </p>
+     *
+     * @return wrapped {@link MuiButtonGroup} instance on the given component
+     */
+    public MuiButtonGroup toButtonGroup() {
+        return this.create(config, () -> new MuiButtonGroup(component, driver, config),
+                () -> new MuiButtonGroup(component, driver, config));
+    }
+
+    /**
      * Wraps the current {@link WebComponent} to {@link MuiFab} instance.
      *
      * @return wrapped {@link MuiFab} instance on the given component
@@ -140,14 +162,6 @@ public class MuiComponents extends AbstractComponents {
         return new MuiFab(component, driver, config);
     }
 
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiButtonGroup} instance.
-     *
-     * @return wrapped {@link MuiButtonGroup} instance on the given component
-     */
-    public MuiButtonGroup toButtonGroup() {
-        return new MuiButtonGroup(component, driver, config);
-    }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiCheckbox} instance.

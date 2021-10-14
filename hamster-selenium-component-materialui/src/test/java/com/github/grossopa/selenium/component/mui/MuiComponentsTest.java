@@ -29,6 +29,7 @@ import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButtonGroup;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
@@ -102,14 +103,22 @@ class MuiComponentsTest {
     }
 
     @Test
-    void toFab() {
-        assertEquals(element, testSubject.toFab().getWrappedElement());
+    void toButtonGroupV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toButtonGroup().getWrappedElement());
+        assertEquals(MuiButtonGroup.class, testSubject.toButtonGroup().getClass());
     }
 
+    @Test
+    void toButtonGroupV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toButtonGroup().getWrappedElement());
+        assertEquals(MuiButtonGroup.class, testSubject.toButtonGroup().getClass());
+    }
 
     @Test
-    void toButtonGroup() {
-        assertEquals(element, testSubject.toButtonGroup().getWrappedElement());
+    void toFab() {
+        assertEquals(element, testSubject.toFab().getWrappedElement());
     }
 
     @Test

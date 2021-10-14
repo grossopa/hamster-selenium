@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.inputs;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +32,10 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -60,10 +64,15 @@ class MuiButtonGroupTest {
     }
 
     @Test
+    void versions() {
+        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+    }
+
+    @Test
     void getButtons() {
         when(config.buttonLocator()).thenReturn(By.cssSelector("MuiButton-root"));
-        when(element.findElements(config.buttonLocator()))
-                .thenReturn(asList(mock(WebElement.class), mock(WebElement.class), mock(WebElement.class)));
+        when(element.findElements(config.buttonLocator())).thenReturn(
+                asList(mock(WebElement.class), mock(WebElement.class), mock(WebElement.class)));
         assertEquals(3, testSubject.getButtons().size());
     }
 

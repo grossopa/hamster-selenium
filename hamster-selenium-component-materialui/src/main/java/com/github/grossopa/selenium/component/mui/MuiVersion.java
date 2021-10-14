@@ -28,7 +28,7 @@ package com.github.grossopa.selenium.component.mui;
  * The supported Material UI versions
  *
  * @author Jack Yin
- * @since 1.6
+ * @since 1.7
  */
 public enum MuiVersion {
     /**

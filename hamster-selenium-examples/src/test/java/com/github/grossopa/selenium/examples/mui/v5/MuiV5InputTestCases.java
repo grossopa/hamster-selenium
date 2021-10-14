@@ -32,7 +32,7 @@ import com.github.grossopa.selenium.examples.mui.v5.inputs.MuiButtonTestCases;
  * Test cases for Mui V5 inputs.
  *
  * @author Jack Yin
- * @since 1.6
+ * @since 1.7
  */
 public class MuiV5InputTestCases {
 

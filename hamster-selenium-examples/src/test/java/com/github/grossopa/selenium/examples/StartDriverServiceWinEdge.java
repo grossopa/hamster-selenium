@@ -32,6 +32,8 @@ import org.openqa.selenium.remote.service.DriverService;
 import java.io.IOException;
 
 /**
+ * Main driver starter
+ *
  * @author Jack Yin
  * @since 1.0
  */
