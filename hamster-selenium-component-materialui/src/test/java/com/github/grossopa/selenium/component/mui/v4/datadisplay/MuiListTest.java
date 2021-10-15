@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.datadisplay;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +33,10 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.google.common.collect.Lists.newArrayList;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.openqa.selenium.By.xpath;
@@ -59,6 +63,11 @@ class MuiListTest {
         when(config.getRootCss("ListItem")).thenReturn("MuiListItem-root");
         when(element.findElements(xpath(".//*[contains(@class,\"MuiListItem-root\")]"))).thenReturn(listItems);
         testSubject = new MuiList(element, driver, config);
+    }
+
+    @Test
+    void versions() {
+        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
     }
 
     @Test

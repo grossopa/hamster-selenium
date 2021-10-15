@@ -27,9 +27,7 @@ package com.github.grossopa.selenium.component.mui;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiAvatar;
-import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiBadge;
-import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiChip;
+import com.github.grossopa.selenium.component.mui.v4.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.inputs.*;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
@@ -319,6 +317,47 @@ class MuiComponentsTest {
         assertEquals(MuiChip.class, testSubject.toChip().getClass());
     }
 
+    @Test
+    void toDividerV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toDivider().getWrappedElement());
+        assertEquals(MuiDivider.class, testSubject.toDivider().getClass());
+    }
+
+    @Test
+    void toDividerV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toDivider().getWrappedElement());
+        assertEquals(MuiDivider.class, testSubject.toDivider().getClass());
+    }
+
+    @Test
+    void toListV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toList().getWrappedElement());
+        assertEquals(MuiList.class, testSubject.toList().getClass());
+    }
+
+    @Test
+    void toListV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toList().getWrappedElement());
+        assertEquals(MuiList.class, testSubject.toList().getClass());
+    }
+
+    @Test
+    void toListItemV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toListItem().getWrappedElement());
+        assertEquals(MuiListItem.class, testSubject.toListItem().getClass());
+    }
+
+    @Test
+    void toListItemV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toListItem().getWrappedElement());
+        assertEquals(MuiListItem.class, testSubject.toListItem().getClass());
+    }
 
     @Test
     void toLink() {
@@ -338,23 +377,6 @@ class MuiComponentsTest {
     @Test
     void toTabs() {
         assertEquals(element, testSubject.toTabs().getWrappedElement());
-    }
-
-
-
-    @Test
-    void toDivider() {
-        assertEquals(element, testSubject.toDivider().getWrappedElement());
-    }
-
-    @Test
-    void toList() {
-        assertEquals(element, testSubject.toList().getWrappedElement());
-    }
-
-    @Test
-    void toListItem() {
-        assertEquals(element, testSubject.toListItem().getWrappedElement());
     }
 
     @Test

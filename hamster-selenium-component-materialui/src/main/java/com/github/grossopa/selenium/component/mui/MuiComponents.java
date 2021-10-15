@@ -394,8 +394,36 @@ public class MuiComponents extends AbstractComponents {
      * @return the wrapped {@link MuiDivider} instance on the given component
      */
     public MuiDivider toDivider() {
-        return new MuiDivider(component, driver, config);
+        return create(() -> new MuiDivider(component, driver, config), () -> new MuiDivider(component, driver, config));
     }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiList}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiList-root".</p>
+     *
+     * @return the wrapped {@link MuiList} instance on the given component
+     */
+    public MuiList toList() {
+        return create(() -> new MuiList(component, driver, config), () -> new MuiList(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiListItem}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiListItem-root".</p>
+     *
+     * @return the wrapped {@link MuiListItem} instance on the given component
+     */
+    public MuiListItem toListItem() {
+        return create(() -> new MuiListItem(component, driver, config),
+                () -> new MuiListItem(component, driver, config));
+    }
+
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
@@ -441,24 +469,6 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiTabs toTabs() {
         return new MuiTabs(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiList}.
-     *
-     * @return the wrapped {@link MuiList} instance on the given component
-     */
-    public MuiList toList() {
-        return new MuiList(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiListItem}.
-     *
-     * @return the wrapped {@link MuiListItem} instance on the given component
-     */
-    public MuiListItem toListItem() {
-        return new MuiListItem(component, driver, config);
     }
 
     /**
