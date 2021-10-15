@@ -24,8 +24,11 @@
 
 package com.github.grossopa.selenium.examples.mui.v5;
 
+import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiDivider;
 import com.github.grossopa.selenium.examples.mui.v5.datadisplay.MuiAvatarsTestCases;
 import com.github.grossopa.selenium.examples.mui.v5.datadisplay.MuiBadgeTestCases;
+import com.github.grossopa.selenium.examples.mui.v5.datadisplay.MuiChipTestCases;
+import com.github.grossopa.selenium.examples.mui.v5.datadisplay.MuiDividerTestCases;
 
 /**
  * Test cases for Mui V5 data displays.
@@ -38,5 +41,7 @@ public class MuiV5DataDisplayTestCases {
     public static void main(String[] args) {
         MuiAvatarsTestCases.main(args);
         MuiBadgeTestCases.main(args);
+        MuiChipTestCases.main(args);
+        MuiDividerTestCases.main(args);
     }
 }

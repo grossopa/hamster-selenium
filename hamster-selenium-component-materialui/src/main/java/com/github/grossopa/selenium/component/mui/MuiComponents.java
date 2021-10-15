@@ -385,6 +385,19 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the current {@link WebComponent} to {@link MuiDivider}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiDivider-root".</p>
+     *
+     * @return the wrapped {@link MuiDivider} instance on the given component
+     */
+    public MuiDivider toDivider() {
+        return new MuiDivider(component, driver, config);
+    }
+
+    /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
      *
      * @return wrapped {@link MuiGrid} instance on the given component
@@ -428,16 +441,6 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiTabs toTabs() {
         return new MuiTabs(component, driver, config);
-    }
-
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiDivider}.
-     *
-     * @return the wrapped {@link MuiDivider} instance on the given component
-     */
-    public MuiDivider toDivider() {
-        return new MuiDivider(component, driver, config);
     }
 
     /**
