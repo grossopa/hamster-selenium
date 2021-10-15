@@ -82,7 +82,6 @@ class MuiAvatarTest {
         assertEquals("some-src-value", testSubject.getSrc());
     }
 
-
     @Test
     void testToString() {
         when(element.toString()).thenReturn("element-toString");

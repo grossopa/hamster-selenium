@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.datadisplay;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +32,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -53,11 +56,15 @@ class MuiBadgeTest {
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Mui");
         when(element.findElement(By.className("MuiBadge-badge"))).thenReturn(badgeElement);
-        when(badgeElement.getAttribute("class"))
-                .thenReturn("MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary");
+        when(badgeElement.getAttribute("class")).thenReturn(
+                "MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary");
         testSubject = new MuiBadge(element, driver, config);
     }
 
+    @Test
+    void versions() {
+        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+    }
 
     @Test
     void getBadge() {
@@ -100,8 +107,8 @@ class MuiBadgeTest {
 
     @Test
     void isDotDisplayedFalse() {
-        when(badgeElement.getAttribute("class"))
-                .thenReturn("MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary");
+        when(badgeElement.getAttribute("class")).thenReturn(
+                "MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary");
         assertFalse(testSubject.isDotDisplayed());
     }
 
@@ -112,8 +119,8 @@ class MuiBadgeTest {
 
     @Test
     void isBadgeDisplayed() {
-        when(badgeElement.getAttribute("class"))
-                .thenReturn("MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary");
+        when(badgeElement.getAttribute("class")).thenReturn(
+                "MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary");
         assertTrue(testSubject.isBadgeDisplayed());
     }
 

@@ -359,6 +359,19 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the current {@link WebComponent} to {@link MuiBadge}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiBadge-root".</p>
+     *
+     * @return the wrapped {@link MuiBadge} instance on the given component
+     */
+    public MuiBadge toBadge() {
+        return create(() -> new MuiBadge(component, driver, config), () -> new MuiBadge(component, driver, config));
+    }
+
+    /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
      *
      * @return wrapped {@link MuiGrid} instance on the given component
@@ -404,14 +417,6 @@ public class MuiComponents extends AbstractComponents {
         return new MuiTabs(component, driver, config);
     }
 
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiBadge}.
-     *
-     * @return the wrapped {@link MuiBadge} instance on the given component
-     */
-    public MuiBadge toBadge() {
-        return new MuiBadge(component, driver, config);
-    }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiChip}.

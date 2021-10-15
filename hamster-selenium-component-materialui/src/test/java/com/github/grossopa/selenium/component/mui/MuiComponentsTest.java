@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiAvatar;
+import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiBadge;
 import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.inputs.*;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
@@ -289,6 +290,20 @@ class MuiComponentsTest {
         assertEquals(MuiAvatar.class, testSubject.toAvatar().getClass());
     }
 
+    @Test
+    void toBadgeV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toBadge().getWrappedElement());
+        assertEquals(MuiBadge.class, testSubject.toBadge().getClass());
+    }
+
+    @Test
+    void toBadgeV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toBadge().getWrappedElement());
+        assertEquals(MuiBadge.class, testSubject.toBadge().getClass());
+    }
+
 
     @Test
     void toLink() {
@@ -308,12 +323,6 @@ class MuiComponentsTest {
     @Test
     void toTabs() {
         assertEquals(element, testSubject.toTabs().getWrappedElement());
-    }
-
-
-    @Test
-    void toBadge() {
-        assertEquals(element, testSubject.toBadge().getWrappedElement());
     }
 
     @Test

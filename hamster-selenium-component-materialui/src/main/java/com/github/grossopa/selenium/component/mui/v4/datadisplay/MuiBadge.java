@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.datadisplay;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +33,11 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.EnumSet;
+import java.util.Set;
+
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static java.lang.Integer.parseInt;
 import static java.util.Arrays.stream;
 import static org.apache.commons.lang3.StringUtils.endsWith;
@@ -60,6 +66,11 @@ public class MuiBadge extends AbstractMuiComponent {
      */
     public MuiBadge(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V4, V5);
     }
 
     /**
@@ -91,8 +102,8 @@ public class MuiBadge extends AbstractMuiComponent {
      * @return whether the dot is displayed
      */
     public boolean isDotDisplayed() {
-        return stream(getBadge().getAttribute("class").split(" "))
-                .anyMatch(str -> str.equalsIgnoreCase(config.getCssPrefix() + "Badge-dot"));
+        return stream(getBadge().getAttribute("class").split(" ")).anyMatch(
+                str -> str.equalsIgnoreCase(config.getCssPrefix() + "Badge-dot"));
     }
 
     @Override
