@@ -424,6 +424,24 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiListItem(component, driver, config));
     }
 
+    /////////////////////////
+    // Feedback Components //
+    /////////////////////////
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiBackdrop}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiBackdrop-root".</p>
+     *
+     * @return the wrapped {@link MuiBackdrop} instance on the given component
+     */
+    public MuiBackdrop toBackdrop() {
+        return create(() -> new MuiBackdrop(component, driver, config),
+                () -> new MuiBackdrop(component, driver, config));
+    }
+
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
@@ -496,15 +514,6 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiMenu toMenu() {
         return new MuiMenu(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiBackdrop}.
-     *
-     * @return the wrapped {@link MuiBackdrop} instance on the given component
-     */
-    public MuiBackdrop toBackdrop() {
-        return new MuiBackdrop(component, driver, config);
     }
 
     /**
