@@ -118,9 +118,9 @@ public class MuiComponents extends AbstractComponents {
         return new MuiComponents(config);
     }
 
-    ////////////
-    // Inputs //
-    ////////////
+    ///////////////////////
+    // Inputs Components //
+    ///////////////////////
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiButton} instance.
@@ -275,9 +275,7 @@ public class MuiComponents extends AbstractComponents {
      *
      * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
      *
-     * <p>
-     * The {@link WebElement} should have css class "MuiSelect-root".
-     * </p>
+     * <p>The {@link WebElement} should have css class "MuiSelect-root".</p>
      *
      * @param optionLocator the locator for locating the options (NOTE: it is the option element NOT the option
      * container)
@@ -295,9 +293,7 @@ public class MuiComponents extends AbstractComponents {
      * Wraps the current {@link WebComponent} to {@link MuiSlider} for {@link MuiVersion#V4} and {@link MuiSliderV5} for
      * {@link MuiVersion#V5}
      *
-     * <p>
-     * The {@link WebElement} should have css class "MuiSlider-root".
-     * </p>
+     * <p>The {@link WebElement} should have css class "MuiSlider-root".</p>
      *
      * @return the wrapped {@link MuiSlider} instance on the given component
      */
@@ -309,9 +305,7 @@ public class MuiComponents extends AbstractComponents {
      * Wraps the current {@link WebComponent} to {@link MuiSlider} instance with scale function configured. {@link
      * MuiSlider} for {@link MuiVersion#V4} and {@link MuiSliderV5} for {@link MuiVersion#V5}.
      *
-     * <p>
-     * The {@link WebElement} should have css class "MuiSlider-root".
-     * </p>
+     * <p>The {@link WebElement} should have css class "MuiSlider-root".</p>
      *
      * @param inverseScaleFunction the non-null customized inverse scale function
      * @return the wrapped {@link MuiSlider} instance on the given component
@@ -325,9 +319,7 @@ public class MuiComponents extends AbstractComponents {
      * Wraps the current {@link WebComponent} to {@link MuiSwitch} instance with scale function configured. {@link
      * MuiSwitch} for {@link MuiVersion#V4} and {@link MuiSwitchV5} for {@link MuiVersion#V5}.
      *
-     * <p>
-     * The {@link WebElement} should have css class "MuiSwitch-root".
-     * </p>
+     * <p>The {@link WebElement} should have css class "MuiSwitch-root".</p>
      *
      * @return the wrapped {@link MuiSwitch} instance on the given component
      */
@@ -349,14 +341,25 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiTextField(component, driver, config));
     }
 
+    /////////////////////////////
+    // Data Display Components //
+    /////////////////////////////
+
     /**
-     * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
+     * Wraps the current {@link WebComponent} to {@link MuiAvatar}.
      *
      * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
      *
-     * <p>
-     * The {@link WebElement} should have css class "MuiSelect-root".
-     * </p>
+     * <p>The {@link WebElement} should have css class "MuiAvatar-root".</p>
+     *
+     * @return the wrapped {@link MuiAvatar} instance on the given component
+     */
+    public MuiAvatar toAvatar() {
+        return create(() -> new MuiAvatar(component, driver, config), () -> new MuiAvatar(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
      *
      * @return wrapped {@link MuiGrid} instance on the given component
      */
@@ -399,15 +402,6 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiTabs toTabs() {
         return new MuiTabs(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiAvatar}.
-     *
-     * @return the wrapped {@link MuiAvatar} instance on the given component
-     */
-    public MuiAvatar toAvatar() {
-        return new MuiAvatar(component, driver, config);
     }
 
     /**

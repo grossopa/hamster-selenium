@@ -24,26 +24,17 @@
 
 package com.github.grossopa.selenium.examples.mui.v5;
 
-import com.github.grossopa.selenium.examples.mui.v5.inputs.*;
+import com.github.grossopa.selenium.examples.mui.v5.datadisplay.MuiAvatarsTestCases;
 
 /**
- * Test cases for Mui V5 inputs.
+ * Test cases for Mui V5 data displays.
  *
  * @author Jack Yin
  * @since 1.7
  */
-public class MuiV5InputTestCases {
+public class MuiV5DataDisplayTestCases {
 
     public static void main(String[] args) {
-        MuiAutocompleteTestCases.main(args);
-        MuiButtonTestCases.main(args);
-        MuiButtonGroupTestCases.main(args);
-        MuiCheckboxTestCases.main(args);
-        MuiFabTestCases.main(args);
-        MuiRadioTestCases.main(args);
-        MuiSelectTestCases.main(args);
-        MuiSliderTestCases.main(args);
-        MuiSwitchTestCases.main(args);
-        MuiTextFieldTestCases.main(args);
+        MuiAvatarsTestCases.main(args);
     }
 }

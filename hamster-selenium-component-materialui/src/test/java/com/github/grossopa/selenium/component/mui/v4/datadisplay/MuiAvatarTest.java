@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.datadisplay;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +32,9 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
@@ -83,5 +87,10 @@ class MuiAvatarTest {
     void testToString() {
         when(element.toString()).thenReturn("element-toString");
         assertEquals("MuiAvatar{element=element-toString}", testSubject.toString());
+    }
+
+    @Test
+    void versions() {
+        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
     }
 }

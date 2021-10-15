@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.component.mui;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiAvatar;
 import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.inputs.*;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
@@ -274,6 +275,20 @@ class MuiComponentsTest {
         assertEquals(MuiTextField.class, testSubject.toTextField().getClass());
     }
 
+    @Test
+    void toAvatarV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toAvatar().getWrappedElement());
+        assertEquals(MuiAvatar.class, testSubject.toAvatar().getClass());
+    }
+
+    @Test
+    void toAvatarV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toAvatar().getWrappedElement());
+        assertEquals(MuiAvatar.class, testSubject.toAvatar().getClass());
+    }
+
 
     @Test
     void toLink() {
@@ -295,10 +310,6 @@ class MuiComponentsTest {
         assertEquals(element, testSubject.toTabs().getWrappedElement());
     }
 
-    @Test
-    void toAvatar() {
-        assertEquals(element, testSubject.toAvatar().getWrappedElement());
-    }
 
     @Test
     void toBadge() {
