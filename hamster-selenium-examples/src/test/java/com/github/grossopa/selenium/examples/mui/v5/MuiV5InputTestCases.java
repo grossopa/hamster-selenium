@@ -42,5 +42,6 @@ public class MuiV5InputTestCases {
         MuiFabTestCases.main(args);
         MuiRadioTestCases.main(args);
         MuiSelectTestCases.main(args);
+        MuiSliderTestCases.main(args);
     }
 }

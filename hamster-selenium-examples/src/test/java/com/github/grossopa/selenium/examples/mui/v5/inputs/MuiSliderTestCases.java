@@ -268,6 +268,5 @@ public class MuiSliderTestCases extends AbstractBrowserSupport {
         test.testRemovedTrack();
         test.testInvertedTrack();
         test.testNonLinearScale();
-
     }
 }

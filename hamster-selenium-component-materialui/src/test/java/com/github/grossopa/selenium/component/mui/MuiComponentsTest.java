@@ -246,14 +246,24 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toTextFieldV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toTextField().getWrappedElement());
+        assertEquals(MuiTextField.class, testSubject.toTextField().getClass());
+    }
+
+    @Test
+    void toTextFieldV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toTextField().getWrappedElement());
+        assertEquals(MuiTextField.class, testSubject.toTextField().getClass());
+    }
+
+    @Test
     void toSwitch() {
         assertEquals(element, testSubject.toSwitch().getWrappedElement());
     }
 
-    @Test
-    void toTextField() {
-        assertEquals(element, testSubject.toTextField().getWrappedElement());
-    }
 
     @Test
     void toLink() {

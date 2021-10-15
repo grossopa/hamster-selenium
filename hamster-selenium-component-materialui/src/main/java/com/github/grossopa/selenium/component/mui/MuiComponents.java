@@ -306,7 +306,11 @@ public class MuiComponents extends AbstractComponents {
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiSlider} instance with scale function configured. {@link
-     * MuiSlider} for {@link MuiVersion#V4} and {@link MuiSliderV5} for * {@link MuiVersion#V5}
+     * MuiSlider} for {@link MuiVersion#V4} and {@link MuiSliderV5} for {@link MuiVersion#V5}.
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiSlider-root".
+     * </p>
      *
      * @param inverseScaleFunction the non-null customized inverse scale function
      * @return the wrapped {@link MuiSlider} instance on the given component
@@ -314,6 +318,20 @@ public class MuiComponents extends AbstractComponents {
     public MuiSlider toSlider(UnaryOperator<Double> inverseScaleFunction) {
         return create(() -> new MuiSlider(component, driver, config, inverseScaleFunction),
                 () -> new MuiSliderV5(component, driver, config, inverseScaleFunction));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiTextField}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiTextField-root".</p>
+     *
+     * @return the wrapped {@link MuiTextField} instance on the given component
+     */
+    public MuiTextField toTextField() {
+        return create(() -> new MuiTextField(component, driver, config),
+                () -> new MuiTextField(component, driver, config));
     }
 
     /**
@@ -339,15 +357,6 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiSwitch toSwitch() {
         return new MuiSwitch(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiTextField}.
-     *
-     * @return the wrapped {@link MuiTextField} instance on the given component
-     */
-    public MuiTextField toTextField() {
-        return new MuiTextField(component, driver, config);
     }
 
     /**
