@@ -29,6 +29,7 @@ import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiAvatar;
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiBadge;
+import com.github.grossopa.selenium.component.mui.v4.datadisplay.MuiChip;
 import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.inputs.*;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
@@ -304,6 +305,20 @@ class MuiComponentsTest {
         assertEquals(MuiBadge.class, testSubject.toBadge().getClass());
     }
 
+    @Test
+    void toChipV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toChip().getWrappedElement());
+        assertEquals(MuiChip.class, testSubject.toChip().getClass());
+    }
+
+    @Test
+    void toChipV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toChip().getWrappedElement());
+        assertEquals(MuiChip.class, testSubject.toChip().getClass());
+    }
+
 
     @Test
     void toLink() {
@@ -325,10 +340,7 @@ class MuiComponentsTest {
         assertEquals(element, testSubject.toTabs().getWrappedElement());
     }
 
-    @Test
-    void toChip() {
-        assertEquals(element, testSubject.toChip().getWrappedElement());
-    }
+
 
     @Test
     void toDivider() {

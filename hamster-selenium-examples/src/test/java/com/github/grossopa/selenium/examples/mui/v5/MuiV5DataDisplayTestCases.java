@@ -25,6 +25,7 @@
 package com.github.grossopa.selenium.examples.mui.v5;
 
 import com.github.grossopa.selenium.examples.mui.v5.datadisplay.MuiAvatarsTestCases;
+import com.github.grossopa.selenium.examples.mui.v5.datadisplay.MuiBadgeTestCases;
 
 /**
  * Test cases for Mui V5 data displays.
@@ -36,5 +37,6 @@ public class MuiV5DataDisplayTestCases {
 
     public static void main(String[] args) {
         MuiAvatarsTestCases.main(args);
+        MuiBadgeTestCases.main(args);
     }
 }

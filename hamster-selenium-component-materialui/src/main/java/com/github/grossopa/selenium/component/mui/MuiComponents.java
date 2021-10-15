@@ -372,6 +372,19 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the current {@link WebComponent} to {@link MuiChip}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiChip-root".</p>
+     *
+     * @return the wrapped {@link MuiChip} instance on the given component
+     */
+    public MuiChip toChip() {
+        return create(() -> new MuiChip(component, driver, config), () -> new MuiChip(component, driver, config));
+    }
+
+    /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
      *
      * @return wrapped {@link MuiGrid} instance on the given component
@@ -417,15 +430,6 @@ public class MuiComponents extends AbstractComponents {
         return new MuiTabs(component, driver, config);
     }
 
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiChip}.
-     *
-     * @return the wrapped {@link MuiChip} instance on the given component
-     */
-    public MuiChip toChip() {
-        return new MuiChip(component, driver, config);
-    }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiDivider}.
