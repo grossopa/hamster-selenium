@@ -34,6 +34,7 @@ import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocat
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPaginationLocators;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
+import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
@@ -217,12 +218,29 @@ class MuiComponentsTest {
     }
 
     @Test
-    void toSlider() {
+    void toSliderV4() {
+        when(config.getVersion()).thenReturn(V4);
         assertEquals(element, testSubject.toSlider().getWrappedElement());
+        assertEquals(MuiSlider.class, testSubject.toSlider().getClass());
     }
 
     @Test
-    void toSliderWithInverseScaleFunction() {
+    void toSliderV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toSlider().getWrappedElement());
+        assertEquals(MuiSliderV5.class, testSubject.toSlider().getClass());
+    }
+
+    @Test
+    void toSliderWithInverseScaleFunctionV4() {
+        when(config.getVersion()).thenReturn(V4);
+        UnaryOperator<Double> inverseScaleFunction = x -> x * 3d;
+        assertEquals(inverseScaleFunction, testSubject.toSlider(inverseScaleFunction).getInverseScaleFunction());
+    }
+
+    @Test
+    void toSliderWithInverseScaleFunctionV5() {
+        when(config.getVersion()).thenReturn(V5);
         UnaryOperator<Double> inverseScaleFunction = x -> x * 3d;
         assertEquals(inverseScaleFunction, testSubject.toSlider(inverseScaleFunction).getInverseScaleFunction());
     }

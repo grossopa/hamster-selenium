@@ -44,6 +44,7 @@ import com.github.grossopa.selenium.component.mui.v4.pickers.MuiPickersDialog;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiPager;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
+import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
 import com.github.grossopa.selenium.core.component.AbstractComponents;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import lombok.Getter;
@@ -290,6 +291,32 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the current {@link WebComponent} to {@link MuiSlider} for {@link MuiVersion#V4} and {@link MuiSliderV5} for
+     * {@link MuiVersion#V5}
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiSlider-root".
+     * </p>
+     *
+     * @return the wrapped {@link MuiSlider} instance on the given component
+     */
+    public MuiSlider toSlider() {
+        return create(() -> new MuiSlider(component, driver, config), () -> new MuiSliderV5(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSlider} instance with scale function configured. {@link
+     * MuiSlider} for {@link MuiVersion#V4} and {@link MuiSliderV5} for * {@link MuiVersion#V5}
+     *
+     * @param inverseScaleFunction the non-null customized inverse scale function
+     * @return the wrapped {@link MuiSlider} instance on the given component
+     */
+    public MuiSlider toSlider(UnaryOperator<Double> inverseScaleFunction) {
+        return create(() -> new MuiSlider(component, driver, config, inverseScaleFunction),
+                () -> new MuiSliderV5(component, driver, config, inverseScaleFunction));
+    }
+
+    /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
      *
      * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
@@ -304,24 +331,6 @@ public class MuiComponents extends AbstractComponents {
         return new MuiGrid(component, driver, config);
     }
 
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiSlider} instance.
-     *
-     * @return the wrapped {@link MuiSlider} instance on the given component
-     */
-    public MuiSlider toSlider() {
-        return new MuiSlider(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiSlider} instance with scale function configured.
-     *
-     * @param inverseScaleFunction the non-null customized inverse scale function
-     * @return the wrapped {@link MuiSlider} instance on the given component
-     */
-    public MuiSlider toSlider(UnaryOperator<Double> inverseScaleFunction) {
-        return new MuiSlider(component, driver, config, inverseScaleFunction);
-    }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiSwitch}.

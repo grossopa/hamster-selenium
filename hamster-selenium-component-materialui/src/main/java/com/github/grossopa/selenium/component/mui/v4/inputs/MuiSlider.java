@@ -24,11 +24,10 @@
 
 package com.github.grossopa.selenium.component.mui.v4.inputs;
 
-import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.util.WebComponentUtils;
-import lombok.SneakyThrows;
 import org.apache.commons.math3.util.Precision;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
@@ -113,7 +112,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return the raw value in String.
      */
     public String getValue() {
-        return getFirstThumb().getAttribute("aria-valuenow");
+        return getFirstThumb().getValue();
     }
 
     /**
@@ -254,7 +253,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return the first Thumb element.
      */
     public MuiSliderThumb getFirstThumb() {
-        return new MuiSliderThumb(driver.mapElement(element.findElement(config.sliderThumbLocator())), driver, config);
+        return createSliderThumb(findComponent(config.sliderThumbLocator()));
     }
 
     /**
@@ -263,8 +262,8 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return the all Thumb elements.
      */
     public List<MuiSliderThumb> getAllThumbs() {
-        return element.findElements(config.sliderThumbLocator()).stream()
-                .map(ele -> new MuiSliderThumb(driver.mapElement(ele), driver, config)).collect(toList());
+        return element.findElements(config.sliderThumbLocator()).stream().map(this::createSliderThumb)
+                .collect(toList());
     }
 
     /**
@@ -601,7 +600,6 @@ public class MuiSlider extends AbstractMuiComponent {
      * @param thumb the thumb component to move
      * @param percentage the percentage to move to, must between [0.0, 1.0]
      */
-    @SneakyThrows
     @SuppressWarnings("squid:S2184")
     public void moveThumb(MuiSliderThumb thumb, double percentage) {
         if (Precision.compareTo(percentage, 1, 0.0001d) == 1 || Precision.compareTo(percentage, 0, 0.0001d) == -1) {
@@ -629,6 +627,10 @@ public class MuiSlider extends AbstractMuiComponent {
             actions.moveToElement(element).clickAndHold(thumb).moveByOffset(target - thumbCenter.x, 0).release()
                     .perform();
         }
+    }
+
+    protected MuiSliderThumb createSliderThumb(WebElement thumbElement) {
+        return new MuiSliderThumb(thumbElement, driver, config);
     }
 
     @Override
