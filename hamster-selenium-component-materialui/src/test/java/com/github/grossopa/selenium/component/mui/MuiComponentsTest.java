@@ -30,6 +30,7 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiBackdrop;
+import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.v4.inputs.*;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
@@ -375,6 +376,20 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toDialogV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toDialog().getWrappedElement());
+        assertEquals(MuiDialog.class, testSubject.toDialog().getClass());
+    }
+
+    @Test
+    void toDialogV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toDialog().getWrappedElement());
+        assertEquals(MuiDialog.class, testSubject.toDialog().getClass());
+    }
+
+    @Test
     void toLink() {
         assertEquals(element, testSubject.toLink().getWrappedElement());
     }
@@ -412,11 +427,6 @@ class MuiComponentsTest {
     @Test
     void toMenu() {
         assertEquals(element, testSubject.toMenu().getWrappedElement());
-    }
-
-    @Test
-    void toDialog() {
-        assertEquals(element, testSubject.toDialog().getWrappedElement());
     }
 
     @Test

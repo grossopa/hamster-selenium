@@ -24,7 +24,7 @@
 
 package com.github.grossopa.selenium.examples.mui.v5;
 
-import com.github.grossopa.selenium.examples.mui.v5.datadisplay.*;
+import com.github.grossopa.selenium.examples.mui.v5.feedback.MuiBackdropTestCases;
 
 /**
  * Test cases for Mui V5 feedback components.
@@ -32,8 +32,9 @@ import com.github.grossopa.selenium.examples.mui.v5.datadisplay.*;
  * @author Jack Yin
  * @since 1.7
  */
-public class MuiFeedbackTestCases {
+public class MuiV5FeedbackTestCases {
 
     public static void main(String[] args) {
+        MuiBackdropTestCases.main(args);
     }
 }

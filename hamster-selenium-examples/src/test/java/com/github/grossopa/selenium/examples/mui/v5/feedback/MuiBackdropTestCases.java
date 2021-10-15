@@ -36,6 +36,8 @@ import static com.github.grossopa.selenium.core.locator.By2.axesBuilder;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
+ * Test cases for {@link MuiBackdrop}.
+ *
  * @author Jack Yin
  * @since 1.7
  */

@@ -34,6 +34,7 @@ import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionExc
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiSnackbar;
+import com.github.grossopa.selenium.component.mui.v4.finder.MuiModalFinder;
 import com.github.grossopa.selenium.component.mui.v4.inputs.*;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
@@ -442,6 +443,20 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiBackdrop(component, driver, config));
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiDialog}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>Using {@link MuiModalFinder#findTopVisibleOverlay()} to locate the top overlay and find the component inside.
+     * The {@link WebElement} should have css class "MuiDialog-root".</p>
+     *
+     * @return the wrapped {@link MuiDialog} instance on the given component
+     */
+    public MuiDialog toDialog() {
+        return create(() -> new MuiDialog(component, driver, config), () -> new MuiDialog(component, driver, config));
+    }
+
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
@@ -516,14 +531,6 @@ public class MuiComponents extends AbstractComponents {
         return new MuiMenu(component, driver, config);
     }
 
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiDialog}.
-     *
-     * @return the wrapped {@link MuiDialog} instance on the given component
-     */
-    public MuiDialog toDialog() {
-        return new MuiDialog(component, driver, config);
-    }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiSnackbar}.

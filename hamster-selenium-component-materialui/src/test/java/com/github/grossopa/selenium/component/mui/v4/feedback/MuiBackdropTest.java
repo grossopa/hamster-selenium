@@ -54,7 +54,6 @@ class MuiBackdropTest {
         testSubject = new MuiBackdrop(element, driver, config);
     }
 
-
     @Test
     void getComponentName() {
         assertEquals("Backdrop", testSubject.getComponentName());
