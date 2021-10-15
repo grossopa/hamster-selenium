@@ -98,6 +98,5 @@ public class MuiTextFieldTestCases extends AbstractBrowserSupport {
 
         test.testBasicTextField();
         test.testFormProps();
-
     }
 }

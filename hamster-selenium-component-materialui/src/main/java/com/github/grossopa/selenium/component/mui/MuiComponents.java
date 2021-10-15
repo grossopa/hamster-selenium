@@ -45,6 +45,7 @@ import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiPager;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
+import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSwitchV5;
 import com.github.grossopa.selenium.core.component.AbstractComponents;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import lombok.Getter;
@@ -321,6 +322,20 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the current {@link WebComponent} to {@link MuiSwitch} instance with scale function configured. {@link
+     * MuiSwitch} for {@link MuiVersion#V4} and {@link MuiSwitchV5} for {@link MuiVersion#V5}.
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiSwitch-root".
+     * </p>
+     *
+     * @return the wrapped {@link MuiSwitch} instance on the given component
+     */
+    public MuiSwitch toSwitch() {
+        return create(() -> new MuiSwitch(component, driver, config), () -> new MuiSwitchV5(component, driver, config));
+    }
+
+    /**
      * Wraps the current {@link WebComponent} to {@link MuiTextField}.
      *
      * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
@@ -349,15 +364,6 @@ public class MuiComponents extends AbstractComponents {
         return new MuiGrid(component, driver, config);
     }
 
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiSwitch}.
-     *
-     * @return the wrapped {@link MuiSwitch} instance on the given component
-     */
-    public MuiSwitch toSwitch() {
-        return new MuiSwitch(component, driver, config);
-    }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiLink}.

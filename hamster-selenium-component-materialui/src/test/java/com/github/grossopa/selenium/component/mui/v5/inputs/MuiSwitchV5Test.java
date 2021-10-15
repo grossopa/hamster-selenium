@@ -33,36 +33,31 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link MuiSliderThumbV5}
+ * Tests for {@link MuiSwitchV5}
  *
  * @author Jack Yin
  * @since 1.7
  */
-class MuiSliderThumbV5Test {
+class MuiSwitchV5Test {
 
-    MuiSliderThumbV5 testSubject;
+    MuiSwitchV5 testSubject;
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
-    WebElement inputElement = mock(WebElement.class);
+    WebElement spanElement = mock(WebElement.class);
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("Muiabc");
-        when(element.findElement(By.xpath("./child::input"))).thenReturn(inputElement);
-        when(inputElement.getAttribute("aria-orientation")).thenReturn("horizontal");
-        when(inputElement.getAttribute("aria-valuetext")).thenReturn("The value is 30");
-        when(inputElement.getAttribute("aria-valuemin")).thenReturn("20");
-        when(inputElement.getAttribute("aria-valuemax")).thenReturn("800");
-        when(inputElement.getAttribute("aria-valuenow")).thenReturn("30");
-        testSubject = new MuiSliderThumbV5(element, driver, config);
+        when(config.getCssPrefix()).thenReturn("Mui");
+        when(element.findElement(By.xpath("./child::span"))).thenReturn(spanElement);
+        testSubject = new MuiSwitchV5(element, driver, config);
     }
 
     @Test
@@ -71,35 +66,32 @@ class MuiSliderThumbV5Test {
     }
 
     @Test
-    void getOrientation() {
-        assertEquals("horizontal", testSubject.getOrientation());
+    void isSelected() {
+        when(config.isChecked(any())).thenReturn(true);
+        assertTrue(testSubject.isSelected());
     }
 
     @Test
-    void getValueText() {
-        assertEquals("The value is 30", testSubject.getValueText());
+    void isSelectedNegative() {
+        when(config.isChecked(any())).thenReturn(false);
+        assertFalse(testSubject.isSelected());
     }
 
     @Test
-    void getMaxValue() {
-        assertEquals("800", testSubject.getMaxValue());
+    void isEnabled() {
+        when(config.isDisabled(any())).thenReturn(false);
+        assertTrue(testSubject.isEnabled());
     }
 
     @Test
-    void getMinValue() {
-        assertEquals("20", testSubject.getMinValue());
-    }
-
-    @Test
-    void getValue() {
-        assertEquals("30", testSubject.getValue());
+    void isEnabledNegative() {
+        when(config.isDisabled(any())).thenReturn(true);
+        assertFalse(testSubject.isEnabled());
     }
 
     @Test
     void testToString() {
         when(element.toString()).thenReturn("element-toString");
-        assertEquals("MuiSliderThumbV5{element=element-toString}", testSubject.toString());
+        assertEquals("MuiSwitchV5{element=element-toString}", testSubject.toString());
     }
-
-
 }

@@ -40,6 +40,7 @@ import static com.github.grossopa.selenium.core.locator.By2.axesBuilder;
  * The Thumb element of {@link MuiSliderV5}
  *
  * @author Jack Yin
+ * @see <a href="https://mui.com/components/slider/">https://mui.com/components/slider/</a>
  * @since 1.7
  */
 public class MuiSliderThumbV5 extends MuiSliderThumb {

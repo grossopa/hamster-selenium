@@ -26,48 +26,57 @@ package com.github.grossopa.selenium.component.mui.v5.inputs;
 
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiSwitch;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.WebElement;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static com.github.grossopa.selenium.core.locator.By2.axesBuilder;
 
 /**
- * Tests for {@link MuiSliderV5}
+ * Switches toggle the state of a single setting on or off.
  *
  * @author Jack Yin
+ * @see <a href="https://mui.com/components/switches/">https://mui.com/components/switches/</a>
  * @since 1.7
  */
-class MuiSliderV5Test {
-
-    MuiSliderV5 testSubject;
-    WebElement element = mock(WebElement.class);
-    ComponentWebDriver driver = mock(ComponentWebDriver.class);
-    MuiConfig config = mock(MuiConfig.class);
-
-    @BeforeEach
-    void setUp() {
-        testSubject = new MuiSliderV5(element, driver, config);
+public class MuiSwitchV5 extends MuiSwitch {
+    /**
+     * Constructs an MuiSwitch instance with the delegated element and root driver
+     *
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
+     */
+    public MuiSwitchV5(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+        super(element, driver, config);
     }
 
-    @Test
-    void versions() {
-        assertArrayEquals(new MuiVersion[]{V5}, testSubject.versions().toArray());
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V5);
     }
 
-    @Test
-    void createSliderThumb() {
-        assertEquals(MuiSliderThumbV5.class, testSubject.createSliderThumb(mock(WebElement.class)).getClass());
+    @Override
+    public boolean isSelected() {
+        return config.isChecked(getInnerSpan());
     }
 
-    @Test
-    void testToString() {
-        when(element.toString()).thenReturn("element-toString");
-        assertEquals("MuiSliderV5{element=element-toString}", testSubject.toString());
+    @Override
+    public boolean isEnabled() {
+        return !config.isDisabled(getInnerSpan());
+    }
+
+    private WebComponent getInnerSpan() {
+        return this.findComponent(axesBuilder().child("span").build());
+    }
+
+    @Override
+    public String toString() {
+        return "MuiSwitchV5{" + "element=" + element + '}';
     }
 }

@@ -35,6 +35,7 @@ import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPaginationLocators;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
+import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSwitchV5;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
@@ -246,6 +247,20 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toSwitchV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toSwitch().getWrappedElement());
+        assertEquals(MuiSwitch.class, testSubject.toSwitch().getClass());
+    }
+
+    @Test
+    void toSwitchV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toSwitch().getWrappedElement());
+        assertEquals(MuiSwitchV5.class, testSubject.toSwitch().getClass());
+    }
+
+    @Test
     void toTextFieldV4() {
         when(config.getVersion()).thenReturn(V4);
         assertEquals(element, testSubject.toTextField().getWrappedElement());
@@ -257,11 +272,6 @@ class MuiComponentsTest {
         when(config.getVersion()).thenReturn(V5);
         assertEquals(element, testSubject.toTextField().getWrappedElement());
         assertEquals(MuiTextField.class, testSubject.toTextField().getClass());
-    }
-
-    @Test
-    void toSwitch() {
-        assertEquals(element, testSubject.toSwitch().getWrappedElement());
     }
 
 
