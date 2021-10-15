@@ -98,12 +98,13 @@ class MuiSwitchTest {
 
     @Test
     void isEnabledNegative() {
+        when(config.isDisabled(any())).thenReturn(true);
         when(config.isSelected(any())).then(answer -> {
             WebComponent component = answer.getArgument(0);
             assertEquals(component.getWrappedElement(), button);
             return false;
         });
-        assertTrue(testSubject.isEnabled());
+        assertFalse(testSubject.isEnabled());
     }
 
     @Test
@@ -111,4 +112,5 @@ class MuiSwitchTest {
         when(element.toString()).thenReturn("element-toString");
         assertEquals("MuiSwitch{element=element-toString}", testSubject.toString());
     }
+
 }

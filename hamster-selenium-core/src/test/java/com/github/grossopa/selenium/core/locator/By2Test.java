@@ -147,4 +147,10 @@ class By2Test {
         By result = By2.parent();
         assertEquals("By.xpath: parent::*", result.toString());
     }
+
+    @Test
+    void axesBuilder() {
+        By result = By2.axesBuilder().parent().build();
+        assertEquals("By.xpath: ./parent::*", result.toString());
+    }
 }

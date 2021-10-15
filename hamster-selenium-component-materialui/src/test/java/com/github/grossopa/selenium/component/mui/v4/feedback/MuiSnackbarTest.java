@@ -77,6 +77,16 @@ class MuiSnackbarTest {
     }
 
     @Test
+    void startAutoHideCheckNegative2() {
+        assertThrows(IllegalArgumentException.class, () -> testSubject.startAutoHideCheck(-1L));
+    }
+
+    @Test
+    void startAutoHideCheckNegative3() {
+        assertThrows(IllegalArgumentException.class, () -> testSubject.startAutoHideCheck(null));
+    }
+
+    @Test
     void startAutoHideCheck() {
         WebDriverWait wait = mock(WebDriverWait.class);
 
