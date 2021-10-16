@@ -180,4 +180,9 @@ class MatComponentsTest {
     void toSnackbar() {
         assertEquals(element, testSubject.toSnackbar().getWrappedElement());
     }
+
+    @Test
+    void toProgressBar() {
+        assertEquals(element, testSubject.toProgressBar().getWrappedElement());
+    }
 }

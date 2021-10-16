@@ -263,6 +263,15 @@ public class MatComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the given element to {@link MatProgressBar}.
+     *
+     * @return the {@link MatProgressBar} instance
+     */
+    public MatProgressBar toProgressBar() {
+        return new MatProgressBar(component, driver, config);
+    }
+
+    /**
      * Wraps the given element to {@link MatSlideToggle}.
      *
      * @return the {@link MatSlideToggle} instance
