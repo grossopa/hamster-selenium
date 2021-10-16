@@ -40,6 +40,7 @@ import com.github.grossopa.selenium.component.mui.v4.lab.MuiPaginationLocators;
 import com.github.grossopa.selenium.component.mui.v4.navigation.MuiAccordion;
 import com.github.grossopa.selenium.component.mui.v4.navigation.MuiBottomNavigation;
 import com.github.grossopa.selenium.component.mui.v4.navigation.MuiBreadcrumbs;
+import com.github.grossopa.selenium.component.mui.v4.navigation.MuiLink;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
@@ -481,8 +482,17 @@ class MuiComponentsTest {
     }
 
     @Test
-    void toLink() {
+    void toLinkV4() {
+        when(config.getVersion()).thenReturn(V4);
         assertEquals(element, testSubject.toLink().getWrappedElement());
+        assertEquals(MuiLink.class, testSubject.toLink().getClass());
+    }
+
+    @Test
+    void toLinkV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toLink().getWrappedElement());
+        assertEquals(MuiLink.class, testSubject.toLink().getClass());
     }
 
     @Test

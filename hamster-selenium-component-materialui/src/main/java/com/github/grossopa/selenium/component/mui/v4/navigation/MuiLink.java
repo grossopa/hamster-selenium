@@ -24,10 +24,17 @@
 
 package com.github.grossopa.selenium.component.mui.v4.navigation;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
+
+import java.util.EnumSet;
+import java.util.Set;
+
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 
 /**
  * The Link component allows you to easily customize anchor elements with your theme colors and typography styles.
@@ -58,6 +65,11 @@ public class MuiLink extends AbstractMuiComponent {
     @Override
     public String getComponentName() {
         return COMPONENT_NAME;
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V4, V5);
     }
 
     /**

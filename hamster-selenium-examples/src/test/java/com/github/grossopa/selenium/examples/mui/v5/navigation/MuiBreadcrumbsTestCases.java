@@ -97,5 +97,4 @@ public class MuiBreadcrumbsTestCases extends AbstractBrowserSupport {
         test.testCollapsedBreadcrumbs();
     }
 
-
 }
