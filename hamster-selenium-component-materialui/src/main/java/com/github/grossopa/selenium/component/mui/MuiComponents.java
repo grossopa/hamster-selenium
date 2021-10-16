@@ -547,6 +547,32 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiBreadcrumbs(component, driver, config));
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiLink}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiLink-root".</p>
+     *
+     * @return the wrapped {@link MuiLink} instance on the given component
+     */
+    public MuiLink toLink() {
+        return create(() -> new MuiLink(component, driver, config), () -> new MuiLink(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiMenu}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiMenu-root". it is the top layer of the overlay.</p>
+     *
+     * @return the wrapped {@link MuiMenu} instance on the given component
+     */
+    public MuiMenu toMenu() {
+        return create(() -> new MuiMenu(component, driver, config), () -> new MuiMenu(component, driver, config));
+    }
+
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
@@ -555,16 +581,6 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiGrid toGrid() {
         return new MuiGrid(component, driver, config);
-    }
-
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiLink}.
-     *
-     * @return the wrapped {@link MuiLink} instance on the given component
-     */
-    public MuiLink toLink() {
-        return new MuiLink(component, driver, config);
     }
 
 
@@ -585,16 +601,6 @@ public class MuiComponents extends AbstractComponents {
     public MuiPager toPager() {
         return new MuiPager(component, driver, config);
     }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiMenu}.
-     *
-     * @return the wrapped {@link MuiMenu} instance on the given component
-     */
-    public MuiMenu toMenu() {
-        return new MuiMenu(component, driver, config);
-    }
-
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiPickersDialog}.

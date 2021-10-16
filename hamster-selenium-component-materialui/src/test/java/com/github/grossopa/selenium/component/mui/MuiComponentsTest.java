@@ -37,10 +37,7 @@ import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPaginationLocators;
-import com.github.grossopa.selenium.component.mui.v4.navigation.MuiAccordion;
-import com.github.grossopa.selenium.component.mui.v4.navigation.MuiBottomNavigation;
-import com.github.grossopa.selenium.component.mui.v4.navigation.MuiBreadcrumbs;
-import com.github.grossopa.selenium.component.mui.v4.navigation.MuiLink;
+import com.github.grossopa.selenium.component.mui.v4.navigation.*;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
@@ -496,6 +493,20 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toMenuV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toMenu().getWrappedElement());
+        assertEquals(MuiMenu.class, testSubject.toMenu().getClass());
+    }
+
+    @Test
+    void toMenuV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toMenu().getWrappedElement());
+        assertEquals(MuiMenu.class, testSubject.toMenu().getClass());
+    }
+
+    @Test
     void toTabs() {
         assertEquals(element, testSubject.toTabs().getWrappedElement());
     }
@@ -508,11 +519,6 @@ class MuiComponentsTest {
     @Test
     void toGrid() {
         assertEquals(element, testSubject.toGrid().getWrappedElement());
-    }
-
-    @Test
-    void toMenu() {
-        assertEquals(element, testSubject.toMenu().getWrappedElement());
     }
 
     @Test

@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.examples.mui.v5;
 import com.github.grossopa.selenium.examples.mui.v5.navigation.MuiBottomNavigationTestCases;
 import com.github.grossopa.selenium.examples.mui.v5.navigation.MuiBreadcrumbsTestCases;
 import com.github.grossopa.selenium.examples.mui.v5.navigation.MuiLinkTestCases;
+import com.github.grossopa.selenium.examples.mui.v5.navigation.MuiMenuTestCases;
 
 /**
  * Tests the navigation components.
@@ -40,5 +41,6 @@ public class MuiNavigationTestCases {
         MuiBottomNavigationTestCases.main(args);
         MuiBreadcrumbsTestCases.main(args);
         MuiLinkTestCases.main(args);
+        MuiMenuTestCases.main(args);
     }
 }
