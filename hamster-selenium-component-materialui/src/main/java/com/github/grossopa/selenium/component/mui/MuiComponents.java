@@ -457,6 +457,36 @@ public class MuiComponents extends AbstractComponents {
         return create(() -> new MuiDialog(component, driver, config), () -> new MuiDialog(component, driver, config));
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSnackbar}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiSnackbar-root".</p>
+     *
+     * @return the wrapped {@link MuiSnackbar} instance on the given component
+     */
+    public MuiSnackbar toSnackbar() {
+        return create(() -> new MuiSnackbar(component, driver, config),
+                () -> new MuiSnackbar(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiSnackbar} with custom auto hide duration for further
+     * checking.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiSnackbar-root".</p>
+     *
+     * @param autoHideDuration the autoHideDuration, should be a little longer than the value set in the component.
+     * @return the wrapped {@link MuiSnackbar} instance on the given component
+     */
+    public MuiSnackbar toSnackbar(long autoHideDuration) {
+        return create(() -> new MuiSnackbar(component, driver, config, autoHideDuration),
+                () -> new MuiSnackbar(component, driver, config, autoHideDuration));
+    }
+
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
@@ -531,25 +561,6 @@ public class MuiComponents extends AbstractComponents {
         return new MuiMenu(component, driver, config);
     }
 
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiSnackbar}.
-     *
-     * @return the wrapped {@link MuiSnackbar} instance on the given component
-     */
-    public MuiSnackbar toSnackbar() {
-        return new MuiSnackbar(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiSnackbar}.
-     *
-     * @param autoHideDuration the autoHideDuration, should be a little longer than the value set in the component.
-     * @return the wrapped {@link MuiSnackbar} instance on the given component
-     */
-    public MuiSnackbar toSnackbar(long autoHideDuration) {
-        return new MuiSnackbar(component, driver, config, autoHideDuration);
-    }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiAccordion}.

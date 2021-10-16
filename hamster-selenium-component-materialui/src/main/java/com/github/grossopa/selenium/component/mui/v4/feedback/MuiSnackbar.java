@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.feedback;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -34,8 +35,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.annotation.Nullable;
 
+import java.util.EnumSet;
 import java.util.Objects;
+import java.util.Set;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnoringStaleElementReference;
 
 /**
@@ -63,6 +68,11 @@ public class MuiSnackbar extends AbstractMuiComponent {
      */
     public MuiSnackbar(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         this(element, driver, config, null);
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V4, V5);
     }
 
     /**

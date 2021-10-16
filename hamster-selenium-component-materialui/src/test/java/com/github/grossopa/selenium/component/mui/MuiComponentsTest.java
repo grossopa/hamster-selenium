@@ -31,6 +31,7 @@ import com.github.grossopa.selenium.component.mui.v4.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
+import com.github.grossopa.selenium.component.mui.v4.feedback.MuiSnackbar;
 import com.github.grossopa.selenium.component.mui.v4.inputs.*;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
@@ -390,6 +391,36 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toSnackbarV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toSnackbar().getWrappedElement());
+        assertEquals(MuiSnackbar.class, testSubject.toSnackbar().getClass());
+    }
+
+    @Test
+    void toSnackbarV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toSnackbar().getWrappedElement());
+        assertEquals(MuiSnackbar.class, testSubject.toSnackbar().getClass());
+    }
+
+    @Test
+    void toSnackbarV4WithDuration() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toSnackbar(1000L).getWrappedElement());
+        assertEquals(1000L, testSubject.toSnackbar(1000L).getAutoHideDuration());
+        assertEquals(MuiSnackbar.class, testSubject.toSnackbar(1000L).getClass());
+    }
+
+    @Test
+    void toSnackbarV5WithDuration() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toSnackbar(1000L).getWrappedElement());
+        assertEquals(1000L, testSubject.toSnackbar(1000L).getAutoHideDuration());
+        assertEquals(MuiSnackbar.class, testSubject.toSnackbar(1000L).getClass());
+    }
+
+    @Test
     void toLink() {
         assertEquals(element, testSubject.toLink().getWrappedElement());
     }
@@ -427,16 +458,6 @@ class MuiComponentsTest {
     @Test
     void toMenu() {
         assertEquals(element, testSubject.toMenu().getWrappedElement());
-    }
-
-    @Test
-    void toSnackbar() {
-        assertEquals(element, testSubject.toSnackbar().getWrappedElement());
-    }
-
-    @Test
-    void toSnackbarWithDuration() {
-        assertEquals(element, testSubject.toSnackbar(800L).getWrappedElement());
     }
 
     @Test
