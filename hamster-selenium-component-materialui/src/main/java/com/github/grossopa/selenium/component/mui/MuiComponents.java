@@ -602,6 +602,28 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiPagination(component, driver, config, locators));
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiTabs}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have below structure: {@code
+     * <div class="MuiTabs-root">
+     *    ....
+     *    <button class="MuiTab-root ..."></span>
+     *    <button class="MuiTab-root ..."></span>
+     *    <button class="MuiTab-root ..."></span>
+     * </div>
+     * }
+     * </p>
+     *
+     * @return the wrapped {@link MuiTabs} instance on the given component
+     */
+    public MuiTabs toTabs() {
+        return create(() -> new MuiTabs(component, driver, config), () -> new MuiTabs(component, driver, config));
+    }
+
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
@@ -612,15 +634,6 @@ public class MuiComponents extends AbstractComponents {
         return new MuiGrid(component, driver, config);
     }
 
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiTabs}.
-     *
-     * @return the wrapped {@link MuiTabs} instance on the given component
-     */
-    public MuiTabs toTabs() {
-        return new MuiTabs(component, driver, config);
-    }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiPager}.

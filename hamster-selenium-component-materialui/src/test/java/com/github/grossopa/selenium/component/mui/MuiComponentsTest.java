@@ -538,11 +538,20 @@ class MuiComponentsTest {
         assertEquals(locators, testSubject.toPagination(locators).getLocators());
     }
 
+    @Test
+    void toTabsV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toTabs().getWrappedElement());
+        assertEquals(MuiTabs.class, testSubject.toTabs().getClass());
+    }
 
     @Test
-    void toTabs() {
+    void toTabsV5() {
+        when(config.getVersion()).thenReturn(V5);
         assertEquals(element, testSubject.toTabs().getWrappedElement());
+        assertEquals(MuiTabs.class, testSubject.toTabs().getClass());
     }
+
 
     @Test
     void toPager() {
