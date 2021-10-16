@@ -38,7 +38,7 @@ import static org.mockito.Mockito.when;
  * Tests for {@link MatProgressBar}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.7
  */
 class MatProgressBarTest {
 

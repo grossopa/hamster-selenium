@@ -33,6 +33,8 @@ import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static org.apache.commons.lang3.StringUtils.upperCase;
 
 /**
+ * {@code <mat-progress-bar>} is a horizontal progress-bar for indicating progress and activity.
+ *
  * @author Jack Yin
  * @since 1.7
  */
