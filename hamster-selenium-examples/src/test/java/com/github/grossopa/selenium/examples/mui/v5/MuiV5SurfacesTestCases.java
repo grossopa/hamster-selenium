@@ -33,7 +33,7 @@ import com.github.grossopa.selenium.examples.mui.v5.surfaces.MuiAppBarTestCases;
  * @author Jack Yin
  * @since 1.7
  */
-public class MuiSurfacesTestCases {
+public class MuiV5SurfacesTestCases {
 
     public static void main(String[] args) {
         MuiAccordionTestCases.main(args);

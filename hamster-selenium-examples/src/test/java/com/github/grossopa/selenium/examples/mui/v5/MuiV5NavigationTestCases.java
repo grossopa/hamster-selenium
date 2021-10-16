@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.examples.mui.v5;
 
+import com.github.grossopa.selenium.component.mui.v4.navigation.MuiTabs;
 import com.github.grossopa.selenium.examples.mui.v5.navigation.*;
 
 /**
@@ -32,7 +33,7 @@ import com.github.grossopa.selenium.examples.mui.v5.navigation.*;
  * @author Jack Yin
  * @since 1.7
  */
-public class MuiNavigationTestCases {
+public class MuiV5NavigationTestCases {
 
     public static void main(String[] args) {
         MuiBottomNavigationTestCases.main(args);
@@ -40,5 +41,6 @@ public class MuiNavigationTestCases {
         MuiLinkTestCases.main(args);
         MuiMenuTestCases.main(args);
         MuiPaginationTestCases.main(args);
+        MuiTabsTestCases.main(args);
     }
 }

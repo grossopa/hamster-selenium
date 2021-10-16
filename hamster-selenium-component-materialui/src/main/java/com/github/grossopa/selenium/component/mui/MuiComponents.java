@@ -124,6 +124,84 @@ public class MuiComponents extends AbstractComponents {
     ///////////////////////
 
     /**
+     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiAutocomplete-root".
+     * </p>
+     *
+     * @return the wrapped {@link MuiAutocomplete} instance on the given component
+     */
+    public MuiAutocomplete toAutocomplete() {
+        return create(() -> new MuiAutocomplete(component, driver, config),
+                () -> new MuiAutocomplete(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiAutocomplete-root".
+     * </p>
+     *
+     * @param optionLocator the option locator for finding the option elements
+     * @return the wrapped {@link MuiAutocomplete} instance on the given component
+     */
+    public MuiAutocomplete toAutocomplete(@Nullable By optionLocator) {
+        return create(() -> new MuiAutocomplete(component, driver, config, optionLocator),
+                () -> new MuiAutocomplete(component, driver, config, optionLocator));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator and tagLocators
+     * (for multiple selection feature).
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiAutocomplete-root".
+     * </p>
+     *
+     * @param optionLocator the option locator for finding the option elements
+     * @param tagLocators the tag locators for finding the selected option elements
+     * @return the wrapped {@link MuiAutocomplete} instance on the given component
+     */
+    public MuiAutocomplete toAutocomplete(@Nullable By optionLocator,
+            @Nullable MuiAutocompleteTagLocators tagLocators) {
+        return create(() -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators),
+                () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator, tagLocators (for
+     * multiple selection feature), and actions for opening and closing the options.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have css class "MuiAutocomplete-root".
+     * </p>
+     *
+     * @param optionLocator the option locator for finding the option elements
+     * @param tagLocators the tag locators for finding the selected option elements
+     * @param openOptionsAction the customized open options action
+     * @param closeOptionsAction the customized close options action
+     * @return the wrapped {@link MuiAutocomplete} instance on the given component
+     */
+    public MuiAutocomplete toAutocomplete(@Nullable By optionLocator, @Nullable MuiAutocompleteTagLocators tagLocators,
+            @Nullable OpenOptionsAction openOptionsAction, @Nullable CloseOptionsAction closeOptionsAction) {
+        return create(
+                () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
+                        closeOptionsAction),
+                () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
+                        closeOptionsAction));
+    }
+
+    /**
      * Wraps the current {@link WebComponent} to {@link MuiButton} instance.
      *
      * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
@@ -625,6 +703,8 @@ public class MuiComponents extends AbstractComponents {
     }
 
 
+
+
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
      *
@@ -633,7 +713,6 @@ public class MuiComponents extends AbstractComponents {
     public MuiGrid toGrid() {
         return new MuiGrid(component, driver, config);
     }
-
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiPager}.
@@ -651,84 +730,6 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiPickersDialog toPickersDialog() {
         return new MuiPickersDialog(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete}.
-     *
-     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
-     *
-     * <p>
-     * The {@link WebElement} should have css class "MuiAutocomplete-root".
-     * </p>
-     *
-     * @return the wrapped {@link MuiAutocomplete} instance on the given component
-     */
-    public MuiAutocomplete toAutocomplete() {
-        return create(() -> new MuiAutocomplete(component, driver, config),
-                () -> new MuiAutocomplete(component, driver, config));
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator.
-     *
-     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
-     *
-     * <p>
-     * The {@link WebElement} should have css class "MuiAutocomplete-root".
-     * </p>
-     *
-     * @param optionLocator the option locator for finding the option elements
-     * @return the wrapped {@link MuiAutocomplete} instance on the given component
-     */
-    public MuiAutocomplete toAutocomplete(@Nullable By optionLocator) {
-        return create(() -> new MuiAutocomplete(component, driver, config, optionLocator),
-                () -> new MuiAutocomplete(component, driver, config, optionLocator));
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator and tagLocators
-     * (for multiple selection feature).
-     *
-     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
-     *
-     * <p>
-     * The {@link WebElement} should have css class "MuiAutocomplete-root".
-     * </p>
-     *
-     * @param optionLocator the option locator for finding the option elements
-     * @param tagLocators the tag locators for finding the selected option elements
-     * @return the wrapped {@link MuiAutocomplete} instance on the given component
-     */
-    public MuiAutocomplete toAutocomplete(@Nullable By optionLocator,
-            @Nullable MuiAutocompleteTagLocators tagLocators) {
-        return create(() -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators),
-                () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators));
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiAutocomplete} with customized optionLocator, tagLocators (for
-     * multiple selection feature), and actions for opening and closing the options.
-     *
-     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
-     *
-     * <p>
-     * The {@link WebElement} should have css class "MuiAutocomplete-root".
-     * </p>
-     *
-     * @param optionLocator the option locator for finding the option elements
-     * @param tagLocators the tag locators for finding the selected option elements
-     * @param openOptionsAction the customized open options action
-     * @param closeOptionsAction the customized close options action
-     * @return the wrapped {@link MuiAutocomplete} instance on the given component
-     */
-    public MuiAutocomplete toAutocomplete(@Nullable By optionLocator, @Nullable MuiAutocompleteTagLocators tagLocators,
-            @Nullable OpenOptionsAction openOptionsAction, @Nullable CloseOptionsAction closeOptionsAction) {
-        return create(
-                () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
-                        closeOptionsAction),
-                () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
-                        closeOptionsAction));
     }
 
     private <T> T create(Supplier<T> v4creatorFunc, Supplier<T> v5creatorFunc) {
