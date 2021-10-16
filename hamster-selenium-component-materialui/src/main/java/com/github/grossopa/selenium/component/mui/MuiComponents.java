@@ -533,6 +533,20 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiBottomNavigation(component, driver, config));
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiBreadcrumbs}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiBreadcrumbs-root".</p>
+     *
+     * @return the wrapped {@link MuiBreadcrumbs} instance on the given component
+     */
+    public MuiBreadcrumbs toBreadcrumbs() {
+        return create(() -> new MuiBreadcrumbs(component, driver, config),
+                () -> new MuiBreadcrumbs(component, driver, config));
+    }
+
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
@@ -551,15 +565,6 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiLink toLink() {
         return new MuiLink(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiBreadcrumbs}.
-     *
-     * @return the wrapped {@link MuiBreadcrumbs} instance on the given component
-     */
-    public MuiBreadcrumbs toBreadcrumbs() {
-        return new MuiBreadcrumbs(component, driver, config);
     }
 
 

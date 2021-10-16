@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.navigation;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.exception.BreadcrumbsAlreadyExpandedException;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -36,6 +37,8 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -85,6 +88,10 @@ class MuiBreadcrumbsTest {
         testSubject = new MuiBreadcrumbs(element, driver, config);
     }
 
+    @Test
+    void versions() {
+        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+    }
 
     @Test
     void getComponentName() {
