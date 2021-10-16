@@ -25,6 +25,7 @@
 package com.github.grossopa.selenium.examples.mui.v5;
 
 import com.github.grossopa.selenium.examples.mui.v5.surfaces.MuiAccordionTestCases;
+import com.github.grossopa.selenium.examples.mui.v5.surfaces.MuiAppBarTestCases;
 
 /**
  * Test cases for Surfaces components.
@@ -36,5 +37,6 @@ public class MuiSurfacesTestCases {
 
     public static void main(String[] args) {
         MuiAccordionTestCases.main(args);
+        MuiAppBarTestCases.main(args);
     }
 }

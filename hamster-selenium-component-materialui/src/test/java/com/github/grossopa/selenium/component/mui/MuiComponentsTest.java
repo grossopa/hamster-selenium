@@ -38,6 +38,7 @@ import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocat
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPaginationLocators;
 import com.github.grossopa.selenium.component.mui.v4.navigation.MuiAccordion;
+import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSwitchV5;
@@ -436,6 +437,20 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toAppBarV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toAppBar().getWrappedElement());
+        assertEquals(MuiAppBar.class, testSubject.toAppBar().getClass());
+    }
+
+    @Test
+    void toAppBarV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toAppBar().getWrappedElement());
+        assertEquals(MuiAppBar.class, testSubject.toAppBar().getClass());
+    }
+
+    @Test
     void toLink() {
         assertEquals(element, testSubject.toLink().getWrappedElement());
     }
@@ -458,11 +473,6 @@ class MuiComponentsTest {
     @Test
     void toPager() {
         assertEquals(element, testSubject.toPager().getWrappedElement());
-    }
-
-    @Test
-    void toAppBar() {
-        assertEquals(element, testSubject.toAppBar().getWrappedElement());
     }
 
     @Test

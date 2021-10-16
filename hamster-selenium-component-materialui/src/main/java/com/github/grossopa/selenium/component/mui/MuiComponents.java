@@ -505,6 +505,20 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiAccordion(component, driver, config));
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAppBar}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiAppBar-root". Note there is usually another layer named
+     * "MuiToolbar-root" from the Material UI example. within with contains the actual children.</p>
+     *
+     * @return the wrapped {@link MuiAppBar} instance on the given component
+     */
+    public MuiAppBar toAppBar() {
+        return create(() -> new MuiAppBar(component, driver, config), () -> new MuiAppBar(component, driver, config));
+    }
+
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
@@ -550,15 +564,6 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiTabs toTabs() {
         return new MuiTabs(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiAppBar}.
-     *
-     * @return the wrapped {@link MuiAppBar} instance on the given component
-     */
-    public MuiAppBar toAppBar() {
-        return new MuiAppBar(component, driver, config);
     }
 
     /**
