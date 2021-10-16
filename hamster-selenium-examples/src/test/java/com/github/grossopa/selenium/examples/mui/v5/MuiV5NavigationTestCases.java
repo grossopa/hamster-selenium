@@ -24,7 +24,6 @@
 
 package com.github.grossopa.selenium.examples.mui.v5;
 
-import com.github.grossopa.selenium.component.mui.v4.navigation.MuiTabs;
 import com.github.grossopa.selenium.examples.mui.v5.navigation.*;
 
 /**

@@ -26,8 +26,6 @@ package com.github.grossopa.selenium.examples.mat;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
-import com.github.grossopa.hamster.selenium.component.mat.main.MatCheckbox;
-import com.github.grossopa.hamster.selenium.component.mat.main.MatSlideToggle;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatSnackbar;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
@@ -36,8 +34,8 @@ import org.openqa.selenium.By;
 import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.openqa.selenium.By.className;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Jack Yin
