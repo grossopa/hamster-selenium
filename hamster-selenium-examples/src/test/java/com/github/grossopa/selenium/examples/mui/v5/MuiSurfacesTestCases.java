@@ -24,21 +24,17 @@
 
 package com.github.grossopa.selenium.examples.mui.v5;
 
-import com.github.grossopa.selenium.examples.mui.v5.feedback.MuiBackdropTestCases;
-import com.github.grossopa.selenium.examples.mui.v5.feedback.MuiDialogTestCases;
-import com.github.grossopa.selenium.examples.mui.v5.feedback.MuiSnackbarTestCases;
+import com.github.grossopa.selenium.examples.mui.v5.surfaces.MuiAccordionTestCases;
 
 /**
- * Test cases for Mui V5 feedback components.
+ * Test cases for Surfaces components.
  *
  * @author Jack Yin
  * @since 1.7
  */
-public class MuiV5FeedbackTestCases {
+public class MuiSurfacesTestCases {
 
     public static void main(String[] args) {
-        MuiBackdropTestCases.main(args);
-        MuiDialogTestCases.main(args);
-        MuiSnackbarTestCases.main(args);
+        MuiAccordionTestCases.main(args);
     }
 }

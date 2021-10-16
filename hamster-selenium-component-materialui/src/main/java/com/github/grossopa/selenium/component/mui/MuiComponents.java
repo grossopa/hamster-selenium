@@ -487,6 +487,24 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiSnackbar(component, driver, config, autoHideDuration));
     }
 
+    //////////////////////////
+    //  Surfaces Components //
+    //////////////////////////
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiAccordion}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiAccordion-root".</p>
+     *
+     * @return the wrapped {@link MuiAccordion} instance on the given component
+     */
+    public MuiAccordion toAccordion() {
+        return create(() -> new MuiAccordion(component, driver, config),
+                () -> new MuiAccordion(component, driver, config));
+    }
+
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
@@ -561,15 +579,6 @@ public class MuiComponents extends AbstractComponents {
         return new MuiMenu(component, driver, config);
     }
 
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiAccordion}.
-     *
-     * @return the wrapped {@link MuiAccordion} instance on the given component
-     */
-    public MuiAccordion toAccordion() {
-        return new MuiAccordion(component, driver, config);
-    }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiPickersDialog}.

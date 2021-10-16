@@ -37,6 +37,7 @@ import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPaginationLocators;
+import com.github.grossopa.selenium.component.mui.v4.navigation.MuiAccordion;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSwitchV5;
@@ -421,6 +422,20 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toAccordionV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toAccordion().getWrappedElement());
+        assertEquals(MuiAccordion.class, testSubject.toAccordion().getClass());
+    }
+
+    @Test
+    void toAccordionV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toAccordion().getWrappedElement());
+        assertEquals(MuiAccordion.class, testSubject.toAccordion().getClass());
+    }
+
+    @Test
     void toLink() {
         assertEquals(element, testSubject.toLink().getWrappedElement());
     }
@@ -458,11 +473,6 @@ class MuiComponentsTest {
     @Test
     void toMenu() {
         assertEquals(element, testSubject.toMenu().getWrappedElement());
-    }
-
-    @Test
-    void toAccordion() {
-        assertEquals(element, testSubject.toAccordion().getWrappedElement());
     }
 
     @Test
