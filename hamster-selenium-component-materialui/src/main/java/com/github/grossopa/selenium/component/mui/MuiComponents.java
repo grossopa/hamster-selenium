@@ -519,6 +519,20 @@ public class MuiComponents extends AbstractComponents {
         return create(() -> new MuiAppBar(component, driver, config), () -> new MuiAppBar(component, driver, config));
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiBottomNavigation}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiBottomNavigation-root".</p>
+     *
+     * @return the wrapped {@link MuiBottomNavigation} instance on the given component
+     */
+    public MuiBottomNavigation toBottomNavigation() {
+        return create(() -> new MuiBottomNavigation(component, driver, config),
+                () -> new MuiBottomNavigation(component, driver, config));
+    }
+
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
@@ -548,14 +562,6 @@ public class MuiComponents extends AbstractComponents {
         return new MuiBreadcrumbs(component, driver, config);
     }
 
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiBottomNavigation}.
-     *
-     * @return the wrapped {@link MuiBottomNavigation} instance on the given component
-     */
-    public MuiBottomNavigation toBottomNavigation() {
-        return new MuiBottomNavigation(component, driver, config);
-    }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiTabs}.
