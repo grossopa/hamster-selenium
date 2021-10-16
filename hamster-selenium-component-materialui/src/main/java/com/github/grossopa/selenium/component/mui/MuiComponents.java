@@ -573,6 +573,35 @@ public class MuiComponents extends AbstractComponents {
         return create(() -> new MuiMenu(component, driver, config), () -> new MuiMenu(component, driver, config));
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiPagination}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiPagination-root". it is the top layer of the overlay.</p>
+     *
+     * @return the wrapped {@link MuiPagination} instance on the given component
+     */
+    public MuiPagination toPagination() {
+        return create(() -> new MuiPagination(component, driver, config),
+                () -> new MuiPagination(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiPagination} with customized button locators
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiPagination-root". it is the top layer of the overlay.</p>
+     *
+     * @param locators the customized locators for pagination buttons and index
+     * @return the wrapped {@link MuiPagination} instance on the given component
+     */
+    public MuiPagination toPagination(@Nullable MuiPaginationLocators locators) {
+        return create(() -> new MuiPagination(component, driver, config, locators),
+                () -> new MuiPagination(component, driver, config, locators));
+    }
+
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
@@ -687,25 +716,6 @@ public class MuiComponents extends AbstractComponents {
                         closeOptionsAction),
                 () -> new MuiAutocomplete(component, driver, config, optionLocator, tagLocators, openOptionsAction,
                         closeOptionsAction));
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiPagination}.
-     *
-     * @return the wrapped {@link MuiPagination} instance on the given component
-     */
-    public MuiPagination toPagination() {
-        return new MuiPagination(component, driver, config);
-    }
-
-    /**
-     * Wraps the current {@link WebComponent} to {@link MuiPagination} with customized button locators
-     *
-     * @param locators the customized locators for pagination buttons and index
-     * @return the wrapped {@link MuiPagination} instance on the given component
-     */
-    public MuiPagination toPagination(@Nullable MuiPaginationLocators locators) {
-        return new MuiPagination(component, driver, config, locators);
     }
 
     private <T> T create(Supplier<T> v4creatorFunc, Supplier<T> v5creatorFunc) {

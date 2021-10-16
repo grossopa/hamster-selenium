@@ -24,7 +24,9 @@
 
 package com.github.grossopa.selenium.component.mui.v4.lab;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.v4.exception.PaginationNotFoundException;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.locator.By2;
@@ -36,6 +38,8 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.function.Function;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -138,6 +142,11 @@ class MuiPaginationTest {
     }
 
     @Test
+    void versions() {
+        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+    }
+
+    @Test
     void isEnabledTrue() {
         WebElement buttonElement = mock(WebElement.class);
         when(config.isDisabled(argThat(c -> c.getWrappedElement() == buttonElement))).thenReturn(false);
@@ -202,8 +211,17 @@ class MuiPaginationTest {
 
     @Test
     void setPageIndex3() {
-        testSubject.setPageIndex(11);
-        assertEquals(9, testSubject.getCurrentPageIndex());
+        boolean isThrown = false;
+
+        try {
+            testSubject.setPageIndex(11);
+        } catch (PaginationNotFoundException e) {
+            assertEquals("Tried to find index 11 but not found, scanned indices are 1,2,4,5,6,7,9,10", e.getMessage());
+            assertEquals(11, e.getTargetIndex());
+            assertArrayEquals(new Integer[]{1, 2, 4, 5, 6, 7, 9, 10}, e.getScannedIndices().toArray(new Integer[]{}));
+            isThrown = true;
+        }
+        assertTrue(isThrown);
     }
 
     @Test
@@ -224,6 +242,15 @@ class MuiPaginationTest {
 
         testSubject.setPageIndex(2);
         assertEquals(2, testSubject.getCurrentPageIndex());
+    }
+
+    @Test
+    void setPageIndex5() {
+        testSubject.setPageIndex(3);
+        assertEquals(3, testSubject.getCurrentPageIndex());
+
+        testSubject.setPageIndex(1);
+        assertEquals(1, testSubject.getCurrentPageIndex());
     }
 
     @Test

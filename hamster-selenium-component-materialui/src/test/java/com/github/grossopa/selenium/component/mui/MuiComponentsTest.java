@@ -507,6 +507,39 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toPaginationV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toPagination().getWrappedElement());
+        assertEquals(MuiPagination.class, testSubject.toPagination().getClass());
+    }
+
+    @Test
+    void toPaginationV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toPagination().getWrappedElement());
+        assertEquals(MuiPagination.class, testSubject.toPagination().getClass());
+    }
+
+    @Test
+    void toPagination2V4() {
+        MuiPaginationLocators locators = mock(MuiPaginationLocators.class);
+        when(config.getVersion()).thenReturn(V4);
+        assertEquals(element, testSubject.toPagination(locators).getWrappedElement());
+        assertEquals(MuiPagination.class, testSubject.toPagination(locators).getClass());
+        assertEquals(locators, testSubject.toPagination(locators).getLocators());
+    }
+
+    @Test
+    void toPagination2V5() {
+        MuiPaginationLocators locators = mock(MuiPaginationLocators.class);
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toPagination(locators).getWrappedElement());
+        assertEquals(MuiPagination.class, testSubject.toPagination(locators).getClass());
+        assertEquals(locators, testSubject.toPagination(locators).getLocators());
+    }
+
+
+    @Test
     void toTabs() {
         assertEquals(element, testSubject.toTabs().getWrappedElement());
     }
@@ -612,15 +645,5 @@ class MuiComponentsTest {
         assertEquals(closeOptionsAction, autocomplete.getCloseOptionsAction());
     }
 
-    @Test
-    void toPagination() {
-        assertEquals(element, testSubject.toPagination().getWrappedElement());
-    }
 
-    @Test
-    void toPagination2() {
-        MuiPaginationLocators locators = mock(MuiPaginationLocators.class);
-        MuiPagination pagination = testSubject.toPagination(locators);
-        assertEquals(locators, pagination.getLocators());
-    }
 }

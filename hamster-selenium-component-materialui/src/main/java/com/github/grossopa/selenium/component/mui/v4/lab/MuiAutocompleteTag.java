@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.lab;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
@@ -33,8 +34,12 @@ import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nullable;
 
+import java.util.EnumSet;
 import java.util.Objects;
+import java.util.Set;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 /**
@@ -77,6 +82,11 @@ public class MuiAutocompleteTag extends AbstractMuiComponent {
             @Nullable MuiAutocompleteTagLocators locators) {
         super(element, driver, config);
         this.locators = defaultIfNull(locators, MuiAutocompleteTagLocators.chipLocators(config));
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V4, V5);
     }
 
     @Override

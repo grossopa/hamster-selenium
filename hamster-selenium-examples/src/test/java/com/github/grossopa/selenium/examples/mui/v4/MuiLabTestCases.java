@@ -225,6 +225,13 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
         assertEquals(3, pagination.getCurrentPageIndex());
         pagination.setPageIndex(8);
         assertEquals(8, pagination.getCurrentPageIndex());
+        pagination.setPageIndex(7);
+        assertEquals(7, pagination.getCurrentPageIndex());
+        pagination.setPageIndex(9);
+        assertEquals(9, pagination.getCurrentPageIndex());
+        pagination.setPageIndex(8);
+        assertEquals(8, pagination.getCurrentPageIndex());
+
         pagination.nextButton().click();
         pagination.nextButton().click();
         assertEquals(10, pagination.getCurrentPageIndex());

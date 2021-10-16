@@ -24,17 +24,25 @@
 
 package com.github.grossopa.selenium.component.mui.v4.lab;
 
-import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
+import com.github.grossopa.selenium.component.mui.v4.exception.PaginationNotFoundException;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.api.Pagination;
 import com.github.grossopa.selenium.core.locator.By2;
+import com.google.common.collect.Sets;
 import org.openqa.selenium.WebElement;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 /**
@@ -76,6 +84,11 @@ public class MuiPagination extends AbstractMuiComponent implements Pagination<Mu
             MuiPaginationLocators locators) {
         super(element, driver, config);
         this.locators = defaultIfNull(locators, MuiPaginationLocators.createDefault());
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V4, V5);
     }
 
     @Override
@@ -122,35 +135,49 @@ public class MuiPagination extends AbstractMuiComponent implements Pagination<Mu
             return;
         }
 
-        int leftMin = 0;
+        Set<Integer> scannedIndices = Sets.newHashSet();
+
         List<MuiButton> pageButtons = pageButtons();
-        for (int i = 0; i < pageButtons.size(); i++) {
-            MuiButton pageButton = pageButtons.get(i);
-            int pageIndex = locators.getPageIndexFinder().apply(pageButton);
-            if (i == 1) {
-                leftMin = pageIndex;
-            }
-            if (index == pageIndex) {
-                pageButton.click();
-                return;
-            }
+        int firstIndex = locators.getPageIndexFinder().apply(pageButtons.get(0));
+        scannedIndices.add(firstIndex);
+        if (firstIndex == index) {
+            pageButtons.get(0).click();
+            return;
         }
 
-        // the target index in hidden list
-        int lastEdgeButtonIndex = -1;
+        int lastIndex = locators.getPageIndexFinder().apply(pageButtons.get(pageButtons.size() - 1));
+        scannedIndices.add(lastIndex);
+        if (lastIndex == index) {
+            pageButtons.get(pageButtons.size() - 1).click();
+            return;
+        }
+
+        int lastMinIndex = -1;
+        int lastMaxIndex = -1;
+
         while (true) {
-            int targetIndex = index < leftMin ? 1 : pageButtons.size() - 2;
-            MuiButton button = pageButtons.get(targetIndex);
-            int edgeButtonIndex = locators.getPageIndexFinder().apply(button);
-            if (lastEdgeButtonIndex == edgeButtonIndex) {
-                break;
+            int minIndex = locators.getPageIndexFinder().apply(pageButtons.get(1));
+            int maxIndex = locators.getPageIndexFinder().apply(pageButtons.get(pageButtons.size() - 2));
+            scannedIndices.add(minIndex);
+            scannedIndices.add(maxIndex);
+
+            if (minIndex == lastMinIndex && maxIndex == lastMaxIndex) {
+                throw new PaginationNotFoundException(index, scannedIndices.stream().sorted().collect(toList()));
             }
-            button.click();
-            if (edgeButtonIndex == index) {
-                break;
+
+            if (index < minIndex) {
+                pageButtons.get(1).click();
+                pageButtons = pageButtons();
+            } else if (index > maxIndex) {
+                pageButtons.get(pageButtons.size() - 2).click();
+                pageButtons = pageButtons();
+            } else {
+                pageButtons.get(index - minIndex + 1).click();
+                return;
             }
-            lastEdgeButtonIndex = edgeButtonIndex;
-            pageButtons = pageButtons();
+
+            lastMinIndex = minIndex;
+            lastMaxIndex = maxIndex;
         }
     }
 

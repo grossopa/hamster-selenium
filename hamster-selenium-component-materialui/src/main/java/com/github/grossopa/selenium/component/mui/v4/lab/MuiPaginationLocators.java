@@ -26,6 +26,7 @@ package com.github.grossopa.selenium.component.mui.v4.lab;
 
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.core.locator.By2;
+import org.openqa.selenium.By;
 
 import java.util.List;
 import java.util.function.Function;
@@ -77,7 +78,7 @@ public class MuiPaginationLocators {
      * The default page buttons finder function
      */
     public static final Function<MuiPagination, List<MuiButton>> DEFAULT_PAGE_BUTTONS = pagination -> pagination
-            .findComponentsAs(By2.attrContains(ARIA_LABEL, "Go to page"),
+            .findComponentsAs(By.xpath(".//button[contains(@aria-label,'Go to page') or @aria-current='true']"),
                     c -> new MuiButton(c, pagination.driver(), pagination.config()));
 
     /**

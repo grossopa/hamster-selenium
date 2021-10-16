@@ -31,6 +31,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -177,10 +178,12 @@ class MuiPaginationLocatorsTest {
 
     @Test
     void testDefaultPageButtons() {
-        when(pagination.findComponentsAs(eq(By2.attrContains("aria-label", "Go to page")), any())).then(answer -> {
-            Function<WebComponent, MuiButton> arg2 = answer.getArgument(1);
-            return singletonList(arg2.apply(lastButtonComponent));
-        });
+        when(pagination.findComponentsAs(
+                eq(By.xpath(".//button[contains(@aria-label,'Go to page') or @aria-current='true']")), any())).then(
+                answer -> {
+                    Function<WebComponent, MuiButton> arg2 = answer.getArgument(1);
+                    return singletonList(arg2.apply(lastButtonComponent));
+                });
 
         assertEquals(lastButtonElement,
                 MuiPaginationLocators.DEFAULT_PAGE_BUTTONS.apply(pagination).get(0).getWrappedElement());
