@@ -22,87 +22,20 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.inputs;
+package com.github.grossopa.selenium.core.component.api;
 
-import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.core.component.api.Slider;
-import com.github.grossopa.selenium.core.component.util.WebComponentUtils;
-import org.apache.commons.math3.util.Precision;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.Rectangle;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import com.github.grossopa.selenium.core.component.WebComponent;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.function.DoubleConsumer;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
-
-import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 /**
- * A MUI Slider wrapper.
+ * Sliders allow users to make selections from a range of values.
  *
+ * @param <T> the thumb type
  * @author Jack Yin
- * @see <a href="https://material-ui.com/components/slider/">
- * https://material-ui.com/components/slider/</a>
- * @since 1.0
+ * @since 1.7
  */
-public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderThumb> {
-
-    /**
-     * the component name
-     */
-    public static final String COMPONENT_NAME = "Slider";
-
-    public static final UnaryOperator<Double> DEFAULT_INVERSE_SCALE_FUNCTION = x -> x;
-
-    private final UnaryOperator<Double> inverseScaleFunction;
-
-    /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     */
-    public MuiSlider(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        this(element, driver, config, DEFAULT_INVERSE_SCALE_FUNCTION);
-    }
-
-    /**
-     * Constructs an instance with the delegated element, root driver and customized scale function.
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     * @param inverseScaleFunction the INVERSE function of the original scale function
-     */
-    public MuiSlider(WebElement element, ComponentWebDriver driver, MuiConfig config,
-            UnaryOperator<Double> inverseScaleFunction) {
-        super(element, driver, config);
-        requireNonNull(inverseScaleFunction);
-        this.inverseScaleFunction = inverseScaleFunction;
-    }
-
-    @Override
-    public String getComponentName() {
-        return COMPONENT_NAME;
-    }
-
-
-    /**
-     * Gets the inverse scale function
-     *
-     * @return the inverse scale function
-     */
-    public Function<Double, Double> getInverseScaleFunction() {
-        return inverseScaleFunction;
-    }
+public interface Slider<T extends WebComponent> {
 
     /**
      * Gets the raw value.
@@ -112,10 +45,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the raw value in String.
      */
-    @Override
-    public String getValue() {
-        return getFirstThumb().getValue();
-    }
+    String getValue();
 
     /**
      * Gets value in Integer.
@@ -125,10 +55,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the value in Integer.
      */
-    @Override
-    public Integer getValueInteger() {
-        return Double.valueOf(getValue()).intValue();
-    }
+    Integer getValueInteger();
 
     /**
      * Gets value in Long.
@@ -138,10 +65,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the value in Long
      */
-    @Override
-    public Long getValueLong() {
-        return Double.valueOf(getValue()).longValue();
-    }
+    Long getValueLong();
 
     /**
      * Gets value in Double.
@@ -151,10 +75,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the value in double
      */
-    @Override
-    public Double getValueDouble() {
-        return Double.valueOf(getValue());
-    }
+    Double getValueDouble();
 
     /**
      * Gets raw min value.
@@ -164,10 +85,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the raw min value.
      */
-    @Override
-    public String getMinValue() {
-        return getFirstThumb().getMinValue();
-    }
+    String getMinValue();
 
     /**
      * Gets min value in Integer.
@@ -177,10 +95,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the min value in Integer.
      */
-    @Override
-    public Integer getMinValueInteger() {
-        return Double.valueOf(getMinValue()).intValue();
-    }
+    Integer getMinValueInteger();
 
     /**
      * Gets min value in Long.
@@ -190,10 +105,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the min value in Long
      */
-    @Override
-    public Long getMinValueLong() {
-        return Double.valueOf(getMinValue()).longValue();
-    }
+    Long getMinValueLong();
 
     /**
      * Gets min value in Double.
@@ -203,10 +115,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the min value in double
      */
-    @Override
-    public Double getMinValueDouble() {
-        return Double.valueOf(getMinValue());
-    }
+    Double getMinValueDouble();
 
     /**
      * Gets raw max value.
@@ -216,10 +125,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the raw max value.
      */
-    @Override
-    public String getMaxValue() {
-        return getFirstThumb().getMaxValue();
-    }
+    String getMaxValue();
 
     /**
      * Gets max value in Integer.
@@ -229,10 +135,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the max value in Integer.
      */
-    @Override
-    public Integer getMaxValueInteger() {
-        return Double.valueOf(getMaxValue()).intValue();
-    }
+    Integer getMaxValueInteger();
 
     /**
      * Gets max value in Long.
@@ -242,10 +145,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the max value in Long
      */
-    @Override
-    public Long getMaxValueLong() {
-        return Double.valueOf(getMaxValue()).longValue();
-    }
+    Long getMaxValueLong();
 
     /**
      * Gets max value in Double.
@@ -255,51 +155,35 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @return the max value in double
      */
-    @Override
-    public Double getMaxValueDouble() {
-        return Double.valueOf(getMaxValue());
-    }
+    Double getMaxValueDouble();
 
     /**
      * Gets the first Thumb element.
      *
      * @return the first Thumb element.
      */
-    @Override
-    public MuiSliderThumb getFirstThumb() {
-        return createSliderThumb(findComponent(config.sliderThumbLocator()));
-    }
+    T getFirstThumb();
 
     /**
      * Gets the all Thumb elements. they are sorted by the value in ascending order.
      *
      * @return the all Thumb elements.
      */
-    @Override
-    public List<MuiSliderThumb> getAllThumbs() {
-        return element.findElements(config.sliderThumbLocator()).stream().map(this::createSliderThumb)
-                .collect(toList());
-    }
+    List<T> getAllThumbs();
 
     /**
      * Is the slider vertical.
      *
-     * @return true if the slider has orientation="vertical" specified.
+     * @return true if the slider is vertical
      */
-    @Override
-    public boolean isVertical() {
-        return WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "Slider-vertical");
-    }
+    boolean isVertical();
 
     /**
      * Is the slider tracker inverted.
      *
-     * @return true if the slide has track="inverted" specified.
+     * @return true if the slide is inverted
      */
-    @Override
-    public boolean isInverted() {
-        return WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "Slider-trackInverted");
-    }
+    boolean isInverted();
 
     /**
      * Move the first thumb to the specified value in Integer.
@@ -323,10 +207,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @param value the new integer value to set
      * @see #moveThumb(double)
      */
-    @Override
-    public void setValue(Integer value) {
-        setValue(value.doubleValue());
-    }
+    void setValue(Integer value);
 
     /**
      * Move the target thumb to the specified value in Integer. Note the MUI thumb is always ordered by value in
@@ -352,10 +233,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @param value the new integer value to set
      * @see #moveThumb(double)
      */
-    @Override
-    public void setValue(int index, Integer value) {
-        setValue(index, value.doubleValue());
-    }
+    void setValue(int index, Integer value);
 
     /**
      * Move the target thumb to the specified value in Integer.
@@ -380,10 +258,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @param value the new double value to set
      * @see #moveThumb(double)
      */
-    @Override
-    public void setValue(MuiSliderThumb thumb, Integer value) {
-        setValue(thumb, value.doubleValue());
-    }
+    void setValue(T thumb, Integer value);
 
     /**
      * Move the first thumb by value.
@@ -407,10 +282,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @param value the new long value to set
      * @see #moveThumb(double)
      */
-    @Override
-    public void setValue(Long value) {
-        setValue(value.doubleValue());
-    }
+    void setValue(Long value);
 
     /**
      * Move the target thumb to the specified value in long. Note the MUI thumb is always ordered by value in ascending
@@ -436,10 +308,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @param value the new integer value to set
      * @see #moveThumb(double)
      */
-    @Override
-    public void setValue(int index, Long value) {
-        setValue(index, value.doubleValue());
-    }
+    void setValue(int index, Long value);
 
     /**
      * Move the target thumb to the specified value in long.
@@ -464,10 +333,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @param value the new double value to set
      * @see #moveThumb(double)
      */
-    @Override
-    public void setValue(MuiSliderThumb thumb, Long value) {
-        setValue(thumb, value.doubleValue());
-    }
+    void setValue(T thumb, Long value);
 
     /**
      * Move the first thumb to the specified value in double.
@@ -491,10 +357,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @param value the new double value to set
      * @see #moveThumb(double)
      */
-    @Override
-    public void setValue(Double value) {
-        doSetValue(value, this::moveThumb);
-    }
+    void setValue(Double value);
 
     /**
      * Move the target thumb to the specified value in double. Note the MUI thumb is always ordered by value in
@@ -520,10 +383,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @param value the new double value to set
      * @see #moveThumb(double)
      */
-    @Override
-    public void setValue(int index, Double value) {
-        doSetValue(value, percentage -> moveThumb(index, percentage));
-    }
+    void setValue(int index, Double value);
 
     /**
      * Move the target thumb to the specified value in double.
@@ -548,22 +408,8 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @param value the new double value to set
      * @see #moveThumb(double)
      */
-    @Override
-    public void setValue(MuiSliderThumb thumb, Double value) {
-        doSetValue(value, percentage -> moveThumb(thumb, percentage));
-    }
+    void setValue(T thumb, Double value);
 
-    private void doSetValue(Double value, DoubleConsumer moveThumbAction) {
-        Double val = inverseScaleFunction.apply(value);
-        Double maxValue = inverseScaleFunction.apply(getMaxValueDouble());
-        Double minValue = inverseScaleFunction.apply(getMinValueDouble());
-        if (Precision.compareTo(val, maxValue, 0.0001d) == 1 || Precision.compareTo(val, minValue, 0.0001d) == -1) {
-            throw new IllegalArgumentException(
-                    String.format("value %.2f is not in the range of %.2f, %.2f", val, minValue, maxValue));
-        }
-
-        moveThumbAction.accept((val - minValue) / (maxValue - minValue));
-    }
 
     /**
      * Moves the first thumb to the desired location in percentage.
@@ -582,10 +428,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      *
      * @param percentage the percentage to move to, must between [0.0, 1.0]
      */
-    @Override
-    public void moveThumb(double percentage) {
-        moveThumb(getFirstThumb(), percentage);
-    }
+    void moveThumb(double percentage);
 
     /**
      * Moves the thumb to the desired location in percentage.
@@ -605,10 +448,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @param index the index of the thumbs
      * @param percentage the percentage to move to, must between [0.0, 1.0]
      */
-    @Override
-    public void moveThumb(int index, double percentage) {
-        moveThumb(getAllThumbs().get(index), percentage);
-    }
+    void moveThumb(int index, double percentage);
 
     /**
      * Moves the thumb to the desired location in percentage.
@@ -628,64 +468,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @param thumb the thumb component to move
      * @param percentage the percentage to move to, must between [0.0, 1.0]
      */
-    @Override
     @SuppressWarnings("squid:S2184")
-    public void moveThumb(MuiSliderThumb thumb, double percentage) {
-        if (Precision.compareTo(percentage, 1, 0.0001d) == 1 || Precision.compareTo(percentage, 0, 0.0001d) == -1) {
-            throw new IllegalArgumentException("Percentage must be in range of [0.0, 1.0]");
-        }
-        Rectangle rect = element.getRect();
-        boolean vertical = isVertical();
-        double start;
-        double end;
-        if (vertical) {
-            start = rect.y + rect.height;
-            end = rect.y;
-        } else {
-            start = rect.x;
-            end = rect.x + rect.width;
-        }
+    void moveThumb(T thumb, double percentage);
 
-        Point thumbCenter = WebComponentUtils.getCenter(thumb.getRect());
-        Actions actions = driver.createActions();
-        int target = (int) Math.round(start + (end - start) * percentage);
-
-        if (vertical) {
-            actions.moveToElement(element).clickAndHold(thumb).moveByOffset(0, target - thumbCenter.y).release()
-                    .perform();
-        } else {
-            actions.moveToElement(element).clickAndHold(thumb).moveByOffset(target - thumbCenter.x, 0).release()
-                    .perform();
-        }
-    }
-
-    protected MuiSliderThumb createSliderThumb(WebElement thumbElement) {
-        return new MuiSliderThumb(thumbElement, driver, config);
-    }
-
-    @Override
-    @SuppressWarnings("java:S6212")
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof MuiSlider)) {
-            return false;
-        }
-        if (!super.equals(o)) {
-            return false;
-        }
-        MuiSlider muiSlider = (MuiSlider) o;
-        return inverseScaleFunction.equals(muiSlider.inverseScaleFunction);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), inverseScaleFunction);
-    }
-
-    @Override
-    public String toString() {
-        return "MuiSlider{" + "inverseScaleFunction=" + inverseScaleFunction + ", element=" + element + '}';
-    }
 }

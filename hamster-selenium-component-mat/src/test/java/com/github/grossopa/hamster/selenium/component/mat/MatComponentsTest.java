@@ -172,6 +172,11 @@ class MatComponentsTest {
     }
 
     @Test
+    void toSlider() {
+        assertEquals(element, testSubject.toSlider().getWrappedElement());
+    }
+
+    @Test
     void toSlideToggle() {
         assertEquals(element, testSubject.toSlideToggle().getWrappedElement());
     }

@@ -272,6 +272,15 @@ public class MatComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the given element to {@link MatSlider}.
+     *
+     * @return the {@link MatSlider} instance
+     */
+    public MatSlider toSlider() {
+        return new MatSlider(component, driver, config);
+    }
+
+    /**
      * Wraps the given element to {@link MatSlideToggle}.
      *
      * @return the {@link MatSlideToggle} instance

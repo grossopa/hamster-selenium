@@ -25,6 +25,7 @@
 package com.github.grossopa.hamster.selenium.component.mat.config;
 
 import com.github.grossopa.selenium.core.component.ComponentConfig;
+import com.github.grossopa.selenium.core.component.WebComponent;
 
 import java.util.Objects;
 
@@ -156,6 +157,12 @@ public class MatConfig implements ComponentConfig {
     }
 
     @Override
+    public boolean isDisabled(WebComponent component) {
+        return ComponentConfig.super.isDisabled(component) || "true".equalsIgnoreCase(
+                component.getAttribute("aria-disabled"));
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -164,8 +171,8 @@ public class MatConfig implements ComponentConfig {
             return false;
         }
         MatConfig matConfig = (MatConfig) o;
-        return tagPrefix.equals(matConfig.tagPrefix) && cssPrefix.equals(matConfig.cssPrefix) && cdkPrefix
-                .equals(matConfig.cdkPrefix) && overlayAbsolutePath.equals(matConfig.overlayAbsolutePath);
+        return tagPrefix.equals(matConfig.tagPrefix) && cssPrefix.equals(matConfig.cssPrefix) && cdkPrefix.equals(
+                matConfig.cdkPrefix) && overlayAbsolutePath.equals(matConfig.overlayAbsolutePath);
     }
 
     @Override

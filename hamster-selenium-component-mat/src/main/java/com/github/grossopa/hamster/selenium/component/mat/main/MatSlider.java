@@ -22,86 +22,65 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.inputs;
+package com.github.grossopa.hamster.selenium.component.mat.main;
 
-import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
+import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
+import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.api.Slider;
 import com.github.grossopa.selenium.core.component.util.WebComponentUtils;
 import org.apache.commons.math3.util.Precision;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.DoubleConsumer;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
-import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static java.util.Collections.singletonList;
 
 /**
- * A MUI Slider wrapper.
+ * {@code <mat-slider>} allows for the selection of a value from a range via mouse, touch, or keyboard, similar to
+ * {@code <input type="range">}.
  *
  * @author Jack Yin
- * @see <a href="https://material-ui.com/components/slider/">
- * https://material-ui.com/components/slider/</a>
- * @since 1.0
+ * @since 1.7
  */
-public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderThumb> {
+public class MatSlider extends AbstractMatComponent implements Slider<WebComponent> {
 
     /**
-     * the component name
+     * The component name
      */
     public static final String COMPONENT_NAME = "Slider";
-
-    public static final UnaryOperator<Double> DEFAULT_INVERSE_SCALE_FUNCTION = x -> x;
-
-    private final UnaryOperator<Double> inverseScaleFunction;
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
      * @param driver the root driver
-     * @param config the Material UI configuration
+     * @param config the Material UI Angular configuration
      */
-    public MuiSlider(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        this(element, driver, config, DEFAULT_INVERSE_SCALE_FUNCTION);
+    public MatSlider(WebElement element, ComponentWebDriver driver, MatConfig config) {
+        super(element, driver, config);
     }
 
     /**
-     * Constructs an instance with the delegated element, root driver and customized scale function.
+     * Returns the component name.
      *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     * @param inverseScaleFunction the INVERSE function of the original scale function
+     * @return the component name
      */
-    public MuiSlider(WebElement element, ComponentWebDriver driver, MuiConfig config,
-            UnaryOperator<Double> inverseScaleFunction) {
-        super(element, driver, config);
-        requireNonNull(inverseScaleFunction);
-        this.inverseScaleFunction = inverseScaleFunction;
-    }
-
     @Override
     public String getComponentName() {
         return COMPONENT_NAME;
     }
 
-
-    /**
-     * Gets the inverse scale function
-     *
-     * @return the inverse scale function
-     */
-    public Function<Double, Double> getInverseScaleFunction() {
-        return inverseScaleFunction;
+    @Override
+    public boolean validate() {
+        return this.attributeContains(CLASS, config.getCssPrefix() + "slider");
     }
 
     /**
@@ -114,7 +93,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      */
     @Override
     public String getValue() {
-        return getFirstThumb().getValue();
+        return getAttribute("aria-valuenow");
     }
 
     /**
@@ -127,7 +106,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      */
     @Override
     public Integer getValueInteger() {
-        return Double.valueOf(getValue()).intValue();
+        return getValueDouble().intValue();
     }
 
     /**
@@ -140,7 +119,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      */
     @Override
     public Long getValueLong() {
-        return Double.valueOf(getValue()).longValue();
+        return getValueDouble().longValue();
     }
 
     /**
@@ -166,7 +145,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      */
     @Override
     public String getMinValue() {
-        return getFirstThumb().getMinValue();
+        return getAttribute("aria-valuemin");
     }
 
     /**
@@ -179,7 +158,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      */
     @Override
     public Integer getMinValueInteger() {
-        return Double.valueOf(getMinValue()).intValue();
+        return getMinValueDouble().intValue();
     }
 
     /**
@@ -192,7 +171,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      */
     @Override
     public Long getMinValueLong() {
-        return Double.valueOf(getMinValue()).longValue();
+        return getMinValueDouble().longValue();
     }
 
     /**
@@ -218,7 +197,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      */
     @Override
     public String getMaxValue() {
-        return getFirstThumb().getMaxValue();
+        return getAttribute("aria-valuemax");
     }
 
     /**
@@ -231,7 +210,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      */
     @Override
     public Integer getMaxValueInteger() {
-        return Double.valueOf(getMaxValue()).intValue();
+        return getMaxValueDouble().intValue();
     }
 
     /**
@@ -244,7 +223,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      */
     @Override
     public Long getMaxValueLong() {
-        return Double.valueOf(getMaxValue()).longValue();
+        return getMaxValueDouble().longValue();
     }
 
     /**
@@ -266,8 +245,8 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @return the first Thumb element.
      */
     @Override
-    public MuiSliderThumb getFirstThumb() {
-        return createSliderThumb(findComponent(config.sliderThumbLocator()));
+    public WebComponent getFirstThumb() {
+        return this.findComponent(By.className(config.getCssPrefix() + "slider-thumb"));
     }
 
     /**
@@ -276,29 +255,28 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @return the all Thumb elements.
      */
     @Override
-    public List<MuiSliderThumb> getAllThumbs() {
-        return element.findElements(config.sliderThumbLocator()).stream().map(this::createSliderThumb)
-                .collect(toList());
+    public List<WebComponent> getAllThumbs() {
+        return singletonList(getFirstThumb());
     }
 
     /**
      * Is the slider vertical.
      *
-     * @return true if the slider has orientation="vertical" specified.
+     * @return true if the slider is vertical
      */
     @Override
     public boolean isVertical() {
-        return WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "Slider-vertical");
+        return attributeContains(CLASS, config.getCssPrefix() + "slider-vertical");
     }
 
     /**
      * Is the slider tracker inverted.
      *
-     * @return true if the slide has track="inverted" specified.
+     * @return true if the slide is inverted
      */
     @Override
     public boolean isInverted() {
-        return WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "Slider-trackInverted");
+        return attributeContains(CLASS, config.getCssPrefix() + "slider-axis-inverted");
     }
 
     /**
@@ -381,7 +359,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @see #moveThumb(double)
      */
     @Override
-    public void setValue(MuiSliderThumb thumb, Integer value) {
+    public void setValue(WebComponent thumb, Integer value) {
         setValue(thumb, value.doubleValue());
     }
 
@@ -465,7 +443,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @see #moveThumb(double)
      */
     @Override
-    public void setValue(MuiSliderThumb thumb, Long value) {
+    public void setValue(WebComponent thumb, Long value) {
         setValue(thumb, value.doubleValue());
     }
 
@@ -549,20 +527,8 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * @see #moveThumb(double)
      */
     @Override
-    public void setValue(MuiSliderThumb thumb, Double value) {
+    public void setValue(WebComponent thumb, Double value) {
         doSetValue(value, percentage -> moveThumb(thumb, percentage));
-    }
-
-    private void doSetValue(Double value, DoubleConsumer moveThumbAction) {
-        Double val = inverseScaleFunction.apply(value);
-        Double maxValue = inverseScaleFunction.apply(getMaxValueDouble());
-        Double minValue = inverseScaleFunction.apply(getMinValueDouble());
-        if (Precision.compareTo(val, maxValue, 0.0001d) == 1 || Precision.compareTo(val, minValue, 0.0001d) == -1) {
-            throw new IllegalArgumentException(
-                    String.format("value %.2f is not in the range of %.2f, %.2f", val, minValue, maxValue));
-        }
-
-        moveThumbAction.accept((val - minValue) / (maxValue - minValue));
     }
 
     /**
@@ -610,6 +576,17 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
         moveThumb(getAllThumbs().get(index), percentage);
     }
 
+    private void doSetValue(Double value, DoubleConsumer moveThumbAction) {
+        Double maxValue = getMaxValueDouble();
+        Double minValue = getMinValueDouble();
+        if (Precision.compareTo(value, maxValue, 0.0001d) == 1 || Precision.compareTo(value, minValue, 0.0001d) == -1) {
+            throw new IllegalArgumentException(
+                    String.format("value %.2f is not in the range of %.2f, %.2f", value, minValue, maxValue));
+        }
+
+        moveThumbAction.accept((value - minValue) / (maxValue - minValue));
+    }
+
     /**
      * Moves the thumb to the desired location in percentage.
      *
@@ -624,18 +601,20 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      * so it is not possible to accurately move the thumb to a position like 55.5% for value 555 as the only possible
      * locations are 55px and 56px for 550 and 560.
      * </p>
+     *  @param thumb the thumb component to move
      *
-     * @param thumb the thumb component to move
      * @param percentage the percentage to move to, must between [0.0, 1.0]
      */
     @Override
-    @SuppressWarnings("squid:S2184")
-    public void moveThumb(MuiSliderThumb thumb, double percentage) {
+    @SuppressWarnings("java:S2184")
+    public void moveThumb(WebComponent thumb, double percentage) {
         if (Precision.compareTo(percentage, 1, 0.0001d) == 1 || Precision.compareTo(percentage, 0, 0.0001d) == -1) {
             throw new IllegalArgumentException("Percentage must be in range of [0.0, 1.0]");
         }
-        Rectangle rect = element.getRect();
+        Rectangle rect = element.findElement(By.className(config.getCssPrefix() + "slider-wrapper")).getRect();
+
         boolean vertical = isVertical();
+        boolean inverted = isInverted();
         double start;
         double end;
         if (vertical) {
@@ -646,10 +625,12 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
             end = rect.x + rect.width;
         }
 
+        if (vertical != inverted) {
+            percentage = 1 - percentage;
+        }
         Point thumbCenter = WebComponentUtils.getCenter(thumb.getRect());
         Actions actions = driver.createActions();
-        int target = (int) Math.round(start + (end - start) * percentage);
-
+        int target = (int) Math.ceil(start + (end - start) * percentage);
         if (vertical) {
             actions.moveToElement(element).clickAndHold(thumb).moveByOffset(0, target - thumbCenter.y).release()
                     .perform();
@@ -659,33 +640,8 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
         }
     }
 
-    protected MuiSliderThumb createSliderThumb(WebElement thumbElement) {
-        return new MuiSliderThumb(thumbElement, driver, config);
-    }
-
-    @Override
-    @SuppressWarnings("java:S6212")
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof MuiSlider)) {
-            return false;
-        }
-        if (!super.equals(o)) {
-            return false;
-        }
-        MuiSlider muiSlider = (MuiSlider) o;
-        return inverseScaleFunction.equals(muiSlider.inverseScaleFunction);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), inverseScaleFunction);
-    }
-
     @Override
     public String toString() {
-        return "MuiSlider{" + "inverseScaleFunction=" + inverseScaleFunction + ", element=" + element + '}';
+        return "MatSlider{" + "element=" + element + '}';
     }
 }

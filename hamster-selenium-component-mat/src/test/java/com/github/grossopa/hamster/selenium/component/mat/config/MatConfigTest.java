@@ -25,10 +25,14 @@
 package com.github.grossopa.hamster.selenium.component.mat.config;
 
 import com.github.grossopa.hamster.selenium.core.util.SimpleEqualsTester;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link MatConfig}
@@ -124,5 +128,45 @@ class MatConfigTest {
     @Test
     void getIsDisabledCss() {
         assertEquals("mat-disabled", testSubject.getIsDisabledCss());
+    }
+
+    @Test
+    void isDisabled1() {
+        WebComponent component = mock(WebComponent.class);
+        WebElement element = mock(WebElement.class);
+        when(component.getWrappedElement()).thenReturn(element);
+        when(element.isEnabled()).thenReturn(false);
+        assertTrue(testSubject.isDisabled(component));
+    }
+
+    @Test
+    void isDisabled2() {
+        WebComponent component = mock(WebComponent.class);
+        WebElement element = mock(WebElement.class);
+        when(component.getWrappedElement()).thenReturn(element);
+        when(element.isEnabled()).thenReturn(true);
+        when(component.getAttribute("class")).thenReturn("mat-disabled");
+        assertTrue(testSubject.isDisabled(component));
+    }
+
+    @Test
+    void isDisabled3() {
+        WebComponent component = mock(WebComponent.class);
+        WebElement element = mock(WebElement.class);
+        when(component.getWrappedElement()).thenReturn(element);
+        when(element.isEnabled()).thenReturn(true);
+        when(component.getAttribute("class")).thenReturn("");
+        when(component.getAttribute("aria-disabled")).thenReturn("true");
+        assertTrue(testSubject.isDisabled(component));
+    }
+
+    @Test
+    void isDisabled4() {
+        WebComponent component = mock(WebComponent.class);
+        WebElement element = mock(WebElement.class);
+        when(component.getWrappedElement()).thenReturn(element);
+        when(element.isEnabled()).thenReturn(true);
+        when(component.getAttribute("class")).thenReturn("");
+        assertFalse(testSubject.isDisabled(component));
     }
 }
