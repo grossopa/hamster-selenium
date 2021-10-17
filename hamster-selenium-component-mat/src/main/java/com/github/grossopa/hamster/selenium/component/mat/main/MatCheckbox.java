@@ -31,7 +31,8 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+
 
 /**
  * &lt;mat-checkbox&gt; provides the same functionality as a native &lt;input type="checkbox"&gt;  enhanced with
@@ -67,7 +68,7 @@ public class MatCheckbox extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(ATTR_CLASS, config.getCssPrefix() + "checkbox");
+        return attributeContains(CLASS, config.getCssPrefix() + "checkbox");
     }
 
     @Override
@@ -77,7 +78,7 @@ public class MatCheckbox extends AbstractMatComponent {
 
     @Override
     public boolean isEnabled() {
-        return !attributeContains(ATTR_CLASS, config.getCssPrefix() + "checkbox-disabled");
+        return !attributeContains(CLASS, config.getCssPrefix() + "checkbox-disabled");
     }
 
     /**

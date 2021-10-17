@@ -24,8 +24,6 @@
 
 package com.github.grossopa.selenium.core.driver;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.openqa.selenium.Capabilities;
 
 /**
@@ -34,9 +32,36 @@ import org.openqa.selenium.Capabilities;
  * @author Jack Yin
  * @since 1.0
  */
-@Getter
-@AllArgsConstructor
 public class RunningServiceParams {
     private final Capabilities options;
     private final String url;
+
+    /**
+     * Constructs an instance with options an url.
+     *
+     * @param options the options of the web driver service
+     * @param url the target url of the running web driver service
+     */
+    public RunningServiceParams(Capabilities options, String url) {
+        this.options = options;
+        this.url = url;
+    }
+
+    /**
+     * Gets the options.
+     *
+     * @return the options
+     */
+    public Capabilities getOptions() {
+        return options;
+    }
+
+    /**
+     * Gets the url of the running web driver service.
+     *
+     * @return the url of the running web driver service.
+     */
+    public String getUrl() {
+        return url;
+    }
 }

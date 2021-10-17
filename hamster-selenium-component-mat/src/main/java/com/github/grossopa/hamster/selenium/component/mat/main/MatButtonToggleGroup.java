@@ -31,7 +31,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 
 /**
@@ -67,7 +67,7 @@ public class MatButtonToggleGroup extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "button-toggle-group");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "button-toggle-group");
     }
 
     /**
@@ -76,7 +76,7 @@ public class MatButtonToggleGroup extends AbstractMatComponent {
      * @return the contained {@link MatButtonToggle} list.
      */
     public List<MatButtonToggle> getButtonToggles() {
-        return this.findComponentsAs(xpathBuilder().relative(config.getTagPrefix() + "button-toggle").attr(ATTR_CLASS)
+        return this.findComponentsAs(xpathBuilder().relative(config.getTagPrefix() + "button-toggle").attr(CLASS)
                         .contains(config.getCssPrefix() + "button-toggle").build(),
                 c -> new MatButtonToggle(c, driver, config));
     }

@@ -28,7 +28,7 @@ import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.DefaultCloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.DefaultOpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
-import com.github.grossopa.selenium.component.mui.inputs.MuiSelect;
+import com.github.grossopa.selenium.component.mui.v4.inputs.MuiSelect;
 import org.apache.commons.lang3.builder.Builder;
 import org.openqa.selenium.By;
 

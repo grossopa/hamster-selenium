@@ -261,4 +261,40 @@ public class MatComponents extends AbstractComponents {
     public MatMenuItem toMenuItem() {
         return new MatMenuItem(component, driver, config);
     }
+
+    /**
+     * Wraps the given element to {@link MatProgressBar}.
+     *
+     * @return the {@link MatProgressBar} instance
+     */
+    public MatProgressBar toProgressBar() {
+        return new MatProgressBar(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatSlider}.
+     *
+     * @return the {@link MatSlider} instance
+     */
+    public MatSlider toSlider() {
+        return new MatSlider(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatSlideToggle}.
+     *
+     * @return the {@link MatSlideToggle} instance
+     */
+    public MatSlideToggle toSlideToggle() {
+        return new MatSlideToggle(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatSnackbar}.
+     *
+     * @return the {@link MatSnackbar} instance
+     */
+    public MatSnackbar toSnackbar() {
+        return new MatSnackbar(component, driver, config);
+    }
 }

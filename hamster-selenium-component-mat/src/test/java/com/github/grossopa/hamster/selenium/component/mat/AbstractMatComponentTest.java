@@ -31,8 +31,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link AbstractMatComponent}
@@ -50,6 +51,8 @@ class AbstractMatComponentTest {
 
     @BeforeEach
     void setUp() {
+        when(config.getCssPrefix()).thenReturn("some-");
+
         testSubject = new AbstractMatComponent(element, driver, config) {
             @Override
             public String getComponentName() {
@@ -96,5 +99,29 @@ class AbstractMatComponentTest {
                 return "TEST";
             }
         };
+    }
+
+    @Test
+    void isSelected() {
+        when(config.isChecked(testSubject)).thenReturn(true);
+        assertTrue(testSubject.isSelected());
+    }
+
+    @Test
+    void isSelectedFalse() {
+        when(config.isChecked(testSubject)).thenReturn(false);
+        assertFalse(testSubject.isSelected());
+    }
+
+    @Test
+    void isEnabled() {
+        when(config.isDisabled(testSubject)).thenReturn(false);
+        assertTrue(testSubject.isEnabled());
+    }
+
+    @Test
+    void isEnabledTrue() {
+        when(config.isDisabled(testSubject)).thenReturn(true);
+        assertFalse(testSubject.isEnabled());
     }
 }

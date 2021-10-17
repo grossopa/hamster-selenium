@@ -31,7 +31,7 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 
 /**
@@ -68,7 +68,7 @@ public class MatBadge extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "badge");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "badge");
     }
 
     /**
@@ -78,7 +78,7 @@ public class MatBadge extends AbstractMatComponent {
      */
     public MatBadgeContent getBadgeContent() {
         WebComponent component = this.findComponent(
-                xpathBuilder().relative().attr(ATTR_CLASS).contains(config.getCssPrefix() + "badge-content").build());
+                xpathBuilder().relative().attr(CLASS).contains(config.getCssPrefix() + "badge-content").build());
         return new MatBadgeContent(component, driver, config);
     }
 

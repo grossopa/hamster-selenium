@@ -24,8 +24,6 @@
 
 package com.github.grossopa.selenium.core.driver;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.service.DriverService;
 
@@ -35,9 +33,36 @@ import org.openqa.selenium.remote.service.DriverService;
  * @author Jack Yin
  * @since 1.0
  */
-@Getter
-@AllArgsConstructor
 public class CreateWebDriverParams {
     private final Capabilities options;
     private final DriverService driverService;
+
+    /**
+     * Constructs an instance with options and given driver service
+     *
+     * @param options the options
+     * @param driverService the driver service
+     */
+    public CreateWebDriverParams(Capabilities options, DriverService driverService) {
+        this.options = options;
+        this.driverService = driverService;
+    }
+
+    /**
+     * Gets the options
+     *
+     * @return the options
+     */
+    public Capabilities getOptions() {
+        return options;
+    }
+
+    /**
+     * Gets the driver service
+     *
+     * @return the driver service
+     */
+    public DriverService getDriverService() {
+        return driverService;
+    }
 }

@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static org.openqa.selenium.Keys.ESCAPE;
 
 /**
@@ -72,7 +72,7 @@ public class MatMenu extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "menu-panel");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "menu-panel");
     }
 
     /**

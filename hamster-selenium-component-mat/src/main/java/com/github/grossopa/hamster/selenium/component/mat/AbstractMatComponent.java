@@ -62,6 +62,16 @@ public abstract class AbstractMatComponent extends DefaultWebComponent implement
         return config;
     }
 
+    @Override
+    public boolean isSelected() {
+        return config.isChecked(this);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return !config.isDisabled(this);
+    }
+
     /**
      * Returns the component name.
      *

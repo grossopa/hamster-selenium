@@ -29,7 +29,7 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 
 /**
  * The overlay container that contains the displayed overlay in the front of other components.
@@ -62,7 +62,7 @@ public class MatOverlayContainer extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCdkPrefix() + "overlay-container");
+        return this.attributeContains(CLASS, config.getCdkPrefix() + "overlay-container");
     }
 
     @Override

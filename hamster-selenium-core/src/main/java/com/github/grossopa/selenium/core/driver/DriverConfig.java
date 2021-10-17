@@ -56,8 +56,7 @@ public class DriverConfig {
     /**
      * Sets the driver type
      *
-     * @param type
-     *         the driver type to set
+     * @param type the driver type to set
      */
     public void setType(WebDriverType type) {
         this.type = type;
@@ -76,8 +75,7 @@ public class DriverConfig {
     /**
      * Optional, sets the driver version (specially for Chrome Driver)
      *
-     * @param driverVersion
-     *         the driver version to set
+     * @param driverVersion the driver version to set
      */
     public void setDriverVersion(@Nullable String driverVersion) {
         this.driverVersion = driverVersion;
@@ -96,8 +94,7 @@ public class DriverConfig {
     /**
      * Sets the driver executable file path
      *
-     * @param driverExecutablePath
-     *         the driver executable file path to set
+     * @param driverExecutablePath the driver executable file path to set
      * @see org.openqa.selenium.remote.service.DriverService.Builder#usingDriverExecutable(File)
      */
     public void setDriverExecutablePath(String driverExecutablePath) {
@@ -121,8 +118,7 @@ public class DriverConfig {
      * Optional, when the port is less than 1 or null, it will invoke {@link DriverService.Builder#usingAnyFreePort()},
      * else if will invoke {@link DriverService.Builder#usingPort(int)}.
      *
-     * @param port
-     *         port number to set
+     * @param port port number to set
      * @see DriverService.Builder#usingAnyFreePort()
      * @see DriverService.Builder#usingPort(int)
      */
@@ -144,8 +140,7 @@ public class DriverConfig {
     /**
      * Optional, delegates {@link DriverService.Builder#withLogFile(File)}.
      *
-     * @param logFilePath
-     *         the log file path to set
+     * @param logFilePath the log file path to set
      * @see DriverService.Builder#withLogFile(File)
      */
     public void setLogFilePath(@Nullable String logFilePath) {
@@ -166,8 +161,7 @@ public class DriverConfig {
     /**
      * Optional, delegates {@link DriverService.Builder#withEnvironment(Map)}
      *
-     * @param environment
-     *         the environment to set
+     * @param environment the environment to set
      * @see DriverService.Builder#withEnvironment(Map)
      */
     public void setEnvironment(@Nullable Map<String, String> environment) {

@@ -32,7 +32,8 @@ import com.github.grossopa.hamster.selenium.component.mat.main.MatMenu;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+
 
 /**
  * Single item inside a mat-menu. Provides the menu item styling and accessibility treatment.
@@ -67,7 +68,7 @@ public class MatMenuItem extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "menu-item");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "menu-item");
     }
 
     /**
@@ -76,7 +77,7 @@ public class MatMenuItem extends AbstractMatComponent {
      * @return whether the menu item could be expanded
      */
     public boolean isExpandable() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "menu-item-submenu-trigger");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "menu-item-submenu-trigger");
     }
 
     /**

@@ -33,7 +33,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.config.MatConfig.ATTR_CLASS;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 
 /**
  * Material Design list component where each item is a selectable option. Behaves as a listbox.
@@ -68,7 +68,7 @@ public class MatSelectionList extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(ATTR_CLASS, config.getCssPrefix() + "selection-list");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "selection-list");
     }
 
     /**

@@ -24,16 +24,17 @@
 
 package com.github.grossopa.selenium.component.mui.config;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
+import com.github.grossopa.selenium.core.component.ComponentConfig;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
-import lombok.Getter;
-import lombok.Setter;
 import org.openqa.selenium.By;
 
 import java.util.Objects;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.core.component.util.WebComponentUtils.attributeContains;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.google.common.collect.Sets.newHashSet;
 
 /**
@@ -42,17 +43,16 @@ import static com.google.common.collect.Sets.newHashSet;
  * @author Jack Yin
  * @since 1.0
  */
-public class MuiConfig {
+public class MuiConfig implements ComponentConfig {
 
     /**
-     * class attribute name
+     * The Mui version
      */
-    public static final String ATTR_CLASS = "class";
+    private MuiVersion version = MuiVersion.V4;
+
     /**
      * Default css prefix by Material UI framework
      */
-    @Setter
-    @Getter
     private String cssPrefix = "Mui";
 
     @SuppressWarnings("squid:S1075")
@@ -88,7 +88,7 @@ public class MuiConfig {
      * @return the instance of button locator
      */
     public By buttonLocator() {
-        return By2.attrContains(ATTR_CLASS, getRootCss("Button"));
+        return By2.attrContains(CLASS, getRootCss("Button"));
     }
 
     /**
@@ -125,8 +125,9 @@ public class MuiConfig {
      * @return whether the checked css presents
      * @see #getIsCheckedCss()
      */
+    @Override
     public boolean isChecked(WebComponent component) {
-        return attributeContains(component, ATTR_CLASS, getIsCheckedCss());
+        return attributeContains(component, CLASS, getIsCheckedCss());
     }
 
     /**
@@ -136,8 +137,9 @@ public class MuiConfig {
      * @return whether the selected css presents
      * @see #getIsSelectedCss()
      */
+    @Override
     public boolean isSelected(WebComponent component) {
-        return attributeContains(component, ATTR_CLASS, getIsSelectedCss());
+        return attributeContains(component, CLASS, getIsSelectedCss());
     }
 
     /**
@@ -147,8 +149,29 @@ public class MuiConfig {
      * @return whether the disabled css presents
      * @see #getIsDisabledCss()
      */
+    @Override
     public boolean isDisabled(WebComponent component) {
-        return attributeContains(component, ATTR_CLASS, getIsDisabledCss());
+        return attributeContains(component, CLASS, getIsDisabledCss());
+    }
+
+    /**
+     * Checks whether the Grid has the container css present.
+     *
+     * @param component the component to check
+     * @return whether the container css presents
+     */
+    public boolean isGridContainer(WebComponent component) {
+        return attributeContains(component, CLASS, cssPrefix + "Grid-container");
+    }
+
+    /**
+     * Checks whether the Grid has the item css present.
+     *
+     * @param component the component to check
+     * @return whether the item css presents
+     */
+    public boolean isGridItem(WebComponent component) {
+        return attributeContains(component, CLASS, cssPrefix + "Grid-item");
     }
 
     /**
@@ -156,6 +179,7 @@ public class MuiConfig {
      *
      * @return the isChecked CSS
      */
+    @Override
     public String getIsCheckedCss() {
         return cssPrefix + "-checked";
     }
@@ -165,6 +189,7 @@ public class MuiConfig {
      *
      * @return the isSelected CSS
      */
+    @Override
     public String getIsSelectedCss() {
         return cssPrefix + "-selected";
     }
@@ -174,6 +199,7 @@ public class MuiConfig {
      *
      * @return the isDisabled CSS
      */
+    @Override
     public String getIsDisabledCss() {
         return cssPrefix + "-disabled";
     }
@@ -210,7 +236,7 @@ public class MuiConfig {
      * @see #getRootCss(String)
      */
     public boolean validateByCss(WebComponent component, String cssName) {
-        return attributeContains(component, ATTR_CLASS, cssName);
+        return attributeContains(component, CLASS, cssName);
     }
 
     /**
@@ -224,7 +250,38 @@ public class MuiConfig {
     }
 
     @Override
-    @SuppressWarnings("java:S6212")
+    public String getCssPrefix() {
+        return cssPrefix;
+    }
+
+    /**
+     * Sets the global css prefix
+     *
+     * @param cssPrefix the global css prefix
+     */
+    public void setCssPrefix(String cssPrefix) {
+        this.cssPrefix = cssPrefix;
+    }
+
+    /**
+     * Gets the Mui version
+     *
+     * @return the Mui version
+     */
+    public MuiVersion getVersion() {
+        return version;
+    }
+
+    /**
+     * Sets the Mui version
+     *
+     * @param version the Mui version
+     */
+    public void setVersion(MuiVersion version) {
+        this.version = version;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -233,17 +290,18 @@ public class MuiConfig {
             return false;
         }
         MuiConfig muiConfig = (MuiConfig) o;
-        return cssPrefix.equals(muiConfig.cssPrefix) && overlayAbsolutePath.equals(muiConfig.overlayAbsolutePath);
+        return version == muiConfig.version && Objects.equals(cssPrefix, muiConfig.cssPrefix) && Objects.equals(
+                overlayAbsolutePath, muiConfig.overlayAbsolutePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cssPrefix, overlayAbsolutePath);
+        return Objects.hash(version, cssPrefix, overlayAbsolutePath);
     }
 
     @Override
     public String toString() {
-        return "MuiConfig{" + "cssPrefix='" + cssPrefix + '\'' + ", overlayAbsolutePath='" + overlayAbsolutePath + '\''
-                + '}';
+        return "MuiConfig{" + "version=" + version + ", cssPrefix='" + cssPrefix + '\'' + ", overlayAbsolutePath='"
+                + overlayAbsolutePath + '\'' + '}';
     }
 }

@@ -32,12 +32,14 @@ import org.openqa.selenium.remote.service.DriverService;
 import java.io.IOException;
 
 /**
+ * Main driver starter
+ *
  * @author Jack Yin
  * @since 1.0
  */
 public class StartDriverServiceWinEdge {
 
-    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_92.0.902.78.exe";
+    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_94.0.992.38.exe";
 
     public static final int PORT = 38383;
 
@@ -45,7 +47,7 @@ public class StartDriverServiceWinEdge {
     public static void main(String[] args) throws IOException {
         DriverConfig config = new DriverConfig();
         config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("92.0.902.78");
+        config.setDriverVersion("94.0.992.38");
         config.setType(WebDriverType.EDGE);
         config.setPort(PORT);
 

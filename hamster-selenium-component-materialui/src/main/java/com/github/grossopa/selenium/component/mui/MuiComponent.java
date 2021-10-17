@@ -26,6 +26,8 @@ package com.github.grossopa.selenium.component.mui;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 
+import java.util.Set;
+
 /**
  * The default Mui component interface
  *
@@ -40,4 +42,11 @@ public interface MuiComponent {
      * @return the config instance.
      */
     MuiConfig config();
+
+    /**
+     * Gets all the supported versions
+     *
+     * @return all the supported versions
+     */
+    Set<MuiVersion> versions();
 }
