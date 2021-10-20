@@ -64,7 +64,6 @@ public class MatButton extends AbstractMatComponent {
      * @return the name of the mat-button component
      */
     @Override
-    @SuppressWarnings("duplicate")
     public String getComponentName() {
         return COMPONENT_NAME;
     }
