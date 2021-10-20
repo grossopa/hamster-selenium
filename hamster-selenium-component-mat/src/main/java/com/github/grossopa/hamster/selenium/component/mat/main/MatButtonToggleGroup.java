@@ -80,9 +80,4 @@ public class MatButtonToggleGroup extends AbstractMatComponent {
                         .contains(config.getCssPrefix() + "button-toggle").build(),
                 c -> new MatButtonToggle(c, driver, config));
     }
-
-    @Override
-    public String toString() {
-        return "MatButtonToggleGroup{" + "element=" + element + '}';
-    }
 }

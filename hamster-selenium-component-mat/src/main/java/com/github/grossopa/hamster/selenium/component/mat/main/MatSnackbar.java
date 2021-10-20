@@ -86,9 +86,4 @@ public class MatSnackbar extends AbstractMatComponent {
     public boolean validate() {
         return this.attributeContains(CLASS, config.getCssPrefix() + "simple-snackbar");
     }
-
-    @Override
-    public String toString() {
-        return "MatSnackbar{" + "element=" + element + '}';
-    }
 }

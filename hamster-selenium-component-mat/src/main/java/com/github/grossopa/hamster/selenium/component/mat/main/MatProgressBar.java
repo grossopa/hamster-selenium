@@ -66,11 +66,6 @@ public class MatProgressBar extends AbstractMatComponent {
         return this.attributeContains(CLASS, config.getCssPrefix() + "progress-bar");
     }
 
-    @Override
-    public String toString() {
-        return "MatProgressBar{" + "element=" + element + '}';
-    }
-
     /**
      * Gets the min value of the progress bar
      *

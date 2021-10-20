@@ -78,11 +78,6 @@ public class MatExpansionPanel extends AbstractMatComponent {
         return COMPONENT_NAME;
     }
 
-    @Override
-    public String toString() {
-        return "MatExpansionPanel{" + "element=" + element + '}';
-    }
-
     /**
      * Whether the expansion panel has expanded
      *

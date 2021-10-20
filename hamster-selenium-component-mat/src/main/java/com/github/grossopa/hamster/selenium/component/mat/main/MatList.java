@@ -80,9 +80,4 @@ public class MatList extends AbstractMatComponent {
     public List<WebComponent> getListItems() {
         return this.findComponents(By.className(config.getCssPrefix() + "list-item"));
     }
-
-    @Override
-    public String toString() {
-        return "MatList{" + "element=" + element + '}';
-    }
 }

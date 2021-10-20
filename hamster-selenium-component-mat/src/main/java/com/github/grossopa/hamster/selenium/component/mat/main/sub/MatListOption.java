@@ -93,9 +93,4 @@ public class MatListOption extends AbstractMatComponent {
                 By.className(config.getCssPrefix() + "pseudo-checkbox"), c -> new MatPseudoCheckbox(c, driver, config));
         return checkboxList.isEmpty() ? null : checkboxList.get(0);
     }
-
-    @Override
-    public String toString() {
-        return "MatListOption{" + "element=" + element + '}';
-    }
 }

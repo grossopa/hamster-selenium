@@ -82,9 +82,4 @@ public class MatSlideToggle extends AbstractMatComponent {
     public String getComponentName() {
         return COMPONENT_NAME;
     }
-
-    @Override
-    public String toString() {
-        return "MatSlideToggle{" + "element=" + element + '}';
-    }
 }

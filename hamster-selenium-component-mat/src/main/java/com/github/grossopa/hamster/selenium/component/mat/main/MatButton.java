@@ -67,9 +67,4 @@ public class MatButton extends AbstractMatComponent {
     public boolean validate() {
         return this.attributeContains(CLASS, config.getCssPrefix() + "button-base");
     }
-
-    @Override
-    public String toString() {
-        return "MatButton{" + "element=" + element + '}';
-    }
 }

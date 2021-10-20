@@ -118,11 +118,4 @@ public class MatChip extends AbstractMatComponent {
         }
         return fullText;
     }
-
-    @Override
-    public String toString() {
-        return "MatChip{" + "element=" + element + '}';
-    }
-
-
 }

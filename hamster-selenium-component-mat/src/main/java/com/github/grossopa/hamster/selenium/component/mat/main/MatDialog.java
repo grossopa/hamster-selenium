@@ -70,11 +70,6 @@ public class MatDialog extends AbstractMatComponent {
         return COMPONENT_NAME;
     }
 
-    @Override
-    public String toString() {
-        return "MatDialog{" + "element=" + element + '}';
-    }
-
     /**
      * Finds [Attr] Dialog title, applied to a heading element (e.g., {@code <h1>, <h2>}).
      *

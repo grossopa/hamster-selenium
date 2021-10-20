@@ -64,9 +64,4 @@ public class MatOverlayContainer extends AbstractMatComponent {
     public boolean validate() {
         return this.attributeContains(CLASS, config.getCdkPrefix() + "overlay-container");
     }
-
-    @Override
-    public String toString() {
-        return "MatOverlayContainer{" + "element=" + element + '}';
-    }
 }
