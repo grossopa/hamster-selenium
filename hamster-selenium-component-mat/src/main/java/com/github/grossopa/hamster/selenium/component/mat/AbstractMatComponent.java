@@ -101,6 +101,6 @@ public abstract class AbstractMatComponent extends DefaultWebComponent implement
 
     @Override
     public String toString() {
-        return String.format("%s{element=%s}", getClass().getName(), element);
+        return String.format("%s{element=%s}", getClass().getSimpleName(), element);
     }
 }
