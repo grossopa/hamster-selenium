@@ -26,7 +26,6 @@ package com.github.grossopa.selenium.component.html.factory;
 
 import com.github.grossopa.selenium.component.html.HtmlFormField;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.factory.WebComponentFactory;
 import org.openqa.selenium.WebElement;
 
@@ -39,7 +38,7 @@ import org.openqa.selenium.WebElement;
 public class HtmlFormFieldFactory implements WebComponentFactory<HtmlFormField> {
 
     @Override
-    public WebComponent apply(WebElement webElement, ComponentWebDriver webDriver) {
+    public HtmlFormField apply(WebElement webElement, ComponentWebDriver webDriver) {
         return new HtmlFormField(webElement, webDriver);
     }
 }

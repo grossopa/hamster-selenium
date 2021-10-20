@@ -38,6 +38,5 @@ import java.util.function.BiFunction;
  * @author Jack Yin
  * @since 1.0
  */
-public interface WebComponentFactory<T extends WebComponent>
-        extends BiFunction<WebElement, ComponentWebDriver, WebComponent> {
+public interface WebComponentFactory<T extends WebComponent> extends BiFunction<WebElement, ComponentWebDriver, T> {
 }

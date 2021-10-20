@@ -26,7 +26,6 @@ package com.github.grossopa.selenium.component.html.factory;
 
 import com.github.grossopa.selenium.component.html.HtmlSelect;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.factory.WebComponentFactory;
 import org.openqa.selenium.WebElement;
 
@@ -39,7 +38,7 @@ import org.openqa.selenium.WebElement;
 public class HtmlSelectFactory implements WebComponentFactory<HtmlSelect> {
 
     @Override
-    public WebComponent apply(WebElement webElement, ComponentWebDriver componentWebDriver) {
+    public HtmlSelect apply(WebElement webElement, ComponentWebDriver componentWebDriver) {
         return new HtmlSelect(webElement, componentWebDriver);
     }
 }
