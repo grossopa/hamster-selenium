@@ -96,9 +96,4 @@ public class MuiPickersCalendarTransitionContainer extends AbstractMuiComponent 
                 .findComponent(By2.parent());
         component.click();
     }
-
-    @Override
-    public String toString() {
-        return "MuiPickersCalendarTransitionContainer{" + "element=" + element + '}';
-    }
 }

@@ -125,9 +125,4 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
 
         return new MuiPickersBasicPickerViewComponents(switchHeader, daysHeader, transitionContainer);
     }
-
-    @Override
-    public String toString() {
-        return "MuiPickersBasePickerContainer{" + "element=" + element + '}';
-    }
 }

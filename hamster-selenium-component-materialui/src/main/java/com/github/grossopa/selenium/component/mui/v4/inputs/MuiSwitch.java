@@ -75,9 +75,4 @@ public class MuiSwitch extends AbstractMuiComponent {
     private WebComponent getButton() {
         return this.findComponent(By.className(config.getCssPrefix() + "IconButton-root"));
     }
-
-    @Override
-    public String toString() {
-        return "MuiSwitch{" + "element=" + element + '}';
-    }
 }

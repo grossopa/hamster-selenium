@@ -79,9 +79,4 @@ public class MuiDivider extends AbstractMuiComponent {
     public boolean isVertical() {
         return this.attributeContains("class", config.getCssPrefix() + "Divider-vertical");
     }
-
-    @Override
-    public String toString() {
-        return "MuiDivider{" + "element=" + element + '}';
-    }
 }

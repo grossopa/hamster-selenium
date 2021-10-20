@@ -67,9 +67,4 @@ public class MuiPickersDay extends MuiButton {
     public boolean isSelected() {
         return this.attributeContains("class", config.getCssPrefix() + "PickersDay-daySelected");
     }
-
-    @Override
-    public String toString() {
-        return "MuiPickersDay{" + "element=" + element + '}';
-    }
 }

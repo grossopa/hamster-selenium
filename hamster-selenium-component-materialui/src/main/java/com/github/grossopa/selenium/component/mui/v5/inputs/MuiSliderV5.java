@@ -80,9 +80,4 @@ public class MuiSliderV5 extends MuiSlider {
     protected MuiSliderThumb createSliderThumb(WebElement thumbElement) {
         return new MuiSliderThumbV5(thumbElement, driver, config);
     }
-
-    @Override
-    public String toString() {
-        return "MuiSliderV5{" + "element=" + element + '}';
-    }
 }

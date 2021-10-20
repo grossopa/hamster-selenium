@@ -103,9 +103,4 @@ public class MuiTextField extends AbstractMuiComponent implements FormField {
     public WebComponent getLabel() {
         return this.findComponent(By2.attrContains("class", config.getCssPrefix() + "InputLabel-root", "label"));
     }
-
-    @Override
-    public String toString() {
-        return "MuiTextField{" + "element=" + element + '}';
-    }
 }

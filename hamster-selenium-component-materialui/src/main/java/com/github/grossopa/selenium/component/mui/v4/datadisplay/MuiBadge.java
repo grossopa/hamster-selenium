@@ -120,9 +120,4 @@ public class MuiBadge extends AbstractMuiComponent {
         return stream(getBadge().getAttribute("class").split(" ")).map(StringUtils::trim)
                 .noneMatch(str -> str.equalsIgnoreCase(config.getCssPrefix() + "Badge-invisible"));
     }
-
-    @Override
-    public String toString() {
-        return "MuiBadge{" + "element=" + element + '}';
-    }
 }

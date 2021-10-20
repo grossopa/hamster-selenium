@@ -74,9 +74,4 @@ public class MuiSwitchV5 extends MuiSwitch {
     private WebComponent getInnerSpan() {
         return this.findComponent(axesBuilder().child("span").build());
     }
-
-    @Override
-    public String toString() {
-        return "MuiSwitchV5{" + "element=" + element + '}';
-    }
 }

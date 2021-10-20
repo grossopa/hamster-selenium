@@ -108,9 +108,4 @@ public class MuiAvatar extends AbstractMuiComponent {
     public String getSrc() {
         return getImg().getAttribute("src");
     }
-
-    @Override
-    public String toString() {
-        return "MuiAvatar{" + "element=" + element + '}';
-    }
 }

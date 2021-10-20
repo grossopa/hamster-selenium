@@ -90,9 +90,4 @@ public class MuiRadioGroup extends AbstractMuiComponent {
         return element.findElements(config.radioLocator()).stream().map(radio -> new MuiRadio(radio, driver, config))
                 .collect(toList());
     }
-
-    @Override
-    public String toString() {
-        return "MuiRadioGroup{" + "element=" + element + '}';
-    }
 }

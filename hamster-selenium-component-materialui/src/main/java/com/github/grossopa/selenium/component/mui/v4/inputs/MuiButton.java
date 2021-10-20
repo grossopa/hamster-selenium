@@ -76,9 +76,4 @@ public class MuiButton extends AbstractMuiComponent {
     public boolean isSelected() {
         return config.isSelected(this);
     }
-
-    @Override
-    public String toString() {
-        return "MuiButton{" + "element=" + element + '}';
-    }
 }

@@ -112,6 +112,6 @@ class MuiModalTest {
     @Test
     void testToString() {
         when(element.toString()).thenReturn("element-toString");
-        assertEquals("MuiModal{element=element-toString}", testSubject.toString());
+        assertEquals("{element=element-toString}", testSubject.toString());
     }
 }

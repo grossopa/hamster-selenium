@@ -76,9 +76,4 @@ public class MuiRadio extends AbstractMuiComponent {
     public boolean isSelected() {
         return config.isChecked(this);
     }
-
-    @Override
-    public String toString() {
-        return "MuiRadio{" + "element=" + element + '}';
-    }
 }

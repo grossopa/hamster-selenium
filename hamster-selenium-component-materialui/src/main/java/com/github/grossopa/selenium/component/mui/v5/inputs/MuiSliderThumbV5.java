@@ -119,9 +119,4 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
     protected WebElement getInputElement() {
         return this.findComponent(axesBuilder().child("input").build());
     }
-
-    @Override
-    public String toString() {
-        return "MuiSliderThumbV5{" + "element=" + element + '}';
-    }
 }

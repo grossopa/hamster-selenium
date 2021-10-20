@@ -84,9 +84,4 @@ public class MuiBottomNavigation extends AbstractMuiComponent {
         return this.findComponents(By.xpath("./button")).stream()
                 .map(component -> new MuiBottomNavigationAction(component, driver, config)).collect(toList());
     }
-
-    @Override
-    public String toString() {
-        return "MuiBottomNavigation{" + "element=" + element + '}';
-    }
 }

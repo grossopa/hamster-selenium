@@ -103,9 +103,4 @@ public class MuiDialog extends MuiModal {
     public WebComponent getDialogActions() {
         return this.findComponent(By.className(config.getCssPrefix() + "DialogActions-root"));
     }
-
-    @Override
-    public String toString() {
-        return "MuiDialog{" + "element=" + element + '}';
-    }
 }

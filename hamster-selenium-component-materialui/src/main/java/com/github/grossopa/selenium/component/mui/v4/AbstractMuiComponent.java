@@ -115,6 +115,6 @@ public abstract class AbstractMuiComponent extends DefaultWebComponent implement
 
     @Override
     public String toString() {
-        return "AbstractMuiComponent{" + "config=" + config + ", element=" + element + '}';
+        return String.format("%s{element=%s}", getClass().getSimpleName(), element);
     }
 }
