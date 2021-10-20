@@ -136,9 +136,4 @@ public class MatFormField extends AbstractMatComponent {
         return this.findComponent(By.className(config.getCssPrefix() + "form-field-subscript-wrapper"))
                 .findComponent(By.className(config.getCssPrefix() + "error"));
     }
-
-    @Override
-    public String toString() {
-        return "MatFormField{" + "element=" + element + '}';
-    }
 }

@@ -110,8 +110,4 @@ public class MatMenuItem extends AbstractMatComponent {
         return new MatMenuItemFinder(driver, config).findTopMenu(topMenuDelayInMillis);
     }
 
-    @Override
-    public String toString() {
-        return "MatMenuItem{" + "element=" + element + '}';
-    }
 }

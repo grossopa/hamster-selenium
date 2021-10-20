@@ -81,9 +81,4 @@ public class MatBadge extends AbstractMatComponent {
                 xpathBuilder().relative().attr(CLASS).contains(config.getCssPrefix() + "badge-content").build());
         return new MatBadgeContent(component, driver, config);
     }
-
-    @Override
-    public String toString() {
-        return "MatBadge{" + "element=" + element + '}';
-    }
 }

@@ -140,11 +140,6 @@ public class MatMenu extends AbstractMatComponent {
         this.sendKeys(ESCAPE);
     }
 
-    @Override
-    public String toString() {
-        return "MatMenu{" + "element=" + element + '}';
-    }
-
     private <T> T actionBy(Predicate<MatMenuItem> menuItemToSelectPredicate, Function<MatMenuItem, T> actionConsumer) {
         List<MatMenuItem> menuItems = this.getMenuItems();
         MatMenuItem item = menuItems.stream().filter(menuItemToSelectPredicate).findAny()

@@ -639,9 +639,4 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
                     .perform();
         }
     }
-
-    @Override
-    public String toString() {
-        return "MatSlider{" + "element=" + element + '}';
-    }
 }

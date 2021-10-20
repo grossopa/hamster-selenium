@@ -58,21 +58,11 @@ public class MatButton extends AbstractMatComponent {
         super(element, driver, config);
     }
 
-    /**
-     * Returns the name of the mat-button component (only for display and logging purpose)
-     *
-     * @return the name of the mat-button component
-     */
     @Override
     public String getComponentName() {
         return COMPONENT_NAME;
     }
 
-    /**
-     * Checks based on the class "mat-button-base"
-     *
-     * @return true if the inner element is a mat button.
-     */
     @Override
     public boolean validate() {
         return this.attributeContains(CLASS, config.getCssPrefix() + "button-base");

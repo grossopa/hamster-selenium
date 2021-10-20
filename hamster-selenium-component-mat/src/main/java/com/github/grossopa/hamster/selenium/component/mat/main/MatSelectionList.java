@@ -80,9 +80,4 @@ public class MatSelectionList extends AbstractMatComponent {
         return this.findComponentsAs(By.className(config.getCssPrefix() + "list-option"),
                 c -> new MatListOption(c, driver, config));
     }
-
-    @Override
-    public String toString() {
-        return "MatSelectionList{" + "element=" + element + '}';
-    }
 }

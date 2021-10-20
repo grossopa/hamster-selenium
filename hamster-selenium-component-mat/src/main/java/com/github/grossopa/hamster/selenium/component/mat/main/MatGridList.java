@@ -84,9 +84,4 @@ public class MatGridList extends AbstractMatComponent {
         return this.findComponentsAs(By.className(config.getCssPrefix() + "grid-tile"),
                 c -> new MatGridTile(c, driver, config));
     }
-
-    @Override
-    public String toString() {
-        return "MatGridList{" + "element=" + element + '}';
-    }
 }

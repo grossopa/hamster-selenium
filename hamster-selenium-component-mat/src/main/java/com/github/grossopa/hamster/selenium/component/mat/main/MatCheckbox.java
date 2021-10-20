@@ -89,10 +89,5 @@ public class MatCheckbox extends AbstractMatComponent {
     public WebComponent getInput() {
         return this.findComponent(By.className(config.getCssPrefix() + "checkbox-input"));
     }
-
-    @Override
-    public String toString() {
-        return "MatCheckbox{" + "element=" + element + '}';
-    }
 }
 

@@ -80,9 +80,4 @@ public class MatGridTile extends AbstractMatComponent {
     public int getColSpan() {
         return Integer.parseInt(this.getAttribute("colspan"));
     }
-
-    @Override
-    public String toString() {
-        return "MatGridTile{" + "element=" + element + '}';
-    }
 }

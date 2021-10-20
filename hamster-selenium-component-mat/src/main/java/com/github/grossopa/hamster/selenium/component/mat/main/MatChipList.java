@@ -80,9 +80,4 @@ public class MatChipList extends AbstractMatComponent {
     public List<MatChip> getChips() {
         return this.findComponentsAs(By.tagName(config.getTagPrefix() + "chip"), c -> new MatChip(c, driver, config));
     }
-
-    @Override
-    public String toString() {
-        return "MatChipList{" + "element=" + element + '}';
-    }
 }

@@ -71,11 +71,6 @@ public class MatAccordion extends AbstractMatComponent {
         return COMPONENT_NAME;
     }
 
-    @Override
-    public String toString() {
-        return "MatAccordion{" + "element=" + element + '}';
-    }
-
     /**
      * Finds the owned list of {@link MatExpansionPanel} list.
      *
