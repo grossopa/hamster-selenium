@@ -24,25 +24,18 @@
 
 package com.github.grossopa.selenium.examples.mui.v5.lab;
 
-import com.github.grossopa.selenium.component.mui.v4.finder.MuiModalFinder;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiTextField;
-import com.github.grossopa.selenium.component.mui.v4.locator.MuiDialogLocator;
-import com.github.grossopa.selenium.component.mui.v4.navigation.MuiLink;
 import com.github.grossopa.selenium.component.mui.v4.pickers.MuiPickersDialog;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
-import com.github.grossopa.selenium.examples.mui.v5.navigation.MuiPaginationTestCases;
 import org.openqa.selenium.By;
 
 import java.util.List;
-import java.util.Objects;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.muiV5;
 import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
-import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -69,12 +62,12 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
 
         MuiTextField dateDesktopField = textFieldList.get(0);
         WebComponent dateDesktopButton = dateDesktopField.findComponent(
-                xpathBuilder().anywhereRelative().attr(CLASS).contains("MuiInputAdornment-root").child("button")
+                By2.xpathBuilder().anywhereRelative().attr(CLASS).contains("MuiInputAdornment-root").child("button")
                         .build());
         dateDesktopButton.click();
 
-        MuiPickersDialog dialog = driver.findComponent(By.xpath("/html/body/div[@role='dialog']")).findComponent(
-                By.className("MuiCalendarPicker-root")).as(muiV5()).toPickersDialog();
+        MuiPickersDialog dialog = driver.findComponent(By.xpath("/html/body/div[@role='dialog']"))
+                .findComponent(By.className("MuiCalendarPicker-root")).as(muiV5()).toPickersDialog();
         dialog.getPickersContainer().getAsBasic().getTransitionContainer().select("15");
     }
 

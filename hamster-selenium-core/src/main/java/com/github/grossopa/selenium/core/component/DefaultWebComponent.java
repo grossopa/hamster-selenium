@@ -104,9 +104,8 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends WebComponent> T to(WebComponentFactory<T> factory) {
-        return (T) factory.apply(element, driver);
+        return factory.apply(element, driver);
     }
 
     @Override
