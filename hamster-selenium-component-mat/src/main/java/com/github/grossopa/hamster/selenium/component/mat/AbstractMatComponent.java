@@ -98,4 +98,9 @@ public abstract class AbstractMatComponent extends DefaultWebComponent implement
     public int hashCode() {
         return Objects.hash(super.hashCode(), config);
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s{element=%s}", getClass().getName(), element);
+    }
 }
