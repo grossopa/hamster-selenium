@@ -84,9 +84,4 @@ public class MuiList extends AbstractMuiComponent {
         List<WebComponent> components = this.findComponents(By2.attrContains("class", config.getRootCss("ListItem")));
         return components.stream().map(c -> new MuiListItem(c, driver, config)).collect(toList());
     }
-
-    @Override
-    public String toString() {
-        return "MuiList{" + "element=" + element + '}';
-    }
 }

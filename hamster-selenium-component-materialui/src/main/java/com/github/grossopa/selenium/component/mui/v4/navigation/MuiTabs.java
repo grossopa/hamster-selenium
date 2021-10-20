@@ -128,9 +128,4 @@ public class MuiTabs extends AbstractMuiComponent {
     public boolean isVertical() {
         return this.attributeContains("class", config.getCssPrefix() + "Tabs-vertical");
     }
-
-    @Override
-    public String toString() {
-        return "MuiTabs{" + "element=" + element + '}';
-    }
 }

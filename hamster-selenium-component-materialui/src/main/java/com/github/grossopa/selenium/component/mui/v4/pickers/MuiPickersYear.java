@@ -62,9 +62,4 @@ public class MuiPickersYear extends AbstractMuiComponent {
     public boolean isSelected() {
         return attributeContains("class", config.getCssPrefix() + "PickersYear-yearSelected");
     }
-
-    @Override
-    public String toString() {
-        return "MuiPickersYear{" + "element=" + element + '}';
-    }
 }

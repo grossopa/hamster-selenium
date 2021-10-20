@@ -69,9 +69,4 @@ public class MuiAccordionActions extends AbstractMuiComponent {
     public String getComponentName() {
         return COMPONENT_NAME;
     }
-
-    @Override
-    public String toString() {
-        return "MuiAccordionActions{" + "element=" + element + '}';
-    }
 }

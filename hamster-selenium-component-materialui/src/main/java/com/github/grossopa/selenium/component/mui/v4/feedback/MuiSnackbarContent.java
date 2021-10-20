@@ -89,9 +89,4 @@ public class MuiSnackbarContent extends AbstractMuiComponent {
     public WebComponent getAction() {
         return this.findComponent(By.className(config.getCssPrefix() + getComponentName() + "-action"));
     }
-
-    @Override
-    public String toString() {
-        return "MuiSnackbarContent{" + "element=" + element + '}';
-    }
 }

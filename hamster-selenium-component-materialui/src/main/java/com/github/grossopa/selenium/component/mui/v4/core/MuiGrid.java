@@ -92,9 +92,4 @@ public class MuiGrid extends AbstractMuiComponent {
     public Integer gridItemSpacingValue(int num) {
         return num * 4;
     }
-
-    @Override
-    public String toString() {
-        return "MuiGrid{" + "element=" + element + '}';
-    }
 }

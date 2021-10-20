@@ -70,9 +70,4 @@ public class MuiCheckboxV5 extends MuiCheckbox {
     public boolean isIndeterminate() {
         return attributeContains(CLASS, config.getCssPrefix() + "Checkbox-indeterminate");
     }
-
-    @Override
-    public String toString() {
-        return "MuiCheckboxV5{" + "element=" + element + '}';
-    }
 }

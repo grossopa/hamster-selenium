@@ -32,8 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -68,6 +67,6 @@ class MuiSliderV5Test {
     @Test
     void testToString() {
         when(element.toString()).thenReturn("element-toString");
-        assertEquals("MuiSliderV5{element=element-toString}", testSubject.toString());
+        assertTrue(testSubject.toString().startsWith("MuiSlider{inverseScaleFunction="));
     }
 }

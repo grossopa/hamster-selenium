@@ -69,9 +69,4 @@ public class MuiTabScrollButton extends MuiButton {
     public String getComponentName() {
         return COMPONENT_NAME;
     }
-
-    @Override
-    public String toString() {
-        return "MuiTabScrollButton{" + "element=" + element + '}';
-    }
 }

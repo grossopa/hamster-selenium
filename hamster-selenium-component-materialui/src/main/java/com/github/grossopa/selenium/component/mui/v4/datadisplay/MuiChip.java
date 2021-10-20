@@ -165,9 +165,4 @@ public class MuiChip extends AbstractMuiComponent {
     public boolean isDeletable() {
         return hasDeleteIcon();
     }
-
-    @Override
-    public String toString() {
-        return "MuiChip{" + "element=" + element + '}';
-    }
 }

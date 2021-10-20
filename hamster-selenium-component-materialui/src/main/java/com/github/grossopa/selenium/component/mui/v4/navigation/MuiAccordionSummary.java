@@ -91,9 +91,4 @@ public class MuiAccordionSummary extends AbstractMuiComponent {
     public WebComponent getExpandButton() {
         return this.findComponent(By.className(config.getCssPrefix() + "AccordionSummary-expandIcon"));
     }
-
-    @Override
-    public String toString() {
-        return "MuiAccordionSummary{" + "element=" + element + '}';
-    }
 }

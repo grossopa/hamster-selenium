@@ -81,9 +81,4 @@ public abstract class MuiModal extends AbstractMuiComponent {
                     .until(driver -> executeIgnoringStaleElementReference(() -> !this.isDisplayed(), true));
         }
     }
-
-    @Override
-    public String toString() {
-        return "MuiModal{" + "element=" + element + '}';
-    }
 }

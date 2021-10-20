@@ -69,9 +69,4 @@ public class MuiListItem extends AbstractMuiComponent {
     public String getComponentName() {
         return COMPONENT_NAME;
     }
-
-    @Override
-    public String toString() {
-        return "MuiListItem{" + "element=" + element + '}';
-    }
 }

@@ -64,9 +64,4 @@ public class MuiCheckbox extends AbstractMuiComponent {
     public String getComponentName() {
         return COMPONENT_NAME;
     }
-
-    @Override
-    public String toString() {
-        return "MuiCheckbox{" + "element=" + element + '}';
-    }
 }

@@ -62,9 +62,4 @@ public class MuiPickersCalendarHeaderDaysHeader extends AbstractMuiComponent {
     public boolean validate() {
         return config.validateByCss(this, config.getCssPrefix() + COMPONENT_NAME);
     }
-
-    @Override
-    public String toString() {
-        return "MuiPickersCalendarHeaderDaysHeader{" + "element=" + element + '}';
-    }
 }

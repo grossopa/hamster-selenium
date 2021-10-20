@@ -71,9 +71,4 @@ public class MuiFab extends AbstractMuiComponent {
     public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5);
     }
-
-    @Override
-    public String toString() {
-        return "MuiFab{" + "element=" + element + '}';
-    }
 }

@@ -133,9 +133,4 @@ public class MuiSliderThumb extends AbstractMuiComponent {
         }
         throw new IllegalStateException("Unknown orientation " + orientation);
     }
-
-    @Override
-    public String toString() {
-        return "MuiSliderThumb{" + "element=" + element + '}';
-    }
 }

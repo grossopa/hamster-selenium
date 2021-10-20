@@ -83,9 +83,4 @@ public class MuiButtonGroup extends AbstractMuiComponent {
         return element.findElements(config.buttonLocator()).stream()
                 .map(button -> new MuiButton(button, driver, config)).collect(toList());
     }
-
-    @Override
-    public String toString() {
-        return "MuiButtonGroup{" + "element=" + element + '}';
-    }
 }

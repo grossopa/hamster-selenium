@@ -120,8 +120,7 @@ class AbstractMuiComponentV4Test {
     @Test
     void testToString() {
         when(element.toString()).thenReturn("element-tostring");
-        when(config.toString()).thenReturn("config-tostring");
-        assertEquals("AbstractMuiComponent{config=config-tostring, element=element-tostring}", testSubject.toString());
+        assertEquals("{element=element-tostring}", testSubject.toString());
     }
 }
 

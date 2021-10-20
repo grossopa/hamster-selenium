@@ -141,9 +141,4 @@ public class MuiBreadcrumbs extends AbstractMuiComponent {
     protected By getItemContainersLocator() {
         return By2.className(config.getCssPrefix() + "Breadcrumbs-li");
     }
-
-    @Override
-    public String toString() {
-        return "MuiBreadcrumbs{" + "element=" + element + '}';
-    }
 }

@@ -96,9 +96,4 @@ public class MuiPickersYearSelectionContainer extends AbstractMuiComponent {
         driver.moveTo(component);
         component.click();
     }
-
-    @Override
-    public String toString() {
-        return "MuiPickersYearSelectionContainer{" + "element=" + element + '}';
-    }
 }

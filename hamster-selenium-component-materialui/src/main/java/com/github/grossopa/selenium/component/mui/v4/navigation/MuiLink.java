@@ -80,9 +80,4 @@ public class MuiLink extends AbstractMuiComponent {
     public String getHref() {
         return this.getAttribute("href");
     }
-
-    @Override
-    public String toString() {
-        return "MuiLink{" + "element=" + element + '}';
-    }
 }
