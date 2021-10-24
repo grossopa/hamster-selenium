@@ -22,27 +22,25 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.exception;
+package com.github.grossopa.selenium.component.mui.exception;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.github.grossopa.selenium.component.mui.v4.navigation.MuiBreadcrumbs;
 
 /**
- * Tests for {@link BreadcrumbsAlreadyExpandedException}
+ * Thrown when the {@link MuiBreadcrumbs} is already expanded.
  *
  * @author Jack Yin
  * @since 1.0
  */
-class BreadcrumbsAlreadyExpandedExceptionTest {
+public class BreadcrumbsAlreadyExpandedException extends RuntimeException {
 
-    BreadcrumbsAlreadyExpandedException testSubject;
-
-    @Test
-    void constructor() {
-        testSubject = new BreadcrumbsAlreadyExpandedException("some message");
-        assertEquals("some message", testSubject.getMessage());
+    /**
+     * Constructs an instance with message.
+     *
+     * @param message
+     *         the exception message
+     */
+    public BreadcrumbsAlreadyExpandedException(String message) {
+        super(message);
     }
-
-
 }

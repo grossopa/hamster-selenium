@@ -25,7 +25,7 @@
 package com.github.grossopa.selenium.component.mui.v4.navigation;
 
 import com.github.grossopa.selenium.component.mui.MuiVersion;
-import com.github.grossopa.selenium.component.mui.v4.exception.BreadcrumbsAlreadyExpandedException;
+import com.github.grossopa.selenium.component.mui.exception.BreadcrumbsAlreadyExpandedException;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;

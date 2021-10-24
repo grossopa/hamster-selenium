@@ -26,7 +26,7 @@ package com.github.grossopa.selenium.component.mui.v4.navigation;
 
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.v4.exception.BreadcrumbsAlreadyExpandedException;
+import com.github.grossopa.selenium.component.mui.exception.BreadcrumbsAlreadyExpandedException;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.locator.By2;
 import org.junit.jupiter.api.BeforeEach;

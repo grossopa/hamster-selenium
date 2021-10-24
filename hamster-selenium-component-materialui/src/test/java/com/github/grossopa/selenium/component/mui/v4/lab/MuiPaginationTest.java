@@ -26,7 +26,7 @@ package com.github.grossopa.selenium.component.mui.v4.lab;
 
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.v4.exception.PaginationNotFoundException;
+import com.github.grossopa.selenium.component.mui.exception.PaginationNotFoundException;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.locator.By2;

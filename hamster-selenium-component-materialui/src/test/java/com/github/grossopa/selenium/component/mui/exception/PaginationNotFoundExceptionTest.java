@@ -22,53 +22,41 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.exception;
+package com.github.grossopa.selenium.component.mui.exception;
 
-import com.google.common.collect.ImmutableList;
-import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
- * Throws when the target index is not found during pagination.
+ * Tests for {@link PaginationNotFoundException}
  *
  * @author Jack Yin
- * @since 1.7
+ * @since 1.0
  */
-public class PaginationNotFoundException extends RuntimeException {
+class PaginationNotFoundExceptionTest {
 
-    private final int targetIndex;
-    private final List<Integer> scannedIndices;
+    PaginationNotFoundException testSubject;
+    List<Integer> indices = newArrayList(1, 2, 3, 4, 6);
 
-    /**
-     * Constructs an instance with the target index to find and actual scanned indices list.
-     *
-     * @param targetIndex the target index tried to find but actually not found
-     * @param scannedIndices the scanned indices list
-     */
-    public PaginationNotFoundException(int targetIndex, List<Integer> scannedIndices) {
-        super(String.format("Tried to find index %d but not found, scanned indices are %s", targetIndex,
-                StringUtils.join(scannedIndices, ",")));
-
-        this.targetIndex = targetIndex;
-        this.scannedIndices = ImmutableList.copyOf(scannedIndices);
+    @BeforeEach
+    void setUp() {
+        testSubject = new PaginationNotFoundException(11, indices);
     }
 
-    /**
-     * Gets the target index to find
-     *
-     * @return the target index to find
-     */
-    public int getTargetIndex() {
-        return targetIndex;
+
+    @Test
+    void getTargetIndex() {
+        assertEquals(11, testSubject.getTargetIndex());
     }
 
-    /**
-     * Gets the scanned index list
-     *
-     * @return the scanned index list
-     */
-    public List<Integer> getScannedIndices() {
-        return scannedIndices;
+    @Test
+    void getScannedIndices() {
+        assertArrayEquals(new Integer[]{1, 2, 3, 4, 6}, testSubject.getScannedIndices().toArray());
+        assertNotSame(indices, testSubject.getScannedIndices());
     }
 }

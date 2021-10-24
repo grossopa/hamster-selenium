@@ -22,41 +22,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.exception;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static com.google.common.collect.Lists.newArrayList;
-import static org.junit.jupiter.api.Assertions.*;
+package com.github.grossopa.selenium.component.mui.exception;
 
 /**
- * Tests for {@link PaginationNotFoundException}
+ * Throws when close date picker action is invoked but the dialog is not properly closed.
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.8
  */
-class PaginationNotFoundExceptionTest {
+public class DatePickerNotClosedException extends RuntimeException {
 
-    PaginationNotFoundException testSubject;
-    List<Integer> indices = newArrayList(1, 2, 3, 4, 6);
-
-    @BeforeEach
-    void setUp() {
-        testSubject = new PaginationNotFoundException(11, indices);
-    }
-
-
-    @Test
-    void getTargetIndex() {
-        assertEquals(11, testSubject.getTargetIndex());
-    }
-
-    @Test
-    void getScannedIndices() {
-        assertArrayEquals(new Integer[]{1, 2, 3, 4, 6}, testSubject.getScannedIndices().toArray());
-        assertNotSame(indices, testSubject.getScannedIndices());
+    /**
+     * Constructs an instance with message.
+     *
+     * @param message the error message
+     */
+    public DatePickerNotClosedException(String message) {
+        super(message);
     }
 }

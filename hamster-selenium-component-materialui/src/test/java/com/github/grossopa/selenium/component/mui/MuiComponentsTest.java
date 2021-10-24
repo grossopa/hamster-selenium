@@ -28,7 +28,7 @@ import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.*;
-import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
+import com.github.grossopa.selenium.component.mui.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiSnackbar;

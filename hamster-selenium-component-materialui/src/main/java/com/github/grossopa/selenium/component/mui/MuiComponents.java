@@ -30,7 +30,7 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
 import com.github.grossopa.selenium.component.mui.v4.core.MuiGrid;
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.*;
-import com.github.grossopa.selenium.component.mui.v4.exception.InvalidVersionException;
+import com.github.grossopa.selenium.component.mui.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiSnackbar;
@@ -44,6 +44,7 @@ import com.github.grossopa.selenium.component.mui.v4.navigation.*;
 import com.github.grossopa.selenium.component.mui.v4.pickers.MuiPickersDialog;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiPager;
+import com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSwitchV5;
@@ -702,7 +703,66 @@ public class MuiComponents extends AbstractComponents {
         return create(() -> new MuiTabs(component, driver, config), () -> new MuiTabs(component, driver, config));
     }
 
+    /////////////////////
+    //  Lab Components //
+    /////////////////////
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiCalendarPicker}.
+     *
+     * <p>It supports {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have below structure:
+     * <pre>
+     * {@code
+     * <div class="MuiCalendarPicker-root ...">
+     *  <div>
+     *     <div>
+     *       <div class="PrivatePickersFadeTransitionGroup-root ...">October</div>
+     *       <div class="PrivatePickersFadeTransitionGroup-root ...">2021</div>
+     *       <button class="MuiIconButton-root ..." data-testid="ArrowDropDownIcon">...</button>
+     *     </div>
+     *     <div>
+     *       <button class="MuiIconButton-root ..." title="Previous month"></span>
+     *       <button class="MuiIconButton-root ..." title="Next month"></span>
+     *     </div>
+     *   </div>
+     *
+     *   <div class="MuiCalendarPicker-viewTransitionContainer ...">
+     *     <!-- could either be below snippets or MuiYearPicker if year selection is open -->
+     *     <div>
+     *       <div>
+     *         <span class="MuiTypography-root ...">S</span>
+     *         <span class="MuiTypography-root ...">M</span>
+     *         <span class="MuiTypography-root ...">T</span>
+     *         <span class="MuiTypography-root ...">W</span>
+     *         <span class="MuiTypography-root ...">T</span>
+     *         <span class="MuiTypography-root ...">F</span>
+     *         <span class="MuiTypography-root ...">S</span>
+     *       </div>
+     *       <div class="PrivatePickersSlideTransition-root">
+     *         <div role="grid">
+     *           {Array.from(Array(5 or 6).keys()).map(key ->
+     *           <div role="row">
+     *             Array.from(Array(7).keys()).map(key ->
+     *             <div role="cell">
+     *               <div class="MuiPickersDay-root ...">${either empty or day number}</div>
+     *             </div>)
+     *           </div>)}
+     *         </div>
+     *       </div>
+     *   </div>
+     * </div>
+     * }
+     * </pre>
+     * </p>
+     *
+     * @return the wrapped {@link MuiCalendarPicker} instance on the given component
+     */
+    public MuiCalendarPicker toCalendarPicker() {
+        return new MuiCalendarPicker(component, driver, config);
+    }
 
 
     /**
@@ -731,6 +791,7 @@ public class MuiComponents extends AbstractComponents {
     public MuiPickersDialog toPickersDialog() {
         return new MuiPickersDialog(component, driver, config);
     }
+
 
     private <T> T create(Supplier<T> v4creatorFunc, Supplier<T> v5creatorFunc) {
         if (config.getVersion() == V4) {

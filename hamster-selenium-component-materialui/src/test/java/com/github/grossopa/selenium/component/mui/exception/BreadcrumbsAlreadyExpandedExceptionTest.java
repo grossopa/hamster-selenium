@@ -22,22 +22,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.exception;
+package com.github.grossopa.selenium.component.mui.exception;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Throws when the version is not valid for component creation
+ * Tests for {@link BreadcrumbsAlreadyExpandedException}
  *
  * @author Jack Yin
- * @since 1.7
+ * @since 1.0
  */
-public class InvalidVersionException extends RuntimeException {
+class BreadcrumbsAlreadyExpandedExceptionTest {
 
-    /**
-     * Constructs an instance with message.
-     *
-     * @param message the error message
-     */
-    public InvalidVersionException(String message) {
-        super(message);
+    BreadcrumbsAlreadyExpandedException testSubject;
+
+    @Test
+    void constructor() {
+        testSubject = new BreadcrumbsAlreadyExpandedException("some message");
+        assertEquals("some message", testSubject.getMessage());
     }
+
+
 }

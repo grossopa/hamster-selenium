@@ -22,25 +22,53 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.exception;
+package com.github.grossopa.selenium.component.mui.exception;
 
-import com.github.grossopa.selenium.component.mui.v4.navigation.MuiBreadcrumbs;
+import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
- * Thrown when the {@link MuiBreadcrumbs} is already expanded.
+ * Throws when the target index is not found during pagination.
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.7
  */
-public class BreadcrumbsAlreadyExpandedException extends RuntimeException {
+public class PaginationNotFoundException extends RuntimeException {
+
+    private final int targetIndex;
+    private final List<Integer> scannedIndices;
 
     /**
-     * Constructs an instance with message.
+     * Constructs an instance with the target index to find and actual scanned indices list.
      *
-     * @param message
-     *         the exception message
+     * @param targetIndex the target index tried to find but actually not found
+     * @param scannedIndices the scanned indices list
      */
-    public BreadcrumbsAlreadyExpandedException(String message) {
-        super(message);
+    public PaginationNotFoundException(int targetIndex, List<Integer> scannedIndices) {
+        super(String.format("Tried to find index %d but not found, scanned indices are %s", targetIndex,
+                StringUtils.join(scannedIndices, ",")));
+
+        this.targetIndex = targetIndex;
+        this.scannedIndices = ImmutableList.copyOf(scannedIndices);
+    }
+
+    /**
+     * Gets the target index to find
+     *
+     * @return the target index to find
+     */
+    public int getTargetIndex() {
+        return targetIndex;
+    }
+
+    /**
+     * Gets the scanned index list
+     *
+     * @return the scanned index list
+     */
+    public List<Integer> getScannedIndices() {
+        return scannedIndices;
     }
 }

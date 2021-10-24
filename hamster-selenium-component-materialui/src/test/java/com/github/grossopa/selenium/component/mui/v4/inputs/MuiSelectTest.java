@@ -30,7 +30,7 @@ import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
 import com.github.grossopa.selenium.component.mui.v4.core.MuiPopover;
-import com.github.grossopa.selenium.component.mui.v4.exception.OptionNotClosedException;
+import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
