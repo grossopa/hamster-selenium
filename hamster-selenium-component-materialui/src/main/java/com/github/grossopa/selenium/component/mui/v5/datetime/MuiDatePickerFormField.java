@@ -24,9 +24,9 @@
 
 package com.github.grossopa.selenium.component.mui.v5.datetime;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.exception.DatePickerNotClosedException;
-import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiTextField;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
@@ -35,8 +35,11 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnoringStaleElementReference;
@@ -59,6 +62,11 @@ public class MuiDatePickerFormField extends MuiTextField {
      */
     public MuiDatePickerFormField(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V5);
     }
 
     /**
@@ -96,15 +104,18 @@ public class MuiDatePickerFormField extends MuiTextField {
 
     public void closePicker(long delayInMillis) {
         WebComponent componentDialog = tryLocatePickerDialog();
-        if (componentDialog == null) {
+        if (componentDialog == null || !componentDialog.isDisplayed()) {
             return;
         }
 
         componentDialog.sendKeys(Keys.ESCAPE);
 
         if (delayInMillis > 0L) {
-            driver.createWait(delayInMillis)
-                    .until(d -> executeIgnoringStaleElementReference(() -> this.tryLocatePickerDialog() == null, true));
+            driver.createWait(delayInMillis).until(d -> executeIgnoringStaleElementReference(() -> {
+                WebComponent element = this.tryLocatePickerDialog();
+                return element == null || !element.isDisplayed();
+            }, true));
+            componentDialog = null;
         } else {
             componentDialog = tryLocatePickerDialog();
         }

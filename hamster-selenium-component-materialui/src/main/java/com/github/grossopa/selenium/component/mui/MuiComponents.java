@@ -45,6 +45,7 @@ import com.github.grossopa.selenium.component.mui.v4.pickers.MuiPickersDialog;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiPager;
 import com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker;
+import com.github.grossopa.selenium.component.mui.v5.datetime.MuiDatePickerFormField;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSwitchV5;
@@ -761,9 +762,40 @@ public class MuiComponents extends AbstractComponents {
      * @return the wrapped {@link MuiCalendarPicker} instance on the given component
      */
     public MuiCalendarPicker toCalendarPicker() {
-        return new MuiCalendarPicker(component, driver, config);
+        return create(() -> {
+            throw new VersionNotSupportedException("Version V4 is not supported for MuiCalendarPicker.");
+        }, () -> new MuiCalendarPicker(component, driver, config));
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiDatePickerFormField}.
+     *
+     * <p>It only supports Material UI {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have below structure: {@code
+     * <div class="MuiTextField-root ...">
+     *   <div class="MuiInputBase-root ...">
+     *     <input .../>
+     *     <div ...>
+     *       <button class="MuiIconButton-root" aria-label="Choose Date">
+     *         <svg data-testid="CalendarIcon">
+     *           ...
+     *         </svg>
+     *       </button>
+     *     </div>
+     *   </div>
+     * </div>
+     * }
+     * </p>
+     *
+     * @return the wrapped {@link MuiDatePickerFormField} instance on the given component
+     */
+    public MuiDatePickerFormField toDatePickerFormField() {
+        return create(() -> {
+            throw new VersionNotSupportedException("Version V4 is not supported for MuiDatePickerFormField.");
+        }, () -> new MuiDatePickerFormField(component, driver, config));
+    }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.

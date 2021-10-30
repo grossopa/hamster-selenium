@@ -36,9 +36,11 @@ import java.time.Month;
 import java.util.List;
 import java.util.Locale;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -141,6 +143,11 @@ class MuiCalendarPickerTest {
     private void mockYearView(boolean isDisplayed) {
         when(element.findElements(By.className("MuiYearPicker-root"))).thenReturn(
                 isDisplayed ? List.of(yearLabelElement) : newArrayList());
+    }
+
+    @Test
+    void version() {
+        assertArrayEquals(new Object[]{V5}, testSubject.versions().toArray());
     }
 
     @Test

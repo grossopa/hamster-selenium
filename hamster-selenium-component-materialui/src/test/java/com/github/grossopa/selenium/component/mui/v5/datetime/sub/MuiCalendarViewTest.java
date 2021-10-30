@@ -33,10 +33,10 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -82,6 +82,10 @@ class MuiCalendarViewTest {
         testSubject = new MuiCalendarView(element, driver, config);
     }
 
+    @Test
+    void version() {
+        assertArrayEquals(new Object[]{V5}, testSubject.versions().toArray());
+    }
 
     @Test
     void getComponentName() {

@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v5.datetime.sub;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker;
@@ -32,9 +33,12 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.enrichQuote;
 
 /**
@@ -64,6 +68,11 @@ public class MuiCalendarView extends AbstractMuiComponent {
     public String getComponentName() {
         // not an official Mui component, it is just a div.
         return "";
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V5);
     }
 
     @Override

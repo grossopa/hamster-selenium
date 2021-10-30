@@ -22,56 +22,27 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v5.datetime.sub;
+package com.github.grossopa.selenium.component.mui;
 
-import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests for {@link MuiPickersDay}
+ * Tests for {@link VersionNotSupportedException}
  *
  * @author Jack Yin
  * @since 1.8
  */
-class MuiPickersDayTest {
+class VersionNotSupportedExceptionTest {
 
-    MuiPickersDay testSubject;
-
-    WebElement element = mock(WebElement.class);
-    ComponentWebDriver driver = mock(ComponentWebDriver.class);
-    MuiConfig config = mock(MuiConfig.class);
-
-    @BeforeEach
-    void setUp() {
-        testSubject = new MuiPickersDay(element, driver, config);
-    }
+    VersionNotSupportedException testSubject;
 
     @Test
-    void version() {
-        assertArrayEquals(new Object[]{V5}, testSubject.versions().toArray());
+    void constructor() {
+        testSubject = new VersionNotSupportedException("some");
+        assertEquals("some", testSubject.getMessage());
     }
 
-    @Test
-    void getComponentName() {
-        assertEquals("PickersDay", testSubject.getComponentName());
-    }
 
-    @Test
-    void getDateLabel() {
-        when(element.getAttribute("aria-label")).thenReturn("Oct 13, 2021");
-        assertEquals("Oct 13, 2021", testSubject.getDateLabel());
-    }
-
-    @Test
-    void getDateLabelNull() {
-        assertNull(testSubject.getDateLabel());
-    }
 }

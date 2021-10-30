@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v5.datetime;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
@@ -36,9 +37,12 @@ import org.openqa.selenium.WebElement;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -66,6 +70,11 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      */
     public MuiCalendarPicker(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V5);
     }
 
     @Override
@@ -174,11 +183,13 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
         Month current = stringToMonth.apply(this.getMonthLabel().getText());
         while (current.getValue() > month.getValue()) {
             this.getPreviousMonthButton().click();
+            driver.threadSleep(delayInMillis);
             current = stringToMonth.apply(this.getMonthLabel().getText());
         }
 
         while (current.getValue() < month.getValue()) {
             this.getNextMonthButton().click();
+            driver.threadSleep(delayInMillis);
             current = stringToMonth.apply(this.getMonthLabel().getText());
         }
 

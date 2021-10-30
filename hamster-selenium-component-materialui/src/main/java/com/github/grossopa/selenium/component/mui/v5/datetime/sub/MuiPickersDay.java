@@ -24,12 +24,17 @@
 
 package com.github.grossopa.selenium.component.mui.v5.datetime.sub;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nullable;
+import java.util.EnumSet;
+import java.util.Set;
+
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 
 /**
  * The day button component for {@link MuiCalendarView}.
@@ -53,6 +58,11 @@ public class MuiPickersDay extends MuiButton {
      */
     public MuiPickersDay(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V5);
     }
 
     @Override

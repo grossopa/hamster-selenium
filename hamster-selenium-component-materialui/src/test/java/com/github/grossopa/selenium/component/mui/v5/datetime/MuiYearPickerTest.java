@@ -33,7 +33,9 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.google.common.collect.Lists.newArrayList;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -70,6 +72,11 @@ class MuiYearPickerTest {
         });
 
         testSubject = new MuiYearPicker(element, driver, config);
+    }
+
+    @Test
+    void version() {
+        assertArrayEquals(new Object[]{V5}, testSubject.versions().toArray());
     }
 
     @Test

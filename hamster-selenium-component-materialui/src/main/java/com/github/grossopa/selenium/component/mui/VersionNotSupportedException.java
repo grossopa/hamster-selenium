@@ -22,39 +22,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.core.util;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+package com.github.grossopa.selenium.component.mui;
 
 /**
- * Tests for {@link GracefulThreadSleep}
+ * Throws when the component does not support the version.
  *
  * @author Jack Yin
- * @since 1.2
+ * @since 1.8
  */
-class GracefulThreadSleepTest {
+public class VersionNotSupportedException extends RuntimeException {
 
-    GracefulThreadSleep testSubject;
-
-    @BeforeEach
-    void setUp() {
-        testSubject = new GracefulThreadSleep();
-    }
-
-    @Test
-    void sleep() {
-        long currentMs = System.currentTimeMillis();
-        testSubject.sleep(200);
-        assertTrue(System.currentTimeMillis() - currentMs > 100);
-    }
-
-    @Test
-    void sleepNegative() {
-        long currentMs = System.currentTimeMillis();
-        testSubject.sleep(-1L);
-        assertTrue(System.currentTimeMillis() - currentMs < 2);
+    /**
+     * Constructs a new runtime exception with the specified detail message. The cause is not initialized, and may
+     * subsequently be initialized by a call to {@link #initCause}.
+     *
+     * @param message the detail message. The detail message is saved for later retrieval by the {@link #getMessage()}
+     * method.
+     */
+    public VersionNotSupportedException(String message) {
+        super(message);
     }
 }

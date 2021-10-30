@@ -39,6 +39,8 @@ import com.github.grossopa.selenium.component.mui.v4.lab.MuiPagination;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiPaginationLocators;
 import com.github.grossopa.selenium.component.mui.v4.navigation.*;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiAppBar;
+import com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker;
+import com.github.grossopa.selenium.component.mui.v5.datetime.MuiDatePickerFormField;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSwitchV5;
@@ -654,5 +656,29 @@ class MuiComponentsTest {
         assertEquals(closeOptionsAction, autocomplete.getCloseOptionsAction());
     }
 
+    @Test
+    void toCalendarPickerV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertThrows(VersionNotSupportedException.class, () -> testSubject.toCalendarPicker());
+    }
 
+    @Test
+    void toCalendarPickerV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toCalendarPicker().getWrappedElement());
+        assertEquals(MuiCalendarPicker.class, testSubject.toCalendarPicker().getClass());
+    }
+
+    @Test
+    void toDatePickerFormFieldV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertThrows(VersionNotSupportedException.class, () -> testSubject.toDatePickerFormField());
+    }
+
+    @Test
+    void toDatePickerFormFieldV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toDatePickerFormField().getWrappedElement());
+        assertEquals(MuiDatePickerFormField.class, testSubject.toDatePickerFormField().getClass());
+    }
 }

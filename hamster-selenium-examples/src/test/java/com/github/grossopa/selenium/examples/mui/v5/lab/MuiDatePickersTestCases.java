@@ -25,6 +25,7 @@
 package com.github.grossopa.selenium.examples.mui.v5.lab;
 
 import com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker;
+import com.github.grossopa.selenium.component.mui.v5.datetime.MuiDatePickerFormField;
 import com.github.grossopa.selenium.component.mui.v5.datetime.MuiYearPicker;
 import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiCalendarView;
 import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiPickersDay;
@@ -52,8 +53,18 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
 
     /**
      * Tests the basic date picker.
+     *
+     * @see <a href="https://mui.com/components/date-picker/#basic-usage">
+     * https://mui.com/components/date-picker/#basic-usage</a>
      */
     public void testBasicDatePicker() {
+        MuiDatePickerFormField datePickerFormField = driver.findComponent(By.id("BasicDatePicker.js"))
+                .findComponent(By2.parent()).findComponent(By.className("MuiTextField-root")).as(muiV5())
+                .toDatePickerFormField();
+
+        MuiCalendarPicker calendarPicker = datePickerFormField.openCalendarPicker(500L);
+        calendarPicker.setDate(LocalDate.of(2020, Month.JANUARY, 13), 500L);
+        assertEquals("01/13/2020", datePickerFormField.getInput().getAttribute("value"));
 
     }
 
@@ -120,6 +131,7 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
         test.setUpDriver(EDGE);
         test.driver.navigate().to("https://mui.com/components/date-picker/");
 
+        test.testBasicDatePicker();
         test.testSubComponentsPickersCalendarPicker();
     }
 }

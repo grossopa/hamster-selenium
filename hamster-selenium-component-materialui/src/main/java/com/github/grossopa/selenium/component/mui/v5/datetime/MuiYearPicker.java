@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v5.datetime;
 
+import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -31,8 +32,11 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.enrichQuote;
 
 /**
@@ -57,6 +61,11 @@ public class MuiYearPicker extends AbstractMuiComponent {
      */
     protected MuiYearPicker(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V5);
     }
 
     /**
