@@ -32,9 +32,13 @@ import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.muiV5;
+import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.CALENDAR;
+import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.YEAR;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,7 +52,6 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
 
     /**
      * Tests the basic date picker.
-     *
      */
     public void testBasicDatePicker() {
 
@@ -94,11 +97,22 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
         assertTrue(visibleDayList.get(30).isSelected());
 
         // testing year view
-        calendarPicker.getSwitchButton().click();
+        calendarPicker.changeView(YEAR, 500);
 
         MuiYearPicker yearPicker = calendarPicker.getYearPicker();
         assertTrue(yearPicker.getYearButtons().size() > 100);
         yearPicker.select(2047);
+        // back
+        calendarPicker.changeView(CALENDAR, 500);
+
+        assertEquals("2047", calendarPicker.getYearLabel().getText());
+
+        driver.threadSleep(500L);
+
+        calendarPicker.setDate(LocalDate.of(2020, Month.JANUARY, 18), 500);
+        assertEquals("2020", calendarPicker.getYearLabel().getText());
+        assertEquals("January", calendarPicker.getMonthLabel().getText());
+        assertEquals("18", calendarPicker.getCalendarView().getFirstSelectedDay().getText());
     }
 
     public static void main(String[] args) {

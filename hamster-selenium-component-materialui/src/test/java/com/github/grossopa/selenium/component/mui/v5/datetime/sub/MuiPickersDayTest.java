@@ -25,49 +25,49 @@
 package com.github.grossopa.selenium.component.mui.v5.datetime.sub;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nullable;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- * The day button component for {@link MuiCalendarView}.
+ * Tests for {@link MuiPickersDay}
  *
  * @author Jack Yin
  * @since 1.8
  */
-public class MuiPickersDay extends MuiButton {
+class MuiPickersDayTest {
 
-    /**
-     * the component name
-     */
-    public static final String COMPONENT_NAME = "PickersDay";
+    MuiPickersDay testSubject;
 
-    /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the material UI global configuration
-     */
-    public MuiPickersDay(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        super(element, driver, config);
+    WebElement element = mock(WebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
+    MuiConfig config = mock(MuiConfig.class);
+
+    @BeforeEach
+    void setUp() {
+        testSubject = new MuiPickersDay(element, driver, config);
     }
 
-    @Override
-    public String getComponentName() {
-        return COMPONENT_NAME;
+
+    @Test
+    void getComponentName() {
+        assertEquals("PickersDay", testSubject.getComponentName());
     }
 
-    /**
-     * Gets the aria-label component with full date e.g. Oct 3, 2021.
-     *
-     * @return the aria-label component with full date
-     */
-    @Nullable
-    public String getDateLabel() {
-        return getAttribute("aria-label");
+    @Test
+    void getDateLabel() {
+        when(element.getAttribute("aria-label")).thenReturn("Oct 13, 2021");
+        assertEquals("Oct 13, 2021", testSubject.getDateLabel());
     }
 
+    @Test
+    void getDateLabelNull() {
+        assertNull(testSubject.getDateLabel());
+    }
 }

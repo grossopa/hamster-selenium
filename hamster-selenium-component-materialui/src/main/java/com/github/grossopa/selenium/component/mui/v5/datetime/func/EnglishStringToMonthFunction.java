@@ -22,52 +22,40 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v5.datetime.sub;
+package com.github.grossopa.selenium.component.mui.v5.datetime.func;
 
-import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.openqa.selenium.WebElement;
+import com.github.grossopa.selenium.component.mui.exception.NoSuchMonthException;
+import org.apache.commons.lang3.StringUtils;
 
-import javax.annotation.Nullable;
+import java.time.Month;
+import java.util.function.Function;
 
 /**
- * The day button component for {@link MuiCalendarView}.
+ * Converts the English date string to month.
  *
  * @author Jack Yin
  * @since 1.8
  */
-public class MuiPickersDay extends MuiButton {
-
+public class EnglishStringToMonthFunction implements Function<String, Month> {
     /**
-     * the component name
+     * The short string of the months
      */
-    public static final String COMPONENT_NAME = "PickersDay";
+    private static final String[] MONTHS = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+            "Oct", "Nov", "Dec"};
 
     /**
-     * Constructs an instance with the delegated element and root driver
+     * Applies with the month string
      *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the material UI global configuration
+     * @param s the month string to find
+     * @return the found month
      */
-    public MuiPickersDay(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        super(element, driver, config);
-    }
-
     @Override
-    public String getComponentName() {
-        return COMPONENT_NAME;
+    public Month apply(String s) {
+        for (int i = 0; i < MONTHS.length; i++) {
+            if (StringUtils.startsWithIgnoreCase(s, MONTHS[i])) {
+                return Month.of(i + 1);
+            }
+        }
+        throw new NoSuchMonthException("Failed to find month by string " + s);
     }
-
-    /**
-     * Gets the aria-label component with full date e.g. Oct 3, 2021.
-     *
-     * @return the aria-label component with full date
-     */
-    @Nullable
-    public String getDateLabel() {
-        return getAttribute("aria-label");
-    }
-
 }

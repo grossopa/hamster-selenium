@@ -38,10 +38,12 @@ public class GracefulThreadSleep {
     /**
      * Invokes the {@link Thread#sleep(long)} method.
      *
-     * @param millis sleep in millis
+     * @param millis sleep in millis, if negative or 0 then doing nothing
      */
     @SneakyThrows
     public void sleep(long millis) {
-        Thread.sleep(millis);
+        if (millis > 0) {
+            Thread.sleep(millis);
+        }
     }
 }

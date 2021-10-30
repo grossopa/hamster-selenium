@@ -28,10 +28,12 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.enrichQuote;
 
@@ -41,7 +43,11 @@ import static com.github.grossopa.selenium.core.util.SeleniumUtils.enrichQuote;
  * @author Jack Yin
  * @since 1.8
  */
+@SuppressWarnings("java:S2160")
 public class MuiCalendarView extends AbstractMuiComponent {
+
+    private final Function<WebComponent, MuiPickersDay> pickersDayFunction = component -> new MuiPickersDay(component,
+            driver, config);
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -71,29 +77,54 @@ public class MuiCalendarView extends AbstractMuiComponent {
      * @return all {@link MuiPickersDay} buttons within calendar selection.
      */
     public List<MuiPickersDay> getDayButtons() {
+        By xpath = By.xpath(String.format(".//button[contains(@class,'%sPickersDay-root') and count(text())>0]",
+                config.getCssPrefix()));
+        return this.findComponentsAs(xpath, pickersDayFunction);
+    }
+
+    /**
+     * Get the first selected day button
+     *
+     * @return the first selected button
+     */
+    public MuiPickersDay getFirstSelectedDay() {
         By xpath = By.xpath(
-                String.format(".//button[contains(@class,'%sPickersDay') and count(text())>0]", config.getCssPrefix()));
-        return this.findComponentsAs(xpath, component -> new MuiPickersDay(component, driver, config));
+                String.format(".//button[contains(@class,'%sPickersDay-root') and contains(@class,'%s-selected')]",
+                        config.getCssPrefix(), config.getCssPrefix()));
+
+        return this.findComponentAs(xpath, pickersDayFunction);
+    }
+
+    /**
+     * Gets all selected day buttons
+     *
+     * @return all selected day buttons
+     */
+    public List<MuiPickersDay> getSelectedDays() {
+        By xpath = By.xpath(
+                String.format(".//button[contains(@class,'%sPickersDay-root') and contains(@class,'%s-selected')]",
+                        config.getCssPrefix(), config.getCssPrefix()));
+        return this.findComponentsAs(xpath, pickersDayFunction);
     }
 
     /**
      * Selects by date, index starts from 1.
      *
-     * @param date the date to be selected.
+     * @param day the day to be selected.
      */
-    public void select(int date) {
-        select(String.valueOf(date));
+    public void select(int day) {
+        select(String.valueOf(day));
     }
 
     /**
      * Selects by date string, date string starts from 1.
      *
-     * @param date the date string to be selected.
+     * @param day the day string to be selected.
      */
-    public void select(String date) {
+    public void select(String day) {
         this.findComponent(By.xpath(
-                String.format(".//button[contains(@class,'%sPickersDay') and text()=%s]", config.getCssPrefix(),
-                        enrichQuote(date)))).click();
+                String.format(".//button[contains(@class,'%sPickersDay-root') and text()=%s]", config.getCssPrefix(),
+                        enrichQuote(day)))).click();
     }
 
 }

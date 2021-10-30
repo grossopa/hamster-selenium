@@ -22,52 +22,49 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v5.datetime.sub;
+package com.github.grossopa.selenium.component.mui.v5.datetime.func;
 
-import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.openqa.selenium.WebElement;
+import com.github.grossopa.selenium.component.mui.exception.NoSuchMonthException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import javax.annotation.Nullable;
+import java.time.Month;
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.*;
 
 /**
- * The day button component for {@link MuiCalendarView}.
+ * Tests for {@link EnglishStringToMonthFunction}
  *
  * @author Jack Yin
  * @since 1.8
  */
-public class MuiPickersDay extends MuiButton {
+class EnglishStringToMonthFunctionTest {
 
-    /**
-     * the component name
-     */
-    public static final String COMPONENT_NAME = "PickersDay";
+    EnglishStringToMonthFunction testSubject;
 
-    /**
-     * Constructs an instance with the delegated element and root driver
-     *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the material UI global configuration
-     */
-    public MuiPickersDay(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        super(element, driver, config);
+    @BeforeEach
+    void setUp() {
+        testSubject = new EnglishStringToMonthFunction();
     }
 
-    @Override
-    public String getComponentName() {
-        return COMPONENT_NAME;
+
+    @Test
+    void apply() {
+        String[] months = new String[]{"January", "February", "March", "april", "may", "june", "july", "august",
+                "SEPTEMBER", "oCtObEr", "NOV", "DEC"};
+
+        assertDoesNotThrow(() -> {
+            for (int i = 0; i < months.length; i++) {
+                assertEquals(Month.of(i + 1), testSubject.apply(months[i]));
+            }
+        });
     }
 
-    /**
-     * Gets the aria-label component with full date e.g. Oct 3, 2021.
-     *
-     * @return the aria-label component with full date
-     */
-    @Nullable
-    public String getDateLabel() {
-        return getAttribute("aria-label");
+    @Test
+    void applyThrow() {
+        assertThrows(NoSuchMonthException.class, () -> testSubject.apply("sdfsdf"));
     }
-
 }
