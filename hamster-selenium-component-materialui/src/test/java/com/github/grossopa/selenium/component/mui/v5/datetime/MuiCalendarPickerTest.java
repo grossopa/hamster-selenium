@@ -330,4 +330,11 @@ class MuiCalendarPickerTest {
 
         tester.testEquals();
     }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element");
+        assertEquals("MuiCalendarPicker{stringToMonthFunction=EnglishStringToMonthFunction{MONTHS=[Jan, "
+                + "Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]}, element=element}", testSubject.toString());
+    }
 }

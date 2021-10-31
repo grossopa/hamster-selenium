@@ -33,8 +33,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
-import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;

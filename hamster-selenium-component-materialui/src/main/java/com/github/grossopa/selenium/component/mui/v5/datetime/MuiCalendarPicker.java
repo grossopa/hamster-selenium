@@ -263,6 +263,11 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
         return Objects.hash(super.hashCode(), stringToMonthFunction);
     }
 
+    @Override
+    public String toString() {
+        return "MuiCalendarPicker{" + "stringToMonthFunction=" + stringToMonthFunction + ", element=" + element + '}';
+    }
+
     /**
      * The view type of the calendar picker, either CalendarView {@link MuiCalendarPicker#getCalendarView()} or
      * YearPicker {@link MuiCalendarPicker#getYearPicker()}.
