@@ -43,6 +43,7 @@ import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnoringStaleElementReference;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.isNotDisplayed;
+import static java.util.Objects.requireNonNull;
 
 /**
  * The date picker text box with a popup on desktop.
@@ -108,6 +109,8 @@ public class MuiDatePickerFormField extends MuiTextField {
             return;
         }
 
+        // mute sonar null alert: https://jira.sonarsource.com/browse/SONARJAVA-3502
+        requireNonNull(componentDialog);
         componentDialog.sendKeys(Keys.ESCAPE);
 
         if (delayInMillis > 0L) {
