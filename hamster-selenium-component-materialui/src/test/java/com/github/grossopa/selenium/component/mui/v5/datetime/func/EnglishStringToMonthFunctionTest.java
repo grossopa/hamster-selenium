@@ -28,12 +28,11 @@ import com.github.grossopa.selenium.component.mui.exception.NoSuchMonthException
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.time.Month;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.ArgumentMatchers.*;
 
 /**
  * Tests for {@link EnglishStringToMonthFunction}
@@ -66,5 +65,32 @@ class EnglishStringToMonthFunctionTest {
     @Test
     void applyThrow() {
         assertThrows(NoSuchMonthException.class, () -> testSubject.apply("sdfsdf"));
+    }
+
+    @Test
+    void getInstance() {
+        assertSame(EnglishStringToMonthFunction.getInstance(), EnglishStringToMonthFunction.getInstance());
+    }
+
+    @Test
+    void testToString() {
+        assertEquals(
+                "EnglishStringToMonthFunction{MONTHS=[Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]}",
+                EnglishStringToMonthFunction.getInstance().toString());
+    }
+
+    @Test
+    void privateSingletonConstructor() {
+        boolean asserted = false;
+        Constructor<?> constructor = EnglishStringToMonthFunction.Singleton.class.getDeclaredConstructors()[0];
+        constructor.setAccessible(true);
+        try {
+            constructor.newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            assertEquals(AssertionError.class, e.getCause().getClass());
+            asserted = true;
+        }
+
+        assertTrue(asserted);
     }
 }

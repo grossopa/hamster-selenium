@@ -25,10 +25,12 @@
 package com.github.grossopa.selenium.component.mui.v5.datetime.func;
 
 import com.github.grossopa.selenium.component.mui.exception.NoSuchMonthException;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.Month;
+import java.util.Arrays;
 import java.util.function.Function;
+
+import static org.apache.commons.lang3.StringUtils.startsWithIgnoreCase;
 
 /**
  * Converts the English date string to month.
@@ -52,10 +54,46 @@ public class EnglishStringToMonthFunction implements Function<String, Month> {
     @Override
     public Month apply(String s) {
         for (int i = 0; i < MONTHS.length; i++) {
-            if (StringUtils.startsWithIgnoreCase(s, MONTHS[i])) {
+            if (startsWithIgnoreCase(s, MONTHS[i])) {
                 return Month.of(i + 1);
             }
         }
         throw new NoSuchMonthException("Failed to find month by string " + s);
     }
+
+    /**
+     * Gets the singleton instance.
+     *
+     * @return the singleton instance.
+     */
+    public static EnglishStringToMonthFunction getInstance() {
+        return Singleton.instance;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("EnglishStringToMonthFunction{MONTHS=%s}", Arrays.toString(MONTHS));
+    }
+
+    /**
+     * the singleton holder of {@link EnglishStringToMonthFunction}.
+     *
+     * @author Jack Yin
+     * @since 1.8
+     */
+    static class Singleton {
+
+        /**
+         * Private constructor
+         */
+        private Singleton() {
+            throw new AssertionError();
+        }
+
+        /**
+         * The singleton instance of {@link EnglishStringToMonthFunction}
+         */
+        public static final EnglishStringToMonthFunction instance = new EnglishStringToMonthFunction();
+    }
+
 }

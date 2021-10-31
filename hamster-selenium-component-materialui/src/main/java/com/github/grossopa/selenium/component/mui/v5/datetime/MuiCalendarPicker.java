@@ -39,6 +39,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -54,7 +55,7 @@ import static java.lang.Integer.parseInt;
 @SuppressWarnings("java:S2160")
 public class MuiCalendarPicker extends AbstractMuiComponent {
 
-    private final Function<String, Month> stringToMonth = new EnglishStringToMonthFunction();
+    private final Function<String, Month> stringToMonthFunction;
 
     /**
      * the component name
@@ -70,6 +71,21 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      */
     public MuiCalendarPicker(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
+        this.stringToMonthFunction = EnglishStringToMonthFunction.getInstance();
+    }
+
+    /**
+     * Constructs an instance with the delegated element, root driver and the string to month function to convert the
+     * displayed month string to actual {@link Month}.
+     *
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI configuration
+     */
+    public MuiCalendarPicker(WebElement element, ComponentWebDriver driver, MuiConfig config,
+            Function<String, Month> stringToMonthFunction) {
+        super(element, driver, config);
+        this.stringToMonthFunction = stringToMonthFunction;
     }
 
     @Override
@@ -180,17 +196,17 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
             changeView(ViewType.CALENDAR, delayInMillis);
         }
 
-        Month current = stringToMonth.apply(this.getMonthLabel().getText());
+        Month current = stringToMonthFunction.apply(this.getMonthLabel().getText());
         while (current.getValue() > month.getValue()) {
             this.getPreviousMonthButton().click();
             driver.threadSleep(delayInMillis);
-            current = stringToMonth.apply(this.getMonthLabel().getText());
+            current = stringToMonthFunction.apply(this.getMonthLabel().getText());
         }
 
         while (current.getValue() < month.getValue()) {
             this.getNextMonthButton().click();
             driver.threadSleep(delayInMillis);
-            current = stringToMonth.apply(this.getMonthLabel().getText());
+            current = stringToMonthFunction.apply(this.getMonthLabel().getText());
         }
 
         this.getCalendarView().select(day);
@@ -225,6 +241,26 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
         } else {
             return ViewType.YEAR;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiCalendarPicker)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        MuiCalendarPicker that = (MuiCalendarPicker) o;
+        return Objects.equals(stringToMonthFunction, that.stringToMonthFunction);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), stringToMonthFunction);
     }
 
     /**
