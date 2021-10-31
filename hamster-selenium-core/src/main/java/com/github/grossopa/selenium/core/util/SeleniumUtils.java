@@ -67,6 +67,26 @@ public class SeleniumUtils {
     }
 
     /**
+     * Safely determines whether a given element is displayed.
+     *
+     * <ul>
+     *   <li>element is not displayed.</li>
+     *   <li>element is stale.</li>
+     *   <li>element is null.</li>
+     * </ul>
+     *
+     * @param element the nullable to check
+     * @return true if the element is not displayed.
+     */
+    public static boolean isNotDisplayed(@Nullable WebElement element) {
+        try {
+            return element == null || !element.isDisplayed();
+        } catch (StaleElementReferenceException exception) {
+            return true;
+        }
+    }
+
+    /**
      * Cleans the text of an input element by simulating to press backspace key.
      *
      * @param inputElement the input element to clean

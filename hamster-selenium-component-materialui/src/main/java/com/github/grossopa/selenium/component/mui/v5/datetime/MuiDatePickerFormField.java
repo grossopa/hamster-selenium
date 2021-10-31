@@ -34,7 +34,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +42,7 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnoringStaleElementReference;
+import static com.github.grossopa.selenium.core.util.SeleniumUtils.isNotDisplayed;
 
 /**
  * The date picker text box with a popup on desktop.
@@ -104,23 +104,20 @@ public class MuiDatePickerFormField extends MuiTextField {
 
     public void closePicker(long delayInMillis) {
         WebComponent componentDialog = tryLocatePickerDialog();
-        if (componentDialog == null || !componentDialog.isDisplayed()) {
+        if (isNotDisplayed(componentDialog)) {
             return;
         }
 
         componentDialog.sendKeys(Keys.ESCAPE);
 
         if (delayInMillis > 0L) {
-            driver.createWait(delayInMillis).until(d -> executeIgnoringStaleElementReference(() -> {
-                WebComponent element = this.tryLocatePickerDialog();
-                return element == null || !element.isDisplayed();
-            }, true));
+            driver.createWait(delayInMillis).until(d -> isNotDisplayed(tryLocatePickerDialog()));
             componentDialog = null;
         } else {
             componentDialog = tryLocatePickerDialog();
         }
 
-        if (componentDialog != null && componentDialog.isDisplayed()) {
+        if (!isNotDisplayed(componentDialog)) {
             throw new DatePickerNotClosedException("Date picker popup is not properly closed.");
         }
     }
@@ -128,7 +125,6 @@ public class MuiDatePickerFormField extends MuiTextField {
     /**
      * Tries to locate the picker dialog
      */
-    @Nullable
     private WebComponent tryLocatePickerDialog() {
         List<WebComponent> componentList = this.findComponents(By.xpath(
                 String.format("%s/div[@role='dialog']//div[contains(@class,'%s')]", config.getOverlayAbsolutePath(),

@@ -98,4 +98,31 @@ class SeleniumUtilsTest {
         SeleniumUtils.cleanText(element);
         verify(element, never()).sendKeys(BACK_SPACE);
     }
+
+    @Test
+    void isNotDisplayedNotDisplayed() {
+        WebElement element = mock(WebElement.class);
+        when(element.isDisplayed()).thenReturn(false);
+        assertTrue(SeleniumUtils.isNotDisplayed(element));
+    }
+
+    @Test
+    void isNotDisplayedNull() {
+        assertTrue(SeleniumUtils.isNotDisplayed(null));
+    }
+
+    @Test
+    void isNotDisplayedStale() {
+        WebElement element = mock(WebElement.class);
+        when(element.isDisplayed()).thenThrow(new StaleElementReferenceException(""));
+        assertTrue(SeleniumUtils.isNotDisplayed(element));
+    }
+
+    @Test
+    void isNotDisplayedFalse() {
+        WebElement element = mock(WebElement.class);
+        when(element.isDisplayed()).thenReturn(true);
+        assertFalse(SeleniumUtils.isNotDisplayed(element));
+    }
+
 }
