@@ -22,30 +22,33 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.core.consts;
+package com.github.grossopa.selenium.component.mui.v5.datetime.func;
+
+import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiMonthPicker;
+
+import java.time.Month;
 
 /**
- * Html related constants
+ * The month string function for get the {@link Month} from string and parse {@link Month} to string.
  *
  * @author Jack Yin
- * @since 1.6
+ * @since 1.8
  */
-public class HtmlConstants {
+public interface MonthStringFunction {
 
     /**
-     * private
+     * Converts the string found from month label
+     *
+     * @param monthString the month string found from month label
+     * @return the found month
      */
-    private HtmlConstants() {
-        throw new AssertionError();
-    }
+    Month stringToMonth(String monthString);
 
     /**
-     * The css class attribute
+     * Converts the {@link Month} to month label for {@link MuiMonthPicker} to locate the month button.
+     *
+     * @param month the month to convert to string
+     * @return the converted string of the month
      */
-    public static final String CLASS = "class";
-
-    /**
-     * The tag button attribute
-     */
-    public static final String BUTTON = "button";
+    String monthToString(Month month);
 }

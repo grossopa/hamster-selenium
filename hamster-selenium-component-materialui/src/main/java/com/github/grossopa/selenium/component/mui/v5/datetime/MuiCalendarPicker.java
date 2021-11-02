@@ -28,8 +28,11 @@ import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
-import com.github.grossopa.selenium.component.mui.v5.datetime.func.EnglishStringToMonthFunction;
+import com.github.grossopa.selenium.component.mui.v5.datetime.func.EnglishMonthStringFunction;
+import com.github.grossopa.selenium.component.mui.v5.datetime.func.MonthStringFunction;
 import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiCalendarView;
+import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiMonthPicker;
+import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiYearPicker;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
@@ -41,7 +44,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static java.lang.Integer.parseInt;
@@ -55,7 +57,7 @@ import static java.lang.Integer.parseInt;
 @SuppressWarnings("java:S2160")
 public class MuiCalendarPicker extends AbstractMuiComponent {
 
-    private final Function<String, Month> stringToMonthFunction;
+    private final MonthStringFunction monthStringFunction;
 
     /**
      * the component name
@@ -71,7 +73,7 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      */
     public MuiCalendarPicker(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
-        this.stringToMonthFunction = EnglishStringToMonthFunction.getInstance();
+        this.monthStringFunction = EnglishMonthStringFunction.getInstance();
     }
 
     /**
@@ -81,11 +83,12 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      * @param element the delegated element
      * @param driver the root driver
      * @param config the Material UI configuration
+     * @param monthStringFunction the monthStringFunction to convert
      */
     public MuiCalendarPicker(WebElement element, ComponentWebDriver driver, MuiConfig config,
-            Function<String, Month> stringToMonthFunction) {
+            MonthStringFunction monthStringFunction) {
         super(element, driver, config);
-        this.stringToMonthFunction = stringToMonthFunction;
+        this.monthStringFunction = monthStringFunction;
     }
 
     @Override
@@ -162,11 +165,21 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
     /**
      * Gets the main view as year picker, It will not work when calendar selection is expanded.
      *
-     * @return the main view as year picker,
+     * @return the main view as year picker.
      */
     public MuiYearPicker getYearPicker() {
         WebComponent component = this.findComponent(By.className(config.getCssPrefix() + "YearPicker-root"));
         return new MuiYearPicker(component, driver, config);
+    }
+
+    /**
+     * Gets the main view as the month picker, It will not work if the month view is not shown.
+     *
+     * @return the main view as month picker.
+     */
+    public MuiMonthPicker getMonthPicker() {
+        WebComponent component = this.findComponent(By.className(config.getCssPrefix() + "MonthPicker-root"));
+        return new MuiMonthPicker(component, driver, config, monthStringFunction);
     }
 
     /**
@@ -196,17 +209,17 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
             changeView(ViewType.CALENDAR, delayInMillis);
         }
 
-        Month current = stringToMonthFunction.apply(this.getMonthLabel().getText());
+        Month current = monthStringFunction.stringToMonth(this.getMonthLabel().getText());
         while (current.getValue() > month.getValue()) {
             this.getPreviousMonthButton().click();
             driver.threadSleep(delayInMillis);
-            current = stringToMonthFunction.apply(this.getMonthLabel().getText());
+            current = monthStringFunction.stringToMonth(this.getMonthLabel().getText());
         }
 
         while (current.getValue() < month.getValue()) {
             this.getNextMonthButton().click();
             driver.threadSleep(delayInMillis);
-            current = stringToMonthFunction.apply(this.getMonthLabel().getText());
+            current = monthStringFunction.stringToMonth(this.getMonthLabel().getText());
         }
 
         this.getCalendarView().select(day);
@@ -234,6 +247,11 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
         }
     }
 
+    /**
+     * Tries to detect current view type by inner container.
+     *
+     * @return the current view type
+     */
     public ViewType getCurrentView() {
         List<WebComponent> yearPicker = this.findComponents(By.className(config.getCssPrefix() + "YearPicker-root"));
         if (yearPicker.isEmpty()) {
@@ -255,17 +273,17 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
             return false;
         }
         MuiCalendarPicker that = (MuiCalendarPicker) o;
-        return Objects.equals(stringToMonthFunction, that.stringToMonthFunction);
+        return Objects.equals(monthStringFunction, that.monthStringFunction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), stringToMonthFunction);
+        return Objects.hash(super.hashCode(), monthStringFunction);
     }
 
     @Override
     public String toString() {
-        return "MuiCalendarPicker{" + "stringToMonthFunction=" + stringToMonthFunction + ", element=" + element + '}';
+        return "MuiCalendarPicker{" + "monthStringFunction=" + monthStringFunction + ", element=" + element + '}';
     }
 
     /**
@@ -277,12 +295,16 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      */
     public enum ViewType {
         /**
-         * {@link MuiCalendarPicker#getCalendarView()} is available
+         * {@link MuiCalendarPicker#getCalendarView()} is available when {@link #getCurrentView()} is this.
          */
         CALENDAR,
         /**
-         * {@link MuiCalendarPicker#getYearPicker()} is available
+         * {@link MuiCalendarPicker#getYearPicker()} is available when {@link #getCurrentView()} is this.
          */
-        YEAR
+        YEAR,
+        /**
+         * {@link MuiCalendarPicker#getMonthPicker()} is available when {@link #getCurrentView()} is this.
+         */
+        MONTH
     }
 }

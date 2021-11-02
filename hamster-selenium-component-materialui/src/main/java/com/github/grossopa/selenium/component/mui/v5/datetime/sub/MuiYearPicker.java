@@ -22,7 +22,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v5.datetime;
+package com.github.grossopa.selenium.component.mui.v5.datetime.sub;
 
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -59,7 +59,7 @@ public class MuiYearPicker extends AbstractMuiComponent {
      * @param driver the root driver
      * @param config the Material UI configuration
      */
-    protected MuiYearPicker(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+    public MuiYearPicker(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
     }
 
@@ -102,8 +102,10 @@ public class MuiYearPicker extends AbstractMuiComponent {
      * @param year the year string to select
      */
     public void select(String year) {
-        this.findComponent(By.xpath(
+        WebComponent button = this.findComponent(By.xpath(
                 String.format(".//button[contains(@class,'PrivatePickersYear-yearButton') and text()=%s]",
-                        enrichQuote(year)))).click();
+                        enrichQuote(year))));
+        driver.moveTo(button);
+        button.click();
     }
 }

@@ -26,9 +26,11 @@ package com.github.grossopa.selenium.examples.mui.v5.lab;
 
 import com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker;
 import com.github.grossopa.selenium.component.mui.v5.datetime.MuiDatePickerFormField;
-import com.github.grossopa.selenium.component.mui.v5.datetime.MuiYearPicker;
+import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiMonthPicker;
+import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiYearPicker;
 import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiCalendarView;
 import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiPickersDay;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
@@ -41,6 +43,8 @@ import static com.github.grossopa.selenium.component.mui.MuiComponents.muiV5;
 import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.CALENDAR;
 import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.YEAR;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
+import static com.github.grossopa.selenium.core.locator.By2.parent;
+import static com.github.grossopa.selenium.core.locator.By2.textExact;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -59,7 +63,7 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
      */
     public void testBasicDatePicker() {
         MuiDatePickerFormField datePickerFormField = driver.findComponent(By.id("BasicDatePicker.js"))
-                .findComponent(By2.parent()).findComponent(By.className("MuiTextField-root")).as(muiV5())
+                .findComponent(parent()).findComponent(By.className("MuiTextField-root")).as(muiV5())
                 .toDatePickerFormField();
 
         MuiCalendarPicker calendarPicker = datePickerFormField.openCalendarPicker(500L);
@@ -76,7 +80,7 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
      */
     public void testSubComponentsPickersCalendarPicker() {
         MuiCalendarPicker calendarPicker = driver.findComponent(By.id("SubComponentsPickers.js"))
-                .findComponent(By2.parent()).findComponent(By.className("MuiCalendarPicker-root")).as(muiV5())
+                .findComponent(parent()).findComponent(By.className("MuiCalendarPicker-root")).as(muiV5())
                 .toCalendarPicker();
         assertTrue(calendarPicker.validate());
         driver.moveTo(calendarPicker);
@@ -117,7 +121,6 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
         calendarPicker.changeView(CALENDAR, 500);
 
         assertEquals("2047", calendarPicker.getYearLabel().getText());
-
         driver.threadSleep(500L);
 
         calendarPicker.setDate(LocalDate.of(2020, Month.JANUARY, 18), 500);
@@ -126,12 +129,70 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
         assertEquals("18", calendarPicker.getCalendarView().getFirstSelectedDay().getText());
     }
 
+    /**
+     * Tests the sub-component {@link MuiMonthPicker}.
+     *
+     * @see <a href="https://mui.com/components/date-picker/#sub-components">
+     * https://mui.com/components/date-picker/#sub-components</a>
+     */
+    public void testSubComponentsPickersMonthPicker() {
+        MuiMonthPicker monthPicker = driver.findComponent(By.id("SubComponentsPickers.js")).findComponent(parent())
+                .findComponent(By.className("MuiMonthPicker-root")).as(muiV5()).toMonthPicker();
+        driver.moveTo(monthPicker);
+
+        assertEquals(12, monthPicker.getMonthButtons().size());
+        monthPicker.select(Month.NOVEMBER);
+        assertEquals("Nov", monthPicker.getFirstSelectedMonthButton().getText());
+
+        monthPicker.select(Month.JANUARY);
+        assertEquals("Jan", monthPicker.getFirstSelectedMonthButton().getText());
+    }
+
+    /**
+     * Tests the selection views of year, month and date
+     *
+     * @see <a href="https://mui.com/components/date-picker/#views-playground">
+     * https://mui.com/components/date-picker/#views-playground</a>
+     */
+    public void testViewsPlayground() {
+        WebComponent container = driver.findComponent(By.id("ViewsDatePicker.js")).findComponent(parent());
+
+        // year only
+        MuiDatePickerFormField yearOnly = container.findComponent(textExact("Year only")).findComponent(parent())
+                .as(muiV5()).toDatePickerFormField();
+        assertTrue(yearOnly.validate());
+        driver.moveTo(yearOnly);
+
+        yearOnly.openCalendarPicker(500L).getYearPicker().select(2047);
+        assertEquals("2047", yearOnly.getInput().getAttribute("value"));
+
+        yearOnly.openCalendarPicker(500L).getYearPicker().select(2099);
+        assertEquals("2099", yearOnly.getInput().getAttribute("value"));
+
+        yearOnly.openCalendarPicker(500L).getYearPicker().select(1900);
+        assertEquals("1900", yearOnly.getInput().getAttribute("value"));
+
+        MuiDatePickerFormField yearMonth = container.findComponent(textExact("Year and Month")).findComponent(parent())
+                .as(muiV5()).toDatePickerFormField();
+        assertTrue(yearMonth.validate());
+        driver.threadSleep(500L);
+        MuiCalendarPicker calendarPicker = yearMonth.openCalendarPicker(500L);
+        calendarPicker.getYearPicker().select(2018);
+        driver.threadSleep(500L);
+        calendarPicker = yearMonth.openCalendarPicker(500L);
+        calendarPicker.getMonthPicker().select(Month.DECEMBER);
+        assertEquals("December 2018", yearMonth.getInput().getAttribute("value"));
+
+    }
+
     public static void main(String[] args) {
         MuiDatePickersTestCases test = new MuiDatePickersTestCases();
         test.setUpDriver(EDGE);
         test.driver.navigate().to("https://mui.com/components/date-picker/");
-
-        test.testBasicDatePicker();
-        test.testSubComponentsPickersCalendarPicker();
+        //
+        //        test.testBasicDatePicker();
+        //        test.testSubComponentsPickersCalendarPicker();
+        //        test.testSubComponentsPickersMonthPicker();
+        test.testViewsPlayground();
     }
 }

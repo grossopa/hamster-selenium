@@ -46,6 +46,7 @@ import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiPager;
 import com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker;
 import com.github.grossopa.selenium.component.mui.v5.datetime.MuiDatePickerFormField;
+import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiMonthPicker;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSwitchV5;
@@ -765,6 +766,32 @@ public class MuiComponents extends AbstractComponents {
         return create(() -> {
             throw new VersionNotSupportedException("Version V4 is not supported for MuiCalendarPicker.");
         }, () -> new MuiCalendarPicker(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiMonthPicker}.
+     *
+     * <p>It supports {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have below structure:
+     * <pre>
+     * {@code
+     * <div class="MuiMonthPicker-root ...">
+     *  <button class="PrivatePickersMonth-root ...">Jan</button>
+     *  ...
+     *  <button class="PrivatePickersMonth-root ...">Dec</button>
+     * </div>
+     * }
+     * </pre>
+     * </p>
+     *
+     * @return the wrapped {@link MuiMonthPicker} instance on the given component
+     */
+    public MuiMonthPicker toMonthPicker() {
+        return create(() -> {
+            throw new VersionNotSupportedException("Version V4 is not supported for MuiMonthPicker.");
+        }, () -> new MuiMonthPicker(component, driver, config));
     }
 
     /**

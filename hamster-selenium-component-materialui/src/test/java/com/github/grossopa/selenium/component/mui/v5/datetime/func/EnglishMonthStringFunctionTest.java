@@ -35,54 +35,59 @@ import java.time.Month;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests for {@link EnglishStringToMonthFunction}
+ * Tests for {@link EnglishMonthStringFunction}
  *
  * @author Jack Yin
  * @since 1.8
  */
-class EnglishStringToMonthFunctionTest {
+class EnglishMonthStringFunctionTest {
 
-    EnglishStringToMonthFunction testSubject;
+    EnglishMonthStringFunction testSubject;
 
     @BeforeEach
     void setUp() {
-        testSubject = new EnglishStringToMonthFunction();
+        testSubject = new EnglishMonthStringFunction();
     }
 
 
     @Test
-    void apply() {
+    void stringToMonth() {
         String[] months = new String[]{"January", "February", "March", "april", "may", "june", "july", "august",
                 "SEPTEMBER", "oCtObEr", "NOV", "DEC"};
 
         assertDoesNotThrow(() -> {
             for (int i = 0; i < months.length; i++) {
-                assertEquals(Month.of(i + 1), testSubject.apply(months[i]));
+                assertEquals(Month.of(i + 1), testSubject.stringToMonth(months[i]));
             }
         });
     }
 
     @Test
-    void applyThrow() {
-        assertThrows(NoSuchMonthException.class, () -> testSubject.apply("sdfsdf"));
+    void stringToMonthThrow() {
+        assertThrows(NoSuchMonthException.class, () -> testSubject.stringToMonth("sdfsdf"));
+    }
+
+    @Test
+    void monthToString() {
+        assertEquals("Feb", testSubject.monthToString(Month.FEBRUARY));
     }
 
     @Test
     void getInstance() {
-        assertSame(EnglishStringToMonthFunction.getInstance(), EnglishStringToMonthFunction.getInstance());
+        assertSame(EnglishMonthStringFunction.getInstance(), EnglishMonthStringFunction.getInstance());
     }
 
     @Test
     void testToString() {
         assertEquals(
                 "EnglishStringToMonthFunction{MONTHS=[Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]}",
-                EnglishStringToMonthFunction.getInstance().toString());
+                EnglishMonthStringFunction.getInstance().toString());
     }
 
     @Test
     void privateSingletonConstructor() {
         boolean asserted = false;
-        Constructor<?> constructor = EnglishStringToMonthFunction.Singleton.class.getDeclaredConstructors()[0];
+        Constructor<?> constructor = EnglishMonthStringFunction.Singleton.class.getDeclaredConstructors()[0];
         constructor.setAccessible(true);
         try {
             constructor.newInstance();
@@ -93,4 +98,5 @@ class EnglishStringToMonthFunctionTest {
 
         assertTrue(asserted);
     }
+
 }

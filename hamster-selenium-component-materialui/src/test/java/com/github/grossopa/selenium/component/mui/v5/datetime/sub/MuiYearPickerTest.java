@@ -22,7 +22,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v5.datetime;
+package com.github.grossopa.selenium.component.mui.v5.datetime.sub;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -45,18 +45,19 @@ import static org.mockito.Mockito.*;
  * @author Jack Yin
  * @since 1.8
  */
-class MuiYearPickerTest {
+@SuppressWarnings("all")
+public class MuiYearPickerTest {
 
     MuiYearPicker testSubject;
 
-    WebElement element = mock(WebElement.class);
+    public WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
-    List<WebElement> yearButtonElements = newArrayList();
+    public List<WebElement> yearButtonElements = newArrayList();
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         for (int i = 1900; i < 2100; i++) {
             WebElement yearButtonElement = mock(WebElement.class);
             when(yearButtonElement.getText()).thenReturn(String.valueOf(i));

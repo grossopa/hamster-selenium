@@ -25,6 +25,8 @@
 package com.github.grossopa.selenium.component.mui.v5.datetime;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.v5.datetime.func.MonthStringFunction;
+import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiYearPickerTest;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +38,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Function;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.google.common.collect.Lists.newArrayList;
@@ -68,6 +69,7 @@ class MuiCalendarPickerTest {
 
     WebElement calendarViewElement = mock(WebElement.class);
     WebElement yearPickerElement = mock(WebElement.class);
+    WebElement monthPickerElement = mock(WebElement.class);
     List<WebElement> dayButtons = newArrayList();
 
     String currentYear = "2023";
@@ -90,6 +92,7 @@ class MuiCalendarPickerTest {
         when(element.findElement(By.className("MuiCalendarPicker-viewTransitionContainer"))).thenReturn(
                 calendarViewElement);
         when(element.findElement(By.className("MuiYearPicker-root"))).thenReturn(yearPickerElement);
+        when(element.findElement(By.className("MuiMonthPicker-root"))).thenReturn(monthPickerElement);
 
         doAnswer(a -> currentYear).when(yearLabelElement).getText();
 
@@ -190,6 +193,11 @@ class MuiCalendarPickerTest {
     @Test
     void getYearPicker() {
         assertEquals(yearPickerElement, testSubject.getYearPicker().getWrappedElement());
+    }
+
+    @Test
+    void getMonthPicker() {
+        assertEquals(monthPickerElement, testSubject.getMonthPicker().getWrappedElement());
     }
 
     @Test
@@ -313,12 +321,11 @@ class MuiCalendarPickerTest {
     }
 
     @Test
-    @SuppressWarnings({"rawtypes", "unchecked"})
     void testEquals() {
         WebElement element1 = mock(WebElement.class);
         WebElement element2 = mock(WebElement.class);
-        Function strToMonthFunction1 = mock(Function.class);
-        Function strToMonthFunction2 = mock(Function.class);
+        MonthStringFunction strToMonthFunction1 = mock(MonthStringFunction.class);
+        MonthStringFunction strToMonthFunction2 = mock(MonthStringFunction.class);
 
         SimpleEqualsTester tester = new SimpleEqualsTester();
         tester.addEqualityGroup(new MuiCalendarPicker(element1, driver, config),
@@ -334,7 +341,7 @@ class MuiCalendarPickerTest {
     @Test
     void testToString() {
         when(element.toString()).thenReturn("element");
-        assertEquals("MuiCalendarPicker{stringToMonthFunction=EnglishStringToMonthFunction{MONTHS=[Jan, "
+        assertEquals("MuiCalendarPicker{monthStringFunction=EnglishStringToMonthFunction{MONTHS=[Jan, "
                 + "Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]}, element=element}", testSubject.toString());
     }
 }
