@@ -80,7 +80,7 @@
     <!-- project dependencies -->
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <commons-math3.version>3.6.1</commons-math3.version>
-    <selenium-java.version>3.141.59</selenium-java.version>
+    <selenium-java.version>4.0.0</selenium-java.version>
     <lombok.version>1.18.20</lombok.version>
 
     <!-- testing dependencies -->
@@ -88,7 +88,7 @@
     <junit-platform-surefire-provider.version>RELEASE</junit-platform-surefire-provider.version>
     <mockito.version>RELEASE</mockito.version>
     <byte-buddy.version>RELEASE</byte-buddy.version>
-    <openpojo.version>0.8.13</openpojo.version>
+    <openpojo.version>0.9.1</openpojo.version>
 
     <!-- Maven plugins -->
     <maven.compiler.target>11</maven.compiler.target>

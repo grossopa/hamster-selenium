@@ -173,12 +173,6 @@ class AbstractDelegatedWebElementTest {
     }
 
     @Test
-    void getId() {
-        testSubject.getId();
-        verify(element, only()).getId();
-    }
-
-    @Test
     void getWrappedDriver() {
         testSubject.getWrappedDriver();
         verify(element, only()).getWrappedDriver();

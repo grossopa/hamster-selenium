@@ -28,7 +28,6 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.factory.WebComponentFactory;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Locatable;
-import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.List;
 import java.util.function.Function;
@@ -40,8 +39,7 @@ import java.util.function.Function;
  * @author Jack Yin
  * @since 1.0
  */
-@SuppressWarnings("deprecation")
-public interface WebComponent extends WrapsElement, WebElement, HasIdentity, TakesScreenshot, Locatable, WrapsDriver {
+public interface WebComponent extends WrapsElement, WebElement, TakesScreenshot, Locatable, WrapsDriver {
 
     /**
      * Gets the web driver
@@ -213,4 +211,11 @@ public interface WebComponent extends WrapsElement, WebElement, HasIdentity, Tak
      * @return whether current wrapped {@link WebElement} is expected and controllable by current instance.
      */
     boolean validate();
+
+    /**
+     * Gets the element id
+     *
+     * @return the element id
+     */
+    String getId();
 }

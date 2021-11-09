@@ -161,11 +161,6 @@ public class InterceptingWebElement extends AbstractDelegatedWebElement {
     }
 
     @Override
-    public String getId() {
-        return handler.execute(super::getId, MethodInfo.create(element, ELEMENT_GET_ID));
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

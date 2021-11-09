@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.core.driver;
 
+import com.openpojo.reflection.PojoClass;
+import com.openpojo.reflection.PojoClassFilter;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;

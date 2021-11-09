@@ -135,6 +135,11 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     }
 
     @Override
+    public String getId() {
+        return element.getAttribute("id");
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -159,7 +164,6 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
         components.setContext(this, driver);
         return components;
     }
-
 
     @Override
     public String toString() {

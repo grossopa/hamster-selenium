@@ -214,15 +214,6 @@ class InterceptingWebElementTest {
     }
 
     @Test
-    void getId() {
-        when(element.getId()).thenReturn("dddd");
-        String result = testSubject.getId();
-        assertEquals("dddd", result);
-        verify(element, times(1)).getId();
-        afterEachVerify(handler, element, ELEMENT_GET_ID, "dddd");
-    }
-
-    @Test
     void testGetter() {
         PojoClass pojoClass = PojoClassFactory.getPojoClass(InterceptingWebElement.class);
         Validator validator = ValidatorBuilder.create().with(new GetterMustExistRule()).with(new GetterTester())

@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.core.intercepting;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 
 import static com.github.grossopa.selenium.core.intercepting.InterceptingMethods.*;
 import static java.util.Objects.requireNonNull;
@@ -83,6 +84,12 @@ public class InterceptingTargetLocator implements WebDriver.TargetLocator {
     public WebDriver window(String nameOrHandle) {
         return handler.execute(() -> targetLocator.window(nameOrHandle),
                 MethodInfo.create(targetLocator, TARGETLOCATOR_WINDOW, nameOrHandle));
+    }
+
+    @Override
+    public WebDriver newWindow(WindowType typeHint) {
+        return handler.execute(() -> targetLocator.newWindow(typeHint),
+                MethodInfo.create(targetLocator, TARGETLOCATOR_NEW_WINDOW, typeHint));
     }
 
     @Override

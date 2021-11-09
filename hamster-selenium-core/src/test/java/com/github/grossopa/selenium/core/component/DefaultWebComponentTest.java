@@ -190,4 +190,10 @@ class DefaultWebComponentTest {
         assertTrue(testSubject.styleContains("background-color", "black"));
         assertFalse(testSubject.styleContains("background-color", "white"));
     }
+
+    @Test
+    void getId() {
+        when(element.getAttribute("id")).thenReturn("abc");
+        assertEquals("abc", testSubject.getId());
+    }
 }

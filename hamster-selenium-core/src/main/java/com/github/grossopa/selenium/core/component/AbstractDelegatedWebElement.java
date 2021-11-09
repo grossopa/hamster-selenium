@@ -27,7 +27,6 @@ package com.github.grossopa.selenium.core.component;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
-import org.openqa.selenium.internal.HasIdentity;
 
 import java.util.List;
 import java.util.Objects;
@@ -40,9 +39,8 @@ import static java.util.Objects.requireNonNull;
  * @author Jack Yin
  * @since 1.0
  */
-@SuppressWarnings("deprecation")
 public abstract class AbstractDelegatedWebElement
-        implements WrapsElement, WebElement, HasIdentity, TakesScreenshot, Locatable, WrapsDriver {
+        implements WrapsElement, WebElement, TakesScreenshot, Locatable, WrapsDriver {
 
     protected final WebElement element;
 
@@ -153,11 +151,6 @@ public abstract class AbstractDelegatedWebElement
     @Override
     public Coordinates getCoordinates() {
         return ((Locatable) element).getCoordinates();
-    }
-
-    @Override
-    public String getId() {
-        return ((HasIdentity) element).getId();
     }
 
     @Override

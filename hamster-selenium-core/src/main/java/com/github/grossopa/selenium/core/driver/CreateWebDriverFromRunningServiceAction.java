@@ -79,7 +79,7 @@ public class CreateWebDriverFromRunningServiceAction
     private WebDriver doBuild(RemoteWebDriverBuilder builder, RunningServiceParams input) {
         return builder
                 .addAlternative(input.getOptions())
-                .url(input.getUrl())
+                .address(input.getUrl())
                 .build();
     }
 
