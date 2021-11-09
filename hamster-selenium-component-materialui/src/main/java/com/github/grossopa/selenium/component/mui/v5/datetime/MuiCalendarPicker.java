@@ -46,7 +46,11 @@ import java.util.Objects;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.*;
 import static java.lang.Integer.parseInt;
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.join;
+import static org.openqa.selenium.By.xpath;
 
 /**
  * The sub-component for user to be able to select date, month and year.
@@ -57,12 +61,18 @@ import static java.lang.Integer.parseInt;
 @SuppressWarnings("java:S2160")
 public class MuiCalendarPicker extends AbstractMuiComponent {
 
-    private final MonthStringFunction monthStringFunction;
+    /**
+     * The view types when calendar view is enabled
+     */
+    private static final List<MuiCalendarPicker.ViewType> CALENDAR_VIEW_TYPES = List.of(YEAR, DAY);
 
     /**
      * the component name
      */
     public static final String COMPONENT_NAME = "CalendarPicker";
+
+    private final List<MuiCalendarPicker.ViewType> views;
+    private final MonthStringFunction monthStringFunction;
 
     /**
      * Constructs an instance with the delegated element and root driver
@@ -70,10 +80,11 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      * @param element the delegated element
      * @param driver the root driver
      * @param config the Material UI configuration
+     * @param views the view type sequence, defined by e.g. views={['year', 'day']}
      */
-    public MuiCalendarPicker(WebElement element, ComponentWebDriver driver, MuiConfig config) {
-        super(element, driver, config);
-        this.monthStringFunction = EnglishMonthStringFunction.getInstance();
+    public MuiCalendarPicker(WebElement element, ComponentWebDriver driver, MuiConfig config,
+            List<MuiCalendarPicker.ViewType> views) {
+        this(element, driver, config, views, EnglishMonthStringFunction.getInstance());
     }
 
     /**
@@ -83,11 +94,13 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      * @param element the delegated element
      * @param driver the root driver
      * @param config the Material UI configuration
+     * @param views the view type sequence, defined by e.g. views={['year', 'day']}
      * @param monthStringFunction the monthStringFunction to convert
      */
     public MuiCalendarPicker(WebElement element, ComponentWebDriver driver, MuiConfig config,
-            MonthStringFunction monthStringFunction) {
+            List<MuiCalendarPicker.ViewType> views, MonthStringFunction monthStringFunction) {
         super(element, driver, config);
+        this.views = List.copyOf(views.stream().distinct().collect(toList()));
         this.monthStringFunction = monthStringFunction;
     }
 
@@ -108,7 +121,7 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      */
     public WebComponent getMonthLabel() {
         return this.findComponent(
-                By.xpath("./div[1]/div[1]//div[contains(@class,'PrivatePickersFadeTransitionGroup-root')][1]"));
+                xpath("./div[1]/div[1]//div[contains(@class,'PrivatePickersFadeTransitionGroup-root')][1]"));
     }
 
     /**
@@ -118,7 +131,7 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      */
     public WebComponent getYearLabel() {
         return this.findComponent(
-                By.xpath("./div[1]/div[1]//div[contains(@class,'PrivatePickersFadeTransitionGroup-root')][2]"));
+                xpath("./div[1]/div[1]//div[contains(@class,'PrivatePickersFadeTransitionGroup-root')][2]"));
     }
 
     /**
@@ -127,7 +140,7 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      * @return the switch button that can do from Calendar to Year switching.
      */
     public MuiButton getSwitchButton() {
-        WebComponent component = this.findComponent(By.xpath("./div[1]/div[1]//button"));
+        WebComponent component = this.findComponent(xpath("./div[1]/div[1]//button"));
         return new MuiButton(component, driver, config);
     }
 
@@ -137,7 +150,7 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      * @return the previous button
      */
     public MuiButton getPreviousMonthButton() {
-        WebComponent component = this.findComponent(By.xpath("./div[1]/div[2]//button[1]"));
+        WebComponent component = this.findComponent(xpath("./div[1]/div[2]//button[1]"));
         return new MuiButton(component, driver, config);
     }
 
@@ -147,7 +160,7 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      * @return the next button
      */
     public MuiButton getNextMonthButton() {
-        WebComponent component = this.findComponent(By.xpath("./div[1]/div[2]//button[2]"));
+        WebComponent component = this.findComponent(xpath("./div[1]/div[2]//button[2]"));
         return new MuiButton(component, driver, config);
     }
 
@@ -199,14 +212,32 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
      * is 500.
      */
     public void setDate(LocalDate date, long delayInMillis) {
+        if (CALENDAR_VIEW_TYPES.equals(views)) {
+            setDateInCalendarView(date, delayInMillis);
+        } else {
+            views.forEach(view -> {
+                driver.threadSleep(delayInMillis);
+                if (view == YEAR) {
+                    this.getYearPicker().select(date.getYear());
+                } else if (view == MONTH) {
+                    this.getMonthPicker().select(date.getMonth());
+                } else {
+                    this.getCalendarView().select(date.getDayOfMonth());
+                }
+            });
+        }
+        driver.threadSleep(delayInMillis);
+    }
+
+    private void setDateInCalendarView(LocalDate date, long delayInMillis) {
         int year = date.getYear();
         Month month = date.getMonth();
         int day = date.getDayOfMonth();
 
         if (year != parseInt(this.getYearLabel().getText())) {
-            changeView(ViewType.YEAR, delayInMillis);
+            changeView(YEAR, delayInMillis);
             this.getYearPicker().select(year);
-            changeView(ViewType.CALENDAR, delayInMillis);
+            changeView(DAY, delayInMillis);
         }
 
         Month current = monthStringFunction.stringToMonth(this.getMonthLabel().getText());
@@ -255,10 +286,28 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
     public ViewType getCurrentView() {
         List<WebComponent> yearPicker = this.findComponents(By.className(config.getCssPrefix() + "YearPicker-root"));
         if (yearPicker.isEmpty()) {
-            return ViewType.CALENDAR;
+            return DAY;
         } else {
-            return ViewType.YEAR;
+            return YEAR;
         }
+    }
+
+    /**
+     * Gets the specified views of the picker.
+     *
+     * @return the specified views of the picker.
+     */
+    public List<ViewType> getViews() {
+        return views;
+    }
+
+    /**
+     * Gets the month string function.
+     *
+     * @return the month string function.
+     */
+    public MonthStringFunction getMonthStringFunction() {
+        return monthStringFunction;
     }
 
     @Override
@@ -273,17 +322,18 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
             return false;
         }
         MuiCalendarPicker that = (MuiCalendarPicker) o;
-        return Objects.equals(monthStringFunction, that.monthStringFunction);
+        return views.equals(that.views) && monthStringFunction.equals(that.monthStringFunction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), monthStringFunction);
+        return Objects.hash(super.hashCode(), views, monthStringFunction);
     }
 
     @Override
     public String toString() {
-        return "MuiCalendarPicker{" + "monthStringFunction=" + monthStringFunction + ", element=" + element + '}';
+        return "MuiCalendarPicker{" + "views=[" + join(views, ",") + "], monthStringFunction=" + monthStringFunction
+                + ", element=" + element + '}';
     }
 
     /**
@@ -297,7 +347,7 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
         /**
          * {@link MuiCalendarPicker#getCalendarView()} is available when {@link #getCurrentView()} is this.
          */
-        CALENDAR,
+        DAY,
         /**
          * {@link MuiCalendarPicker#getYearPicker()} is available when {@link #getCurrentView()} is this.
          */

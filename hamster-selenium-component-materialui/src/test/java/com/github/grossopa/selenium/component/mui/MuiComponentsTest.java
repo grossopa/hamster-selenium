@@ -27,8 +27,8 @@ package com.github.grossopa.selenium.component.mui;
 import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.v4.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.exception.InvalidVersionException;
+import com.github.grossopa.selenium.component.mui.v4.datadisplay.*;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiSnackbar;
@@ -56,6 +56,8 @@ import java.util.function.UnaryOperator;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.MONTH;
+import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.YEAR;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -73,6 +75,8 @@ class MuiComponentsTest {
     WebComponent component = mock(WebComponent.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
+
+    MuiCalendarPicker.ViewType view = YEAR;
 
     @BeforeEach
     void setUp() {
@@ -681,6 +685,19 @@ class MuiComponentsTest {
         when(config.getVersion()).thenReturn(V5);
         assertEquals(element, testSubject.toDatePickerFormField().getWrappedElement());
         assertEquals(MuiDatePickerFormField.class, testSubject.toDatePickerFormField().getClass());
+    }
+
+    @Test
+    void toDatePickerFormFieldWithViewsV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertThrows(VersionNotSupportedException.class, () -> testSubject.toDatePickerFormField(MONTH));
+    }
+
+    @Test
+    void toDatePickerFormFieldWithViewsV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertEquals(element, testSubject.toDatePickerFormField().getWrappedElement());
+        assertEquals(MuiDatePickerFormField.class, testSubject.toDatePickerFormField(YEAR).getClass());
     }
 
     @Test

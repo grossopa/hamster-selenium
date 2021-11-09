@@ -34,16 +34,22 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
+import java.time.LocalDate;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.DAY;
+import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.YEAR;
 import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnoringStaleElementReference;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.isNotDisplayed;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.StringUtils.join;
 
 /**
  * The date picker text box with a popup on desktop.
@@ -54,6 +60,9 @@ import static java.util.Objects.requireNonNull;
  * @since 1.8
  */
 public class MuiDatePickerFormField extends MuiTextField {
+
+    private final List<MuiCalendarPicker.ViewType> views;
+
     /**
      * Constructs an instance with the delegated element and root driver
      *
@@ -62,7 +71,18 @@ public class MuiDatePickerFormField extends MuiTextField {
      * @param config the Material UI configuration
      */
     public MuiDatePickerFormField(WebElement element, ComponentWebDriver driver, MuiConfig config) {
+        this(element, driver, config, List.of(YEAR, DAY));
+    }
+
+    public MuiDatePickerFormField(WebElement element, ComponentWebDriver driver, MuiConfig config,
+            List<MuiCalendarPicker.ViewType> views) {
         super(element, driver, config);
+        requireNonNull(views);
+        if (views.isEmpty()) {
+            throw new IllegalArgumentException("view type is mandatory");
+        }
+
+        this.views = List.copyOf(views.stream().distinct().collect(toList()));
     }
 
     @Override
@@ -80,10 +100,21 @@ public class MuiDatePickerFormField extends MuiTextField {
                 .contains(config.getCssPrefix() + "InputAdornment-root").child("button").build());
     }
 
+    /**
+     * Expands the calendar picker
+     *
+     * @return the popup calendar picker
+     */
     public MuiCalendarPicker openCalendarPicker() {
         return openCalendarPicker(0L);
     }
 
+    /**
+     * Expands the calendar picker, with the delays for animation.
+     *
+     * @param delayInMillis the delays in milliseconds
+     * @return the popup calendar picker
+     */
     public MuiCalendarPicker openCalendarPicker(long delayInMillis) {
         WebComponent componentDialog = tryLocatePickerDialog();
         if (componentDialog == null) {
@@ -96,13 +127,21 @@ public class MuiDatePickerFormField extends MuiTextField {
             }
         }
 
-        return new MuiCalendarPicker(componentDialog, driver, config);
+        return new MuiCalendarPicker(componentDialog, driver, config, this.views);
     }
 
+    /**
+     * Closes the displayed picker.
+     */
     public void closePicker() {
         closePicker(0L);
     }
 
+    /**
+     * Closes the displayed picker with delay for animation.
+     *
+     * @param delayInMillis the delay in milliseconds
+     */
     public void closePicker(long delayInMillis) {
         WebComponent componentDialog = tryLocatePickerDialog();
         if (isNotDisplayed(componentDialog)) {
@@ -126,6 +165,36 @@ public class MuiDatePickerFormField extends MuiTextField {
     }
 
     /**
+     * Sets the date by operating the component to expand the date picker and do the actions to select the date. If the
+     * year does not include the corresponding value such as Year, so the year part of the date will be ignored.
+     *
+     * @param date the new date to set.
+     */
+    public void setDate(LocalDate date) {
+        this.setDate(date, 0L);
+    }
+
+    /**
+     * Sets the date by operating the component to expand the date picker and do the actions to select the date. If the
+     * year does not include the corresponding value such as Year, so the year part of the date will be ignored.
+     *
+     * @param date the new date to set.
+     * @param delayInMillis to delay the actions following animations by milliseconds. recommended value is 500.
+     */
+    public void setDate(LocalDate date, long delayInMillis) {
+        this.openCalendarPicker(delayInMillis).setDate(date, delayInMillis);
+    }
+
+    /**
+     * Gets the current specified views of the date picker.
+     *
+     * @return the current specified views of the date picker.
+     */
+    public List<MuiCalendarPicker.ViewType> getViews() {
+        return views;
+    }
+
+    /**
      * Tries to locate the picker dialog
      */
     private WebComponent tryLocatePickerDialog() {
@@ -138,5 +207,30 @@ public class MuiDatePickerFormField extends MuiTextField {
         } else {
             return componentList.get(componentList.size() - 1);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MuiDatePickerFormField)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        MuiDatePickerFormField that = (MuiDatePickerFormField) o;
+        return Objects.equals(views, that.views);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), views);
+    }
+
+    @Override
+    public String toString() {
+        return "MuiDatePickerFormField{" + "views=" + join(views, ",") + ", element=" + element + '}';
     }
 }

@@ -28,9 +28,9 @@ import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
 import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
+import com.github.grossopa.selenium.component.mui.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.core.MuiGrid;
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.*;
-import com.github.grossopa.selenium.component.mui.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiBackdrop;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiSnackbar;
@@ -57,12 +57,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -763,9 +765,66 @@ public class MuiComponents extends AbstractComponents {
      * @return the wrapped {@link MuiCalendarPicker} instance on the given component
      */
     public MuiCalendarPicker toCalendarPicker() {
+        return toCalendarPicker(List.of(MuiCalendarPicker.ViewType.YEAR, MuiCalendarPicker.ViewType.DAY));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiCalendarPicker}.
+     *
+     * <p>It supports {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have below structure:
+     * <pre>
+     * {@code
+     * <div class="MuiCalendarPicker-root ...">
+     *  <div>
+     *     <div>
+     *       <div class="PrivatePickersFadeTransitionGroup-root ...">October</div>
+     *       <div class="PrivatePickersFadeTransitionGroup-root ...">2021</div>
+     *       <button class="MuiIconButton-root ..." data-testid="ArrowDropDownIcon">...</button>
+     *     </div>
+     *     <div>
+     *       <button class="MuiIconButton-root ..." title="Previous month"></span>
+     *       <button class="MuiIconButton-root ..." title="Next month"></span>
+     *     </div>
+     *   </div>
+     *
+     *   <div class="MuiCalendarPicker-viewTransitionContainer ...">
+     *     <!-- could either be below snippets or MuiYearPicker if year selection is open -->
+     *     <div>
+     *       <div>
+     *         <span class="MuiTypography-root ...">S</span>
+     *         <span class="MuiTypography-root ...">M</span>
+     *         <span class="MuiTypography-root ...">T</span>
+     *         <span class="MuiTypography-root ...">W</span>
+     *         <span class="MuiTypography-root ...">T</span>
+     *         <span class="MuiTypography-root ...">F</span>
+     *         <span class="MuiTypography-root ...">S</span>
+     *       </div>
+     *       <div class="PrivatePickersSlideTransition-root">
+     *         <div role="grid">
+     *           {Array.from(Array(5 or 6).keys()).map(key ->
+     *           <div role="row">
+     *             Array.from(Array(7).keys()).map(key ->
+     *             <div role="cell">
+     *               <div class="MuiPickersDay-root ...">${either empty or day number}</div>
+     *             </div>)
+     *           </div>)}
+     *         </div>
+     *       </div>
+     *   </div>
+     * </div>
+     * }
+     * </pre>
+     * </p>
+     *
+     * @return the wrapped {@link MuiCalendarPicker} instance on the given component
+     */
+    public MuiCalendarPicker toCalendarPicker(List<MuiCalendarPicker.ViewType> view) {
         return create(() -> {
             throw new VersionNotSupportedException("Version V4 is not supported for MuiCalendarPicker.");
-        }, () -> new MuiCalendarPicker(component, driver, config));
+        }, () -> new MuiCalendarPicker(component, driver, config, view));
     }
 
     /**
@@ -822,6 +881,36 @@ public class MuiComponents extends AbstractComponents {
         return create(() -> {
             throw new VersionNotSupportedException("Version V4 is not supported for MuiDatePickerFormField.");
         }, () -> new MuiDatePickerFormField(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiDatePickerFormField} with specific views.
+     *
+     * <p>It only supports Material UI {@link MuiVersion#V5}.</p>
+     *
+     * <p>
+     * The {@link WebElement} should have below structure: {@code
+     * <div class="MuiTextField-root ...">
+     *   <div class="MuiInputBase-root ...">
+     *     <input .../>
+     *     <div ...>
+     *       <button class="MuiIconButton-root" aria-label="Choose Date">
+     *         <svg data-testid="CalendarIcon">
+     *           ...
+     *         </svg>
+     *       </button>
+     *     </div>
+     *   </div>
+     * </div>
+     * }
+     * </p>
+     *
+     * @return the wrapped {@link MuiDatePickerFormField} instance on the given component
+     */
+    public MuiDatePickerFormField toDatePickerFormField(MuiCalendarPicker.ViewType... views) {
+        return create(() -> {
+            throw new VersionNotSupportedException("Version V4 is not supported for MuiDatePickerFormField.");
+        }, () -> new MuiDatePickerFormField(component, driver, config, newArrayList(views)));
     }
 
     /**

@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.component.mui.v5.datetime;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.exception.DatePickerNotClosedException;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -34,11 +35,14 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Function;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.*;
 import static com.google.common.collect.Lists.newArrayList;
+import static java.time.Month.DECEMBER;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -61,6 +65,8 @@ class MuiDatePickerFormFieldTest {
 
     WebDriverWait webDriverWait = mock(WebDriverWait.class);
 
+    MuiCalendarPickerTest calendarPickerTest;
+
     @BeforeEach
     @SuppressWarnings({"unchecked", "rawtypes"})
     void setUp() {
@@ -81,11 +87,15 @@ class MuiDatePickerFormFieldTest {
 
         mockNoPickersDialog();
 
+        calendarPickerTest = new MuiCalendarPickerTest();
+        calendarPickerTest.element = pickersDialogElement;
+        calendarPickerTest.setUp();
+        when(calendarPickerTest.monthLabelElement.getText()).thenReturn("October");
+
         testSubject = new MuiDatePickerFormField(element, driver, config);
     }
 
     private void mockHasPickersDialog() {
-
         when(element.findElements(
                 By.xpath("/html/body/div[@role='dialog']//div[contains(@class,'MuiCalendarPicker-root')]"))).thenReturn(
                 List.of(pickersDialogElement));
@@ -96,6 +106,7 @@ class MuiDatePickerFormFieldTest {
                 By.xpath("/html/body/div[@role='dialog']//div[contains(@class,'MuiCalendarPicker-root')]"))).thenReturn(
                 newArrayList());
     }
+
 
     @Test
     void version() {
@@ -200,5 +211,74 @@ class MuiDatePickerFormFieldTest {
         assertThrows(DatePickerNotClosedException.class, () -> testSubject.closePicker());
     }
 
+    @Test
+    @SuppressWarnings("all")
+    void constructor() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new MuiDatePickerFormField(element, driver, config, newArrayList()));
+    }
 
+    @Test
+    void testEquals() {
+        WebElement element1 = mock(WebElement.class);
+        WebElement element2 = mock(WebElement.class);
+        List<MuiCalendarPicker.ViewType> views1 = newArrayList(YEAR, MONTH);
+        List<MuiCalendarPicker.ViewType> views2 = newArrayList(MONTH, YEAR);
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+        tester.addEqualityGroup(new MuiDatePickerFormField(element1, driver, config, views1),
+                new MuiDatePickerFormField(element1, driver, config, newArrayList(YEAR, MONTH)));
+        tester.addEqualityGroup(new MuiDatePickerFormField(element1, driver, config, views2));
+        tester.addEqualityGroup(new MuiDatePickerFormField(element2, driver, config, views1));
+        tester.addEqualityGroup(new MuiDatePickerFormField(element2, driver, config, views2));
+
+        tester.testEquals();
+    }
+
+
+    @Test
+    void setDateNoDelays() {
+        mockNoPickersDialog();
+        doAnswer(a -> {
+            mockHasPickersDialog();
+            return null;
+        }).when(dateButtonElement).click();
+
+        testSubject.setDate(LocalDate.of(2012, DECEMBER, 1));
+
+        verify(calendarPickerTest.nextMonthButtonElement, times(2)).click();
+        verify(calendarPickerTest.previousMonthButtonElement, never()).click();
+        assertEquals("2012", calendarPickerTest.currentYear);
+        verify(calendarPickerTest.dayButtons.get(0), times(1)).click();
+        verify(driver, times(4)).threadSleep(0L);
+    }
+
+    @Test
+    void testSetDate() {
+        mockNoPickersDialog();
+        doAnswer(a -> {
+            mockHasPickersDialog();
+            return null;
+        }).when(dateButtonElement).click();
+
+        when(driver.createWait(876L)).thenReturn(webDriverWait);
+
+        testSubject.setDate(LocalDate.of(2012, DECEMBER, 1), 876L);
+
+        verify(calendarPickerTest.nextMonthButtonElement, times(2)).click();
+        verify(calendarPickerTest.previousMonthButtonElement, never()).click();
+        assertEquals("2012", calendarPickerTest.currentYear);
+        verify(calendarPickerTest.dayButtons.get(0), times(1)).click();
+        verify(driver, times(4)).threadSleep(876L);
+    }
+
+    @Test
+    void testToString() {
+        when(element.toString()).thenReturn("element");
+        assertEquals("MuiDatePickerFormField{views=YEAR,DAY, element=element}", testSubject.toString());
+    }
+
+    @Test
+    void getViews() {
+        assertArrayEquals(new Object[]{YEAR, DAY}, testSubject.getViews().toArray());
+    }
 }

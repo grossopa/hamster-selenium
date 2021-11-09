@@ -25,10 +25,12 @@
 package com.github.grossopa.selenium.component.mui.v5.datetime;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.v5.datetime.func.EnglishMonthStringFunction;
 import com.github.grossopa.selenium.component.mui.v5.datetime.func.MonthStringFunction;
 import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiYearPickerTest;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -36,15 +38,19 @@ import org.openqa.selenium.WebElement;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.*;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.BUTTON;
+import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -71,6 +77,8 @@ class MuiCalendarPickerTest {
     WebElement yearPickerElement = mock(WebElement.class);
     WebElement monthPickerElement = mock(WebElement.class);
     List<WebElement> dayButtons = newArrayList();
+    List<MuiCalendarPicker.ViewType> views = newArrayList();
+    List<WebElement> buttonElements;
 
     String currentYear = "2023";
 
@@ -142,7 +150,18 @@ class MuiCalendarPickerTest {
             return null;
         }).when(nextMonthButtonElement).click();
 
-        testSubject = new MuiCalendarPicker(element, driver, config);
+        buttonElements = Arrays.stream(Month.values())
+                .map(m -> StringUtils.capitalize(m.toString().toLowerCase(Locale.ROOT))).map(m -> {
+                    WebElement monthElement = mock(WebElement.class);
+                    when(monthElement.getText()).thenReturn(m);
+                    return element;
+                }).collect(Collectors.toList());
+
+        when(element.findElements(By.xpath(".//button[contains(@class,\"PrivatePickersMonth-root\")]"))).thenReturn(
+                buttonElements);
+
+        views = newArrayList(YEAR, DAY);
+        testSubject = new MuiCalendarPicker(element, driver, config, views);
     }
 
     private void mockYearView(boolean isDisplayed) {
@@ -247,7 +266,7 @@ class MuiCalendarPickerTest {
     @Test
     void changeView1() {
         mockYearView(true);
-        testSubject.changeView(MuiCalendarPicker.ViewType.CALENDAR);
+        testSubject.changeView(DAY);
         verify(switchButtonElement, times(1)).click();
         verify(driver, times(1)).threadSleep(0L);
     }
@@ -255,7 +274,7 @@ class MuiCalendarPickerTest {
     @Test
     void changeView2() {
         mockYearView(true);
-        testSubject.changeView(MuiCalendarPicker.ViewType.YEAR);
+        testSubject.changeView(YEAR);
         verify(switchButtonElement, never()).click();
         verify(driver, never()).threadSleep(0L);
     }
@@ -263,7 +282,7 @@ class MuiCalendarPickerTest {
     @Test
     void changeView3() {
         mockYearView(false);
-        testSubject.changeView(MuiCalendarPicker.ViewType.YEAR);
+        testSubject.changeView(YEAR);
         verify(switchButtonElement, times(1)).click();
         verify(driver, times(1)).threadSleep(0L);
     }
@@ -271,7 +290,7 @@ class MuiCalendarPickerTest {
     @Test
     void changeView4() {
         mockYearView(false);
-        testSubject.changeView(MuiCalendarPicker.ViewType.CALENDAR);
+        testSubject.changeView(DAY);
         verify(switchButtonElement, never()).click();
         verify(driver, never()).threadSleep(0L);
     }
@@ -279,7 +298,7 @@ class MuiCalendarPickerTest {
     @Test
     void changeView11() {
         mockYearView(true);
-        testSubject.changeView(MuiCalendarPicker.ViewType.CALENDAR, 1234L);
+        testSubject.changeView(DAY, 1234L);
         verify(switchButtonElement, times(1)).click();
         verify(driver, times(1)).threadSleep(1234L);
     }
@@ -287,7 +306,7 @@ class MuiCalendarPickerTest {
     @Test
     void changeView12() {
         mockYearView(true);
-        testSubject.changeView(MuiCalendarPicker.ViewType.YEAR, 1234L);
+        testSubject.changeView(YEAR, 1234L);
         verify(switchButtonElement, never()).click();
         verify(driver, never()).threadSleep(1234L);
     }
@@ -295,7 +314,7 @@ class MuiCalendarPickerTest {
     @Test
     void changeView13() {
         mockYearView(false);
-        testSubject.changeView(MuiCalendarPicker.ViewType.YEAR, 1234L);
+        testSubject.changeView(YEAR, 1234L);
         verify(switchButtonElement, times(1)).click();
         verify(driver, times(1)).threadSleep(1234L);
     }
@@ -303,7 +322,7 @@ class MuiCalendarPickerTest {
     @Test
     void changeView14() {
         mockYearView(false);
-        testSubject.changeView(MuiCalendarPicker.ViewType.CALENDAR, 1234L);
+        testSubject.changeView(DAY, 1234L);
         verify(switchButtonElement, never()).click();
         verify(driver, never()).threadSleep(1234L);
     }
@@ -311,13 +330,95 @@ class MuiCalendarPickerTest {
     @Test
     void getCurrentView1() {
         mockYearView(true);
-        assertEquals(MuiCalendarPicker.ViewType.YEAR, testSubject.getCurrentView());
+        assertEquals(YEAR, testSubject.getCurrentView());
     }
 
     @Test
     void getCurrentView2() {
         mockYearView(false);
-        assertEquals(MuiCalendarPicker.ViewType.CALENDAR, testSubject.getCurrentView());
+        assertEquals(DAY, testSubject.getCurrentView());
+    }
+
+
+    @Test
+    void setDate() {
+        when(monthLabelElement.getText()).thenReturn("October");
+
+        testSubject.setDate(LocalDate.of(2012, Month.DECEMBER, 1));
+        verify(nextMonthButtonElement, times(2)).click();
+        verify(previousMonthButtonElement, never()).click();
+        assertEquals("2012", currentYear);
+        verify(dayButtons.get(0), times(1)).click();
+    }
+
+    @Test
+    void setDateWithDelays() {
+        when(monthLabelElement.getText()).thenReturn("October");
+
+        testSubject.setDate(LocalDate.of(2012, Month.DECEMBER, 1), 800L);
+        verify(nextMonthButtonElement, times(2)).click();
+        verify(previousMonthButtonElement, never()).click();
+        assertEquals("2012", currentYear);
+        verify(dayButtons.get(0), times(1)).click();
+
+        verify(driver, times(4)).threadSleep(800L);
+    }
+
+    @Test
+    void setDateYear() {
+        views = newArrayList(YEAR);
+        testSubject = new MuiCalendarPicker(element, driver, config, views);
+        when(monthLabelElement.getText()).thenReturn("October");
+
+        testSubject.setDate(LocalDate.of(2012, Month.DECEMBER, 1), 800L);
+        verify(nextMonthButtonElement, never()).click();
+        verify(previousMonthButtonElement, never()).click();
+
+        assertEquals("2012", currentYear);
+        verify(monthPickerElement, never()).findElements(any());
+        verify(dayButtons.get(0), never()).click();
+
+        // one for year, one for overall delay
+        verify(driver, times(2)).threadSleep(800L);
+    }
+
+    @Test
+    void setDateMonth() {
+        views = newArrayList(MONTH);
+        testSubject = new MuiCalendarPicker(element, driver, config, views);
+        when(monthLabelElement.getText()).thenReturn("October");
+        WebElement monthButtonElement = mock(WebElement.class);
+        when(monthPickerElement.findElement(
+                xpathBuilder().anywhereRelative(BUTTON).text().contains("Dec").build())).thenReturn(monthButtonElement);
+
+        testSubject.setDate(LocalDate.of(2012, Month.DECEMBER, 1), 800L);
+        verify(nextMonthButtonElement, never()).click();
+        verify(previousMonthButtonElement, never()).click();
+
+        assertEquals("2023", currentYear);
+        verify(monthButtonElement, times(1)).click();
+        verify(dayButtons.get(0), never()).click();
+
+        // one for month, one for overall delay
+        verify(driver, times(2)).threadSleep(800L);
+    }
+
+    @Test
+    void setDateDay() {
+        views = newArrayList(DAY);
+        testSubject = new MuiCalendarPicker(element, driver, config, views);
+        when(monthLabelElement.getText()).thenReturn("October");
+        WebElement monthButtonElement = mock(WebElement.class);
+        when(monthPickerElement.findElement(
+                xpathBuilder().anywhereRelative(BUTTON).text().contains("Dec").build())).thenReturn(monthButtonElement);
+
+        testSubject.setDate(LocalDate.of(2012, Month.DECEMBER, 1), 800L);
+
+        verify(monthButtonElement, never()).click();
+        verify(dayButtons.get(0), times(1)).click();
+
+        // one for day, one for overall delay
+        verify(driver, times(2)).threadSleep(800L);
     }
 
     @Test
@@ -327,13 +428,23 @@ class MuiCalendarPickerTest {
         MonthStringFunction strToMonthFunction1 = mock(MonthStringFunction.class);
         MonthStringFunction strToMonthFunction2 = mock(MonthStringFunction.class);
 
+        List<MuiCalendarPicker.ViewType> views1 = newArrayList(YEAR);
+        List<MuiCalendarPicker.ViewType> views2 = newArrayList(MONTH);
+
         SimpleEqualsTester tester = new SimpleEqualsTester();
-        tester.addEqualityGroup(new MuiCalendarPicker(element1, driver, config),
-                new MuiCalendarPicker(element1, driver, config));
-        tester.addEqualityGroup(new MuiCalendarPicker(element2, driver, config));
-        tester.addEqualityGroup(new MuiCalendarPicker(element1, driver, config, strToMonthFunction1),
-                new MuiCalendarPicker(element1, driver, config, strToMonthFunction1));
-        tester.addEqualityGroup(new MuiCalendarPicker(element1, driver, config, strToMonthFunction2));
+        tester.addEqualityGroup(new MuiCalendarPicker(element1, driver, config, views1),
+                new MuiCalendarPicker(element1, driver, config, views1));
+        tester.addEqualityGroup(new MuiCalendarPicker(element1, driver, config, views2));
+
+        tester.addEqualityGroup(new MuiCalendarPicker(element2, driver, config, views1));
+        tester.addEqualityGroup(new MuiCalendarPicker(element1, driver, config, views1, strToMonthFunction1),
+                new MuiCalendarPicker(element1, driver, config, views1, strToMonthFunction1));
+        tester.addEqualityGroup(new MuiCalendarPicker(element1, driver, config, views1, strToMonthFunction2));
+
+        tester.addEqualityGroup(new MuiCalendarPicker(element2, driver, config, views2));
+        tester.addEqualityGroup(new MuiCalendarPicker(element1, driver, config, views2, strToMonthFunction1),
+                new MuiCalendarPicker(element1, driver, config, views2, strToMonthFunction1));
+        tester.addEqualityGroup(new MuiCalendarPicker(element1, driver, config, views2, strToMonthFunction2));
 
         tester.testEquals();
     }
@@ -341,7 +452,28 @@ class MuiCalendarPickerTest {
     @Test
     void testToString() {
         when(element.toString()).thenReturn("element");
-        assertEquals("MuiCalendarPicker{monthStringFunction=EnglishStringToMonthFunction{MONTHS=[Jan, "
-                + "Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]}, element=element}", testSubject.toString());
+        assertEquals(
+                "MuiCalendarPicker{views=[YEAR,DAY], monthStringFunction=EnglishStringToMonthFunction{MONTHS=[Jan, "
+                        + "Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]}, element=element}",
+                testSubject.toString());
+    }
+
+    @Test
+    void getViews() {
+        assertArrayEquals(views.toArray(), testSubject.getViews().toArray());
+        assertNotSame(views, testSubject.getViews());
+    }
+
+    @Test
+    void getMonthStringFunction() {
+        testSubject = new MuiCalendarPicker(element, driver, config, views);
+        assertSame(EnglishMonthStringFunction.getInstance(), testSubject.getMonthStringFunction());
+    }
+
+    @Test
+    void getMonthStringFunctionDefault() {
+        MonthStringFunction strToMonthFunction = mock(MonthStringFunction.class);
+        testSubject = new MuiCalendarPicker(element, driver, config, views, strToMonthFunction);
+        assertEquals(strToMonthFunction, testSubject.getMonthStringFunction());
     }
 }
