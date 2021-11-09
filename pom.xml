@@ -81,7 +81,6 @@
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <commons-math3.version>3.6.1</commons-math3.version>
     <selenium-java.version>4.0.0</selenium-java.version>
-    <lombok.version>1.18.20</lombok.version>
 
     <!-- testing dependencies -->
     <junit-jupiter.version>RELEASE</junit-jupiter.version>
@@ -165,12 +164,6 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-math3</artifactId>
         <version>${commons-math3.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-        <version>${lombok.version}</version>
       </dependency>
 
       <!-- Testing -->
