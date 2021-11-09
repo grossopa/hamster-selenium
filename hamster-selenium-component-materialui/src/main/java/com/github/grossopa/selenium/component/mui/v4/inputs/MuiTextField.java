@@ -75,6 +75,11 @@ public class MuiTextField extends AbstractMuiComponent implements FormField {
         return COMPONENT_NAME;
     }
 
+    @Override
+    public boolean isEnabled() {
+        return getInput().isEnabled();
+    }
+
     /**
      * Sets the text to the inner input.
      *

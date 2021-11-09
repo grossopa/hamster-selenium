@@ -26,8 +26,10 @@ package com.github.grossopa.selenium.core.intercepting;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.interactions.Interactive;
+import org.openqa.selenium.interactions.Locatable;
 
 import java.net.URL;
 import java.util.Collection;
@@ -76,6 +78,16 @@ public class InterceptingMethods {
      * Represents the {@link org.openqa.selenium.WebElement#getAttribute(String)}
      */
     public static final String ELEMENT_GET_ATTRIBUTE = "element.getAttribute";
+
+    /**
+     * Represents the {@link org.openqa.selenium.WebElement#getAttribute(String)}
+     */
+    public static final String ELEMENT_GET_DOM_ATTRIBUTE = "element.getAttribute";
+
+    /**
+     * Represents the {@link org.openqa.selenium.WebElement#getDomProperty(String)}
+     */
+    public static final String ELEMENT_GET_DOM_PROPERTY = "element.getDomProperty";
 
     /**
      * Represents the {@link org.openqa.selenium.WebElement#isSelected()}
@@ -131,6 +143,26 @@ public class InterceptingMethods {
      * Represents the {@link org.openqa.selenium.WebElement#getScreenshotAs(OutputType)}
      */
     public static final String ELEMENT_GET_SCREENSHOT_AS = "element.getScreenshotAs";
+
+    /**
+     * Represents the {@link WebElement#getAriaRole()}
+     */
+    public static final String ELEMENT_GET_ARIA_ROLE = "element.getAriaRole";
+
+    /**
+     * Represents the {@link WebElement#getAccessibleName()}
+     */
+    public static final String ELEMENT_GET_ACCESSIBLE_NAME = "element.getAccessibleName";
+
+    /**
+     * Represents the {@link WebElement#getShadowRoot()}
+     */
+    public static final String ELEMENT_GET_SHADOW_ROOT = "element.getShadowRoot";
+
+    /**
+     * Represents the {@link Locatable#getCoordinates()}
+     */
+    public static final String ELEMENT_GET_COORDINATES = "element.getCoordinates";
 
     /**
      * Represents the {@link org.openqa.selenium.WebDriver#get(String)}

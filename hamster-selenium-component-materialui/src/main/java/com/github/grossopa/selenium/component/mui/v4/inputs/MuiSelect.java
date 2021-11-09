@@ -172,7 +172,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
         selectConfig.getCloseOptionsAction().close(this, options, driver);
 
         if (delayInMillis > 0L) {
-            WebDriverWait wait = new WebDriverWait(driver, 0L);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(delayInMillis));
             wait.withTimeout(Duration.ofMillis(delayInMillis));
             wait.until(d -> modalFinder.findTopVisibleOverlay(MuiPopover.COMPONENT_NAME) == null);
         } else {

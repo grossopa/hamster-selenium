@@ -56,6 +56,8 @@ public class InterceptingTargetLocator implements WebDriver.TargetLocator {
         this.handler = handler;
     }
 
+
+
     @Override
     public WebDriver frame(int index) {
         return handler.execute(() -> targetLocator.frame(index),

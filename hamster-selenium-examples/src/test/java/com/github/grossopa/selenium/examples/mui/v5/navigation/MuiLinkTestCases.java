@@ -56,7 +56,7 @@ public class MuiLinkTestCases extends AbstractBrowserSupport {
         assertEquals(3, links.size());
         links.forEach(link -> {
             assertTrue(link.validate());
-            assertEquals("https://mui.com/components/links/#", link.getHref());
+            assertEquals("#", link.getHref());
         });
 
         assertEquals("Link", links.get(0).getText());

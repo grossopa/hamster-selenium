@@ -34,6 +34,11 @@ import com.github.grossopa.selenium.examples.mui.v5.datadisplay.*;
  */
 public class MuiV5DataDisplayTestCases {
 
+    /**
+     * The main function for testing.
+     *
+     * @param args not necessary
+     */
     public static void main(String[] args) {
         MuiAvatarsTestCases.main(args);
         MuiBadgeTestCases.main(args);

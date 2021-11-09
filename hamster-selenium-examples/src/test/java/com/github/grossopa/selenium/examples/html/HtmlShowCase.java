@@ -30,8 +30,9 @@ import com.github.grossopa.selenium.core.component.api.TableRow;
 import com.github.grossopa.selenium.core.driver.WebDriverType;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static com.github.grossopa.selenium.component.html.HtmlComponents.html;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
@@ -48,7 +49,7 @@ public class HtmlShowCase extends AbstractBrowserSupport {
 
     public void testTable() {
         driver.navigate().to("https://www.w3schools.com/html/html_tables.asp");
-        WebDriverWait wait = new WebDriverWait(driver, 10L);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(10L));
         wait.until(visibilityOfElementLocated(By.id("customers")));
         HtmlTable table = driver.findComponent(By.id("customers")).as(html()).toTable();
         TableRow header = table.getHeaderRow();
@@ -66,7 +67,7 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         driver.switchTo().frame("iframeResult");
 
         HtmlTable table = driver.findComponent(
-                xpathBuilder().anywhere().text().exact("3 Rows and 3 Columns:").followingSibling("table").build())
+                        xpathBuilder().anywhere().text().exact("3 Rows and 3 Columns:").followingSibling("table").build())
                 .as(html()).toTable();
         assertEquals(3, table.getBodyRows().size());
 
@@ -83,9 +84,9 @@ public class HtmlShowCase extends AbstractBrowserSupport {
 
     public void testSelect() {
         driver.navigate().to("https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select");
-        WebDriverWait wait = new WebDriverWait(driver, 10L);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(10L));
         wait.until(visibilityOfElementLocated(By.id("iframeResult")));
-        WebDriver frameDriver = driver.switchTo().frame("iframeResult");
+        driver.switchTo().frame("iframeResult");
 
         HtmlSelect select = driver.findComponent(By.id("cars")).as(html()).toSelect();
         assertEquals(4, select.getOptions().size());

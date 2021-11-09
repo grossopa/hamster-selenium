@@ -34,8 +34,7 @@ import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -93,5 +92,17 @@ class MuiTextFieldTest {
     void testToString() {
         when(element.toString()).thenReturn("element-toString");
         assertEquals("MuiTextField{element=element-toString}", testSubject.toString());
+    }
+
+    @Test
+    void isEnabled() {
+        when(input.isEnabled()).thenReturn(true);
+        assertTrue(testSubject.isEnabled());
+    }
+
+    @Test
+    void isEnabledNegative() {
+        when(input.isEnabled()).thenReturn(false);
+        assertFalse(testSubject.isEnabled());
     }
 }

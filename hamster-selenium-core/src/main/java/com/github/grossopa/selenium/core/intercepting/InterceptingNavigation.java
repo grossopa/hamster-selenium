@@ -94,4 +94,6 @@ public class InterceptingNavigation implements WebDriver.Navigation {
             return null;
         }, MethodInfo.create(navigation, NAVIGATION_REFRESH));
     }
+
+
 }

@@ -35,6 +35,11 @@ import com.github.grossopa.selenium.examples.mui.v5.surfaces.MuiAppBarTestCases;
  */
 public class MuiV5SurfacesTestCases {
 
+    /**
+     * The main function for testing.
+     *
+     * @param args not necessary
+     */
     public static void main(String[] args) {
         MuiAccordionTestCases.main(args);
         MuiAppBarTestCases.main(args);

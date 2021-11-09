@@ -58,9 +58,9 @@ public class MuiAvatarsTestCases extends AbstractBrowserSupport {
         assertEquals("Travis Howard", imageAvatarList.get(1).getAlt());
         assertEquals("Cindy Baker", imageAvatarList.get(2).getAlt());
 
-        assertEquals("https://mui.com/static/images/avatar/1.jpg", imageAvatarList.get(0).getSrc());
-        assertEquals("https://mui.com/static/images/avatar/2.jpg", imageAvatarList.get(1).getSrc());
-        assertEquals("https://mui.com/static/images/avatar/3.jpg", imageAvatarList.get(2).getSrc());
+        assertEquals("/static/images/avatar/1.jpg", imageAvatarList.get(0).getSrc());
+        assertEquals("/static/images/avatar/2.jpg", imageAvatarList.get(1).getSrc());
+        assertEquals("/static/images/avatar/3.jpg", imageAvatarList.get(2).getSrc());
     }
 
     /**
