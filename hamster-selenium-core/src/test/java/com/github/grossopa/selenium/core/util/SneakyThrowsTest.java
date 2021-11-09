@@ -24,30 +24,30 @@
 
 package com.github.grossopa.selenium.core.util;
 
-import static com.github.grossopa.selenium.core.util.SneakyThrows.sneakyThrow;
+import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * a graceful implementation of thread sleep which muted the checked Exception signature and provide possibility for
- * unit testing by passing the mocked thread sleeping into other objects.
+ * Tests for {@link SneakyThrows}
  *
  * @author Jack Yin
- * @since 1.2
+ * @since 1.8
  */
-public class GracefulThreadSleep {
+class SneakyThrowsTest {
 
-    /**
-     * Invokes the {@link Thread#sleep(long)} method.
-     *
-     * @param millis sleep in millis, if negative or 0 then doing nothing
-     */
-    @SuppressWarnings("java:S2142")
-    public void sleep(long millis) {
-        if (millis > 0) {
-            try {
-                Thread.sleep(millis);
-            } catch (InterruptedException e) {
-                sneakyThrow(e);
-            }
-        }
+    @Test
+    void constructor() {
+        Constructor<?> constructor = SneakyThrows.class.getDeclaredConstructors()[0];
+        constructor.setAccessible(true);
+        assertThrows(InvocationTargetException.class, constructor::newInstance);
+    }
+
+    @Test
+    void sneakyThrow() {
+        assertThrows(IllegalAccessException.class, () -> SneakyThrows.sneakyThrow(new IllegalAccessException()));
     }
 }

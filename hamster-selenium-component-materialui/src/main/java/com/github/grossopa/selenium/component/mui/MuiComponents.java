@@ -52,7 +52,6 @@ import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSliderV5;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiSwitchV5;
 import com.github.grossopa.selenium.core.component.AbstractComponents;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -75,7 +74,6 @@ import static java.util.Objects.requireNonNull;
  */
 public class MuiComponents extends AbstractComponents {
 
-    @Getter
     private final MuiConfig config;
 
     /**
@@ -940,7 +938,6 @@ public class MuiComponents extends AbstractComponents {
         return new MuiPickersDialog(component, driver, config);
     }
 
-
     private <T> T create(Supplier<T> v4creatorFunc, Supplier<T> v5creatorFunc) {
         if (config.getVersion() == V4) {
             return v4creatorFunc.get();
@@ -950,4 +947,12 @@ public class MuiComponents extends AbstractComponents {
         throw new InvalidVersionException("Given version is not recognizable. " + config.getVersion());
     }
 
+    /**
+     * Gets the Mui configuration
+     *
+     * @return the Mui configuration
+     */
+    public MuiConfig getConfig() {
+        return config;
+    }
 }

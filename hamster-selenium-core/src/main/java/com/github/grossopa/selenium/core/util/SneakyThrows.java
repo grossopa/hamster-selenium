@@ -24,30 +24,30 @@
 
 package com.github.grossopa.selenium.core.util;
 
-import static com.github.grossopa.selenium.core.util.SneakyThrows.sneakyThrow;
-
 /**
- * a graceful implementation of thread sleep which muted the checked Exception signature and provide possibility for
- * unit testing by passing the mocked thread sleeping into other objects.
+ * Sneaky throws utility
  *
  * @author Jack Yin
- * @since 1.2
+ * @since 1.8
  */
-public class GracefulThreadSleep {
+public class SneakyThrows {
 
     /**
-     * Invokes the {@link Thread#sleep(long)} method.
-     *
-     * @param millis sleep in millis, if negative or 0 then doing nothing
+     * private
      */
-    @SuppressWarnings("java:S2142")
-    public void sleep(long millis) {
-        if (millis > 0) {
-            try {
-                Thread.sleep(millis);
-            } catch (InterruptedException e) {
-                sneakyThrow(e);
-            }
-        }
+    private SneakyThrows() {
+        throw new AssertionError();
+    }
+
+    /**
+     * Mutes the checked exception
+     *
+     * @param exception the exception to throw
+     * @param <T> the exception type
+     * @throws T the exception to be thrown
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Exception> void sneakyThrow(Exception exception) throws T {
+        throw (T) exception;
     }
 }

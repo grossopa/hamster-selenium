@@ -50,11 +50,6 @@
       <artifactId>commons-math3</artifactId>
     </dependency>
 
-    <!-- Tools -->
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-    </dependency>
   </dependencies>
 
 </project>

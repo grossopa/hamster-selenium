@@ -24,8 +24,7 @@
 
 package com.github.grossopa.selenium.component.mui.v4.pickers;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import static java.util.Objects.requireNonNull;
 
 /**
  * the basic components contains 3 components:
@@ -39,10 +38,52 @@ import lombok.Getter;
  * @author Jack Yin
  * @since 1.2
  */
-@Getter
-@AllArgsConstructor
 public class MuiPickersBasicPickerViewComponents {
     private final MuiPickersCalendarHeaderSwitchHeader switchHeader;
     private final MuiPickersCalendarHeaderDaysHeader daysHeader;
     private final MuiPickersCalendarTransitionContainer transitionContainer;
+
+    /**
+     * Constructs an instance.
+     *
+     * @param switchHeader the switch header part for navigating month and year
+     * @param daysHeader for displaying the weekdays label from SU to SA
+     * @param transitionContainer for day selection
+     */
+    public MuiPickersBasicPickerViewComponents(MuiPickersCalendarHeaderSwitchHeader switchHeader,
+            MuiPickersCalendarHeaderDaysHeader daysHeader, MuiPickersCalendarTransitionContainer transitionContainer) {
+        requireNonNull(switchHeader);
+        requireNonNull(daysHeader);
+        requireNonNull(transitionContainer);
+        this.switchHeader = switchHeader;
+        this.daysHeader = daysHeader;
+        this.transitionContainer = transitionContainer;
+    }
+
+    /**
+     * Gets {@link MuiPickersCalendarHeaderSwitchHeader} for navigating the month and year
+     *
+     * @return {@link MuiPickersCalendarHeaderSwitchHeader} for navigating the month and year
+     */
+    public MuiPickersCalendarHeaderSwitchHeader getSwitchHeader() {
+        return switchHeader;
+    }
+
+    /**
+     * Gets {@link MuiPickersCalendarHeaderDaysHeader} for displaying the weekdays label from SU to SA
+     *
+     * @return {@link MuiPickersCalendarHeaderDaysHeader} for displaying the weekdays label from SU to SA
+     */
+    public MuiPickersCalendarHeaderDaysHeader getDaysHeader() {
+        return daysHeader;
+    }
+
+    /**
+     * Gets {@link MuiPickersCalendarTransitionContainer} for day selection
+     *
+     * @return {@link MuiPickersCalendarTransitionContainer} for day selection
+     */
+    public MuiPickersCalendarTransitionContainer getTransitionContainer() {
+        return transitionContainer;
+    }
 }
