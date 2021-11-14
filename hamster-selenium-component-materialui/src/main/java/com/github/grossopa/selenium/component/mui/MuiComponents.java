@@ -45,6 +45,7 @@ import com.github.grossopa.selenium.component.mui.v4.pickers.MuiPickersDialog;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiAppBar;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiPager;
 import com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker;
+import com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType;
 import com.github.grossopa.selenium.component.mui.v5.datetime.MuiDatePickerFormField;
 import com.github.grossopa.selenium.component.mui.v5.datetime.sub.MuiMonthPicker;
 import com.github.grossopa.selenium.component.mui.v5.inputs.MuiCheckboxV5;
@@ -716,6 +717,8 @@ public class MuiComponents extends AbstractComponents {
      *
      * <p>
      * The {@link WebElement} should have below structure:
+     * </p>
+     *
      * <pre>
      * {@code
      * <div class="MuiCalendarPicker-root ...">
@@ -758,12 +761,11 @@ public class MuiComponents extends AbstractComponents {
      * </div>
      * }
      * </pre>
-     * </p>
      *
      * @return the wrapped {@link MuiCalendarPicker} instance on the given component
      */
     public MuiCalendarPicker toCalendarPicker() {
-        return toCalendarPicker(List.of(MuiCalendarPicker.ViewType.YEAR, MuiCalendarPicker.ViewType.DAY));
+        return toCalendarPicker(List.of(ViewType.YEAR, ViewType.DAY));
     }
 
     /**
@@ -773,6 +775,8 @@ public class MuiComponents extends AbstractComponents {
      *
      * <p>
      * The {@link WebElement} should have below structure:
+     * </p>
+     *
      * <pre>
      * {@code
      * <div class="MuiCalendarPicker-root ...">
@@ -815,11 +819,12 @@ public class MuiComponents extends AbstractComponents {
      * </div>
      * }
      * </pre>
-     * </p>
      *
+     * @param view the view type of the calendar, could be {@link ViewType#YEAR}, {@link ViewType#MONTH} or {@link
+     * ViewType#DAY}
      * @return the wrapped {@link MuiCalendarPicker} instance on the given component
      */
-    public MuiCalendarPicker toCalendarPicker(List<MuiCalendarPicker.ViewType> view) {
+    public MuiCalendarPicker toCalendarPicker(List<ViewType> view) {
         return create(() -> {
             throw new VersionNotSupportedException("Version V4 is not supported for MuiCalendarPicker.");
         }, () -> new MuiCalendarPicker(component, driver, config, view));
@@ -832,6 +837,7 @@ public class MuiComponents extends AbstractComponents {
      *
      * <p>
      * The {@link WebElement} should have below structure:
+     * </p>
      * <pre>
      * {@code
      * <div class="MuiMonthPicker-root ...">
@@ -841,7 +847,6 @@ public class MuiComponents extends AbstractComponents {
      * </div>
      * }
      * </pre>
-     * </p>
      *
      * @return the wrapped {@link MuiMonthPicker} instance on the given component
      */
@@ -902,10 +907,13 @@ public class MuiComponents extends AbstractComponents {
      * </div>
      * }
      * </p>
+     * <p>
      *
+     * @param views the view type of the calendar, could be {@link ViewType#YEAR}, {@link ViewType#MONTH} and/or {@link
+     * ViewType#DAY} should follow the same defined in components in order.
      * @return the wrapped {@link MuiDatePickerFormField} instance on the given component
      */
-    public MuiDatePickerFormField toDatePickerFormField(MuiCalendarPicker.ViewType... views) {
+    public MuiDatePickerFormField toDatePickerFormField(ViewType... views) {
         return create(() -> {
             throw new VersionNotSupportedException("Version V4 is not supported for MuiDatePickerFormField.");
         }, () -> new MuiDatePickerFormField(component, driver, config, newArrayList(views)));

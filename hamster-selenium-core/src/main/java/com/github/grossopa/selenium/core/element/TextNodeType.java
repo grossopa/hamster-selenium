@@ -32,11 +32,11 @@ package com.github.grossopa.selenium.core.element;
  */
 public enum TextNodeType {
     /**
-     * nodeName = #text & nodeType=3
+     * nodeName = #text and nodeType=3
      */
     TEXT,
     /**
-     * nodeName = #comment & nodeType=8
+     * nodeName = #comment and nodeType=8
      */
     COMMENT
 }
