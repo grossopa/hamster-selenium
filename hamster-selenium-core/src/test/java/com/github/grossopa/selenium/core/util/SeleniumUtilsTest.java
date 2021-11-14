@@ -248,6 +248,44 @@ class SeleniumUtilsTest {
     }
 
     @Test
+    void findChildTextNodesSkip() {
+        //@formatter:off
+        when(driver.executeScript(""
+                + "var nodes = arguments[0].childNodes;"
+                + "var result = [];"
+                + "for (var i = 0; i < nodes.length; i++) {"
+                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
+                + "    result.push(nodeName:nodes[i].nodeName, nodeType:nodes[i].nodeType, "
+                + "nodeValue:nodes[i].nodeValue, textContent:nodes[i].textContent, "
+                + "wholeText:nodes[i].wholeText, data:nodes[i].data);"
+                + "  }"
+                + "}"
+                + "return result;", element)).thenReturn(childNodesResult);
+        //@formatter:on
+
+        Map<String, Object> map1 = ImmutableMap.of("nodeName", "#text", "nodeType", 3, "nodeValue", "some value",
+                "textContent", "some value", "wholeText", "some value", "data", "some value");
+
+        Map<String, Object> map2 = ImmutableMap.of("nodeName", "#comment", "nodeType", 8, "nodeValue", "some comment\n",
+                "textContent", "some comment\n", "wholeText", "some comment\n", "data", "some comment\n");
+
+        WebElement ignoredElement = mock(WebElement.class);
+
+        childNodesResult.add(ignoredElement);
+        childNodesResult.add(map1);
+        childNodesResult.add(map2);
+
+        List<TextNodeElement> textNodeElements = SeleniumUtils.findChildTextNodes(driver, element);
+
+        assertEquals(2, textNodeElements.size());
+        assertEquals(TextNodeType.TEXT, textNodeElements.get(0).getType());
+        assertEquals("some value", textNodeElements.get(0).getText());
+
+        assertEquals(TextNodeType.COMMENT, textNodeElements.get(1).getType());
+        assertEquals("some comment", textNodeElements.get(1).getText());
+    }
+
+    @Test
     void findChildTextNodesIllegalNodes() {
         //@formatter:off
         when(driver.executeScript(""
