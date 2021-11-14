@@ -31,6 +31,7 @@ import com.github.grossopa.selenium.core.element.NoOpWebElementDecorator;
 import com.github.grossopa.selenium.core.element.WebElementDecorator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -136,7 +137,7 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
 
     @Override
     public String getId() {
-        return element.getAttribute("id");
+        return ((RemoteWebElement) element).getId();
     }
 
     @Override

@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +52,7 @@ import static org.mockito.Mockito.*;
 class DefaultWebComponentTest {
 
     DefaultWebComponent testSubject;
-    WebElement element = mock(WebElement.class);
+    RemoteWebElement element = mock(RemoteWebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
 
     @BeforeEach
@@ -193,7 +194,7 @@ class DefaultWebComponentTest {
 
     @Test
     void getId() {
-        when(element.getAttribute("id")).thenReturn("abc");
+        when(element.getId()).thenReturn("abc");
         assertEquals("abc", testSubject.getId());
     }
 }
