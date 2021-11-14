@@ -24,13 +24,21 @@
 
 package com.github.grossopa.selenium.core.util;
 
+import com.github.grossopa.selenium.core.element.TextNodeElement;
+import com.github.grossopa.selenium.core.element.TextNodeType;
+import com.github.grossopa.selenium.core.element.UnknownTextNodeTypeException;
+import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import java.util.Map;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.openqa.selenium.Keys.BACK_SPACE;
@@ -125,4 +133,196 @@ class SeleniumUtilsTest {
         assertFalse(SeleniumUtils.isNotDisplayed(element));
     }
 
+    JavascriptExecutor driver = mock(JavascriptExecutor.class);
+    WebElement element = mock(WebElement.class);
+    List<Object> childNodesResult = newArrayList();
+
+    @Test
+    void findChildNodes() {
+        //@formatter:off
+        when(driver.executeScript(""
+                + "var nodes = arguments[0].childNodes;"
+                + "var result = [];"
+                + "for (var i = 0; i < nodes.length; i++) {"
+                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
+                + "    result.push(nodeName:nodes[i].nodeName, nodeType:nodes[i].nodeType, "
+                + "nodeValue:nodes[i].nodeValue, textContent:nodes[i].textContent, "
+                + "wholeText:nodes[i].wholeText, data:nodes[i].data);"
+                + "  } else {"
+                + "    result.push(nodes[i]);"
+                + "  }"
+                + "}"
+                + "return result;", element)).thenReturn(childNodesResult);
+        //@formatter:on
+
+        List<Object> executionResult = SeleniumUtils.findChildNodes(driver, element);
+        assertEquals(0, executionResult.size());
+        assertSame(childNodesResult, executionResult);
+    }
+
+    @Test
+    void findChildNodesWithProperties() {
+        //@formatter:off
+        when(driver.executeScript(""
+                + "var nodes = arguments[0].childNodes;"
+                + "var result = [];"
+                + "for (var i = 0; i < nodes.length; i++) {"
+                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
+                + "    result.push(property1:nodes[i].property1, property2:nodes[i].property2);"
+                + "  } else {"
+                + "    result.push(nodes[i]);"
+                + "  }"
+                + "}"
+                + "return result;", element)).thenReturn(childNodesResult);
+        //@formatter:on
+
+        List<Object> executionResult = SeleniumUtils.findChildNodes(driver, element, "property1", "property2");
+        assertEquals(0, executionResult.size());
+        assertSame(childNodesResult, executionResult);
+    }
+
+    @Test
+    void findChildTextNodes() {
+        //@formatter:off
+        when(driver.executeScript(""
+                + "var nodes = arguments[0].childNodes;"
+                + "var result = [];"
+                + "for (var i = 0; i < nodes.length; i++) {"
+                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
+                + "    result.push(nodeName:nodes[i].nodeName, nodeType:nodes[i].nodeType, "
+                + "nodeValue:nodes[i].nodeValue, textContent:nodes[i].textContent, "
+                + "wholeText:nodes[i].wholeText, data:nodes[i].data);"
+                + "  }"
+                + "}"
+                + "return result;", element)).thenReturn(childNodesResult);
+        //@formatter:on
+
+        Map<String, Object> map1 = ImmutableMap.of("nodeName", "#text", "nodeType", 3, "nodeValue", "some value",
+                "textContent", "some value", "wholeText", "some value", "data", "some value");
+
+        Map<String, Object> map2 = ImmutableMap.of("nodeName", "#comment", "nodeType", 8, "nodeValue", "some comment\n",
+                "textContent", "some comment\n", "wholeText", "some comment\n", "data", "some comment\n");
+
+        childNodesResult.add(map1);
+        childNodesResult.add(map2);
+
+        List<TextNodeElement> textNodeElements = SeleniumUtils.findChildTextNodes(driver, element);
+        assertEquals(TextNodeType.TEXT, textNodeElements.get(0).getType());
+        assertEquals("some value", textNodeElements.get(0).getText());
+
+        assertEquals(TextNodeType.COMMENT, textNodeElements.get(1).getType());
+        assertEquals("some comment", textNodeElements.get(1).getText());
+    }
+
+    @Test
+    void findChildTextNodesNoStrip() {
+        //@formatter:off
+        when(driver.executeScript(""
+                + "var nodes = arguments[0].childNodes;"
+                + "var result = [];"
+                + "for (var i = 0; i < nodes.length; i++) {"
+                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
+                + "    result.push(nodeName:nodes[i].nodeName, nodeType:nodes[i].nodeType, "
+                + "nodeValue:nodes[i].nodeValue, textContent:nodes[i].textContent, "
+                + "wholeText:nodes[i].wholeText, data:nodes[i].data);"
+                + "  }"
+                + "}"
+                + "return result;", element)).thenReturn(childNodesResult);
+        //@formatter:on
+
+        Map<String, Object> map1 = ImmutableMap.of("nodeName", "#text", "nodeType", 3, "nodeValue", "some value",
+                "textContent", "some value", "wholeText", "some value", "data", "some value");
+
+        Map<String, Object> map2 = ImmutableMap.of("nodeName", "#comment", "nodeType", 8, "nodeValue", "some comment\n",
+                "textContent", "some comment\n", "wholeText", "some comment\n", "data", "some comment\n");
+
+        childNodesResult.add(map1);
+        childNodesResult.add(map2);
+
+        List<TextNodeElement> textNodeElements = SeleniumUtils.findChildTextNodes(driver, element, false);
+        assertEquals(TextNodeType.TEXT, textNodeElements.get(0).getType());
+        assertEquals("some value", textNodeElements.get(0).getText());
+
+        assertEquals(TextNodeType.COMMENT, textNodeElements.get(1).getType());
+        assertEquals("some comment\n", textNodeElements.get(1).getText());
+    }
+
+    @Test
+    void findChildTextNodesIllegalNodes() {
+        //@formatter:off
+        when(driver.executeScript(""
+                + "var nodes = arguments[0].childNodes;"
+                + "var result = [];"
+                + "for (var i = 0; i < nodes.length; i++) {"
+                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
+                + "    result.push(nodeName:nodes[i].nodeName, nodeType:nodes[i].nodeType, "
+                + "nodeValue:nodes[i].nodeValue, textContent:nodes[i].textContent, "
+                + "wholeText:nodes[i].wholeText, data:nodes[i].data);"
+                + "  }"
+                + "}"
+                + "return result;", element)).thenReturn(childNodesResult);
+        //@formatter:on
+
+        Map<String, Object> map1 = ImmutableMap.of("nodeName", "#text333", "nodeType", 3, "nodeValue", "some value",
+                "textContent", "some value", "wholeText", "some value", "data", "some value");
+        childNodesResult.add(map1);
+
+        assertThrows(UnknownTextNodeTypeException.class, () -> SeleniumUtils.findChildTextNodes(driver, element));
+    }
+
+    @Test
+    void findChildTextNodesIllegalNodesStrip() {
+        //@formatter:off
+        when(driver.executeScript(""
+                + "var nodes = arguments[0].childNodes;"
+                + "var result = [];"
+                + "for (var i = 0; i < nodes.length; i++) {"
+                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
+                + "    result.push(nodeName:nodes[i].nodeName, nodeType:nodes[i].nodeType, "
+                + "nodeValue:nodes[i].nodeValue, textContent:nodes[i].textContent, "
+                + "wholeText:nodes[i].wholeText, data:nodes[i].data);"
+                + "  }"
+                + "}"
+                + "return result;", element)).thenReturn(childNodesResult);
+        //@formatter:on
+
+        Map<String, Object> map1 = ImmutableMap.of("nodeName", "#text333", "nodeType", 3, "nodeValue", "some value",
+                "textContent", "some value", "wholeText", "some value", "data", "some value");
+        childNodesResult.add(map1);
+
+        assertThrows(UnknownTextNodeTypeException.class, () -> SeleniumUtils.findChildTextNodes(driver, element));
+    }
+
+    @Test
+    void findChildTextNodesEmptyValue() {
+        //@formatter:off
+        when(driver.executeScript(""
+                + "var nodes = arguments[0].childNodes;"
+                + "var result = [];"
+                + "for (var i = 0; i < nodes.length; i++) {"
+                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
+                + "    result.push(nodeName:nodes[i].nodeName, nodeType:nodes[i].nodeType, "
+                + "nodeValue:nodes[i].nodeValue, textContent:nodes[i].textContent, "
+                + "wholeText:nodes[i].wholeText, data:nodes[i].data);"
+                + "  }"
+                + "}"
+                + "return result;", element)).thenReturn(childNodesResult);
+        //@formatter:on
+
+        Map<String, Object> map1 = ImmutableMap.of("nodeName", "#text", "nodeType", 3);
+        childNodesResult.add(map1);
+
+        List<TextNodeElement> textNodeElements = SeleniumUtils.findChildTextNodes(driver, element);
+        assertEquals("", textNodeElements.get(0).getText());
+    }
+
+    @Test
+    void enrichQuoteSingle() {
+        assertEquals("'ddd\"ddd'", SeleniumUtils.enrichQuote("ddd\"ddd"));
+    }
+
+    @Test
+    void enrichQuoteDouble() {
+        assertEquals("\"ddd'ddd\"", SeleniumUtils.enrichQuote("ddd'ddd"));
+    }
 }
