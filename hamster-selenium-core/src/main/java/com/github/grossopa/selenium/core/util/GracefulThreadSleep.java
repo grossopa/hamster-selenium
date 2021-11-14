@@ -24,7 +24,7 @@
 
 package com.github.grossopa.selenium.core.util;
 
-import lombok.SneakyThrows;
+import static com.github.grossopa.selenium.core.util.SneakyThrows.sneakyThrow;
 
 /**
  * a graceful implementation of thread sleep which muted the checked Exception signature and provide possibility for
@@ -38,10 +38,16 @@ public class GracefulThreadSleep {
     /**
      * Invokes the {@link Thread#sleep(long)} method.
      *
-     * @param millis sleep in millis
+     * @param millis sleep in millis, if negative or 0 then doing nothing
      */
-    @SneakyThrows
+    @SuppressWarnings("java:S2142")
     public void sleep(long millis) {
-        Thread.sleep(millis);
+        if (millis > 0) {
+            try {
+                Thread.sleep(millis);
+            } catch (InterruptedException e) {
+                sneakyThrow(e);
+            }
+        }
     }
 }

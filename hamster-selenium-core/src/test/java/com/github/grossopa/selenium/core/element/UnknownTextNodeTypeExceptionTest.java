@@ -22,25 +22,36 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.exception;
+package com.github.grossopa.selenium.core.element;
 
-import com.github.grossopa.selenium.component.mui.v4.navigation.MuiBreadcrumbs;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Thrown when the {@link MuiBreadcrumbs} is already expanded.
+ * Tests for {@link UnknownTextNodeTypeException}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.8
  */
-public class BreadcrumbsAlreadyExpandedException extends RuntimeException {
+class UnknownTextNodeTypeExceptionTest {
 
-    /**
-     * Constructs an instance with message.
-     *
-     * @param message
-     *         the exception message
-     */
-    public BreadcrumbsAlreadyExpandedException(String message) {
-        super(message);
+    UnknownTextNodeTypeException testSubject;
+
+    @BeforeEach
+    void setUp() {
+        testSubject = new UnknownTextNodeTypeException("abc");
+    }
+
+
+    @Test
+    void getTextNodeType() {
+        assertEquals("abc", testSubject.getTextNodeType());
+    }
+
+    @Test
+    void getMessage() {
+        assertEquals("Unknown text node type: abc", testSubject.getMessage());
     }
 }

@@ -74,12 +74,13 @@ public class MuiTextFieldTestCases extends AbstractBrowserSupport {
      * https://mui.com/components/text-fields/#form-props</a>
      */
     public void testFormProps() {
-        List<MuiTextField> textFieldList = driver.findComponent(By.id("FormPropsTextFields.js")).findComponent(By2.parent())
+        List<MuiTextField> textFieldList = driver.findComponent(By.id("FormPropsTextFields.js"))
+                .findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiTextField-root"), c -> c.as(muiV5()).toTextField());
         textFieldList.forEach(textField -> assertTrue(textField.validate()));
 
         MuiTextField required = textFieldList.get(0);
-        assertEquals("Required *", required.getLabel().getText());
+        assertTrue(required.getLabel().getText().startsWith("Required"));
 
         MuiTextField disabled = textFieldList.get(1);
         assertFalse(disabled.isEnabled());

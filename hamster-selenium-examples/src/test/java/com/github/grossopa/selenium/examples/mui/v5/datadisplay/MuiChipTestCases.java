@@ -70,7 +70,7 @@ public class MuiChipTestCases extends AbstractBrowserSupport {
      * https://mui.com/components/chips/#deletable</a>
      */
     public void testDeletable() {
-        List<MuiChip> chipList = driver.findComponent(By.id("DeleteableChips.js")).findComponent(By2.parent())
+        List<MuiChip> chipList = driver.findComponent(By.id("DeletableChips.js")).findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiChip-root"), c -> c.as(muiV5()).toChip());
         assertEquals(2, chipList.size());
 

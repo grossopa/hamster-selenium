@@ -43,4 +43,9 @@ public class HtmlConstants {
      * The css class attribute
      */
     public static final String CLASS = "class";
+
+    /**
+     * The tag button attribute
+     */
+    public static final String BUTTON = "button";
 }

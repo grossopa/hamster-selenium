@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -173,12 +174,6 @@ class AbstractDelegatedWebElementTest {
     }
 
     @Test
-    void getId() {
-        testSubject.getId();
-        verify(element, only()).getId();
-    }
-
-    @Test
     void getWrappedDriver() {
         testSubject.getWrappedDriver();
         verify(element, only()).getWrappedDriver();
@@ -205,5 +200,36 @@ class AbstractDelegatedWebElementTest {
     @SuppressWarnings("all")
     void testEqualsOther() {
         assertFalse(testSubject.equals(new Exception()));
+    }
+
+    @Test
+    void getDomProperty() {
+        when(element.getDomProperty("property-1")).thenReturn("some-value");
+        assertEquals("some-value", testSubject.getDomProperty("property-1"));
+    }
+
+    @Test
+    void getAriaRole() {
+        when(element.getAriaRole()).thenReturn("some-value");
+        assertEquals("some-value", testSubject.getAriaRole());
+    }
+
+    @Test
+    void getAccessibleName() {
+        when(element.getAccessibleName()).thenReturn("some-value");
+        assertEquals("some-value", testSubject.getAccessibleName());
+    }
+
+    @Test
+    void getShadowRoot() {
+        SearchContext searchContext = mock(SearchContext.class);
+        when(element.getShadowRoot()).thenReturn(searchContext);
+        assertEquals(searchContext, testSubject.getShadowRoot());
+    }
+
+    @Test
+    void getDomAttribute() {
+        when(element.getDomAttribute("some-attr")).thenReturn("some-value");
+        assertEquals("some-value", testSubject.getDomAttribute("some-attr"));
     }
 }

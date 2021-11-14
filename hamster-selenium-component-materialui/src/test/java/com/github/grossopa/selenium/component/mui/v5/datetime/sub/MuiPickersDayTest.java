@@ -22,27 +22,56 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.exception;
+package com.github.grossopa.selenium.component.mui.v5.datetime.sub;
 
+import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebElement;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
- * Tests for {@link BreadcrumbsAlreadyExpandedException}
+ * Tests for {@link MuiPickersDay}
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.8
  */
-class BreadcrumbsAlreadyExpandedExceptionTest {
+class MuiPickersDayTest {
 
-    BreadcrumbsAlreadyExpandedException testSubject;
+    MuiPickersDay testSubject;
 
-    @Test
-    void constructor() {
-        testSubject = new BreadcrumbsAlreadyExpandedException("some message");
-        assertEquals("some message", testSubject.getMessage());
+    WebElement element = mock(WebElement.class);
+    ComponentWebDriver driver = mock(ComponentWebDriver.class);
+    MuiConfig config = mock(MuiConfig.class);
+
+    @BeforeEach
+    void setUp() {
+        testSubject = new MuiPickersDay(element, driver, config);
     }
 
+    @Test
+    void version() {
+        assertArrayEquals(new Object[]{V5}, testSubject.versions().toArray());
+    }
 
+    @Test
+    void getComponentName() {
+        assertEquals("PickersDay", testSubject.getComponentName());
+    }
+
+    @Test
+    void getDateLabel() {
+        when(element.getAttribute("aria-label")).thenReturn("Oct 13, 2021");
+        assertEquals("Oct 13, 2021", testSubject.getDateLabel());
+    }
+
+    @Test
+    void getDateLabelNull() {
+        assertNull(testSubject.getDateLabel());
+    }
 }

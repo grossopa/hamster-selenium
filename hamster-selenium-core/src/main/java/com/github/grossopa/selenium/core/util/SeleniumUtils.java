@@ -24,13 +24,23 @@
 
 package com.github.grossopa.selenium.core.util;
 
-import org.apache.commons.lang3.StringUtils;
+import com.github.grossopa.selenium.core.element.TextNodeElement;
+import com.github.grossopa.selenium.core.element.TextNodeType;
+import com.github.grossopa.selenium.core.element.UnknownTextNodeTypeException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.joining;
+import static org.apache.commons.lang3.StringUtils.contains;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.openqa.selenium.Keys.BACK_SPACE;
 
 /**
@@ -67,6 +77,26 @@ public class SeleniumUtils {
     }
 
     /**
+     * Safely determines whether a given element is displayed.
+     *
+     * <ul>
+     *   <li>element is not displayed.</li>
+     *   <li>element is stale.</li>
+     *   <li>element is null.</li>
+     * </ul>
+     *
+     * @param element the nullable to check
+     * @return true if the element is not displayed.
+     */
+    public static boolean isNotDisplayed(@Nullable WebElement element) {
+        try {
+            return element == null || !element.isDisplayed();
+        } catch (StaleElementReferenceException exception) {
+            return true;
+        }
+    }
+
+    /**
      * Cleans the text of an input element by simulating to press backspace key.
      *
      * @param inputElement the input element to clean
@@ -88,10 +118,134 @@ public class SeleniumUtils {
      * @return the wrapped result
      */
     public static String enrichQuote(String term) {
-        if (StringUtils.contains(term, '\"')) {
+        if (contains(term, '\"')) {
             return '\'' + term + '\'';
         } else {
             return '\"' + term + '\"';
         }
     }
+
+    /**
+     * Gets the child text contents, including elements, texts and comments.
+     *
+     * <p>
+     * {@code
+     * <div id="the-parent-element">
+     *   <!-- comment -->
+     *   SOME TEXT
+     *   <span id="child-span">some child span text</span>
+     *   some other text
+     * </div>
+     * }</p>
+     *
+     * @param driver the web driver
+     * @param element the parent element to find the child node in
+     * @param textNodeProperties text node and comment node including properties
+     * @return found result
+     */
+    @SuppressWarnings("unchecked")
+    public static List<Object> findChildNodes(JavascriptExecutor driver, WebElement element,
+            String... textNodeProperties) {
+        if (textNodeProperties.length == 0) {
+            textNodeProperties = TEXT_NODE_PROPERTIES;
+        }
+        String propertyString = stream(textNodeProperties).map(p -> p + ":nodes[i]." + p).collect(joining(", "));
+        //@formatter:off
+        return (List<Object>) driver.executeScript(""
+                + "var nodes = arguments[0].childNodes;"
+                + "var result = [];"
+                + "for (var i = 0; i < nodes.length; i++) {"
+                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
+                + "    result.push(" + propertyString + ");"
+                + "  } else {"
+                + "    result.push(nodes[i]);"
+                + "  }"
+                + "}"
+                + "return result;", element);
+        //@formatter:on
+    }
+
+    /**
+     * Finds the child text and comment nodes. the text will be stripped to remove the potential leading and tailing
+     * line breaks.
+     *
+     * @param driver the root driver to execute the scripts
+     * @param element the element to find child text nodes from
+     * @return the found result
+     */
+    public static List<TextNodeElement> findChildTextNodes(JavascriptExecutor driver, WebElement element) {
+        return findChildTextNodes(driver, element, true);
+    }
+
+    /**
+     * Finds the child text and comment nodes.
+     *
+     * @param driver the root driver to execute the scripts
+     * @param element the element to find child text nodes from
+     * @param stripText true to strip the text to remove the potential leading and tailing line breaks
+     * @return the found result
+     */
+    @SuppressWarnings("unchecked")
+    public static List<TextNodeElement> findChildTextNodes(JavascriptExecutor driver, WebElement element,
+            boolean stripText) {
+        String propertyString = stream(TEXT_NODE_PROPERTIES).map(p -> p + ":nodes[i]." + p).collect(joining(", "));
+
+        //@formatter:off
+        List<Object> lists = (List<Object>) driver.executeScript(""
+                + "var nodes = arguments[0].childNodes;"
+                + "var result = [];"
+                + "for (var i = 0; i < nodes.length; i++) {"
+                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
+                + "    result.push(" + propertyString + ");"
+                + "  }"
+                + "}"
+                + "return result;", element);
+        //@formatter:on
+
+        List<TextNodeElement> results = new ArrayList<>();
+
+        for (Object item : lists) {
+            if (item instanceof Map) {
+                Map<String, Object> map = (Map<String, Object>) item;
+                TextNodeType textNodeType = findTextNodeType(map);
+                String textNodeText = findTextNodeText(map);
+
+                if (stripText) {
+                    textNodeText = textNodeText.strip();
+                }
+
+                results.add(new TextNodeElement(textNodeType, textNodeText));
+            }
+        }
+        return results;
+    }
+
+    private static final String[] TEXT_NODE_PROPERTIES = new String[]{"nodeName", "nodeType", "nodeValue",
+            "textContent", "wholeText", "data"};
+
+    private static TextNodeType findTextNodeType(Map<String, Object> map) {
+        String nodeTypeString = (String) map.get("nodeName");
+        TextNodeType nodeType;
+        if ("#comment".equals(nodeTypeString)) {
+            nodeType = TextNodeType.COMMENT;
+        } else if ("#text".equals(nodeTypeString)) {
+            nodeType = TextNodeType.TEXT;
+        } else {
+            throw new UnknownTextNodeTypeException(nodeTypeString);
+        }
+        return nodeType;
+    }
+
+    private static String findTextNodeText(Map<String, Object> map) {
+        // following the order by best property to find the text from
+        String[] candidateProperties = new String[]{"data", "nodeValue", "textContent", "wholeText"};
+        for (String property : candidateProperties) {
+            String value = (String) map.get(property);
+            if (!isBlank(value)) {
+                return value;
+            }
+        }
+        return "";
+    }
+
 }

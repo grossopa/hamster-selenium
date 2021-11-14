@@ -34,6 +34,11 @@ import com.github.grossopa.selenium.examples.mui.v5.navigation.*;
  */
 public class MuiV5NavigationTestCases {
 
+    /**
+     * The main function for testing.
+     *
+     * @param args not necessary
+     */
     public static void main(String[] args) {
         MuiBottomNavigationTestCases.main(args);
         MuiBreadcrumbsTestCases.main(args);

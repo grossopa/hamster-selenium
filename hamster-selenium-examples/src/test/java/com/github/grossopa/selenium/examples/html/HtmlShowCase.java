@@ -26,16 +26,26 @@ package com.github.grossopa.selenium.examples.html;
 
 import com.github.grossopa.selenium.component.html.HtmlSelect;
 import com.github.grossopa.selenium.component.html.HtmlTable;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.api.TableRow;
 import com.github.grossopa.selenium.core.driver.WebDriverType;
+import com.github.grossopa.selenium.core.element.TextNodeElement;
+import com.github.grossopa.selenium.core.util.SeleniumUtils;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+import java.util.List;
+import java.util.Map;
+
 import static com.github.grossopa.selenium.component.html.HtmlComponents.html;
+import static com.github.grossopa.selenium.core.element.TextNodeType.COMMENT;
+import static com.github.grossopa.selenium.core.element.TextNodeType.TEXT;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 /**
@@ -48,7 +58,7 @@ public class HtmlShowCase extends AbstractBrowserSupport {
 
     public void testTable() {
         driver.navigate().to("https://www.w3schools.com/html/html_tables.asp");
-        WebDriverWait wait = new WebDriverWait(driver, 10L);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(10L));
         wait.until(visibilityOfElementLocated(By.id("customers")));
         HtmlTable table = driver.findComponent(By.id("customers")).as(html()).toTable();
         TableRow header = table.getHeaderRow();
@@ -66,7 +76,7 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         driver.switchTo().frame("iframeResult");
 
         HtmlTable table = driver.findComponent(
-                xpathBuilder().anywhere().text().exact("3 Rows and 3 Columns:").followingSibling("table").build())
+                        xpathBuilder().anywhere().text().exact("3 Rows and 3 Columns:").followingSibling("table").build())
                 .as(html()).toTable();
         assertEquals(3, table.getBodyRows().size());
 
@@ -83,9 +93,9 @@ public class HtmlShowCase extends AbstractBrowserSupport {
 
     public void testSelect() {
         driver.navigate().to("https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select");
-        WebDriverWait wait = new WebDriverWait(driver, 10L);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(10L));
         wait.until(visibilityOfElementLocated(By.id("iframeResult")));
-        WebDriver frameDriver = driver.switchTo().frame("iframeResult");
+        driver.switchTo().frame("iframeResult");
 
         HtmlSelect select = driver.findComponent(By.id("cars")).as(html()).toSelect();
         assertEquals(4, select.getOptions().size());
@@ -98,11 +108,38 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         assertEquals("Audi", select.getFirstSelectedOption().getText());
     }
 
+    public void testTextNode() {
+        // Use W3schools to test
+        String htmlContent = "\"<div id='test-container'>\\n" + "  <!-- this is comment -->\\n" + "  plain text\\n"
+                + "  <span>this is span tag</span>\\n" + "  <!-- this is another comment -->\\n"
+                + "  another plain text\\n" + "</div>\"";
+
+        driver.navigate().to("https://www.w3schools.com/html/tryit.asp?filename=tryhtml_default");
+        WebComponent iframeWrapper = driver.findComponent(By.id("iframewrapper"));
+        driver.executeScript("arguments[0].innerHTML=" + htmlContent, iframeWrapper);
+
+        WebComponent testContainer = driver.findComponent(By.id("test-container"));
+
+        List<Object> items = SeleniumUtils.findChildNodes(driver, testContainer.getWrappedElement());
+        assertTrue(items.stream().anyMatch(object -> object instanceof Map));
+        assertTrue(items.stream().anyMatch(object -> object instanceof WebElement));
+
+        List<TextNodeElement> textNodeElements = SeleniumUtils.findChildTextNodes(driver, testContainer, true);
+        assertTrue(textNodeElements.stream()
+                .anyMatch(t -> COMMENT == t.getType() && t.getText().equals("this is comment")));
+        assertTrue(textNodeElements.stream()
+                .anyMatch(t -> COMMENT == t.getType() && t.getText().equals("this is another comment")));
+        assertTrue(textNodeElements.stream().anyMatch(t -> TEXT == t.getType() && t.getText().equals("plain text")));
+        assertTrue(textNodeElements.stream()
+                .anyMatch(t -> TEXT == t.getType() && t.getText().equals("another plain text")));
+    }
+
     public static void main(String[] args) {
         HtmlShowCase test = new HtmlShowCase();
-        test.setUpDriver(WebDriverType.CHROME);
+        test.setUpDriver(WebDriverType.EDGE);
         test.testTable();
         test.testTableNoHeader();
         test.testSelect();
+        test.testTextNode();
     }
 }

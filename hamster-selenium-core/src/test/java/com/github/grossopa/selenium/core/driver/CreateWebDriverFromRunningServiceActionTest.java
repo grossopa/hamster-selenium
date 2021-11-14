@@ -50,7 +50,7 @@ class CreateWebDriverFromRunningServiceActionTest {
     void setUp() {
         when(params.getUrl()).thenReturn("http://www");
         when(builder.addAlternative(any())).thenReturn(builder);
-        when(builder.url(any(String.class))).thenReturn(builder);
+        when(builder.address(any(String.class))).thenReturn(builder);
         when(builder.build()).thenReturn(webDriver);
         testSubject = new CreateWebDriverFromRunningServiceAction() {
             @Override
@@ -62,7 +62,7 @@ class CreateWebDriverFromRunningServiceActionTest {
 
     private void verifyAll() {
         verify(builder, times(1)).addAlternative(any());
-        verify(builder, times(1)).url(any(String.class));
+        verify(builder, times(1)).address(any(String.class));
         verify(params, times(1)).getOptions();
         verify(params, times(1)).getUrl();
     }

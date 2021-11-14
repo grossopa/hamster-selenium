@@ -26,16 +26,21 @@ package com.github.grossopa.selenium.core.component;
 
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.factory.WebComponentFactory;
+import com.github.grossopa.selenium.core.element.TextNodeElement;
+import com.github.grossopa.selenium.core.element.TextNodeType;
 import com.github.grossopa.selenium.core.element.WebElementDecorator;
 import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
+import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -51,7 +56,7 @@ import static org.mockito.Mockito.*;
 class DefaultWebComponentTest {
 
     DefaultWebComponent testSubject;
-    WebElement element = mock(WebElement.class);
+    RemoteWebElement element = mock(RemoteWebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
 
     @BeforeEach
@@ -189,5 +194,48 @@ class DefaultWebComponentTest {
         when(element.getAttribute("style")).thenReturn("display:block; background-color : black");
         assertTrue(testSubject.styleContains("background-color", "black"));
         assertFalse(testSubject.styleContains("background-color", "white"));
+    }
+
+    @Test
+    void getId() {
+        when(element.getId()).thenReturn("abc");
+        assertEquals("abc", testSubject.getId());
+    }
+
+    @Test
+    void findTextNodes() {
+        List<Object> childNodesResult = newArrayList();
+
+        //@formatter:off
+        when(driver.executeScript(""
+                + "var nodes = arguments[0].childNodes;"
+                + "var result = [];"
+                + "for (var i = 0; i < nodes.length; i++) {"
+                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
+                + "    result.push(nodeName:nodes[i].nodeName, nodeType:nodes[i].nodeType, "
+                + "nodeValue:nodes[i].nodeValue, textContent:nodes[i].textContent, "
+                + "wholeText:nodes[i].wholeText, data:nodes[i].data);"
+                + "  }"
+                + "}"
+                + "return result;", element)).thenReturn(childNodesResult);
+        //@formatter:on
+
+        Map<String, Object> map1 = ImmutableMap.of("nodeName", "#text", "nodeType", 3, "nodeValue", "some value",
+                "textContent", "some value", "wholeText", "some value", "data", "some value");
+
+        Map<String, Object> map2 = ImmutableMap.of("nodeName", "#comment", "nodeType", 8, "nodeValue", "some comment\n",
+                "textContent", "some comment\n", "wholeText", "some comment\n", "data", "some comment\n");
+
+        childNodesResult.add(map1);
+        childNodesResult.add(map2);
+
+        List<TextNodeElement> textNodeElements = testSubject.findTextNodes();
+
+        assertEquals(2, textNodeElements.size());
+        assertEquals(TextNodeType.TEXT, textNodeElements.get(0).getType());
+        assertEquals("some value", textNodeElements.get(0).getText());
+
+        assertEquals(TextNodeType.COMMENT, textNodeElements.get(1).getType());
+        assertEquals("some comment", textNodeElements.get(1).getText());
     }
 }

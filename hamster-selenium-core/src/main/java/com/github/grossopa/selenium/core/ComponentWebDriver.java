@@ -180,7 +180,7 @@ public interface ComponentWebDriver
     /**
      * Sleeps current thread in millisecond
      *
-     * @param millis the time to sleep in millisecond
+     * @param millis the time to sleep in millisecond, if negative or 0 then doing nothing
      */
     void threadSleep(long millis);
 

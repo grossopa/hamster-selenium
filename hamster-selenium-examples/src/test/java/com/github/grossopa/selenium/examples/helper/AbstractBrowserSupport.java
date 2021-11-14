@@ -29,7 +29,6 @@ import com.github.grossopa.selenium.core.DefaultComponentWebDriver;
 import com.github.grossopa.selenium.core.driver.*;
 import com.github.grossopa.selenium.core.intercepting.InterceptingWebDriver;
 import com.github.grossopa.selenium.core.intercepting.LoggingHandler;
-import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
@@ -46,7 +45,6 @@ public abstract class AbstractBrowserSupport {
 
     protected ComponentWebDriver driver;
 
-    @SneakyThrows
     public void setUpDriver(WebDriverType type) {
         DriverConfig config = new DriverConfig();
         config.setDriverExecutablePath(EXECUTABLE_PATH);

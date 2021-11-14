@@ -26,7 +26,6 @@ package com.github.grossopa.selenium.component.html.factory;
 
 import com.github.grossopa.selenium.component.html.HtmlTable;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.factory.WebComponentFactory;
 import org.openqa.selenium.WebElement;
 
@@ -39,7 +38,7 @@ import org.openqa.selenium.WebElement;
 public class HtmlTableFactory implements WebComponentFactory<HtmlTable> {
 
     @Override
-    public WebComponent apply(WebElement webElement, ComponentWebDriver componentWebDriver) {
+    public HtmlTable apply(WebElement webElement, ComponentWebDriver componentWebDriver) {
         return new HtmlTable(webElement, componentWebDriver);
     }
 }

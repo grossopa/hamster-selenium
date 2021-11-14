@@ -36,6 +36,11 @@ import com.github.grossopa.selenium.examples.mui.v5.feedback.MuiSnackbarTestCase
  */
 public class MuiV5FeedbackTestCases {
 
+    /**
+     * The main function for testing.
+     *
+     * @param args not necessary
+     */
     public static void main(String[] args) {
         MuiBackdropTestCases.main(args);
         MuiDialogTestCases.main(args);

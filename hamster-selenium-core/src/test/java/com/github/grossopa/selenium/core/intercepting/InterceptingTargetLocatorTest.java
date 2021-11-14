@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
 
 import static com.github.grossopa.selenium.core.intercepting.InterceptingMethods.*;
 import static com.github.grossopa.selenium.core.intercepting.InterceptingTestHelper.afterEachVerify;
@@ -98,6 +99,14 @@ class InterceptingTargetLocatorTest {
     }
 
     @Test
+    void newWindow() {
+        when(targetLocator.newWindow(WindowType.WINDOW)).thenReturn(webDriver);
+        assertEquals(webDriver, testSubject.newWindow(WindowType.WINDOW));
+        verify(targetLocator, times(1)).newWindow(WindowType.WINDOW);
+        afterEachVerify(handler, targetLocator, TARGETLOCATOR_NEW_WINDOW, webDriver, WindowType.WINDOW);
+    }
+
+    @Test
     void defaultContent() {
         when(targetLocator.defaultContent()).thenReturn(webDriver);
         assertEquals(webDriver, testSubject.defaultContent());
@@ -119,4 +128,5 @@ class InterceptingTargetLocatorTest {
         when(targetLocator.alert()).thenReturn(alert);
         assertTrue(testSubject.alert() instanceof InterceptingAlert);
     }
+
 }

@@ -28,15 +28,18 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.factory.WebComponentFactory;
 import com.github.grossopa.selenium.core.component.util.WebComponentUtils;
 import com.github.grossopa.selenium.core.element.NoOpWebElementDecorator;
+import com.github.grossopa.selenium.core.element.TextNodeElement;
 import com.github.grossopa.selenium.core.element.WebElementDecorator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
+import static com.github.grossopa.selenium.core.util.SeleniumUtils.findChildTextNodes;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
@@ -104,9 +107,8 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends WebComponent> T to(WebComponentFactory<T> factory) {
-        return (T) factory.apply(element, driver);
+        return factory.apply(element, driver);
     }
 
     @Override
@@ -136,6 +138,21 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     }
 
     @Override
+    public String getId() {
+        return ((RemoteWebElement) element).getId();
+    }
+
+    /**
+     * Gets the text and comment nodes.
+     *
+     * @return the text and comment nodes.
+     */
+    @Override
+    public List<TextNodeElement> findTextNodes() {
+        return findChildTextNodes(driver, element, true);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -160,7 +177,6 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
         components.setContext(this, driver);
         return components;
     }
-
 
     @Override
     public String toString() {

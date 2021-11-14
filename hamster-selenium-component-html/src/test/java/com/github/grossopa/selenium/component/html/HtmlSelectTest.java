@@ -70,7 +70,7 @@ class HtmlSelectTest {
                 createOption("val3", "Label 3", 2, false));
         when(element.getTagName()).thenReturn("select");
         when(element.findElements(By.tagName("option"))).thenReturn(options);
-        when(element.getAttribute("multiple")).thenReturn("true");
+        when(element.getDomAttribute("multiple")).thenReturn("true");
         testSubject = new HtmlSelect(element, driver);
     }
 

@@ -50,4 +50,11 @@ class GracefulThreadSleepTest {
         testSubject.sleep(200);
         assertTrue(System.currentTimeMillis() - currentMs > 100);
     }
+
+    @Test
+    void sleepNegative() {
+        long currentMs = System.currentTimeMillis();
+        testSubject.sleep(-1L);
+        assertTrue(System.currentTimeMillis() - currentMs < 2);
+    }
 }

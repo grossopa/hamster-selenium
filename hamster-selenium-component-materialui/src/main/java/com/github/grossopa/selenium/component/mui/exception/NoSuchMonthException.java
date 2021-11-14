@@ -22,41 +22,24 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.exception;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static com.google.common.collect.Lists.newArrayList;
-import static org.junit.jupiter.api.Assertions.*;
+package com.github.grossopa.selenium.component.mui.exception;
 
 /**
- * Tests for {@link PaginationNotFoundException}
+ * Throws when the displayed month cannot be found by the stringToMonth function.
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.8
  */
-class PaginationNotFoundExceptionTest {
+public class NoSuchMonthException extends RuntimeException {
 
-    PaginationNotFoundException testSubject;
-    List<Integer> indices = newArrayList(1, 2, 3, 4, 6);
-
-    @BeforeEach
-    void setUp() {
-        testSubject = new PaginationNotFoundException(11, indices);
-    }
-
-
-    @Test
-    void getTargetIndex() {
-        assertEquals(11, testSubject.getTargetIndex());
-    }
-
-    @Test
-    void getScannedIndices() {
-        assertArrayEquals(new Integer[]{1, 2, 3, 4, 6}, testSubject.getScannedIndices().toArray());
-        assertNotSame(indices, testSubject.getScannedIndices());
+    /**
+     * Constructs a new runtime exception with the specified detail message. The cause is not initialized, and may
+     * subsequently be initialized by a call to {@link #initCause}.
+     *
+     * @param message the detail message. The detail message is saved for later retrieval by the {@link #getMessage()}
+     * method.
+     */
+    public NoSuchMonthException(String message) {
+        super(message);
     }
 }

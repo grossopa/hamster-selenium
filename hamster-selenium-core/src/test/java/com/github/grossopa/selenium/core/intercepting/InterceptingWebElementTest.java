@@ -34,6 +34,7 @@ import com.openpojo.validation.test.impl.GetterTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.remote.RemoteWebElement;
 
 import java.util.List;
@@ -98,6 +99,24 @@ class InterceptingWebElementTest {
         assertEquals("DIV", result);
         verify(element, times(1)).getTagName();
         afterEachVerify(handler, element, ELEMENT_GET_TAG_NAME, "DIV");
+    }
+
+    @Test
+    void getDomAttribute() {
+        when(element.getDomAttribute("some-attr")).thenReturn("some-value");
+        String result = testSubject.getDomAttribute("some-attr");
+        assertEquals("some-value", result);
+        verify(element, times(1)).getDomAttribute("some-attr");
+        afterEachVerify(handler, element, ELEMENT_GET_DOM_ATTRIBUTE, "some-value", "some-attr");
+    }
+
+    @Test
+    void getDomProperty() {
+        when(element.getDomProperty("some-attr")).thenReturn("some-value");
+        String result = testSubject.getDomProperty("some-attr");
+        assertEquals("some-value", result);
+        verify(element, times(1)).getDomProperty("some-attr");
+        afterEachVerify(handler, element, ELEMENT_GET_DOM_PROPERTY, "some-value", "some-attr");
     }
 
     @Test
@@ -214,12 +233,43 @@ class InterceptingWebElementTest {
     }
 
     @Test
-    void getId() {
-        when(element.getId()).thenReturn("dddd");
-        String result = testSubject.getId();
-        assertEquals("dddd", result);
-        verify(element, times(1)).getId();
-        afterEachVerify(handler, element, ELEMENT_GET_ID, "dddd");
+    void getAriaRole() {
+        when(element.getAriaRole()).thenReturn("presentation");
+        String result = testSubject.getAriaRole();
+        assertEquals("presentation", result);
+        verify(element, times(1)).getAriaRole();
+        afterEachVerify(handler, element, ELEMENT_GET_ARIA_ROLE, "presentation");
+    }
+
+    @Test
+    void getAccessibleName() {
+        when(element.getAccessibleName()).thenReturn("input");
+        String result = testSubject.getAccessibleName();
+        assertEquals("input", result);
+        verify(element, times(1)).getAccessibleName();
+        afterEachVerify(handler, element, ELEMENT_GET_ACCESSIBLE_NAME, "input");
+    }
+
+    @Test
+    void getShadowRoot() {
+        SearchContext searchContext = mock(SearchContext.class);
+
+        when(element.getShadowRoot()).thenReturn(searchContext);
+        SearchContext result = testSubject.getShadowRoot();
+        assertEquals(searchContext, result);
+        verify(element, times(1)).getShadowRoot();
+        afterEachVerify(handler, element, ELEMENT_GET_SHADOW_ROOT, searchContext);
+    }
+
+    @Test
+    void getCoordinates() {
+        Coordinates coordinates = mock(Coordinates.class);
+
+        when(element.getCoordinates()).thenReturn(coordinates);
+        Coordinates result = testSubject.getCoordinates();
+        assertEquals(coordinates, result);
+        verify(element, times(1)).getCoordinates();
+        afterEachVerify(handler, element, ELEMENT_GET_COORDINATES, coordinates);
     }
 
     @Test
@@ -258,4 +308,6 @@ class InterceptingWebElementTest {
         assertEquals("InterceptingWebElement{element=WebElement[aaabbb], handler=InterceptingHandler[cccddd]}",
                 new InterceptingWebElement(element, handler).toString());
     }
+
+
 }

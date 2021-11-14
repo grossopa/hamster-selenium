@@ -57,7 +57,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
 
         assertEquals(3, avatars.size());
         assertEquals("Remy Sharp", avatars.get(0).getAlt());
-        assertEquals("https://v4.mui.com/static/images/avatar/1.jpg", avatars.get(0).getSrc());
+        assertEquals("/static/images/avatar/1.jpg", avatars.get(0).getSrc());
 
         List<MuiAvatar> letterAvatars = driver.findComponent(By.id("LetterAvatars.js"))
                 .findComponent(By.xpath("parent::*")).findComponents(By2.attrContains("class", "MuiAvatar-root"))

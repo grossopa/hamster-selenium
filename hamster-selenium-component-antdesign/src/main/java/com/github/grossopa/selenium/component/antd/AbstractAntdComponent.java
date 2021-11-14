@@ -63,4 +63,6 @@ public abstract class AbstractAntdComponent extends DefaultWebComponent implemen
     public AntdConfig config() {
         return config;
     }
+
+
 }

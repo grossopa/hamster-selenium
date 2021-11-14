@@ -22,7 +22,9 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.hamster.selenium.core.util;import com.google.common.base.Equivalence;
+package com.github.grossopa.hamster.selenium.core.util;
+
+import com.google.common.base.Equivalence;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -37,7 +39,6 @@ import java.util.List;
  * @author Jack Yin
  * @since 1.4
  */
-@SuppressWarnings("all")
 final class RelationshipTester<T> {
     private final Equivalence<? super T> equivalence;
     private final String relationshipName;
@@ -47,10 +48,10 @@ final class RelationshipTester<T> {
 
     RelationshipTester(Equivalence<? super T> equivalence, String relationshipName, String hashName,
             ItemReporter itemReporter) {
-        this.equivalence = (Equivalence) Preconditions.checkNotNull(equivalence);
-        this.relationshipName = (String) Preconditions.checkNotNull(relationshipName);
-        this.hashName = (String) Preconditions.checkNotNull(hashName);
-        this.itemReporter = (ItemReporter) Preconditions.checkNotNull(itemReporter);
+        this.equivalence = Preconditions.checkNotNull(equivalence);
+        this.relationshipName = Preconditions.checkNotNull(relationshipName);
+        this.hashName = Preconditions.checkNotNull(hashName);
+        this.itemReporter = Preconditions.checkNotNull(itemReporter);
     }
 
     public RelationshipTester<T> addRelatedGroup(Iterable<? extends T> group) {
@@ -60,7 +61,7 @@ final class RelationshipTester<T> {
 
     public void test() {
         for (int groupNumber = 0; groupNumber < this.groups.size(); ++groupNumber) {
-            ImmutableList<T> group = (ImmutableList) this.groups.get(groupNumber);
+            ImmutableList<T> group = this.groups.get(groupNumber);
 
             for (int itemNumber = 0; itemNumber < group.size(); ++itemNumber) {
                 int unrelatedGroupNumber;
@@ -72,7 +73,7 @@ final class RelationshipTester<T> {
 
                 for (unrelatedGroupNumber = 0; unrelatedGroupNumber < this.groups.size(); ++unrelatedGroupNumber) {
                     if (groupNumber != unrelatedGroupNumber) {
-                        ImmutableList<T> unrelatedGroup = (ImmutableList) this.groups.get(unrelatedGroupNumber);
+                        ImmutableList<T> unrelatedGroup = this.groups.get(unrelatedGroupNumber);
 
                         for (int unrelatedItemNumber = 0;
                              unrelatedItemNumber < unrelatedGroup.size(); ++unrelatedItemNumber) {
@@ -106,8 +107,7 @@ final class RelationshipTester<T> {
                 !this.equivalence.equivalent(itemInfo.value, unrelatedInfo.value));
     }
 
-    private void assertWithTemplate(String template, Item<T> item, Item<T> other,
-            boolean condition) {
+    private void assertWithTemplate(String template, Item<T> item, Item<T> other, boolean condition) {
         if (!condition) {
             throw new AssertionFailedError(
                     template.replace("$RELATIONSHIP", this.relationshipName).replace("$HASH", this.hashName)
@@ -117,7 +117,7 @@ final class RelationshipTester<T> {
     }
 
     private Item<T> getItem(int groupNumber, int itemNumber) {
-        return new Item(((ImmutableList) this.groups.get(groupNumber)).get(itemNumber), groupNumber, itemNumber);
+        return new Item<>((this.groups.get(groupNumber)).get(itemNumber), groupNumber, itemNumber);
     }
 
     static final class Item<T> {

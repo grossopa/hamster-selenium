@@ -22,22 +22,22 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.exception;
+package com.github.grossopa.selenium.component.mui.exception;
 
 /**
- * Throws when the version is not valid for component creation
+ * Throws when close date picker action is invoked but the dialog is not properly closed.
  *
  * @author Jack Yin
- * @since 1.7
+ * @since 1.8
  */
-public class InvalidVersionException extends RuntimeException {
+public class DatePickerNotClosedException extends RuntimeException {
 
     /**
      * Constructs an instance with message.
      *
      * @param message the error message
      */
-    public InvalidVersionException(String message) {
+    public DatePickerNotClosedException(String message) {
         super(message);
     }
 }

@@ -84,7 +84,7 @@ public interface Select extends ISelect {
      * @deprecated favor {@link #getAllSelectedOptions2()}
      */
     @Deprecated(since = "1.0")
-    @SuppressWarnings("java:S1133")
+    @SuppressWarnings({"java:S1133", "DeprecatedIsStillUsed"})
     default List<WebElement> getAllSelectedOptions() {
         return new ArrayList<>(getAllSelectedOptions2());
     }

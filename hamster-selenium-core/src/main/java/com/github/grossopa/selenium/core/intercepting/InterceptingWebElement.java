@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.core.intercepting;
 import com.github.grossopa.selenium.core.component.AbstractDelegatedWebElement;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Coordinates;
 
 import java.util.List;
 import java.util.Objects;
@@ -102,6 +103,12 @@ public class InterceptingWebElement extends AbstractDelegatedWebElement {
     }
 
     @Override
+    public String getDomAttribute(String name) {
+        return handler.execute(() -> super.getDomAttribute(name),
+                MethodInfo.create(element, ELEMENT_GET_DOM_ATTRIBUTE, name));
+    }
+
+    @Override
     public boolean isSelected() {
         return handler.execute(super::isSelected, MethodInfo.create(element, ELEMENT_IS_SELECTED));
     }
@@ -161,8 +168,29 @@ public class InterceptingWebElement extends AbstractDelegatedWebElement {
     }
 
     @Override
-    public String getId() {
-        return handler.execute(super::getId, MethodInfo.create(element, ELEMENT_GET_ID));
+    public String getDomProperty(String name) {
+        return handler.execute(() -> super.getDomProperty(name),
+                MethodInfo.create(element, ELEMENT_GET_DOM_PROPERTY, name));
+    }
+
+    @Override
+    public String getAriaRole() {
+        return handler.execute(super::getAriaRole, MethodInfo.create(element, ELEMENT_GET_ARIA_ROLE));
+    }
+
+    @Override
+    public String getAccessibleName() {
+        return handler.execute(super::getAccessibleName, MethodInfo.create(element, ELEMENT_GET_ACCESSIBLE_NAME));
+    }
+
+    @Override
+    public SearchContext getShadowRoot() {
+        return handler.execute(super::getShadowRoot, MethodInfo.create(element, ELEMENT_GET_SHADOW_ROOT));
+    }
+
+    @Override
+    public Coordinates getCoordinates() {
+        return handler.execute(super::getCoordinates, MethodInfo.create(element, ELEMENT_GET_COORDINATES));
     }
 
     @Override

@@ -22,25 +22,32 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.component.mui.v4.exception;
-
-import com.github.grossopa.selenium.component.mui.action.CloseOptionsAction;
+package com.github.grossopa.selenium.core.util;
 
 /**
- * Throws then a {@link CloseOptionsAction} is fired but the popover layer is
- * still visible.
+ * Sneaky throws utility
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.8
  */
-public class OptionNotClosedException extends RuntimeException {
+public class SneakyThrows {
 
     /**
-     * Constructs an instance with message.
-     *
-     * @param message the error message
+     * private
      */
-    public OptionNotClosedException(String message) {
-        super(message);
+    private SneakyThrows() {
+        throw new AssertionError();
+    }
+
+    /**
+     * Mutes the checked exception
+     *
+     * @param exception the exception to throw
+     * @param <T> the exception type
+     * @throws T the exception to be thrown
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends Exception> void sneakyThrow(Exception exception) throws T {
+        throw (T) exception;
     }
 }
