@@ -8,7 +8,7 @@
 On top of Selenium (web browser automation tool) for providing component-based abstraction of Html DOM with interaction
 APIs for automating the web pages built by modern front-end frameworks such as Material UI.
 
-It depends on selenium-java 3.141.59 and JDK 11. please visit https://github.com/SeleniumHQ/selenium to understand how
+It depends on selenium-java 4.0.0 and JDK 11. please visit https://github.com/SeleniumHQ/selenium to understand how
 to use Selenium.
 
 ## Material UI (React)
@@ -37,7 +37,7 @@ Plain HTML:
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-html</artifactId>
-      <version>1.7</version>
+      <version>1.8</version>
     </dependency>
 
 Material UI (React):
@@ -45,7 +45,7 @@ Material UI (React):
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-materialui</artifactId>
-      <version>1.7</version>
+      <version>1.8</version>
     </dependency>
 
 Material UI (Angular):
@@ -53,20 +53,19 @@ Material UI (Angular):
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-mats</artifactId>
-      <version>1.7</version>
+      <version>1.8</version>
     </dependency>
+
 
 Create a ComponentWebDriver from existing WebDriver:
 
 `ComponentWebDriver driver = new DefaultComponentWebDriver(webDriver);`
 
-Locate the element root by class name (e.g. class="MuiSelect-root") or other indicators.
+Locate the element root by class name (e.g. class="MuiSelect-root") or other indicators and convert them by using 
+as(mui()) and toSelect or other methods.
 
-`WebComponent component = driver.findComponent(By.className("MuiSelect-root"));`
-
-Convert the WebComponent to the target class.
-
-`MuiSelect select = component.as(MuiComponents.mui()).toSelect(By2.xpathBuilder().anywhereRelative().attr("class").contains("MuiMenuItem-root").build());`
+    WebComponent component = driver.findComponent(By.className("MuiSelect-root"));
+    MuiSelect select = component.as(MuiComponents.mui()).toSelect(By.className("MuiMenuItem-root"));`
 
 # License
 
