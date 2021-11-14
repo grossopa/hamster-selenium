@@ -26,6 +26,7 @@ package com.github.grossopa.selenium.core.component;
 
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.factory.WebComponentFactory;
+import com.github.grossopa.selenium.core.element.TextNodeElement;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Locatable;
 
@@ -218,4 +219,11 @@ public interface WebComponent extends WrapsElement, WebElement, TakesScreenshot,
      * @return the element id
      */
     String getId();
+
+    /**
+     * Gets the text and comment nodes.
+     *
+     * @return the text and comment nodes.
+     */
+    List<TextNodeElement> findTextNodes();
 }
