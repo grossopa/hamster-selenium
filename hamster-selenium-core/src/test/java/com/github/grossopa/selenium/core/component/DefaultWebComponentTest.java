@@ -212,9 +212,9 @@ class DefaultWebComponentTest {
                 + "var result = [];"
                 + "for (var i = 0; i < nodes.length; i++) {"
                 + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
-                + "    result.push(nodeName:nodes[i].nodeName, nodeType:nodes[i].nodeType, "
+                + "    result.push({nodeName:nodes[i].nodeName, nodeType:nodes[i].nodeType, "
                 + "nodeValue:nodes[i].nodeValue, textContent:nodes[i].textContent, "
-                + "wholeText:nodes[i].wholeText, data:nodes[i].data);"
+                + "wholeText:nodes[i].wholeText, data:nodes[i].data});"
                 + "  }"
                 + "}"
                 + "return result;", element)).thenReturn(childNodesResult);

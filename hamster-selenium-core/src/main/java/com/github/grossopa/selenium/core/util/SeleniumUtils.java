@@ -156,7 +156,7 @@ public class SeleniumUtils {
                 + "var result = [];"
                 + "for (var i = 0; i < nodes.length; i++) {"
                 + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
-                + "    result.push(" + propertyString + ");"
+                + "    result.push({" + propertyString + "});"
                 + "  } else {"
                 + "    result.push(nodes[i]);"
                 + "  }"
@@ -196,7 +196,7 @@ public class SeleniumUtils {
                 + "var result = [];"
                 + "for (var i = 0; i < nodes.length; i++) {"
                 + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
-                + "    result.push(" + propertyString + ");"
+                + "    result.push({" + propertyString + "});"
                 + "  }"
                 + "}"
                 + "return result;", element);
