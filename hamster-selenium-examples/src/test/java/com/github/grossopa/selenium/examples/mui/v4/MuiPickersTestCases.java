@@ -56,14 +56,14 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
         MuiTextField inputField = driver.findComponent(By2.xpath("//label[text()='Year only']"))
                 .findComponent(By2.parent()).findComponent(By.className("MuiInput-root")).as(mui()).toTextField();
 
-        assertEquals("2021", inputField.getInput().getAttribute("value"));
+        assertEquals("2022", inputField.getInput().getAttribute("value"));
         inputField.click();
 
         MuiDialogLocator locator = new MuiDialogLocator(driver, new MuiConfig());
         MuiPickersDialog dialog = locator.findVisibleDialogs().get(0).as(mui()).toPickersDialog();
 
         MuiPickersYearSelectionContainer yearSelectionContainer = dialog.getPickersContainer().getAsYearSelection();
-        assertEquals("2021", requireNonNull(yearSelectionContainer.getSelectedYear()).getText());
+        assertEquals("2022", requireNonNull(yearSelectionContainer.getSelectedYear()).getText());
         yearSelectionContainer.select("1905");
 
         assertEquals("1905", requireNonNull(yearSelectionContainer.getSelectedYear()).getText());
