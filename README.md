@@ -8,7 +8,7 @@
 On top of Selenium (web browser automation tool) for providing component-based abstraction of Html DOM with interaction
 APIs for automating the web pages built by modern front-end frameworks such as Material UI.
 
-It depends on selenium-java 4.0.0 and JDK 11. please visit https://github.com/SeleniumHQ/selenium to understand how
+It depends on selenium-java 4.6.0 and JDK 11. please visit https://github.com/SeleniumHQ/selenium to understand how
 to use Selenium.
 
 ## Material UI (React)
@@ -37,7 +37,7 @@ Plain HTML:
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-html</artifactId>
-      <version>1.8.1</version>
+      <version>1.10.0</version>
     </dependency>
 
 Material UI (React):
@@ -45,7 +45,7 @@ Material UI (React):
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-materialui</artifactId>
-      <version>1.8.1</version>
+      <version>1.10.0</version>
     </dependency>
 
 Material UI (Angular):
@@ -53,7 +53,7 @@ Material UI (Angular):
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-mats</artifactId>
-      <version>1.8.1</version>
+      <version>1.10.0</version>
     </dependency>
 
 
