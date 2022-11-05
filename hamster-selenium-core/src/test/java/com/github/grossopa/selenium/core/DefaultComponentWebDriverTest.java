@@ -197,18 +197,6 @@ class DefaultComponentWebDriverTest {
     }
 
     @Test
-    void getKeyboard() {
-        testSubject.getKeyboard();
-        verify(driver, only()).getKeyboard();
-    }
-
-    @Test
-    void getMouse() {
-        testSubject.getMouse();
-        verify(driver, only()).getMouse();
-    }
-
-    @Test
     void perform() {
         testSubject.perform(emptyList());
         verify(driver, only()).perform(emptyList());

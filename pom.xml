@@ -79,7 +79,7 @@
     <!-- project dependencies -->
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <commons-math3.version>3.6.1</commons-math3.version>
-    <selenium-java.version>4.0.0</selenium-java.version>
+    <selenium-java.version>4.6.0</selenium-java.version>
 
     <!-- testing dependencies -->
     <junit-jupiter.version>RELEASE</junit-jupiter.version>

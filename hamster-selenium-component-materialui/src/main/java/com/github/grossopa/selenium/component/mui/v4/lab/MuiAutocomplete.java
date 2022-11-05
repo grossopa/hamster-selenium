@@ -37,6 +37,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
 import com.github.grossopa.selenium.core.locator.By2;
+import com.github.grossopa.selenium.core.util.SeleniumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -151,6 +152,15 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     @Override
     public boolean isEnabled() {
         return !config.isDisabled(this.findComponent(By.className(config.getCssPrefix() + INPUT_NAME)));
+    }
+
+    /**
+     * Whether the AutoComplete is readonly or not.
+     *
+     * @return the AutoComplete is readonly or not.
+     */
+    public boolean isReadOnly() {
+        return SeleniumUtils.isTrueAttribute(getInput(), "readonly");
     }
 
     /**

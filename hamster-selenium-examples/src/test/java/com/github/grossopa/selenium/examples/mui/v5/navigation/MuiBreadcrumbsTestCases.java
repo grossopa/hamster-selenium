@@ -46,7 +46,6 @@ public class MuiBreadcrumbsTestCases extends AbstractBrowserSupport {
 
     /**
      * Tests the basic features.
-     *
      * <a href="https://mui.com/components/breadcrumbs/#basic-breadcrumbs">
      * https://mui.com/components/breadcrumbs/#basic-breadcrumbs</a>
      */
@@ -64,7 +63,6 @@ public class MuiBreadcrumbsTestCases extends AbstractBrowserSupport {
 
     /**
      * Tests the collapsed feature.
-     *
      * <a href="https://mui.com/components/breadcrumbs/#collapsed-breadcrumbs">
      * https://mui.com/components/breadcrumbs/#collapsed-breadcrumbs</a>
      */

@@ -47,7 +47,6 @@ public class MuiPaginationTestCases extends AbstractBrowserSupport {
 
     /**
      * Tests the basic pagination.
-     *
      * <a href="https://mui.com/components/pagination/#basic-pagination">
      * https://mui.com/components/pagination/#basic-pagination</a>
      */
@@ -94,7 +93,6 @@ public class MuiPaginationTestCases extends AbstractBrowserSupport {
 
     /**
      * Tests the buttons of the pagination.
-     *
      * <a href="https://mui.com/components/pagination/#buttons">
      * https://mui.com/components/pagination/#buttons</a>
      */

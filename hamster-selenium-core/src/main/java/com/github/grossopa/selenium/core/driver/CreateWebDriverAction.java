@@ -59,11 +59,6 @@ public class CreateWebDriverAction implements WebDriverType.WebDriverTypeFunctio
     }
 
     @Override
-    public WebDriver applyOpera(CreateWebDriverParams input) {
-        return doBuild(getBuilder(), input);
-    }
-
-    @Override
     public WebDriver applySafari(CreateWebDriverParams input) {
         return doBuild(getBuilder(), input);
     }

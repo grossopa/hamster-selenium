@@ -66,12 +66,6 @@ public class CreateWebDriverFromRunningServiceAction
 
     @Nullable
     @Override
-    public WebDriver applyOpera(RunningServiceParams input) {
-        return doBuild(getBuilder(), input);
-    }
-
-    @Nullable
-    @Override
     public WebDriver applySafari(RunningServiceParams input) {
         return doBuild(getBuilder(), input);
     }

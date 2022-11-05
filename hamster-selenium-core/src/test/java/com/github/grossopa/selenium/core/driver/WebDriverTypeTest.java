@@ -63,11 +63,6 @@ class WebDriverTypeTest {
         assertEquals("abcSafari", WebDriverType.SAFARI.apply(new TestAction(), "abc"));
     }
 
-    @Test
-    void applyOpera() {
-        assertEquals("abcOpera", WebDriverType.OPERA.apply(new TestAction(), "abc"));
-    }
-
     static class TestAction implements WebDriverType.WebDriverTypeFunction<String, String> {
 
         @Nullable
@@ -92,12 +87,6 @@ class WebDriverTypeTest {
         @Override
         public String applyIE(@Nullable String input) {
             return input + "IE";
-        }
-
-        @Nullable
-        @Override
-        public String applyOpera(@Nullable String input) {
-            return input + "Opera";
         }
 
         @Nullable

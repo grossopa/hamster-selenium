@@ -31,7 +31,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.safari.SafariOptions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -72,11 +71,6 @@ class AbstractEnrichOptionsActionTest {
             }
 
             @Override
-            protected Capabilities doApplyOpera(OperaOptions options) {
-                return options;
-            }
-
-            @Override
             protected Capabilities doApplySafari(SafariOptions options) {
                 return options;
             }
@@ -106,12 +100,6 @@ class AbstractEnrichOptionsActionTest {
     void applyIE() {
         InternetExplorerOptions options = mock(InternetExplorerOptions.class);
         assertEquals(options, testSubject.applyIE(options));
-    }
-
-    @Test
-    void applyOpera() {
-        OperaOptions options = mock(OperaOptions.class);
-        assertEquals(options, testSubject.applyOpera(options));
     }
 
     @Test

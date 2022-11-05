@@ -30,7 +30,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.safari.SafariOptions;
 
 import static java.util.Objects.requireNonNull;
@@ -70,11 +69,6 @@ class CreateOptionsActionTest {
     @Test
     void applyIE() {
         assertEquals(InternetExplorerOptions.class, requireNonNull(testSubject.applyIE(null)).getClass());
-    }
-
-    @Test
-    void applyOpera() {
-        assertEquals(OperaOptions.class, requireNonNull(testSubject.applyOpera(null)).getClass());
     }
 
     @Test

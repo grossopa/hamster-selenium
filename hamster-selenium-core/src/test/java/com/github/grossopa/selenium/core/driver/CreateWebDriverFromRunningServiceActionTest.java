@@ -93,12 +93,6 @@ class CreateWebDriverFromRunningServiceActionTest {
     }
 
     @Test
-    void applyOpera() {
-        assertEquals(webDriver, testSubject.applyOpera(params));
-        verifyAll();
-    }
-
-    @Test
     void applySafari() {
         assertEquals(webDriver, testSubject.applySafari(params));
         verifyAll();

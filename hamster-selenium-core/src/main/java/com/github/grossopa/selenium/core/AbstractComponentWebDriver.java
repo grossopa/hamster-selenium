@@ -27,7 +27,9 @@ package com.github.grossopa.selenium.core;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.util.GracefulThreadSleep;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.Interactive;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.annotation.Nullable;
@@ -47,7 +49,6 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
  * @author Jack Yin
  * @since 1.4
  */
-@SuppressWarnings("deprecation")
 public abstract class AbstractComponentWebDriver implements ComponentWebDriver {
 
     protected final WebDriver driver;
@@ -118,7 +119,7 @@ public abstract class AbstractComponentWebDriver implements ComponentWebDriver {
     @Override
     @SuppressWarnings("java:S6212")
     public WebDriverWait createWait(long waitInMilliseconds) {
-        WebDriverWait wait = new WebDriverWait(this, 0);
+        WebDriverWait wait = new WebDriverWait(this, Duration.ofMillis(waitInMilliseconds));
         wait.withTimeout(Duration.ofMillis(waitInMilliseconds));
         return wait;
     }
@@ -196,16 +197,6 @@ public abstract class AbstractComponentWebDriver implements ComponentWebDriver {
     @Override
     public <X> X getScreenshotAs(OutputType<X> target) {
         return ((TakesScreenshot) driver).getScreenshotAs(target);
-    }
-
-    @Override
-    public Keyboard getKeyboard() {
-        return ((HasInputDevices) driver).getKeyboard();
-    }
-
-    @Override
-    public Mouse getMouse() {
-        return ((HasInputDevices) driver).getMouse();
     }
 
     @Override

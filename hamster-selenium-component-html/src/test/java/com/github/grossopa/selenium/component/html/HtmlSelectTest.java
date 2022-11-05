@@ -57,6 +57,7 @@ class HtmlSelectTest {
         when(element.getText()).thenReturn(label);
         when(element.getAttribute("index")).thenReturn(String.valueOf(index));
         when(element.isSelected()).thenReturn(selected);
+        when(element.isEnabled()).thenReturn(true);
         doAnswer(a -> {
             when(element.isSelected()).thenReturn(!selected);
             return null;
@@ -71,6 +72,7 @@ class HtmlSelectTest {
         when(element.getTagName()).thenReturn("select");
         when(element.findElements(By.tagName("option"))).thenReturn(options);
         when(element.getDomAttribute("multiple")).thenReturn("true");
+        when(element.isEnabled()).thenReturn(true);
         testSubject = new HtmlSelect(element, driver);
     }
 
