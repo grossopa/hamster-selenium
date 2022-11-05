@@ -248,4 +248,23 @@ public class SeleniumUtils {
         return "";
     }
 
+    /**
+     * This method is helpful when there are multiple different values for same meaning of attribute especially for
+     * boolean attributes below.
+     * <p>
+     * async, autofocus, autoplay, checked, compact, complete, controls, declare, defaultchecked, defaultselected,
+     * defer, disabled, draggable, ended, formnovalidate, hidden, indeterminate, iscontenteditable, ismap, itemscope,
+     * loop, multiple, muted, nohref, noresize, noshade, novalidate, nowrap, open, paused, pubdate, readonly, required,
+     * reversed, scoped, seamless, seeking, selected, truespeed, willvalidate
+     * </p>
+     *
+     * @param element the element to find the attribute from
+     * @param attributeName the attribute to find from the element
+     * @return true if the value is not blank and not false
+     */
+    public static boolean isTrueAttribute(WebElement element, String attributeName) {
+        String value = element.getAttribute(attributeName);
+        return !("false".equalsIgnoreCase(value) || isBlank(value));
+    }
+
 }

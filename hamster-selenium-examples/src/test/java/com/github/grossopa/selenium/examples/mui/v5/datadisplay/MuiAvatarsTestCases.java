@@ -34,6 +34,7 @@ import java.util.List;
 import static com.github.grossopa.selenium.component.mui.MuiComponents.muiV5;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test cases for {@link MuiAvatar}.
@@ -58,9 +59,9 @@ public class MuiAvatarsTestCases extends AbstractBrowserSupport {
         assertEquals("Travis Howard", imageAvatarList.get(1).getAlt());
         assertEquals("Cindy Baker", imageAvatarList.get(2).getAlt());
 
-        assertEquals("/static/images/avatar/1.jpg", imageAvatarList.get(0).getSrc());
-        assertEquals("/static/images/avatar/2.jpg", imageAvatarList.get(1).getSrc());
-        assertEquals("/static/images/avatar/3.jpg", imageAvatarList.get(2).getSrc());
+        assertTrue(imageAvatarList.get(0).getSrc().endsWith("/static/images/avatar/1.jpg"));
+        assertTrue(imageAvatarList.get(1).getSrc().endsWith("/static/images/avatar/2.jpg"));
+        assertTrue(imageAvatarList.get(2).getSrc().endsWith("/static/images/avatar/3.jpg"));
     }
 
     /**
@@ -70,8 +71,7 @@ public class MuiAvatarsTestCases extends AbstractBrowserSupport {
      * https://mui.com/components/avatars/#letter-avatars</a>
      */
     public void testLetterAvatars() {
-        List<MuiAvatar> letterAvatarList = driver.findComponent(By.id("LetterAvatars.js"))
-                .findComponent(By2.parent())
+        List<MuiAvatar> letterAvatarList = driver.findComponent(By.id("LetterAvatars.js")).findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiAvatar-root"), c -> c.as(muiV5()).toAvatar());
         assertEquals(3, letterAvatarList.size());
 

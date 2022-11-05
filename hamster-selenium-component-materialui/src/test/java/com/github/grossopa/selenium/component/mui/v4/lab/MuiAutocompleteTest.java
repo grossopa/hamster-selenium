@@ -184,6 +184,18 @@ class MuiAutocompleteTest {
     }
 
     @Test
+    void isReadOnly() {
+        when(inputElement.getAttribute("readonly")).thenReturn("true");
+        assertTrue(testSubject.isReadOnly());
+    }
+
+    @Test
+    void isReadOnlyNegative() {
+        when(inputElement.getAttribute("readonly")).thenReturn("false");
+        assertFalse(testSubject.isReadOnly());
+    }
+
+    @Test
     void getLabel() {
         assertEquals(labelElement, testSubject.getLabel().getWrappedElement());
     }

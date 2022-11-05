@@ -363,4 +363,22 @@ class SeleniumUtilsTest {
     void enrichQuoteDouble() {
         assertEquals("\"ddd'ddd\"", SeleniumUtils.enrichQuote("ddd'ddd"));
     }
+
+    @Test
+    void isTrueAttribute() {
+        when(element.getAttribute("readonly")).thenReturn("true");
+        assertTrue(SeleniumUtils.isTrueAttribute(element, "readonly"));
+    }
+
+    @Test
+    void isTrueAttributeNegative1() {
+        when(element.getAttribute("readonly")).thenReturn(null);
+        assertFalse(SeleniumUtils.isTrueAttribute(element, "readonly"));
+    }
+
+    @Test
+    void isTrueAttributeNegative2() {
+        when(element.getAttribute("readonly")).thenReturn("false");
+        assertFalse(SeleniumUtils.isTrueAttribute(element, "readonly"));
+    }
 }

@@ -27,7 +27,6 @@ package com.github.grossopa.selenium.core;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.HasInputDevices;
 import org.openqa.selenium.interactions.Interactive;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -40,9 +39,8 @@ import java.util.function.Function;
  * @author Jack Yin
  * @since 1.0
  */
-@SuppressWarnings("deprecation")
 public interface ComponentWebDriver
-        extends WrapsDriver, WebDriver, JavascriptExecutor, HasInputDevices, HasCapabilities, Interactive,
+        extends WrapsDriver, WebDriver, JavascriptExecutor, HasCapabilities, Interactive,
         TakesScreenshot {
 
     /**

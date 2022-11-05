@@ -27,8 +27,6 @@ package com.github.grossopa.selenium.core.intercepting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Keyboard;
-import org.openqa.selenium.interactions.Mouse;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.Collections;
@@ -49,7 +47,6 @@ import static org.mockito.Mockito.*;
  * @author Jack Yin
  * @since 1.4
  */
-@SuppressWarnings("deprecation")
 class InterceptingWebDriverTest {
 
     InterceptingWebDriver testSubject;
@@ -206,20 +203,6 @@ class InterceptingWebDriverTest {
         assertEquals(bs, result);
         verify(driver, times(1)).getScreenshotAs(OutputType.BYTES);
         afterEachVerify(handler, driver, DRIVER_GET_SCREENSHOT_AS, bs, OutputType.BYTES);
-    }
-
-    @Test
-    void getKeyboard() {
-        Keyboard keyboard = mock(Keyboard.class);
-        when(driver.getKeyboard()).thenReturn(keyboard);
-        assertEquals(keyboard, testSubject.getKeyboard());
-    }
-
-    @Test
-    void getMouse() {
-        Mouse mouse = mock(Mouse.class);
-        when(driver.getMouse()).thenReturn(mouse);
-        assertEquals(mouse, testSubject.getMouse());
     }
 
     @Test

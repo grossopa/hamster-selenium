@@ -28,7 +28,6 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.edge.EdgeDriverService;
 import org.openqa.selenium.firefox.GeckoDriverService;
 import org.openqa.selenium.ie.InternetExplorerDriverService;
-import org.openqa.selenium.opera.OperaDriverService;
 import org.openqa.selenium.remote.service.DriverService;
 import org.openqa.selenium.safari.SafariDriverService;
 
@@ -74,15 +73,6 @@ public class CreateDriverServiceAction implements WebDriverType.WebDriverTypeFun
         // withLogLevel
         // withHost
         // withExtractPath
-        // withSilent
-        return builder.build();
-    }
-
-    @Override
-    public DriverService applyOpera(DriverConfig config) {
-        OperaDriverService.Builder builder = new OperaDriverService.Builder();
-        enrichCommons(config, builder);
-        // withVerbose
         // withSilent
         return builder.build();
     }

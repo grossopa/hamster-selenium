@@ -100,8 +100,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
             log.info("Testing MuiAutocomplete" + autocomplete.getInput().getAttribute("value"));
             assertTrue(autocomplete.validate());
 
-            if (!autocomplete.isEnabled()) {
-                log.info("Skipping disabled autocomplete component");
+            if (!autocomplete.isEnabled() || autocomplete.isReadOnly()) {
+                log.info("Skipping disabled / readonly autocomplete component");
                 return;
             }
 

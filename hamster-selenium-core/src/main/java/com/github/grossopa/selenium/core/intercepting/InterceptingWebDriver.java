@@ -41,9 +41,8 @@ import static java.util.stream.Collectors.toList;
  * @author Jack Yin
  * @since 1.4
  */
-@SuppressWarnings("deprecation")
 public class InterceptingWebDriver
-        implements WebDriver, HasInputDevices, HasCapabilities, Interactive, TakesScreenshot, JavascriptExecutor {
+        implements WebDriver, HasCapabilities, Interactive, TakesScreenshot, JavascriptExecutor {
 
     private final WebDriver driver;
     private final InterceptingHandler handler;
@@ -159,16 +158,6 @@ public class InterceptingWebDriver
     public <X> X getScreenshotAs(OutputType<X> target) throws WebDriverException {
         return handler.execute(() -> ((TakesScreenshot) driver).getScreenshotAs(target),
                 MethodInfo.create(driver, DRIVER_GET_SCREENSHOT_AS, target));
-    }
-
-    @Override
-    public Keyboard getKeyboard() {
-        return ((HasInputDevices) driver).getKeyboard();
-    }
-
-    @Override
-    public Mouse getMouse() {
-        return ((HasInputDevices) driver).getMouse();
     }
 
     @Override

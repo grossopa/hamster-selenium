@@ -61,7 +61,6 @@ class AbstractAntdComponentTest {
         };
     }
 
-
     @Test
     void validate() {
         assertFalse(testSubject.validate());
