@@ -33,7 +33,6 @@ import org.openqa.selenium.By;
  * @author Jack Yin
  * @since 1.5
  */
-@FunctionalInterface
 public interface By2Builder {
 
     /**
@@ -42,4 +41,11 @@ public interface By2Builder {
      * @return the built by instance.
      */
     By build();
+
+    /**
+     * Gets the XPath string.
+     *
+     * @return the xpath string.
+     */
+    String xpathString();
 }

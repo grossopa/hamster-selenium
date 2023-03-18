@@ -257,4 +257,15 @@ class SimpleXpathBuilderTest {
                 builder.relative("div").build());
     }
 
+    @Test
+    void testXpathString1() {
+        assertEquals("//*[contains(text(),\"abc\")]", builder.anywhere().text().contains("abc").xpathString());
+    }
+
+    @Test
+    void testXpathString2() {
+        assertEquals("//*[contains(text(),\"abc\")]/ancestor::*",
+                builder.anywhere().text().contains("abc").ancestor().xpathString());
+    }
+
 }

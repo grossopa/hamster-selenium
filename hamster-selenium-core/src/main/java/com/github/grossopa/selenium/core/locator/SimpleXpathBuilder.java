@@ -210,6 +210,11 @@ public class SimpleXpathBuilder {
             return By.xpath(prefix);
         }
 
+        @Override
+        public String xpathString() {
+            return prefix;
+        }
+
         /**
          * To next axes builder.
          *
@@ -470,5 +475,12 @@ public class SimpleXpathBuilder {
         public By build() {
             return By.xpath(prefix);
         }
+
+        @Override
+        public String xpathString() {
+            return prefix;
+        }
+
+
     }
 }
