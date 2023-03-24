@@ -265,6 +265,16 @@ class SimpleXpathBuilderTest {
     }
 
     @Test
+    void testBuilder35() {
+        assertEquals(By2.xpath(
+                        "div[not(starts-with(@some-attr,'start\"char')) and text()=\"some char\" or starts-with(name(),\"abc\")]"
+                                + "/preceding::span/following-sibling::tag[not(matches(@data-value,\"some-pattern\"))]"),
+                builder.empty("div").attr("some-attr").not().startsWith("start\"char").and().text().exact("some char")
+                        .or().name().startsWith("abc").preceding("span").axes().followingSibling("tag")
+                        .attr("data-value").not().matches("some-pattern").build());
+    }
+
+    @Test
     void testXpathString1() {
         assertEquals("//*[contains(text(),\"abc\")]", builder.anywhere().text().contains("abc").xpathString());
     }

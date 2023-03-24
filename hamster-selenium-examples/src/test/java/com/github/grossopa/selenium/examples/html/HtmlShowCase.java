@@ -101,6 +101,13 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         assertEquals("700", components.get(5).getText());
         assertEquals("800", components.get(6).getText());
         assertEquals("900", components.get(7).getText());
+
+
+        components = table.findComponents(
+                xpathBuilder().anywhereRelative("td").text().exact("400").or().text().contains("6").build());
+        assertEquals(2, components.size());
+        assertEquals("400", components.get(0).getText());
+        assertEquals("600", components.get(1).getText());
     }
 
     public void testSelect() {
