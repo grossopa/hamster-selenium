@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 the original author or authors.
+ * Copyright © 2023 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -253,8 +253,42 @@ class SimpleXpathBuilderTest {
 
     @Test
     void testBuilder33() {
-        assertEquals(By2.xpath("./div"),
-                builder.relative("div").build());
+        assertEquals(By2.xpath("./div"), builder.relative("div").build());
+    }
+
+    @Test
+    void testBuilder34() {
+        assertEquals(By2.xpath("div[not(starts-with(@some-attr,'start\"char'))]"
+                        + "/preceding::span/following-sibling::tag[not(matches(@data-value,\"some-pattern\"))]"),
+                builder.empty("div").attr("some-attr").not().startsWith("start\"char").preceding("span").axes()
+                        .followingSibling("tag").attr("data-value").not().matches("some-pattern").build());
+    }
+
+    @Test
+    void testBuilder35() {
+        assertEquals(By2.xpath(
+                        "div[not(starts-with(@some-attr,'start\"char')) and text()=\"some char\" or starts-with(name(),\"abc\")]"
+                                + "/preceding::span/following-sibling::tag[not(matches(@data-value,\"some-pattern\"))]"),
+                builder.empty("div").attr("some-attr").not().startsWith("start\"char").and().text().exact("some char")
+                        .or().name().startsWith("abc").preceding("span").axes().followingSibling("tag")
+                        .attr("data-value").not().matches("some-pattern").build());
+    }
+
+    @Test
+    void testBuilder36() {
+        assertEquals(builder.anywhereRelative("div").attr("abc").not().contains("123").build(),
+                builder.anywhereRelative("div").attr("@abc").not().contains("123").build());
+    }
+
+    @Test
+    void testXpathString1() {
+        assertEquals("//*[contains(text(),\"abc\")]", builder.anywhere().text().contains("abc").xpathString());
+    }
+
+    @Test
+    void testXpathString2() {
+        assertEquals("//*[contains(text(),\"abc\")]/ancestor::*",
+                builder.anywhere().text().contains("abc").ancestor().xpathString());
     }
 
 }

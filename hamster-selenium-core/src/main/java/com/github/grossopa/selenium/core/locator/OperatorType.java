@@ -22,36 +22,29 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.github.grossopa.selenium.examples;
-
-import com.github.grossopa.selenium.core.driver.CreateDriverServiceAction;
-import com.github.grossopa.selenium.core.driver.DriverConfig;
-import com.github.grossopa.selenium.core.driver.WebDriverType;
-import org.openqa.selenium.remote.service.DriverService;
-
-import java.io.IOException;
+package com.github.grossopa.selenium.core.locator;
 
 /**
- * Main driver starter
+ * The and / or logical operator
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.11
  */
-public class StartDriverServiceWinEdge {
+public enum OperatorType {
+    AND(" and "), OR(" or ");
 
-    public static final String EXECUTABLE_PATH = "C:\\work\\software\\drivers\\msedgedriver_111.0.1661.51.exe";
+    private final String value;
 
-    public static final int PORT = 38383;
+    OperatorType(String value) {
+        this.value = value;
+    }
 
-    @SuppressWarnings("all")
-    public static void main(String[] args) throws IOException {
-        DriverConfig config = new DriverConfig();
-        config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("111.0.1661.51");
-        config.setType(WebDriverType.EDGE);
-        config.setPort(PORT);
-
-        DriverService driverService = config.getType().apply(new CreateDriverServiceAction(), config);
-        driverService.start();
+    /**
+     * Gets the value string of the operator
+     *
+     * @return the value string of the operator
+     */
+    public String getValue() {
+        return value;
     }
 }
