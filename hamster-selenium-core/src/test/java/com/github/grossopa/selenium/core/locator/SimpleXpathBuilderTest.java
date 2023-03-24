@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 the original author or authors.
+ * Copyright © 2023 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -272,6 +272,12 @@ class SimpleXpathBuilderTest {
                 builder.empty("div").attr("some-attr").not().startsWith("start\"char").and().text().exact("some char")
                         .or().name().startsWith("abc").preceding("span").axes().followingSibling("tag")
                         .attr("data-value").not().matches("some-pattern").build());
+    }
+
+    @Test
+    void testBuilder36() {
+        assertEquals(builder.anywhereRelative("div").attr("abc").not().contains("123").build(),
+                builder.anywhereRelative("div").attr("@abc").not().contains("123").build());
     }
 
     @Test
