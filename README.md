@@ -37,7 +37,7 @@ Plain HTML:
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-html</artifactId>
-      <version>1.10.0</version>
+      <version>1.11.0</version>
     </dependency>
 
 Material UI (React):
@@ -45,7 +45,7 @@ Material UI (React):
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-materialui</artifactId>
-      <version>1.10.0</version>
+      <version>1.11.0</version>
     </dependency>
 
 Material UI (Angular):
@@ -53,7 +53,7 @@ Material UI (Angular):
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-mats</artifactId>
-      <version>1.10.0</version>
+      <version>1.11.0</version>
     </dependency>
 
 
