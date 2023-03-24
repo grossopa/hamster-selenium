@@ -70,6 +70,7 @@
     <module>hamster-selenium-component-antdesign</module>
     <module>hamster-selenium-component-mat</module>
     <module>hamster-selenium-examples</module>
+    <module>hamster-playwright</module>
   </modules>
 
   <properties>
