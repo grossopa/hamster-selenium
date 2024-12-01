@@ -199,9 +199,20 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     }
 
     @Override
+    public void selectByContainsVisibleText(String text) {
+        selectByContainsVisibleText(text, 0L);
+    }
+
+    @Override
     public void selectByVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
                 option -> !config.isSelected(option) && StringUtils.equals(text, option.getText()));
+    }
+
+    @Override
+    public void selectByContainsVisibleText(String text, Long delayInMillis) {
+        doFilterAndAction(getOptions2(delayInMillis),
+                option -> !config.isSelected(option) && StringUtils.contains(option.getText(), text));
     }
 
     @Override
@@ -269,9 +280,20 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     }
 
     @Override
+    public void deSelectByContainsVisibleText(String text) {
+        deSelectByContainsVisibleText(text, 0L);
+    }
+
+    @Override
     public void deselectByVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
                 option -> config.isSelected(option) && StringUtils.equals(text, option.getText()));
+    }
+
+    @Override
+    public void deSelectByContainsVisibleText(String text, Long delayInMillis) {
+        doFilterAndAction(getOptions2(delayInMillis),
+                option -> config.isSelected(option) && StringUtils.contains(option.getText(), text));
     }
 
     private void doFilterAndAction(List<WebComponent> options, Predicate<WebComponent> isTrue) {

@@ -330,10 +330,26 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     }
 
     @Override
+    public void selectByContainsVisibleText(String text) {
+        selectByContainsVisibleText(text, 0L);
+    }
+
+    @Override
     public void selectByVisibleText(String text, Long delayInMillis) {
         List<WebComponent> options = getOptions2(delayInMillis);
         for (WebComponent option : options) {
             if (StringUtils.equals(text, option.getText())) {
+                option.click();
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void selectByContainsVisibleText(String text, Long delayInMillis) {
+        List<WebComponent> options = getOptions2(delayInMillis);
+        for (WebComponent option : options) {
+            if (StringUtils.contains(option.getText(), text)) {
                 option.click();
                 return;
             }
@@ -429,8 +445,27 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     }
 
     @Override
+    public void deSelectByContainsVisibleText(String text) {
+        List<MuiAutocompleteTag> options = getVisibleTags();
+        for (MuiAutocompleteTag option : options) {
+            if (StringUtils.contains(option.getLabel(), text)) {
+                option.getDeleteButton().click();
+                // return here as all components will be recreated after removing the element that caused
+                // the options are not valid after deletion. A potential side effect is that the deselect action
+                // will only remove one element (e.g. duplicated visible text).
+                return;
+            }
+        }
+    }
+
+    @Override
     public void deselectByVisibleText(String text, Long delayInMillis) {
         deselectByVisibleText(text);
+    }
+
+    @Override
+    public void deSelectByContainsVisibleText(String text, Long delayInMillis) {
+        deSelectByContainsVisibleText(text);
     }
 
     /**
