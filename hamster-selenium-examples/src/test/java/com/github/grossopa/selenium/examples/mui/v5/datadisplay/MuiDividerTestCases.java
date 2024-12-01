@@ -53,7 +53,7 @@ public class MuiDividerTestCases extends AbstractBrowserSupport {
     public void testListDividers() {
         List<MuiDivider> dividerList = driver.findComponent(By.id("ListDividers.js")).findComponent(By2.parent())
                 .findComponentsAs(className("MuiDivider-root"), c -> c.as(muiV5()).toDivider());
-        assertEquals(2, dividerList.size());
+        assertEquals(3, dividerList.size());
 
         dividerList.forEach(divider -> {
             assertTrue(divider.validate());
@@ -80,7 +80,7 @@ public class MuiDividerTestCases extends AbstractBrowserSupport {
         assertEquals("CENTER", dividerList.get(0).getText());
         assertEquals("LEFT", dividerList.get(1).getText());
         assertEquals("RIGHT", dividerList.get(2).getText());
-        assertEquals("CHIP",
+        assertEquals("Chip",
                 dividerList.get(3).findComponent(className("MuiChip-root")).as(muiV5()).toChip().getLabel().getText());
     }
 

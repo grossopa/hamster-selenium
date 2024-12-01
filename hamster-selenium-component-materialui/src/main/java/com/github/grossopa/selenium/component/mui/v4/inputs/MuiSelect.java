@@ -199,9 +199,20 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     }
 
     @Override
+    public void selectByContainsVisibleText(String text) {
+        this.selectByVisibleText(text, 0L);
+    }
+
+    @Override
     public void selectByVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
-                option -> !config.isSelected(option) && StringUtils.equals(text, option.getText()));
+                option -> !config.isSelected(option) && StringUtils.equals(option.getText(), text));
+    }
+
+    @Override
+    public void selectByContainsVisibleText(String text, Long delayInMillis) {
+        doFilterAndAction(getOptions2(delayInMillis),
+                option -> !config.isSelected(option) && StringUtils.contains(option.getText(), text));
     }
 
     @Override
@@ -225,7 +236,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     @Override
     public void selectByValue(String value, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis), option -> !config.isSelected(option) && StringUtils.equals(value,
-                option.getAttribute(selectConfig.getOptionValueAttribute())));
+                option.getDomAttribute(selectConfig.getOptionValueAttribute())));
     }
 
     @Override
@@ -247,7 +258,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     @Override
     public void deselectByValue(String value, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis), option -> config.isSelected(option) && StringUtils.equals(value,
-                option.getAttribute(selectConfig.getOptionValueAttribute())));
+                option.getDomAttribute(selectConfig.getOptionValueAttribute())));
     }
 
     @Override
@@ -269,9 +280,20 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     }
 
     @Override
+    public void deSelectByContainsVisibleText(String text) {
+        this.deSelectByContainsVisibleText(text, 0L);
+    }
+
+    @Override
     public void deselectByVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
-                option -> config.isSelected(option) && StringUtils.equals(text, option.getText()));
+                option -> config.isSelected(option) && StringUtils.equals(option.getText(), text));
+    }
+
+    @Override
+    public void deSelectByContainsVisibleText(String text, long delayInMillis) {
+        doFilterAndAction(getOptions2(delayInMillis),
+                option -> config.isSelected(option) && StringUtils.contains(option.getText(), text));
     }
 
     private void doFilterAndAction(List<WebComponent> options, Predicate<WebComponent> isTrue) {

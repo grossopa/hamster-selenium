@@ -159,7 +159,7 @@ public class MatConfig implements ComponentConfig {
     @Override
     public boolean isDisabled(WebComponent component) {
         return ComponentConfig.super.isDisabled(component) || "true".equalsIgnoreCase(
-                component.getAttribute("aria-disabled"));
+                component.getDomAttribute("aria-disabled"));
     }
 
     @Override

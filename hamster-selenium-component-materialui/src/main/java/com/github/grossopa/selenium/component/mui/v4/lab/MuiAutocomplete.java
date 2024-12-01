@@ -82,8 +82,8 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
+     * @param driver  the root driver
+     * @param config  the Material UI configuration
      */
     public MuiAutocomplete(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         this(element, driver, config, null, null, null, null);
@@ -92,44 +92,44 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
+     * @param element       the delegated element
+     * @param driver        the root driver
+     * @param config        the Material UI configuration
      * @param optionLocator optional, the locator for finding the option
      */
     public MuiAutocomplete(WebElement element, ComponentWebDriver driver, MuiConfig config,
-            @Nullable By optionLocator) {
+                           @Nullable By optionLocator) {
         this(element, driver, config, optionLocator, null, null, null);
     }
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
+     * @param element       the delegated element
+     * @param driver        the root driver
+     * @param config        the Material UI configuration
      * @param optionLocator optional, the locator for finding the option
-     * @param tagLocators optional for the multiple value tag locators
+     * @param tagLocators   optional for the multiple value tag locators
      */
     public MuiAutocomplete(WebElement element, ComponentWebDriver driver, MuiConfig config, @Nullable By optionLocator,
-            @Nullable MuiAutocompleteTagLocators tagLocators) {
+                           @Nullable MuiAutocompleteTagLocators tagLocators) {
         this(element, driver, config, optionLocator, tagLocators, null, null);
     }
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     * @param optionLocator optional, the locator for finding the option
-     * @param tagLocators optional for the multiple value tag locators
-     * @param openOptionsAction the action to open the options
+     * @param element            the delegated element
+     * @param driver             the root driver
+     * @param config             the Material UI configuration
+     * @param optionLocator      optional, the locator for finding the option
+     * @param tagLocators        optional for the multiple value tag locators
+     * @param openOptionsAction  the action to open the options
      * @param closeOptionsAction the action to close the options
      */
     public MuiAutocomplete(WebElement element, ComponentWebDriver driver, MuiConfig config, @Nullable By optionLocator,
-            @Nullable MuiAutocompleteTagLocators tagLocators, @Nullable OpenOptionsAction openOptionsAction,
-            @Nullable CloseOptionsAction closeOptionsAction) {
+                           @Nullable MuiAutocompleteTagLocators tagLocators, @Nullable OpenOptionsAction openOptionsAction,
+                           @Nullable CloseOptionsAction closeOptionsAction) {
         super(element, driver, config);
         this.modalFinder = new MuiModalFinder(driver, config);
         this.optionLocator = defaultIfNull(optionLocator, By.className(config.getCssPrefix() + "Autocomplete-option"));
@@ -330,10 +330,26 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     }
 
     @Override
+    public void selectByContainsVisibleText(String text) {
+        this.selectByContainsVisibleText(text, 0L);
+    }
+
+    @Override
     public void selectByVisibleText(String text, Long delayInMillis) {
         List<WebComponent> options = getOptions2(delayInMillis);
         for (WebComponent option : options) {
             if (StringUtils.equals(text, option.getText())) {
+                option.click();
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void selectByContainsVisibleText(String text, Long delayInMillis) {
+        List<WebComponent> options = getOptions2(delayInMillis);
+        for (WebComponent option : options) {
+            if (StringUtils.contains(option.getText(), text)) {
                 option.click();
                 return;
             }
@@ -429,8 +445,27 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     }
 
     @Override
+    public void deSelectByContainsVisibleText(String text) {
+        this.deSelectByContainsVisibleText(text, 0L);
+    }
+
+    @Override
     public void deselectByVisibleText(String text, Long delayInMillis) {
         deselectByVisibleText(text);
+    }
+
+    @Override
+    public void deSelectByContainsVisibleText(String text, long delayInMillis) {
+        List<MuiAutocompleteTag> options = getVisibleTags();
+        for (MuiAutocompleteTag option : options) {
+            if (StringUtils.equals(text, option.getLabel())) {
+                option.getDeleteButton().click();
+                // return here as all components will be recreated after removing the element that caused
+                // the options are not valid after deletion. A potential side effect is that the deselect action
+                // will only remove one element (e.g. duplicated visible text).
+                return;
+            }
+        }
     }
 
     /**
