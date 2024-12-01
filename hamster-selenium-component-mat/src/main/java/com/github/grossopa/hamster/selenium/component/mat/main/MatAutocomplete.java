@@ -91,8 +91,8 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver  the root driver
-     * @param config  the Material UI Angular configuration
+     * @param driver the root driver
+     * @param config the Material UI Angular configuration
      */
     public MatAutocomplete(WebElement element, ComponentWebDriver driver, MatConfig config) {
         this(element, driver, config, null, null, null, null);
@@ -111,44 +111,44 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element       the delegated element
-     * @param driver        the root driver
-     * @param config        the Material UI Angular configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI Angular configuration
      * @param overlayFinder optional, the overlay finder for locating the overlay container
      */
     public MatAutocomplete(WebElement element, ComponentWebDriver driver, MatConfig config,
-                           @Nullable MatOverlayFinder overlayFinder) {
+            @Nullable MatOverlayFinder overlayFinder) {
         this(element, driver, config, overlayFinder, null, null, null);
     }
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element       the delegated element
-     * @param driver        the root driver
-     * @param config        the Material UI Angular configuration
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI Angular configuration
      * @param overlayFinder optional, the overlay finder for locating the overlay container
      * @param optionLocator optional, the option locator for locating the options within the overlay container
      */
     public MatAutocomplete(WebElement element, ComponentWebDriver driver, MatConfig config,
-                           @Nullable MatOverlayFinder overlayFinder, @Nullable By optionLocator) {
+            @Nullable MatOverlayFinder overlayFinder, @Nullable By optionLocator) {
         this(element, driver, config, overlayFinder, optionLocator, null, null);
     }
 
     /**
      * Constructs an instance with the delegated element and root driver
      *
-     * @param element            the delegated element
-     * @param driver             the root driver
-     * @param config             the Material UI Angular configuration
-     * @param overlayFinder      optional, the overlay finder for locating the overlay container
-     * @param optionLocator      optional, the option locator for locating the options within the overlay container
-     * @param openOptionsAction  optional, the action to open the option locator
+     * @param element the delegated element
+     * @param driver the root driver
+     * @param config the Material UI Angular configuration
+     * @param overlayFinder optional, the overlay finder for locating the overlay container
+     * @param optionLocator optional, the option locator for locating the options within the overlay container
+     * @param openOptionsAction optional, the action to open the option locator
      * @param closeOptionsAction optional, the action to close the option locator
      */
     public MatAutocomplete(WebElement element, ComponentWebDriver driver, MatConfig config,
-                           @Nullable MatOverlayFinder overlayFinder, @Nullable By optionLocator,
-                           @Nullable OpenOptionsAction openOptionsAction, @Nullable CloseOptionsAction closeOptionsAction) {
+            @Nullable MatOverlayFinder overlayFinder, @Nullable By optionLocator,
+            @Nullable OpenOptionsAction openOptionsAction, @Nullable CloseOptionsAction closeOptionsAction) {
         super(element, driver, config);
         this.overlayFinder = defaultIfNull(overlayFinder, new MatOverlayFinder(driver, config));
         this.optionLocator = defaultIfNull(optionLocator, tagName(config.getTagPrefix() + "option"));
@@ -296,22 +296,6 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     }
 
     @Override
-    public void selectByContainsVisibleText(String text) {
-        this.selectByContainsVisibleText(text, 0L);
-    }
-
-    @Override
-    public void selectByContainsVisibleText(String text, Long delayInMillis) {
-        List<WebComponent> options = getOptions2(delayInMillis);
-        for (WebComponent option : options) {
-            if (StringUtils.contains(text, option.getText())) {
-                option.click();
-                return;
-            }
-        }
-    }
-
-    @Override
     public void selectByIndex(int i) {
         selectByIndex(i, 0L);
     }
@@ -339,16 +323,6 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     @Override
     public void deselectByVisibleText(String visibleText) {
         deselectByVisibleText(visibleText, 0L);
-    }
-
-    @Override
-    public void deSelectByContainsVisibleText(String text) {
-        this.deSelectByContainsVisibleText(text, 0L);
-    }
-
-    @Override
-    public void deSelectByContainsVisibleText(String text, long delayInMillis) {
-        SeleniumUtils.cleanText(this.getInput());
     }
 
     protected Optional<WebComponent> tryToFindAutocompletePanel() {

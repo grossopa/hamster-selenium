@@ -80,7 +80,7 @@ public class MuiSliderThumb extends AbstractMuiComponent {
      * @return the orientation of current thumb. possible values are "horizontal" and "vertical".
      */
     public String getOrientation() {
-        return element.getDomAttribute("aria-orientation");
+        return element.getAttribute("aria-orientation");
     }
 
     /**
@@ -89,7 +89,7 @@ public class MuiSliderThumb extends AbstractMuiComponent {
      * @return the value text
      */
     public String getValueText() {
-        return element.getDomAttribute("aria-valuetext");
+        return element.getAttribute("aria-valuetext");
     }
 
     /**
@@ -98,7 +98,7 @@ public class MuiSliderThumb extends AbstractMuiComponent {
      * @return the raw min value.
      */
     public String getMaxValue() {
-        return element.getDomAttribute("aria-valuemax");
+        return element.getAttribute("aria-valuemax");
     }
 
     /**
@@ -107,7 +107,7 @@ public class MuiSliderThumb extends AbstractMuiComponent {
      * @return the raw min value.
      */
     public String getMinValue() {
-        return element.getDomAttribute("aria-valuemin");
+        return element.getAttribute("aria-valuemin");
     }
 
     /**
@@ -116,7 +116,7 @@ public class MuiSliderThumb extends AbstractMuiComponent {
      * @return the raw value.
      */
     public String getValue() {
-        return element.getDomAttribute("aria-valuenow");
+        return element.getAttribute("aria-valuenow");
     }
 
     /**

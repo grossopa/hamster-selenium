@@ -47,7 +47,7 @@ public class HtmlSelect extends DefaultWebComponent implements ISelect {
      * Constructs an instance with element and driver.
      *
      * @param element the web element to wrap with, should be with tag select.
-     * @param driver  the current web driver
+     * @param driver the current web driver
      */
     public HtmlSelect(WebElement element, ComponentWebDriver driver) {
         super(element, driver);
@@ -77,11 +77,6 @@ public class HtmlSelect extends DefaultWebComponent implements ISelect {
     @Override
     public void selectByVisibleText(String text) {
         selectComponent.selectByVisibleText(text);
-    }
-
-    @Override
-    public void selectByContainsVisibleText(String text) {
-        selectComponent.selectByContainsVisibleText(text);
     }
 
     @Override
@@ -115,21 +110,17 @@ public class HtmlSelect extends DefaultWebComponent implements ISelect {
     }
 
     @Override
-    public void deSelectByContainsVisibleText(String text) {
-        selectComponent.deSelectByContainsVisibleText(text);
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof HtmlSelect that)) {
+        if (!(o instanceof HtmlSelect)) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
+        HtmlSelect that = (HtmlSelect) o;
         return element.equals(that.element);
     }
 

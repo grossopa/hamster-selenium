@@ -79,23 +79,15 @@ public interface DelayedSelect {
     /**
      * Selects the option by visible text with delays
      *
-     * @param text          the text to be found
+     * @param text the text to be found
      * @param delayInMillis the delay in milliseconds
      */
     void selectByVisibleText(String text, Long delayInMillis);
 
     /**
-     * Select the option by visible text with delays
-     *
-     * @param text          the text to be found
-     * @param delayInMillis the delay in milliseconds
-     */
-    void selectByContainsVisibleText(String text, Long delayInMillis);
-
-    /**
      * Selects the option by option index with delays
      *
-     * @param index         the index for locating the element
+     * @param index the index for locating the element
      * @param delayInMillis the delays in milliseconds
      */
     void selectByIndex(int index, Long delayInMillis);
@@ -103,7 +95,7 @@ public interface DelayedSelect {
     /**
      * Selects the option by the value attribute with delays
      *
-     * @param value         the value of the element, note it might differ with the native html select for rich UI component
+     * @param value the value of the element, note it might differ with the native html select for rich UI component
      * @param delayInMillis the delays in milliseconds
      */
     void selectByValue(String value, Long delayInMillis);
@@ -118,8 +110,8 @@ public interface DelayedSelect {
     /**
      * Deselects the option by value and with delays
      *
-     * @param value         the value of the element to be deselected, note it might differ with the native html select for
-     *                      right UI component
+     * @param value the value of the element to be deselected, note it might differ with the native html select for
+     * right UI component
      * @param delayInMillis the delays in milliseconds
      */
     void deselectByValue(String value, Long delayInMillis);
@@ -127,7 +119,7 @@ public interface DelayedSelect {
     /**
      * Deselects the option by the index and with delays
      *
-     * @param index         the index of element to be deselected
+     * @param index the index of element to be deselected
      * @param delayInMillis the delays in milliseconds
      */
     void deselectByIndex(int index, Long delayInMillis);
@@ -135,16 +127,8 @@ public interface DelayedSelect {
     /**
      * Deselects the option by visible text and with delays
      *
-     * @param text          the text of element ot be deselected
+     * @param text the text of element ot be deselected
      * @param delayInMillis the delays in milliseconds
      */
     void deselectByVisibleText(String text, Long delayInMillis);
-
-    /**
-     * Deselects the option by visible text and with delays
-     *
-     * @param text          the text of element to be deselected
-     * @param delayInMillis the delay in milliseconds
-     */
-    void deSelectByContainsVisibleText(String text, long delayInMillis);
 }
