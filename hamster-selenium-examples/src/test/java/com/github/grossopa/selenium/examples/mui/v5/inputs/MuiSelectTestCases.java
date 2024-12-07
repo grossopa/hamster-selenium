@@ -52,8 +52,8 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
     /**
      * Test the basics of the select.
      *
-     * @see <a href="https://mui.com/components/selects/#basic-select">
-     * https://mui.com/components/selects/#basic-select</a>
+     * @see <a href="https://mui.com/material-ui/react-select/#basic-select">
+     * https://mui.com/material-ui/react-select/#basic-select</a>
      */
     public void testBasicSelect() {
         MuiSelect select = driver.findComponent(By.id("BasicSelect.js")).findComponent(By2.parent())
@@ -103,8 +103,8 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
     /**
      * Tests other properties
      *
-     * @see <a href="https://mui.com/components/selects/#other-props">
-     * https://mui.com/components/selects/#other-props</a>
+     * @see <a href="https://mui.com/material-ui/react-select/#other-props">
+     * https://mui.com/material-ui/react-select/#other-props</a>
      */
     public void testOtherProps() {
         List<MuiSelect> selectList = driver.findComponent(By.id("SelectOtherProps.js")).findComponent(By2.parent())
@@ -119,8 +119,8 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
     /**
      * Tests for Multiple Select default features.
      *
-     * @see <a href="https://mui.com/components/selects/#multiple-select">
-     * https://mui.com/components/selects/#multiple-select</a>
+     * @see <a href="https://mui.com/material-ui/react-select/#multiple-select">
+     * https://mui.com/material-ui/react-select/#multiple-select</a>
      */
     public void testMultipleSelectDefault() {
         MuiSelect select = driver.findComponent(By.id("MultipleSelect.js")).findComponent(By2.parent())
@@ -128,15 +128,15 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
                         builder -> builder.multiple(true).optionValueAttribute("data-value").build());
         //assertTrue(select.validate());
 
-        final long animationMs = 800L;
+        final long animationMs = 1200L;
 
-        select.selectByVisibleText("April Tucker", animationMs);
+        select.selectByVisibleText("Omar Alexander", animationMs);
         select.selectByVisibleText("Bradley Wilkerson", animationMs);
         select.selectByValue("Kelly Snyder", animationMs);
-        assertEquals("April Tucker, Bradley Wilkerson, Kelly Snyder", select.getText());
+        assertEquals("Omar Alexander, Bradley Wilkerson, Kelly Snyder", select.getText());
 
         select.deselectByVisibleText("Bradley Wilkerson", animationMs);
-        assertEquals("April Tucker, Kelly Snyder", select.getText());
+        assertEquals("Omar Alexander, Kelly Snyder", select.getText());
 
         select.deselectAll(animationMs);
         assertEquals("", select.getText());
@@ -147,8 +147,8 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
     /**
      * Tests for Multiple Select default checkmarks features. the behaviours should be consistent with default one.
      *
-     * @see <a href="https://mui.com/components/selects/#checkmarks">
-     * https://mui.com/components/selects/#checkmarks</a>
+     * @see <a href="https://mui.com/material-ui/react-select/#checkmarks">
+     * https://mui.com/material-ui/react-select/#checkmarks</a>
      */
     public void testMultipleSelectCheckmarks() {
         MuiSelect select = driver.findComponent(By.id("MultipleSelectCheckmarks.js")).findComponent(By2.parent())
@@ -158,13 +158,13 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
 
         final long animationMs = 800L;
 
-        select.selectByVisibleText("April Tucker", animationMs);
+        select.selectByVisibleText("Omar Alexander", animationMs);
         select.selectByVisibleText("Bradley Wilkerson", animationMs);
         select.selectByValue("Kelly Snyder", animationMs);
-        assertEquals("April Tucker, Bradley Wilkerson, Kelly Snyder", select.getText());
+        assertEquals("Omar Alexander, Bradley Wilkerson, Kelly Snyder", select.getText());
 
         select.deselectByVisibleText("Bradley Wilkerson", animationMs);
-        assertEquals("April Tucker, Kelly Snyder", select.getText());
+        assertEquals("Omar Alexander, Kelly Snyder", select.getText());
 
         select.deselectAll(animationMs);
         assertEquals("", select.getText());
@@ -176,18 +176,18 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
      * Tests for Multiple Select default Chip features. as the chip is customized by developer so this framework will
      * not provide additional support for it.
      *
-     * @see <a href="https://mui.com/components/selects/#chip">
-     * https://mui.com/components/selects/#chip</a>
+     * @see <a href="https://mui.com/material-ui/react-select/#chip">
+     * https://mui.com/material-ui/react-select/#chip</a>
      */
     public void testMultipleSelectChips() {
         MuiSelect select = driver.findComponent(By.id("MultipleSelectChip.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiSelect-select")).as(muiV5()).toSelect(By.className("MuiMenuItem-root"),
                         builder -> builder.multiple(true).optionValueAttribute("data-value").build());
-       // assertTrue(select.validate());
+        // assertTrue(select.validate());
 
         final long animationMs = 800L;
 
-        select.selectByVisibleText("April Tucker", animationMs);
+        select.selectByVisibleText("Omar Alexander", animationMs);
         select.selectByVisibleText("Bradley Wilkerson", animationMs);
         select.selectByVisibleText("Kelly Snyder", animationMs);
 
@@ -196,7 +196,7 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
         driver.threadSleep(animationMs);
         List<String> selectedValues = select.findComponents(By.className("MuiChip-label")).stream()
                 .map(WebElement::getText).collect(toList());
-        assertEquals("April Tucker, Bradley Wilkerson, Kelly Snyder", join(selectedValues, ", "));
+        assertEquals("Omar Alexander, Bradley Wilkerson, Kelly Snyder", join(selectedValues, ", "));
         driver.threadSleep(animationMs);
 
         select.deselectByVisibleText("Bradley Wilkerson", animationMs);
@@ -204,7 +204,7 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
 
         selectedValues = select.findComponents(By.className("MuiChip-label")).stream().map(WebElement::getText)
                 .filter(StringUtils::isNotBlank).collect(toList());
-        assertEquals("April Tucker, Kelly Snyder", join(selectedValues, ", "));
+        assertEquals("Omar Alexander, Kelly Snyder", join(selectedValues, ", "));
 
         select.deselectAll(animationMs);
         driver.threadSleep(animationMs);
@@ -216,7 +216,7 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiSelectTestCases test = new MuiSelectTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/selects/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-select/");
 
         test.testBasicSelect();
         test.testOtherProps();

@@ -47,8 +47,8 @@ public class MuiTextFieldTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basics.
      *
-     * @see <a href="https://mui.com/components/text-fields/#basic-textfield">
-     * https://mui.com/components/text-fields/#basic-textfield</a>
+     * @see <a href="https://mui.com/material-ui/react-text-field/#basic-textfield">
+     * https://mui.com/material-ui/react-text-field/#basic-textfield</a>
      */
     public void testBasicTextField() {
         List<MuiTextField> textFieldList = driver.findComponent(By.id("BasicTextFields.js")).findComponent(By2.parent())
@@ -70,8 +70,8 @@ public class MuiTextFieldTestCases extends AbstractBrowserSupport {
     /**
      * Tests the form properties
      *
-     * @see <a href="https://mui.com/components/text-fields/#form-props">
-     * https://mui.com/components/text-fields/#form-props</a>
+     * @see <a href="https://mui.com/material-ui/react-text-field/#form-props">
+     * https://mui.com/material-ui/react-text-field/#form-props</a>
      */
     public void testFormProps() {
         List<MuiTextField> textFieldList = driver.findComponent(By.id("FormPropsTextFields.js"))
@@ -95,7 +95,7 @@ public class MuiTextFieldTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiTextFieldTestCases test = new MuiTextFieldTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/text-fields/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-text-field/");
 
         test.testBasicTextField();
         test.testFormProps();

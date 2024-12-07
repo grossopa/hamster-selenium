@@ -46,8 +46,8 @@ public class MuiFabTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basics.
      *
-     * @see <a href="https://mui.com/components/floating-action-button/#basic-fab">
-     * https://mui.com/components/floating-action-button/#basic-fab</a>
+     * @see <a href="https://mui.com/material-ui/react-floating-action-button/#basic-fab">
+     * https://mui.com/material-ui/react-floating-action-button/#basic-fab</a>
      */
     public void testBasicFab() {
         List<MuiFab> fabList = driver.findComponent(By.id("FloatingActionButtons.js")).findComponent(By2.parent())
@@ -73,7 +73,7 @@ public class MuiFabTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiFabTestCases test = new MuiFabTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/floating-action-button/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-floating-action-button/");
 
         test.testBasicFab();
     }
