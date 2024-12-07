@@ -46,7 +46,7 @@ public class MuiBadgeTestCases extends AbstractBrowserSupport {
     /**
      * Tests for basic badge
      *
-     * @see <a href="https://mui.com/components/badges/#basic-badge">https://mui.com/components/badges/#basic-badge</a>
+     * @see <a href="https://mui.com/material-ui/react-badge/#basic-badge">https://mui.com/material-ui/react-badge/#basic-badge</a>
      */
     public void testBasicBadge() {
         MuiBadge badge = driver.findComponent(By.id("SimpleBadge.js")).findComponent(By2.parent())
@@ -61,8 +61,8 @@ public class MuiBadgeTestCases extends AbstractBrowserSupport {
     /**
      * Tests for badge visibility
      *
-     * @see <a href="https://mui.com/components/badges/#badge-visibility">
-     * https://mui.com/components/badges/#badge-visibility</a>
+     * @see <a href="https://mui.com/material-ui/react-badge/#badge-visibility">
+     * https://mui.com/material-ui/react-badge/#badge-visibility</a>
      */
     public void testBadgeVisibility() {
         List<MuiBadge> badgeList = driver.findComponent(By.id("BadgeVisibility.js")).findComponent(By2.parent())
@@ -80,8 +80,8 @@ public class MuiBadgeTestCases extends AbstractBrowserSupport {
     /**
      * Tests the show / hide badge when it's zero
      *
-     * @see <a href="https://mui.com/components/badges/#badge-visibility">
-     * https://mui.com/components/badges/#badge-visibility</a>
+     * @see <a href="https://mui.com/material-ui/react-badge/#badge-visibility">
+     * https://mui.com/material-ui/react-badge/#badge-visibility</a>
      */
     public void testShowZeroBadge() {
         List<MuiBadge> badgeList = driver.findComponent(By.id("ShowZeroBadge.js")).findComponent(By2.parent())
@@ -99,8 +99,8 @@ public class MuiBadgeTestCases extends AbstractBrowserSupport {
     /**
      * Tests the maximum value
      *
-     * @see <a href="https://mui.com/components/badges/#maximum-value">
-     * https://mui.com/components/badges/#maximum-value</a>
+     * @see <a href="https://mui.com/material-ui/react-badge/#maximum-value">
+     * https://mui.com/material-ui/react-badge/#maximum-value</a>
      */
     public void testMaximumValue() {
         List<MuiBadge> badgeList = driver.findComponent(By.id("BadgeMax.js")).findComponent(By2.parent())
@@ -119,7 +119,7 @@ public class MuiBadgeTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiBadgeTestCases test = new MuiBadgeTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/badges/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-badge/");
 
         test.testBasicBadge();
         test.testBadgeVisibility();

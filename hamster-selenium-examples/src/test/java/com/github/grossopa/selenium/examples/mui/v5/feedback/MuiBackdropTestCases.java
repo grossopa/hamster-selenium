@@ -46,7 +46,7 @@ public class MuiBackdropTestCases extends AbstractBrowserSupport {
     /**
      * Tests the example.
      *
-     * @see <a href="https://mui.com/components/backdrop/#example">https://mui.com/components/backdrop/#example</a>
+     * @see <a href="https://mui.com/material-ui/react-backdrop/#example">https://mui.com/material-ui/react-backdrop/#example</a>
      */
     public void testExample() {
         MuiButton showBackdropButton = driver.findComponent(By.id("SimpleBackdrop.js")).findComponent(By2.parent())
@@ -63,7 +63,7 @@ public class MuiBackdropTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiBackdropTestCases test = new MuiBackdropTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/backdrop/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-backdrop/");
 
         test.testExample();
     }

@@ -47,13 +47,14 @@ public class MuiDividerTestCases extends AbstractBrowserSupport {
     /**
      * Tests the list dividers.
      *
-     * @see <a href="https://mui.com/components/dividers/#list-dividers">
-     * https://mui.com/components/dividers/#list-dividers</a>
+     * @see <a href="https://mui.com/material-ui/react-divider/#list-dividers">
+     * https://mui.com/material-ui/react-divider/#list-dividers</a>
      */
     public void testListDividers() {
         List<MuiDivider> dividerList = driver.findComponent(By.id("ListDividers.js")).findComponent(By2.parent())
+                .findComponent(By.className("MuiList-root"))
                 .findComponentsAs(className("MuiDivider-root"), c -> c.as(muiV5()).toDivider());
-        assertEquals(2, dividerList.size());
+        assertEquals(3, dividerList.size());
 
         dividerList.forEach(divider -> {
             assertTrue(divider.validate());
@@ -64,8 +65,8 @@ public class MuiDividerTestCases extends AbstractBrowserSupport {
     /**
      * Tests the dividers with text, introduced in V5.
      *
-     * @see <a href="https://mui.com/components/dividers/#dividers-with-text">
-     * https://mui.com/components/dividers/#dividers-with-text</a>
+     * @see <a href="https://mui.com/material-ui/react-divider/#dividers-with-text">
+     * https://mui.com/material-ui/react-divider/#dividers-with-text</a>
      */
     public void testDividersWithText() {
         List<MuiDivider> dividerList = driver.findComponent(By.id("DividerText.js")).findComponent(By2.parent())
@@ -80,15 +81,15 @@ public class MuiDividerTestCases extends AbstractBrowserSupport {
         assertEquals("CENTER", dividerList.get(0).getText());
         assertEquals("LEFT", dividerList.get(1).getText());
         assertEquals("RIGHT", dividerList.get(2).getText());
-        assertEquals("CHIP",
+        assertEquals("Chip",
                 dividerList.get(3).findComponent(className("MuiChip-root")).as(muiV5()).toChip().getLabel().getText());
     }
 
     /**
      * Tests the vertical divider.
      *
-     * @see <a href="https://mui.com/components/dividers/#vertical-divider">
-     * https://mui.com/components/dividers/#vertical-divider</a>
+     * @see <a href="https://mui.com/material-ui/react-divider/#vertical-divider">
+     * https://mui.com/material-ui/react-divider/#vertical-divider</a>
      */
     public void testVerticalDivider() {
         List<MuiDivider> dividerList = driver.findComponent(By.id("VerticalDividers.js")).findComponent(By2.parent())
@@ -103,7 +104,7 @@ public class MuiDividerTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiDividerTestCases test = new MuiDividerTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/dividers/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-divider/");
 
         test.testListDividers();
         test.testDividersWithText();

@@ -49,8 +49,8 @@ public class MuiListTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic lists.
      *
-     * @see <a href="https://mui.com/components/dividers/#basic-list">
-     * https://mui.com/components/dividers/#basic-list</a>
+     * @see <a href="https://mui.com/material-ui/react-divider/#basic-list">
+     * https://mui.com/material-ui/react-divider/#basic-list</a>
      */
     public void testBasicList() {
         List<MuiList> lists = driver.findComponent(By.id("BasicList.js")).findComponent(By2.parent())

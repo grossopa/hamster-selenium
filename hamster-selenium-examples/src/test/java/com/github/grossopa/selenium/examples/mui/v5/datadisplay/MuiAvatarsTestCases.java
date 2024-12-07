@@ -47,8 +47,8 @@ public class MuiAvatarsTestCases extends AbstractBrowserSupport {
     /**
      * Tests the image avatars.
      *
-     * @see <a href="https://mui.com/components/avatars/#image-avatars">
-     * https://mui.com/components/avatars/#image-avatars</a>
+     * @see <a href="https://mui.com/material-ui/react-avatar/#image-avatars">
+     * https://mui.com/material-ui/react-avatar/#image-avatars</a>
      */
     public void testImageAvatars() {
         List<MuiAvatar> imageAvatarList = driver.findComponent(By.id("ImageAvatars.js")).findComponent(By2.parent())
@@ -67,8 +67,8 @@ public class MuiAvatarsTestCases extends AbstractBrowserSupport {
     /**
      * Tests the letter avatars.
      *
-     * @see <a href="https://mui.com/components/avatars/#letter-avatars">
-     * https://mui.com/components/avatars/#letter-avatars</a>
+     * @see <a href="https://mui.com/material-ui/react-avatar/#letter-avatars">
+     * https://mui.com/material-ui/react-avatar/#letter-avatars</a>
      */
     public void testLetterAvatars() {
         List<MuiAvatar> letterAvatarList = driver.findComponent(By.id("LetterAvatars.js")).findComponent(By2.parent())
@@ -83,7 +83,7 @@ public class MuiAvatarsTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiAvatarsTestCases test = new MuiAvatarsTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/avatars/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-avatar/");
 
         test.testImageAvatars();
         test.testLetterAvatars();
