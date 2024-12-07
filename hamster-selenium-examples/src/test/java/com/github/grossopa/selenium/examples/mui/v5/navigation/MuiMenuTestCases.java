@@ -51,7 +51,7 @@ public class MuiMenuTestCases extends AbstractBrowserSupport {
     /**
      * Tests for the basic menu.
      *
-     * @see <a href="https://mui.com/components/menus/#basic-menu">https://mui.com/components/menus/#basic-menu</a>
+     * @see <a href="https://mui.com/material-ui/react-menu/#basic-menu">https://mui.com/material-ui/react-menu/#basic-menu</a>
      */
     public void testBasicMenu() {
         MuiButton dashboardButton = driver.findComponent(By.id("BasicMenu.js")).findComponent(By2.parent())
@@ -75,7 +75,7 @@ public class MuiMenuTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiMenuTestCases test = new MuiMenuTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/menus/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-menu/");
 
         test.testBasicMenu();
     }

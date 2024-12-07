@@ -57,15 +57,15 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic date picker.
      *
-     * @see <a href="https://mui.com/components/date-picker/#basic-usage">
-     * https://mui.com/components/date-picker/#basic-usage</a>
+     * @see <a href="https://mui.com/x/react-date-pickers/date-picker/#basic-usage">
+     * https://mui.com/x/react-date-pickers/date-picker/#basic-usage</a>
      */
     public void testBasicDatePicker() {
         MuiDatePickerFormField datePickerFormField = driver.findComponent(By.id("BasicDatePicker.js"))
                 .findComponent(parent()).findComponent(By.className("MuiTextField-root")).as(muiV5())
                 .toDatePickerFormField();
 
-        MuiCalendarPicker calendarPicker = datePickerFormField.openCalendarPicker(500L);
+        MuiCalendarPicker calendarPicker = datePickerFormField.openCalendarPicker(1200L);
         calendarPicker.setDate(LocalDate.of(2020, Month.JANUARY, 13), 500L);
         assertEquals("01/13/2020", datePickerFormField.getInput().getAttribute("value"));
     }
@@ -73,8 +73,8 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
     /**
      * Tests the sub-component {@link MuiCalendarPicker}.
      *
-     * @see <a href="https://mui.com/components/date-picker/#sub-components">
-     * https://mui.com/components/date-picker/#sub-components</a>
+     * @see <a href="https://mui.com/x/react-date-pickers/date-picker/#sub-components">
+     * https://mui.com/x/react-date-pickers/date-picker/#sub-components</a>
      */
     public void testSubComponentsPickersCalendarPicker() {
         MuiCalendarPicker calendarPicker = driver.findComponent(By.id("SubComponentsPickers.js"))
@@ -130,8 +130,8 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
     /**
      * Tests the sub-component {@link MuiMonthPicker}.
      *
-     * @see <a href="https://mui.com/components/date-picker/#sub-components">
-     * https://mui.com/components/date-picker/#sub-components</a>
+     * @see <a href="https://mui.com/x/react-date-pickers/date-picker/#sub-components">
+     * https://mui.com/x/react-date-pickers/date-picker/#sub-components</a>
      */
     public void testSubComponentsPickersMonthPicker() {
         MuiMonthPicker monthPicker = driver.findComponent(By.id("SubComponentsPickers.js")).findComponent(parent())
@@ -149,8 +149,8 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
     /**
      * Tests the selection views of year, month and date
      *
-     * @see <a href="https://mui.com/components/date-picker/#views-playground">
-     * https://mui.com/components/date-picker/#views-playground</a>
+     * @see <a href="https://mui.com/x/react-date-pickers/date-picker/#views-playground">
+     * https://mui.com/x/react-date-pickers/date-picker/#views-playground</a>
      */
     public void testViewsPlayground() {
         WebComponent container = driver.findComponent(By.id("ViewsDatePicker.js")).findComponent(parent());
@@ -228,7 +228,7 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiDatePickersTestCases test = new MuiDatePickersTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/date-picker/");
+        test.driver.navigate().to("https://mui.com/x/react-date-pickers/date-picker/");
 
         test.testBasicDatePicker();
         test.testSubComponentsPickersCalendarPicker();

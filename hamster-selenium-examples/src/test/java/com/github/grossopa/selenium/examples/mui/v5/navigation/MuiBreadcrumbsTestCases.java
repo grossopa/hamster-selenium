@@ -46,8 +46,8 @@ public class MuiBreadcrumbsTestCases extends AbstractBrowserSupport {
 
     /**
      * Tests the basic features.
-     * <a href="https://mui.com/components/breadcrumbs/#basic-breadcrumbs">
-     * https://mui.com/components/breadcrumbs/#basic-breadcrumbs</a>
+     * <a href="https://mui.com/material-ui/react-breadcrumbs/#basic-breadcrumbs">
+     * https://mui.com/material-ui/react-breadcrumbs/#basic-breadcrumbs</a>
      */
     public void testBasicBreadcrumbs() {
         MuiBreadcrumbs breadcrumbs = driver.findComponent(By.id("BasicBreadcrumbs.js")).findComponent(By2.parent())
@@ -63,8 +63,8 @@ public class MuiBreadcrumbsTestCases extends AbstractBrowserSupport {
 
     /**
      * Tests the collapsed feature.
-     * <a href="https://mui.com/components/breadcrumbs/#collapsed-breadcrumbs">
-     * https://mui.com/components/breadcrumbs/#collapsed-breadcrumbs</a>
+     * <a href="https://mui.com/material-ui/react-breadcrumbs/#collapsed-breadcrumbs">
+     * https://mui.com/material-ui/react-breadcrumbs/#collapsed-breadcrumbs</a>
      */
     public void testCollapsedBreadcrumbs() {
         MuiBreadcrumbs breadcrumbs = driver.findComponent(By.id("CollapsedBreadcrumbs.js")).findComponent(By2.parent())
@@ -89,7 +89,7 @@ public class MuiBreadcrumbsTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiBreadcrumbsTestCases test = new MuiBreadcrumbsTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/breadcrumbs/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-breadcrumbs/");
 
         test.testBasicBreadcrumbs();
         test.testCollapsedBreadcrumbs();

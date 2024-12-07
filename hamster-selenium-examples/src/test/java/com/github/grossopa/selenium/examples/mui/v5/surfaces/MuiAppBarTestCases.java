@@ -45,8 +45,8 @@ public class MuiAppBarTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic features
      *
-     * @see <a href="https://mui.com/components/app-bar/#basic-app-bar">
-     * https://mui.com/components/app-bar/#basic-app-bar</a>
+     * @see <a href="https://mui.com/material-ui/react-app-bar/#basic-app-bar">
+     * https://mui.com/material-ui/react-app-bar/#basic-app-bar</a>
      */
     public void testBasicAppBar() {
         MuiAppBar appBar = driver.findComponent(By.id("ButtonAppBar.js")).findComponent(By2.parent())
@@ -59,7 +59,7 @@ public class MuiAppBarTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiAppBarTestCases test = new MuiAppBarTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/app-bar/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-app-bar/");
 
         test.testBasicAppBar();
     }

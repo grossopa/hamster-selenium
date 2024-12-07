@@ -47,8 +47,8 @@ public class MuiLinkTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basics.
      *
-     * @see <a href="https://mui.com/components/links/#basic-links">
-     * https://mui.com/components/links/#basic-links</a>
+     * @see <a href="https://mui.com/material-ui/react-link/#basic-links">
+     * https://mui.com/material-ui/react-link/#basic-links</a>
      */
     public void testBasicLinks() {
         List<MuiLink> links = driver.findComponent(By.id("Links.js")).findComponent(By2.parent())
@@ -67,7 +67,7 @@ public class MuiLinkTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiLinkTestCases test = new MuiLinkTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/links/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-link/");
 
         test.testBasicLinks();
     }

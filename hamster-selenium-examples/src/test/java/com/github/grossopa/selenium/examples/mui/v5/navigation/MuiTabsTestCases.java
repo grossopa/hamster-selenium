@@ -44,7 +44,7 @@ public class MuiTabsTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basics.
      *
-     * @see <a href="https://mui.com/components/tabs/#basic-tabs">https://mui.com/components/tabs/#basic-tabs</a>
+     * @see <a href="https://mui.com/material-ui/react-tabs/#basic-tabs">https://mui.com/material-ui/react-tabs/#basic-tabs</a>
      */
     public void testBasicTabs() {
         MuiTabs tabs = driver.findComponent(By.id("BasicTabs.js")).findComponent(By2.parent())
@@ -66,8 +66,8 @@ public class MuiTabsTestCases extends AbstractBrowserSupport {
     /**
      * Tests the wrapped labels.
      *
-     * @see <a href="https://mui.com/components/tabs/#wrapped-labels">
-     * https://mui.com/components/tabs/#wrapped-labels</a>
+     * @see <a href="https://mui.com/material-ui/react-tabs/#wrapped-labels">
+     * https://mui.com/material-ui/react-tabs/#wrapped-labels</a>
      */
     public void testWrappedLabels() {
         MuiTabs tabs = driver.findComponent(By.id("TabsWrappedLabel.js")).findComponent(By2.parent())
@@ -86,7 +86,7 @@ public class MuiTabsTestCases extends AbstractBrowserSupport {
     /**
      * Tests the disabled tab.
      *
-     * @see <a href="https://mui.com/components/tabs/#disabled-tab">https://mui.com/components/tabs/#disabled-tab</a>
+     * @see <a href="https://mui.com/material-ui/react-tabs/#disabled-tab">https://mui.com/material-ui/react-tabs/#disabled-tab</a>
      */
     public void testDisabledTab() {
         MuiTabs tabs = driver.findComponent(By.id("DisabledTabs.js")).findComponent(By2.parent())
@@ -100,8 +100,8 @@ public class MuiTabsTestCases extends AbstractBrowserSupport {
     /**
      * Tests the scrollable tab.
      *
-     * @see <a href="https://mui.com/components/tabs/#scrollable-tabs">
-     * https://mui.com/components/tabs/#scrollable-tabs</a>
+     * @see <a href="https://mui.com/material-ui/react-tabs/#scrollable-tabs">
+     * https://mui.com/material-ui/react-tabs/#scrollable-tabs</a>
      */
     public void testScrollableTabs() {
         MuiTabs tabs = driver.findComponent(By.id("ScrollableTabsButtonAuto.js")).findComponent(By2.parent())
@@ -118,14 +118,16 @@ public class MuiTabsTestCases extends AbstractBrowserSupport {
         assertEquals("ITEM SEVEN", tabs.getTabs().get(6).getText());
 
         assertDoesNotThrow(() -> tabs.getNextScrollButton().orElseThrow().click());
+        // Wait until animation completes
+        driver.threadSleep(1000L);
         assertDoesNotThrow(() -> tabs.getPreviousScrollButton().orElseThrow().click());
     }
 
     /**
      * Tests the vertical tab.
      *
-     * @see <a href="https://mui.com/components/tabs/#vertical-tabs">
-     * https://mui.com/components/tabs/#vertical-tabs</a>
+     * @see <a href="https://mui.com/material-ui/react-tabs/#vertical-tabs">
+     * https://mui.com/material-ui/react-tabs/#vertical-tabs</a>
      */
     public void testVerticalTabs() {
         MuiTabs tabs = driver.findComponent(By.id("VerticalTabs.js")).findComponent(By2.parent())
@@ -139,7 +141,7 @@ public class MuiTabsTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiTabsTestCases test = new MuiTabsTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/tabs/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-tabs/");
 
         test.testBasicTabs();
         test.testWrappedLabels();

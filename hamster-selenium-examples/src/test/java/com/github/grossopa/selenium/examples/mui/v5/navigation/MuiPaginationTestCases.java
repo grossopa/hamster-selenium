@@ -47,8 +47,8 @@ public class MuiPaginationTestCases extends AbstractBrowserSupport {
 
     /**
      * Tests the basic pagination.
-     * <a href="https://mui.com/components/pagination/#basic-pagination">
-     * https://mui.com/components/pagination/#basic-pagination</a>
+     * <a href="https://mui.com/material-ui/react-pagination/#basic-pagination">
+     * https://mui.com/material-ui/react-pagination/#basic-pagination</a>
      */
     public void testBasicPagination() {
         List<MuiPagination> paginationList = driver.findComponent(By.id("BasicPagination.js"))
@@ -93,8 +93,8 @@ public class MuiPaginationTestCases extends AbstractBrowserSupport {
 
     /**
      * Tests the buttons of the pagination.
-     * <a href="https://mui.com/components/pagination/#buttons">
-     * https://mui.com/components/pagination/#buttons</a>
+     * <a href="https://mui.com/material-ui/react-pagination/#buttons">
+     * https://mui.com/material-ui/react-pagination/#buttons</a>
      */
     public void testButtons() {
         List<MuiPagination> paginationList = driver.findComponent(By.id("PaginationButtons.js"))
@@ -134,7 +134,7 @@ public class MuiPaginationTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiPaginationTestCases test = new MuiPaginationTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/pagination/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-pagination/");
 
         test.testBasicPagination();
         test.testButtons();

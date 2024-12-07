@@ -113,7 +113,7 @@ class MuiBreadcrumbsTest {
 
     @Test
     void isCollapsed() {
-        when(element.findElements(By.className("MuiTouchRipple-root"))).thenReturn(singletonList(touchRipple));
+        when(element.findElements(By2.attrExact("data-testid", "MoreHorizIcon"))).thenReturn(singletonList(touchRipple));
         assertTrue(testSubject.isCollapsed());
     }
 
@@ -124,7 +124,7 @@ class MuiBreadcrumbsTest {
 
     @Test
     void expand() {
-        when(element.findElements(By.className("MuiTouchRipple-root"))).thenReturn(singletonList(touchRipple));
+        when(element.findElements(By2.attrExact("data-testid", "MoreHorizIcon"))).thenReturn(singletonList(touchRipple));
         testSubject.expand();
         verify(touchRippleParent, only()).click();
     }

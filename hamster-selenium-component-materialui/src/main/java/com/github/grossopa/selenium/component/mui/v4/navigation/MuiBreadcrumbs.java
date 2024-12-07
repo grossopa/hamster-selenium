@@ -135,7 +135,7 @@ public class MuiBreadcrumbs extends AbstractMuiComponent {
     }
 
     protected By getTouchRippleLocator() {
-        return By2.className(config.getCssPrefix() + "TouchRipple-root");
+        return By2.attrExact("data-testid", "MoreHorizIcon");
     }
 
     protected By getItemContainersLocator() {
