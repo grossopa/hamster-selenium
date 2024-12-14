@@ -946,6 +946,15 @@ public class MuiComponents extends AbstractComponents {
         return new MuiPickersDialog(component, driver, config);
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiPickersDialog}.
+     *
+     * @return the wrapped {@link MuiPickersDialog} instance on the given component
+     */
+    public MuiTooltip toTooltip() {
+        return new MuiTooltip(component, driver, config);
+    }
+
     private <T> T create(Supplier<T> v4creatorFunc, Supplier<T> v5creatorFunc) {
         if (config.getVersion() == V4) {
             return v4creatorFunc.get();
@@ -963,4 +972,5 @@ public class MuiComponents extends AbstractComponents {
     public MuiConfig getConfig() {
         return config;
     }
+
 }
