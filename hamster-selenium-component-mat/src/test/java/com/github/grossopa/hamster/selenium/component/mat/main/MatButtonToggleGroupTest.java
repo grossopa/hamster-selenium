@@ -70,13 +70,13 @@ class MatButtonToggleGroupTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-button-toggle-group 123");
+        when(element.getDomAttribute("class")).thenReturn("mat-button-toggle-group 123");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-button-toggle-group-123 123");
+        when(element.getDomAttribute("class")).thenReturn("mat-button-toggle-group-123 123");
         assertFalse(testSubject.validate());
     }
 

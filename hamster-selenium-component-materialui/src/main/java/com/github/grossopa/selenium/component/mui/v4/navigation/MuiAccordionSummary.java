@@ -80,7 +80,7 @@ public class MuiAccordionSummary extends AbstractMuiComponent {
      * @return whether the Accordion Summary part is expanded.
      */
     public boolean isExpand() {
-        return "true".equalsIgnoreCase(element.getAttribute("aria-expanded"));
+        return "true".equalsIgnoreCase(element.getDomAttribute("aria-expanded"));
     }
 
     /**

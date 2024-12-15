@@ -236,7 +236,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     @Override
     public void selectByValue(String value, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis), option -> !config.isSelected(option) && StringUtils.equals(value,
-                option.getAttribute(selectConfig.getOptionValueAttribute())));
+                option.getDomAttribute(selectConfig.getOptionValueAttribute())));
     }
 
     @Override
@@ -258,7 +258,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     @Override
     public void deselectByValue(String value, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis), option -> config.isSelected(option) && StringUtils.equals(value,
-                option.getAttribute(selectConfig.getOptionValueAttribute())));
+                option.getDomAttribute(selectConfig.getOptionValueAttribute())));
     }
 
     @Override
@@ -299,6 +299,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     private void doFilterAndAction(List<WebComponent> options, Predicate<WebComponent> isTrue) {
         for (WebComponent option : options) {
             if (isTrue.test(option)) {
+                driver.scrollTo(option);
                 option.click();
                 if (!selectConfig.isMultiple()) {
                     return;

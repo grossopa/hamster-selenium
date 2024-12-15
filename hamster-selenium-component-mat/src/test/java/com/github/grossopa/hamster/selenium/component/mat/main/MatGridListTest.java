@@ -59,13 +59,13 @@ class MatGridListTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-grid-list");
+        when(element.getDomAttribute("class")).thenReturn("mat-grid-list");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-grid-list-333");
+        when(element.getDomAttribute("class")).thenReturn("mat-grid-list-333");
         assertFalse(testSubject.validate());
     }
 
@@ -83,7 +83,7 @@ class MatGridListTest {
 
     @Test
     void getCols() {
-        when(element.getAttribute("cols")).thenReturn("10");
+        when(element.getDomAttribute("cols")).thenReturn("10");
         assertEquals(10, testSubject.getCols());
     }
 

@@ -89,7 +89,7 @@ class MuiAutocompleteTest {
     private WebElement createTag(String text) {
         WebElement tag = mock(WebElement.class);
         when(tag.getText()).thenReturn(text);
-        when(tag.getAttribute("value")).thenReturn("value " + text);
+        when(tag.getDomAttribute("value")).thenReturn("value " + text);
         WebElement deleteButton = mock(WebElement.class);
         when(tag.findElement(By.className("deleteButton"))).thenReturn(deleteButton);
         doAnswer(answer -> {
@@ -118,7 +118,7 @@ class MuiAutocompleteTest {
         when(inputElement.findElements(By.className("MuiAutocomplete-tag"))).thenReturn(visibleTags);
 
         when(tagLocators.getLabelFinder()).thenReturn(WebElement::getText);
-        when(tagLocators.getValueFinder()).thenReturn(element -> element.getAttribute("value"));
+        when(tagLocators.getValueFinder()).thenReturn(element -> element.getDomAttribute("value"));
         when(tagLocators.getDeleteButtonLocator()).thenReturn(By.className("deleteButton"));
 
         when(driver.findComponents(By.xpath("/html/body/some/app/div"))).thenReturn(singletonList(overlay));
@@ -129,7 +129,7 @@ class MuiAutocompleteTest {
         });
 
         when(overlay.isDisplayed()).thenReturn(true);
-        when(overlay.getAttribute("class")).thenReturn("MuiAutocomplete-popper some-other-class");
+        when(overlay.getDomAttribute("class")).thenReturn("MuiAutocomplete-popper some-other-class");
         when(overlay.findComponents(optionLocator)).thenReturn(options);
 
         testSubject = new MuiAutocomplete(element, driver, config, optionLocator, tagLocators, openOptionsAction,
@@ -185,13 +185,13 @@ class MuiAutocompleteTest {
 
     @Test
     void isReadOnly() {
-        when(inputElement.getAttribute("readonly")).thenReturn("true");
+        when(inputElement.getDomAttribute("readonly")).thenReturn("true");
         assertTrue(testSubject.isReadOnly());
     }
 
     @Test
     void isReadOnlyNegative() {
-        when(inputElement.getAttribute("readonly")).thenReturn("false");
+        when(inputElement.getDomAttribute("readonly")).thenReturn("false");
         assertFalse(testSubject.isReadOnly());
     }
 

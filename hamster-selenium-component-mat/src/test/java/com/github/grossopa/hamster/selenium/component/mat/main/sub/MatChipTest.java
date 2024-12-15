@@ -104,13 +104,13 @@ class MatChipTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-chip");
+        when(element.getDomAttribute("class")).thenReturn("mat-chip");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-chip-333");
+        when(element.getDomAttribute("class")).thenReturn("mat-chip-333");
         assertFalse(testSubject.validate());
     }
 }

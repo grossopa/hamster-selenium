@@ -162,7 +162,7 @@ class MuiChipTest {
 
     @Test
     void isClickable() {
-        when(element.getAttribute("class")).thenReturn(
+        when(element.getDomAttribute("class")).thenReturn(
                 "MuiButtonBase-root MuiChip-root MuiChip-colorPrimary MuiChip-clickableColorPrimary "
                         + "MuiChip-deletableColorPrimary MuiChip-clickable");
         assertTrue(testSubject.isClickable());
@@ -170,7 +170,7 @@ class MuiChipTest {
 
     @Test
     void isClickableNegative() {
-        when(element.getAttribute("class")).thenReturn(
+        when(element.getDomAttribute("class")).thenReturn(
                 "MuiButtonBase-root MuiChip-root MuiChip-colorPrimary MuiChip-clickableColorPrimary "
                         + "MuiChip-deletableColorPrimary");
         assertFalse(testSubject.isClickable());

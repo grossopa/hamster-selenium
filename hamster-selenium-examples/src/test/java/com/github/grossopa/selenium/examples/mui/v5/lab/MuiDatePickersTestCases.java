@@ -67,7 +67,7 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
 
         MuiCalendarPicker calendarPicker = datePickerFormField.openCalendarPicker(1200L);
         calendarPicker.setDate(LocalDate.of(2020, Month.JANUARY, 13), 500L);
-        assertEquals("01/13/2020", datePickerFormField.getInput().getAttribute("value"));
+        assertEquals("01/13/2020", datePickerFormField.getInput().getDomAttribute("value"));
     }
 
     /**
@@ -162,25 +162,25 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
         driver.moveTo(yearOnly);
 
         yearOnly.openCalendarPicker(500L).getYearPicker().select(2047);
-        assertEquals("2047", yearOnly.getInput().getAttribute("value"));
+        assertEquals("2047", yearOnly.getInput().getDomAttribute("value"));
 
         driver.threadSleep(500L);
 
         yearOnly.openCalendarPicker(500L).getYearPicker().select(2099);
-        assertEquals("2099", yearOnly.getInput().getAttribute("value"));
+        assertEquals("2099", yearOnly.getInput().getDomAttribute("value"));
 
         driver.threadSleep(500L);
 
         yearOnly.openCalendarPicker(500L).getYearPicker().select(1900);
-        assertEquals("1900", yearOnly.getInput().getAttribute("value"));
+        assertEquals("1900", yearOnly.getInput().getDomAttribute("value"));
 
         driver.threadSleep(500L);
 
         yearOnly.setDate(LocalDate.of(2030, 1, 1), 500L);
-        assertEquals("2030", yearOnly.getInput().getAttribute("value"));
+        assertEquals("2030", yearOnly.getInput().getDomAttribute("value"));
 
         yearOnly.setDate(LocalDate.of(2041, 1, 1), 500L);
-        assertEquals("2041", yearOnly.getInput().getAttribute("value"));
+        assertEquals("2041", yearOnly.getInput().getDomAttribute("value"));
 
         MuiDatePickerFormField yearMonth = container.findComponent(textExact("Year and Month")).findComponent(parent())
                 .as(muiV5()).toDatePickerFormField(YEAR, MONTH);
@@ -195,34 +195,34 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
 
         calendarPicker = yearMonth.openCalendarPicker(500L);
         calendarPicker.getMonthPicker().select(Month.DECEMBER);
-        assertEquals("December 2018", yearMonth.getInput().getAttribute("value"));
+        assertEquals("December 2018", yearMonth.getInput().getDomAttribute("value"));
 
         driver.threadSleep(500L);
 
         yearMonth.setDate(LocalDate.of(2021, Month.OCTOBER, 1), 500L);
-        assertEquals("October 2021", yearMonth.getInput().getAttribute("value"));
+        assertEquals("October 2021", yearMonth.getInput().getDomAttribute("value"));
 
         yearMonth.setDate(LocalDate.of(2021, Month.FEBRUARY, 1), 500L);
-        assertEquals("February 2021", yearMonth.getInput().getAttribute("value"));
+        assertEquals("February 2021", yearMonth.getInput().getDomAttribute("value"));
 
         yearMonth.setDate(LocalDate.of(2023, Month.FEBRUARY, 1), 500L);
-        assertEquals("February 2023", yearMonth.getInput().getAttribute("value"));
+        assertEquals("February 2023", yearMonth.getInput().getDomAttribute("value"));
 
         MuiDatePickerFormField yearMonthDate = container.findComponent(textExact("Year, month and date"))
                 .findComponent(parent()).as(muiV5()).toDatePickerFormField(YEAR, MONTH, DAY);
 
         yearMonthDate.setDate(LocalDate.of(2013, Month.OCTOBER, 3), 500L);
-        assertEquals("10/03/2013", yearMonthDate.getInput().getAttribute("value"));
+        assertEquals("10/03/2013", yearMonthDate.getInput().getDomAttribute("value"));
 
         MuiDatePickerFormField dayMonthYear = container.findComponent(textExact("Invert the order of views"))
                 .findComponent(parent()).as(muiV5()).toDatePickerFormField(DAY, MONTH, YEAR);
         dayMonthYear.setDate(LocalDate.of(2014, Month.JANUARY, 15), 500L);
-        assertEquals("01/15/2014", dayMonthYear.getInput().getAttribute("value"));
+        assertEquals("01/15/2014", dayMonthYear.getInput().getDomAttribute("value"));
 
         MuiDatePickerFormField justDate = container.findComponent(textExact("Just date")).findComponent(parent())
                 .as(muiV5()).toDatePickerFormField(DAY);
         justDate.setDate(LocalDate.of(2014, Month.JANUARY, 18), 500L);
-        assertEquals("01/18/2014", justDate.getInput().getAttribute("value"));
+        assertEquals("01/18/2014", justDate.getInput().getDomAttribute("value"));
     }
 
     public static void main(String[] args) {

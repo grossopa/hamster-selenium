@@ -77,7 +77,7 @@ public class MatGridList extends AbstractMatComponent {
      * @return the column count
      */
     public int getCols() {
-        return Integer.parseInt(element.getAttribute("cols"));
+        return Integer.parseInt(element.getDomAttribute("cols"));
     }
 
     public List<MatGridTile> getGridTiles() {

@@ -57,11 +57,11 @@ class MuiSliderThumbV5Test {
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Muiabc");
         when(element.findElement(By.xpath("./child::input"))).thenReturn(inputElement);
-        when(inputElement.getAttribute("aria-orientation")).thenReturn("horizontal");
-        when(inputElement.getAttribute("aria-valuetext")).thenReturn("The value is 30");
-        when(inputElement.getAttribute("aria-valuemin")).thenReturn("20");
-        when(inputElement.getAttribute("aria-valuemax")).thenReturn("800");
-        when(inputElement.getAttribute("aria-valuenow")).thenReturn("30");
+        when(inputElement.getDomAttribute("aria-orientation")).thenReturn("horizontal");
+        when(inputElement.getDomAttribute("aria-valuetext")).thenReturn("The value is 30");
+        when(inputElement.getDomAttribute("aria-valuemin")).thenReturn("20");
+        when(inputElement.getDomAttribute("aria-valuemax")).thenReturn("800");
+        when(inputElement.getDomAttribute("aria-valuenow")).thenReturn("30");
         testSubject = new MuiSliderThumbV5(element, driver, config);
     }
 

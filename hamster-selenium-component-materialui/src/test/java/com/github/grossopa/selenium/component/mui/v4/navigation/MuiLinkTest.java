@@ -68,7 +68,7 @@ class MuiLinkTest {
 
     @Test
     void getHref() {
-        when(element.getAttribute("href")).thenReturn("abc");
+        when(element.getDomAttribute("href")).thenReturn("abc");
         assertEquals("abc", testSubject.getHref());
     }
 

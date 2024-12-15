@@ -62,26 +62,26 @@ class MatPseudoCheckboxTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-pseudo-checkbox");
+        when(element.getDomAttribute("class")).thenReturn("mat-pseudo-checkbox");
         assertTrue(testSubject.validate());
     }
 
 
     @Test
     void validateNegative() {
-        when(element.getAttribute("class")).thenReturn("mat-pseudo-checkbox-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-pseudo-checkbox-23");
         assertFalse(testSubject.validate());
     }
 
     @Test
     void isSelected() {
-        when(element.getAttribute("class")).thenReturn("mat-pseudo-checkbox-checked");
+        when(element.getDomAttribute("class")).thenReturn("mat-pseudo-checkbox-checked");
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedNegative() {
-        when(element.getAttribute("class")).thenReturn("mat-pseudo-checkbox");
+        when(element.getDomAttribute("class")).thenReturn("mat-pseudo-checkbox");
         assertFalse(testSubject.isSelected());
     }
 

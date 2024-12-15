@@ -55,10 +55,10 @@ public class MuiFabTestCases extends AbstractBrowserSupport {
         fabList.forEach(fab -> assertTrue(fab.validate()));
 
         assertEquals(4, fabList.size());
-        assertEquals("add", fabList.get(0).getAttribute("aria-label"));
-        assertEquals("edit", fabList.get(1).getAttribute("aria-label"));
+        assertEquals("add", fabList.get(0).getDomAttribute("aria-label"));
+        assertEquals("edit", fabList.get(1).getDomAttribute("aria-label"));
         assertEquals("navigate", fabList.get(2).getText().toLowerCase());
-        assertEquals("like", fabList.get(3).getAttribute("aria-label"));
+        assertEquals("like", fabList.get(3).getDomAttribute("aria-label"));
 
         assertTrue(fabList.get(0).isEnabled());
         assertTrue(fabList.get(1).isEnabled());

@@ -58,10 +58,10 @@ public class MatAutocompleteTestCases extends AbstractBrowserSupport {
 
         autocomplete.selectByIndex(0, 100L);
         assertEquals("One", autocomplete.getFirstSelectedOption().getText());
-        assertEquals("One", autocomplete.getInput().getAttribute("value"));
+        assertEquals("One", autocomplete.getInput().getDomAttribute("value"));
 
         autocomplete.deselectAll();
-        assertEquals("", autocomplete.getInput().getAttribute("value"));
+        assertEquals("", autocomplete.getInput().getDomAttribute("value"));
         autocomplete.closeOptions(100L);
     }
 

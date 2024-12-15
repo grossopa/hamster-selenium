@@ -68,7 +68,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
      */
     @Override
     public String getOrientation() {
-        return getInputElement().getAttribute("aria-orientation");
+        return getInputElement().getDomAttribute("aria-orientation");
     }
 
     /**
@@ -78,7 +78,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
      */
     @Override
     public String getValueText() {
-        return getInputElement().getAttribute("aria-valuetext");
+        return getInputElement().getDomAttribute("aria-valuetext");
     }
 
     /**
@@ -88,7 +88,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
      */
     @Override
     public String getMaxValue() {
-        return getInputElement().getAttribute("aria-valuemax");
+        return getInputElement().getDomAttribute("aria-valuemax");
     }
 
     /**
@@ -98,7 +98,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
      */
     @Override
     public String getMinValue() {
-        return getInputElement().getAttribute("aria-valuemin");
+        return getInputElement().getDomAttribute("aria-valuemin");
     }
 
     /**
@@ -108,7 +108,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
      */
     @Override
     public String getValue() {
-        return getInputElement().getAttribute("aria-valuenow");
+        return getInputElement().getDomAttribute("aria-valuenow");
     }
 
     /**

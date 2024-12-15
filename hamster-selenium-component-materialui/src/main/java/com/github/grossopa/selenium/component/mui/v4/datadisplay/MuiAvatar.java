@@ -96,7 +96,7 @@ public class MuiAvatar extends AbstractMuiComponent {
      * @return the alt attribute of the img element.
      */
     public String getAlt() {
-        return getImg().getAttribute("alt");
+        return getImg().getDomAttribute("alt");
     }
 
     /**
@@ -106,6 +106,6 @@ public class MuiAvatar extends AbstractMuiComponent {
      * @return the src attribute of the img element.
      */
     public String getSrc() {
-        return getImg().getAttribute("src");
+        return getImg().getDomAttribute("src");
     }
 }

@@ -65,14 +65,14 @@ class MuiRadioGroupTest {
     @Test
     void validate() {
         when(config.getRootCss("FormGroup")).thenReturn("MuiFormGroup-root");
-        when(element.getAttribute("class")).thenReturn("MuiFormGroup-root");
+        when(element.getDomAttribute("class")).thenReturn("MuiFormGroup-root");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
         when(config.getRootCss("FormGroup")).thenReturn("MuiFormGroup-root");
-        when(element.getAttribute("class")).thenReturn("MuiFormGroup-root-123");
+        when(element.getDomAttribute("class")).thenReturn("MuiFormGroup-root-123");
         assertFalse(testSubject.validate());
     }
 

@@ -62,13 +62,13 @@ class MatSlideToggleTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-slide-toggle");
+        when(element.getDomAttribute("class")).thenReturn("mat-slide-toggle");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getAttribute("class")).thenReturn("mat-slide-toggle-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-slide-toggle-23");
         assertFalse(testSubject.validate());
     }
 

@@ -107,7 +107,7 @@ class MuiAccordionTest {
     void isExpand() {
         WebElement accordionSummary = mock(WebElement.class);
         when(element.findElements(By.className("MuiAccordionSummary-root"))).thenReturn(newArrayList(accordionSummary));
-        when(accordionSummary.getAttribute("aria-expanded")).thenReturn("true");
+        when(accordionSummary.getDomAttribute("aria-expanded")).thenReturn("true");
         assertTrue(testSubject.isExpand());
     }
 
@@ -120,7 +120,7 @@ class MuiAccordionTest {
     void isExpandFalse2() {
         WebElement accordionSummary = mock(WebElement.class);
         when(element.findElements(By.className("MuiAccordionSummary-root"))).thenReturn(newArrayList(accordionSummary));
-        when(accordionSummary.getAttribute("aria-expanded")).thenReturn("false");
+        when(accordionSummary.getDomAttribute("aria-expanded")).thenReturn("false");
         assertFalse(testSubject.isExpand());
     }
 
@@ -142,13 +142,13 @@ class MuiAccordionTest {
 
     @Test
     void isEnabled() {
-        when(element.getAttribute("class")).thenReturn("vbb Mui- ccc");
+        when(element.getDomAttribute("class")).thenReturn("vbb Mui- ccc");
         assertTrue(testSubject.isEnabled());
     }
 
     @Test
     void isEnabledFalse() {
-        when(element.getAttribute("class")).thenReturn("vbb Mui-disabled ccc");
+        when(element.getDomAttribute("class")).thenReturn("vbb Mui-disabled ccc");
         assertFalse(testSubject.isEnabled());
     }
 

@@ -57,13 +57,13 @@ class MatGridTileTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-grid-tile");
+        when(element.getDomAttribute("class")).thenReturn("mat-grid-tile");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-grid-tile-333");
+        when(element.getDomAttribute("class")).thenReturn("mat-grid-tile-333");
         assertFalse(testSubject.validate());
     }
 
@@ -80,13 +80,13 @@ class MatGridTileTest {
 
     @Test
     void getColSpan() {
-        when(element.getAttribute("colspan")).thenReturn("15");
+        when(element.getDomAttribute("colspan")).thenReturn("15");
         assertEquals(15, testSubject.getColSpan());
     }
 
     @Test
     void getRowSpan() {
-        when(element.getAttribute("rowspan")).thenReturn("20");
+        when(element.getDomAttribute("rowspan")).thenReturn("20");
         assertEquals(20, testSubject.getRowSpan());
     }
 }

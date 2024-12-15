@@ -53,7 +53,7 @@ class MuiDividerTest {
     @BeforeEach
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(element.getAttribute("class")).thenReturn("MuiDivider-root MuiDivider-flexItem MuiDivider-vertical");
+        when(element.getDomAttribute("class")).thenReturn("MuiDivider-root MuiDivider-flexItem MuiDivider-vertical");
         testSubject = new MuiDivider(element, driver, config);
     }
 
@@ -74,7 +74,7 @@ class MuiDividerTest {
 
     @Test
     void isVerticalFalse() {
-        when(element.getAttribute("class")).thenReturn("MuiDivider-root MuiDivider-flexItem");
+        when(element.getDomAttribute("class")).thenReturn("MuiDivider-root MuiDivider-flexItem");
         assertFalse(testSubject.isVertical());
     }
 

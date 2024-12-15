@@ -102,7 +102,7 @@ public class MuiBadge extends AbstractMuiComponent {
      * @return whether the dot is displayed
      */
     public boolean isDotDisplayed() {
-        return stream(getBadge().getAttribute("class").split(" ")).anyMatch(
+        return stream(getBadge().getDomAttribute("class").split(" ")).anyMatch(
                 str -> str.equalsIgnoreCase(config.getCssPrefix() + "Badge-dot"));
     }
 
@@ -117,7 +117,7 @@ public class MuiBadge extends AbstractMuiComponent {
      * @return whether the badge is displayed or not
      */
     public boolean isBadgeDisplayed() {
-        return stream(getBadge().getAttribute("class").split(" ")).map(StringUtils::trim)
+        return stream(getBadge().getDomAttribute("class").split(" ")).map(StringUtils::trim)
                 .noneMatch(str -> str.equalsIgnoreCase(config.getCssPrefix() + "Badge-invisible"));
     }
 }

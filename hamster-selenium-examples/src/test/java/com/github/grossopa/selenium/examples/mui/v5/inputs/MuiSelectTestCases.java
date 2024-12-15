@@ -75,7 +75,7 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
         driver.threadSleep(animationMs);
 
         options = select.getOptions2(animationMs);
-        assertEquals("true", options.get(0).getAttribute("aria-selected"));
+        assertEquals("true", options.get(0).getDomAttribute("aria-selected"));
         assertFalse(SeleniumUtils.isTrueAttribute(options.get(1), "aria-selected"));
         assertFalse(SeleniumUtils.isTrueAttribute(options.get(2), "aria-selected"));
 
@@ -85,7 +85,7 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
 
         options = select.getOptions2(animationMs);
         assertFalse(SeleniumUtils.isTrueAttribute(options.get(0), "aria-selected"));
-        assertEquals("true", options.get(1).getAttribute("aria-selected"));
+        assertEquals("true", options.get(1).getDomAttribute("aria-selected"));
         assertFalse(SeleniumUtils.isTrueAttribute(options.get(2), "aria-selected"));
 
         select.selectByVisibleText("Thirty", animationMs);
@@ -95,7 +95,7 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
         options = select.getOptions2(animationMs);
         assertFalse(SeleniumUtils.isTrueAttribute(options.get(0), "aria-selected"));
         assertFalse(SeleniumUtils.isTrueAttribute(options.get(1), "aria-selected"));
-        assertEquals("true", options.get(2).getAttribute("aria-selected"));
+        assertEquals("true", options.get(2).getDomAttribute("aria-selected"));
 
         select.closeOptions(animationMs);
     }

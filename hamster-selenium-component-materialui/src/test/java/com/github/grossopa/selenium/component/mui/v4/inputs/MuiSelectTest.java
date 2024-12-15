@@ -77,7 +77,7 @@ class MuiSelectTest {
 
     private WebComponent createOptions(String value, String label, boolean selected) {
         WebComponent option = mock(WebComponent.class);
-        when(option.getAttribute("attr-val")).thenReturn(value);
+        when(option.getDomAttribute("attr-val")).thenReturn(value);
         when(option.getText()).thenReturn(label);
         when(config.isSelected(option)).thenReturn(selected);
         doAnswer(a -> {
@@ -146,7 +146,7 @@ class MuiSelectTest {
             return isTrueFunction.apply(driver);
         });
 
-        when(optionContainer.getAttribute("class")).thenReturn("MuiPopover-root");
+        when(optionContainer.getDomAttribute("class")).thenReturn("MuiPopover-root");
         when(optionContainer.isDisplayed()).thenReturn(true);
 
         when(config.getOverlayAbsolutePath()).thenReturn("/html/body");

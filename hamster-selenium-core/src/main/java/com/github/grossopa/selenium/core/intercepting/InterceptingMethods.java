@@ -75,12 +75,12 @@ public class InterceptingMethods {
     public static final String ELEMENT_GET_TAG_NAME = "element.getTagName";
 
     /**
-     * Represents the {@link org.openqa.selenium.WebElement#getAttribute(String)}
+     * Represents the {@link org.openqa.selenium.WebElement#getDomAttribute(String)}
      */
     public static final String ELEMENT_GET_ATTRIBUTE = "element.getAttribute";
 
     /**
-     * Represents the {@link org.openqa.selenium.WebElement#getAttribute(String)}
+     * Represents the {@link org.openqa.selenium.WebElement#getDomAttribute(String)}
      */
     public static final String ELEMENT_GET_DOM_ATTRIBUTE = "element.getAttribute";
 

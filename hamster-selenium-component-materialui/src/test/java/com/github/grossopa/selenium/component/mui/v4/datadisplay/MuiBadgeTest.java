@@ -56,7 +56,7 @@ class MuiBadgeTest {
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Mui");
         when(element.findElement(By.className("MuiBadge-badge"))).thenReturn(badgeElement);
-        when(badgeElement.getAttribute("class")).thenReturn(
+        when(badgeElement.getDomAttribute("class")).thenReturn(
                 "MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary");
         testSubject = new MuiBadge(element, driver, config);
     }
@@ -100,14 +100,14 @@ class MuiBadgeTest {
 
     @Test
     void isDotDisplayed() {
-        when(badgeElement.getAttribute("class")).thenReturn(
+        when(badgeElement.getDomAttribute("class")).thenReturn(
                 "MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary MuiBadge-dot");
         assertTrue(testSubject.isDotDisplayed());
     }
 
     @Test
     void isDotDisplayedFalse() {
-        when(badgeElement.getAttribute("class")).thenReturn(
+        when(badgeElement.getDomAttribute("class")).thenReturn(
                 "MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary");
         assertFalse(testSubject.isDotDisplayed());
     }
@@ -119,14 +119,14 @@ class MuiBadgeTest {
 
     @Test
     void isBadgeDisplayed() {
-        when(badgeElement.getAttribute("class")).thenReturn(
+        when(badgeElement.getDomAttribute("class")).thenReturn(
                 "MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary");
         assertTrue(testSubject.isBadgeDisplayed());
     }
 
     @Test
     void isBadgeDisplayedInvisible() {
-        when(badgeElement.getAttribute("class")).thenReturn(
+        when(badgeElement.getDomAttribute("class")).thenReturn(
                 "MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorSecondary MuiBadge-invisible");
         assertFalse(testSubject.isBadgeDisplayed());
     }

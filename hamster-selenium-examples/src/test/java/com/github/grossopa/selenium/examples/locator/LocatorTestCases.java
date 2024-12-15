@@ -49,13 +49,13 @@ public class LocatorTestCases extends AbstractBrowserSupport {
 
         googleSearch = driver
                 .findComponent(xpathBuilder().anywhere("input").attr("value").contains("oogle Se").build());
-        assertEquals("Google Search", googleSearch.getAttribute("value"));
+        assertEquals("Google Search", googleSearch.getDomAttribute("value"));
         googleSearch = driver.findComponent(xpathBuilder().anywhere().attr("value").contains("oogle Se").build());
-        assertEquals("Google Search", googleSearch.getAttribute("value"));
+        assertEquals("Google Search", googleSearch.getDomAttribute("value"));
         googleSearch = driver.findComponent(xpathBuilder().anywhere().attr("value").startsWith("Google Se").build());
-        assertEquals("Google Search", googleSearch.getAttribute("value"));
+        assertEquals("Google Search", googleSearch.getDomAttribute("value"));
         googleSearch = driver.findComponent(xpathBuilder().anywhere().attr("value").exact("Google Search").build());
-        assertEquals("Google Search", googleSearch.getAttribute("value"));
+        assertEquals("Google Search", googleSearch.getDomAttribute("value"));
 
         assertThrows(NoSuchElementException.class, () -> driver
                 .findComponent(xpathBuilder().relative("input").attr("value").contains("oogle Se").build()));
@@ -67,7 +67,7 @@ public class LocatorTestCases extends AbstractBrowserSupport {
                 () -> driver.findComponent(xpathBuilder().anywhere().attr("value").startsWith("oogle Se").build()));
 
         WebComponent lucky = driver.findComponent(xpathBuilder().anywhere().attr("value").startsWith("I'm").build());
-        assertEquals("I'm Feeling Lucky", lucky.getAttribute("value"));
+        assertEquals("I'm Feeling Lucky", lucky.getDomAttribute("value"));
     }
 
     public static void main(String[] args) {

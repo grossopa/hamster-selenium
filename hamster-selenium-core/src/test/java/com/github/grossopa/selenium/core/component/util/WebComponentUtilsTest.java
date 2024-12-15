@@ -64,25 +64,25 @@ class WebComponentUtilsTest {
 
     @Test
     void attributeContains() {
-        when(component.getAttribute("testAttributeName")).thenReturn("som1 some2 some-value some3");
+        when(component.getDomAttribute("testAttributeName")).thenReturn("som1 some2 some-value some3");
         assertTrue(WebComponentUtils.attributeContains(component, "testAttributeName", "some-value"));
     }
 
     @Test
     void attributeContainsNull() {
-        when(component.getAttribute("testAttributeName")).thenReturn(null);
+        when(component.getDomAttribute("testAttributeName")).thenReturn(null);
         assertFalse(WebComponentUtils.attributeContains(component, "testAttributeName", "some-value"));
     }
 
     @Test
     void attributeContainsNegative() {
-        when(component.getAttribute("testAttributeName")).thenReturn("som1 some2 some some3");
+        when(component.getDomAttribute("testAttributeName")).thenReturn("som1 some2 some some3");
         assertFalse(WebComponentUtils.attributeContains(component, "testAttributeName", "some-value"));
     }
 
     @Test
     void attributeContainsSplit() {
-        when(component.getAttribute("testAttributeName")).thenReturn("som1;some2;some-value;some3");
+        when(component.getDomAttribute("testAttributeName")).thenReturn("som1;some2;some-value;some3");
         assertTrue(WebComponentUtils.attributeContains(component, "testAttributeName", "some-value", ";"));
     }
 
@@ -100,7 +100,7 @@ class WebComponentUtilsTest {
     @Test
     void styleContains() {
         WebElement element = mock(WebElement.class);
-        when(element.getAttribute("style")).thenReturn("display : block; width: 200px; height: 50% ;  ");
+        when(element.getDomAttribute("style")).thenReturn("display : block; width: 200px; height: 50% ;  ");
         assertTrue(WebComponentUtils.styleContains(element, "display", "block"));
         assertFalse(WebComponentUtils.styleContains(element, "display", "none"));
         assertFalse(WebComponentUtils.styleContains(element, "background-color", "white"));
@@ -110,7 +110,7 @@ class WebComponentUtilsTest {
     @Test
     void styleContainsSimple() {
         WebElement element = mock(WebElement.class);
-        when(element.getAttribute("style")).thenReturn("display:block");
+        when(element.getDomAttribute("style")).thenReturn("display:block");
         assertTrue(WebComponentUtils.styleContains(element, "display", "block"));
         assertFalse(WebComponentUtils.styleContains(element, "display", "none"));
     }

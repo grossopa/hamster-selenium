@@ -63,10 +63,10 @@ class MuiPickersYearSelectionContainerTest {
         when(element.findElements(By.className("MuiPickersYear-root")))
                 .thenReturn(newArrayList(year1, year2, year3, year4));
 
-        when(year1.getAttribute("class")).thenReturn("MuiPickersYear-dd");
-        when(year2.getAttribute("class")).thenReturn("MuiPickersYear-dd");
-        when(year3.getAttribute("class")).thenReturn("MuiPickersYear-dd");
-        when(year4.getAttribute("class")).thenReturn("MuiPickersYear-dd");
+        when(year1.getDomAttribute("class")).thenReturn("MuiPickersYear-dd");
+        when(year2.getDomAttribute("class")).thenReturn("MuiPickersYear-dd");
+        when(year3.getDomAttribute("class")).thenReturn("MuiPickersYear-dd");
+        when(year4.getDomAttribute("class")).thenReturn("MuiPickersYear-dd");
 
         testSubject = new MuiPickersYearSelectionContainer(element, driver, config);
     }
@@ -83,7 +83,7 @@ class MuiPickersYearSelectionContainerTest {
 
     @Test
     void getSelectedYear() {
-        when(year4.getAttribute("class")).thenReturn("MuiPickersYear-yearSelected");
+        when(year4.getDomAttribute("class")).thenReturn("MuiPickersYear-yearSelected");
         assertEquals(year4, requireNonNull(testSubject.getSelectedYear()).getWrappedElement());
     }
 

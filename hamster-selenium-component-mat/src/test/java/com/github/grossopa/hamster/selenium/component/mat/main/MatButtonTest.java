@@ -61,13 +61,13 @@ class MatButtonTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-button-base");
+        when(element.getDomAttribute("class")).thenReturn("mat-button-base");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-button-base-123");
+        when(element.getDomAttribute("class")).thenReturn("mat-button-base-123");
         assertFalse(testSubject.validate());
     }
 

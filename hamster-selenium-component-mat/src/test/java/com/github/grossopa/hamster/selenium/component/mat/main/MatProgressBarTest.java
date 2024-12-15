@@ -61,13 +61,13 @@ class MatProgressBarTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-progress-bar");
+        when(element.getDomAttribute("class")).thenReturn("mat-progress-bar");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getAttribute("class")).thenReturn("mat-progress-bar-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-progress-bar-23");
         assertFalse(testSubject.validate());
     }
 
@@ -80,25 +80,25 @@ class MatProgressBarTest {
 
     @Test
     void getMinValue() {
-        when(element.getAttribute("aria-valuemin")).thenReturn("233");
+        when(element.getDomAttribute("aria-valuemin")).thenReturn("233");
         assertEquals("233", testSubject.getMinValue());
     }
 
     @Test
     void getMaxValue() {
-        when(element.getAttribute("aria-valuemax")).thenReturn("3333");
+        when(element.getDomAttribute("aria-valuemax")).thenReturn("3333");
         assertEquals("3333", testSubject.getMaxValue());
     }
 
     @Test
     void getValue() {
-        when(element.getAttribute("aria-valuenow")).thenReturn("4");
+        when(element.getDomAttribute("aria-valuenow")).thenReturn("4");
         assertEquals("4", testSubject.getValue());
     }
 
     @Test
     void getMode() {
-        when(element.getAttribute("mode")).thenReturn("query");
+        when(element.getDomAttribute("mode")).thenReturn("query");
         assertEquals(MatProgressBar.Mode.QUERY, testSubject.getMode());
     }
 }

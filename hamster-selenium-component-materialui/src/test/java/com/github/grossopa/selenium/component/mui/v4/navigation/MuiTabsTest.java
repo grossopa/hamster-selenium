@@ -137,14 +137,14 @@ class MuiTabsTest {
     @Test
     void isVertical() {
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(element.getAttribute("class")).thenReturn("MuiTabs-vertical MuiTabs-other");
+        when(element.getDomAttribute("class")).thenReturn("MuiTabs-vertical MuiTabs-other");
         assertTrue(testSubject.isVertical());
     }
 
     @Test
     void isVerticalNegative() {
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(element.getAttribute("class")).thenReturn("MuiTabs-some MuiTabs-other");
+        when(element.getDomAttribute("class")).thenReturn("MuiTabs-some MuiTabs-other");
         assertFalse(testSubject.isVertical());
     }
 

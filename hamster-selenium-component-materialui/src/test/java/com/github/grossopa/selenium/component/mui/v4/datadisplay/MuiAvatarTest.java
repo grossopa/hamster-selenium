@@ -56,8 +56,8 @@ class MuiAvatarTest {
     @BeforeEach
     void setUp() {
         when(element.findElement(By.tagName("img"))).thenReturn(imgElement);
-        when(imgElement.getAttribute("src")).thenReturn("some-src-value");
-        when(imgElement.getAttribute("alt")).thenReturn("some-alt-value");
+        when(imgElement.getDomAttribute("src")).thenReturn("some-src-value");
+        when(imgElement.getDomAttribute("alt")).thenReturn("some-alt-value");
         testSubject = new MuiAvatar(element, driver, config);
     }
 

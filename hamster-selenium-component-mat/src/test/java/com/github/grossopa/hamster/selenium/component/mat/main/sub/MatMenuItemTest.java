@@ -72,26 +72,26 @@ class MatMenuItemTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-menu-item");
+        when(element.getDomAttribute("class")).thenReturn("mat-menu-item");
         assertTrue(testSubject.validate());
     }
 
 
     @Test
     void validateNegative() {
-        when(element.getAttribute("class")).thenReturn("mat-menu-item-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-menu-item-23");
         assertFalse(testSubject.validate());
     }
 
     @Test
     void isExpanded() {
-        when(element.getAttribute("aria-expanded")).thenReturn("true");
+        when(element.getDomAttribute("aria-expanded")).thenReturn("true");
         assertTrue(testSubject.isExpanded());
     }
 
     @Test
     void isExpandedNegative() {
-        when(element.getAttribute("aria-expanded")).thenReturn(null);
+        when(element.getDomAttribute("aria-expanded")).thenReturn(null);
         assertFalse(testSubject.isExpanded());
     }
 
@@ -103,13 +103,13 @@ class MatMenuItemTest {
 
     @Test
     void isExpandable() {
-        when(element.getAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
+        when(element.getDomAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
         assertTrue(testSubject.isExpandable());
     }
 
     @Test
     void isExpandableNegative() {
-        when(element.getAttribute("class")).thenReturn("mat-menu-item-submenu-trigger-123");
+        when(element.getDomAttribute("class")).thenReturn("mat-menu-item-submenu-trigger-123");
         assertFalse(testSubject.isExpandable());
     }
 

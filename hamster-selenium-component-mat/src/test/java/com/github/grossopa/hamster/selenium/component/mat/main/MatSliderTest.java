@@ -120,12 +120,12 @@ class MatSliderTest {
         when(element.findElement(By.className("mat-slider-wrapper"))).thenReturn(sliderWrapper);
         when(sliderWrapper.getRect()).then(a -> new Rectangle(x, y, height, width));
 
-        when(element.getAttribute("class")).then(a -> "mat-slider");
-        when(hiddenInput.getAttribute("value")).then(a -> rawValue1);
+        when(element.getDomAttribute("class")).then(a -> "mat-slider");
+        when(hiddenInput.getDomAttribute("value")).then(a -> rawValue1);
 
-        when(element.getAttribute("aria-valuemin")).then(a -> minValue.toString());
-        when(element.getAttribute("aria-valuemax")).then(a -> maxValue.toString());
-        when(element.getAttribute("aria-valuenow")).then(a -> rawValue1);
+        when(element.getDomAttribute("aria-valuemin")).then(a -> minValue.toString());
+        when(element.getDomAttribute("aria-valuemax")).then(a -> maxValue.toString());
+        when(element.getDomAttribute("aria-valuenow")).then(a -> rawValue1);
 
         when(thumb1.getRect()).then(a -> {
             double currentPercentage = (Double.parseDouble(rawValue1) - minValue) / (maxValue - minValue);
@@ -153,13 +153,13 @@ class MatSliderTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-slider");
+        when(element.getDomAttribute("class")).thenReturn("mat-slider");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getAttribute("class")).thenReturn("mat-slider-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-slider-23");
         assertFalse(testSubject.validate());
     }
 
@@ -230,25 +230,25 @@ class MatSliderTest {
 
     @Test
     void isVertical() {
-        when(element.getAttribute("class")).then(a -> "mat-slider mat-slider-vertical");
+        when(element.getDomAttribute("class")).then(a -> "mat-slider mat-slider-vertical");
         assertTrue(testSubject.isVertical());
     }
 
     @Test
     void isVerticalNegative() {
-        when(element.getAttribute("class")).then(a -> "mat-slider ");
+        when(element.getDomAttribute("class")).then(a -> "mat-slider ");
         assertFalse(testSubject.isVertical());
     }
 
     @Test
     void isInverted() {
-        when(element.getAttribute("class")).then(a -> "mat-slider mat-slider-axis-inverted");
+        when(element.getDomAttribute("class")).then(a -> "mat-slider mat-slider-axis-inverted");
         assertTrue(testSubject.isInverted());
     }
 
     @Test
     void isInvertedNegative() {
-        when(element.getAttribute("class")).then(a -> "mat-slider");
+        when(element.getDomAttribute("class")).then(a -> "mat-slider");
         assertFalse(testSubject.isInverted());
     }
 

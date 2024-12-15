@@ -50,7 +50,7 @@ class ComponentConfigTest {
         when(element.isEnabled()).thenReturn(true);
         when(component.getWrappedElement()).thenReturn(element);
 
-        when(component.getAttribute(CLASS)).thenReturn("prefix-selected prefix-checked prefix-disabled");
+        when(component.getDomAttribute(CLASS)).thenReturn("prefix-selected prefix-checked prefix-disabled");
 
         testSubject = new ComponentConfig() {
 
@@ -90,19 +90,19 @@ class ComponentConfigTest {
 
     @Test
     void isCheckedFalse() {
-        when(component.getAttribute(CLASS)).thenReturn("");
+        when(component.getDomAttribute(CLASS)).thenReturn("");
         assertFalse(testSubject.isChecked(component));
     }
 
     @Test
     void isSelectedFalse() {
-        when(component.getAttribute(CLASS)).thenReturn("");
+        when(component.getDomAttribute(CLASS)).thenReturn("");
         assertFalse(testSubject.isSelected(component));
     }
 
     @Test
     void isDisabledFalse() {
-        when(component.getAttribute(CLASS)).thenReturn("");
+        when(component.getDomAttribute(CLASS)).thenReturn("");
         assertFalse(testSubject.isDisabled(component));
     }
 

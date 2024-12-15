@@ -63,13 +63,13 @@ class MuiCheckboxV5Test {
 
     @Test
     void isIndeterminate() {
-        when(element.getAttribute("class")).thenReturn("MuiCheckbox-indeterminate");
+        when(element.getDomAttribute("class")).thenReturn("MuiCheckbox-indeterminate");
         assertTrue(testSubject.isIndeterminate());
     }
 
     @Test
     void isIndeterminateFalse() {
-        when(element.getAttribute("class")).thenReturn("MuiCheckbox-indeterminate-123");
+        when(element.getDomAttribute("class")).thenReturn("MuiCheckbox-indeterminate-123");
         assertFalse(testSubject.isIndeterminate());
     }
 

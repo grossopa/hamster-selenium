@@ -78,6 +78,6 @@ public class MuiLink extends AbstractMuiComponent {
      * @return the href attribute value
      */
     public String getHref() {
-        return this.getAttribute("href");
+        return this.getDomAttribute("href");
     }
 }

@@ -69,25 +69,25 @@ class MuiAccordionSummaryTest {
 
     @Test
     void isExpandTrue() {
-        when(element.getAttribute("aria-expanded")).thenReturn("true");
+        when(element.getDomAttribute("aria-expanded")).thenReturn("true");
         assertTrue(testSubject.isExpand());
     }
 
     @Test
     void isExpandTrueUpper() {
-        when(element.getAttribute("aria-expanded")).thenReturn("TRUE");
+        when(element.getDomAttribute("aria-expanded")).thenReturn("TRUE");
         assertTrue(testSubject.isExpand());
     }
 
     @Test
     void isExpandFalse() {
-        when(element.getAttribute("aria-expanded")).thenReturn("false");
+        when(element.getDomAttribute("aria-expanded")).thenReturn("false");
         assertFalse(testSubject.isExpand());
     }
 
     @Test
     void isExpandFalse2() {
-        when(element.getAttribute("aria-expanded")).thenReturn("false");
+        when(element.getDomAttribute("aria-expanded")).thenReturn("false");
         assertFalse(testSubject.isExpand());
     }
 

@@ -71,14 +71,14 @@ class MuiTooltipTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("role")).thenReturn("tooltip");
+        when(element.getDomAttribute("role")).thenReturn("tooltip");
         when(config.validateComponentByCss(testSubject, "Popper")).thenReturn(true);
         Assertions.assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getAttribute("role")).thenReturn("dialog");
+        when(element.getDomAttribute("role")).thenReturn("dialog");
         when(config.validateComponentByCss(testSubject, "Popper")).thenReturn(true);
         Assertions.assertFalse(testSubject.validate());
     }

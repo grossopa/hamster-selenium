@@ -70,13 +70,13 @@ class MatSnackbarTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-simple-snackbar");
+        when(element.getDomAttribute("class")).thenReturn("mat-simple-snackbar");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getAttribute("class")).thenReturn("mat-simple-snackbar-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-simple-snackbar-23");
         assertFalse(testSubject.validate());
     }
 

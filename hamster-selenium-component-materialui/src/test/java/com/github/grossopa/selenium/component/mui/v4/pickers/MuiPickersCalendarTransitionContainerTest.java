@@ -65,7 +65,7 @@ class MuiPickersCalendarTransitionContainerTest {
         when(element.findElements(By.className("eee" + MuiPickersDay.NAME)))
                 .thenReturn(newArrayList(pickersDay1, pickersDay2, pickersDay3, pickersDay4, pickersDay5));
 
-        Consumer<WebElement> mockFunc = element -> when(element.getAttribute("class"))
+        Consumer<WebElement> mockFunc = element -> when(element.getDomAttribute("class"))
                 .thenReturn("eeePickersDay-daySelectedabc");
 
         mockFunc.accept(pickersDay1);
@@ -90,7 +90,7 @@ class MuiPickersCalendarTransitionContainerTest {
 
     @Test
     void getSelectedDay() {
-        when(pickersDay3.getAttribute("class")).thenReturn("eeePickersDay-daySelected");
+        when(pickersDay3.getDomAttribute("class")).thenReturn("eeePickersDay-daySelected");
         assertEquals(pickersDay3, requireNonNull(testSubject.getSelectedDay()).getWrappedElement());
     }
 

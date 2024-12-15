@@ -461,56 +461,56 @@ class MatAutocompleteTest {
 
     @Test
     void deselectAll() {
-        when(inputElement.getAttribute("value")).thenReturn("Option 2");
+        when(inputElement.getDomAttribute("value")).thenReturn("Option 2");
         testSubject.deselectAll();
         verify(inputElement, times(8)).sendKeys(BACK_SPACE);
     }
 
     @Test
     void deselectAllWithDelays() {
-        when(inputElement.getAttribute("value")).thenReturn("Option 2");
+        when(inputElement.getDomAttribute("value")).thenReturn("Option 2");
         testSubject.deselectAll(1000L);
         verify(inputElement, times(8)).sendKeys(BACK_SPACE);
     }
 
     @Test
     void deselectByValue() {
-        when(inputElement.getAttribute("value")).thenReturn("Option 2");
+        when(inputElement.getDomAttribute("value")).thenReturn("Option 2");
         testSubject.deselectByValue(null);
         verify(inputElement, times(8)).sendKeys(BACK_SPACE);
     }
 
     @Test
     void deselectByValueWithDelays() {
-        when(inputElement.getAttribute("value")).thenReturn("Option 2");
+        when(inputElement.getDomAttribute("value")).thenReturn("Option 2");
         testSubject.deselectByValue(null, 1000L);
         verify(inputElement, times(8)).sendKeys(BACK_SPACE);
     }
 
     @Test
     void deselectByIndex() {
-        when(inputElement.getAttribute("value")).thenReturn("Option 2");
+        when(inputElement.getDomAttribute("value")).thenReturn("Option 2");
         testSubject.deselectByIndex(1);
         verify(inputElement, times(8)).sendKeys(BACK_SPACE);
     }
 
     @Test
     void deselectByIndexWithDelays() {
-        when(inputElement.getAttribute("value")).thenReturn("Option 2");
+        when(inputElement.getDomAttribute("value")).thenReturn("Option 2");
         testSubject.deselectByIndex(1, 1000L);
         verify(inputElement, times(8)).sendKeys(BACK_SPACE);
     }
 
     @Test
     void deselectByVisibleText() {
-        when(inputElement.getAttribute("value")).thenReturn("Option 2");
+        when(inputElement.getDomAttribute("value")).thenReturn("Option 2");
         testSubject.deselectByVisibleText(null);
         verify(inputElement, times(8)).sendKeys(BACK_SPACE);
     }
 
     @Test
     void deselectByVisibleTextWithDelays() {
-        when(inputElement.getAttribute("value")).thenReturn("Option 2");
+        when(inputElement.getDomAttribute("value")).thenReturn("Option 2");
         testSubject.deselectByVisibleText(null, 1000L);
         verify(inputElement, times(8)).sendKeys(BACK_SPACE);
     }
@@ -560,14 +560,14 @@ class MatAutocompleteTest {
     @Test
     void validate() {
         when(config.getCssPrefix()).thenReturn("mat-");
-        when(element.getAttribute("class")).thenReturn("mat-autocomplete-trigger");
+        when(element.getDomAttribute("class")).thenReturn("mat-autocomplete-trigger");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
         when(config.getCssPrefix()).thenReturn("mat-");
-        when(element.getAttribute("class")).thenReturn("mat-autocomplete-trigger-some-other");
+        when(element.getDomAttribute("class")).thenReturn("mat-autocomplete-trigger-some-other");
         assertFalse(testSubject.validate());
     }
 }

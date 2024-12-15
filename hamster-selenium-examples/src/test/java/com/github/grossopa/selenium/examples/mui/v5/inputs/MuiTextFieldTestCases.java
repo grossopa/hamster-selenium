@@ -62,7 +62,7 @@ public class MuiTextFieldTestCases extends AbstractBrowserSupport {
             assertEquals(labels[i], textField.getLabel().getText());
             textField.sendText("abc");
             assertEquals(labels[i], textField.getLabel().getText());
-            assertEquals("abc", textField.getInput().getAttribute("value"));
+            assertEquals("abc", textField.getInput().getDomAttribute("value"));
             cleanText(textField.getInput());
         }
     }
@@ -87,9 +87,9 @@ public class MuiTextFieldTestCases extends AbstractBrowserSupport {
 
         MuiTextField number = textFieldList.get(4);
         number.sendText("aa");
-        assertEquals("", number.getInput().getAttribute("value"));
+        assertEquals("", number.getInput().getDomAttribute("value"));
         number.sendText("12345");
-        assertEquals("12345", number.getInput().getAttribute("value"));
+        assertEquals("12345", number.getInput().getDomAttribute("value"));
     }
 
     public static void main(String[] args) {

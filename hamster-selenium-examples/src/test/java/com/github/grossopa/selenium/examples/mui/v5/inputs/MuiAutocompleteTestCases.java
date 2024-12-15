@@ -75,12 +75,12 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
 
         // test auto complete search
         autocomplete.selectByVisibleText("Witness for the Prosecution");
-        assertEquals("Witness for the Prosecution", autocomplete.getInput().getAttribute("value"));
+        assertEquals("Witness for the Prosecution", autocomplete.getInput().getDomAttribute("value"));
         cleanText(autocomplete.getInput());
 
         // test directly select
         autocomplete.selectByValue("Eternal Sunshine of the Spotless Mind");
-        assertEquals("Eternal Sunshine of the Spotless Mind", autocomplete.getInput().getAttribute("value"));
+        assertEquals("Eternal Sunshine of the Spotless Mind", autocomplete.getInput().getDomAttribute("value"));
         cleanText(autocomplete.getInput());
     }
 
@@ -97,7 +97,7 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
                 c -> c.as(muiV5()).toAutocomplete());
 
         autocompleteList.forEach(autocomplete -> {
-            log.info("Testing MuiAutocomplete" + autocomplete.getInput().getAttribute("value"));
+            log.info("Testing MuiAutocomplete" + autocomplete.getInput().getDomAttribute("value"));
             assertTrue(autocomplete.validate());
 
             if (!autocomplete.isEnabled() || autocomplete.isReadOnly()) {
@@ -115,12 +115,12 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
 
             // test auto complete search
             autocomplete.selectByVisibleText("Witness for the Prosecution");
-            assertEquals("Witness for the Prosecution", autocomplete.getInput().getAttribute("value"));
+            assertEquals("Witness for the Prosecution", autocomplete.getInput().getDomAttribute("value"));
             cleanText(autocomplete.getInput());
 
             // test directly select
             autocomplete.selectByValue("Eternal Sunshine of the Spotless Mind");
-            assertEquals("Eternal Sunshine of the Spotless Mind", autocomplete.getInput().getAttribute("value"));
+            assertEquals("Eternal Sunshine of the Spotless Mind", autocomplete.getInput().getDomAttribute("value"));
             cleanText(autocomplete.getInput());
         });
     }
@@ -202,7 +202,7 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
         assertThrows(NoSuchElementException.class, () -> driver.findComponent(
                 By.xpath("/html/body/div[contains(@class,'MuiAutocomplete-popper')]/div/div[text()='No options']")));
         autocomplete.getClearButton().click();
-        assertEquals("", autocomplete.getInput().getAttribute("value"));
+        assertEquals("", autocomplete.getInput().getDomAttribute("value"));
         autocomplete.closeOptions();
     }
 
@@ -220,8 +220,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
 
         List<WebComponent> components = autocomplete.getOptions2();
         // tricky - the option does have aria-disabled as true but nothing else
-        assertEquals("true", components.get(0).getAttribute("aria-disabled"));
-        assertEquals("false", components.get(1).getAttribute("aria-disabled"));
+        assertEquals("true", components.get(0).getDomAttribute("aria-disabled"));
+        assertEquals("false", components.get(1).getDomAttribute("aria-disabled"));
         autocomplete.closeOptions();
     }
 

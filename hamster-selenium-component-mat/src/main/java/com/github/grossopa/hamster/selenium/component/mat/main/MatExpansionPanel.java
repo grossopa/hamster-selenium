@@ -70,7 +70,7 @@ public class MatExpansionPanel extends AbstractMatComponent {
 
     @Override
     public boolean isEnabled() {
-        return element.getAttribute("disabled") == null;
+        return element.getDomAttribute("disabled") == null;
     }
 
     @Override
