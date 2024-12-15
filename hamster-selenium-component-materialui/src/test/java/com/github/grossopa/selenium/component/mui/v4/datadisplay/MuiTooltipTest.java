@@ -31,8 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -55,7 +54,7 @@ class MuiTooltipTest {
 
     @Test
     void versions() {
-        Assertions.assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+        Assertions.assertArrayEquals(new MuiVersion[]{V4, V5, V6}, testSubject.versions().toArray());
     }
 
     @Test

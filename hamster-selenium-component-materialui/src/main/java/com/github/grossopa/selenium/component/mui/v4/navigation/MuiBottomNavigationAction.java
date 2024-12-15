@@ -33,8 +33,7 @@ import org.openqa.selenium.WebElement;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 
 /**
  * The action button item of bottom navigation bars allow movement between primary destinations in an app.
@@ -64,7 +63,7 @@ public class MuiBottomNavigationAction extends MuiButton {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     @Override

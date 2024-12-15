@@ -36,8 +36,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.Optional;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,7 +64,7 @@ class MuiTabsTest {
 
     @Test
     void versions() {
-        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+        assertArrayEquals(new MuiVersion[]{V4, V5, V6}, testSubject.versions().toArray());
     }
 
     @Test

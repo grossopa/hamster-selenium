@@ -42,6 +42,7 @@ import java.util.Set;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnoringStaleElementReference;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
  * Snackbars provide brief messages about app processes. The component is also known as a toast.
@@ -72,7 +73,7 @@ public class MuiSnackbar extends AbstractMuiComponent {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     /**

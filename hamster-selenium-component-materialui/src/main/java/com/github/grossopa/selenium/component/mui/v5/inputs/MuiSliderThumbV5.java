@@ -34,6 +34,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static com.github.grossopa.selenium.core.locator.By2.axesBuilder;
 
 /**
@@ -57,7 +58,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V5);
+        return EnumSet.of(V5, V6);
     }
 
     /**

@@ -38,6 +38,7 @@ import java.util.Set;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static java.util.stream.Collectors.toList;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
  * A Menu displays a list of choices on a temporary surface. It appears when the user interacts with a button, or other
@@ -66,7 +67,7 @@ public class MuiMenu extends MuiModal {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     @Override

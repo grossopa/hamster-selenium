@@ -922,14 +922,19 @@ public class MuiComponents extends AbstractComponents {
     /**
      * Wraps the current {@link WebComponent} to {@link MuiGrid} instance.
      *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
      * @return wrapped {@link MuiGrid} instance on the given component
      */
     public MuiGrid toGrid() {
+
         return new MuiGrid(component, driver, config);
     }
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiPager}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
      *
      * @return the wrapped {@link MuiPager} instance on the given component
      */
@@ -940,6 +945,8 @@ public class MuiComponents extends AbstractComponents {
     /**
      * Wraps the current {@link WebComponent} to {@link MuiPickersDialog}.
      *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
      * @return the wrapped {@link MuiPickersDialog} instance on the given component
      */
     public MuiPickersDialog toPickersDialog() {
@@ -948,6 +955,8 @@ public class MuiComponents extends AbstractComponents {
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiPickersDialog}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
      *
      * @return the wrapped {@link MuiPickersDialog} instance on the given component
      */

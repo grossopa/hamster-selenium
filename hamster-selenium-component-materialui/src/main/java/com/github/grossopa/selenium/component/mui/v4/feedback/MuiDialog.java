@@ -37,6 +37,7 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
  * Dialogs inform users about a task and can contain critical information, require decisions, or involve multiple
@@ -67,7 +68,7 @@ public class MuiDialog extends MuiModal {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     @Override

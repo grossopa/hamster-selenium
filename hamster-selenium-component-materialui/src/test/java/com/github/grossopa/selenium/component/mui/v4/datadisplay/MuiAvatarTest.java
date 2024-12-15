@@ -32,8 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -89,6 +88,6 @@ class MuiAvatarTest {
 
     @Test
     void versions() {
-        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+        assertArrayEquals(new MuiVersion[]{V4, V5, V6}, testSubject.versions().toArray());
     }
 }

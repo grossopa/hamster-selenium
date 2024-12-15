@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -58,7 +59,7 @@ class MuiCheckboxV5Test {
 
     @Test
     void versions() {
-        assertArrayEquals(new MuiVersion[]{V5}, testSubject.versions().toArray());
+        assertArrayEquals(new MuiVersion[]{V5, V6}, testSubject.versions().toArray());
     }
 
     @Test

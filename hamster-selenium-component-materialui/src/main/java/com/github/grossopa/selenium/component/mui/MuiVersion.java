@@ -48,15 +48,25 @@ public enum MuiVersion {
         public <T, R> R apply(Func<T, R> func, T input) {
             return func.applyV5(input);
         }
+    },
+
+    /**
+     * Version 6 current version as of year 2024, all V4 and V5 components are fully compatible with V6.
+     */
+    V6 {
+        @Override
+        public <T, R> R apply(Func<T, R> func, T input) {
+            return func.applyV6(input);
+        }
     };
 
     /**
      * Executes a function by current type.
      *
-     * @param func the function to execute
+     * @param func  the function to execute
      * @param input the input parameter to be passed in
-     * @param <T> the input type
-     * @param <R> the result type
+     * @param <T>   the input type
+     * @param <R>   the result type
      * @return execution result
      */
     public abstract <T, R> R apply(Func<T, R> func, T input);
@@ -86,5 +96,13 @@ public enum MuiVersion {
          * @return the execution result
          */
         R applyV5(T input);
+
+        /**
+         * applies to {@link #V6}.
+         *
+         * @param input the input params
+         * @return the execution result
+         */
+        R applyV6(T input);
     }
 }

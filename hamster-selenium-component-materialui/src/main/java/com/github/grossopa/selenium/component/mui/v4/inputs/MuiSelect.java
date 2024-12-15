@@ -50,6 +50,7 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
  * A MUI Select wrapper which supports the Popover-based options.
@@ -102,7 +103,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     @Override

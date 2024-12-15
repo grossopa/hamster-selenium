@@ -44,6 +44,7 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
  * The Pagination component enables the user to select a specific page from a range of pages.
@@ -88,7 +89,7 @@ public class MuiPagination extends AbstractMuiComponent implements Pagination<Mu
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     @Override

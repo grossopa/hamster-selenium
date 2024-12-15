@@ -42,6 +42,7 @@ import static java.lang.Integer.parseInt;
 import static java.util.Arrays.stream;
 import static org.apache.commons.lang3.StringUtils.endsWith;
 import static org.apache.commons.lang3.math.NumberUtils.isParsable;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
  * Badge generates a small badge to the top-right of its child(ren).
@@ -70,7 +71,7 @@ public class MuiBadge extends AbstractMuiComponent {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     /**
