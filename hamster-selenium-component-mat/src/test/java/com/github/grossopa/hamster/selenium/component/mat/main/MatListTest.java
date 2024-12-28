@@ -65,13 +65,13 @@ class MatListTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-list");
+        when(element.getDomAttribute("class")).thenReturn("mat-list");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getAttribute("class")).thenReturn("mat-list-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-list-23");
         assertFalse(testSubject.validate());
     }
 

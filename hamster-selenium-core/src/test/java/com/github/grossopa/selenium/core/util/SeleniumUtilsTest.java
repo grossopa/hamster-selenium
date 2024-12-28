@@ -94,7 +94,7 @@ class SeleniumUtilsTest {
     @Test
     void cleanText() {
         WebElement element = mock(WebElement.class);
-        when(element.getAttribute("value")).thenReturn("aaaaaaaaaa");
+        when(element.getDomAttribute("value")).thenReturn("aaaaaaaaaa");
         SeleniumUtils.cleanText(element);
         verify(element, times(10)).sendKeys(BACK_SPACE);
     }
@@ -102,7 +102,7 @@ class SeleniumUtilsTest {
     @Test
     void cleanTextEmpty() {
         WebElement element = mock(WebElement.class);
-        when(element.getAttribute("value")).thenReturn("");
+        when(element.getDomAttribute("value")).thenReturn("");
         SeleniumUtils.cleanText(element);
         verify(element, never()).sendKeys(BACK_SPACE);
     }
@@ -366,19 +366,19 @@ class SeleniumUtilsTest {
 
     @Test
     void isTrueAttribute() {
-        when(element.getAttribute("readonly")).thenReturn("true");
+        when(element.getDomAttribute("readonly")).thenReturn("true");
         assertTrue(SeleniumUtils.isTrueAttribute(element, "readonly"));
     }
 
     @Test
     void isTrueAttributeNegative1() {
-        when(element.getAttribute("readonly")).thenReturn(null);
+        when(element.getDomAttribute("readonly")).thenReturn(null);
         assertFalse(SeleniumUtils.isTrueAttribute(element, "readonly"));
     }
 
     @Test
     void isTrueAttributeNegative2() {
-        when(element.getAttribute("readonly")).thenReturn("false");
+        when(element.getDomAttribute("readonly")).thenReturn("false");
         assertFalse(SeleniumUtils.isTrueAttribute(element, "readonly"));
     }
 }

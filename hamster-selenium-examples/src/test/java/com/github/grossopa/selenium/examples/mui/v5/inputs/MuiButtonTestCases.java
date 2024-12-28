@@ -47,11 +47,12 @@ public class MuiButtonTestCases extends AbstractBrowserSupport {
     /**
      * Test the basic features
      *
-     * @see <a href="https://mui.com/components/buttons/#basic-button">
-     * https://mui.com/components/buttons/#basic-button</a>
+     * @see <a href="https://mui.com/material-ui/react-button/">
+     * https://mui.com/material-ui/react-button/</a>
      */
     public void testBasicButtons() {
         List<MuiButton> buttonList = driver.findComponent(By.id("BasicButtons.js")).findComponent(By2.parent())
+                .findComponent(By.className("MuiStack-root"))
                 .findComponentsAs(By.className("MuiButton-root"), c -> c.as(muiV5()).toButton());
         buttonList.forEach(button -> assertTrue(button.validate()));
 
@@ -64,11 +65,12 @@ public class MuiButtonTestCases extends AbstractBrowserSupport {
     /**
      * Test the text button feature
      *
-     * @see <a href="https://mui.com/components/buttons/#text-button">
-     * https://mui.com/components/buttons/#text-button</a>
+     * @see <a href="https://mui.com/material-ui/react-button/">
+     * https://mui.com/material-ui/react-button/</a>
      */
     public void testTextButtons() {
         List<MuiButton> buttonList = driver.findComponent(By.id("TextButtons.js")).findComponent(By2.parent())
+                .findComponent(By.className("MuiStack-root"))
                 .findComponentsAs(By.className("MuiButton-root"), c -> c.as(muiV5()).toButton());
         buttonList.forEach(button -> assertTrue(button.validate()));
 
@@ -85,7 +87,7 @@ public class MuiButtonTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiButtonTestCases test = new MuiButtonTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/buttons/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-button/");
 
         test.testBasicButtons();
         test.testTextButtons();

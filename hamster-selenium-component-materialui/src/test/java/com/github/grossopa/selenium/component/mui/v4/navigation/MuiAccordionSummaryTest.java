@@ -32,8 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -59,7 +58,7 @@ class MuiAccordionSummaryTest {
 
     @Test
     void versions() {
-        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+        assertArrayEquals(new MuiVersion[]{V4, V5, V6}, testSubject.versions().toArray());
     }
 
     @Test
@@ -69,25 +68,25 @@ class MuiAccordionSummaryTest {
 
     @Test
     void isExpandTrue() {
-        when(element.getAttribute("aria-expanded")).thenReturn("true");
+        when(element.getDomAttribute("aria-expanded")).thenReturn("true");
         assertTrue(testSubject.isExpand());
     }
 
     @Test
     void isExpandTrueUpper() {
-        when(element.getAttribute("aria-expanded")).thenReturn("TRUE");
+        when(element.getDomAttribute("aria-expanded")).thenReturn("TRUE");
         assertTrue(testSubject.isExpand());
     }
 
     @Test
     void isExpandFalse() {
-        when(element.getAttribute("aria-expanded")).thenReturn("false");
+        when(element.getDomAttribute("aria-expanded")).thenReturn("false");
         assertFalse(testSubject.isExpand());
     }
 
     @Test
     void isExpandFalse2() {
-        when(element.getAttribute("aria-expanded")).thenReturn("false");
+        when(element.getDomAttribute("aria-expanded")).thenReturn("false");
         assertFalse(testSubject.isExpand());
     }
 

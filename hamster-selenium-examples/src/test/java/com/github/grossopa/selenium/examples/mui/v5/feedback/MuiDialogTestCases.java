@@ -48,11 +48,11 @@ public class MuiDialogTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic dialog
      *
-     * @see <a href="https://mui.com/components/dialogs/#basic-dialog">
-     * https://mui.com/components/dialogs/#basic-dialog</a>
+     * @see <a href="https://mui.com/material-ui/react-dialog/#basic-dialog">
+     * https://mui.com/material-ui/react-dialog/#basic-dialog</a>
      */
     public void testBasicDialog() {
-        MuiButton showDialogButton = driver.findComponent(By.id("SimpleDialog.js")).findComponent(By2.parent())
+        MuiButton showDialogButton = driver.findComponent(By.id("SimpleDialogDemo.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiButton-root")).as(muiV5()).toButton();
 
         showDialogButton.click();
@@ -68,8 +68,8 @@ public class MuiDialogTestCases extends AbstractBrowserSupport {
     /**
      * Tests the alerts
      *
-     * @see <a href="https://mui.com/components/dialogs/#alerts">
-     * https://mui.com/components/dialogs/#alerts</a>
+     * @see <a href="https://mui.com/material-ui/react-dialog/#alerts">
+     * https://mui.com/material-ui/react-dialog/#alerts</a>
      */
     public void testAlerts() {
         MuiButton openDialogButton = driver.findComponent(By.id("AlertDialog.js")).findComponent(By2.parent())
@@ -95,7 +95,7 @@ public class MuiDialogTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiDialogTestCases test = new MuiDialogTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/dialogs/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-dialog/");
 
         test.testBasicDialog();
         test.testAlerts();

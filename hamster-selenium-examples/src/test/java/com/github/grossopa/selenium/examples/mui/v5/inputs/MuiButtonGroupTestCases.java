@@ -45,8 +45,8 @@ public class MuiButtonGroupTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic Button group
      *
-     * @see <a href="https://mui.com/components/button-group/#basic-button-group">
-     * https://mui.com/components/button-group/#basic-button-group</a>
+     * @see <a href="https://mui.com/material-ui/react-button-group/#basic-button-group">
+     * https://mui.com/material-ui/react-button-group/#basic-button-group</a>
      */
     public void testBasicButtonGroup() {
         MuiButtonGroup buttonGroup = driver.findComponent(By.id("BasicButtonGroup.js")).findComponent(By2.parent())
@@ -62,7 +62,7 @@ public class MuiButtonGroupTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiButtonGroupTestCases test = new MuiButtonGroupTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/button-group/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-button-group/");
 
         test.testBasicButtonGroup();
     }

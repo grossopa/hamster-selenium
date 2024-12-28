@@ -231,6 +231,17 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     }
 
     @Override
+    public void selectByContainsVisibleText(String text, Long delayInMillis) {
+        List<WebComponent> options = getOptions2(delayInMillis);
+        for (WebComponent option : options) {
+            if (StringUtils.contains(option.getText(), text)) {
+                option.click();
+                return;
+            }
+        }
+    }
+
+    @Override
     public void selectByIndex(int index, Long delayInMillis) {
         getOptions2(delayInMillis).get(index).click();
     }
@@ -257,6 +268,11 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
 
     @Override
     public void deselectByVisibleText(String text, Long delayInMillis) {
+        SeleniumUtils.cleanText(this.getInput());
+    }
+
+    @Override
+    public void deSelectByContainsVisibleText(String text, Long delayInMillis) {
         SeleniumUtils.cleanText(this.getInput());
     }
 
@@ -296,6 +312,11 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     }
 
     @Override
+    public void selectByContainsVisibleText(String text) {
+        selectByContainsVisibleText(text, 0L);
+    }
+
+    @Override
     public void selectByIndex(int i) {
         selectByIndex(i, 0L);
     }
@@ -323,6 +344,11 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     @Override
     public void deselectByVisibleText(String visibleText) {
         deselectByVisibleText(visibleText, 0L);
+    }
+
+    @Override
+    public void deSelectByContainsVisibleText(String text) {
+        deSelectByContainsVisibleText(text, 0L);
     }
 
     protected Optional<WebComponent> tryToFindAutocompletePanel() {

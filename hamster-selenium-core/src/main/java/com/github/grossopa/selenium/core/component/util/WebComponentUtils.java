@@ -92,7 +92,7 @@ public class WebComponentUtils {
      * @return true for found any matches
      */
     public static boolean styleContains(WebElement element, String styleName, String styleValue) {
-        return stream(element.getAttribute("style").split(";")).map(
+        return stream(element.getDomAttribute("style").split(";")).map(
                         str -> stream(str.split(":")).map(String::strip).collect(Collectors.joining(":")))
                 .anyMatch(str -> StringUtils.equalsIgnoreCase(str, styleName + ":" + styleValue));
     }
@@ -118,7 +118,7 @@ public class WebComponentUtils {
      */
     public static boolean attributeContains(WebElement element, String attributeName, String attributeValue,
             String splitRegex) {
-        String elementAttributeValue = element.getAttribute(attributeName);
+        String elementAttributeValue = element.getDomAttribute(attributeName);
         if (StringUtils.isBlank(elementAttributeValue)) {
             return false;
         }

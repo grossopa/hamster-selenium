@@ -69,7 +69,7 @@ public class MatGridTile extends AbstractMatComponent {
      * @return the row span
      */
     public int getRowSpan() {
-        return Integer.parseInt(this.getAttribute("rowspan"));
+        return Integer.parseInt(this.getDomAttribute("rowspan"));
     }
 
     /**
@@ -78,6 +78,6 @@ public class MatGridTile extends AbstractMatComponent {
      * @return the row span
      */
     public int getColSpan() {
-        return Integer.parseInt(this.getAttribute("colspan"));
+        return Integer.parseInt(this.getDomAttribute("colspan"));
     }
 }

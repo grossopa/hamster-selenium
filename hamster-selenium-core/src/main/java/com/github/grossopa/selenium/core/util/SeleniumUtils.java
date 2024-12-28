@@ -104,7 +104,7 @@ public class SeleniumUtils {
      */
     @SuppressWarnings("java:S6212")
     public static void cleanText(WebElement inputElement) {
-        String text = inputElement.getAttribute("value");
+        String text = inputElement.getDomAttribute("value");
         for (int i = 0; i < text.length(); i++) {
             inputElement.sendKeys(BACK_SPACE);
         }
@@ -263,7 +263,7 @@ public class SeleniumUtils {
      * @return true if the value is not blank and not false
      */
     public static boolean isTrueAttribute(WebElement element, String attributeName) {
-        String value = element.getAttribute(attributeName);
+        String value = element.getDomAttribute(attributeName);
         return !("false".equalsIgnoreCase(value) || isBlank(value));
     }
 

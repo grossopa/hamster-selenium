@@ -33,6 +33,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -62,7 +63,7 @@ class MuiSwitchV5Test {
 
     @Test
     void versions() {
-        assertArrayEquals(new MuiVersion[]{V5}, testSubject.versions().toArray());
+        assertArrayEquals(new MuiVersion[]{V5, V6}, testSubject.versions().toArray());
     }
 
     @Test

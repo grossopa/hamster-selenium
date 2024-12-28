@@ -73,9 +73,9 @@ class MatMenuTest {
         menuItems.add(menuItem2);
         menuItems.add(menuItem3);
 
-        when(menuItem1.getAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
-        when(menuItem2.getAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
-        when(menuItem3.getAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
+        when(menuItem1.getDomAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
+        when(menuItem2.getDomAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
+        when(menuItem3.getDomAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
 
         when(menuItem1.getText()).thenReturn("Item 1");
         when(menuItem2.getText()).thenReturn("Item 2");
@@ -119,13 +119,13 @@ class MatMenuTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-menu-panel");
+        when(element.getDomAttribute("class")).thenReturn("mat-menu-panel");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getAttribute("class")).thenReturn("mat-menu-panel-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-menu-panel-23");
         assertFalse(testSubject.validate());
     }
 

@@ -60,7 +60,7 @@ class MuiPickersYearTest {
     @Test
     void isSelected() {
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(element.getAttribute("class")).thenReturn("MuiPickersYear-yearSelected");
+        when(element.getDomAttribute("class")).thenReturn("MuiPickersYear-yearSelected");
         assertTrue(testSubject.isSelected());
         verify(config, times(1)).getCssPrefix();
     }
@@ -68,7 +68,7 @@ class MuiPickersYearTest {
     @Test
     void isSelectedFalse() {
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(element.getAttribute("class")).thenReturn("MuiPickersYear-ddd");
+        when(element.getDomAttribute("class")).thenReturn("MuiPickersYear-ddd");
         assertFalse(testSubject.isSelected());
         verify(config, times(1)).getCssPrefix();
     }

@@ -97,9 +97,9 @@ class DefaultWebComponentTest {
 
     @Test
     void attributeContains() {
-        when(element.getAttribute("aaa")).thenReturn("aaa bbb ccc");
+        when(element.getDomAttribute("aaa")).thenReturn("aaa bbb ccc");
         assertTrue(testSubject.attributeContains("aaa", "bbb"));
-        verify(element, only()).getAttribute("aaa");
+        verify(element, only()).getDomAttribute("aaa");
     }
 
     @Test
@@ -151,7 +151,7 @@ class DefaultWebComponentTest {
 
     @Test
     void outerHTML() {
-        when(element.getAttribute("outerHTML")).thenReturn("some-outer-html");
+        when(element.getDomAttribute("outerHTML")).thenReturn("some-outer-html");
         assertEquals("some-outer-html", testSubject.outerHTML());
     }
 
@@ -191,7 +191,7 @@ class DefaultWebComponentTest {
 
     @Test
     void styleContains() {
-        when(element.getAttribute("style")).thenReturn("display:block; background-color : black");
+        when(element.getDomAttribute("style")).thenReturn("display:block; background-color : black");
         assertTrue(testSubject.styleContains("background-color", "black"));
         assertFalse(testSubject.styleContains("background-color", "white"));
     }

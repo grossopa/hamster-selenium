@@ -71,7 +71,7 @@ class MuiModalFinderTest {
     WebComponent createMockOverlay(String classes, boolean isDisplayed) {
         WebComponent overlay = mock(WebComponent.class);
         when(overlay.isDisplayed()).thenReturn(isDisplayed);
-        when(overlay.getAttribute("class")).thenReturn(classes);
+        when(overlay.getDomAttribute("class")).thenReturn(classes);
         return overlay;
     }
 
@@ -99,7 +99,7 @@ class MuiModalFinderTest {
     void findTopVisibleOverlay() {
         WebComponent component = testSubject.findTopVisibleOverlay();
         assertNotNull(component);
-        assertEquals("MuiDrawer-root", component.getAttribute("class"));
+        assertEquals("MuiDrawer-root", component.getDomAttribute("class"));
     }
 
     @Test
@@ -113,7 +113,7 @@ class MuiModalFinderTest {
     void findTopVisibleOverlayByComponentName() {
         WebComponent component = testSubject.findTopVisibleOverlay("Popover");
         assertNotNull(component);
-        assertEquals("MuiPopover-root", component.getAttribute("class"));
+        assertEquals("MuiPopover-root", component.getDomAttribute("class"));
     }
 
     @Test

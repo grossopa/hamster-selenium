@@ -47,11 +47,11 @@ public class MuiAccordionTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic features
      *
-     * @see <a href="https://mui.com/components/accordion/#basic-accordion">
-     * https://mui.com/components/accordion/#basic-accordion</a>
+     * @see <a href="https://mui.com/material-ui/react-accordion/#basic-accordion">
+     * https://mui.com/material-ui/react-accordion/#basic-accordion</a>
      */
     public void testBasicAccordion() {
-        List<MuiAccordion> accordionList = driver.findComponent(By.id("BasicAccordion.js")).findComponent(By2.parent())
+        List<MuiAccordion> accordionList = driver.findComponent(By.id("DisabledAccordion.js")).findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiAccordion-root"), c -> c.as(muiV5()).toAccordion());
         assertEquals(3, accordionList.size());
         accordionList.forEach(accordion -> {
@@ -69,6 +69,7 @@ public class MuiAccordionTestCases extends AbstractBrowserSupport {
 
         requireNonNull(accordionList.get(1).getAccordionSummary()).click();
         assertTrue(accordionList.get(1).isExpand());
+        driver.threadSleep(1000L);
         assertEquals("Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
                         + "Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.",
                 requireNonNull(accordionList.get(1).getAccordionDetails()).getText());
@@ -82,7 +83,7 @@ public class MuiAccordionTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiAccordionTestCases test = new MuiAccordionTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/accordion/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-accordion/");
 
         test.testBasicAccordion();
     }

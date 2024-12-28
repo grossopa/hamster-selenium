@@ -48,8 +48,8 @@ public class MuiBottomNavigationTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic bottom navigation.
      *
-     * @see <a href="https://mui.com/components/bottom-navigation/#bottom-navigation">
-     * https://mui.com/components/bottom-navigation/#bottom-navigation</a>
+     * @see <a href="https://mui.com/material-ui/react-bottom-navigation/#bottom-navigation">
+     * https://mui.com/material-ui/react-bottom-navigation/#bottom-navigation</a>
      */
     public void testBottomNavigation() {
         MuiBottomNavigation bottomNavigation = driver.findComponent(By.id("SimpleBottomNavigation.js"))
@@ -70,7 +70,7 @@ public class MuiBottomNavigationTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiBottomNavigationTestCases test = new MuiBottomNavigationTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/bottom-navigation/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-bottom-navigation/");
 
         test.testBottomNavigation();
     }

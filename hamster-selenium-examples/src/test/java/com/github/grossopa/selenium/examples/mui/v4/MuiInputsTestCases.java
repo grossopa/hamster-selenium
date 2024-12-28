@@ -286,7 +286,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
                 .findComponent(By.xpath("parent::*")).as(mui()).toTextField();
         assertEquals("Standard", textField.getLabel().getText());
         textField.sendText("ddd ccc fff");
-        assertEquals("ddd ccc fff", textField.getInput().getAttribute("value"));
+        assertEquals("ddd ccc fff", textField.getInput().getDomAttribute("value"));
     }
 
     public void testRadio() {

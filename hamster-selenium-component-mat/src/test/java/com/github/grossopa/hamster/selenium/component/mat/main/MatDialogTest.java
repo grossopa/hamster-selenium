@@ -58,13 +58,13 @@ class MatDialogTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-dialog-container");
+        when(element.getDomAttribute("class")).thenReturn("mat-dialog-container");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-dialog-container-333");
+        when(element.getDomAttribute("class")).thenReturn("mat-dialog-container-333");
         assertFalse(testSubject.validate());
     }
 

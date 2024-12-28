@@ -47,8 +47,8 @@ public class MuiSwitchTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic Switches.
      *
-     * @see <a href="https://mui.com/components/switches/#basic-switches">
-     * https://mui.com/components/switches/#basic-switches</a>
+     * @see <a href="https://mui.com/material-ui/react-switch/#basic-switches">
+     * https://mui.com/material-ui/react-switch/#basic-switches</a>
      */
     public void testBasicSwitches() {
         List<MuiSwitch> switchList = driver.findComponent(By.id("BasicSwitches.js")).findComponent(By2.parent())
@@ -73,23 +73,24 @@ public class MuiSwitchTestCases extends AbstractBrowserSupport {
     /**
      * Tests the labels.
      *
-     * @see <a href="https://mui.com/components/switches/#label">
-     * https://mui.com/components/switches/#label</a>
+     * @see <a href="https://mui.com/material-ui/react-switch/#label">
+     * https://mui.com/material-ui/react-switch/#label</a>
      */
     public void testLabel() {
         List<MuiSwitch> switchList = driver.findComponent(By.id("SwitchLabels.js")).findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiSwitch-root"), c -> c.as(muiV5()).toSwitch());
-        assertEquals(2, switchList.size());
+        assertEquals(3, switchList.size());
         switchList.forEach(s -> assertTrue(s.validate()));
 
         assertEquals("Label", switchList.get(0).findComponent(axesBuilder().followingSibling().build()).getText());
-        assertEquals("Disabled", switchList.get(1).findComponent(axesBuilder().followingSibling().build()).getText());
+        assertEquals("Required *", switchList.get(1).findComponent(axesBuilder().followingSibling().build()).getText());
+        assertEquals("Disabled", switchList.get(2).findComponent(axesBuilder().followingSibling().build()).getText());
     }
 
     public static void main(String[] args) {
         MuiSwitchTestCases test = new MuiSwitchTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/switches/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-switch/");
 
         test.testBasicSwitches();
         test.testLabel();

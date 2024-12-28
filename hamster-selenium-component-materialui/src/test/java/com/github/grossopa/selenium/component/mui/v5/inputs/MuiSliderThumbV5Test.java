@@ -33,6 +33,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -57,17 +58,17 @@ class MuiSliderThumbV5Test {
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Muiabc");
         when(element.findElement(By.xpath("./child::input"))).thenReturn(inputElement);
-        when(inputElement.getAttribute("aria-orientation")).thenReturn("horizontal");
-        when(inputElement.getAttribute("aria-valuetext")).thenReturn("The value is 30");
-        when(inputElement.getAttribute("aria-valuemin")).thenReturn("20");
-        when(inputElement.getAttribute("aria-valuemax")).thenReturn("800");
-        when(inputElement.getAttribute("aria-valuenow")).thenReturn("30");
+        when(inputElement.getDomAttribute("aria-orientation")).thenReturn("horizontal");
+        when(inputElement.getDomAttribute("aria-valuetext")).thenReturn("The value is 30");
+        when(inputElement.getDomAttribute("aria-valuemin")).thenReturn("20");
+        when(inputElement.getDomAttribute("aria-valuemax")).thenReturn("800");
+        when(inputElement.getDomAttribute("aria-valuenow")).thenReturn("30");
         testSubject = new MuiSliderThumbV5(element, driver, config);
     }
 
     @Test
     void versions() {
-        assertArrayEquals(new MuiVersion[]{V5}, testSubject.versions().toArray());
+        assertArrayEquals(new MuiVersion[]{V5, V6}, testSubject.versions().toArray());
     }
 
     @Test

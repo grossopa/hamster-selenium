@@ -128,7 +128,7 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
 
     @Override
     public String outerHTML() {
-        return element.getAttribute("outerHTML");
+        return element.getDomAttribute("outerHTML");
     }
 
     @Override

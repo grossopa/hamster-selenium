@@ -75,13 +75,13 @@ class MatOptionTest {
 
     @Test
     void isSelected() {
-        when(element.getAttribute("class")).thenReturn("mat-selected");
+        when(element.getDomAttribute("class")).thenReturn("mat-selected");
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedNegative() {
-        when(element.getAttribute("class")).thenReturn("");
+        when(element.getDomAttribute("class")).thenReturn("");
         assertFalse(testSubject.isSelected());
     }
 

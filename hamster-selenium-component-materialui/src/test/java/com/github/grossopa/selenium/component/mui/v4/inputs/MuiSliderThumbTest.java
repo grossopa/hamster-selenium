@@ -50,10 +50,10 @@ class MuiSliderThumbTest {
     @BeforeEach
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Muiabc");
-        when(element.getAttribute("aria-valuetext")).thenReturn("The value is 30");
-        when(element.getAttribute("aria-valuemin")).thenReturn("20");
-        when(element.getAttribute("aria-valuemax")).thenReturn("800");
-        when(element.getAttribute("aria-valuenow")).thenReturn("30");
+        when(element.getDomAttribute("aria-valuetext")).thenReturn("The value is 30");
+        when(element.getDomAttribute("aria-valuemin")).thenReturn("20");
+        when(element.getDomAttribute("aria-valuemax")).thenReturn("800");
+        when(element.getDomAttribute("aria-valuenow")).thenReturn("30");
         testSubject = new MuiSliderThumb(element, driver, config);
     }
 
@@ -70,21 +70,21 @@ class MuiSliderThumbTest {
 
     @Test
     void getPercentageHorizontal() {
-        when(element.getAttribute("aria-orientation")).thenReturn("horizontal");
+        when(element.getDomAttribute("aria-orientation")).thenReturn("horizontal");
         when(element.getCssValue("left")).thenReturn("30%");
         assertEquals("30%", testSubject.getPercentage());
     }
 
     @Test
     void getPercentageVertical() {
-        when(element.getAttribute("aria-orientation")).thenReturn("vertical");
+        when(element.getDomAttribute("aria-orientation")).thenReturn("vertical");
         when(element.getCssValue("bottom")).thenReturn("30%");
         assertEquals("30%", testSubject.getPercentage());
     }
 
     @Test
     void getPercentageInvalid() {
-        when(element.getAttribute("orientation")).thenReturn("333");
+        when(element.getDomAttribute("orientation")).thenReturn("333");
         assertThrows(IllegalStateException.class, () -> testSubject.getPercentage());
     }
 

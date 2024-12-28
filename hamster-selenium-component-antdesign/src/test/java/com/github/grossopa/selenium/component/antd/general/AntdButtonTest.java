@@ -61,34 +61,34 @@ class AntdButtonTest {
     @Test
     void validate() {
         when(element.getTagName()).thenReturn("button");
-        when(element.getAttribute("class")).thenReturn("sss-btn sss-btn-primary");
+        when(element.getDomAttribute("class")).thenReturn("sss-btn sss-btn-primary");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative1() {
         when(element.getTagName()).thenReturn("label");
-        when(element.getAttribute("class")).thenReturn("sss-btn sss-btn-primary");
+        when(element.getDomAttribute("class")).thenReturn("sss-btn sss-btn-primary");
         assertFalse(testSubject.validate());
     }
 
     @Test
     void validateNegative2() {
         when(element.getTagName()).thenReturn("button");
-        when(element.getAttribute("class")).thenReturn("sss-ddd sss-btn-primary");
+        when(element.getDomAttribute("class")).thenReturn("sss-ddd sss-btn-primary");
         assertFalse(testSubject.validate());
     }
 
     @Test
     void isLoadingTrue() {
         when(element.getTagName()).thenReturn("button");
-        when(element.getAttribute("class")).thenReturn("sss-btn sss-btn-loading");
+        when(element.getDomAttribute("class")).thenReturn("sss-btn sss-btn-loading");
         assertTrue(testSubject.isLoading());
     }
 
     @Test
     void isLoadingFalse() {
-        when(element.getAttribute("class")).thenReturn("sss-ddd sss-btn-primary");
+        when(element.getDomAttribute("class")).thenReturn("sss-ddd sss-btn-primary");
         assertFalse(testSubject.isLoading());
     }
 }

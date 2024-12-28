@@ -65,26 +65,26 @@ class MatExpansionPanelTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-expansion-panel");
+        when(element.getDomAttribute("class")).thenReturn("mat-expansion-panel");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-expansion-panel-333");
+        when(element.getDomAttribute("class")).thenReturn("mat-expansion-panel-333");
         assertFalse(testSubject.validate());
     }
 
 
     @Test
     void isEnabled() {
-        when(element.getAttribute("disabled")).thenReturn(null);
+        when(element.getDomAttribute("disabled")).thenReturn(null);
         assertTrue(testSubject.isEnabled());
     }
 
     @Test
     void isEnabledFalse() {
-        when(element.getAttribute("disabled")).thenReturn("");
+        when(element.getDomAttribute("disabled")).thenReturn("");
         assertFalse(testSubject.isEnabled());
     }
 
@@ -101,21 +101,21 @@ class MatExpansionPanelTest {
 
     @Test
     void isExpanded() {
-        when(element.getAttribute("class")).thenReturn("mat-expanded");
+        when(element.getDomAttribute("class")).thenReturn("mat-expanded");
         assertTrue(testSubject.isExpanded());
     }
 
     @Test
     void isExpandedFalse() {
-        when(element.getAttribute("class")).thenReturn("");
+        when(element.getDomAttribute("class")).thenReturn("");
         assertFalse(testSubject.isExpanded());
     }
 
     @Test
     void expand() {
-        when(element.getAttribute("class")).thenReturn("");
+        when(element.getDomAttribute("class")).thenReturn("");
         doAnswer(a -> {
-            when(element.getAttribute("class")).thenReturn("mat-expanded");
+            when(element.getDomAttribute("class")).thenReturn("mat-expanded");
             return null;
         }).when(headerElement).click();
 
@@ -127,7 +127,7 @@ class MatExpansionPanelTest {
 
     @Test
     void expandAlready() {
-        when(element.getAttribute("class")).thenReturn("mat-expanded");
+        when(element.getDomAttribute("class")).thenReturn("mat-expanded");
         assertTrue(testSubject.isExpanded());
         testSubject.expand();
         verify(headerElement, never()).click();
@@ -136,9 +136,9 @@ class MatExpansionPanelTest {
 
     @Test
     void collapse() {
-        when(element.getAttribute("class")).thenReturn("mat-expanded");
+        when(element.getDomAttribute("class")).thenReturn("mat-expanded");
         doAnswer(a -> {
-            when(element.getAttribute("class")).thenReturn("");
+            when(element.getDomAttribute("class")).thenReturn("");
             return null;
         }).when(headerElement).click();
 
@@ -150,7 +150,7 @@ class MatExpansionPanelTest {
 
     @Test
     void collapseAlready() {
-        when(element.getAttribute("class")).thenReturn("");
+        when(element.getDomAttribute("class")).thenReturn("");
         assertFalse(testSubject.isExpanded());
         testSubject.collapse();
         verify(headerElement, never()).click();

@@ -145,7 +145,7 @@ class MatConfigTest {
         WebElement element = mock(WebElement.class);
         when(component.getWrappedElement()).thenReturn(element);
         when(element.isEnabled()).thenReturn(true);
-        when(component.getAttribute("class")).thenReturn("mat-disabled");
+        when(component.getDomAttribute("class")).thenReturn("mat-disabled");
         assertTrue(testSubject.isDisabled(component));
     }
 
@@ -155,8 +155,8 @@ class MatConfigTest {
         WebElement element = mock(WebElement.class);
         when(component.getWrappedElement()).thenReturn(element);
         when(element.isEnabled()).thenReturn(true);
-        when(component.getAttribute("class")).thenReturn("");
-        when(component.getAttribute("aria-disabled")).thenReturn("true");
+        when(component.getDomAttribute("class")).thenReturn("");
+        when(component.getDomAttribute("aria-disabled")).thenReturn("true");
         assertTrue(testSubject.isDisabled(component));
     }
 
@@ -166,7 +166,7 @@ class MatConfigTest {
         WebElement element = mock(WebElement.class);
         when(component.getWrappedElement()).thenReturn(element);
         when(element.isEnabled()).thenReturn(true);
-        when(component.getAttribute("class")).thenReturn("");
+        when(component.getDomAttribute("class")).thenReturn("");
         assertFalse(testSubject.isDisabled(component));
     }
 }

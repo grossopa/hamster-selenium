@@ -48,8 +48,8 @@ public class MuiCheckboxTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basics.
      *
-     * @see <a href="https://mui.com/components/checkboxes/#basic-checkboxes">
-     * https://mui.com/components/checkboxes/#basic-checkboxes</a>
+     * @see <a href="https://mui.com/material-ui/react-checkbox/#basic-checkboxes">
+     * https://mui.com/material-ui/react-checkbox/#basic-checkboxes</a>
      */
     public void testBasicCheckboxes() {
         List<MuiCheckbox> checkboxList = driver.findComponent(By.id("Checkboxes.js")).findComponent(By2.parent())
@@ -71,30 +71,33 @@ public class MuiCheckboxTestCases extends AbstractBrowserSupport {
     /**
      * Tests the label of the checkbox
      *
-     * @see <a href="https://mui.com/components/checkboxes/#label">
-     * https://mui.com/components/checkboxes/#label</a>
+     * @see <a href="https://mui.com/material-ui/react-checkbox/#label">
+     * https://mui.com/material-ui/react-checkbox/#label</a>
      */
     public void testLabel() {
         List<MuiCheckbox> checkboxList = driver.findComponent(By.id("CheckboxLabels.js")).findComponent(By2.parent())
                 .findComponentsAs(By.className("MuiCheckbox-root"), c -> c.as(muiV5()).toCheckbox());
         checkboxList.forEach(checkbox -> assertTrue(checkbox.validate()));
 
-        assertEquals(2, checkboxList.size());
+        assertEquals(3, checkboxList.size());
         assertTrue(checkboxList.get(0).isSelected());
         assertFalse(checkboxList.get(1).isSelected());
+        assertFalse(checkboxList.get(2).isSelected());
 
         assertTrue(checkboxList.get(0).isEnabled());
-        assertFalse(checkboxList.get(1).isEnabled());
+        assertTrue(checkboxList.get(1).isEnabled());
+        assertFalse(checkboxList.get(2).isEnabled());
 
         assertEquals("Label", checkboxList.get(0).findComponent(axesBuilder().followingSibling().build()).getText());
-        assertEquals("Disabled", checkboxList.get(1).findComponent(axesBuilder().followingSibling().build()).getText());
+        assertEquals("Required *", checkboxList.get(1).findComponent(axesBuilder().followingSibling().build()).getText());
+        assertEquals("Disabled", checkboxList.get(2).findComponent(axesBuilder().followingSibling().build()).getText());
     }
 
     /**
      * Tests the Indeterminate feature
      *
-     * @see <a href="https://mui.com/components/checkboxes/#indeterminate">
-     * https://mui.com/components/checkboxes/#indeterminate</a>
+     * @see <a href="https://mui.com/material-ui/react-checkbox/#indeterminate">
+     * https://mui.com/material-ui/react-checkbox/#indeterminate</a>
      */
     public void testIndeterminateCheckbox() {
         List<MuiCheckbox> checkboxList = driver.findComponent(By.id("IndeterminateCheckbox.js"))
@@ -125,7 +128,7 @@ public class MuiCheckboxTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiCheckboxTestCases test = new MuiCheckboxTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/checkboxes/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-checkbox/");
 
         test.testBasicCheckboxes();
         test.testLabel();

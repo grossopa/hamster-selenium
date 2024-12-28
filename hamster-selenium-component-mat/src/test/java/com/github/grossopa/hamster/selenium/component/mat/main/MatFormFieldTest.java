@@ -58,13 +58,13 @@ class MatFormFieldTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-form-field");
+        when(element.getDomAttribute("class")).thenReturn("mat-form-field");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-form-field-333");
+        when(element.getDomAttribute("class")).thenReturn("mat-form-field-333");
         assertFalse(testSubject.validate());
     }
 

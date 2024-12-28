@@ -77,7 +77,7 @@ public class MuiPickersDay extends MuiButton {
      */
     @Nullable
     public String getDateLabel() {
-        return getAttribute("aria-label");
+        return getDomAttribute("aria-label");
     }
 
 }

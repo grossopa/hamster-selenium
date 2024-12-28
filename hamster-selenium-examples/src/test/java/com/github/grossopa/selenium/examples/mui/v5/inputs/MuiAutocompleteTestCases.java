@@ -56,8 +56,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
     /**
      * Simple combobox testing
      *
-     * @see <a href="https://mui.com/components/autocomplete/#combo-box">
-     * https://mui.com/components/autocomplete/#combo-box</a>
+     * @see <a href="https://mui.com/material-ui/react-autocomplete/#combo-box">
+     * https://mui.com/material-ui/react-autocomplete/#combo-box</a>
      */
     public void testComboBox() {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("ComboBox.js")).findComponent(By2.parent())
@@ -75,20 +75,20 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
 
         // test auto complete search
         autocomplete.selectByVisibleText("Witness for the Prosecution");
-        assertEquals("Witness for the Prosecution", autocomplete.getInput().getAttribute("value"));
+        assertEquals("Witness for the Prosecution", autocomplete.getInput().getDomAttribute("value"));
         cleanText(autocomplete.getInput());
 
         // test directly select
         autocomplete.selectByValue("Eternal Sunshine of the Spotless Mind");
-        assertEquals("Eternal Sunshine of the Spotless Mind", autocomplete.getInput().getAttribute("value"));
+        assertEquals("Eternal Sunshine of the Spotless Mind", autocomplete.getInput().getDomAttribute("value"));
         cleanText(autocomplete.getInput());
     }
 
     /**
      * With multiple components with different options - but their behaviours is expected to be consistent
      *
-     * @see <a href="https://mui.com/components/autocomplete/#playground">
-     * https://mui.com/components/autocomplete/#playground</a>
+     * @see <a href="https://mui.com/material-ui/react-autocomplete/#playground">
+     * https://mui.com/material-ui/react-autocomplete/#playground</a>
      */
     public void testPlayground() {
         WebComponent container = driver.findComponent(By.id("Playground.js")).findComponent(By2.parent());
@@ -97,7 +97,7 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
                 c -> c.as(muiV5()).toAutocomplete());
 
         autocompleteList.forEach(autocomplete -> {
-            log.info("Testing MuiAutocomplete" + autocomplete.getInput().getAttribute("value"));
+            log.info("Testing MuiAutocomplete" + autocomplete.getInput().getDomAttribute("value"));
             assertTrue(autocomplete.validate());
 
             if (!autocomplete.isEnabled() || autocomplete.isReadOnly()) {
@@ -115,12 +115,12 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
 
             // test auto complete search
             autocomplete.selectByVisibleText("Witness for the Prosecution");
-            assertEquals("Witness for the Prosecution", autocomplete.getInput().getAttribute("value"));
+            assertEquals("Witness for the Prosecution", autocomplete.getInput().getDomAttribute("value"));
             cleanText(autocomplete.getInput());
 
             // test directly select
             autocomplete.selectByValue("Eternal Sunshine of the Spotless Mind");
-            assertEquals("Eternal Sunshine of the Spotless Mind", autocomplete.getInput().getAttribute("value"));
+            assertEquals("Eternal Sunshine of the Spotless Mind", autocomplete.getInput().getDomAttribute("value"));
             cleanText(autocomplete.getInput());
         });
     }
@@ -128,8 +128,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
     /**
      * A country list
      *
-     * @see <a href="https://mui.com/components/autocomplete/#country-select">
-     * https://mui.com/components/autocomplete/#country-select</a>
+     * @see <a href="https://mui.com/material-ui/react-autocomplete/#country-select">
+     * https://mui.com/material-ui/react-autocomplete/#country-select</a>
      */
     public void testCountry() {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("CountrySelect.js")).findComponent(By2.parent())
@@ -139,7 +139,7 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
 
         assertTrue(autocomplete.getOptions2().size() >= 100);
         autocomplete.getInput().sendKeys("china");
-        assertEquals(2, autocomplete.getOptions2().size());
+        assertEquals(1, autocomplete.getOptions2().size());
         assertEquals("China (CN) +86", autocomplete.getOptions2().get(0).getText());
         cleanText(autocomplete.getInput());
 
@@ -162,8 +162,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
     /**
      * Controlled states testing
      *
-     * @see <a href="https://mui.com/components/autocomplete/#controlled-states">
-     * https://mui.com/components/autocomplete/#controlled-states</a>
+     * @see <a href="https://mui.com/material-ui/react-autocomplete/#controlled-states">
+     * https://mui.com/material-ui/react-autocomplete/#controlled-states</a>
      */
     public void testControlledStates() {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("ControllableStates.js")).findComponent(By2.parent())
@@ -187,8 +187,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
     /**
      * free solo will not display the "No Options" for none matches
      *
-     * @see <a href="https://mui.com/components/autocomplete/#free-solo">
-     * https://mui.com/components/autocomplete/#free-solo</a>
+     * @see <a href="https://mui.com/material-ui/react-autocomplete/#free-solo">
+     * https://mui.com/material-ui/react-autocomplete/#free-solo</a>
      */
     @SuppressWarnings("all")
     public void testFreeSolo() {
@@ -202,15 +202,15 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
         assertThrows(NoSuchElementException.class, () -> driver.findComponent(
                 By.xpath("/html/body/div[contains(@class,'MuiAutocomplete-popper')]/div/div[text()='No options']")));
         autocomplete.getClearButton().click();
-        assertEquals("", autocomplete.getInput().getAttribute("value"));
+        assertEquals("", autocomplete.getInput().getDomAttribute("value"));
         autocomplete.closeOptions();
     }
 
     /**
      * option 0 is disabled and 1 is enabled.
      *
-     * @see <a href="https://mui.com/components/autocomplete/#disabled-options">
-     * https://mui.com/components/autocomplete/#disabled-options</a>
+     * @see <a href="https://mui.com/material-ui/react-autocomplete/#disabled-options">
+     * https://mui.com/material-ui/react-autocomplete/#disabled-options</a>
      */
     public void testDisabledOptions() {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("DisabledOptions.js")).findComponent(By2.parent())
@@ -220,16 +220,16 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
 
         List<WebComponent> components = autocomplete.getOptions2();
         // tricky - the option does have aria-disabled as true but nothing else
-        assertEquals("true", components.get(0).getAttribute("aria-disabled"));
-        assertEquals("false", components.get(1).getAttribute("aria-disabled"));
+        assertEquals("true", components.get(0).getDomAttribute("aria-disabled"));
+        assertEquals("false", components.get(1).getDomAttribute("aria-disabled"));
         autocomplete.closeOptions();
     }
 
     /**
      * Multiple values testing
      *
-     * @see <a href="https://mui.com/components/autocomplete/#multiple-values">
-     * https://mui.com/components/autocomplete/#multiple-values</a>
+     * @see <a href="https://mui.com/material-ui/react-autocomplete/#multiple-values">
+     * https://mui.com/material-ui/react-autocomplete/#multiple-values</a>
      */
     public void testMultipleValues() {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("Tags.js")).findComponent(By2.parent())
@@ -266,8 +266,8 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
     /**
      * Fixed options testing with first one is disabled
      *
-     * @see <a href="https://mui.com/components/autocomplete/#fixed-options">
-     * https://mui.com/components/autocomplete/#fixed-options</a>
+     * @see <a href="https://mui.com/material-ui/react-autocomplete/#fixed-options">
+     * https://mui.com/material-ui/react-autocomplete/#fixed-options</a>
      */
     public void testFixedOptions() {
         MuiAutocomplete autocomplete = driver.findComponent(By.id("FixedTags.js")).findComponent(By2.parent())
@@ -286,7 +286,7 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiAutocompleteTestCases test = new MuiAutocompleteTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/autocomplete/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-autocomplete/");
 
         test.testComboBox();
         test.testPlayground();

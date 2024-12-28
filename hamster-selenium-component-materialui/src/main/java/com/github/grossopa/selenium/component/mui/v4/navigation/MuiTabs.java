@@ -25,8 +25,8 @@
 package com.github.grossopa.selenium.component.mui.v4.navigation;
 
 import com.github.grossopa.selenium.component.mui.MuiVersion;
-import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.locator.By2;
 import org.openqa.selenium.By;
@@ -37,8 +37,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -60,8 +59,8 @@ public class MuiTabs extends AbstractMuiComponent {
      * Constructs an instance with the delegated element and root driver
      *
      * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
+     * @param driver  the root driver
+     * @param config  the Material UI configuration
      */
     public MuiTabs(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         super(element, driver, config);
@@ -69,7 +68,7 @@ public class MuiTabs extends AbstractMuiComponent {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     @Override

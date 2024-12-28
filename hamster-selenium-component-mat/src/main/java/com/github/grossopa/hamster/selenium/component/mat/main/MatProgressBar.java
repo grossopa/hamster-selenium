@@ -72,7 +72,7 @@ public class MatProgressBar extends AbstractMatComponent {
      * @return the min value of the progress bar
      */
     public String getMinValue() {
-        return this.getAttribute("aria-valuemin");
+        return this.getDomAttribute("aria-valuemin");
     }
 
     /**
@@ -81,7 +81,7 @@ public class MatProgressBar extends AbstractMatComponent {
      * @return the max value of the progress bar
      */
     public String getMaxValue() {
-        return this.getAttribute("aria-valuemax");
+        return this.getDomAttribute("aria-valuemax");
     }
 
     /**
@@ -90,7 +90,7 @@ public class MatProgressBar extends AbstractMatComponent {
      * @return the current of the progress bar
      */
     public String getValue() {
-        return this.getAttribute("aria-valuenow");
+        return this.getDomAttribute("aria-valuenow");
     }
 
     /**
@@ -99,7 +99,7 @@ public class MatProgressBar extends AbstractMatComponent {
      * @return the current mode
      */
     public Mode getMode() {
-        return Mode.valueOf(upperCase(this.getAttribute("mode")));
+        return Mode.valueOf(upperCase(this.getDomAttribute("mode")));
     }
 
     /**

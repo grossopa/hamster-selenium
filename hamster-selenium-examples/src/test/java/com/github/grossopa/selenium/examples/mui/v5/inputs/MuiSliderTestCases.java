@@ -47,8 +47,8 @@ public class MuiSliderTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic continuous sliders
      *
-     * @see <a href="https://mui.com/components/slider/#continuous-sliders">
-     * https://mui.com/components/slider/#continuous-sliders</a>
+     * @see <a href="https://mui.com/material-ui/react-slider/#continuous-sliders">
+     * https://mui.com/material-ui/react-slider/#continuous-sliders</a>
      */
     public void testContinuousSliders() {
         List<MuiSlider> sliderList = driver.findComponent(By.id("ContinuousSlider.js")).findComponent(By2.parent())
@@ -77,8 +77,8 @@ public class MuiSliderTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic discrete sliders.
      *
-     * @see <a href="https://mui.com/components/slider/#discrete-sliders">
-     * https://mui.com/components/slider/#discrete-sliders</a>
+     * @see <a href="https://mui.com/material-ui/react-slider/#discrete-sliders">
+     * https://mui.com/material-ui/react-slider/#discrete-sliders</a>
      */
     public void testDiscreteSliders() {
         MuiSlider slider = driver.findComponent(By.id("DiscreteSlider.js")).findComponent(By2.parent())
@@ -99,8 +99,8 @@ public class MuiSliderTestCases extends AbstractBrowserSupport {
     /**
      * to restrict the value to be selected.
      *
-     * @see <a href="https://mui.com/components/slider/#restricted-values">
-     * https://mui.com/components/slider/#restricted-values</a>
+     * @see <a href="https://mui.com/material-ui/react-slider/#restricted-values">
+     * https://mui.com/material-ui/react-slider/#restricted-values</a>
      */
     public void testRestrictedValues() {
         MuiSlider slider = driver.findComponent(By.id("DiscreteSliderValues.js")).findComponent(By2.parent())
@@ -117,8 +117,8 @@ public class MuiSliderTestCases extends AbstractBrowserSupport {
     /**
      * To select a range instead of a single value
      *
-     * @see <a href="https://mui.com/components/slider/#range-slider">
-     * https://mui.com/components/slider/#range-slider</a>
+     * @see <a href="https://mui.com/material-ui/react-slider/#range-slider">
+     * https://mui.com/material-ui/react-slider/#range-slider</a>
      */
     public void testRangeSlider() {
         MuiSlider slider = driver.findComponent(By.id("RangeSlider.js")).findComponent(By2.parent())
@@ -143,8 +143,8 @@ public class MuiSliderTestCases extends AbstractBrowserSupport {
     /**
      * To test the vertical one if that works
      *
-     * @see <a href="https://mui.com/components/slider/#vertical-sliders">
-     * https://mui.com/components/slider/#vertical-sliders</a>
+     * @see <a href="https://mui.com/material-ui/react-slider/#vertical-sliders">
+     * https://mui.com/material-ui/react-slider/#vertical-sliders</a>
      */
     public void testVerticalSliders() {
         List<MuiSlider> sliderList = driver.findComponent(By.id("VerticalSlider.js")).findComponent(By2.parent())
@@ -184,8 +184,8 @@ public class MuiSliderTestCases extends AbstractBrowserSupport {
     /**
      * Test the turned off track (no difference on actions).
      *
-     * @see <a href="https://mui.com/components/slider/#removed-track">
-     * https://mui.com/components/slider/#removed-track</a>
+     * @see <a href="https://mui.com/material-ui/react-slider/#removed-track">
+     * https://mui.com/material-ui/react-slider/#removed-track</a>
      */
     public void testRemovedTrack() {
         List<MuiSlider> sliderList = driver.findComponent(By.id("TrackFalseSlider.js")).findComponent(By2.parent())
@@ -207,8 +207,8 @@ public class MuiSliderTestCases extends AbstractBrowserSupport {
     /**
      * Inverted track
      *
-     * @see <a href="https://mui.com/components/slider/#inverted-track">
-     * https://mui.com/components/slider/#inverted-track</a>
+     * @see <a href="https://mui.com/material-ui/react-slider/#inverted-track">
+     * https://mui.com/material-ui/react-slider/#inverted-track</a>
      */
     public void testInvertedTrack() {
         List<MuiSlider> sliderList = driver.findComponent(By.id("TrackInvertedSlider.js")).findComponent(By2.parent())
@@ -234,8 +234,8 @@ public class MuiSliderTestCases extends AbstractBrowserSupport {
     /**
      * Tests scale with a function.
      *
-     * @see <a href="https://mui.com/components/slider/#non-linear-scale">
-     * https://mui.com/components/slider/#non-linear-scale</a>
+     * @see <a href="https://mui.com/material-ui/react-slider/#non-linear-scale">
+     * https://mui.com/material-ui/react-slider/#non-linear-scale</a>
      */
     public void testNonLinearScale() {
         // x -> Math.log(x) / Math.log(2) is inverse function of Math.pow(2, x)
@@ -258,7 +258,7 @@ public class MuiSliderTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiSliderTestCases test = new MuiSliderTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/slider/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-slider/");
 
         test.testContinuousSliders();
         test.testDiscreteSliders();

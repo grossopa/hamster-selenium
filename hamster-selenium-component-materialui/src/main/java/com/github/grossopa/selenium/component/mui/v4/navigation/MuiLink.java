@@ -35,6 +35,7 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
  * The Link component allows you to easily customize anchor elements with your theme colors and typography styles.
@@ -69,7 +70,7 @@ public class MuiLink extends AbstractMuiComponent {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     /**
@@ -78,6 +79,6 @@ public class MuiLink extends AbstractMuiComponent {
      * @return the href attribute value
      */
     public String getHref() {
-        return this.getAttribute("href");
+        return this.getDomAttribute("href");
     }
 }

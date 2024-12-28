@@ -46,8 +46,8 @@ public class MuiFabTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basics.
      *
-     * @see <a href="https://mui.com/components/floating-action-button/#basic-fab">
-     * https://mui.com/components/floating-action-button/#basic-fab</a>
+     * @see <a href="https://mui.com/material-ui/react-floating-action-button/#basic-fab">
+     * https://mui.com/material-ui/react-floating-action-button/#basic-fab</a>
      */
     public void testBasicFab() {
         List<MuiFab> fabList = driver.findComponent(By.id("FloatingActionButtons.js")).findComponent(By2.parent())
@@ -55,10 +55,10 @@ public class MuiFabTestCases extends AbstractBrowserSupport {
         fabList.forEach(fab -> assertTrue(fab.validate()));
 
         assertEquals(4, fabList.size());
-        assertEquals("add", fabList.get(0).getAttribute("aria-label"));
-        assertEquals("edit", fabList.get(1).getAttribute("aria-label"));
+        assertEquals("add", fabList.get(0).getDomAttribute("aria-label"));
+        assertEquals("edit", fabList.get(1).getDomAttribute("aria-label"));
         assertEquals("navigate", fabList.get(2).getText().toLowerCase());
-        assertEquals("like", fabList.get(3).getAttribute("aria-label"));
+        assertEquals("like", fabList.get(3).getDomAttribute("aria-label"));
 
         assertTrue(fabList.get(0).isEnabled());
         assertTrue(fabList.get(1).isEnabled());
@@ -73,7 +73,7 @@ public class MuiFabTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiFabTestCases test = new MuiFabTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/floating-action-button/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-floating-action-button/");
 
         test.testBasicFab();
     }

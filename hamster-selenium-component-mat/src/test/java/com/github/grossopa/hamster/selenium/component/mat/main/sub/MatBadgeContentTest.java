@@ -60,13 +60,13 @@ class MatBadgeContentTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-badge-content");
+        when(element.getDomAttribute("class")).thenReturn("mat-badge-content");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("");
+        when(element.getDomAttribute("class")).thenReturn("");
         assertFalse(testSubject.validate());
     }
 

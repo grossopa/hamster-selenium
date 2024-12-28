@@ -70,6 +70,7 @@
     <module>hamster-selenium-component-antdesign</module>
     <module>hamster-selenium-component-mat</module>
     <module>hamster-selenium-examples</module>
+    <module>hamster-playwright</module>
   </modules>
 
   <properties>
@@ -77,9 +78,9 @@
     <java.version>11</java.version>
 
     <!-- project dependencies -->
-    <commons-lang3.version>3.12.0</commons-lang3.version>
+    <commons-lang3.version>3.17.0</commons-lang3.version>
     <commons-math3.version>3.6.1</commons-math3.version>
-    <selenium-java.version>4.6.0</selenium-java.version>
+    <selenium-java.version>4.27.0</selenium-java.version>
 
     <!-- testing dependencies -->
     <junit-jupiter.version>RELEASE</junit-jupiter.version>

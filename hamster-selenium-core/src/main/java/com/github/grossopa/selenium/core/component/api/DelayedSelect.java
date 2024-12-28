@@ -84,6 +84,15 @@ public interface DelayedSelect {
      */
     void selectByVisibleText(String text, Long delayInMillis);
 
+
+    /**
+     * Selects the option by visible text with delays
+     *
+     * @param text the text to be found
+     * @param delayInMillis the delay in milliseconds
+     */
+    void selectByContainsVisibleText(String text, Long delayInMillis);
+
     /**
      * Selects the option by option index with delays
      *
@@ -127,8 +136,16 @@ public interface DelayedSelect {
     /**
      * Deselects the option by visible text and with delays
      *
-     * @param text the text of element ot be deselected
+     * @param text the text of element to be deselected
      * @param delayInMillis the delays in milliseconds
      */
     void deselectByVisibleText(String text, Long delayInMillis);
+
+    /**
+     * Deselects the option by visible text and with delays
+     *
+     * @param text the text of element to be deselected
+     * @param delayInMillis the delays in milliseconds
+     */
+    void deSelectByContainsVisibleText(String text, Long delayInMillis);
 }

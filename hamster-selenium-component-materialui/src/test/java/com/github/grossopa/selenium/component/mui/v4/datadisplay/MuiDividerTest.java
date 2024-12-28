@@ -31,8 +31,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -53,13 +52,13 @@ class MuiDividerTest {
     @BeforeEach
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(element.getAttribute("class")).thenReturn("MuiDivider-root MuiDivider-flexItem MuiDivider-vertical");
+        when(element.getDomAttribute("class")).thenReturn("MuiDivider-root MuiDivider-flexItem MuiDivider-vertical");
         testSubject = new MuiDivider(element, driver, config);
     }
 
     @Test
     void versions() {
-        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+        assertArrayEquals(new MuiVersion[]{V4, V5, V6}, testSubject.versions().toArray());
     }
 
     @Test
@@ -74,7 +73,7 @@ class MuiDividerTest {
 
     @Test
     void isVerticalFalse() {
-        when(element.getAttribute("class")).thenReturn("MuiDivider-root MuiDivider-flexItem");
+        when(element.getDomAttribute("class")).thenReturn("MuiDivider-root MuiDivider-flexItem");
         assertFalse(testSubject.isVertical());
     }
 

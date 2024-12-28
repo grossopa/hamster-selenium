@@ -37,6 +37,7 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
  * Avatars are found throughout material design with uses in everything from tables to dialog menus.
@@ -71,7 +72,7 @@ public class MuiAvatar extends AbstractMuiComponent {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     @Override
@@ -96,7 +97,7 @@ public class MuiAvatar extends AbstractMuiComponent {
      * @return the alt attribute of the img element.
      */
     public String getAlt() {
-        return getImg().getAttribute("alt");
+        return getImg().getDomAttribute("alt");
     }
 
     /**
@@ -106,6 +107,6 @@ public class MuiAvatar extends AbstractMuiComponent {
      * @return the src attribute of the img element.
      */
     public String getSrc() {
-        return getImg().getAttribute("src");
+        return getImg().getDomAttribute("src");
     }
 }

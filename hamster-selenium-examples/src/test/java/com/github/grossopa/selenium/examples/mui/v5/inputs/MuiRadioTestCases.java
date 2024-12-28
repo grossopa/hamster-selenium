@@ -48,8 +48,8 @@ public class MuiRadioTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic radio group feature.
      *
-     * @see <a href="https://mui.com/components/radio-buttons/#radio-group">
-     * https://mui.com/components/radio-buttons/#radio-group</a>
+     * @see <a href="https://mui.com/material-ui/react-radio-button/#radio-group">
+     * https://mui.com/material-ui/react-radio-button/#radio-group</a>
      */
     public void testRadioGroup() {
         MuiRadioGroup radioGroup = driver.findComponent(By.id("RadioButtonsGroup.js")).findComponent(By2.parent())
@@ -71,8 +71,8 @@ public class MuiRadioTestCases extends AbstractBrowserSupport {
     /**
      * Tests of the enabled & disabled feature.
      *
-     * @see <a href="https://mui.com/components/radio-buttons/#direction">
-     * https://mui.com/components/radio-buttons/#direction</a>
+     * @see <a href="https://mui.com/material-ui/react-radio-button/#direction">
+     * https://mui.com/material-ui/react-radio-button/#direction</a>
      */
     public void testDisabled() {
         MuiRadioGroup radioGroup = driver.findComponent(By.id("RowRadioButtonsGroup.js")).findComponent(By2.parent())
@@ -91,7 +91,7 @@ public class MuiRadioTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiRadioTestCases test = new MuiRadioTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/radio-buttons/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-radio-button/");
 
         test.testRadioGroup();
         test.testDisabled();

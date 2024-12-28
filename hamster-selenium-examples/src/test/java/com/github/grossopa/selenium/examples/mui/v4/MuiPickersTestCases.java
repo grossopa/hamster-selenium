@@ -56,7 +56,7 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
         MuiTextField inputField = driver.findComponent(By2.xpath("//label[text()='Year only']"))
                 .findComponent(By2.parent()).findComponent(By.className("MuiInput-root")).as(mui()).toTextField();
 
-        assertEquals("2022", inputField.getInput().getAttribute("value"));
+        assertEquals("2022", inputField.getInput().getDomAttribute("value"));
         inputField.click();
 
         MuiDialogLocator locator = new MuiDialogLocator(driver, new MuiConfig());
@@ -70,7 +70,7 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
 
         dialog.getOkButton().click();
 
-        assertEquals("1905", inputField.getInput().getAttribute("value"));
+        assertEquals("1905", inputField.getInput().getDomAttribute("value"));
     }
 
     public void testBasicExample() {
@@ -79,7 +79,7 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
         MuiTextField inputField = driver.findComponent(By2.xpath("//label[text()='Basic example']"))
                 .findComponent(By2.parent()).findComponent(By.className("MuiInput-root")).as(mui()).toTextField();
 
-        assertEquals(getCurrentDayInString(), inputField.getInput().getAttribute("value"));
+        assertEquals(getCurrentDayInString(), inputField.getInput().getDomAttribute("value"));
 
         driver.moveTo(inputField);
         inputField.click();
@@ -108,7 +108,7 @@ public class MuiPickersTestCases extends AbstractBrowserSupport {
         Calendar calendar2 = Calendar.getInstance();
         calendar2.set(Calendar.MONTH, calendar2.get(Calendar.MONTH) - 1);
         calendar2.set(Calendar.DAY_OF_MONTH, 14);
-        assertEquals(getDayInString(calendar2), inputField.getInput().getAttribute("value"));
+        assertEquals(getDayInString(calendar2), inputField.getInput().getDomAttribute("value"));
     }
 
     private String getCurrentDayInString() {

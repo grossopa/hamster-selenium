@@ -34,6 +34,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static com.github.grossopa.selenium.core.locator.By2.axesBuilder;
 
 /**
@@ -57,7 +58,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V5);
+        return EnumSet.of(V5, V6);
     }
 
     /**
@@ -68,7 +69,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
      */
     @Override
     public String getOrientation() {
-        return getInputElement().getAttribute("aria-orientation");
+        return getInputElement().getDomAttribute("aria-orientation");
     }
 
     /**
@@ -78,7 +79,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
      */
     @Override
     public String getValueText() {
-        return getInputElement().getAttribute("aria-valuetext");
+        return getInputElement().getDomAttribute("aria-valuetext");
     }
 
     /**
@@ -88,7 +89,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
      */
     @Override
     public String getMaxValue() {
-        return getInputElement().getAttribute("aria-valuemax");
+        return getInputElement().getDomAttribute("aria-valuemax");
     }
 
     /**
@@ -98,7 +99,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
      */
     @Override
     public String getMinValue() {
-        return getInputElement().getAttribute("aria-valuemin");
+        return getInputElement().getDomAttribute("aria-valuemin");
     }
 
     /**
@@ -108,7 +109,7 @@ public class MuiSliderThumbV5 extends MuiSliderThumb {
      */
     @Override
     public String getValue() {
-        return getInputElement().getAttribute("aria-valuenow");
+        return getInputElement().getDomAttribute("aria-valuenow");
     }
 
     /**

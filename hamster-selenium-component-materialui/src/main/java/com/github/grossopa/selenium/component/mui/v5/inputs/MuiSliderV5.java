@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.function.UnaryOperator;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
  * Sliders allow users to make selections from a range of values.
@@ -60,7 +61,7 @@ public class MuiSliderV5 extends MuiSlider {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V5);
+        return EnumSet.of(V5, V6);
     }
 
     /**

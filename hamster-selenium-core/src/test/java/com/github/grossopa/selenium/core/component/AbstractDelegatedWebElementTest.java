@@ -96,9 +96,9 @@ class AbstractDelegatedWebElementTest {
     }
 
     @Test
-    void getAttribute() {
-        when(element.getAttribute("attribute-1")).thenReturn("some-value");
-        assertEquals("some-value", testSubject.getAttribute("attribute-1"));
+    void getDomAttribute() {
+        when(element.getDomAttribute("attribute-1")).thenReturn("some-value");
+        assertEquals("some-value", testSubject.getDomAttribute("attribute-1"));
     }
 
     @Test
@@ -228,8 +228,8 @@ class AbstractDelegatedWebElementTest {
     }
 
     @Test
-    void getDomAttribute() {
-        when(element.getDomAttribute("some-attr")).thenReturn("some-value");
-        assertEquals("some-value", testSubject.getDomAttribute("some-attr"));
+    void getAttribute() {
+        when(element.getAttribute("some-attr")).thenReturn("some-value");
+        assertEquals("some-value", testSubject.getAttribute("some-attr"));
     }
 }

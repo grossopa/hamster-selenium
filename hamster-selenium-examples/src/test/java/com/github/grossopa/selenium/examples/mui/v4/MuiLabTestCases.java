@@ -56,14 +56,14 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
         assertTrue(autoComplete.validate());
         assertEquals("Combo box", autoComplete.getLabel().getText());
 
-        assertEquals("", autoComplete.getInput().getAttribute("value"));
+        assertEquals("", autoComplete.getInput().getDomAttribute("value"));
         autoComplete.selectByIndex(0);
         driver.threadSleep(200L);
-        assertEquals("The Shawshank Redemption", autoComplete.getInput().getAttribute("value"));
+        assertEquals("The Shawshank Redemption", autoComplete.getInput().getDomAttribute("value"));
         autoComplete.closeOptions();
 
         autoComplete.getClearButton().click();
-        assertEquals("", autoComplete.getInput().getAttribute("value"));
+        assertEquals("", autoComplete.getInput().getDomAttribute("value"));
 
         autoComplete.getInput().sendKeys("Godfat");
         assertEquals("The Godfather", autoComplete.getOptions2().get(0).getText());
@@ -72,7 +72,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
 
         autoComplete.getClearButton().click();
         autoComplete.selectByVisibleText("3 Idiots");
-        assertEquals("3 Idiots", autoComplete.getInput().getAttribute("value"));
+        assertEquals("3 Idiots", autoComplete.getInput().getDomAttribute("value"));
 
         autoComplete.getInput()
                 .sendKeys(BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE,
@@ -97,14 +97,14 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
         assertTrue(autoComplete.validate());
         assertEquals("Combo box", autoComplete.getLabel().getText());
 
-        assertEquals("", autoComplete.getInput().getAttribute("value"));
+        assertEquals("", autoComplete.getInput().getDomAttribute("value"));
         autoComplete.selectByIndex(0, 500L);
-        assertEquals("The Shawshank Redemption", autoComplete.getInput().getAttribute("value"));
+        assertEquals("The Shawshank Redemption", autoComplete.getInput().getDomAttribute("value"));
         autoComplete.closeOptions(500L);
 
 
         autoComplete.getClearButton().click();
-        assertEquals("", autoComplete.getInput().getAttribute("value"));
+        assertEquals("", autoComplete.getInput().getDomAttribute("value"));
 
         autoComplete.getInput().sendKeys("Godfat");
         assertEquals("The Godfather", autoComplete.getOptions2(200L).get(0).getText());
@@ -113,7 +113,7 @@ public class MuiLabTestCases extends AbstractBrowserSupport {
 
         autoComplete.getClearButton().click();
         autoComplete.selectByVisibleText("3 Idiots");
-        assertEquals("3 Idiots", autoComplete.getInput().getAttribute("value"));
+        assertEquals("3 Idiots", autoComplete.getInput().getDomAttribute("value"));
 
         autoComplete.getInput()
                 .sendKeys(BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE, BACK_SPACE,

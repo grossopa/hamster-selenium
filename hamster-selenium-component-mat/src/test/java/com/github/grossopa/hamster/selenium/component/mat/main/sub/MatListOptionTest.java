@@ -65,26 +65,26 @@ class MatListOptionTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-list-option");
+        when(element.getDomAttribute("class")).thenReturn("mat-list-option");
         assertTrue(testSubject.validate());
     }
 
 
     @Test
     void validateNegative() {
-        when(element.getAttribute("class")).thenReturn("mat-list-option-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-list-option-23");
         assertFalse(testSubject.validate());
     }
 
     @Test
     void isSelected() {
-        when(element.getAttribute("aria-selected")).thenReturn("true");
+        when(element.getDomAttribute("aria-selected")).thenReturn("true");
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedNegative() {
-        when(element.getAttribute("aria-selected")).thenReturn("");
+        when(element.getDomAttribute("aria-selected")).thenReturn("");
         assertFalse(testSubject.isSelected());
     }
 
@@ -96,13 +96,13 @@ class MatListOptionTest {
 
     @Test
     void isEnabledNegative() {
-        when(element.getAttribute("aria-disabled")).thenReturn("true");
+        when(element.getDomAttribute("aria-disabled")).thenReturn("true");
         assertFalse(testSubject.isEnabled());
     }
 
     @Test
     void isEnabled() {
-        when(element.getAttribute("aria-disabled")).thenReturn("");
+        when(element.getDomAttribute("aria-disabled")).thenReturn("");
         assertTrue(testSubject.isEnabled());
     }
 

@@ -60,13 +60,13 @@ class MatOverlayContainerTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("cdk-overlay-container");
+        when(element.getDomAttribute("class")).thenReturn("cdk-overlay-container");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("");
+        when(element.getDomAttribute("class")).thenReturn("");
         assertFalse(testSubject.validate());
     }
 

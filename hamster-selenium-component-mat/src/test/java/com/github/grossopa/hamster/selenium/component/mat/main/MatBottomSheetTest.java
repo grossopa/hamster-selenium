@@ -61,13 +61,13 @@ class MatBottomSheetTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-bottom-sheet-container");
+        when(element.getDomAttribute("class")).thenReturn("mat-bottom-sheet-container");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-bottom-sheet-container-123");
+        when(element.getDomAttribute("class")).thenReturn("mat-bottom-sheet-container-123");
         assertFalse(testSubject.validate());
     }
 

@@ -66,7 +66,7 @@ class MuiPickersDayTest {
 
     @Test
     void getDateLabel() {
-        when(element.getAttribute("aria-label")).thenReturn("Oct 13, 2021");
+        when(element.getDomAttribute("aria-label")).thenReturn("Oct 13, 2021");
         assertEquals("Oct 13, 2021", testSubject.getDateLabel());
     }
 

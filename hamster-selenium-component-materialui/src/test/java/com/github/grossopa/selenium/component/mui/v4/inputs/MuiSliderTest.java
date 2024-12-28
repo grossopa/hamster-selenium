@@ -127,12 +127,12 @@ class MuiSliderTest {
         when(element.findElements(sliderThumbLocator)).thenReturn(asList(thumb1, thumb2));
         when(element.findElement(By2.attrExact("type", "hidden", "input"))).thenReturn(hiddenInput);
         when(element.getRect()).then(a -> new Rectangle(x, y, height, width));
-        when(element.getAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary");
-        when(hiddenInput.getAttribute("value")).then(a -> rawValue1);
+        when(element.getDomAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary");
+        when(hiddenInput.getDomAttribute("value")).then(a -> rawValue1);
 
-        when(thumb1.getAttribute("aria-valuemin")).then(a -> minValue.toString());
-        when(thumb1.getAttribute("aria-valuemax")).then(a -> maxValue.toString());
-        when(thumb1.getAttribute("aria-valuenow")).then(a -> rawValue1);
+        when(thumb1.getDomAttribute("aria-valuemin")).then(a -> minValue.toString());
+        when(thumb1.getDomAttribute("aria-valuemax")).then(a -> maxValue.toString());
+        when(thumb1.getDomAttribute("aria-valuenow")).then(a -> rawValue1);
         when(thumb1.getRect()).then(a -> {
             double currentPercentage = (Double.parseDouble(rawValue1) - minValue) / (maxValue - minValue);
 
@@ -149,9 +149,9 @@ class MuiSliderTest {
             return new Rectangle(thumbX, thumbY, thumbRadius << 1, thumbRadius << 1);
         });
 
-        when(thumb2.getAttribute("aria-valuemin")).then(a -> minValue.toString());
-        when(thumb2.getAttribute("aria-valuemax")).then(a -> maxValue.toString());
-        when(thumb2.getAttribute("aria-valuenow")).then(a -> rawValue2);
+        when(thumb2.getDomAttribute("aria-valuemin")).then(a -> minValue.toString());
+        when(thumb2.getDomAttribute("aria-valuemax")).then(a -> maxValue.toString());
+        when(thumb2.getDomAttribute("aria-valuenow")).then(a -> rawValue2);
         when(thumb2.getRect()).then(a -> {
             double currentPercentage = (Double.parseDouble(rawValue2) - minValue) / (maxValue - minValue);
 
@@ -243,25 +243,25 @@ class MuiSliderTest {
 
     @Test
     void isVertical() {
-        when(element.getAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary MuiSlider-vertical");
+        when(element.getDomAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary MuiSlider-vertical");
         assertTrue(testSubject.isVertical());
     }
 
     @Test
     void isVerticalNegative() {
-        when(element.getAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary");
+        when(element.getDomAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary");
         assertFalse(testSubject.isVertical());
     }
 
     @Test
     void isInverted() {
-        when(element.getAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary MuiSlider-trackInverted");
+        when(element.getDomAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary MuiSlider-trackInverted");
         assertTrue(testSubject.isInverted());
     }
 
     @Test
     void isInvertedNegative() {
-        when(element.getAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary");
+        when(element.getDomAttribute("class")).then(a -> "MuiSlider-root MuiSlider-colorPrimary");
         assertFalse(testSubject.isInverted());
     }
 

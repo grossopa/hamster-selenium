@@ -72,56 +72,56 @@ class MuiConfigTest {
     @Test
     void isChecked() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-checked");
+        when(component.getDomAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-checked");
         assertTrue(testSubject.isChecked(component));
     }
 
     @Test
     void isCheckedNegative() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-some");
+        when(component.getDomAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-some");
         assertFalse(testSubject.isChecked(component));
     }
 
     @Test
     void isSelected() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-selected");
+        when(component.getDomAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-selected");
         assertTrue(testSubject.isSelected(component));
     }
 
     @Test
     void isSelectedNegative() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-some");
+        when(component.getDomAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-some");
         assertFalse(testSubject.isSelected(component));
     }
 
     @Test
     void isDisabled() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-disabled");
+        when(component.getDomAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-disabled");
         assertTrue(testSubject.isDisabled(component));
     }
 
     @Test
     void isDisabledNegative() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-some");
+        when(component.getDomAttribute(CLASS)).thenReturn("some-other some-thing Muiabc Mui-some");
         assertFalse(testSubject.isDisabled(component));
     }
 
     @Test
     void isGridContainer() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("MuiGrid-container Muiabc Mui-some");
+        when(component.getDomAttribute(CLASS)).thenReturn("MuiGrid-container Muiabc Mui-some");
         assertTrue(testSubject.isGridContainer(component));
     }
 
     @Test
     void isGridItem() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("MuiGrid-item Muiabc Mui-some");
+        when(component.getDomAttribute(CLASS)).thenReturn("MuiGrid-item Muiabc Mui-some");
         assertTrue(testSubject.isGridItem(component));
     }
 
@@ -148,7 +148,7 @@ class MuiConfigTest {
     @Test
     void validateComponentByCss() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("MuiPager-root MuiSomeOther");
+        when(component.getDomAttribute(CLASS)).thenReturn("MuiPager-root MuiSomeOther");
         assertTrue(testSubject.validateComponentByCss(component, "Pager"));
     }
 
@@ -156,21 +156,21 @@ class MuiConfigTest {
     @Test
     void validateComponentByCssNegative() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("MuiSelect-root MuiSomeOther");
+        when(component.getDomAttribute(CLASS)).thenReturn("MuiSelect-root MuiSomeOther");
         assertFalse(testSubject.validateComponentByCss(component, "Pager"));
     }
 
     @Test
     void validateByCss() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("MuiPager-root MuiSomeOther");
+        when(component.getDomAttribute(CLASS)).thenReturn("MuiPager-root MuiSomeOther");
         assertTrue(testSubject.validateByCss(component, "MuiSomeOther"));
     }
 
     @Test
     void validateByCssNegative() {
         WebComponent component = mock(WebComponent.class);
-        when(component.getAttribute(CLASS)).thenReturn("MuiSelect-root MuiSomeOther");
+        when(component.getDomAttribute(CLASS)).thenReturn("MuiSelect-root MuiSomeOther");
         assertFalse(testSubject.validateComponentByCss(component, "Pager"));
     }
 

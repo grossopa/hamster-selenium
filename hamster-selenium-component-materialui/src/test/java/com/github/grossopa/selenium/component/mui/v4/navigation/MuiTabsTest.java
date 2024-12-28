@@ -36,8 +36,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.Optional;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
@@ -65,7 +64,7 @@ class MuiTabsTest {
 
     @Test
     void versions() {
-        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+        assertArrayEquals(new MuiVersion[]{V4, V5, V6}, testSubject.versions().toArray());
     }
 
     @Test
@@ -137,14 +136,14 @@ class MuiTabsTest {
     @Test
     void isVertical() {
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(element.getAttribute("class")).thenReturn("MuiTabs-vertical MuiTabs-other");
+        when(element.getDomAttribute("class")).thenReturn("MuiTabs-vertical MuiTabs-other");
         assertTrue(testSubject.isVertical());
     }
 
     @Test
     void isVerticalNegative() {
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(element.getAttribute("class")).thenReturn("MuiTabs-some MuiTabs-other");
+        when(element.getDomAttribute("class")).thenReturn("MuiTabs-some MuiTabs-other");
         assertFalse(testSubject.isVertical());
     }
 

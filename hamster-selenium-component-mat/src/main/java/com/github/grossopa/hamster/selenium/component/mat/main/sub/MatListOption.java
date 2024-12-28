@@ -74,12 +74,12 @@ public class MatListOption extends AbstractMatComponent {
 
     @Override
     public boolean isSelected() {
-        return "true".equalsIgnoreCase(this.getAttribute("aria-selected"));
+        return "true".equalsIgnoreCase(this.getDomAttribute("aria-selected"));
     }
 
     @Override
     public boolean isEnabled() {
-        return !"true".equalsIgnoreCase(this.getAttribute("aria-disabled"));
+        return !"true".equalsIgnoreCase(this.getDomAttribute("aria-disabled"));
     }
 
     /**

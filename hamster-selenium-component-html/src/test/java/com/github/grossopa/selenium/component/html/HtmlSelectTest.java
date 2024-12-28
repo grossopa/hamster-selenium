@@ -44,6 +44,7 @@ import static org.mockito.Mockito.*;
  * @author Jack Yin
  * @since 1.0
  */
+@SuppressWarnings("deprecation")
 class HtmlSelectTest {
 
     HtmlSelect testSubject;
@@ -53,8 +54,10 @@ class HtmlSelectTest {
 
     private WebElement createOption(String value, String label, Integer index, boolean selected) {
         WebElement element = mock(WebElement.class);
+        when(element.getDomAttribute("value")).thenReturn(value);
         when(element.getAttribute("value")).thenReturn(value);
         when(element.getText()).thenReturn(label);
+        when(element.getDomAttribute("index")).thenReturn(String.valueOf(index));
         when(element.getAttribute("index")).thenReturn(String.valueOf(index));
         when(element.isSelected()).thenReturn(selected);
         when(element.isEnabled()).thenReturn(true);

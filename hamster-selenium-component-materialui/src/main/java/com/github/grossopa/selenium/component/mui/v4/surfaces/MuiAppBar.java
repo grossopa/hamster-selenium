@@ -35,7 +35,7 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-
+import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 /**
  * The App Bar displays information and actions relating to the current screen.
  *
@@ -62,7 +62,7 @@ public class MuiAppBar extends AbstractMuiComponent {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     @Override

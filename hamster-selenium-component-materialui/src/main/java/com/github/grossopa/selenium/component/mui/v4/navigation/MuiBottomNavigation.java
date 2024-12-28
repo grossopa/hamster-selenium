@@ -35,8 +35,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -67,7 +66,7 @@ public class MuiBottomNavigation extends AbstractMuiComponent {
 
     @Override
     public Set<MuiVersion> versions() {
-        return EnumSet.of(V4, V5);
+        return EnumSet.of(V4, V5, V6);
     }
 
     @Override

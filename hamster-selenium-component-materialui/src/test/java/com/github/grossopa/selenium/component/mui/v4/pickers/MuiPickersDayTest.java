@@ -74,13 +74,13 @@ class MuiPickersDayTest {
 
     @Test
     void isSelected() {
-        when(element.getAttribute("class")).thenReturn("dddPickersDay-daySelected");
+        when(element.getDomAttribute("class")).thenReturn("dddPickersDay-daySelected");
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedFalse() {
-        when(element.getAttribute("class")).thenReturn("dddPickersDay-daySelectedfff");
+        when(element.getDomAttribute("class")).thenReturn("dddPickersDay-daySelectedfff");
         assertFalse(testSubject.isSelected());
     }
 

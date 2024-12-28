@@ -93,7 +93,7 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
      */
     @Override
     public String getValue() {
-        return getAttribute("aria-valuenow");
+        return getDomAttribute("aria-valuenow");
     }
 
     /**
@@ -145,7 +145,7 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
      */
     @Override
     public String getMinValue() {
-        return getAttribute("aria-valuemin");
+        return getDomAttribute("aria-valuemin");
     }
 
     /**
@@ -197,7 +197,7 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
      */
     @Override
     public String getMaxValue() {
-        return getAttribute("aria-valuemax");
+        return getDomAttribute("aria-valuemax");
     }
 
     /**

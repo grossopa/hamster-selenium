@@ -48,8 +48,8 @@ public class MuiSnackbarTestCases extends AbstractBrowserSupport {
     /**
      * Tests the simple Snackbars.
      *
-     * @see <a href="https://mui.com/components/snackbars/#simple-snackbars">
-     * https://mui.com/components/snackbars/#simple-snackbars</a>
+     * @see <a href="https://mui.com/material-ui/react-snackbar/#simple-snackbars">
+     * https://mui.com/material-ui/react-snackbar/#simple-snackbars</a>
      */
     public void testSimpleSnackbars() {
         MuiButton simpleSnackbarButton = driver.findComponent(By.id("SimpleSnackbar.js")).findComponent(By2.parent())
@@ -79,7 +79,7 @@ public class MuiSnackbarTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiSnackbarTestCases test = new MuiSnackbarTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/snackbars/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-snackbar/");
 
         test.testSimpleSnackbars();
     }

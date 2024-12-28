@@ -44,8 +44,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 import java.util.function.Function;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -77,7 +76,7 @@ class MuiSelectTest {
 
     private WebComponent createOptions(String value, String label, boolean selected) {
         WebComponent option = mock(WebComponent.class);
-        when(option.getAttribute("attr-val")).thenReturn(value);
+        when(option.getDomAttribute("attr-val")).thenReturn(value);
         when(option.getText()).thenReturn(label);
         when(config.isSelected(option)).thenReturn(selected);
         doAnswer(a -> {
@@ -146,7 +145,7 @@ class MuiSelectTest {
             return isTrueFunction.apply(driver);
         });
 
-        when(optionContainer.getAttribute("class")).thenReturn("MuiPopover-root");
+        when(optionContainer.getDomAttribute("class")).thenReturn("MuiPopover-root");
         when(optionContainer.isDisplayed()).thenReturn(true);
 
         when(config.getOverlayAbsolutePath()).thenReturn("/html/body");
@@ -183,7 +182,7 @@ class MuiSelectTest {
 
     @Test
     void versions() {
-        assertArrayEquals(new MuiVersion[]{V4, V5}, testSubject.versions().toArray());
+        assertArrayEquals(new MuiVersion[]{V4, V5, V6}, testSubject.versions().toArray());
     }
 
     @Test

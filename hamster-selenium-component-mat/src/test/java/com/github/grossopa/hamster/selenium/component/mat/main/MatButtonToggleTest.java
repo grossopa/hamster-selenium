@@ -52,7 +52,7 @@ class MatButtonToggleTest {
     @BeforeEach
     void setUp() {
         when(config.getCssPrefix()).thenReturn("mat-");
-        when(element.getAttribute("class")).thenReturn("mat-button-toggle");
+        when(element.getDomAttribute("class")).thenReturn("mat-button-toggle");
         when(element.findElement(By.xpath("./button"))).thenReturn(buttonElement);
         testSubject = new MatButtonToggle(element, driver, config);
     }
@@ -64,13 +64,13 @@ class MatButtonToggleTest {
 
     @Test
     void validate() {
-        when(element.getAttribute("class")).thenReturn("mat-button-toggle adb");
+        when(element.getDomAttribute("class")).thenReturn("mat-button-toggle adb");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getAttribute("class")).thenReturn("mat-button-toggle-123 adb");
+        when(element.getDomAttribute("class")).thenReturn("mat-button-toggle-123 adb");
         assertFalse(testSubject.validate());
     }
 
@@ -82,7 +82,7 @@ class MatButtonToggleTest {
 
     @Test
     void isSelected() {
-        when(element.getAttribute("class")).thenReturn("mat-button-toggle mat-button-toggle-checked");
+        when(element.getDomAttribute("class")).thenReturn("mat-button-toggle mat-button-toggle-checked");
         assertTrue(testSubject.isSelected());
     }
 

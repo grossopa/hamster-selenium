@@ -43,18 +43,19 @@ public abstract class AbstractBrowserSupport {
 
     public static final String EXECUTABLE_PATH = "D://software/drivers/chromedriver-84.exe";
 
-    protected ComponentWebDriver driver;
+    protected static ComponentWebDriver driver;
 
     public void setUpDriver(WebDriverType type) {
-        DriverConfig config = new DriverConfig();
-        config.setDriverExecutablePath(EXECUTABLE_PATH);
-        config.setDriverVersion("85");
-        config.setType(type);
+        if (driver == null) {
+            DriverConfig config = new DriverConfig();
+            config.setDriverExecutablePath(EXECUTABLE_PATH);
+            config.setDriverVersion("85");
+            config.setType(type);
 
-        Capabilities options = config.getType().apply(new CreateOptionsAction(), null);
-        WebDriver temp = config.getType().apply(new CreateWebDriverFromRunningServiceAction(),
-                new RunningServiceParams(options, "http://localhost:38383"));
-
-        driver = new DefaultComponentWebDriver(new InterceptingWebDriver(temp, new LoggingHandler(0L)));
+            Capabilities options = config.getType().apply(new CreateOptionsAction(), null);
+            WebDriver temp = config.getType().apply(new CreateWebDriverFromRunningServiceAction(),
+                    new RunningServiceParams(options, "http://localhost:38383"));
+            driver = new DefaultComponentWebDriver(new InterceptingWebDriver(temp, new LoggingHandler(0L)));
+        }
     }
 }

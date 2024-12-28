@@ -46,8 +46,8 @@ public class MuiChipTestCases extends AbstractBrowserSupport {
     /**
      * Tests the basic chip.
      *
-     * @see <a href="https://mui.com/components/chips/#basic-chip">
-     * https://mui.com/components/chips/#basic-chip</a>
+     * @see <a href="https://mui.com/material-ui/react-chip/#basic-chip">
+     * https://mui.com/material-ui/react-chip/#basic-chip</a>
      */
     public void testBasicChip() {
         List<MuiChip> chipList = driver.findComponent(By.id("BasicChips.js")).findComponent(By2.parent())
@@ -66,8 +66,8 @@ public class MuiChipTestCases extends AbstractBrowserSupport {
     /**
      * Tests the deletable chips.
      *
-     * @see <a href="https://mui.com/components/chips/#deletable">
-     * https://mui.com/components/chips/#deletable</a>
+     * @see <a href="https://mui.com/material-ui/react-chip/#deletable">
+     * https://mui.com/material-ui/react-chip/#deletable</a>
      */
     public void testDeletable() {
         List<MuiChip> chipList = driver.findComponent(By.id("DeletableChips.js")).findComponent(By2.parent())
@@ -87,8 +87,8 @@ public class MuiChipTestCases extends AbstractBrowserSupport {
     /**
      * Tests the avatar chips.
      *
-     * @see <a href="https://mui.com/components/chips/#avatar-chip">
-     * https://mui.com/components/chips/#avatar-chip</a>
+     * @see <a href="https://mui.com/material-ui/react-chip/#avatar-chip">
+     * https://mui.com/material-ui/react-chip/#avatar-chip</a>
      */
     public void testAvatarChips() {
         List<MuiChip> chipList = driver.findComponent(By.id("AvatarChips.js")).findComponent(By2.parent())
@@ -108,8 +108,8 @@ public class MuiChipTestCases extends AbstractBrowserSupport {
     /**
      * Tests the icon chips.
      *
-     * @see <a href="https://mui.com/components/chips/#icon-chip">
-     * https://mui.com/components/chips/#icon-chip</a>
+     * @see <a href="https://mui.com/material-ui/react-chip/#icon-chip">
+     * https://mui.com/material-ui/react-chip/#icon-chip</a>
      */
     public void testIconChips() {
         List<MuiChip> chipList = driver.findComponent(By.id("IconChips.js")).findComponent(By2.parent())
@@ -129,7 +129,7 @@ public class MuiChipTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiChipTestCases test = new MuiChipTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/components/chips/");
+        test.driver.navigate().to("https://mui.com/material-ui/react-chip/");
 
         test.testBasicChip();
         test.testAvatarChips();
