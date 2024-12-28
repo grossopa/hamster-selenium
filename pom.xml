@@ -29,7 +29,7 @@
   <groupId>com.github.grossopa</groupId>
   <artifactId>hamster-selenium-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.12.0-SNAPSHOT</version>
+  <version>1.12.0</version>
 
   <name>hamster-selenium-parent</name>
   <description>The framework to support selenium to be able to test against web applications built from modern
@@ -60,7 +60,7 @@
     <connection>scm:git:git@github.com:grossopa/hamster-selenium.git</connection>
     <developerConnection>scm:git:git@github.com:grossopa/hamster-selenium.git</developerConnection>
     <url>http://github.com/grossopa/hamster-selenium/tree/main</url>
-    <tag>1.8.1</tag>
+    <tag>1.12.0</tag>
   </scm>
 
   <modules>
