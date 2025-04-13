@@ -9,3 +9,9 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
+<<<<<<< HEAD
+=======
+
+*.iml
+.idea
+>>>>>>> 4110bff (The initial WIP version contains support for pure HTML and Material UI)
