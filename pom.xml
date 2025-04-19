@@ -35,7 +35,7 @@
   <description>The framework to support selenium to be able to test against web applications built from modern
     front-end framework such as Material-UI
   </description>
-  <url>https://github.com/grossopa/hamster-selenium</url>
+  <url>https://gitee.com/jackyinzs/hamster-selenium</url>
 
   <licenses>
     <license>
@@ -47,7 +47,7 @@
   <developers>
     <developer>
       <name>Jack Yin</name>
-      <email>grossopaforever@gmail.com</email>
+      <email>jackyinzs@163.com</email>
       <organization>N/A</organization>
       <organizationUrl>https://github.com/grossopa/hamster-selenium/</organizationUrl>
       <roles>
@@ -57,10 +57,10 @@
   </developers>
 
   <scm>
-    <connection>scm:git:git@github.com:grossopa/hamster-selenium.git</connection>
-    <developerConnection>scm:git:git@github.com:grossopa/hamster-selenium.git</developerConnection>
-    <url>http://github.com/grossopa/hamster-selenium/tree/main</url>
-    <tag>1.8.1</tag>
+    <connection>scm:git:git@gitee.com:jackyinzs/hamster-selenium.git</connection>
+    <developerConnection>scm:git:git@gitee.com:jackyinzs/hamster-selenium.git</developerConnection>
+    <url>https://gitee.com/jackyinzs/hamster-selenium</url>
+    <tag>HEAD</tag>
   </scm>
 
   <modules>
@@ -109,8 +109,7 @@
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
     <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/jacoco.xml
-    </sonar.coverage.jacoco.xmlReportPaths>
+    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     <sonar.language>java</sonar.language>
   </properties>
 
