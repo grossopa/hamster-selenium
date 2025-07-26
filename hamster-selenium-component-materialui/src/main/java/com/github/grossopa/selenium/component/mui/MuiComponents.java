@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -70,8 +70,62 @@ import static java.util.Objects.requireNonNull;
 /**
  * Contains the definition of Material UI components.
  *
+ * <p>This class serves as the main entry point for creating and working with Material UI components
+ * in web automation tests. It provides factory methods for creating all supported MUI component types
+ * for both v4 and v5 versions of the library.</p>
+ *
+ * <p>The class is organized by component categories following the Material UI documentation structure:
+ * <ul>
+ *   <li><strong>Inputs:</strong> Buttons, TextFields, Selects, Checkboxes, Switches, Sliders, etc.</li>
+ *   <li><strong>Data Display:</strong> Lists, Tables, Chips, Avatars, Icons, etc.</li>
+ *   <li><strong>Feedback:</strong> Dialogs, Snackbars, Backdrops, Progress indicators, etc.</li>
+ *   <li><strong>Navigation:</strong> Tabs, Menus, Drawers, Breadcrumbs, etc.</li>
+ *   <li><strong>Layout:</strong> Grids, Containers, Paper, etc.</li>
+ *   <li><strong>Surfaces:</strong> AppBars, Toolbars, Cards, etc.</li>
+ *   <li><strong>Pickers:</strong> Date/time pickers and related components</li>
+ *   <li><strong>Lab Components:</strong> Experimental and lab components like Autocomplete</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Key features:
+ * <ul>
+ *   <li><strong>Version Support:</strong> Supports both MUI v4 and v5 with version-specific implementations</li>
+ *   <li><strong>Configuration:</strong> Customizable behavior through {@link MuiConfig} and related config classes</li>
+ *   <li><strong>Actions:</strong> Specialized actions for complex interactions like opening/closing options</li>
+ *   <li><strong>Finders:</strong> Specialized finders for locating modals and other overlay components</li>
+ *   <li><strong>Validation:</strong> Built-in validation to ensure components match expected MUI patterns</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Example usage:
+ * <pre>{@code
+ * // Create MUI components instance
+ * MuiComponents mui = MuiComponents.mui();
+ * 
+ * // Find and interact with a button
+ * MuiButton button = mui.findComponentAs(ByRole.button(), MuiComponents.mui()::toButton);
+ * button.click();
+ * 
+ * // Work with selects
+ * MuiSelect select = mui.toSelect(element);
+ * select.selectOptionByIndex(2);
+ * 
+ * // Work with dialogs
+ * MuiDialog dialog = mui.toDialog(element);
+ * dialog.close();
+ * 
+ * // Configure with custom settings
+ * MuiConfig config = new MuiConfig();
+ * config.setButtonComponentVersion(V5);
+ * MuiComponents muiV5 = new MuiComponents(config);
+ * }</pre>
+ * </p>
+ *
  * @author Jack Yin
  * @since 1.0
+ * @see MuiConfig
+ * @see MuiVersion
+ * @see WebComponent
  */
 public class MuiComponents extends AbstractComponents {
 

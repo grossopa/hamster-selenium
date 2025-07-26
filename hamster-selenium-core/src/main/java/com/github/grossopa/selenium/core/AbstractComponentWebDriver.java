@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -46,8 +46,24 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 /**
  * The abstract implementation of {@link ComponentWebDriver} with generic type support.
  *
+ * <p>This class provides a base implementation for ComponentWebDriver that encapsulates
+ * a standard Selenium WebDriver and adds component-based interaction capabilities.
+ * It serves as a foundation for concrete implementations that may add browser-specific
+ * functionality or other customizations.</p>
+ *
+ * <p>Key features of this implementation include:
+ * <ul>
+ *   <li>Component-based element finding through {@link #findComponent(By)} and {@link #findComponents(By)}</li>
+ *   <li>Utility methods for common web interactions like scrolling and moving to elements</li>
+ *   <li>Enhanced wait mechanisms with {@link #createWait(long)}</li>
+ *   <li>Thread sleep management with {@link #threadSleep(long)}</li>
+ * </ul>
+ * </p>
+ *
  * @author Jack Yin
  * @since 1.4
+ * @see ComponentWebDriver
+ * @see WebComponent
  */
 public abstract class AbstractComponentWebDriver implements ComponentWebDriver {
 
@@ -57,8 +73,9 @@ public abstract class AbstractComponentWebDriver implements ComponentWebDriver {
     /**
      * Constructs an instance with given non-null {@link WebDriver} and {@link GracefulThreadSleep} instances.
      *
-     * @param driver the existing non-null driver to encapsulate
-     * @param threadSleep optional, the graceful thread sleep instance
+     * @param driver the existing non-null driver to encapsulate. Must not be null.
+     * @param threadSleep optional, the graceful thread sleep instance. If null, a default instance will be created.
+     * @throws NullPointerException if driver is null
      */
     protected AbstractComponentWebDriver(WebDriver driver, @Nullable GracefulThreadSleep threadSleep) {
         requireNonNull(driver);

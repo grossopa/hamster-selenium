@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -37,8 +37,42 @@ import java.util.function.Function;
  * Wrapper of an found {@link WebElement} to provide factory methods that to be able to convert itself to a
  * WebComponent.
  *
+ * <p>This interface represents a higher-level abstraction over Selenium's {@link WebElement},
+ * providing enhanced functionality for component-based web automation. WebComponent instances
+ * encapsulate standard WebElements while adding capabilities for component discovery, type conversion,
+ * and specialized interactions.</p>
+ *
+ * <p>Key features of WebComponent:
+ * <ul>
+ *   <li><strong>Component Discovery:</strong> Find nested components using {@link #findComponent(By)} and {@link #findComponents(By)}</li>
+ *   <li><strong>Type Conversion:</strong> Convert to specific component types using {@link #to(WebComponentFactory)} or {@link #as(Components)}</li>
+ *   <li><strong>Enhanced Queries:</strong> Check attributes and styles with {@link #attributeContains(String, String)} and {@link #styleContains(String, String)}</li>
+ *   <li><strong>Context Awareness:</strong> All element finding operations are scoped to this component's context</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Example usage:
+ * <pre>{@code
+ * // Find a component
+ * WebComponent component = driver.findComponent(By.className("my-component"));
+ *
+ * // Find nested components
+ * List<WebComponent> children = component.findComponents(By.tagName("li"));
+ *
+ * // Convert to specific component type
+ * HtmlTable table = component.to(HtmlComponents.html()::toTable);
+ *
+ * // Check component properties
+ * if (component.attributeContains("class", "active")) {
+ *     // perform actions
+ * }
+ * }</pre>
+ * </p>
+ *
  * @author Jack Yin
  * @since 1.0
+ * @see ComponentWebDriver
+ * @see AbstractComponents
  */
 public interface WebComponent extends WrapsElement, WebElement, TakesScreenshot, Locatable, WrapsDriver {
 

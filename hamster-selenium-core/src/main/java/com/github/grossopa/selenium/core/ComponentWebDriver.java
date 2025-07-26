@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -36,8 +36,37 @@ import java.util.function.Function;
 /**
  * An encapsulated {@link WebDriver} instance that supports to get the web element as {@link WebComponent}.
  *
+ * <p>This interface extends Selenium's standard {@link WebDriver} to provide component-oriented
+ * web automation capabilities. Instead of working directly with {@link WebElement} instances,
+ * it allows finding and interacting with {@link WebComponent} objects that provide higher-level
+ * abstractions for common UI components.</p>
+ *
+ * <p>Key benefits of using ComponentWebDriver:
+ * <ul>
+ *   <li><strong>Component-based approach:</strong> Work with high-level components instead of low-level elements</li>
+ *   <li><strong>Type safety:</strong> Find components as specific subtypes using {@link #findComponentAs(By, Function)}</li>
+ *   <li><strong>Enhanced utilities:</strong> Built-in support for common operations like scrolling and waiting</li>
+ *   <li><strong>Seamless integration:</strong> Full compatibility with standard WebDriver operations</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Example usage:
+ * <pre>{@code
+ * ComponentWebDriver driver = new DefaultComponentWebDriver(webDriver);
+ * // Find a component and interact with it
+ * WebComponent component = driver.findComponent(By.id("my-component"));
+ * component.click();
+ *
+ * // Find a component as a specific type
+ * HtmlButton button = driver.findComponentAs(By.tagName("button"), HtmlComponents.html()::toButton);
+ * button.click();
+ * }</pre>
+ * </p>
+ *
  * @author Jack Yin
  * @since 1.0
+ * @see WebComponent
+ * @see AbstractComponentWebDriver
  */
 public interface ComponentWebDriver
         extends WrapsDriver, WebDriver, JavascriptExecutor, HasCapabilities, Interactive,

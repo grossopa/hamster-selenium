@@ -63,6 +63,7 @@ public class HtmlComponents extends AbstractComponents {
      * @see HtmlTable
      */
     public HtmlTable toTable() {
+        // 使用HtmlTableFactory将WebElement转换为HtmlTable组件
         return this.component.to(new HtmlTableFactory());
     }
 
@@ -77,6 +78,7 @@ public class HtmlComponents extends AbstractComponents {
      * @see HtmlSelect
      */
     public HtmlSelect toSelect() {
+        // 使用HtmlSelectFactory将WebElement转换为HtmlSelect组件
         return this.component.to(new HtmlSelectFactory());
     }
 

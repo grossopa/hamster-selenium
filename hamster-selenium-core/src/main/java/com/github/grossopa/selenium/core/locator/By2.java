@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -27,10 +27,48 @@ package com.github.grossopa.selenium.core.locator;
 import org.openqa.selenium.By;
 
 /**
- * Delegates the {@link By} static methods and with additional helper methods
+ * Delegates the {@link By} static methods and with additional helper methods.
+ *
+ * <p>This class extends Selenium's standard {@link By} locator mechanism with
+ * additional convenience methods for common element location patterns. It provides
+ * both standard locator methods (delegating to the original {@link By} class) and
+ * enhanced methods for attribute-based and text-based element location.</p>
+ *
+ * <p>Key features of By2:
+ * <ul>
+ *   <li><strong>Standard Locators:</strong> All standard {@link By} methods like {@link #id(String)}, {@link #className(String)}, etc.</li>
+ *   <li><strong>Attribute Locators:</strong> Enhanced methods for attribute-based location with {@link #attrExact(String, String)} and {@link #attrContains(String, String)}</li>
+ *   <li><strong>Text Locators:</strong> Methods for text-based location with {@link #textContains(String)} and {@link #textExact(String)}</li>
+ *   <li><strong>XPath Builders:</strong> Fluent API for building complex XPath expressions with {@link #xpathBuilder()}</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Example usage:
+ * <pre>{@code
+ * // Standard locators (delegating to By)
+ * By buttonLocator = By2.tagName("button");
+ * By idLocator = By2.id("submit-button");
+ * 
+ * // Enhanced attribute locators
+ * By exactAttrLocator = By2.attrExact("data-test", "submit-btn");
+ * By containsAttrLocator = By2.attrContains("class", "btn-primary");
+ * 
+ * // Text-based locators
+ * By textContainsLocator = By2.textContains("Submit");
+ * By textExactLocator = By2.textExact("Submit Form");
+ * 
+ * // XPath builder
+ * By complexLocator = By2.xpathBuilder()
+ *     .anywhereRelative("div")
+ *     .attr("class").contains("container")
+ *     .build();
+ * }</pre>
+ * </p>
  *
  * @author Jack Yin
  * @since 1.0
+ * @see By
+ * @see SimpleXpathBuilder
  */
 public abstract class By2 extends By {
 
