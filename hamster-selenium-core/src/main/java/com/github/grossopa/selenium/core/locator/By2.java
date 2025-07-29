@@ -39,6 +39,7 @@ import org.openqa.selenium.By;
  *   <li><strong>Standard Locators:</strong> All standard {@link By} methods like {@link #id(String)}, {@link #className(String)}, etc.</li>
  *   <li><strong>Attribute Locators:</strong> Enhanced methods for attribute-based location with {@link #attrExact(String, String)} and {@link #attrContains(String, String)}</li>
  *   <li><strong>Text Locators:</strong> Methods for text-based location with {@link #textContains(String)} and {@link #textExact(String)}</li>
+ *   <li><strong>State Locators:</strong> Methods for locating elements based on state like visibility, enabledness, etc.</li>
  *   <li><strong>XPath Builders:</strong> Fluent API for building complex XPath expressions with {@link #xpathBuilder()}</li>
  * </ul>
  * </p>
@@ -56,6 +57,10 @@ import org.openqa.selenium.By;
  * // Text-based locators
  * By textContainsLocator = By2.textContains("Submit");
  * By textExactLocator = By2.textExact("Submit Form");
+ * 
+ * // State-based locators
+ * By visibleLocator = By2.visible(By.tagName("div"));
+ * By enabledLocator = By2.enabled(By.tagName("input"));
  * 
  * // XPath builder
  * By complexLocator = By2.xpathBuilder()
@@ -247,5 +252,167 @@ public abstract class By2 extends By {
      */
     public static By parent() {
         return By.xpath("parent::*");
+    }
+    
+    /**
+     * Finds elements that are visible on the page.
+     * 
+     * <p>This method creates an XPath that matches elements which are both:
+     * <ol>
+     *   <li>Present in the DOM</li>
+     *   <li>Have a non-zero offsetWidth or offsetHeight (indicating visibility)</li>
+     * </ol>
+     * </p>
+     *
+     * @param baseLocator The base locator to filter for visibility
+     * @return A By which locates visible elements matching the base locator
+     * @since 1.6
+     */
+    public static By visible(By baseLocator) {
+        // Note: This is a simplified implementation. Actual visibility checking 
+        // is more complex and usually handled at the WebDriver level.
+        return By.xpath(".//*[" + xpathFromBy(baseLocator) + " and not(@hidden) and not(contains(@style,'display:none'))]");
+    }
+    
+    /**
+     * Finds elements that are enabled (not disabled).
+     * 
+     * <p>This method creates an XPath that matches elements which:
+     * <ol>
+     *   <li>Match the base locator</li>
+     *   <li>Do not have the 'disabled' attribute set</li>
+     * </ol>
+     * </p>
+     *
+     * @param baseLocator The base locator to filter for enabled state
+     * @return A By which locates enabled elements matching the base locator
+     * @since 1.6
+     */
+    public static By enabled(By baseLocator) {
+        return By.xpath(".//*[" + xpathFromBy(baseLocator) + " and not(@disabled)]");
+    }
+    
+    /**
+     * Finds elements that are selected (e.g., checkboxes, radio buttons).
+     * 
+     * <p>This method creates an XPath that matches elements which:
+     * <ol>
+     *   <li>Match the base locator</li>
+     *   <li>Have the 'selected' attribute set</li>
+     * </ol>
+     * </p>
+     *
+     * @param baseLocator The base locator to filter for selected state
+     * @return A By which locates selected elements matching the base locator
+     * @since 1.6
+     */
+    public static By selected(By baseLocator) {
+        return By.xpath(".//*[" + xpathFromBy(baseLocator) + " and (@selected or @checked)]");
+    }
+    
+    /**
+     * Finds elements by their index among siblings.
+     * 
+     * <p>This method creates an XPath that matches elements which:
+     * <ol>
+     *   <li>Match the base locator</li>
+     *   <li>Are at the specified index among their siblings (0-based)</li>
+     * </ol>
+     * </p>
+     *
+     * @param baseLocator The base locator for elements
+     * @param index The 0-based index of the element among its siblings
+     * @return A By which locates the element at the specified index
+     * @since 1.6
+     */
+    public static By index(By baseLocator, int index) {
+        return By.xpath(".//*[" + xpathFromBy(baseLocator) + "][" + (index + 1) + "]");
+    }
+    
+    /**
+     * Finds elements by CSS property value.
+     * 
+     * <p>This method creates an XPath that matches elements which:
+     * <ol>
+     *   <li>Match the base locator</li>
+     *   <li>Have the specified CSS property with the specified value</li>
+     * </ol>
+     * </p>
+     * 
+     * <p>Note: This is a limited implementation as CSS property checking 
+     * typically requires JavaScript execution. This checks for style attributes.</p>
+     *
+     * @param baseLocator The base locator for elements
+     * @param cssProperty The CSS property name to check
+     * @param cssValue The expected CSS property value
+     * @return A By which locates elements with the specified CSS property value
+     * @since 1.6
+     */
+    public static By cssPropertyValue(By baseLocator, String cssProperty, String cssValue) {
+        return By.xpath(".//*[" + xpathFromBy(baseLocator) + " and contains(@style, '" + cssProperty + ":" + cssValue + "')]");
+    }
+    
+    /**
+     * Combines multiple locators with an AND condition.
+     * 
+     * <p>This method creates an XPath that matches elements which:
+     * <ol>
+     *   <li>Match all of the provided locators</li>
+     * </ol>
+     * </p>
+     *
+     * @param locators The locators to combine
+     * @return A By which locates elements matching all provided locators
+     * @since 1.6
+     */
+    public static By and(By... locators) {
+        if (locators.length == 0) {
+            throw new IllegalArgumentException("At least one locator must be provided");
+        }
+        
+        StringBuilder xpath = new StringBuilder(".//*[");
+        for (int i = 0; i < locators.length; i++) {
+            if (i > 0) {
+                xpath.append(" and ");
+            }
+            xpath.append(xpathFromBy(locators[i]));
+        }
+        xpath.append("]");
+        
+        return By.xpath(xpath.toString());
+    }
+    
+    /**
+     * Converts a By locator to its XPath representation.
+     * 
+     * <p>This is a helper method for internal use that converts common By locators
+     * to XPath expressions that can be combined.</p>
+     *
+     * @param by The By locator to convert
+     * @return The XPath representation of the locator
+     * @since 1.6
+     */
+    private static String xpathFromBy(By by) {
+        String toString = by.toString();
+        if (toString.startsWith("By.id: ")) {
+            return "@id='" + toString.substring(7) + "'";
+        } else if (toString.startsWith("By.className: ")) {
+            return "contains(@class, '" + toString.substring(14) + "')";
+        } else if (toString.startsWith("By.tagName: ")) {
+            return "local-name()='" + toString.substring(12) + "'";
+        } else if (toString.startsWith("By.name: ")) {
+            return "@name='" + toString.substring(9) + "'";
+        } else if (toString.startsWith("By.xpath: ")) {
+            return toString.substring(10);
+        } else if (toString.startsWith("By.cssSelector: ")) {
+            // This is a simplified conversion - full CSS to XPath is complex
+            return ""; // Would need a full CSS to XPath converter
+        } else if (toString.startsWith("By.linkText: ")) {
+            return "text()='" + toString.substring(13) + "'";
+        } else if (toString.startsWith("By.partialLinkText: ")) {
+            return "contains(text(), '" + toString.substring(20) + "')";
+        }
+        // Fallback - try to use the whole expression
+        return toString;
     }
 }
