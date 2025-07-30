@@ -68,7 +68,7 @@ public class BrowserDriverManager {
             }
             
             String fullDownloadUrl = CHROME_DRIVER_BASE_URL + latestVersion + "/" + driverFile;
-            return downloadAndExtractFile(fullDownloadUrl, destinationPath, "chromedriver");
+            return downloadAndExtractFile(fullDownloadUrl, destinationPath, "chromedriver", latestVersion);
         } catch (Exception e) {
             System.err.println("Error downloading ChromeDriver: " + e.getMessage());
             e.printStackTrace();
@@ -101,7 +101,7 @@ public class BrowserDriverManager {
             }
             
             String fullDownloadUrl = EDGE_DRIVER_BASE_URL + version + "/" + driverFile;
-            return downloadAndExtractFile(fullDownloadUrl, destinationPath, "msedgedriver");
+            return downloadAndExtractFile(fullDownloadUrl, destinationPath, "msedgedriver", version);
         } catch (Exception e) {
             System.err.println("Error downloading EdgeDriver: " + e.getMessage());
             e.printStackTrace();
@@ -133,10 +133,11 @@ public class BrowserDriverManager {
      * @param urlString URL to download from
      * @param destinationPath Path to save the file
      * @param executableName Name of the executable file
+     * @param version Version of the driver
      * @return true if successful, false otherwise
      * @throws IOException if an I/O error occurs
      */
-    private static boolean downloadAndExtractFile(String urlString, String destinationPath, String executableName) throws IOException {
+    private static boolean downloadAndExtractFile(String urlString, String destinationPath, String executableName, String version) throws IOException {
         URL url = new URL(urlString);
         String os = System.getProperty("os.name").toLowerCase();
         String finalExecutableName = executableName;
@@ -146,8 +147,23 @@ public class BrowserDriverManager {
             finalExecutableName += ".exe";
         }
         
+        // Add version number to the executable name
+        String versionedExecutableName = finalExecutableName;
+        if (version != null && !version.isEmpty()) {
+            int dotIndex = version.indexOf('.');
+            String majorVersion = (dotIndex != -1) ? version.substring(0, dotIndex) : version;
+            versionedExecutableName = finalExecutableName + "_" + majorVersion;
+        }
+        
         Path zipPath = Paths.get(destinationPath, executableName + ".zip");
-        Path executablePath = Paths.get(destinationPath, finalExecutableName);
+        Path executablePath = Paths.get(destinationPath, versionedExecutableName);
+        
+        // Check if the executable already exists
+        if (Files.exists(executablePath)) {
+            System.out.println("Driver file already exists: " + executablePath.toString());
+            System.out.println("Skipping download...");
+            return true;
+        }
         
         // Download the zip file
         try (InputStream in = url.openStream()) {
@@ -181,7 +197,10 @@ public class BrowserDriverManager {
         
         // Make the file executable (non-Windows)
         if (!os.contains("win")) {
-            executablePath.toFile().setExecutable(true);
+            executablePath.toFile().setExecutable(true, false);
+        } else {
+            // For Windows, ensure the file has execute permissions
+            executablePath.toFile().setExecutable(true, false);
         }
         
         // Clean up the zip file
