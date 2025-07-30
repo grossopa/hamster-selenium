@@ -29,7 +29,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.safari.SafariOptions;
 
 /**
@@ -58,11 +57,6 @@ public abstract class AbstractEnrichOptionsAction implements EnrichOptionsAction
     @Override
     public Capabilities applyIE(Capabilities input) {
         return doApplyIE((InternetExplorerOptions) input);
-    }
-
-    @Override
-    public Capabilities applyOpera(Capabilities input) {
-        return doApplyOpera((OperaOptions) input);
     }
 
     @Override
@@ -105,15 +99,6 @@ public abstract class AbstractEnrichOptionsAction implements EnrichOptionsAction
      * @return the {@link InternetExplorerOptions} instance
      */
     protected abstract Capabilities doApplyIE(InternetExplorerOptions options);
-
-    /**
-     * Enriches the {@link OperaOptions} instance.
-     *
-     * @param options
-     *         the {@link OperaOptions}
-     * @return the {@link OperaOptions} instance
-     */
-    protected abstract Capabilities doApplyOpera(OperaOptions options);
 
     /**
      * Enriches the {@link SafariOptions} instance.

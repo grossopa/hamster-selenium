@@ -29,7 +29,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.RemoteWebDriverBuilder;
 import org.openqa.selenium.safari.SafariDriver;
 
@@ -70,17 +69,11 @@ public class CreateWebDriverFromRunningServiceAction
 
     @Nullable
     @Override
-    public WebDriver applyOpera(RunningServiceParams input) {
-        return doBuild(OperaDriver.builder(), input);
-    }
-
-    @Nullable
-    @Override
     public WebDriver applySafari(RunningServiceParams input) {
         return doBuild(SafariDriver.builder(), input);
     }
 
     private WebDriver doBuild(RemoteWebDriverBuilder builder, RunningServiceParams input) {
-        return builder.addAlternative(input.getOptions()).url(input.getUrl()).build();
+        return builder.addAlternative(input.getOptions()).address(input.getUrl()).build();
     }
 }

@@ -24,9 +24,9 @@
 
 package org.hamster.selenium.core.driver;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.openqa.selenium.Capabilities;
+
+import java.util.Objects;
 
 /**
  * The parameters for {@link CreateWebDriverFromRunningServiceAction}.
@@ -34,9 +34,34 @@ import org.openqa.selenium.Capabilities;
  * @author Jack Yin
  * @since 1.0
  */
-@Getter
-@AllArgsConstructor
 public class RunningServiceParams {
     private final Capabilities options;
     private final String url;
+
+    public RunningServiceParams(Capabilities options, String url) {
+        this.options = options;
+        this.url = url;
+    }
+
+    public Capabilities getOptions() {
+        return options;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        RunningServiceParams that = (RunningServiceParams) o;
+        return Objects.equals(options, that.options) && Objects.equals(url, that.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(options, url);
+    }
 }

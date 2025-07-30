@@ -189,7 +189,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
     @Override
     public WebComponent openOptions(Long delayInMillis) {
         List<WebComponent> components = driver.findComponents(config.popoverLocator());
-        if (components.size() != 0) {
+        if (!components.isEmpty()) {
             return components.get(0);
         }
 
@@ -197,7 +197,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
 
         WebComponent container;
         if (delayInMillis > 0L) {
-            WebDriverWait wait = new WebDriverWait(driver, 0L);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(delayInMillis));
             wait.withTimeout(Duration.ofMillis(delayInMillis));
             container = driver.mapElement(wait.until(visibilityOfElementLocated(config.popoverLocator())));
         } else {
@@ -214,18 +214,18 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
     @Override
     public void closeOptions(Long delayInMillis) {
         List<WebComponent> options = getOptions2();
-        if (options.size() == 0) {
+        if (options.isEmpty()) {
             return;
         }
 
         closeOptionsAction.close(this, options, driver);
 
         if (delayInMillis > 0L) {
-            WebDriverWait wait = new WebDriverWait(driver, 0L);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(delayInMillis));
             wait.withTimeout(Duration.ofMillis(delayInMillis));
             wait.until(invisibilityOfElementLocated(config.popoverLocator()));
         } else {
-            if (driver.findComponents(config.popoverLocator()).size() != 0) {
+            if (!driver.findComponents(config.popoverLocator()).isEmpty()) {
                 throw new OptionNotClosedException("Option Popover is not properly closed " + config.popoverLocator());
             }
         }
@@ -247,11 +247,25 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
     }
 
     @Override
+    public void selectByContainsVisibleText(String text) {
+        this.selectByVisibleText(text, 0L);
+    }
+
+    @Override
+    public void selectByContainsVisibleText(String text, Long delayInMillis) {
+        getOptions2(delayInMillis).stream()
+                .filter(option -> !config.isSelected(option) && StringUtils.contains(text, option.getText()))
+                .forEach(WebComponent::click);
+    }
+
+    @Override
     public void selectByVisibleText(String text, Long delayInMillis) {
         getOptions2(delayInMillis).stream()
                 .filter(option -> !config.isSelected(option) && StringUtils.equals(text, option.getText()))
                 .forEach(WebComponent::click);
     }
+
+
 
     @Override
     public void selectByIndex(int index) {
@@ -320,9 +334,21 @@ public class MuiSelect extends AbstractMuiComponent implements Select {
     }
 
     @Override
+    public void deSelectByContainsVisibleText(String text) {
+        deSelectByContainsVisibleText(text, 0L);
+    }
+
+    @Override
     public void deselectByVisibleText(String text, Long delayInMillis) {
         getOptions2(delayInMillis).stream()
                 .filter(option -> config.isSelected(option) && StringUtils.equals(text, option.getText()))
+                .forEach(WebComponent::click);
+    }
+
+    @Override
+    public void deSelectByContainsVisibleText(String text, Long delayInMillis) {
+        getOptions2(delayInMillis).stream()
+                .filter(option -> config.isSelected(option) && StringUtils.contains(text, option.getText()))
                 .forEach(WebComponent::click);
     }
 }

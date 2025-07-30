@@ -115,6 +115,8 @@ public interface Select extends ISelect {
 
     void selectByVisibleText(String text, Long delayInMillis);
 
+     void selectByContainsVisibleText(String text, Long delayInMillis);
+
     void selectByIndex(int index, Long delayInMillis);
 
     void selectByValue(String value, Long delayInMillis);
@@ -126,4 +128,6 @@ public interface Select extends ISelect {
     void deselectByIndex(int index, Long delayInMillis);
 
     void deselectByVisibleText(String text, Long delayInMillis);
+
+    void deSelectByContainsVisibleText(String text, Long delayInMillis);
 }

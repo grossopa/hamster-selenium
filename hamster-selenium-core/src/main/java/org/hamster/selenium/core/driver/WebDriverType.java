@@ -71,15 +71,6 @@ public enum WebDriverType {
         }
     },
     /**
-     * Represents the Opera browser
-     */
-    OPERA {
-        @Override
-        public <T, R> R apply(WebDriverTypeFunction<T, R> function, T input) {
-            return function.applyOpera(input);
-        }
-    },
-    /**
      * Represents the Safari browser
      */
     SAFARI {
@@ -154,16 +145,6 @@ public enum WebDriverType {
          */
         @Nullable
         R applyIE(@Nullable T input);
-
-        /**
-         * Executes when the enum type is {@link WebDriverType#OPERA}.
-         *
-         * @param input
-         *         the input parameter
-         * @return the execution result
-         */
-        @Nullable
-        R applyOpera(@Nullable T input);
 
         /**
          * Executes when the enum type is {@link WebDriverType#SAFARI}.

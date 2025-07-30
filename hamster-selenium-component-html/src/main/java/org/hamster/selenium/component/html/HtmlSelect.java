@@ -38,7 +38,7 @@ import java.util.List;
  */
 public class HtmlSelect extends DefaultWebComponent implements ISelect {
 
-    private ISelect selectComponent;
+    private final ISelect selectComponent;
 
     public HtmlSelect(WebElement element, ComponentWebDriver driver) {
         super(element, driver);
@@ -71,6 +71,11 @@ public class HtmlSelect extends DefaultWebComponent implements ISelect {
     }
 
     @Override
+    public void selectByContainsVisibleText(String text) {
+            selectComponent.selectByContainsVisibleText(text);
+    }
+
+    @Override
     public void selectByIndex(int index) {
         selectComponent.selectByIndex(index);
     }
@@ -98,5 +103,10 @@ public class HtmlSelect extends DefaultWebComponent implements ISelect {
     @Override
     public void deselectByVisibleText(String text) {
         selectComponent.deselectByVisibleText(text);
+    }
+
+    @Override
+    public void deSelectByContainsVisibleText(String text) {
+        selectComponent.deSelectByContainsVisibleText(text);
     }
 }

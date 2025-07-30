@@ -214,34 +214,34 @@ class By2Test {
     void xpathFromById() {
         By baseLocator = By.id("test-id");
         By result = By2.visible(baseLocator);
-        assertEquals("By.xpath: .*[@id='test-id' and not(@hidden) and not(contains(@style,'display:none'))]", result.toString());
+        assertEquals("By.xpath: .//*[@id='test-id' and not(@hidden) and not(contains(@style,'display:none'))]", result.toString());
     }
 
     @Test
     void xpathFromByClassName() {
         By baseLocator = By.className("test-class");
         By result = By2.enabled(baseLocator);
-        assertEquals("By.xpath: .*[contains(@class, 'test-class') and not(@disabled)]", result.toString());
+        assertEquals("By.xpath: .//*[contains(@class, 'test-class') and not(@disabled)]", result.toString());
     }
 
     @Test
     void xpathFromByName() {
         By baseLocator = By.name("test-name");
         By result = By2.selected(baseLocator);
-        assertEquals("By.xpath: .*[@name='test-name' and (@selected or @checked)]", result.toString());
+        assertEquals("By.xpath: .//*[@name='test-name' and (@selected or @checked)]", result.toString());
     }
 
     @Test
     void xpathFromByLinkText() {
         By baseLocator = By.linkText("Click me");
         By result = By2.index(baseLocator, 0);
-        assertEquals("By.xpath: .*[text()='Click me'][1]", result.toString());
+        assertEquals("By.xpath: .//*[text()='Click me'][1]", result.toString());
     }
 
     @Test
     void xpathFromByPartialLinkText() {
         By baseLocator = By.partialLinkText("Click");
         By result = By2.index(baseLocator, 0);
-        assertEquals("By.xpath: .*[contains(text(), 'Click')][1]", result.toString());
+        assertEquals("By.xpath: .//*[contains(text(), 'Click')][1]", result.toString());
     }
 }

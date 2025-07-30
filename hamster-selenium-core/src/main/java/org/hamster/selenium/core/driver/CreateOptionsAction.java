@@ -29,7 +29,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.safari.SafariOptions;
 
 /**
@@ -57,11 +56,6 @@ public class CreateOptionsAction implements WebDriverType.WebDriverTypeFunction<
     @Override
     public Capabilities applyIE(Void input) {
         return new InternetExplorerOptions();
-    }
-
-    @Override
-    public Capabilities applyOpera(Void input) {
-        return new OperaOptions();
     }
 
     @Override

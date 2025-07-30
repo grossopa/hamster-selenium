@@ -29,7 +29,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.RemoteWebDriverBuilder;
 import org.openqa.selenium.safari.SafariDriver;
 
@@ -60,11 +59,6 @@ public class CreateWebDriverAction implements WebDriverType.WebDriverTypeFunctio
     @Override
     public WebDriver applyIE(CreateWebDriverParams input) {
         return doBuild(InternetExplorerDriver.builder(), input);
-    }
-
-    @Override
-    public WebDriver applyOpera(CreateWebDriverParams input) {
-        return doBuild(OperaDriver.builder(), input);
     }
 
     @Override

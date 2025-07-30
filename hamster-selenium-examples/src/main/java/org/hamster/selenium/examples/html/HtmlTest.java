@@ -9,6 +9,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 import static org.hamster.selenium.component.html.HtmlComponents.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
@@ -23,7 +25,7 @@ public class HtmlTest extends AbstractBrowserTest {
 
     public void testTable() {
         driver.navigate().to("https://www.w3schools.com/html/html_tables.asp");
-        WebDriverWait wait = new WebDriverWait(driver, 10L);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(visibilityOfElementLocated(By.id("customers")));
         HtmlTable table = driver.findComponent(By.id("customers")).as(html()).toTable();
         TableRow header = table.getHeaderRow();
@@ -38,7 +40,7 @@ public class HtmlTest extends AbstractBrowserTest {
 
     public void testSelect() {
         driver.navigate().to("https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_select");
-        WebDriverWait wait = new WebDriverWait(driver, 10L);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(visibilityOfElementLocated(By.id("iframeResult")));
         WebDriver frameDriver = driver.switchTo().frame("iframeResult");
 

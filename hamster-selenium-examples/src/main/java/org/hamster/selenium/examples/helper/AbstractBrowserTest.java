@@ -1,6 +1,5 @@
 package org.hamster.selenium.examples.helper;
 
-import lombok.SneakyThrows;
 import org.hamster.selenium.core.ComponentWebDriver;
 import org.hamster.selenium.core.DefaultComponentWebDriver;
 import org.hamster.selenium.core.driver.*;
@@ -21,7 +20,6 @@ public abstract class AbstractBrowserTest {
 
     protected ComponentWebDriver driver;
 
-    @SneakyThrows
     public void setUpDriver(WebDriverType type) {
         DriverConfig config = new DriverConfig();
         config.setDriverExecutablePath(EXECUTABLE_PATH);

@@ -24,7 +24,6 @@
 
 package org.hamster.selenium.component.mui.config;
 
-import lombok.Setter;
 import org.hamster.selenium.core.component.WebComponent;
 import org.hamster.selenium.core.locator.By2;
 import org.openqa.selenium.By;
@@ -42,7 +41,6 @@ public class MuiConfig {
     /**
      * Default css prefix by Material UI framework
      */
-    @Setter
     private String cssPrefix = "Mui";
 
     /**
@@ -153,5 +151,9 @@ public class MuiConfig {
      */
     public boolean validateByCss(WebComponent component, String componentName) {
         return attributeContains(component, "class", getRootCss(componentName));
+    }
+
+    public void setCssPrefix(String cssPrefix) {
+        this.cssPrefix = cssPrefix;
     }
 }

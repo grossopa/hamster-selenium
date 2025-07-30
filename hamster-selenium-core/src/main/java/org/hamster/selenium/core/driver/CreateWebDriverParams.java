@@ -24,10 +24,10 @@
 
 package org.hamster.selenium.core.driver;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.service.DriverService;
+
+import java.util.Objects;
 
 /**
  * the parameter for creating the {@link org.openqa.selenium.WebDriver}
@@ -35,9 +35,36 @@ import org.openqa.selenium.remote.service.DriverService;
  * @author Jack Yin
  * @since 1.0
  */
-@Getter
-@AllArgsConstructor
 public class CreateWebDriverParams {
     private final Capabilities options;
     private final DriverService driverService;
+
+    public CreateWebDriverParams(final Capabilities options, final DriverService driverService) {
+        this.options = options;
+        this.driverService = driverService;
+    }
+
+    public Capabilities getOptions() {
+        return options;
+    }
+
+    public DriverService getDriverService() {
+        return driverService;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CreateWebDriverParams that = (CreateWebDriverParams) o;
+        return Objects.equals(options, that.options) && Objects.equals(driverService, that.driverService);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(options, driverService);
+    }
+
+
 }
