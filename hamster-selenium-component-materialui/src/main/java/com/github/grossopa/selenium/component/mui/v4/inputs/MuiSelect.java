@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -53,17 +53,29 @@ import static java.util.stream.Collectors.toList;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
- * A MUI Select wrapper which supports the Popover-based options.
- * <p>
- * The options are customized via a layer called popover which is in front of the page. hence there are no direct
- * relationship between the component and options. In order to treat them still as one component, additional operations
- * for opening the options are required before selecting an item.
+ * A Material UI Select wrapper which supports the Popover-based options.
+ * 
+ * <p>This component represents a Material UI Select dropdown which displays options in a popover overlay.
+ * The options are not direct children of the select element, but are rendered in a separate layer that
+ * appears in front of the page when the select is activated.</p>
+ * 
+ * <p>Key features:
+ * <ul>
+ *   <li>Popover-based option display with animation support</li>
+ *   <li>Delayed operations to handle animation timing</li>
+ *   <li>Single and multiple selection support</li>
+ *   <li>Various selection methods (by index, value, visible text)</li>
+ *   <li>Option management (select, deselect, get selected options)</li>
+ * </ul>
  * </p>
- * <p>
- * And, options show and hide usually requires a wait time for the animation, which introduce a bit more complexity for
- * the framework to allow a wait time before actions such as {@link #getOptions2(Long)}. However, once the options are
- * displayed, next operation doesn't necessarily require a wait time, e.g. another method could be invoked {@link
- * #getOptions2()} and immediately gets all the displayed items.
+ * 
+ * <p><strong>Usage notes:</strong>
+ * <ul>
+ *   <li>Options show and hide usually requires a wait time for the animation, which is why methods like 
+ *       {@link #getOptions2(Long)} accept a timeout parameter.</li>
+ *   <li>Once the options are displayed, subsequent operations don't necessarily require a wait time, 
+ *       e.g. {@link #getOptions2()} can be called immediately to get displayed items.</li>
+ * </ul>
  * </p>
  *
  * @author Jack Yin
@@ -74,7 +86,7 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSelect {
 
     /**
-     * the component name
+     * The component name used for identification and validation.
      */
     public static final String COMPONENT_NAME = "Select";
 
@@ -82,12 +94,12 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     private final MuiSelectConfig selectConfig;
 
     /**
-     * Constructs an instance with the delegated element and root driver
+     * Constructs a MuiSelect instance with the specified element, driver, and configuration.
      *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     * @param selectConfig the component configuration class
+     * @param element the WebElement representing the select component in the DOM
+     * @param driver the ComponentWebDriver for browser interactions
+     * @param config the Material UI configuration for styling and behavior
+     * @param selectConfig the component configuration class for select-specific behavior
      */
     public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, MuiSelectConfig selectConfig) {
         super(element, driver, config);

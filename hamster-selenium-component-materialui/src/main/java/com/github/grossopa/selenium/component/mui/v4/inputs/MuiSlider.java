@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -45,7 +45,19 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 /**
- * A MUI Slider wrapper.
+ * A MUI Slider wrapper that provides comprehensive slider manipulation capabilities.
+ * 
+ * <p>This component represents a Material UI Slider which allows users to make selections from a range of values.
+ * It supports various operations such as getting/setting values, moving thumbs, and handling scaled values.</p>
+ * 
+ * <p>Key features:
+ * <ul>
+ *   <li>Support for numeric value retrieval in multiple formats (String, Integer, Long, Double)</li>
+ *   <li>Thumb manipulation with precise positioning</li>
+ *   <li>Support for scaled sliders with custom inverse scale functions</li>
+ *   <li>Comprehensive range operations (min/max values)</li>
+ * </ul>
+ * </p>
  *
  * @author Jack Yin
  * @see <a href="https://material-ui.com/components/slider/">
@@ -55,20 +67,24 @@ import static java.util.stream.Collectors.toList;
 public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderThumb> {
 
     /**
-     * the component name
+     * The component name used for identification and validation.
      */
     public static final String COMPONENT_NAME = "Slider";
 
+    /**
+     * Default inverse scale function that returns the input value unchanged.
+     * Used when no custom scaling is applied to the slider.
+     */
     public static final UnaryOperator<Double> DEFAULT_INVERSE_SCALE_FUNCTION = x -> x;
 
     private final UnaryOperator<Double> inverseScaleFunction;
 
     /**
-     * Constructs an instance with the delegated element and root driver
+     * Constructs an instance with the delegated element and root driver using default inverse scale function.
      *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
+     * @param element the delegated WebElement representing the slider
+     * @param driver the root ComponentWebDriver for browser interactions
+     * @param config the Material UI configuration for styling and behavior
      */
     public MuiSlider(WebElement element, ComponentWebDriver driver, MuiConfig config) {
         this(element, driver, config, DEFAULT_INVERSE_SCALE_FUNCTION);
@@ -77,10 +93,10 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     /**
      * Constructs an instance with the delegated element, root driver and customized scale function.
      *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     * @param inverseScaleFunction the INVERSE function of the original scale function
+     * @param element the delegated WebElement representing the slider
+     * @param driver the root ComponentWebDriver for browser interactions
+     * @param config the Material UI configuration for styling and behavior
+     * @param inverseScaleFunction the INVERSE function of the original scale function to handle scaled values correctly
      */
     public MuiSlider(WebElement element, ComponentWebDriver driver, MuiConfig config,
             UnaryOperator<Double> inverseScaleFunction) {
@@ -96,7 +112,9 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
 
 
     /**
-     * Gets the inverse scale function
+     * Gets the inverse scale function used to convert scaled values back to their original representation.
+     *
+     * <p>For example, if a slider uses a scale function f(x) = x^2, the inverse scale function would be f^(-1)(x) = √x</p>
      *
      * @return the inverse scale function
      */
@@ -105,12 +123,16 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     }
 
     /**
-     * Gets the raw value.
+     * Gets the current value of the slider as a String.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>59049</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled value.
+     * For example, when the position is at 50%, min={0}, max={6}, and scale={(x) =&gt; x ** 10}, 
+     * then it should return <b>59049</b></p>
      *
-     * @return the raw value in String.
+     * @return the current slider value as a String
+     * @see #getValueInteger()
+     * @see #getValueLong()
+     * @see #getValueDouble()
      */
     @Override
     public String getValue() {
@@ -118,12 +140,16 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     }
 
     /**
-     * Gets value in Integer.
+     * Gets the current value of the slider as an Integer.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>59049</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled value.
+     * For example, when the position is at 50%, min={0}, max={6}, and scale={(x) =&gt; x ** 10}, 
+     * then it should return <b>59049</b></p>
      *
-     * @return the value in Integer.
+     * @return the current slider value as an Integer
+     * @see #getValue()
+     * @see #getValueLong()
+     * @see #getValueDouble()
      */
     @Override
     public Integer getValueInteger() {
@@ -131,12 +157,16 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     }
 
     /**
-     * Gets value in Long.
+     * Gets the current value of the slider as a Long.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>59049</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled value.
+     * For example, when the position is at 50%, min={0}, max={6}, and scale={(x) =&gt; x ** 10}, 
+     * then it should return <b>59049</b></p>
      *
-     * @return the value in Long
+     * @return the current slider value as a Long
+     * @see #getValue()
+     * @see #getValueInteger()
+     * @see #getValueDouble()
      */
     @Override
     public Long getValueLong() {
@@ -144,12 +174,16 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     }
 
     /**
-     * Gets value in Double.
+     * Gets the current value of the slider as a Double.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>59049</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled value.
+     * For example, when the position is at 50%, min={0}, max={6}, and scale={(x) =&gt; x ** 10}, 
+     * then it should return <b>59049</b></p>
      *
-     * @return the value in double
+     * @return the current slider value as a Double
+     * @see #getValue()
+     * @see #getValueInteger()
+     * @see #getValueLong()
      */
     @Override
     public Double getValueDouble() {
@@ -157,12 +191,15 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     }
 
     /**
-     * Gets raw min value.
+     * Gets the minimum value of the slider as a String.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={2}, max={8}, scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled minimum value.
+     * For example, when min={2}, max={8}, and scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
      *
-     * @return the raw min value.
+     * @return the minimum slider value as a String
+     * @see #getMinValueInteger()
+     * @see #getMinValueLong()
+     * @see #getMinValueDouble()
      */
     @Override
     public String getMinValue() {
@@ -170,12 +207,15 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     }
 
     /**
-     * Gets min value in Integer.
+     * Gets the minimum value of the slider as an Integer.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={2}, max={8}, scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled minimum value.
+     * For example, when min={2}, max={8}, and scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
      *
-     * @return the min value in Integer.
+     * @return the minimum slider value as an Integer
+     * @see #getMinValue()
+     * @see #getMinValueLong()
+     * @see #getMinValueDouble()
      */
     @Override
     public Integer getMinValueInteger() {
@@ -183,12 +223,15 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     }
 
     /**
-     * Gets min value in Long.
+     * Gets the minimum value of the slider as a Long.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={2}, max={8}, scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled minimum value.
+     * For example, when min={2}, max={8}, and scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
      *
-     * @return the min value in Long
+     * @return the minimum slider value as a Long
+     * @see #getMinValue()
+     * @see #getMinValueInteger()
+     * @see #getMinValueDouble()
      */
     @Override
     public Long getMinValueLong() {
@@ -196,25 +239,31 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     }
 
     /**
-     * Gets min value in Double.
+     * Gets the minimum value of the slider as a Double.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={2}, max={8}, scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled minimum value.
+     * For example, when min={2}, max={8}, and scale={(x) =&gt; x ** 10}, then it should return <b>1024</b></p>
      *
-     * @return the min value in double
+     * @return the minimum slider value as a Double
+     * @see #getMinValue()
+     * @see #getMinValueInteger()
+     * @see #getMinValueLong()
      */
-    @Override
     public Double getMinValueDouble() {
         return Double.valueOf(getMinValue());
     }
 
     /**
-     * Gets raw max value.
+     * Gets the maximum value of the slider as a String.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>60466176</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled maximum value.
+     * For example, when the position is at 50%, min={0}, max={6}, and scale={(x) =&gt; x ** 10}, 
+     * then it should return <b>60466176</b></p>
      *
-     * @return the raw max value.
+     * @return the maximum slider value as a String
+     * @see #getMaxValueInteger()
+     * @see #getMaxValueLong()
+     * @see #getMaxValueDouble()
      */
     @Override
     public String getMaxValue() {
@@ -222,12 +271,16 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     }
 
     /**
-     * Gets max value in Integer.
+     * Gets the maximum value of the slider as an Integer.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>60466176</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled maximum value.
+     * For example, when the position is at 50%, min={0}, max={6}, and scale={(x) =&gt; x ** 10}, 
+     * then it should return <b>60466176</b></p>
      *
-     * @return the max value in Integer.
+     * @return the maximum slider value as an Integer
+     * @see #getMaxValue()
+     * @see #getMaxValueLong()
+     * @see #getMaxValueDouble()
      */
     @Override
     public Integer getMaxValueInteger() {
@@ -235,12 +288,16 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     }
 
     /**
-     * Gets max value in Long.
+     * Gets the maximum value of the slider as a Long.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>60466176</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled maximum value.
+     * For example, when the position is at 50%, min={0}, max={6}, and scale={(x) =&gt; x ** 10}, 
+     * then it should return <b>60466176</b></p>
      *
-     * @return the max value in Long
+     * @return the maximum slider value as a Long
+     * @see #getMaxValue()
+     * @see #getMaxValueInteger()
+     * @see #getMaxValueDouble()
      */
     @Override
     public Long getMaxValueLong() {
@@ -248,12 +305,16 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     }
 
     /**
-     * Gets max value in Double.
+     * Gets the maximum value of the slider as a Double.
      *
-     * <p>If the slider is with scale function configured, it will return the scaled value, for example, when the
-     * position is at 50%, min={0}, max={6}, scale={(x) =&gt; x ** 10}, then it should return <b>60466176</b></p>
+     * <p>If the slider is configured with a scale function, this method returns the scaled maximum value.
+     * For example, when the position is at 50%, min={0}, max={6}, and scale={(x) =&gt; x ** 10}, 
+     * then it should return <b>60466176</b></p>
      *
-     * @return the max value in double
+     * @return the maximum slider value as a Double
+     * @see #getMaxValue()
+     * @see #getMaxValueInteger()
+     * @see #getMaxValueLong()
      */
     @Override
     public Double getMaxValueDouble() {
