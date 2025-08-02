@@ -26,15 +26,19 @@ package com.github.grossopa.selenium.component.mui.v4.inputs;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link MuiRating}
@@ -64,5 +68,58 @@ class MuiRatingTest {
         assertTrue(testSubject.versions().contains(V4));
         assertTrue(testSubject.versions().contains(V5));
         assertTrue(testSubject.versions().contains(V6));
+    }
+
+    @Test
+    void getValue() {
+        WebComponent star1 = mock(WebComponent.class);
+        WebComponent star2 = mock(WebComponent.class);
+        WebComponent star3 = mock(WebComponent.class);
+        
+        when(config.isSelected(star1)).thenReturn(false);
+        when(config.isChecked(star1)).thenReturn(false);
+        when(config.isSelected(star2)).thenReturn(false);
+        when(config.isChecked(star2)).thenReturn(false);
+        when(config.isSelected(star3)).thenReturn(true);
+        when(config.isChecked(star3)).thenReturn(true);
+        
+        List<WebComponent> stars = asList(star1, star2, star3);
+        doReturn(stars).when(testSubject).getStars();
+        
+        assertEquals(3.0, testSubject.getValue());
+    }
+
+    @Test
+    void setValue() {
+        WebComponent star1 = mock(WebComponent.class);
+        WebComponent star2 = mock(WebComponent.class);
+        WebComponent star3 = mock(WebComponent.class);
+        
+        List<WebComponent> stars = asList(star1, star2, star3);
+        doReturn(stars).when(testSubject).getStars();
+        
+        testSubject.setValue(2);
+        
+        verify(star2).click();
+    }
+
+    @Test
+    void setValue_invalid() {
+        doReturn(asList(mock(WebComponent.class))).when(testSubject).getStars();
+        
+        assertThrows(IllegalArgumentException.class, () -> testSubject.setValue(5));
+        assertThrows(IllegalArgumentException.class, () -> testSubject.setValue(-1));
+    }
+
+    @Test
+    void isReadOnly() {
+        when(element.getAttribute("aria-readonly")).thenReturn("true");
+        assertTrue(testSubject.isReadOnly());
+        
+        when(element.getAttribute("aria-readonly")).thenReturn("false");
+        assertFalse(testSubject.isReadOnly());
+        
+        when(element.getAttribute("aria-readonly")).thenReturn(null);
+        assertFalse(testSubject.isReadOnly());
     }
 }

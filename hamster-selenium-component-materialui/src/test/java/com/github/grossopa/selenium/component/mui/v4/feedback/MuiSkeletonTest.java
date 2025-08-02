@@ -34,7 +34,7 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link MuiSkeleton}
@@ -52,6 +52,7 @@ class MuiSkeletonTest {
     @BeforeEach
     void setUp() {
         testSubject = new MuiSkeleton(element, driver, config);
+        when(config.getCssPrefix()).thenReturn("Mui");
     }
 
     @Test
@@ -64,5 +65,47 @@ class MuiSkeletonTest {
         assertTrue(testSubject.versions().contains(V4));
         assertTrue(testSubject.versions().contains(V5));
         assertTrue(testSubject.versions().contains(V6));
+    }
+
+    @Test
+    void getVariant() {
+        // Test rectangular variant
+        when(element.getAttribute("class")).thenReturn("MuiSkeleton-rectangular");
+        assertEquals("rectangular", testSubject.getVariant());
+        
+        // Test circular variant
+        when(element.getAttribute("class")).thenReturn("MuiSkeleton-circular");
+        assertEquals("circular", testSubject.getVariant());
+        
+        // Test text variant (default)
+        when(element.getAttribute("class")).thenReturn("");
+        assertEquals("text", testSubject.getVariant());
+    }
+
+    @Test
+    void getAnimation() {
+        // Test pulse animation
+        when(element.getAttribute("class")).thenReturn("MuiSkeleton-pulse");
+        assertEquals("pulse", testSubject.getAnimation());
+        
+        // Test wave animation
+        when(element.getAttribute("class")).thenReturn("MuiSkeleton-wave");
+        assertEquals("wave", testSubject.getAnimation());
+        
+        // Test no animation
+        when(element.getAttribute("class")).thenReturn("");
+        assertEquals("false", testSubject.getAnimation());
+    }
+
+    @Test
+    void getWidth() {
+        when(element.getCssValue("width")).thenReturn("100px");
+        assertEquals("100px", testSubject.getWidth());
+    }
+
+    @Test
+    void getHeight() {
+        when(element.getCssValue("height")).thenReturn("50px");
+        assertEquals("50px", testSubject.getHeight());
     }
 }

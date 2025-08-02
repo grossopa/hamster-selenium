@@ -26,15 +26,20 @@ package com.github.grossopa.selenium.component.mui.v4.navigation;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link MuiDrawer}
@@ -52,6 +57,7 @@ class MuiDrawerTest {
     @BeforeEach
     void setUp() {
         testSubject = new MuiDrawer(element, driver, config);
+        when(config.getCssPrefix()).thenReturn("Mui");
     }
 
     @Test
@@ -64,5 +70,88 @@ class MuiDrawerTest {
         assertTrue(testSubject.versions().contains(V4));
         assertTrue(testSubject.versions().contains(V5));
         assertTrue(testSubject.versions().contains(V6));
+    }
+
+    @Test
+    void isOpen() {
+        // Test when drawer is open (visibility is not hidden and aria-hidden is not true)
+        when(element.getCssValue("visibility")).thenReturn("visible");
+        when(element.getAttribute("aria-hidden")).thenReturn(null);
+        assertTrue(testSubject.isOpen());
+        
+        // Test when drawer is closed (visibility is hidden)
+        when(element.getCssValue("visibility")).thenReturn("hidden");
+        assertFalse(testSubject.isOpen());
+        
+        // Test when drawer is closed (aria-hidden is true)
+        when(element.getCssValue("visibility")).thenReturn("visible");
+        when(element.getAttribute("aria-hidden")).thenReturn("true");
+        assertFalse(testSubject.isOpen());
+    }
+
+    @Test
+    void open() {
+        when(element.getCssValue("visibility")).thenReturn("hidden");
+        
+        testSubject.open();
+        
+        verify(element).click();
+    }
+
+    @Test
+    void close() {
+        when(element.getCssValue("visibility")).thenReturn("visible");
+        when(element.getAttribute("aria-hidden")).thenReturn(null);
+        
+        testSubject.close();
+        
+        verify(element).click();
+    }
+
+    @Test
+    void toggle() {
+        testSubject.toggle();
+        verify(element).click();
+    }
+
+    @Test
+    void getNavigationItems() {
+        WebComponent list = mock(WebComponent.class);
+        WebComponent item1 = mock(WebComponent.class);
+        WebComponent item2 = mock(WebComponent.class);
+        List<WebComponent> items = asList(item1, item2);
+        
+        when(list.findComponents(By.tagName("li"))).thenReturn(items);
+        when(testSubject.findComponent(By.className("MuiList-root"))).thenReturn(list);
+        
+        assertEquals(items, testSubject.getNavigationItems());
+    }
+
+    @Test
+    void getNavigationItems_fallback() {
+        when(testSubject.findComponent(By.className("MuiList-root"))).thenThrow(new RuntimeException());
+        
+        WebComponent item1 = mock(WebComponent.class);
+        WebComponent item2 = mock(WebComponent.class);
+        List<WebComponent> items = asList(item1, item2);
+        
+        when(testSubject.findComponents(By.tagName("li"))).thenReturn(items);
+        
+        assertEquals(items, testSubject.getNavigationItems());
+    }
+
+    @Test
+    void getVariant() {
+        // Test permanent variant
+        when(element.getAttribute("class")).thenReturn("MuiDrawer-docked");
+        assertEquals("permanent", testSubject.getVariant());
+        
+        // Test persistent variant
+        when(element.getAttribute("class")).thenReturn("MuiDrawer-paperAnchorDockedLeft");
+        assertEquals("persistent", testSubject.getVariant());
+        
+        // Test temporary variant (default)
+        when(element.getAttribute("class")).thenReturn("");
+        assertEquals("temporary", testSubject.getVariant());
     }
 }

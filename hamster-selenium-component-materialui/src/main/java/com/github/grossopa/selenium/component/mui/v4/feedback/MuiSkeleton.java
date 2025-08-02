@@ -75,4 +75,58 @@ public class MuiSkeleton extends AbstractMuiComponent {
     public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
+
+    /**
+     * Gets the variant type of the skeleton.
+     *
+     * @return the variant type (e.g. "text", "rectangular", "circular")
+     */
+    public String getVariant() {
+        String className = element.getAttribute("class");
+        String cssPrefix = config.getCssPrefix();
+
+        if (className.contains(cssPrefix + "Skeleton-rectangular")) {
+            return "rectangular";
+        } else if (className.contains(cssPrefix + "Skeleton-circular")) {
+            return "circular";
+        } else {
+            return "text"; // default variant
+        }
+    }
+
+    /**
+     * Gets the animation type of the skeleton.
+     *
+     * @return the animation type (e.g. "pulse", "wave", "false" for no animation)
+     */
+    public String getAnimation() {
+        String className = element.getAttribute("class");
+        String cssPrefix = config.getCssPrefix();
+
+        if (className.contains(cssPrefix + "Skeleton-pulse")) {
+            return "pulse";
+        } else if (className.contains(cssPrefix + "Skeleton-wave")) {
+            return "wave";
+        } else {
+            return "false"; // no animation
+        }
+    }
+
+    /**
+     * Gets the width of the skeleton.
+     *
+     * @return the width in pixels
+     */
+    public String getWidth() {
+        return element.getCssValue("width");
+    }
+
+    /**
+     * Gets the height of the skeleton.
+     *
+     * @return the height in pixels
+     */
+    public String getHeight() {
+        return element.getCssValue("height");
+    }
 }

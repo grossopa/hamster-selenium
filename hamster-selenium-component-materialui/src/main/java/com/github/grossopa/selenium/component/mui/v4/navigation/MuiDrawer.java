@@ -28,14 +28,18 @@ import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static java.util.stream.Collectors.toList;
 
 /**
  * The Material UI Drawer implementation
@@ -74,5 +78,80 @@ public class MuiDrawer extends AbstractMuiComponent {
     @Override
     public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
+    }
+
+    /**
+     * Checks if the drawer is currently open.
+     *
+     * @return true if the drawer is open, false otherwise
+     */
+    public boolean isOpen() {
+        // Check visibility using CSS or aria attributes
+        String visibility = element.getCssValue("visibility");
+        String ariaHidden = element.getAttribute("aria-hidden");
+        
+        return !"hidden".equals(visibility) && !"true".equals(ariaHidden);
+    }
+
+    /**
+     * Opens the drawer if it's currently closed.
+     */
+    public void open() {
+        if (!isOpen()) {
+            toggle();
+        }
+    }
+
+    /**
+     * Closes the drawer if it's currently open.
+     */
+    public void close() {
+        if (isOpen()) {
+            toggle();
+        }
+    }
+
+    /**
+     * Toggles the drawer state (open/close).
+     */
+    public void toggle() {
+        // Click on the backdrop if it exists to close
+        // or implement specific toggle logic based on how the drawer is controlled
+        element.click();
+    }
+
+    /**
+     * Gets the list of navigation items in the drawer.
+     *
+     * @return list of navigation item components
+     */
+    public List<WebComponent> getNavigationItems() {
+        try {
+            WebComponent list = this.findComponent(By.className(config.getCssPrefix() + "List-root"));
+            return list.findComponents(By.tagName("li"));
+        } catch (Exception e) {
+            return findComponents(By.tagName("li"));
+        }
+    }
+
+    /**
+     * Gets the drawer variant type.
+     *
+     * @return the variant type (e.g. "permanent", "persistent", "temporary")
+     */
+    public String getVariant() {
+        String className = element.getAttribute("class");
+        String cssPrefix = config.getCssPrefix();
+
+        if (className.contains(cssPrefix + "Drawer-docked")) {
+            return "permanent";
+        } else if (className.contains(cssPrefix + "Drawer-paperAnchorDockedLeft") ||
+                   className.contains(cssPrefix + "Drawer-paperAnchorDockedRight") ||
+                   className.contains(cssPrefix + "Drawer-paperAnchorDockedTop") ||
+                   className.contains(cssPrefix + "Drawer-paperAnchorDockedBottom")) {
+            return "persistent";
+        } else {
+            return "temporary"; // default
+        }
     }
 }

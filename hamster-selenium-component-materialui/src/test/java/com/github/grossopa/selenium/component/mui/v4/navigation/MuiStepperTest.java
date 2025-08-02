@@ -26,15 +26,21 @@ package com.github.grossopa.selenium.component.mui.v4.navigation;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link MuiStepper}
@@ -52,6 +58,7 @@ class MuiStepperTest {
     @BeforeEach
     void setUp() {
         testSubject = new MuiStepper(element, driver, config);
+        when(config.getCssPrefix()).thenReturn("Mui");
     }
 
     @Test
@@ -64,5 +71,104 @@ class MuiStepperTest {
         assertTrue(testSubject.versions().contains(V4));
         assertTrue(testSubject.versions().contains(V5));
         assertTrue(testSubject.versions().contains(V6));
+    }
+
+    @Test
+    void getActiveStep() {
+        WebComponent step1 = mock(WebComponent.class);
+        WebComponent step2 = mock(WebComponent.class);
+        WebComponent step3 = mock(WebComponent.class);
+        List<WebComponent> steps = asList(step1, step2, step3);
+        
+        WebElement element1 = mock(WebElement.class);
+        WebElement element2 = mock(WebElement.class);
+        WebElement element3 = mock(WebElement.class);
+        
+        when(step1.getWrappedElement()).thenReturn(element1);
+        when(step2.getWrappedElement()).thenReturn(element2);
+        when(step3.getWrappedElement()).thenReturn(element3);
+        
+        when(config.isSelected(step1)).thenReturn(false);
+        when(config.isChecked(step1)).thenReturn(false);
+        when(config.isSelected(step2)).thenReturn(false);
+        when(config.isChecked(step2)).thenReturn(false);
+        when(config.isSelected(step3)).thenReturn(true);
+        when(config.isChecked(step3)).thenReturn(true);
+        
+        doReturn(steps).when(testSubject).getSteps();
+        
+        assertEquals(2, testSubject.getActiveStep()); // 0-indexed
+    }
+
+    @Test
+    void getActiveStep_none() {
+        WebComponent step1 = mock(WebComponent.class);
+        WebComponent step2 = mock(WebComponent.class);
+        List<WebComponent> steps = asList(step1, step2);
+        
+        when(config.isSelected(step1)).thenReturn(false);
+        when(config.isChecked(step1)).thenReturn(false);
+        when(config.isSelected(step2)).thenReturn(false);
+        when(config.isChecked(step2)).thenReturn(false);
+        
+        doReturn(steps).when(testSubject).getSteps();
+        
+        assertEquals(-1, testSubject.getActiveStep());
+    }
+
+    @Test
+    void getSteps() {
+        WebElement stepElement1 = mock(WebElement.class);
+        WebElement stepElement2 = mock(WebElement.class);
+        List<WebElement> stepElements = asList(stepElement1, stepElement2);
+        
+        when(element.findElements(By.className("MuiStep-root"))).thenReturn(stepElements);
+        
+        List<WebComponent> steps = testSubject.getSteps();
+        assertEquals(2, steps.size());
+    }
+
+    @Test
+    void getStepCount() {
+        WebComponent step1 = mock(WebComponent.class);
+        WebComponent step2 = mock(WebComponent.class);
+        WebComponent step3 = mock(WebComponent.class);
+        List<WebComponent> steps = asList(step1, step2, step3);
+        
+        doReturn(steps).when(testSubject).getSteps();
+        
+        assertEquals(3, testSubject.getStepCount());
+    }
+
+    @Test
+    void isVertical() {
+        when(element.getAttribute("class")).thenReturn("MuiStepper-vertical");
+        assertTrue(testSubject.isVertical());
+        
+        when(element.getAttribute("class")).thenReturn("MuiStepper-horizontal");
+        assertFalse(testSubject.isVertical());
+    }
+
+    @Test
+    void getStepLabels() {
+        WebComponent step1 = mock(WebComponent.class);
+        WebComponent step2 = mock(WebComponent.class);
+        List<WebComponent> steps = asList(step1, step2);
+        
+        WebComponent label1 = mock(WebComponent.class);
+        WebComponent label2 = mock(WebComponent.class);
+        
+        when(label1.getText()).thenReturn("Step 1");
+        when(label2.getText()).thenReturn("Step 2");
+        
+        when(step1.findComponent(By.className("MuiStepLabel-label"))).thenReturn(label1);
+        when(step2.findComponent(By.className("MuiStepLabel-label"))).thenReturn(label2);
+        
+        doReturn(steps).when(testSubject).getSteps();
+        
+        List<String> labels = testSubject.getStepLabels();
+        assertEquals(2, labels.size());
+        assertEquals("Step 1", labels.get(0));
+        assertEquals("Step 2", labels.get(1));
     }
 }

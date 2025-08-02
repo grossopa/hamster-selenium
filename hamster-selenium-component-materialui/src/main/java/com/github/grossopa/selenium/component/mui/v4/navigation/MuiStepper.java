@@ -28,14 +28,19 @@ import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.DefaultWebComponent;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static java.util.stream.Collectors.toList;
 
 /**
  * The Material UI Stepper implementation
@@ -73,5 +78,70 @@ public class MuiStepper extends AbstractMuiComponent {
     @Override
     public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
+    }
+
+    /**
+     * Gets the currently active step index.
+     *
+     * @return the zero-based index of the active step, or -1 if no step is active
+     */
+    public int getActiveStep() {
+        List<WebComponent> steps = getSteps();
+        for (int i = 0; i < steps.size(); i++) {
+            WebComponent step = steps.get(i);
+            if (config.isSelected(step) || config.isChecked(step) || 
+                step.getWrappedElement().getAttribute("class").contains(config.getCssPrefix() + "Step-active")) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Gets all step components in the stepper.
+     *
+     * @return list of step components
+     */
+    public List<WebComponent> getSteps() {
+        return element.findElements(By.className(config.getCssPrefix() + "Step-root"))
+                .stream()
+                .map(driver::mapElement)
+                .collect(toList());
+    }
+
+    /**
+     * Gets the total number of steps.
+     *
+     * @return the number of steps
+     */
+    public int getStepCount() {
+        return getSteps().size();
+    }
+
+    /**
+     * Checks if the stepper is in vertical orientation.
+     *
+     * @return true if the stepper is vertical, false if horizontal
+     */
+    public boolean isVertical() {
+        String className = element.getAttribute("class");
+        return className.contains(config.getCssPrefix() + "Stepper-vertical");
+    }
+
+    /**
+     * Gets the step labels.
+     *
+     * @return list of step label texts
+     */
+    public List<String> getStepLabels() {
+        return getSteps().stream()
+                .map(step -> {
+                    try {
+                        return step.findComponent(By.className(config.getCssPrefix() + "StepLabel-label")).getText();
+                    } catch (Exception e) {
+                        return "";
+                    }
+                })
+                .collect(toList());
     }
 }

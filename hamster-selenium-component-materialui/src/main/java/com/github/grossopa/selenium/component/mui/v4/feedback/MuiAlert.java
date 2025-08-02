@@ -28,6 +28,8 @@ import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.EnumSet;
@@ -74,5 +76,63 @@ public class MuiAlert extends AbstractMuiComponent {
     @Override
     public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
+    }
+
+    /**
+     * Gets the severity level of the alert.
+     *
+     * @return the severity level (e.g. "success", "info", "warning", "error")
+     */
+    public String getSeverity() {
+        String className = element.getAttribute("class");
+        String cssPrefix = config.getCssPrefix();
+
+        if (className.contains(cssPrefix + "Alert-standardSuccess") || className.contains(cssPrefix + "Alert-filledSuccess") || className.contains(cssPrefix + "Alert-outlinedSuccess")) {
+            return "success";
+        } else if (className.contains(cssPrefix + "Alert-standardInfo") || className.contains(cssPrefix + "Alert-filledInfo") || className.contains(cssPrefix + "Alert-outlinedInfo")) {
+            return "info";
+        } else if (className.contains(cssPrefix + "Alert-standardWarning") || className.contains(cssPrefix + "Alert-filledWarning") || className.contains(cssPrefix + "Alert-outlinedWarning")) {
+            return "warning";
+        } else if (className.contains(cssPrefix + "Alert-standardError") || className.contains(cssPrefix + "Alert-filledError") || className.contains(cssPrefix + "Alert-outlinedError")) {
+            return "error";
+        }
+
+        return "info"; // default severity
+    }
+
+    /**
+     * Gets the message text of the alert.
+     *
+     * @return the alert message text
+     */
+    public String getMessage() {
+        WebComponent messageWrapper = this.findComponent(By.className(config.getCssPrefix() + "Alert-message"));
+        return messageWrapper.getText();
+    }
+
+    /**
+     * Closes the alert if it has a close button.
+     */
+    public void close() {
+        try {
+            WebComponent closeButton = this.findComponent(By.className(config.getCssPrefix() + "Alert-closeButton"));
+            closeButton.click();
+        } catch (Exception e) {
+            throw new UnsupportedOperationException("This alert does not have a close button", e);
+        }
+    }
+
+    /**
+     * Checks if the alert has an icon.
+     *
+     * @return true if the alert has an icon, false otherwise
+     */
+    public boolean hasIcon() {
+        try {
+            this.findComponent(By.className(config.getCssPrefix() + "Alert-icon"));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

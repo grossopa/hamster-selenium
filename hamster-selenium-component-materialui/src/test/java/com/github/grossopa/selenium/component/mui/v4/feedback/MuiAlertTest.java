@@ -26,15 +26,17 @@ package com.github.grossopa.selenium.component.mui.v4.feedback;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link MuiAlert}
@@ -52,6 +54,7 @@ class MuiAlertTest {
     @BeforeEach
     void setUp() {
         testSubject = new MuiAlert(element, driver, config);
+        when(config.getCssPrefix()).thenReturn("Mui");
     }
 
     @Test
@@ -64,5 +67,69 @@ class MuiAlertTest {
         assertTrue(testSubject.versions().contains(V4));
         assertTrue(testSubject.versions().contains(V5));
         assertTrue(testSubject.versions().contains(V6));
+    }
+
+    @Test
+    void getSeverity() {
+        // Test success severity
+        when(element.getAttribute("class")).thenReturn("MuiAlert-standardSuccess");
+        assertEquals("success", testSubject.getSeverity());
+        
+        // Test info severity
+        when(element.getAttribute("class")).thenReturn("MuiAlert-standardInfo");
+        assertEquals("info", testSubject.getSeverity());
+        
+        // Test warning severity
+        when(element.getAttribute("class")).thenReturn("MuiAlert-standardWarning");
+        assertEquals("warning", testSubject.getSeverity());
+        
+        // Test error severity
+        when(element.getAttribute("class")).thenReturn("MuiAlert-standardError");
+        assertEquals("error", testSubject.getSeverity());
+        
+        // Test default severity
+        when(element.getAttribute("class")).thenReturn("");
+        assertEquals("info", testSubject.getSeverity());
+    }
+
+    @Test
+    void getMessage() {
+        WebComponent messageWrapper = mock(WebComponent.class);
+        when(messageWrapper.getText()).thenReturn("Test message");
+        when(testSubject.findComponent(By.className("MuiAlert-message"))).thenReturn(messageWrapper);
+        
+        assertEquals("Test message", testSubject.getMessage());
+    }
+
+    @Test
+    void close() {
+        WebComponent closeButton = mock(WebComponent.class);
+        when(testSubject.findComponent(By.className("MuiAlert-closeButton"))).thenReturn(closeButton);
+        
+        testSubject.close();
+        
+        verify(closeButton).click();
+    }
+
+    @Test
+    void close_unsupported() {
+        when(testSubject.findComponent(By.className("MuiAlert-closeButton"))).thenThrow(new RuntimeException());
+        
+        assertThrows(UnsupportedOperationException.class, testSubject::close);
+    }
+
+    @Test
+    void hasIcon() {
+        WebComponent icon = mock(WebComponent.class);
+        when(testSubject.findComponent(By.className("MuiAlert-icon"))).thenReturn(icon);
+        
+        assertTrue(testSubject.hasIcon());
+    }
+
+    @Test
+    void hasIcon_false() {
+        when(testSubject.findComponent(By.className("MuiAlert-icon"))).thenThrow(new RuntimeException());
+        
+        assertFalse(testSubject.hasIcon());
     }
 }

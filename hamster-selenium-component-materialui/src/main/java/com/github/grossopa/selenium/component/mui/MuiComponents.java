@@ -561,6 +561,19 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiListItem(component, driver, config));
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiRating}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiRating-root".</p>
+     *
+     * @return the wrapped {@link MuiRating} instance on the given component
+     */
+    public MuiRating toRating() {
+        return create(() -> new MuiRating(component, driver, config), () -> new MuiRating(component, driver, config));
+    }
+
     /////////////////////////
     // Feedback Components //
     /////////////////////////

@@ -28,14 +28,18 @@ import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static java.util.stream.Collectors.toList;
 
 /**
  * The Material UI Rating implementation
@@ -74,5 +78,58 @@ public class MuiRating extends AbstractMuiComponent {
     @Override
     public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
+    }
+
+    /**
+     * Gets the current rating value.
+     *
+     * @return the current rating value
+     */
+    public double getValue() {
+        List<WebComponent> stars = getStars();
+        for (int i = stars.size() - 1; i >= 0; i--) {
+            WebComponent star = stars.get(i);
+            if (config.isSelected(star) || config.isChecked(star)) {
+                return i + 1;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Sets the rating value by clicking on the appropriate star.
+     *
+     * @param value the rating value to set
+     */
+    public void setValue(int value) {
+        if (value < 0 || value > getStars().size()) {
+            throw new IllegalArgumentException("Invalid rating value: " + value);
+        }
+        if (value > 0) {
+            List<WebComponent> stars = getStars();
+            stars.get(value - 1).click();
+        }
+    }
+
+    /**
+     * Gets all star components in the rating.
+     *
+     * @return list of star components
+     */
+    public List<WebComponent> getStars() {
+        return element.findElements(By.cssSelector("[role='radio'], span"))
+                .stream()
+                .map(driver::mapElement)
+                .collect(toList());
+    }
+
+    /**
+     * Checks if the rating component is read-only.
+     *
+     * @return true if the rating is read-only, false otherwise
+     */
+    public boolean isReadOnly() {
+        return element.getAttribute("aria-readonly") != null
+                && "true".equals(element.getAttribute("aria-readonly"));
     }
 }
