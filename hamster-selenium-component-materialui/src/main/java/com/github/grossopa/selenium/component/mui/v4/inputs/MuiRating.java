@@ -29,6 +29,7 @@ import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.locator.By2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -39,6 +40,7 @@ import java.util.Set;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -89,7 +91,7 @@ public class MuiRating extends AbstractMuiComponent {
         List<WebComponent> stars = getStars();
         for (int i = stars.size() - 1; i >= 0; i--) {
             WebComponent star = stars.get(i);
-            if (config.isSelected(star) || config.isChecked(star)) {
+            if (star.attributeContains(CLASS, config.getCssPrefix() + "Rating-iconFilled")) {
                 return i + 1;
             }
         }
@@ -107,7 +109,8 @@ public class MuiRating extends AbstractMuiComponent {
         }
         if (value > 0) {
             List<WebComponent> stars = getStars();
-            stars.get(value - 1).click();
+            // parent is a clickable label element
+            stars.get(value - 1).findComponent(By2.parent()).click();
         }
     }
 
@@ -117,7 +120,7 @@ public class MuiRating extends AbstractMuiComponent {
      * @return list of star components
      */
     public List<WebComponent> getStars() {
-        return element.findElements(By.cssSelector("[role='radio'], span"))
+        return element.findElements(By.className(config.getCssPrefix() + "Rating-icon"))
                 .stream()
                 .map(driver::mapElement)
                 .collect(toList());
@@ -129,7 +132,6 @@ public class MuiRating extends AbstractMuiComponent {
      * @return true if the rating is read-only, false otherwise
      */
     public boolean isReadOnly() {
-        return element.getAttribute("aria-readonly") != null
-                && "true".equals(element.getAttribute("aria-readonly"));
+        return this.attributeContains(CLASS, config.getCssPrefix() + "-readOnly");
     }
 }

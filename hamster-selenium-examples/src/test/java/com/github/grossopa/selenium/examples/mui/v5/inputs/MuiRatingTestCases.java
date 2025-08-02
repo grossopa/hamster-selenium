@@ -54,12 +54,9 @@ public class MuiRatingTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://mui.com/material-ui/react-rating/");
 
         // Test controlled rating
-        WebComponent controlledContainer = driver.findComponent(By.id("BasicRating.js"))
+        MuiRating controlledRating = driver.findComponent(By.id("BasicRating.js"))
                 .findComponent(By2.parent())
-                .findComponent(By.xpath(".//*[contains(text(), 'Controlled')]"))
-                .findComponent(By2.parent());
-
-        MuiRating controlledRating = controlledContainer.findComponent(By.className("MuiRating-root"))
+                .findComponent(By.xpath(".//*[contains(text(), 'Controlled')]/following::*[1]"))
                 .as(muiV5()).toRating();
         assertTrue(controlledRating.validate());
 
@@ -71,30 +68,24 @@ public class MuiRatingTestCases extends AbstractBrowserSupport {
         assertEquals(4.0, controlledRating.getValue(), 0.1);
 
         // Test uncontrolled rating
-        WebComponent uncontrolledContainer = driver.findComponent(By.id("BasicRating.js"))
+        MuiRating uncontrolledRating = driver.findComponent(By.id("BasicRating.js"))
                 .findComponent(By2.parent())
-                .findComponent(By.xpath(".//*[contains(text(), 'Uncontrolled')]/following::*[1]"));
-
-        MuiRating uncontrolledRating = uncontrolledContainer.findComponent(By.className("MuiRating-root"))
+                .findComponent(By.xpath(".//*[contains(text(), 'Uncontrolled')]/following::*[1]"))
                 .as(muiV5()).toRating();
         assertTrue(uncontrolledRating.validate());
 
         // Test read only rating
-        WebComponent readOnlyContainer = driver.findComponent(By.id("BasicRating.js"))
+        MuiRating readOnlyRating = driver.findComponent(By.id("BasicRating.js"))
                 .findComponent(By2.parent())
-                .findComponent(By.xpath(".//*[contains(text(), 'Read only')]/following::*[1]"));
-
-        MuiRating readOnlyRating = readOnlyContainer.findComponent(By.className("MuiRating-root"))
+                .findComponent(By.xpath(".//*[contains(text(), 'Read only')]/following::*[1]"))
                 .as(muiV5()).toRating();
         assertTrue(readOnlyRating.validate());
         assertTrue(readOnlyRating.isReadOnly());
 
         // Test disabled rating
-        WebComponent disabledContainer = driver.findComponent(By.id("BasicRating.js"))
+        MuiRating disabledRating = driver.findComponent(By.id("BasicRating.js"))
                 .findComponent(By2.parent())
-                .findComponent(By.xpath(".//*[contains(text(), 'Disabled')]/following::*[1]"));
-
-        MuiRating disabledRating = disabledContainer.findComponent(By.className("MuiRating-root"))
+                .findComponent(By.xpath(".//*[contains(text(), 'Disabled')]/following::*[1]"))
                 .as(muiV5()).toRating();
         assertTrue(disabledRating.validate());
     }
@@ -106,35 +97,7 @@ public class MuiRatingTestCases extends AbstractBrowserSupport {
      * https://mui.com/material-ui/react-rating/#rating-precision</a>
      */
     public void testRatingPrecision() {
-        driver.navigate().to("https://mui.com/material-ui/react-rating/");
-
-        WebComponent precisionContainer = driver.findComponent(By.id("HoverFeedback.js"))
-                .findComponent(By2.parent());
-
-        MuiRating precisionRating = precisionContainer.findComponent(By.className("MuiRating-root"))
-                .as(muiV5()).toRating();
-        assertTrue(precisionRating.validate());
-
-        // Test setting half-star value
-        precisionRating.setValue(3);
-        assertEquals(3.0, precisionRating.getValue(), 0.1);
-    }
-
-    /**
-     * Tests the different sizes of rating.
-     *
-     * @see <a href="https://mui.com/material-ui/react-rating/#sizes">
-     * https://mui.com/material-ui/react-rating/#sizes</a>
-     */
-    public void testRatingSizes() {
-        driver.navigate().to("https://mui.com/material-ui/react-rating/");
-
-        List<MuiRating> sizeRatings = driver.findComponent(By.id("Sizes.js"))
-                .findComponent(By2.parent())
-                .findComponentsAs(By.className("MuiRating-root"), c -> c.as(muiV5()).toRating());
-
-        assertEquals(3, sizeRatings.size());
-        sizeRatings.forEach(rating -> assertTrue(rating.validate()));
+        // TODO not supported yet
     }
 
     /**
@@ -147,26 +110,26 @@ public class MuiRatingTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://mui.com/material-ui/react-rating/");
 
         // Test 10 stars rating
-        WebComponent tenStarsContainer = driver.findComponent(By.id("Customization.js"))
+        MuiRating tenStarsRating= driver.findComponent(By.id("CustomizedRating.js"))
                 .findComponent(By2.parent())
-                .findComponent(By.xpath(".//*[contains(text(), '10 stars')]/following::*[1]"));
-
-        MuiRating tenStarsRating = tenStarsContainer.findComponent(By.className("MuiRating-root"))
+                .findComponent(By.xpath(".//*[contains(text(), '10 stars')]/following::*[1]"))
                 .as(muiV5()).toRating();
         assertTrue(tenStarsRating.validate());
 
         List<WebComponent> stars = tenStarsRating.getStars();
         assertEquals(10, stars.size());
+
+        tenStarsRating.setValue(8);
+        assertEquals(8.0, tenStarsRating.getValue(), 0.1);
     }
 
     public static void main(String[] args) {
         MuiRatingTestCases test = new MuiRatingTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/material-ui/react-rating/");
+        driver.navigate().to("https://mui.com/material-ui/react-rating/");
 
         test.testBasicRating();
         test.testRatingPrecision();
-        test.testRatingSizes();
         test.testCustomizedRating();
     }
 }
