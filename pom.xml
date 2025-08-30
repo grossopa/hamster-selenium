@@ -78,7 +78,7 @@
     <java.version>11</java.version>
 
     <!-- project dependencies -->
-    <commons-lang3.version>3.17.0</commons-lang3.version>
+    <commons-lang3.version>3.18.0</commons-lang3.version>
     <commons-math3.version>3.6.1</commons-math3.version>
     <selenium-java.version>4.27.0</selenium-java.version>
 
