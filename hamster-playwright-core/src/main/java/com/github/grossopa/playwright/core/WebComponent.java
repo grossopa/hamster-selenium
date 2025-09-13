@@ -43,7 +43,7 @@ import java.util.function.Function;
  * @author Jack Yin
  * @since 1.0
  */
-public interface WebComponent {
+public interface WebComponent extends Locator {
 
     /**
      * Finds all nested components within the current component using the given selector.
@@ -75,7 +75,7 @@ public interface WebComponent {
      * </p>
      *
      * @param mapper The function that converts this WebComponent to a more specific type
-     * @param <T> The target component type
+     * @param <T>    The target component type
      * @return The converted component instance
      */
     <T> T as(Function<WebComponent, T> mapper);

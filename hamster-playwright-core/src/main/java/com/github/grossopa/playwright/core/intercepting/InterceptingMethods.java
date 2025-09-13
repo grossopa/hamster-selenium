@@ -24,8 +24,10 @@
 
 package com.github.grossopa.playwright.core.intercepting;
 
+import com.microsoft.playwright.Locator;
+
 /**
- * The methods that could be intercepted.
+ * Defines all intercepting method names for logging and monitoring purpose.
  *
  * @author Jack Yin
  * @since 1.0
@@ -123,4 +125,99 @@ public class InterceptingMethods {
      * Represents the {@link com.github.grossopa.playwright.core.WebComponent#fill(String)}
      */
     public static final String COMPONENT_FILL = "component.fill";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#click()}
+     */
+    public static final String LOCATOR_CLICK = "locator.click";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#dblclick()}
+     */
+    public static final String LOCATOR_DBLCLICK = "locator.dblclick";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#fill(String)}
+     */
+    public static final String LOCATOR_FILL = "locator.fill";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#hover()}
+     */
+    public static final String LOCATOR_HOVER = "locator.hover";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#innerHTML()}
+     */
+    public static final String LOCATOR_INNER_HTML = "locator.innerHTML";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#innerText()}
+     */
+    public static final String LOCATOR_INNER_TEXT = "locator.innerText";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#textContent()}
+     */
+    public static final String LOCATOR_TEXT_CONTENT = "locator.textContent";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#getAttribute(String)}
+     */
+    public static final String LOCATOR_GET_ATTRIBUTE = "locator.getAttribute";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#isDisabled()}
+     */
+    public static final String LOCATOR_IS_DISABLED = "locator.isDisabled";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#isEnabled()}
+     */
+    public static final String LOCATOR_IS_ENABLED = "locator.isEnabled";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#isVisible()}
+     */
+    public static final String LOCATOR_IS_VISIBLE = "locator.isVisible";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#selectOption(String[])}
+     */
+    public static final String LOCATOR_SELECT_OPTION = "locator.selectOption";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#dragTo(Locator)}
+     */
+    public static final String LOCATOR_DRAG_TO = "locator.dragTo";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#focus()}
+     */
+    public static final String LOCATOR_FOCUS = "locator.focus";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#blur()}
+     */
+    public static final String LOCATOR_BLUR = "locator.blur";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#boundingBox()}
+     */
+    public static final String LOCATOR_BOUNDING_BOX = "locator.boundingBox";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#check()}
+     */
+    public static final String LOCATOR_CHECK = "locator.check";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#inputValue()}
+     */
+    public static final String LOCATOR_INPUT_VALUE = "locator.inputValue";
+    
+    /**
+     * Represents the {@link com.microsoft.playwright.Locator#press(String)}
+     */
+    public static final String LOCATOR_PRESS = "locator.press";
 }

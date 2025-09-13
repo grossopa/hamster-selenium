@@ -154,4 +154,12 @@ public interface ComponentDriver {
      * @param url the URL to navigate to
      */
     void navigate(String url);
+
+    /**
+     * Navigates to the given URL.
+     *
+     * @param url the URL to navigate to
+     * @param timeoutInMillis the timeout in milliseconds
+     */
+    void navigate(String url, long timeoutInMillis);
 }

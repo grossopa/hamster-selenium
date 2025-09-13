@@ -23,43 +23,32 @@
   ~ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.github.grossopa</groupId>
     <artifactId>hamster-selenium-parent</artifactId>
+    <groupId>com.github.grossopa</groupId>
     <version>1.12.0-SNAPSHOT</version>
   </parent>
+  <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>hamster-playwright-core</artifactId>
-
-  <properties>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  <artifactId>hamster-playwright-examples</artifactId>
 
   <dependencies>
     <dependency>
-      <groupId>com.microsoft.playwright</groupId>
-      <artifactId>playwright</artifactId>
-      <version>1.55.0</version>
+      <groupId>com.github.grossopa</groupId>
+      <artifactId>hamster-playwright-component-html</artifactId>
+      <version>${project.version}</version>
     </dependency>
-    
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.18.0</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>compile</scope>
     </dependency>
-    
-    <!-- Byte Buddy for dynamic proxy creation -->
     <dependency>
-      <groupId>net.bytebuddy</groupId>
-      <artifactId>byte-buddy</artifactId>
-      <version>1.14.0</version>
-      <!-- Changed scope from test to compile -->
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 

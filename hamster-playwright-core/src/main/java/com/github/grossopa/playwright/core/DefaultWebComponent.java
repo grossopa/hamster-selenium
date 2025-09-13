@@ -37,11 +37,9 @@ import static java.util.stream.Collectors.toList;
  * @author Jack Yin
  * @since 1.0
  */
-public class DefaultWebComponent implements WebComponent {
+public class DefaultWebComponent extends AbstractDelegatedLocator implements WebComponent {
 
-    protected final Locator locator;
     protected final ComponentDriver driver;
-
     /**
      * Constructs with the given locator and driver
      *
@@ -49,7 +47,7 @@ public class DefaultWebComponent implements WebComponent {
      * @param driver the driver instance
      */
     public DefaultWebComponent(Locator locator, ComponentDriver driver) {
-        this.locator = locator;
+        super(locator);
         this.driver = driver;
     }
 
@@ -126,5 +124,9 @@ public class DefaultWebComponent implements WebComponent {
     @Override
     public ComponentDriver driver() {
         return driver;
+    }
+
+    public String getComponentTagName() {
+        return "DefaultWebComponent";
     }
 }
