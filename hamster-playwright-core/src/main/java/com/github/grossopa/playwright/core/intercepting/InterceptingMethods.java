@@ -28,6 +28,7 @@ import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.FrameLocator;
 
 import java.nio.file.Path;
 
@@ -419,4 +420,78 @@ public class InterceptingMethods {
      * Represents the {@link Locator#isHidden()}
      */
     public static final String LOCATOR_IS_HIDDEN = "locator.isHidden";
+
+    /**
+     * Represents the {@link Locator#contentFrame()}
+     */
+    public static final String LOCATOR_CONTENT_FRAME = "locator.contentFrame";
+
+    /**
+     * Represents the {@link Locator#frameLocator(String)}
+     */
+    public static final String LOCATOR_FRAME_LOCATOR = "locator.frameLocator";
+    /**
+     * Represents the {@link FrameLocator#locator(String)}
+     */
+    public static final String FRAME_LOCATOR_LOCATOR = "frameLocator.locator";
+
+    /**
+     * Represents the {@link FrameLocator#frameLocator(String)}
+     */
+    public static final String FRAME_LOCATOR_FRAME_LOCATOR = "frameLocator.frameLocator";
+
+    /**
+     * Represents the {@link FrameLocator#getByAltText(String)}
+     */
+    public static final String FRAME_LOCATOR_GET_BY_ALT_TEXT = "frameLocator.getByAltText";
+
+    /**
+     * Represents the {@link FrameLocator#getByLabel(String)}
+     */
+    public static final String FRAME_LOCATOR_GET_BY_LABEL = "frameLocator.getByLabel";
+
+    /**
+     * Represents the {@link FrameLocator#getByPlaceholder(String)}
+     */
+    public static final String FRAME_LOCATOR_GET_BY_PLACEHOLDER = "frameLocator.getByPlaceholder";
+
+    /**
+     * Represents the {@link FrameLocator#getByRole(AriaRole)}
+     */
+    public static final String FRAME_LOCATOR_GET_BY_ROLE = "frameLocator.getByRole";
+
+    /**
+     * Represents the {@link FrameLocator#getByTestId(String)}
+     */
+    public static final String FRAME_LOCATOR_GET_BY_TEST_ID = "frameLocator.getByTestId";
+
+    /**
+     * Represents the {@link FrameLocator#getByText(String)}
+     */
+    public static final String FRAME_LOCATOR_GET_BY_TEXT = "frameLocator.getByText";
+
+    /**
+     * Represents the {@link FrameLocator#getByTitle(String)}
+     */
+    public static final String FRAME_LOCATOR_GET_BY_TITLE = "frameLocator.getByTitle";
+
+    /**
+     * Represents the {@link FrameLocator#first()}
+     */
+    public static final String FRAME_LOCATOR_FIRST = "frameLocator.first";
+
+    /**
+     * Represents the {@link FrameLocator#last()}
+     */
+    public static final String FRAME_LOCATOR_LAST = "frameLocator.last";
+
+    /**
+     * Represents the {@link FrameLocator#nth(int)}
+     */
+    public static final String FRAME_LOCATOR_NTH = "frameLocator.nth";
+
+    /**
+     * Represents the {@link FrameLocator#owner()}
+     */
+    public static final String FRAME_LOCATOR_OWNER = "frameLocator.owner";
 }

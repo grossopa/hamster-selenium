@@ -647,8 +647,8 @@ public class InterceptingLocator implements Locator {
 
     @Override
     public FrameLocator frameLocator(String frameSelector) {
-        // frameLocator creates a new FrameLocator, so we return it directly
-        return locator.frameLocator(frameSelector);
+        return handler.execute(() -> new InterceptingFrameLocator(locator.frameLocator(frameSelector), handler),
+                MethodInfo.create(locator, LOCATOR_FRAME_LOCATOR));
     }
 
     @Override
@@ -913,8 +913,8 @@ public class InterceptingLocator implements Locator {
 
     @Override
     public FrameLocator contentFrame() {
-        //TODO
-        return locator.contentFrame();
+        return handler.execute(() -> new InterceptingFrameLocator(locator.contentFrame(), handler),
+            MethodInfo.create(locator, LOCATOR_CONTENT_FRAME));
     }
 
     @Override
