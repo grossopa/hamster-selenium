@@ -44,6 +44,7 @@ public class HtmlShowCase extends AbstractBrowserSupport {
 
     public void testTable() {
         driver.navigate("https://www.w3schools.com/html/html_tables.asp", 600_000);
+        System.out.println("page loaded");
         WebComponent tableComponent = driver.findComponent("#customers");
         System.out.println(tableComponent.innerHTML());
         HtmlTable table = new HtmlTable(tableComponent, driver);
