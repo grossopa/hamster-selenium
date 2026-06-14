@@ -33,12 +33,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -79,24 +81,24 @@ class MuiStepperTest {
         WebComponent step2 = mock(WebComponent.class);
         WebComponent step3 = mock(WebComponent.class);
         List<WebComponent> steps = asList(step1, step2, step3);
-        
+
         WebElement element1 = mock(WebElement.class);
         WebElement element2 = mock(WebElement.class);
         WebElement element3 = mock(WebElement.class);
-        
+
         when(step1.getWrappedElement()).thenReturn(element1);
         when(step2.getWrappedElement()).thenReturn(element2);
         when(step3.getWrappedElement()).thenReturn(element3);
-        
+
         when(config.isSelected(step1)).thenReturn(false);
         when(config.isChecked(step1)).thenReturn(false);
         when(config.isSelected(step2)).thenReturn(false);
         when(config.isChecked(step2)).thenReturn(false);
         when(config.isSelected(step3)).thenReturn(true);
         when(config.isChecked(step3)).thenReturn(true);
-        
+
         doReturn(steps).when(testSubject).getSteps();
-        
+
         assertEquals(2, testSubject.getActiveStep()); // 0-indexed
     }
 
@@ -106,28 +108,28 @@ class MuiStepperTest {
         WebComponent step2 = mock(WebComponent.class);
         WebComponent step3 = mock(WebComponent.class);
         List<WebComponent> steps = asList(step1, step2, step3);
-        
+
         WebElement element1 = mock(WebElement.class);
         WebElement element2 = mock(WebElement.class);
         WebElement element3 = mock(WebElement.class);
-        
+
         when(step1.getWrappedElement()).thenReturn(element1);
         when(step2.getWrappedElement()).thenReturn(element2);
         when(step3.getWrappedElement()).thenReturn(element3);
-        
+
         when(config.isSelected(step1)).thenReturn(false);
         when(config.isChecked(step1)).thenReturn(false);
         when(config.isSelected(step2)).thenReturn(false);
         when(config.isChecked(step2)).thenReturn(false);
         when(config.isSelected(step3)).thenReturn(false);
         when(config.isChecked(step3)).thenReturn(false);
-        
+
         when(element1.getAttribute("class")).thenReturn("");
         when(element2.getAttribute("class")).thenReturn("");
         when(element3.getAttribute("class")).thenReturn("MuiStep-active");
-        
+
         doReturn(steps).when(testSubject).getSteps();
-        
+
         assertEquals(2, testSubject.getActiveStep()); // 0-indexed
     }
 
@@ -136,14 +138,14 @@ class MuiStepperTest {
         WebComponent step1 = mock(WebComponent.class);
         WebComponent step2 = mock(WebComponent.class);
         List<WebComponent> steps = asList(step1, step2);
-        
+
         when(config.isSelected(step1)).thenReturn(false);
         when(config.isChecked(step1)).thenReturn(false);
         when(config.isSelected(step2)).thenReturn(false);
         when(config.isChecked(step2)).thenReturn(false);
-        
+
         doReturn(steps).when(testSubject).getSteps();
-        
+
         assertEquals(-1, testSubject.getActiveStep());
     }
 
@@ -152,14 +154,14 @@ class MuiStepperTest {
         WebElement stepElement1 = mock(WebElement.class);
         WebElement stepElement2 = mock(WebElement.class);
         List<WebElement> stepElements = asList(stepElement1, stepElement2);
-        
+
         WebComponent stepComponent1 = mock(WebComponent.class);
         WebComponent stepComponent2 = mock(WebComponent.class);
-        
+
         when(element.findElements(By.className("MuiStep-root"))).thenReturn(stepElements);
         when(driver.mapElement(stepElement1)).thenReturn(stepComponent1);
         when(driver.mapElement(stepElement2)).thenReturn(stepComponent2);
-        
+
         List<WebComponent> steps = testSubject.getSteps();
         assertEquals(2, steps.size());
         assertEquals(stepComponent1, steps.get(0));
@@ -172,9 +174,7 @@ class MuiStepperTest {
         WebComponent step2 = mock(WebComponent.class);
         WebComponent step3 = mock(WebComponent.class);
         List<WebComponent> steps = asList(step1, step2, step3);
-        
-        doReturn(steps).when(testSubject).getSteps();
-        
+
         assertEquals(3, testSubject.getStepCount());
     }
 
@@ -182,7 +182,7 @@ class MuiStepperTest {
     void isVertical() {
         when(element.getAttribute("class")).thenReturn("MuiStepper-vertical");
         assertTrue(testSubject.isVertical());
-        
+
         when(element.getAttribute("class")).thenReturn("MuiStepper-horizontal");
         assertFalse(testSubject.isVertical());
     }
@@ -192,20 +192,21 @@ class MuiStepperTest {
         WebComponent step1 = mock(WebComponent.class);
         WebComponent step2 = mock(WebComponent.class);
         WebComponent step3 = mock(WebComponent.class);
-        List<WebComponent> steps = asList(step1, step2, step3);
-        
+        List<WebElement> steps = asList(step1, step2, step3);
+
         WebComponent label1 = mock(WebComponent.class);
         WebComponent label2 = mock(WebComponent.class);
-        
+
         when(label1.getText()).thenReturn("Step 1");
         when(label2.getText()).thenReturn("Step 2");
-        
+
         when(step1.findComponent(By.className("MuiStepLabel-label"))).thenReturn(label1);
         when(step2.findComponent(By.className("MuiStepLabel-label"))).thenReturn(label2);
-        when(step3.findComponent(By.className("MuiStepLabel-label"))).thenThrow(new RuntimeException("Element not found"));
-        
-        doReturn(steps).when(testSubject).getSteps();
-        
+        when(step3.findComponent(By.className("MuiStepLabel-label"))).thenThrow(
+                new RuntimeException("Element not found"));
+
+        when(element.findElements(any(By.class))).thenReturn(steps);
+
         List<String> labels = testSubject.getStepLabels();
         assertEquals(3, labels.size());
         assertEquals("Step 1", labels.get(0));

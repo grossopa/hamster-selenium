@@ -72,6 +72,7 @@
     <module>hamster-selenium-examples</module>
     <module>hamster-playwright-core</module>
     <module>hamster-playwright-component-html</module>
+    <module>hamster-playwright-component-mui</module>
     <module>hamster-playwright-examples</module>
   </modules>
 
