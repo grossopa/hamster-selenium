@@ -41,6 +41,11 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.github.grossopa</groupId>
+      <artifactId>hamster-playwright-component-mui</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
       <scope>compile</scope>
