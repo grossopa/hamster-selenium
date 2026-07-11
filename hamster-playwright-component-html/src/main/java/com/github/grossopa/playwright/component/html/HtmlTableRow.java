@@ -29,7 +29,9 @@ import com.github.grossopa.playwright.core.DefaultWebComponent;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * The HTML table row component.
@@ -39,14 +41,28 @@ import java.util.List;
  */
 public class HtmlTableRow extends DefaultWebComponent {
 
+    private final List<String> headerLabels;
+
     /**
-     * Constructs with the given locator and driver
+     * Constructs an instance with the given locator and driver
      *
      * @param locator the locator instance
      * @param driver the driver instance
      */
     public HtmlTableRow(Locator locator, ComponentDriver driver) {
+        this(locator, driver, Collections.emptyList());
+    }
+
+    /**
+     * Constructs an instance with the given locator, driver and header labels
+     *
+     * @param locator the locator instance
+     * @param driver the driver instance
+     * @param headerLabels the header labels for column lookup
+     */
+    public HtmlTableRow(Locator locator, ComponentDriver driver, List<String> headerLabels) {
         super(locator, driver);
+        this.headerLabels = headerLabels != null ? headerLabels : Collections.emptyList();
     }
 
     @Override
@@ -71,5 +87,29 @@ public class HtmlTableRow extends DefaultWebComponent {
      */
     public WebComponent getCell(int index) {
         return this.findComponents("td, th").get(index);
+    }
+
+    /**
+     * Gets the cell by header label
+     *
+     * @param headerLabel the header label to look up
+     * @return the cell at the column matching the header label
+     * @throws NoSuchElementException if the header label is not found
+     */
+    public WebComponent getCell(String headerLabel) {
+        int index = headerLabels.indexOf(headerLabel);
+        if (index == -1) {
+            throw new NoSuchElementException("No such column with header label: " + headerLabel);
+        }
+        return getCell(index);
+    }
+
+    /**
+     * Gets the header labels associated with this row
+     *
+     * @return the header labels
+     */
+    public List<String> getHeaderLabels() {
+        return headerLabels;
     }
 }

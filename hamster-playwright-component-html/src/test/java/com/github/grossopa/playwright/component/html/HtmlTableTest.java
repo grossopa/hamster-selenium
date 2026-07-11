@@ -59,6 +59,18 @@ class HtmlTableTest {
     }
 
     @Test
+    void validateTrue() {
+        when(locator.evaluate("el => el.tagName")).thenReturn("TABLE");
+        assertTrue(testSubject.validate());
+    }
+
+    @Test
+    void validateFalse() {
+        when(locator.evaluate("el => el.tagName")).thenReturn("div");
+        assertFalse(testSubject.validate());
+    }
+
+    @Test
     void getRows() {
         Locator trLocator = mock(Locator.class);
         Locator row1 = mock(Locator.class);
@@ -84,40 +96,169 @@ class HtmlTableTest {
     }
 
     @Test
-    void getHeader() {
-        Locator headerLocator = mock(Locator.class);
-        Locator firstLocator = mock(Locator.class);
+    void getHeaderLabels() {
+        Locator headerRowLocator = mock(Locator.class);
+        Locator headerRow = mock(Locator.class);
+        Locator thLocator = mock(Locator.class);
+        Locator th1 = mock(Locator.class);
+        Locator th2 = mock(Locator.class);
 
-        when(locator.locator("tbody > tr, tr, thead > tr")).thenReturn(headerLocator);
-        when(headerLocator.first()).thenReturn(firstLocator);
+        when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
+        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRow.locator("th")).thenReturn(thLocator);
+        when(thLocator.all()).thenReturn(Arrays.asList(th1, th2));
+        when(th1.innerText()).thenReturn("Name");
+        when(th2.innerText()).thenReturn("Age");
+
+        List<String> labels = testSubject.getHeaderLabels();
+        assertEquals(2, labels.size());
+        assertEquals("Name", labels.get(0));
+        assertEquals("Age", labels.get(1));
+    }
+
+    @Test
+    void getHeaderLabelsEmpty() {
+        Locator headerRowLocator = mock(Locator.class);
+        when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
+        when(headerRowLocator.all()).thenReturn(Collections.emptyList());
+
+        List<String> labels = testSubject.getHeaderLabels();
+        assertTrue(labels.isEmpty());
+    }
+
+    @Test
+    void getHeaderRow() {
+        Locator headerRowLocator = mock(Locator.class);
+        Locator headerRow = mock(Locator.class);
+        Locator thLocator = mock(Locator.class);
+        Locator th1 = mock(Locator.class);
+
+        when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
+        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRow.locator("th")).thenReturn(thLocator);
+        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(th1.innerText()).thenReturn("Header");
+
+        HtmlTableRow headerRow_result = testSubject.getHeaderRow();
+        assertNotNull(headerRow_result);
+    }
+
+    @Test
+    void getHeaderRows() {
+        Locator headerRowLocator = mock(Locator.class);
+        Locator headerRow1 = mock(Locator.class);
+        Locator headerRow2 = mock(Locator.class);
+        Locator thLocator = mock(Locator.class);
+        Locator th1 = mock(Locator.class);
+
+        when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
+        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow1, headerRow2));
+        when(headerRow1.locator("th")).thenReturn(thLocator);
+        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(th1.innerText()).thenReturn("Header");
+
+        List<HtmlTableRow> headerRows = testSubject.getHeaderRows();
+        assertEquals(2, headerRows.size());
+    }
+
+    @Test
+    void getHeader() {
+        Locator headerRowLocator = mock(Locator.class);
+        Locator headerRow = mock(Locator.class);
+        Locator thLocator = mock(Locator.class);
+        Locator th1 = mock(Locator.class);
+
+        when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
+        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRow.locator("th")).thenReturn(thLocator);
+        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(th1.innerText()).thenReturn("Header");
 
         HtmlTableRow header = testSubject.getHeader();
         assertNotNull(header);
-        assertInstanceOf(HtmlTableRow.class, header);
+    }
+
+    @Test
+    void getBodyRow() {
+        Locator headerRowLocator = mock(Locator.class);
+        Locator headerRow = mock(Locator.class);
+        Locator thLocator = mock(Locator.class);
+        Locator th1 = mock(Locator.class);
+        
+        Locator bodyRowLocator = mock(Locator.class);
+        Locator bodyRow1 = mock(Locator.class);
+        Locator bodyRow2 = mock(Locator.class);
+
+        when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
+        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRow.locator("th")).thenReturn(thLocator);
+        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(th1.innerText()).thenReturn("Header");
+        
+        when(locator.locator("tr:has(td)")).thenReturn(bodyRowLocator);
+        when(bodyRowLocator.all()).thenReturn(Arrays.asList(bodyRow1, bodyRow2));
+
+        HtmlTableRow bodyRow = testSubject.getBodyRow(0);
+        assertNotNull(bodyRow);
+    }
+
+    @Test
+    void getBodyRows() {
+        Locator headerRowLocator = mock(Locator.class);
+        Locator headerRow = mock(Locator.class);
+        Locator thLocator = mock(Locator.class);
+        Locator th1 = mock(Locator.class);
+        
+        Locator bodyRowLocator = mock(Locator.class);
+        Locator bodyRow1 = mock(Locator.class);
+        Locator bodyRow2 = mock(Locator.class);
+        Locator bodyRow3 = mock(Locator.class);
+
+        when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
+        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRow.locator("th")).thenReturn(thLocator);
+        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(th1.innerText()).thenReturn("Header");
+        
+        when(locator.locator("tr:has(td)")).thenReturn(bodyRowLocator);
+        when(bodyRowLocator.all()).thenReturn(Arrays.asList(bodyRow1, bodyRow2, bodyRow3));
+
+        List<HtmlTableRow> bodyRows = testSubject.getBodyRows();
+        assertEquals(3, bodyRows.size());
     }
 
     @Test
     void getDataRows() {
-        Locator tbodyLocator = mock(Locator.class);
-        Locator dataRow1 = mock(Locator.class);
-        Locator dataRow2 = mock(Locator.class);
-        Locator dataRow3 = mock(Locator.class);
+        Locator headerRowLocator = mock(Locator.class);
+        Locator headerRow = mock(Locator.class);
+        Locator thLocator = mock(Locator.class);
+        Locator th1 = mock(Locator.class);
+        
+        Locator bodyRowLocator = mock(Locator.class);
+        Locator bodyRow1 = mock(Locator.class);
 
-        when(locator.locator("tbody > tr:has(td)")).thenReturn(tbodyLocator);
-        when(tbodyLocator.all()).thenReturn(Arrays.asList(dataRow1, dataRow2, dataRow3));
+        when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
+        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRow.locator("th")).thenReturn(thLocator);
+        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(th1.innerText()).thenReturn("Header");
+        
+        when(locator.locator("tr:has(td)")).thenReturn(bodyRowLocator);
+        when(bodyRowLocator.all()).thenReturn(Arrays.asList(bodyRow1));
 
         List<HtmlTableRow> dataRows = testSubject.getDataRows();
-        assertEquals(3, dataRows.size());
-        assertInstanceOf(HtmlTableRow.class, dataRows.get(0));
-        assertInstanceOf(HtmlTableRow.class, dataRows.get(1));
-        assertInstanceOf(HtmlTableRow.class, dataRows.get(2));
+        assertEquals(1, dataRows.size());
     }
 
     @Test
     void getDataRowsEmpty() {
-        Locator tbodyLocator = mock(Locator.class);
-        when(locator.locator("tbody > tr:has(td)")).thenReturn(tbodyLocator);
-        when(tbodyLocator.all()).thenReturn(Collections.emptyList());
+        Locator headerRowLocator = mock(Locator.class);
+        when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
+        when(headerRowLocator.all()).thenReturn(Collections.emptyList());
+        
+        Locator bodyRowLocator = mock(Locator.class);
+        when(locator.locator("tr:has(td)")).thenReturn(bodyRowLocator);
+        when(bodyRowLocator.all()).thenReturn(Collections.emptyList());
 
         List<HtmlTableRow> dataRows = testSubject.getDataRows();
         assertTrue(dataRows.isEmpty());

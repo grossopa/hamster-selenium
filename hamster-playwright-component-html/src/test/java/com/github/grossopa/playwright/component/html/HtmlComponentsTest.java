@@ -57,6 +57,12 @@ class HtmlComponentsTest {
     }
 
     @Test
+    void html() {
+        HtmlComponents instance = HtmlComponents.html(driver);
+        assertNotNull(instance);
+    }
+
+    @Test
     void formField() {
         HtmlFormField result = testSubject.formField();
         assertNotNull(result);

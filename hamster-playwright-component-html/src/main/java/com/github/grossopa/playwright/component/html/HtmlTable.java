@@ -28,6 +28,7 @@ import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.DefaultWebComponent;
 import com.microsoft.playwright.Locator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -56,6 +57,15 @@ public class HtmlTable extends DefaultWebComponent {
     }
 
     /**
+     * Validates that the current locator points to a {@code <table>} element.
+     *
+     * @return true if the element tag name is "table" (case-insensitive)
+     */
+    public boolean validate() {
+        return "table".equalsIgnoreCase(locator.evaluate("el => el.tagName").toString());
+    }
+
+    /**
      * Gets all the rows as a list
      *
      * @return all the rows as a list
@@ -65,21 +75,74 @@ public class HtmlTable extends DefaultWebComponent {
     }
 
     /**
-     * Gets the header row
+     * Gets the header row (first row containing th elements)
+     *
+     * @return the header row
+     */
+    public HtmlTableRow getHeaderRow() {
+        return getHeaderRows().get(0);
+    }
+
+    /**
+     * Gets all header rows (rows containing th elements)
+     *
+     * @return list of header rows
+     */
+    public List<HtmlTableRow> getHeaderRows() {
+        return this.locator.locator("tr:has(th)").all().stream()
+                .map(l -> new HtmlTableRow(l, driver, getHeaderLabels())).collect(toList());
+    }
+
+    /**
+     * Gets the header labels from the first header row
+     *
+     * @return list of header label texts, or empty list if no header rows found
+     */
+    public List<String> getHeaderLabels() {
+        List<Locator> headerRows = this.locator.locator("tr:has(th)").all();
+        if (headerRows.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return headerRows.get(0).locator("th").all().stream()
+                .map(Locator::innerText).collect(toList());
+    }
+
+    /**
+     * Gets the header row (alias for {@link #getHeaderRow()})
      *
      * @return the header row
      */
     public HtmlTableRow getHeader() {
-        return new HtmlTableRow(this.locator.locator("tbody > tr, tr, thead > tr").first(), driver);
+        return getHeaderRow();
     }
 
     /**
-     * Gets the data rows
+     * Gets the body row at the specified index
+     *
+     * @param rowIndex the row index
+     * @return the body row at the given index
+     */
+    public HtmlTableRow getBodyRow(int rowIndex) {
+        return getBodyRows().get(rowIndex);
+    }
+
+    /**
+     * Gets the data rows (rows containing td elements)
+     *
+     * @return the data rows
+     */
+    public List<HtmlTableRow> getBodyRows() {
+        List<String> headerLabels = getHeaderLabels();
+        return this.locator.locator("tr:has(td)").all().stream()
+                .map(l -> new HtmlTableRow(l, driver, headerLabels)).collect(toList());
+    }
+
+    /**
+     * Gets the data rows (alias for {@link #getBodyRows()})
      *
      * @return the data rows
      */
     public List<HtmlTableRow> getDataRows() {
-        return this.locator.locator("tbody > tr:has(td)").all().stream().map(l -> new HtmlTableRow(l, driver)).collect(
-                toList());
+        return getBodyRows();
     }
 }

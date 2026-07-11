@@ -25,12 +25,17 @@
 package com.github.grossopa.playwright.component.html;
 
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.SelectOption;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -72,5 +77,68 @@ class HtmlSelectTest {
         when(locator.innerText()).thenReturn("Selected Option");
         String result = testSubject.getFirstSelectedOptionText();
         assertEquals("Selected Option", result);
+    }
+
+    @Test
+    void isMultipleTrue() {
+        when(locator.getAttribute("multiple")).thenReturn("true");
+        assertTrue(testSubject.isMultiple());
+    }
+
+    @Test
+    void isMultipleFalse() {
+        when(locator.getAttribute("multiple")).thenReturn(null);
+        assertFalse(testSubject.isMultiple());
+    }
+
+    @Test
+    void getOptions() {
+        Locator optionLocator = mock(Locator.class);
+        Locator option1 = mock(Locator.class);
+        Locator option2 = mock(Locator.class);
+        
+        when(locator.locator("option")).thenReturn(optionLocator);
+        when(optionLocator.all()).thenReturn(Arrays.asList(option1, option2));
+        
+        List<WebComponent> options = testSubject.getOptions();
+        assertEquals(2, options.size());
+    }
+
+    @Test
+    void getAllSelectedOptions() {
+        Locator selectedLocator = mock(Locator.class);
+        Locator selected1 = mock(Locator.class);
+        
+        when(locator.locator("option:checked")).thenReturn(selectedLocator);
+        when(selectedLocator.all()).thenReturn(Arrays.asList(selected1));
+        
+        List<WebComponent> selected = testSubject.getAllSelectedOptions();
+        assertEquals(1, selected.size());
+    }
+
+    @Test
+    void getFirstSelectedOption() {
+        Locator selectedLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        
+        when(locator.locator("option:checked")).thenReturn(selectedLocator);
+        when(selectedLocator.first()).thenReturn(firstLocator);
+        
+        WebComponent first = testSubject.getFirstSelectedOption();
+        assertNotNull(first);
+    }
+
+    @Test
+    void selectByIndex() {
+        when(locator.evaluate("el => el.options[arguments[0]].value", 1)).thenReturn("option-value");
+        
+        testSubject.selectByIndex(1);
+        verify(locator).selectOption(new String[]{"option-value"});
+    }
+
+    @Test
+    void deselectAll() {
+        testSubject.deselectAll();
+        verify(locator).selectOption(new String[]{});
     }
 }

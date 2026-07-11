@@ -47,6 +47,20 @@ public class HtmlComponents extends AbstractComponents {
     }
 
     /**
+     * Returns new instance of this class.
+     *
+     * <p>
+     * Example: {@code HtmlSelect select = driver.findComponentAs("select", html()::select);}
+     * </p>
+     *
+     * @param driver the component driver instance
+     * @return the instance of {@link HtmlComponents}
+     */
+    public static HtmlComponents html(ComponentDriver driver) {
+        return new HtmlComponents(driver);
+    }
+
+    /**
      * Gets the form field factory
      *
      * @return the form field factory

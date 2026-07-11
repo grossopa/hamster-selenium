@@ -26,8 +26,13 @@ package com.github.grossopa.playwright.component.html;
 
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.DefaultWebComponent;
+import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.SelectOption;
+
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * The HTML select component.
@@ -77,5 +82,111 @@ public class HtmlSelect extends DefaultWebComponent {
      */
     public String getFirstSelectedOptionText() {
         return this.locator.innerText();
+    }
+
+    /**
+     * Checks whether this select element supports multiple selections
+     *
+     * @return true if multiple selections are supported
+     */
+    public boolean isMultiple() {
+        String multiple = this.locator.getAttribute("multiple");
+        return multiple != null;
+    }
+
+    /**
+     * Gets all options in this select element
+     *
+     * @return list of all option components
+     */
+    public List<WebComponent> getOptions() {
+        return findComponents("option");
+    }
+
+    /**
+     * Gets all selected options
+     *
+     * @return list of selected option components
+     */
+    public List<WebComponent> getAllSelectedOptions() {
+        return findComponents("option:checked");
+    }
+
+    /**
+     * Gets the first selected option component
+     *
+     * @return the first selected option component
+     */
+    public WebComponent getFirstSelectedOption() {
+        return findComponent("option:checked");
+    }
+
+    /**
+     * Selects the option by index
+     *
+     * @param index the index of the option to select
+     */
+    public void selectByIndex(int index) {
+        String value = locator.evaluate(
+                "el => el.options[arguments[0]].value",
+                index
+        ).toString();
+        locator.selectOption(new String[]{value});
+    }
+
+    /**
+     * Deselects all options (only for multi-select)
+     */
+    public void deselectAll() {
+        locator.selectOption(new String[]{});
+    }
+
+    /**
+     * Deselects the option by value
+     *
+     * @param value the option value to deselect
+     */
+    public void deselectByValue(String value) {
+        // Playwright doesn't have direct deselect, re-select with remaining options
+        List<String> currentValues = locator.evaluate(
+                "el => Array.from(el.selectedOptions).map(o => o.value).filter(v => v !== arguments[0])",
+                value
+        ) instanceof List ? (List<String>) locator.evaluate(
+                "el => Array.from(el.selectedOptions).map(o => o.value).filter(v => v !== arguments[0])",
+                value
+        ) : List.of();
+        locator.selectOption(currentValues.toArray(new String[0]));
+    }
+
+    /**
+     * Deselects the option by index
+     *
+     * @param index the index of the option to deselect
+     */
+    public void deselectByIndex(int index) {
+        List<String> currentValues = locator.evaluate(
+                "el => Array.from(el.options).map((o, i) => o.selected && i !== arguments[0] ? o.value : null).filter(v => v !== null)",
+                index
+        ) instanceof List ? (List<String>) locator.evaluate(
+                "el => Array.from(el.options).map((o, i) => o.selected && i !== arguments[0] ? o.value : null).filter(v => v !== null)",
+                index
+        ) : List.of();
+        locator.selectOption(currentValues.toArray(new String[0]));
+    }
+
+    /**
+     * Deselects the option by visible text
+     *
+     * @param text the option text to deselect
+     */
+    public void deselectByVisibleText(String text) {
+        List<String> currentValues = locator.evaluate(
+                "el => Array.from(el.selectedOptions).filter(o => o.text !== arguments[0]).map(o => o.value)",
+                text
+        ) instanceof List ? (List<String>) locator.evaluate(
+                "el => Array.from(el.selectedOptions).filter(o => o.text !== arguments[0]).map(o => o.value)",
+                text
+        ) : List.of();
+        locator.selectOption(currentValues.toArray(new String[0]));
     }
 }

@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -48,15 +49,30 @@ class HtmlTableRowTest {
     HtmlTableRow testSubject;
     Locator locator = mock(Locator.class);
     ComponentDriver driver = mock(ComponentDriver.class);
+    List<String> headerLabels = Arrays.asList("Name", "Age", "City");
 
     @BeforeEach
     void setUp() {
-        testSubject = new HtmlTableRow(locator, driver);
+        testSubject = new HtmlTableRow(locator, driver, headerLabels);
     }
 
     @Test
     void getComponentTagName() {
         assertEquals("tr", testSubject.getComponentTagName());
+    }
+
+    @Test
+    void constructorWithoutHeaderLabels() {
+        HtmlTableRow row = new HtmlTableRow(locator, driver);
+        assertNotNull(row.getHeaderLabels());
+        assertTrue(row.getHeaderLabels().isEmpty());
+    }
+
+    @Test
+    void constructorWithNullHeaderLabels() {
+        HtmlTableRow row = new HtmlTableRow(locator, driver, null);
+        assertNotNull(row.getHeaderLabels());
+        assertTrue(row.getHeaderLabels().isEmpty());
     }
 
     @Test
@@ -84,7 +100,7 @@ class HtmlTableRowTest {
     }
 
     @Test
-    void getCell() {
+    void getCellByIndex() {
         Locator cellLocator = mock(Locator.class);
         Locator cell1 = mock(Locator.class);
         Locator cell2 = mock(Locator.class);
@@ -100,6 +116,31 @@ class HtmlTableRowTest {
     }
 
     @Test
+    void getCellByHeaderLabel() {
+        Locator cellLocator = mock(Locator.class);
+        Locator cell1 = mock(Locator.class);
+        Locator cell2 = mock(Locator.class);
+        Locator cell3 = mock(Locator.class);
+
+        when(locator.locator("td, th")).thenReturn(cellLocator);
+        when(cellLocator.all()).thenReturn(Arrays.asList(cell1, cell2, cell3));
+
+        WebComponent cell = testSubject.getCell("Name");
+        assertNotNull(cell);
+
+        WebComponent ageCell = testSubject.getCell("Age");
+        assertNotNull(ageCell);
+
+        WebComponent cityCell = testSubject.getCell("City");
+        assertNotNull(cityCell);
+    }
+
+    @Test
+    void getCellByHeaderLabelNotFound() {
+        assertThrows(NoSuchElementException.class, () -> testSubject.getCell("InvalidHeader"));
+    }
+
+    @Test
     void getCellIndexOutOfBounds() {
         Locator cellLocator = mock(Locator.class);
         Locator cell1 = mock(Locator.class);
@@ -108,5 +149,14 @@ class HtmlTableRowTest {
         when(cellLocator.all()).thenReturn(Arrays.asList(cell1));
 
         assertThrows(IndexOutOfBoundsException.class, () -> testSubject.getCell(5));
+    }
+
+    @Test
+    void getHeaderLabels() {
+        List<String> labels = testSubject.getHeaderLabels();
+        assertEquals(3, labels.size());
+        assertEquals("Name", labels.get(0));
+        assertEquals("Age", labels.get(1));
+        assertEquals("City", labels.get(2));
     }
 }

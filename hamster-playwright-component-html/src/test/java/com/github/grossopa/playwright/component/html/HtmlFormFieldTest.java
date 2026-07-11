@@ -25,12 +25,17 @@
 package com.github.grossopa.playwright.component.html;
 
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link HtmlFormField}
@@ -58,5 +63,29 @@ class HtmlFormFieldTest {
     void testConstructor() {
         HtmlFormField instance = new HtmlFormField(locator, driver);
         assertEquals("form-field", instance.getComponentTagName());
+    }
+
+    @Test
+    void getLabel() {
+        Locator labelLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        
+        when(locator.locator("label")).thenReturn(labelLocator);
+        when(labelLocator.first()).thenReturn(firstLocator);
+        
+        WebComponent label = testSubject.getLabel();
+        assertNotNull(label);
+    }
+
+    @Test
+    void getInput() {
+        Locator inputLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        
+        when(locator.locator("input")).thenReturn(inputLocator);
+        when(inputLocator.first()).thenReturn(firstLocator);
+        
+        WebComponent input = testSubject.getInput();
+        assertNotNull(input);
     }
 }

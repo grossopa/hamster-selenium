@@ -26,6 +26,7 @@ package com.github.grossopa.playwright.component.html;
 
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.DefaultWebComponent;
+import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 
 /**
@@ -49,5 +50,23 @@ public class HtmlFormField extends DefaultWebComponent {
     @Override
     public String getComponentTagName() {
         return "form-field";
+    }
+
+    /**
+     * Gets the label element within this form field
+     *
+     * @return the label component
+     */
+    public WebComponent getLabel() {
+        return findComponent("label");
+    }
+
+    /**
+     * Gets the input element within this form field
+     *
+     * @return the input component
+     */
+    public WebComponent getInput() {
+        return findComponent("input");
     }
 }
