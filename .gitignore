@@ -18,3 +18,7 @@ buildNumber.properties
 .project
 .classpath
 .factorypath
+cache
+/cache/
+/index/
+/logs/
