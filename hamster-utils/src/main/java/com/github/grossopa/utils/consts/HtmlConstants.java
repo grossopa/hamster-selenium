@@ -28,7 +28,7 @@ package com.github.grossopa.utils.consts;
  * Html related constants
  *
  * @author Jack Yin
- * @since 1.6
+ * @since 1.6.0
  */
 public class HtmlConstants {
 
