@@ -37,8 +37,10 @@ import java.util.regex.Pattern;
 import static java.util.Objects.requireNonNull;
 
 /**
+ *
+ *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.12
  */
 public abstract class AbstractDelegatedLocator implements Locator {
 

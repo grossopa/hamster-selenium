@@ -27,6 +27,7 @@ package com.github.grossopa.playwright.component.mui.v4.datadisplay;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.microsoft.playwright.Locator;
@@ -44,7 +45,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>List items are individual elements within a list that can contain text, icons, avatars,
  * and other components. They provide a structured way to display related information.</p>
  *
- * @author Jack Yin
  * @see MuiList
  * @since 1.12
  */
@@ -67,7 +67,7 @@ public class MuiListItem extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

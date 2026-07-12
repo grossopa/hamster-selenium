@@ -35,8 +35,7 @@ import java.nio.file.Path;
 /**
  * Defines all intercepting method names for logging and monitoring purpose.
  *
- * @author Jack Yin
- * @since 1.0
+ * @since 1.12
  */
 public class InterceptingMethods {
 

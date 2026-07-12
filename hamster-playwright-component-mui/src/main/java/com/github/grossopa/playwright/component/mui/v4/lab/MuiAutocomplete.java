@@ -28,6 +28,7 @@ import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.utils.consts.HtmlConstants.INPUT;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
@@ -48,7 +49,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Autocomplete provides intelligent suggestions as users type, supporting both single 
  * and multiple selection modes with customizable options.</p>
  *
- * @author Jack Yin
  * @see <a href="https://material-ui.com/components/autocomplete/">
  * https://material-ui.com/components/autocomplete/</a>
  * @since 1.12
@@ -72,7 +72,7 @@ public class MuiAutocomplete extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 
@@ -124,7 +124,7 @@ public class MuiAutocomplete extends AbstractMuiComponent {
      * Selects an option by its text.
      *
      * @param optionText the text of the option to select
-     * @return
+     * @return the option text list
      * @throws IllegalArgumentException if option not found
      */
     public List<String> selectOption(String optionText) {

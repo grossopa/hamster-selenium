@@ -25,6 +25,7 @@
 package com.github.grossopa.playwright.component.mui.v4.navigation;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
@@ -43,7 +44,6 @@ import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
  * <p>This is typically placed at the bottom of the accordion details and contains action buttons
  * like Save, Cancel, Delete, etc.</p>
  *
- * @author Jack Yin
  * @see MuiAccordion
  * @since 1.12
  */
@@ -66,7 +66,7 @@ public class MuiAccordionActions extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

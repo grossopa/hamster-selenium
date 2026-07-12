@@ -36,8 +36,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * Intercepting the FrameLocator actions with customized handlers.
  *
- * @author Jack Yin
- * @since 1.0
+ * @since 1.12
  */
 public class InterceptingFrameLocator implements FrameLocator {
 

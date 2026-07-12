@@ -27,6 +27,7 @@ package com.github.grossopa.playwright.component.mui.v4.navigation;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.microsoft.playwright.Locator;
@@ -43,7 +44,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  *
  * <p>Tabs display labels and can include icons. When clicked, they activate their associated panel.</p>
  *
- * @author Jack Yin
  * @see MuiTabs
  * @since 1.12
  */
@@ -66,7 +66,7 @@ public class MuiTab extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

@@ -27,6 +27,7 @@ package com.github.grossopa.playwright.component.mui.v4.core;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.microsoft.playwright.Locator;
@@ -44,7 +45,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Containers provide a means to center and horizontally pad your site's contents. 
  * They can be fixed width or fluid (max-width based on viewport).</p>
  *
- * @author Jack Yin
  * @since 1.12
  */
 public class MuiContainer extends AbstractMuiComponent {
@@ -66,7 +66,7 @@ public class MuiContainer extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

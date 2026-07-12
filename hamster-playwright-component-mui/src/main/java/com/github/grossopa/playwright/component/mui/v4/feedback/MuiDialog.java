@@ -25,6 +25,7 @@
 package com.github.grossopa.playwright.component.mui.v4.feedback;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
@@ -43,7 +44,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Dialogs are modal windows that appear in front of app content to provide critical information 
  * or ask for a decision. They disable all app functionality until they have been addressed.</p>
  *
- * @author Jack Yin
  * @see <a href="https://material-ui.com/components/dialogs/">
  * https://material-ui.com/components/dialogs/</a>
  * @since 1.12
@@ -67,7 +67,7 @@ public class MuiDialog extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

@@ -29,8 +29,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * The method information of current invoking
  *
- * @author Jack Yin
- * @since 1.0
+ * @since 1.12
  */
 public class MethodInfo<T> {
 

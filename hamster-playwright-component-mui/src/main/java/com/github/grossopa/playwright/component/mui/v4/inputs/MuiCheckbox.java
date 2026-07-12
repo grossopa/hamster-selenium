@@ -25,6 +25,7 @@
 package com.github.grossopa.playwright.component.mui.v4.inputs;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.microsoft.playwright.Locator;
@@ -50,7 +51,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * </ul>
  * </p>
  *
- * @author Jack Yin
  * @see <a href="https://material-ui.com/components/checkboxes/">
  * https://material-ui.com/components/checkboxes/</a>
  * @since 1.12
@@ -71,6 +71,11 @@ public class MuiCheckbox extends AbstractMuiComponent {
      */
     public MuiCheckbox(Locator locator, ComponentDriver driver, MuiConfig config) {
         super(locator, driver, config);
+    }
+
+    @Override
+    public Set<MuiVersion> versions() {
+        return EnumSet.of(V4, V5, V6);
     }
 
     /**

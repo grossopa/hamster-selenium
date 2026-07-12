@@ -57,7 +57,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * </ul>
  * </p>
  *
- * @author Jack Yin
  * @see <a href="https://material-ui.com/components/slider/">
  * https://material-ui.com/components/slider/</a>
  * @since 1.12

@@ -27,6 +27,7 @@ package com.github.grossopa.playwright.component.mui.v4.feedback;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.microsoft.playwright.Locator;
@@ -46,7 +47,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Skeleton provides a simple placeholder UI that shows the general shape of content 
  * before it's fully loaded, improving perceived performance.</p>
  *
- * @author Jack Yin
  * @see <a href="https://material-ui.com/components/skeleton/">
  * https://material-ui.com/components/skeleton/</a>
  * @since 1.12
@@ -70,7 +70,7 @@ public class MuiSkeleton extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

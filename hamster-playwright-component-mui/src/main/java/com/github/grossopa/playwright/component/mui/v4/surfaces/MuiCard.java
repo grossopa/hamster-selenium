@@ -27,6 +27,7 @@ package com.github.grossopa.playwright.component.mui.v4.surfaces;
 import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
@@ -47,7 +48,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Cards are flexible containers that can display various types of content including 
  * headers, media, content sections, and action buttons.</p>
  *
- * @author Jack Yin
  * @see <a href="https://material-ui.com/components/cards/">
  * https://material-ui.com/components/cards/</a>
  * @since 1.12
@@ -71,7 +71,7 @@ public class MuiCard extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

@@ -46,8 +46,7 @@ import static java.util.stream.Collectors.toList;
  * </ul>
  * </p>
  *
- * @author Jack Yin
- * @since 1.0
+ * @since 1.12
  * @see ComponentDriver
  * @see WebComponent
  */

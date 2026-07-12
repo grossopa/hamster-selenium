@@ -27,6 +27,7 @@ package com.github.grossopa.playwright.component.mui.v4.feedback;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.microsoft.playwright.Locator;
@@ -44,7 +45,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Backdrop is commonly used with modals, dialogs, and drawers to create visual separation
  * and focus user attention on the overlay content.</p>
  *
- * @author Jack Yin
  * @see <a href="https://material-ui.com/components/backdrop/">
  * https://material-ui.com/components/backdrop/</a>
  * @since 1.12
@@ -68,7 +68,7 @@ public class MuiBackdrop extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

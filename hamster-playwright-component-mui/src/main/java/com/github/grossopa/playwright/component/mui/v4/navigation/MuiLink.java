@@ -27,6 +27,7 @@ package com.github.grossopa.playwright.component.mui.v4.navigation;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.microsoft.playwright.Locator;
@@ -44,7 +45,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>The Link component is used as a wrapper around anchor tags or can be used with 
  * routing libraries like React Router for client-side navigation.</p>
  *
- * @author Jack Yin
  * @since 1.12
  */
 public class MuiLink extends AbstractMuiComponent {
@@ -66,7 +66,7 @@ public class MuiLink extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

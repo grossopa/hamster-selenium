@@ -27,6 +27,7 @@ package com.github.grossopa.playwright.component.mui.v4.feedback;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
@@ -45,7 +46,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Snackbars inform users of a process that an app has performed or will perform. 
  * They appear temporarily, towards the bottom of the screen, and don't disrupt the user experience.</p>
  *
- * @author Jack Yin
  * @see <a href="https://material-ui.com/components/snackbars/">
  * https://material-ui.com/components/snackbars/</a>
  * @since 1.12
@@ -69,7 +69,7 @@ public class MuiSnackbar extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

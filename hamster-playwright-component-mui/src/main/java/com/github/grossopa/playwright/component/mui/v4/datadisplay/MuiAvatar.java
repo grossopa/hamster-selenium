@@ -25,6 +25,7 @@
 package com.github.grossopa.playwright.component.mui.v4.datadisplay;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
@@ -48,7 +49,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * </ul>
  * </p>
  *
- * @author Jack Yin
  * @see <a href="https://material-ui.com/components/avatars/">https://material-ui.com/components/avatars/</a>
  * @since 1.12
  */
@@ -71,7 +71,7 @@ public class MuiAvatar extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

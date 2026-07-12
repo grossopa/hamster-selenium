@@ -25,6 +25,7 @@
 package com.github.grossopa.playwright.component.mui.v4.navigation;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
@@ -45,7 +46,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Bottom navigation typically contains three to five actions at the bottom of a screen.
  * Each action includes an icon and an optional text label.</p>
  *
- * @author Jack Yin
  * @see MuiBottomNavigationAction
  * @since 1.12
  */
@@ -68,7 +68,7 @@ public class MuiBottomNavigation extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

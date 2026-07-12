@@ -25,6 +25,7 @@
 package com.github.grossopa.playwright.component.mui.v4.inputs;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
@@ -45,7 +46,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>RadioGroup is a helper component that groups Radio buttons together and manages their state.
  * It ensures that only one radio button can be selected at a time within the group.</p>
  *
- * @author Jack Yin
  * @see <a href="https://material-ui.com/components/radio-buttons/#radiogroup">
  * https://material-ui.com/components/radio-buttons/#radiogroup</a>
  * @since 1.12
@@ -69,7 +69,7 @@ public class MuiRadioGroup extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

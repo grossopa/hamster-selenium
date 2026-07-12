@@ -34,8 +34,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * The default implementation of {@link WebComponent}
  *
- * @author Jack Yin
- * @since 1.0
+ * @since 1.12
  */
 public class DefaultWebComponent extends AbstractDelegatedLocator implements WebComponent {
 

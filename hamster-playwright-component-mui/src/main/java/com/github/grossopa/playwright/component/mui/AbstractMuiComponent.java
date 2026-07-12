@@ -43,7 +43,6 @@ import static java.util.Objects.requireNonNull;
  * automation framework. It extends {@link DefaultWebComponent} and implements {@link MuiComponent}
  * to provide version support and configuration access.</p>
  *
- * @author Jack Yin
  * @since 1.12
  */
 public abstract class AbstractMuiComponent extends DefaultWebComponent implements MuiComponent {
@@ -66,14 +65,6 @@ public abstract class AbstractMuiComponent extends DefaultWebComponent implement
     public Set<MuiVersion> versions() {
         return EnumSet.of(V4);
     }
-
-    /**
-     * Gets the current component name.
-     *
-     * @return the current component name
-     */
-    @Override
-    public abstract String getComponentName();
 
     @Override
     public boolean equals(Object o) {

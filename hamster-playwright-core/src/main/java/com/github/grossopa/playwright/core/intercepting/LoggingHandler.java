@@ -33,8 +33,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * Prints log before, after and when exception happens with time spent in millisecond.
  *
- * @author Jack Yin
- * @since 1.0
+ * @since 1.12
  */
 public class LoggingHandler implements InterceptingHandler {
 
@@ -71,7 +70,7 @@ public class LoggingHandler implements InterceptingHandler {
     @Override
     public void onAfter(MethodInfo<?> methodInfo, Object resultValue) {
         if (methodInfo.getTimeElapsedInMillis() >= thresholdInMillis) {
-            log.log(Level.INFO, format("Method {0} with params {1} on source {2} finished in {3} ms with result {4}",
+            log.log(Level.INFO, () -> format("Method {0} with params {1} on source {2} finished in {3} ms with result {4}",
                     methodInfo.getName(), methodInfo.getParams(), methodInfo.getSource(),
                     methodInfo.getTimeElapsedInMillis(), resultValue));
         }

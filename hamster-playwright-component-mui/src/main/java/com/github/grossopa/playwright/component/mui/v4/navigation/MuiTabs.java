@@ -27,6 +27,7 @@ package com.github.grossopa.playwright.component.mui.v4.navigation;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
@@ -47,7 +48,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Tabs organize content across different screens, data sets, and other interactions.
  * They work together with Tab components to create tabbed interfaces.</p>
  *
- * @author Jack Yin
  * @see MuiTab
  * @since 1.12
  */
@@ -70,7 +70,7 @@ public class MuiTabs extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

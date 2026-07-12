@@ -27,6 +27,7 @@ package com.github.grossopa.playwright.component.mui.v4.feedback;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
@@ -46,7 +47,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Alerts support different severity levels (success, info, warning, error)
  * and can include icons, messages, and close buttons.</p>
  *
- * @author Jack Yin
  * @see <a href="https://material-ui.com/components/alert/">
  * https://material-ui.com/components/alert/</a>
  * @since 1.12
@@ -70,7 +70,7 @@ public class MuiAlert extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

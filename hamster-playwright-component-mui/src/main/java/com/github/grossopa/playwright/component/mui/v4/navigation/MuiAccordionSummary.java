@@ -25,6 +25,7 @@
 package com.github.grossopa.playwright.component.mui.v4.navigation;
 
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
+import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.microsoft.playwright.Locator;
@@ -41,7 +42,6 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  *
  * <p>It typically contains a title and an expand/collapse icon. Clicking on it toggles the accordion state.</p>
  *
- * @author Jack Yin
  * @see MuiAccordion
  * @since 1.12
  */
@@ -64,7 +64,7 @@ public class MuiAccordionSummary extends AbstractMuiComponent {
     }
 
     @Override
-    public Set<com.github.grossopa.playwright.component.mui.MuiVersion> versions() {
+    public Set<MuiVersion> versions() {
         return EnumSet.of(V4, V5, V6);
     }
 

@@ -39,7 +39,6 @@ import java.util.Set;
  * <p>This class provides configuration options for customizing the behavior of Material UI components,
  * including CSS prefixes, version settings, and overlay paths.</p>
  *
- * @author Jack Yin
  * @since 1.12
  */
 public class MuiConfig {
