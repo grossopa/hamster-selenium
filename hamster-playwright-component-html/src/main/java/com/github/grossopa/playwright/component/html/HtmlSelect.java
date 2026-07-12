@@ -32,8 +32,6 @@ import com.microsoft.playwright.options.SelectOption;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 /**
  * The HTML select component.
  *
@@ -146,15 +144,15 @@ public class HtmlSelect extends DefaultWebComponent {
      *
      * @param value the option value to deselect
      */
+    @SuppressWarnings("unused")
     public void deselectByValue(String value) {
         // Playwright doesn't have direct deselect, re-select with remaining options
-        List<String> currentValues = locator.evaluate(
+        Object result = locator.evaluate(
                 "el => Array.from(el.selectedOptions).map(o => o.value).filter(v => v !== arguments[0])",
                 value
-        ) instanceof List ? (List<String>) locator.evaluate(
-                "el => Array.from(el.selectedOptions).map(o => o.value).filter(v => v !== arguments[0])",
-                value
-        ) : List.of();
+        );
+        @SuppressWarnings("unchecked")
+        List<String> currentValues = result instanceof List ? (List<String>) result : List.of();
         locator.selectOption(currentValues.toArray(new String[0]));
     }
 
@@ -163,14 +161,14 @@ public class HtmlSelect extends DefaultWebComponent {
      *
      * @param index the index of the option to deselect
      */
+    @SuppressWarnings("unused")
     public void deselectByIndex(int index) {
-        List<String> currentValues = locator.evaluate(
+        Object result = locator.evaluate(
                 "el => Array.from(el.options).map((o, i) => o.selected && i !== arguments[0] ? o.value : null).filter(v => v !== null)",
                 index
-        ) instanceof List ? (List<String>) locator.evaluate(
-                "el => Array.from(el.options).map((o, i) => o.selected && i !== arguments[0] ? o.value : null).filter(v => v !== null)",
-                index
-        ) : List.of();
+        );
+        @SuppressWarnings("unchecked")
+        List<String> currentValues = result instanceof List ? (List<String>) result : List.of();
         locator.selectOption(currentValues.toArray(new String[0]));
     }
 
@@ -179,14 +177,14 @@ public class HtmlSelect extends DefaultWebComponent {
      *
      * @param text the option text to deselect
      */
+    @SuppressWarnings("unused")
     public void deselectByVisibleText(String text) {
-        List<String> currentValues = locator.evaluate(
+        Object result = locator.evaluate(
                 "el => Array.from(el.selectedOptions).filter(o => o.text !== arguments[0]).map(o => o.value)",
                 text
-        ) instanceof List ? (List<String>) locator.evaluate(
-                "el => Array.from(el.selectedOptions).filter(o => o.text !== arguments[0]).map(o => o.value)",
-                text
-        ) : List.of();
+        );
+        @SuppressWarnings("unchecked")
+        List<String> currentValues = result instanceof List ? (List<String>) result : List.of();
         locator.selectOption(currentValues.toArray(new String[0]));
     }
 }

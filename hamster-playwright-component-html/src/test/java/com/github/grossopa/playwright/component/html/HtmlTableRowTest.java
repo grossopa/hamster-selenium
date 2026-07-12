@@ -146,7 +146,7 @@ class HtmlTableRowTest {
         Locator cell1 = mock(Locator.class);
 
         when(locator.locator("td, th")).thenReturn(cellLocator);
-        when(cellLocator.all()).thenReturn(Arrays.asList(cell1));
+        when(cellLocator.all()).thenReturn(List.of(cell1));
 
         assertThrows(IndexOutOfBoundsException.class, () -> testSubject.getCell(5));
     }

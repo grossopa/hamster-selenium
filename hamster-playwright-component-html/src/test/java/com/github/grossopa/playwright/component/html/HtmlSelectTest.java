@@ -32,7 +32,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -110,7 +109,7 @@ class HtmlSelectTest {
         Locator selected1 = mock(Locator.class);
         
         when(locator.locator("option:checked")).thenReturn(selectedLocator);
-        when(selectedLocator.all()).thenReturn(Arrays.asList(selected1));
+        when(selectedLocator.all()).thenReturn(List.of(selected1));
         
         List<WebComponent> selected = testSubject.getAllSelectedOptions();
         assertEquals(1, selected.size());

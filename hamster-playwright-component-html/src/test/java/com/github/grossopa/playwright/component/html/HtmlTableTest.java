@@ -104,7 +104,7 @@ class HtmlTableTest {
         Locator th2 = mock(Locator.class);
 
         when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
-        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRowLocator.all()).thenReturn(List.of(headerRow));
         when(headerRow.locator("th")).thenReturn(thLocator);
         when(thLocator.all()).thenReturn(Arrays.asList(th1, th2));
         when(th1.innerText()).thenReturn("Name");
@@ -134,13 +134,13 @@ class HtmlTableTest {
         Locator th1 = mock(Locator.class);
 
         when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
-        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRowLocator.all()).thenReturn(List.of(headerRow));
         when(headerRow.locator("th")).thenReturn(thLocator);
-        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(thLocator.all()).thenReturn(List.of(th1));
         when(th1.innerText()).thenReturn("Header");
 
-        HtmlTableRow headerRow_result = testSubject.getHeaderRow();
-        assertNotNull(headerRow_result);
+        HtmlTableRow headerRowResult = testSubject.getHeaderRow();
+        assertNotNull(headerRowResult);
     }
 
     @Test
@@ -154,7 +154,7 @@ class HtmlTableTest {
         when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
         when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow1, headerRow2));
         when(headerRow1.locator("th")).thenReturn(thLocator);
-        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(thLocator.all()).thenReturn(List.of(th1));
         when(th1.innerText()).thenReturn("Header");
 
         List<HtmlTableRow> headerRows = testSubject.getHeaderRows();
@@ -169,9 +169,9 @@ class HtmlTableTest {
         Locator th1 = mock(Locator.class);
 
         when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
-        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRowLocator.all()).thenReturn(List.of(headerRow));
         when(headerRow.locator("th")).thenReturn(thLocator);
-        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(thLocator.all()).thenReturn(List.of(th1));
         when(th1.innerText()).thenReturn("Header");
 
         HtmlTableRow header = testSubject.getHeader();
@@ -190,9 +190,9 @@ class HtmlTableTest {
         Locator bodyRow2 = mock(Locator.class);
 
         when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
-        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRowLocator.all()).thenReturn(List.of(headerRow));
         when(headerRow.locator("th")).thenReturn(thLocator);
-        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(thLocator.all()).thenReturn(List.of(th1));
         when(th1.innerText()).thenReturn("Header");
         
         when(locator.locator("tr:has(td)")).thenReturn(bodyRowLocator);
@@ -215,9 +215,9 @@ class HtmlTableTest {
         Locator bodyRow3 = mock(Locator.class);
 
         when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
-        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRowLocator.all()).thenReturn(List.of(headerRow));
         when(headerRow.locator("th")).thenReturn(thLocator);
-        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(thLocator.all()).thenReturn(List.of(th1));
         when(th1.innerText()).thenReturn("Header");
         
         when(locator.locator("tr:has(td)")).thenReturn(bodyRowLocator);
@@ -238,13 +238,13 @@ class HtmlTableTest {
         Locator bodyRow1 = mock(Locator.class);
 
         when(locator.locator("tr:has(th)")).thenReturn(headerRowLocator);
-        when(headerRowLocator.all()).thenReturn(Arrays.asList(headerRow));
+        when(headerRowLocator.all()).thenReturn(List.of(headerRow));
         when(headerRow.locator("th")).thenReturn(thLocator);
-        when(thLocator.all()).thenReturn(Arrays.asList(th1));
+        when(thLocator.all()).thenReturn(List.of(th1));
         when(th1.innerText()).thenReturn("Header");
         
         when(locator.locator("tr:has(td)")).thenReturn(bodyRowLocator);
-        when(bodyRowLocator.all()).thenReturn(Arrays.asList(bodyRow1));
+        when(bodyRowLocator.all()).thenReturn(List.of(bodyRow1));
 
         List<HtmlTableRow> dataRows = testSubject.getDataRows();
         assertEquals(1, dataRows.size());
