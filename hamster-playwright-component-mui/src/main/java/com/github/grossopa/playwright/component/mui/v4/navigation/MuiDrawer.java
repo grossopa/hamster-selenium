@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.navigation;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -95,7 +97,7 @@ public class MuiDrawer extends AbstractMuiComponent {
      * @return the anchor position ("left", "right", "top", or "bottom")
      */
     public String getAnchor() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             if (className.contains("anchorLeft")) return "left";
             if (className.contains("anchorRight")) return "right";
@@ -111,7 +113,7 @@ public class MuiDrawer extends AbstractMuiComponent {
      * @return true if modal, false otherwise
      */
     public boolean isModal() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Drawer-modal");
     }
 

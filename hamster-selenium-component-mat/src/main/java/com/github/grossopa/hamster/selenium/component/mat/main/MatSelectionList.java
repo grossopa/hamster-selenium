@@ -33,7 +33,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 /**
  * Material Design list component where each item is a selectable option. Behaves as a listbox.

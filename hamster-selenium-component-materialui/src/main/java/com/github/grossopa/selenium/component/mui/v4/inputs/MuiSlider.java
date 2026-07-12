@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.inputs;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -349,7 +351,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      */
     @Override
     public boolean isVertical() {
-        return WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "Slider-vertical");
+        return WebComponentUtils.attributeContains(element, CLASS, config.getCssPrefix() + "Slider-vertical");
     }
 
     /**
@@ -359,7 +361,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
      */
     @Override
     public boolean isInverted() {
-        return WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "Slider-trackInverted");
+        return WebComponentUtils.attributeContains(element, CLASS, config.getCssPrefix() + "Slider-trackInverted");
     }
 
     /**

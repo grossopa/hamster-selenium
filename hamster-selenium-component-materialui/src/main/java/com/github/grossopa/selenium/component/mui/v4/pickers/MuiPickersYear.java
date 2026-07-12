@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.pickers;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -60,6 +62,6 @@ public class MuiPickersYear extends AbstractMuiComponent {
 
     @Override
     public boolean isSelected() {
-        return attributeContains("class", config.getCssPrefix() + "PickersYear-yearSelected");
+        return attributeContains(CLASS, config.getCssPrefix() + "PickersYear-yearSelected");
     }
 }

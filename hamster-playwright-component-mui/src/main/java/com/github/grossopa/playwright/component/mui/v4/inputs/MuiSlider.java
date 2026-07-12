@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.inputs;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -258,7 +260,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return true if the slider has orientation="vertical" specified
      */
     public boolean isVertical() {
-        String className = locator.getAttribute("class");
+        String className = locator.getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Slider-vertical");
     }
 
@@ -268,7 +270,7 @@ public class MuiSlider extends AbstractMuiComponent {
      * @return true if the slider has track="inverted" specified
      */
     public boolean isInverted() {
-        String className = locator.getAttribute("class");
+        String className = locator.getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Slider-trackInverted");
     }
 

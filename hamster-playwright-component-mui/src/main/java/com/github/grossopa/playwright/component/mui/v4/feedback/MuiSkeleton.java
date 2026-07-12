@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.feedback;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -83,7 +85,7 @@ public class MuiSkeleton extends AbstractMuiComponent {
      * @return the variant ("text", "rectangular", "circular", or "rounded")
      */
     public String getVariant() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         String cssPrefix = config.getCssPrefix();
         
         if (className.contains(cssPrefix + "Skeleton-text")) {
@@ -105,7 +107,7 @@ public class MuiSkeleton extends AbstractMuiComponent {
      * @return true if animated, false otherwise
      */
     public boolean isAnimated() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         String cssPrefix = config.getCssPrefix();
         
         return !className.contains(cssPrefix + "Skeleton-pulse") && 
@@ -118,7 +120,7 @@ public class MuiSkeleton extends AbstractMuiComponent {
      * @return the animation type ("pulse", "wave", or "none")
      */
     public String getAnimation() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         String cssPrefix = config.getCssPrefix();
         
         if (className.contains(cssPrefix + "Skeleton-pulse")) {

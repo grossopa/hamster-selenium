@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.feedback;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -84,7 +86,7 @@ public class MuiAlert extends AbstractMuiComponent {
      * @return the severity level (e.g. "success", "info", "warning", "error")
      */
     public String getSeverity() {
-        String className = element.getAttribute("class");
+        String className = element.getAttribute(CLASS);
         String cssPrefix = config.getCssPrefix();
 
         if (className.contains(cssPrefix + "Alert-standardSuccess") || className.contains(cssPrefix + "Alert-filledSuccess") || className.contains(cssPrefix + "Alert-outlinedSuccess")) {

@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.core;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -79,7 +81,7 @@ public class MuiContainer extends AbstractMuiComponent {
      * @return the max width ("xs", "sm", "md", "lg", "xl", or "false" for full width)
      */
     public String getMaxWidth() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             if (className.contains(config.getCssPrefix() + "Container-maxWidthXs")) return "xs";
             if (className.contains(config.getCssPrefix() + "Container-maxWidthSm")) return "sm";
@@ -96,7 +98,7 @@ public class MuiContainer extends AbstractMuiComponent {
      * @return true if fixed width, false if max-width
      */
     public boolean isFixed() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Container-fixed");
     }
 
@@ -106,7 +108,7 @@ public class MuiContainer extends AbstractMuiComponent {
      * @return true if gutters are disabled, false otherwise
      */
     public boolean isDisableGutters() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Container-disableGutters");
     }
 

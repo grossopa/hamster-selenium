@@ -34,7 +34,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.core.component.util.WebComponentUtils.attributeContains;
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static com.google.common.collect.Sets.newHashSet;
 
 /**

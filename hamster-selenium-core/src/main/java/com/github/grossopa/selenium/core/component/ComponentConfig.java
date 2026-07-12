@@ -27,7 +27,7 @@ package com.github.grossopa.selenium.core.component;
 import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.core.component.util.WebComponentUtils.attributeContains;
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 /**
  * The root configuration of one front-end framework. e.g. Material UI.

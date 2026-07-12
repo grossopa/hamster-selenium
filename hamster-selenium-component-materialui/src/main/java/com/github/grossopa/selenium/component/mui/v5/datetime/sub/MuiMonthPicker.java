@@ -40,8 +40,8 @@ import java.util.Objects;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.BUTTON;
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static java.util.Objects.requireNonNull;
 

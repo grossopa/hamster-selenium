@@ -26,6 +26,8 @@ package com.github.grossopa.playwright.component.html;
 
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.DefaultWebComponent;
+
+import static com.github.grossopa.utils.consts.HtmlConstants.SELECT;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.SelectOption;
@@ -52,7 +54,7 @@ public class HtmlSelect extends DefaultWebComponent {
 
     @Override
     public String getComponentTagName() {
-        return "select";
+        return SELECT;
     }
 
     /**

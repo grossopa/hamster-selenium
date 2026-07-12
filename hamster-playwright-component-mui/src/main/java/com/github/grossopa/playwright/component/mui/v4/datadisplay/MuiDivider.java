@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.datadisplay;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -80,7 +82,7 @@ public class MuiDivider extends AbstractMuiComponent {
      * @return true if vertical orientation, false if horizontal
      */
     public boolean isVertical() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Divider-vertical");
     }
 
@@ -90,7 +92,7 @@ public class MuiDivider extends AbstractMuiComponent {
      * @return true if light variant, false otherwise
      */
     public boolean isLightVariant() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Divider-light");
     }
 
@@ -100,7 +102,7 @@ public class MuiDivider extends AbstractMuiComponent {
      * @return true if middle inset, false otherwise
      */
     public boolean hasMiddleInset() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Divider-middle");
     }
 }

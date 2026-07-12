@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.feedback;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -133,7 +135,7 @@ public class MuiSnackbarContent extends AbstractMuiComponent {
             throw new IllegalStateException("No action button found in snackbar content");
         }
         
-        WebComponent button = action.findComponent("button");
+        WebComponent button = action.findComponent(BUTTON);
         if (button == null) {
             throw new IllegalStateException("No button found in action container");
         }

@@ -24,6 +24,9 @@
 
 package com.github.grossopa.playwright.component.mui.v4.inputs;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -83,7 +86,7 @@ public class MuiButtonGroup extends AbstractMuiComponent {
      * @return list of button WebComponents
      */
     public List<WebComponent> getButtons() {
-        return findComponents("button");
+        return findComponents(BUTTON);
     }
 
     /**
@@ -132,7 +135,7 @@ public class MuiButtonGroup extends AbstractMuiComponent {
      * @return true if vertical orientation, false if horizontal
      */
     public boolean isVertical() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "ButtonGroup-vertical");
     }
 }

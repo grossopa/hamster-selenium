@@ -41,6 +41,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.github.grossopa</groupId>
+      <artifactId>hamster-utils</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>com.microsoft.playwright</groupId>
       <artifactId>playwright</artifactId>
       <version>1.55.0</version>

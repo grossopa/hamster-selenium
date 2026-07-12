@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.navigation;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -97,7 +99,7 @@ public class MuiLink extends AbstractMuiComponent {
      * @return true if visited, false otherwise
      */
     public boolean isVisited() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Link-visited");
     }
 
@@ -107,7 +109,7 @@ public class MuiLink extends AbstractMuiComponent {
      * @return true if underlined, false otherwise
      */
     public boolean isUnderlined() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Link-underline");
     }
 

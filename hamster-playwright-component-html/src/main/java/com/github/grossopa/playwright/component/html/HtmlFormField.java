@@ -25,6 +25,8 @@
 package com.github.grossopa.playwright.component.html;
 
 import com.github.grossopa.playwright.core.ComponentDriver;
+
+import static com.github.grossopa.utils.consts.HtmlConstants.INPUT;
 import com.github.grossopa.playwright.core.DefaultWebComponent;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
@@ -67,6 +69,6 @@ public class HtmlFormField extends DefaultWebComponent {
      * @return the input component
      */
     public WebComponent getInput() {
-        return findComponent("input");
+        return findComponent(INPUT);
     }
 }

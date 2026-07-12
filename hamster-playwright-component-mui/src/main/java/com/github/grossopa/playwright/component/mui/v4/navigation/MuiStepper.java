@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.navigation;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -85,7 +87,7 @@ public class MuiStepper extends AbstractMuiComponent {
         List<WebComponent> steps = getSteps();
         for (int i = 0; i < steps.size(); i++) {
             WebComponent step = steps.get(i);
-            String className = step.getAttribute("class");
+            String className = step.getAttribute(CLASS);
             if (className != null && 
                 (config.isSelected(step) || 
                  config.isChecked(step) || 
@@ -120,7 +122,7 @@ public class MuiStepper extends AbstractMuiComponent {
      * @return true if the stepper is vertical, false if horizontal
      */
     public boolean isVertical() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Stepper-vertical");
     }
 

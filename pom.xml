@@ -64,6 +64,7 @@
   </scm>
 
   <modules>
+    <module>hamster-utils</module>
     <module>hamster-selenium-core</module>
     <module>hamster-selenium-component-html</module>
     <module>hamster-selenium-component-materialui</module>
@@ -119,6 +120,12 @@
   <dependencyManagement>
     <dependencies>
       <!-- Projects -->
+      <dependency>
+        <groupId>com.github.grossopa</groupId>
+        <artifactId>hamster-utils</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>com.github.grossopa</groupId>
         <artifactId>hamster-selenium-core</artifactId>

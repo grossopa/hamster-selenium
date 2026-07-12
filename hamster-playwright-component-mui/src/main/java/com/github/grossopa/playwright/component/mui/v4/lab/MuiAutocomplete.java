@@ -24,6 +24,9 @@
 
 package com.github.grossopa.playwright.component.mui.v4.lab;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.INPUT;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -84,7 +87,7 @@ public class MuiAutocomplete extends AbstractMuiComponent {
      * @return the input WebComponent
      */
     public WebComponent getInput() {
-        return findComponent("input");
+        return findComponent(INPUT);
     }
 
     /**
@@ -173,7 +176,7 @@ public class MuiAutocomplete extends AbstractMuiComponent {
      * @return true if loading, false otherwise
      */
     public boolean isLoading() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Autocomplete-loading");
     }
 

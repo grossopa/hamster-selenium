@@ -35,8 +35,6 @@ import com.github.grossopa.playwright.core.ComponentDriver;
  */
 public class HtmlComponents extends AbstractComponents {
 
-    private final ComponentDriver driver;
-
     /**
      * Creates an instance with the given driver
      *

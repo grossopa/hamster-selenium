@@ -24,6 +24,9 @@
 
 package com.github.grossopa.playwright.component.mui.v4.surfaces;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -84,7 +87,7 @@ public class MuiToolbar extends AbstractMuiComponent {
      * @return list of button WebComponents
      */
     public List<WebComponent> getButtons() {
-        return findComponents("button");
+        return findComponents(BUTTON);
     }
 
     /**
@@ -142,7 +145,7 @@ public class MuiToolbar extends AbstractMuiComponent {
      * @return true if dense variant, false otherwise
      */
     public boolean isDense() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Toolbar-gutters");
     }
 

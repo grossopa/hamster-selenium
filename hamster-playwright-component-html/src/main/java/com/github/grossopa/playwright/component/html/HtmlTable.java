@@ -26,6 +26,8 @@ package com.github.grossopa.playwright.component.html;
 
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.DefaultWebComponent;
+
+import static com.github.grossopa.utils.consts.HtmlConstants.TABLE;
 import com.microsoft.playwright.Locator;
 
 import java.util.ArrayList;
@@ -53,7 +55,7 @@ public class HtmlTable extends DefaultWebComponent {
 
     @Override
     public String getComponentTagName() {
-        return "table";
+        return TABLE;
     }
 
     /**
@@ -62,7 +64,7 @@ public class HtmlTable extends DefaultWebComponent {
      * @return true if the element tag name is "table" (case-insensitive)
      */
     public boolean validate() {
-        return "table".equalsIgnoreCase(locator.evaluate("el => el.tagName").toString());
+        return TABLE.equalsIgnoreCase(locator.evaluate("el => el.tagName").toString());
     }
 
     /**

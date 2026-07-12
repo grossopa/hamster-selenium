@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v5.datetime;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.exception.DatePickerNotClosedException;
@@ -43,7 +45,7 @@ import java.util.Set;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.DAY;
 import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.YEAR;
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnoringStaleElementReference;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.isNotDisplayed;
@@ -97,7 +99,7 @@ public class MuiDatePickerFormField extends MuiTextField {
      */
     public WebComponent getDateButton() {
         return this.findComponent(xpathBuilder().anywhereRelative("div").attr(CLASS)
-                .contains(config.getCssPrefix() + "InputAdornment-root").child("button").build());
+                .contains(config.getCssPrefix() + "InputAdornment-root").child(BUTTON).build());
     }
 
     /**

@@ -44,7 +44,7 @@ public abstract class AbstractDelegatedLocator implements Locator {
 
     protected final Locator locator;
 
-    public AbstractDelegatedLocator(Locator locator) {
+    protected AbstractDelegatedLocator(Locator locator) {
         requireNonNull(locator);
         this.locator = locator;
     }

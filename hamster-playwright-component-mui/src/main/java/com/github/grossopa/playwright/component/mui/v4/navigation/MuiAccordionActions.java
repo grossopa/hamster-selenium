@@ -33,11 +33,9 @@ import com.microsoft.playwright.Locator;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import static com.github.grossopa.playwright.component.mui.MuiVersion.V4;
-import static com.github.grossopa.playwright.component.mui.MuiVersion.V5;
-import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
+import static com.github.grossopa.playwright.component.mui.MuiVersion.*;
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
 
 /**
  * The accordion actions section contains buttons for performing actions related to the accordion content.
@@ -83,7 +81,7 @@ public class MuiAccordionActions extends AbstractMuiComponent {
      * @return list of button WebComponents
      */
     public List<WebComponent> getButtons() {
-        return findComponents("button");
+        return findComponents(BUTTON);
     }
 
     /**

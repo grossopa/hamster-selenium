@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.inputs;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -86,7 +88,7 @@ public class MuiRating extends AbstractMuiComponent {
         List<WebComponent> stars = getStars();
         for (int i = stars.size() - 1; i >= 0; i--) {
             WebComponent star = stars.get(i);
-            String className = star.getAttribute("class");
+            String className = star.getAttribute(CLASS);
             if (className != null && className.contains(config.getCssPrefix() + "Rating-iconFilled")) {
                 return i + 1;
             }
@@ -128,7 +130,7 @@ public class MuiRating extends AbstractMuiComponent {
      * @return true if the rating is read-only, false otherwise
      */
     public boolean isReadOnly() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "-readOnly");
     }
 

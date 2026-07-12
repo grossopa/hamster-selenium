@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.surfaces;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -81,7 +83,7 @@ public class MuiPaper extends AbstractMuiComponent {
      * @return the elevation level (0-24), or 0 if not set
      */
     public int getElevation() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             for (int i = 0; i <= 24; i++) {
                 if (className.contains(config.getCssPrefix() + "elevation" + i)) {
@@ -98,7 +100,7 @@ public class MuiPaper extends AbstractMuiComponent {
      * @return the variant ("elevation", "outlined", or "default")
      */
     public String getVariant() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             if (className.contains(config.getCssPrefix() + "Paper-outlined")) return "outlined";
             if (className.contains(config.getCssPrefix() + "Paper-elevation")) return "elevation";
@@ -112,7 +114,7 @@ public class MuiPaper extends AbstractMuiComponent {
      * @return true if rounded, false if square
      */
     public boolean isRounded() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className == null || !className.contains(config.getCssPrefix() + "Paper-rounded");
     }
 
@@ -122,7 +124,7 @@ public class MuiPaper extends AbstractMuiComponent {
      * @return true if squared, false if rounded
      */
     public boolean isSquared() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Paper-rounded");
     }
 

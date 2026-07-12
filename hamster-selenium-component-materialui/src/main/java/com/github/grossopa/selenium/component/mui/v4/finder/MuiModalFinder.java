@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.finder;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.core.MuiPopover;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
@@ -159,7 +161,7 @@ public class MuiModalFinder {
         List<WebComponent> divComponents = driver.findComponents(By.xpath(config.getOverlayAbsolutePath() + "/div"));
         return divComponents.stream().filter(component -> includeHidden || component.isDisplayed())
                 .filter(component -> classNames.stream()
-                        .anyMatch(modalClass -> attributeContains(component, "class", modalClass))).collect(toList());
+                        .anyMatch(modalClass -> attributeContains(component, CLASS, modalClass))).collect(toList());
     }
 
     @Override

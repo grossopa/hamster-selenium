@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.datadisplay;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -89,7 +91,7 @@ public class MuiListItem extends AbstractMuiComponent {
      * @return true if the list item has the selected class, false otherwise
      */
     public boolean isSelected() {
-        String className = locator.getAttribute("class");
+        String className = locator.getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "ListItem-selected");
     }
 

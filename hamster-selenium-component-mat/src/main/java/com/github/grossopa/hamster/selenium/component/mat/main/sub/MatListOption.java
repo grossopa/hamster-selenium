@@ -33,7 +33,7 @@ import org.openqa.selenium.WebElement;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 /**
  * Component for list-options of selection-list. Each list-option can automatically generate a checkbox and can put

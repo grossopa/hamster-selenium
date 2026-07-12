@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.navigation;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -140,7 +142,7 @@ public class MuiDrawer extends AbstractMuiComponent {
      * @return the variant type (e.g. "permanent", "persistent", "temporary")
      */
     public String getVariant() {
-        String className = element.getAttribute("class");
+        String className = element.getAttribute(CLASS);
         String cssPrefix = config.getCssPrefix();
 
         if (className.contains(cssPrefix + "Drawer-docked")) {

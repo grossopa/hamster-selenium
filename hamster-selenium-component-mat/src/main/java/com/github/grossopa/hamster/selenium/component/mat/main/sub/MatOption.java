@@ -24,6 +24,8 @@
 
 package com.github.grossopa.hamster.selenium.component.mat.main.sub;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -67,6 +69,6 @@ public class MatOption extends AbstractMatComponent {
 
     @Override
     public boolean isSelected() {
-        return attributeContains("class", config.getCssPrefix() + "selected");
+        return attributeContains(CLASS, config.getCssPrefix() + "selected");
     }
 }

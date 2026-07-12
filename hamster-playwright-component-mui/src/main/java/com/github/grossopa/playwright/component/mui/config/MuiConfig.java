@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.config;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.core.WebComponent;
 
@@ -158,7 +160,7 @@ public class MuiConfig {
         if (component == null) {
             return false;
         }
-        String className = component.getAttribute("class");
+        String className = component.getAttribute(CLASS);
         return className != null && className.contains(getIsCheckedCss());
     }
 
@@ -172,7 +174,7 @@ public class MuiConfig {
         if (component == null) {
             return false;
         }
-        String className = component.getAttribute("class");
+        String className = component.getAttribute(CLASS);
         return className != null && className.contains(getIsSelectedCss());
     }
 
@@ -186,7 +188,7 @@ public class MuiConfig {
         if (component == null) {
             return true;
         }
-        String className = component.getAttribute("class");
+        String className = component.getAttribute(CLASS);
         return className != null && className.contains(getIsDisabledCss());
     }
 

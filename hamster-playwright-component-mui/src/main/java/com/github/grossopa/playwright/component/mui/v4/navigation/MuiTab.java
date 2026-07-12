@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.navigation;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -98,7 +100,7 @@ public class MuiTab extends AbstractMuiComponent {
      * @return true if disabled, false if enabled
      */
     public boolean isDisabled() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         String cssPrefix = config.getCssPrefix();
         return className != null && className.contains(cssPrefix + "Tab-disabled");
     }

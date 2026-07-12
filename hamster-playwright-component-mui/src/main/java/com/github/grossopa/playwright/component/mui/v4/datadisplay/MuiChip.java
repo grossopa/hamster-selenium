@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.datadisplay;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -120,7 +122,7 @@ public class MuiChip extends AbstractMuiComponent {
      */
     public boolean isClickable() {
         String role = getAttribute("role");
-        return "button".equals(role) || getAttribute("tabindex") != null;
+        return BUTTON.equals(role) || getAttribute("tabindex") != null;
     }
 
     /**

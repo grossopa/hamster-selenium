@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.feedback;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -82,7 +84,7 @@ public class MuiSkeleton extends AbstractMuiComponent {
      * @return the variant type (e.g. "text", "rectangular", "circular")
      */
     public String getVariant() {
-        String className = element.getAttribute("class");
+        String className = element.getAttribute(CLASS);
         String cssPrefix = config.getCssPrefix();
 
         if (className.contains(cssPrefix + "Skeleton-rectangular")) {
@@ -100,7 +102,7 @@ public class MuiSkeleton extends AbstractMuiComponent {
      * @return the animation type (e.g. "pulse", "wave", "false" for no animation)
      */
     public String getAnimation() {
-        String className = element.getAttribute("class");
+        String className = element.getAttribute(CLASS);
         String cssPrefix = config.getCssPrefix();
 
         if (className.contains(cssPrefix + "Skeleton-pulse")) {

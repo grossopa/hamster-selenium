@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.navigation;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -146,7 +148,7 @@ public class MuiAccordion extends AbstractMuiComponent {
      */
     @Override
     public boolean isEnabled() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className == null || !className.contains(config.getCssPrefix() + "-disabled");
     }
 }

@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.feedback;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -83,7 +85,7 @@ public class MuiAlert extends AbstractMuiComponent {
      * @return the severity level ("success", "info", "warning", or "error")
      */
     public String getSeverity() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         String cssPrefix = config.getCssPrefix();
 
         if (className.contains(cssPrefix + "Alert-standardSuccess") || 

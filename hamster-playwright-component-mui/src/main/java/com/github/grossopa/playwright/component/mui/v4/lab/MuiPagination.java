@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.lab;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -173,7 +175,7 @@ public class MuiPagination extends AbstractMuiComponent {
      * @return true if circular, false otherwise
      */
     public boolean isCircular() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Pagination-circular");
     }
 
@@ -183,7 +185,7 @@ public class MuiPagination extends AbstractMuiComponent {
      * @return the variant ("text", "outlined", or "default")
      */
     public String getVariant() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             if (className.contains(config.getCssPrefix() + "Pagination-outlined")) return "outlined";
             if (className.contains(config.getCssPrefix() + "Pagination-text")) return "text";
@@ -197,7 +199,7 @@ public class MuiPagination extends AbstractMuiComponent {
      * @return the size ("small", "medium", or "large")
      */
     public String getSize() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             if (className.contains(config.getCssPrefix() + "Pagination-sizeSmall")) return "small";
             if (className.contains(config.getCssPrefix() + "Pagination-sizeLarge")) return "large";

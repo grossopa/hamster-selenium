@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.datadisplay;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -95,7 +97,7 @@ public class MuiBadge extends AbstractMuiComponent {
         if (badge == null) {
             return false;
         }
-        String className = badge.getAttribute("class");
+        String className = badge.getAttribute(CLASS);
         return className == null || !className.contains(config.getCssPrefix() + "Badge-invisible");
     }
 
@@ -105,7 +107,7 @@ public class MuiBadge extends AbstractMuiComponent {
      * @return true if it's a dot badge, false otherwise
      */
     public boolean isDotVariant() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Badge-dot");
     }
 }

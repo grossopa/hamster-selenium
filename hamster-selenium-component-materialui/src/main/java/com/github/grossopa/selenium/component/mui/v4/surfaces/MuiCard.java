@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.surfaces;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -127,9 +129,9 @@ public class MuiCard extends AbstractMuiComponent {
     public List<WebComponent> getActions() {
         try {
             WebComponent actionsContainer = this.findComponent(By.className(config.getCssPrefix() + "CardActions-root"));
-            return actionsContainer.findComponents(By.tagName("button"));
+            return actionsContainer.findComponents(By.tagName(BUTTON));
         } catch (Exception e) {
-            return findComponents(By.tagName("button"));
+            return findComponents(By.tagName(BUTTON));
         }
     }
 

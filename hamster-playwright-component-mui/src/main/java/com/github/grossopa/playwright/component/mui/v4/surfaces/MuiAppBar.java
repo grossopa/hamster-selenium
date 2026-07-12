@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.surfaces;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -79,7 +81,7 @@ public class MuiAppBar extends AbstractMuiComponent {
      * @return the position ("fixed", "absolute", "sticky", or "static")
      */
     public String getPosition() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             if (className.contains(config.getCssPrefix() + "AppBar-positionFixed")) return "fixed";
             if (className.contains(config.getCssPrefix() + "AppBar-positionAbsolute")) return "absolute";
@@ -94,7 +96,7 @@ public class MuiAppBar extends AbstractMuiComponent {
      * @return the color variant ("primary", "secondary", "inherit", "transparent", or "default")
      */
     public String getColor() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             if (className.contains(config.getCssPrefix() + "AppBar-colorPrimary")) return "primary";
             if (className.contains(config.getCssPrefix() + "AppBar-colorSecondary")) return "secondary";
@@ -110,7 +112,7 @@ public class MuiAppBar extends AbstractMuiComponent {
      * @return true if AppBar has elevation, false otherwise
      */
     public boolean hasElevation() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "elevation");
     }
 

@@ -25,7 +25,7 @@
 package com.github.grossopa.selenium.core;
 
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.core.util.GracefulThreadSleep;
+import com.github.grossopa.utils.GracefulThreadSleep;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.Interactive;

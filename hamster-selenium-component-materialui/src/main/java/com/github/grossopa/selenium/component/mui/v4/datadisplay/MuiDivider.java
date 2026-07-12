@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.datadisplay;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -78,6 +80,6 @@ public class MuiDivider extends AbstractMuiComponent {
      * @return whether the divider is vertical.
      */
     public boolean isVertical() {
-        return this.attributeContains("class", config.getCssPrefix() + "Divider-vertical");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "Divider-vertical");
     }
 }

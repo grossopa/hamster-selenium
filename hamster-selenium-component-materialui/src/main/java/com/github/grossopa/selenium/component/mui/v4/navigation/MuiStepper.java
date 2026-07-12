@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.navigation;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -90,7 +92,7 @@ public class MuiStepper extends AbstractMuiComponent {
         for (int i = 0; i < steps.size(); i++) {
             WebComponent step = steps.get(i);
             if (config.isSelected(step) || config.isChecked(step) || 
-                step.getWrappedElement().getAttribute("class").contains(config.getCssPrefix() + "Step-active")) {
+                step.getWrappedElement().getAttribute(CLASS).contains(config.getCssPrefix() + "Step-active")) {
                 return i;
             }
         }
@@ -124,7 +126,7 @@ public class MuiStepper extends AbstractMuiComponent {
      * @return true if the stepper is vertical, false if horizontal
      */
     public boolean isVertical() {
-        String className = element.getAttribute("class");
+        String className = element.getAttribute(CLASS);
         return className.contains(config.getCssPrefix() + "Stepper-vertical");
     }
 

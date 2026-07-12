@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.feedback;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -143,7 +145,7 @@ public class MuiSnackbar extends AbstractMuiComponent {
      */
     public String getAnchorOrigin() {
         // Check CSS classes for positioning
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className.contains("bottom")) {
             if (className.contains("left")) return "bottom-left";
             if (className.contains("right")) return "bottom-right";

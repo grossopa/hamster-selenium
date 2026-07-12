@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.core;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -83,7 +85,7 @@ public class MuiGrid extends AbstractMuiComponent {
      * @return true if it is a Grid container component
      */
     public boolean isContainer() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Grid-container");
     }
 
@@ -95,7 +97,7 @@ public class MuiGrid extends AbstractMuiComponent {
      * @return true if it is a Grid item component
      */
     public boolean isItem() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Grid-item");
     }
 
@@ -118,7 +120,7 @@ public class MuiGrid extends AbstractMuiComponent {
      * @return the spacing value, or 0 if not set
      */
     public int getSpacing() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             for (int i = 0; i <= 10; i++) {
                 if (className.contains("spacing-" + i)) {
@@ -135,7 +137,7 @@ public class MuiGrid extends AbstractMuiComponent {
      * @return true if wrap is enabled, false otherwise
      */
     public boolean isWrap() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className == null || !className.contains("nowrap");
     }
 
@@ -145,7 +147,7 @@ public class MuiGrid extends AbstractMuiComponent {
      * @return the direction ("row", "column", "row-reverse", or "column-reverse")
      */
     public String getDirection() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             if (className.contains("direction-column")) return "column";
             if (className.contains("direction-row-reverse")) return "row-reverse";
@@ -160,7 +162,7 @@ public class MuiGrid extends AbstractMuiComponent {
      * @return the justification ("flex-start", "center", "flex-end", "space-between", etc.)
      */
     public String getJustifyContent() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             if (className.contains("justify-content-center")) return "center";
             if (className.contains("justify-content-flex-end")) return "flex-end";
@@ -176,7 +178,7 @@ public class MuiGrid extends AbstractMuiComponent {
      * @return the alignment ("flex-start", "center", "flex-end", "stretch", or "baseline")
      */
     public String getAlignItems() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         if (className != null) {
             if (className.contains("align-items-center")) return "center";
             if (className.contains("align-items-flex-end")) return "flex-end";

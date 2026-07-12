@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.surfaces;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -125,9 +127,9 @@ public class MuiCard extends AbstractMuiComponent {
     public List<WebComponent> getActions() {
         WebComponent actionsContainer = findComponent("." + config.getCssPrefix() + "CardActions-root");
         if (actionsContainer != null) {
-            return actionsContainer.findComponents("button");
+            return actionsContainer.findComponents(BUTTON);
         }
-        return findComponents("button");
+        return findComponents(BUTTON);
     }
 
     /**

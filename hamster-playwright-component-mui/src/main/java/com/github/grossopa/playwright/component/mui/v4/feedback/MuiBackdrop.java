@@ -24,6 +24,8 @@
 
 package com.github.grossopa.playwright.component.mui.v4.feedback;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.playwright.component.mui.AbstractMuiComponent;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
@@ -81,7 +83,7 @@ public class MuiBackdrop extends AbstractMuiComponent {
      * @return true if backdrop is visible, false otherwise
      */
     public boolean isVisible() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && !className.contains(config.getCssPrefix() + "Backdrop-invisible");
     }
 
@@ -98,7 +100,7 @@ public class MuiBackdrop extends AbstractMuiComponent {
      * @return true if backdrop has invisible class, false otherwise
      */
     public boolean isInvisible() {
-        String className = getAttribute("class");
+        String className = getAttribute(CLASS);
         return className != null && className.contains(config.getCssPrefix() + "Backdrop-invisible");
     }
 }
