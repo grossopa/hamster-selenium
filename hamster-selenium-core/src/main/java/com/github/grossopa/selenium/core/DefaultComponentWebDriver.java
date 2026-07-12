@@ -32,7 +32,7 @@ import com.github.grossopa.utils.GracefulThreadSleep;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 
 /**
  * The default implementation of {@link ComponentWebDriver}
@@ -73,7 +73,7 @@ public class DefaultComponentWebDriver extends AbstractComponentWebDriver {
      */
     public DefaultComponentWebDriver(WebDriver driver, GracefulThreadSleep threadSleep, WebElementDecorator decorator) {
         super(driver, threadSleep);
-        this.decorator = defaultIfNull(decorator, new NoOpWebElementDecorator());
+        this.decorator = getIfNull(decorator, new NoOpWebElementDecorator());
     }
 
     @Override
