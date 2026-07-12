@@ -1021,11 +1021,25 @@ public class MuiComponents extends AbstractComponents {
     }
 
     /**
-     * Wraps the current {@link WebComponent} to {@link MuiPickersDialog}.
+     * Wraps the current {@link WebComponent} to {@link MuiStepper} instance.
      *
      * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
      *
-     * @return the wrapped {@link MuiPickersDialog} instance on the given component
+     * <p>The {@link WebElement} should have css class "MuiStepper-root".</p>
+     *
+     * @return the wrapped {@link MuiStepper} instance on the given component
+     */
+    public MuiStepper toStepper() {
+        return create(() -> new MuiStepper(component, driver, config),
+                () -> new MuiStepper(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiTooltip} instance.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * @return the wrapped {@link MuiTooltip} instance on the given component
      */
     public MuiTooltip toTooltip() {
         return new MuiTooltip(component, driver, config);

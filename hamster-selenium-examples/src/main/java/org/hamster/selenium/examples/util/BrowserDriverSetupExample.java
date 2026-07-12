@@ -8,6 +8,7 @@ import java.io.File;
  * 
  * @author Assistant
  */
+@SuppressWarnings("all")
 public class BrowserDriverSetupExample {
     
     public static void main(String[] args) {

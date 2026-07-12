@@ -24,25 +24,21 @@
 
 package com.github.grossopa.selenium.component.mui.v4.navigation;
 
-import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
-
 import com.github.grossopa.selenium.component.mui.MuiVersion;
-import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
+import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.Strings.CI;
+import static org.openqa.selenium.By.className;
 
 /**
  * The Material UI Stepper implementation
@@ -91,8 +87,12 @@ public class MuiStepper extends AbstractMuiComponent {
         List<WebComponent> steps = getSteps();
         for (int i = 0; i < steps.size(); i++) {
             WebComponent step = steps.get(i);
-            if (config.isSelected(step) || config.isChecked(step) || 
-                step.getWrappedElement().getAttribute(CLASS).contains(config.getCssPrefix() + "Step-active")) {
+            String className = step.getDomAttribute(CLASS);
+            if (className != null &&
+                (config.isSelected(step) ||
+                 config.isChecked(step) ||
+                 className.contains(config.getCssPrefix() + "Step-active") ||
+                 !step.findComponents(className(config.getCssPrefix() + "StepIcon-active")).isEmpty())) {
                 return i;
             }
         }
@@ -105,7 +105,7 @@ public class MuiStepper extends AbstractMuiComponent {
      * @return list of step components
      */
     public List<WebComponent> getSteps() {
-        return element.findElements(By.className(config.getCssPrefix() + "Step-root"))
+        return element.findElements(className(config.getCssPrefix() + "Step-root"))
                 .stream()
                 .map(driver::mapElement)
                 .collect(toList());
@@ -126,8 +126,8 @@ public class MuiStepper extends AbstractMuiComponent {
      * @return true if the stepper is vertical, false if horizontal
      */
     public boolean isVertical() {
-        String className = element.getAttribute(CLASS);
-        return className.contains(config.getCssPrefix() + "Stepper-vertical");
+        String className = element.getDomAttribute(CLASS);
+        return CI.contains(className, config.getCssPrefix() + "Stepper-vertical");
     }
 
     /**
@@ -139,7 +139,7 @@ public class MuiStepper extends AbstractMuiComponent {
         return getSteps().stream()
                 .map(step -> {
                     try {
-                        return step.findComponent(By.className(config.getCssPrefix() + "StepLabel-label")).getText();
+                        return step.findComponent(className(config.getCssPrefix() + "StepLabel-label")).getText();
                     } catch (Exception e) {
                         return "";
                     }

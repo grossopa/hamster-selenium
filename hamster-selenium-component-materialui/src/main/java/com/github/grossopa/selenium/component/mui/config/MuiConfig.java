@@ -140,6 +140,54 @@ public class MuiConfig implements ComponentConfig {
     }
 
     /**
+     * Checks whether the given component is selected.
+     *
+     * @param component the component to check
+     * @return true if the component is selected, false otherwise
+     */
+    @Override
+    public boolean isSelected(WebComponent component) {
+        if (component == null) {
+            return false;
+        }
+        return attributeContains(component, CLASS, getIsSelectedCss());
+    }
+
+    /**
+     * Checks whether the given component is checked.
+     *
+     * @param component the component to check
+     * @return true if the component is checked, false otherwise
+     */
+    @Override
+    public boolean isChecked(WebComponent component) {
+        if (component == null) {
+            return false;
+        }
+        return attributeContains(component, CLASS, getIsCheckedCss());
+    }
+
+    /**
+     * Gets the CSS class for selected state.
+     *
+     * @return the selected CSS class
+     */
+    @Override
+    public String getIsSelectedCss() {
+        return cssPrefix + "-selected";
+    }
+
+    /**
+     * Gets the CSS class for checked state.
+     *
+     * @return the checked CSS class
+     */
+    @Override
+    public String getIsCheckedCss() {
+        return cssPrefix + "-checked";
+    }
+
+    /**
      * Builds the root component css name from the component name, it is used for determining the root node of all MUI
      * component.
      *

@@ -88,10 +88,11 @@ public class MuiStepper extends AbstractMuiComponent {
         for (int i = 0; i < steps.size(); i++) {
             WebComponent step = steps.get(i);
             String className = step.getAttribute(CLASS);
-            if (className != null && 
-                (config.isSelected(step) || 
-                 config.isChecked(step) || 
-                 className.contains(config.getCssPrefix() + "Step-active"))) {
+            if (className != null &&
+                (config.isSelected(step) ||
+                 config.isChecked(step) ||
+                 className.contains(config.getCssPrefix() + "Step-active") ||
+                 !step.findComponents("." + config.getCssPrefix() + "StepIcon-active").isEmpty())) {
                 return i;
             }
         }

@@ -39,7 +39,7 @@ import java.io.IOException;
  */
 public class StartDriverServiceMacEdge {
 
-    public static final String EXECUTABLE_PATH = "/Users/jack/software/webdrivers/msedgedriver_138";
+    public static final String EXECUTABLE_PATH = "/Users/jack/software/webdrivers/msedgedriver_150";
 
     public static final int PORT = 38383;
 

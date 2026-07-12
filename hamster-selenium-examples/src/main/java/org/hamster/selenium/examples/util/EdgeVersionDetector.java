@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 /**
  * Edge browser version detector
  */
+@SuppressWarnings("all")
 public class EdgeVersionDetector extends BrowserVersionDetector {
     
     @Override

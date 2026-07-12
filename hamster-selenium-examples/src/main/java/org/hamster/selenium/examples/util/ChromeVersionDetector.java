@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 /**
  * Chrome browser version detector
  */
+@SuppressWarnings("all")
 public class ChromeVersionDetector extends BrowserVersionDetector {
     
     @Override
