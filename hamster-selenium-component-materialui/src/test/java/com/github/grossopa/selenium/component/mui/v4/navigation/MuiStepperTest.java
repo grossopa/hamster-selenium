@@ -80,15 +80,15 @@ class MuiStepperTest {
 
         when(config.isSelected(step1)).thenReturn(false);
         when(config.isChecked(step1)).thenReturn(false);
-        when(step1.getAttribute("class")).thenReturn("");
+        when(step1.getDomAttribute("class")).thenReturn("");
 
         when(config.isSelected(step2)).thenReturn(false);
         when(config.isChecked(step2)).thenReturn(false);
-        when(step2.getAttribute("class")).thenReturn("");
+        when(step2.getDomAttribute("class")).thenReturn("");
 
         when(config.isSelected(step3)).thenReturn(true);
         when(config.isChecked(step3)).thenReturn(true);
-        when(step3.getAttribute("class")).thenReturn("Mui-selected");
+        when(step3.getDomAttribute("class")).thenReturn("Mui-selected");
 
         doReturn(steps).when(testSubject).getSteps();
 
@@ -104,17 +104,17 @@ class MuiStepperTest {
 
         when(config.isSelected(step1)).thenReturn(false);
         when(config.isChecked(step1)).thenReturn(false);
-        when(step1.getAttribute("class")).thenReturn("");
+        when(step1.getDomAttribute("class")).thenReturn("");
         when(step1.findComponents(any(By.class))).thenReturn(Collections.emptyList());
 
         when(config.isSelected(step2)).thenReturn(false);
         when(config.isChecked(step2)).thenReturn(false);
-        when(step2.getAttribute("class")).thenReturn("");
+        when(step2.getDomAttribute("class")).thenReturn("");
         when(step2.findComponents(any(By.class))).thenReturn(Collections.emptyList());
 
         when(config.isSelected(step3)).thenReturn(false);
         when(config.isChecked(step3)).thenReturn(false);
-        when(step3.getAttribute("class")).thenReturn("MuiStep-active");
+        when(step3.getDomAttribute("class")).thenReturn("MuiStep-active");
 
         doReturn(steps).when(testSubject).getSteps();
 
@@ -129,12 +129,12 @@ class MuiStepperTest {
 
         when(config.isSelected(step1)).thenReturn(false);
         when(config.isChecked(step1)).thenReturn(false);
-        when(step1.getAttribute("class")).thenReturn("");
+        when(step1.getDomAttribute("class")).thenReturn("");
         when(step1.findComponents(any(By.class))).thenReturn(Collections.emptyList());
 
         when(config.isSelected(step2)).thenReturn(false);
         when(config.isChecked(step2)).thenReturn(false);
-        when(step2.getAttribute("class")).thenReturn("");
+        when(step2.getDomAttribute("class")).thenReturn("");
         when(step2.findComponents(any(By.class))).thenReturn(Collections.emptyList());
 
         doReturn(steps).when(testSubject).getSteps();
@@ -175,10 +175,10 @@ class MuiStepperTest {
 
     @Test
     void isVertical() {
-        when(element.getAttribute("class")).thenReturn("MuiStepper-vertical");
+        when(element.getDomAttribute("class")).thenReturn("MuiStepper-vertical");
         assertTrue(testSubject.isVertical());
 
-        when(element.getAttribute("class")).thenReturn("MuiStepper-horizontal");
+        when(element.getDomAttribute("class")).thenReturn("MuiStepper-horizontal");
         assertFalse(testSubject.isVertical());
     }
 
