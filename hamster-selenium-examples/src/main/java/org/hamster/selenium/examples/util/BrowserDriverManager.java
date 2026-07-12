@@ -1,8 +1,11 @@
 package org.hamster.selenium.examples.util;
 
 import java.io.*;
-import java.net.*;
-import java.nio.file.*;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -13,6 +16,7 @@ import java.util.zip.ZipInputStream;
  * 
  * @author Assistant
  */
+@SuppressWarnings("all")
 public class BrowserDriverManager {
     
     // WebDriver download URLs

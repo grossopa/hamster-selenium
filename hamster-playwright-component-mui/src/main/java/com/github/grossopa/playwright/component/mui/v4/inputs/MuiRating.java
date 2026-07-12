@@ -90,7 +90,7 @@ public class MuiRating extends AbstractMuiComponent {
             WebComponent star = stars.get(i);
             String className = star.getAttribute(CLASS);
             if (className != null && className.contains(config.getCssPrefix() + "Rating-iconFilled")) {
-                return i + 1;
+                return i + 1d;
             }
         }
         return 0;
