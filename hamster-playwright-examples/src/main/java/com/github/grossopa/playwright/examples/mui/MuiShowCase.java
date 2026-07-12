@@ -40,6 +40,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.12
  */
+@SuppressWarnings("all")
 public class MuiShowCase extends AbstractBrowserSupport {
 
     private static final MuiComponents mui = MuiComponents.mui();

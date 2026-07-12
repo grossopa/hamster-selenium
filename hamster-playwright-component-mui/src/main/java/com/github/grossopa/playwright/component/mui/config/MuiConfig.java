@@ -54,6 +54,7 @@ public class MuiConfig {
      */
     private String cssPrefix = "Mui";
 
+    @SuppressWarnings("java:S1075")
     private String overlayAbsolutePath = "/html/body";
 
     /**
