@@ -84,6 +84,8 @@ public class HtmlConstants {
      */
     public static final String A = "a";
 
+    public static final String B = "b";
+
     /**
      * The tag label
      */
