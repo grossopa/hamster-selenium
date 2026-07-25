@@ -140,4 +140,58 @@ class HtmlSelectTest {
         testSubject.deselectAll();
         verify(locator).selectOption(new String[]{});
     }
+
+    @Test
+    void deselectByValue() {
+        when(locator.evaluate("el => Array.from(el.selectedOptions).map(o => o.value).filter(v => v !== arguments[0])", "val1"))
+                .thenReturn(Arrays.asList("val2", "val3"));
+
+        testSubject.deselectByValue("val1");
+        verify(locator).selectOption(new String[]{"val2", "val3"});
+    }
+
+    @Test
+    void deselectByValueNonListResult() {
+        when(locator.evaluate("el => Array.from(el.selectedOptions).map(o => o.value).filter(v => v !== arguments[0])", "val1"))
+                .thenReturn("not-a-list");
+
+        testSubject.deselectByValue("val1");
+        verify(locator).selectOption(new String[]{});
+    }
+
+    @Test
+    void deselectByIndex() {
+        when(locator.evaluate("el => Array.from(el.options).map((o, i) => o.selected && i !== arguments[0] ? o.value : null).filter(v => v !== null)", 1))
+                .thenReturn(Arrays.asList("val0", "val2"));
+
+        testSubject.deselectByIndex(1);
+        verify(locator).selectOption(new String[]{"val0", "val2"});
+    }
+
+    @Test
+    void deselectByIndexNonListResult() {
+        when(locator.evaluate("el => Array.from(el.options).map((o, i) => o.selected && i !== arguments[0] ? o.value : null).filter(v => v !== null)", 0))
+                .thenReturn("not-a-list");
+
+        testSubject.deselectByIndex(0);
+        verify(locator).selectOption(new String[]{});
+    }
+
+    @Test
+    void deselectByVisibleText() {
+        when(locator.evaluate("el => Array.from(el.selectedOptions).filter(o => o.text !== arguments[0]).map(o => o.value)", "Label1"))
+                .thenReturn(Arrays.asList("val2", "val3"));
+
+        testSubject.deselectByVisibleText("Label1");
+        verify(locator).selectOption(new String[]{"val2", "val3"});
+    }
+
+    @Test
+    void deselectByVisibleTextNonListResult() {
+        when(locator.evaluate("el => Array.from(el.selectedOptions).filter(o => o.text !== arguments[0]).map(o => o.value)", "Label1"))
+                .thenReturn("not-a-list");
+
+        testSubject.deselectByVisibleText("Label1");
+        verify(locator).selectOption(new String[]{});
+    }
 }
