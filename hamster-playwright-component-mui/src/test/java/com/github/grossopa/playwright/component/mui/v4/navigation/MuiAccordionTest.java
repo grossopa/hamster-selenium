@@ -42,6 +42,7 @@ class MuiAccordionTest {
         assertFalse(testSubject.isEnabled());
     }
 
+    // getAccordionSummary - empty returns null
     @Test void getAccordionSummaryReturnsNullWhenEmpty() {
         Locator childLocator = mock(Locator.class);
         when(locator.locator(anyString())).thenReturn(childLocator);
@@ -49,6 +50,17 @@ class MuiAccordionTest {
         assertNull(testSubject.getAccordionSummary());
     }
 
+    // getAccordionSummary - non-empty returns MuiAccordionSummary
+    @Test void getAccordionSummaryReturnsInstance() {
+        Locator summaryLocator = mock(Locator.class);
+        Locator childLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.all()).thenReturn(List.of(summaryLocator));
+        assertNotNull(testSubject.getAccordionSummary());
+        assertInstanceOf(MuiAccordionSummary.class, testSubject.getAccordionSummary());
+    }
+
+    // getAccordionDetails - empty returns null
     @Test void getAccordionDetailsReturnsNullWhenEmpty() {
         Locator childLocator = mock(Locator.class);
         when(locator.locator(anyString())).thenReturn(childLocator);
@@ -56,6 +68,17 @@ class MuiAccordionTest {
         assertNull(testSubject.getAccordionDetails());
     }
 
+    // getAccordionDetails - non-empty returns MuiAccordionDetails
+    @Test void getAccordionDetailsReturnsInstance() {
+        Locator detailsLocator = mock(Locator.class);
+        Locator childLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.all()).thenReturn(List.of(detailsLocator));
+        assertNotNull(testSubject.getAccordionDetails());
+        assertInstanceOf(MuiAccordionDetails.class, testSubject.getAccordionDetails());
+    }
+
+    // getAccordionActions - empty returns null
     @Test void getAccordionActionsReturnsNullWhenEmpty() {
         Locator childLocator = mock(Locator.class);
         when(locator.locator(anyString())).thenReturn(childLocator);
@@ -63,6 +86,17 @@ class MuiAccordionTest {
         assertNull(testSubject.getAccordionActions());
     }
 
+    // getAccordionActions - non-empty returns MuiAccordionActions
+    @Test void getAccordionActionsReturnsInstance() {
+        Locator actionsLocator = mock(Locator.class);
+        Locator childLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.all()).thenReturn(List.of(actionsLocator));
+        assertNotNull(testSubject.getAccordionActions());
+        assertInstanceOf(MuiAccordionActions.class, testSubject.getAccordionActions());
+    }
+
+    // isExpanded - summary is non-null, check summary.isExpanded()
     @Test void isExpandedReturnsFalseWhenSummaryNull() {
         Locator childLocator = mock(Locator.class);
         when(locator.locator(anyString())).thenReturn(childLocator);
@@ -70,6 +104,36 @@ class MuiAccordionTest {
         assertFalse(testSubject.isExpanded());
     }
 
+    @Test void isExpandedReturnsTrueWhenSummaryExpanded() {
+        Locator summaryLocator = mock(Locator.class);
+        Locator childLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.all()).thenReturn(List.of(summaryLocator));
+        // summary.isExpanded() checks getAttribute("aria-expanded") == "true"
+        when(summaryLocator.getAttribute("aria-expanded")).thenReturn("true");
+        assertTrue(testSubject.isExpanded());
+    }
+
+    @Test void isExpandedReturnsFalseWhenSummaryNotExpanded() {
+        Locator summaryLocator = mock(Locator.class);
+        Locator childLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.all()).thenReturn(List.of(summaryLocator));
+        when(summaryLocator.getAttribute("aria-expanded")).thenReturn("false");
+        assertFalse(testSubject.isExpanded());
+    }
+
+    // expand - when summary exists, clicks summary
+    @Test void expandClicksSummaryWhenPresent() {
+        Locator summaryLocator = mock(Locator.class);
+        Locator childLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.all()).thenReturn(List.of(summaryLocator));
+        testSubject.expand();
+        verify(summaryLocator).click();
+    }
+
+    // expand - when no summary, clicks accordion itself
     @Test void expandClicksLocatorWhenNoSummary() {
         Locator childLocator = mock(Locator.class);
         when(locator.locator(anyString())).thenReturn(childLocator);
@@ -78,6 +142,18 @@ class MuiAccordionTest {
         verify(locator).click();
     }
 
+    // collapse - when expanded, calls expand() to toggle
+    @Test void collapseCallsExpandWhenExpanded() {
+        Locator summaryLocator = mock(Locator.class);
+        Locator childLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.all()).thenReturn(List.of(summaryLocator));
+        when(summaryLocator.getAttribute("aria-expanded")).thenReturn("true");
+        testSubject.collapse();
+        verify(summaryLocator).click();
+    }
+
+    // collapse - when not expanded, does nothing
     @Test void collapseDoesNothingWhenNotExpanded() {
         Locator childLocator = mock(Locator.class);
         when(locator.locator(anyString())).thenReturn(childLocator);

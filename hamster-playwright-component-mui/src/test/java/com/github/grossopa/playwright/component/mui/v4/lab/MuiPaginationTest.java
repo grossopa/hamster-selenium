@@ -31,6 +31,17 @@ class MuiPaginationTest {
         when(childLocator.all()).thenReturn(List.of(pageLocators));
     }
 
+    /**
+     * Mocks findComponent chain: locator.locator(any).first() → firstLocator
+     */
+    private Locator mockFindComponent() {
+        Locator childLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.first()).thenReturn(firstLocator);
+        return firstLocator;
+    }
+
     @Test void getPageCount() {
         mockFindPages(mock(Locator.class), mock(Locator.class));
         assertEquals(2, testSubject.getPageCount());
@@ -64,6 +75,11 @@ class MuiPaginationTest {
         assertThrows(IndexOutOfBoundsException.class, () -> testSubject.goToPage(1));
     }
 
+    @Test void goToPageZero() {
+        mockFindPages(mock(Locator.class));
+        assertThrows(IndexOutOfBoundsException.class, () -> testSubject.goToPage(0));
+    }
+
     @Test void isCircularTrue() {
         when(locator.getAttribute("class")).thenReturn("MuiPagination-circular");
         assertTrue(testSubject.isCircular());
@@ -71,6 +87,11 @@ class MuiPaginationTest {
 
     @Test void isCircularFalse() {
         when(locator.getAttribute("class")).thenReturn("MuiPagination-root");
+        assertFalse(testSubject.isCircular());
+    }
+
+    @Test void isCircularNull() {
+        when(locator.getAttribute("class")).thenReturn(null);
         assertFalse(testSubject.isCircular());
     }
 
@@ -102,5 +123,59 @@ class MuiPaginationTest {
     @Test void getSizeDefault() {
         when(locator.getAttribute("class")).thenReturn(null);
         assertEquals("medium", testSubject.getSize());
+    }
+
+    // nextPage - findComponent returns non-null wrapper
+    @Test void nextPage() {
+        Locator firstLocator = mockFindComponent();
+        testSubject.nextPage();
+        verify(firstLocator).click();
+    }
+
+    // previousPage
+    @Test void previousPage() {
+        Locator firstLocator = mockFindComponent();
+        testSubject.previousPage();
+        verify(firstLocator).click();
+    }
+
+    // firstPage
+    @Test void firstPage() {
+        Locator firstLocator = mockFindComponent();
+        testSubject.firstPage();
+        verify(firstLocator).click();
+    }
+
+    // lastPage
+    @Test void lastPage() {
+        Locator firstLocator = mockFindComponent();
+        testSubject.lastPage();
+        verify(firstLocator).click();
+    }
+
+    // hasNextPage - findComponent returns non-null, check disabled attribute
+    @Test void hasNextPageTrue() {
+        Locator firstLocator = mockFindComponent();
+        when(firstLocator.getAttribute("disabled")).thenReturn(null);
+        assertTrue(testSubject.hasNextPage());
+    }
+
+    @Test void hasNextPageFalseDisabled() {
+        Locator firstLocator = mockFindComponent();
+        when(firstLocator.getAttribute("disabled")).thenReturn("true");
+        assertFalse(testSubject.hasNextPage());
+    }
+
+    // hasPreviousPage
+    @Test void hasPreviousPageTrue() {
+        Locator firstLocator = mockFindComponent();
+        when(firstLocator.getAttribute("disabled")).thenReturn(null);
+        assertTrue(testSubject.hasPreviousPage());
+    }
+
+    @Test void hasPreviousPageFalseDisabled() {
+        Locator firstLocator = mockFindComponent();
+        when(firstLocator.getAttribute("disabled")).thenReturn("true");
+        assertFalse(testSubject.hasPreviousPage());
     }
 }

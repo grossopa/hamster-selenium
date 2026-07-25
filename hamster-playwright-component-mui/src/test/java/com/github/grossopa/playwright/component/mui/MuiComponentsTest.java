@@ -81,6 +81,56 @@ class MuiComponentsTest {
     }
 
     @Test
+    void toButtonReturnsCorrectType() {
+        assertTrue(testSubject.toButton() instanceof com.github.grossopa.playwright.component.mui.v4.inputs.MuiButton);
+    }
+
+    @Test
+    void toSelectReturnsCorrectType() {
+        assertTrue(testSubject.toSelect() instanceof com.github.grossopa.playwright.component.mui.v4.inputs.MuiSelect);
+    }
+
+    @Test
+    void toSliderReturnsCorrectType() {
+        assertTrue(testSubject.toSlider() instanceof com.github.grossopa.playwright.component.mui.v4.inputs.MuiSlider);
+    }
+
+    @Test
+    void toDialogReturnsCorrectType() {
+        assertTrue(testSubject.toDialog() instanceof com.github.grossopa.playwright.component.mui.v4.feedback.MuiDialog);
+    }
+
+    @Test
+    void toAlertReturnsCorrectType() {
+        assertTrue(testSubject.toAlert() instanceof com.github.grossopa.playwright.component.mui.v4.feedback.MuiAlert);
+    }
+
+    @Test
+    void toSnackbarReturnsCorrectType() {
+        assertTrue(testSubject.toSnackbar() instanceof com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbar);
+    }
+
+    @Test
+    void toCardReturnsCorrectType() {
+        assertTrue(testSubject.toCard() instanceof com.github.grossopa.playwright.component.mui.v4.surfaces.MuiCard);
+    }
+
+    @Test
+    void toAutocompleteReturnsCorrectType() {
+        assertTrue(testSubject.toAutocomplete() instanceof com.github.grossopa.playwright.component.mui.v4.lab.MuiAutocomplete);
+    }
+
+    @Test
+    void toPaginationReturnsCorrectType() {
+        assertTrue(testSubject.toPagination() instanceof com.github.grossopa.playwright.component.mui.v4.lab.MuiPagination);
+    }
+
+    @Test
+    void toTabsReturnsCorrectType() {
+        assertTrue(testSubject.toTabs() instanceof com.github.grossopa.playwright.component.mui.v4.navigation.MuiTabs);
+    }
+
+    @Test
     void muiWithConfig() {
         MuiConfig config = new MuiConfig();
         MuiComponents instance = MuiComponents.mui(config);

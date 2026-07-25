@@ -19,35 +19,34 @@ class MuiListItemTest {
     MuiConfig config = new MuiConfig();
 
     @BeforeEach
-    void setUp() {
-        testSubject = new MuiListItem(locator, driver, config);
-    }
+    void setUp() { testSubject = new MuiListItem(locator, driver, config); }
 
-    @Test
-    void getComponentName() {
-        assertEquals("ListItem", testSubject.getComponentName());
-    }
+    @Test void getComponentName() { assertEquals("ListItem", testSubject.getComponentName()); }
+    @Test void versions() { assertEquals(EnumSet.of(MuiVersion.V4, MuiVersion.V5, MuiVersion.V6), testSubject.versions()); }
 
-    @Test
-    void versions() {
-        assertEquals(EnumSet.of(MuiVersion.V4, MuiVersion.V5, MuiVersion.V6), testSubject.versions());
-    }
-
-    @Test
-    void getText() {
+    @Test void getText() {
         when(locator.innerText()).thenReturn("Item Text");
         assertEquals("Item Text", testSubject.getText());
     }
 
-    @Test
-    void isSelectedTrue() {
+    @Test void isSelectedTrue() {
         when(locator.getAttribute("class")).thenReturn("MuiListItem-root MuiListItem-selected");
         assertTrue(testSubject.isSelected());
     }
 
-    @Test
-    void isSelectedFalse() {
+    @Test void isSelectedFalse() {
         when(locator.getAttribute("class")).thenReturn("MuiListItem-root");
         assertFalse(testSubject.isSelected());
+    }
+
+    @Test void isSelectedFalseWhenNull() {
+        when(locator.getAttribute("class")).thenReturn(null);
+        assertFalse(testSubject.isSelected());
+    }
+
+    // click
+    @Test void click() {
+        testSubject.click();
+        verify(locator).click();
     }
 }

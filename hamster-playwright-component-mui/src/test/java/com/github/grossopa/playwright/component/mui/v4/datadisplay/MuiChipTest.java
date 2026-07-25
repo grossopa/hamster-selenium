@@ -3,6 +3,7 @@ package com.github.grossopa.playwright.component.mui.v4.datadisplay;
 import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,51 +20,73 @@ class MuiChipTest {
     MuiConfig config = new MuiConfig();
 
     @BeforeEach
-    void setUp() {
-        testSubject = new MuiChip(locator, driver, config);
-    }
+    void setUp() { testSubject = new MuiChip(locator, driver, config); }
 
-    @Test
-    void getComponentName() {
-        assertEquals("Chip", testSubject.getComponentName());
-    }
+    @Test void getComponentName() { assertEquals("Chip", testSubject.getComponentName()); }
+    @Test void versions() { assertEquals(EnumSet.of(MuiVersion.V4, MuiVersion.V5, MuiVersion.V6), testSubject.versions()); }
 
-    @Test
-    void versions() {
-        assertEquals(EnumSet.of(MuiVersion.V4, MuiVersion.V5, MuiVersion.V6), testSubject.versions());
-    }
-
-    @Test
-    void getLabel() {
+    @Test void getLabel() {
         when(locator.innerText()).thenReturn("Chip Label");
         assertEquals("Chip Label", testSubject.getLabel());
     }
 
-    @Test
-    void hasDeleteButtonTrue() {
+    // click
+    @Test void click() {
+        testSubject.click();
+        verify(locator).click();
+    }
+
+    // clickDelete - findComponent returns non-null
+    @Test void clickDelete() {
+        Locator childLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.first()).thenReturn(firstLocator);
+        testSubject.clickDelete();
+        verify(firstLocator).click();
+    }
+
+    // hasDeleteButton - findComponent always returns non-null
+    @Test void hasDeleteButtonTrue() {
         Locator deleteLocator = mock(Locator.class);
         when(locator.locator(contains("Chip-deleteIcon"))).thenReturn(deleteLocator);
         when(deleteLocator.first()).thenReturn(deleteLocator);
         assertTrue(testSubject.hasDeleteButton());
     }
 
-    @Test
-    void isClickableTrueWithRoleButton() {
+    // isClickable
+    @Test void isClickableTrueWithRoleButton() {
         when(locator.getAttribute("role")).thenReturn("button");
         assertTrue(testSubject.isClickable());
     }
 
-    @Test
-    void isClickableTrueWithTabIndex() {
+    @Test void isClickableTrueWithTabIndex() {
         when(locator.getAttribute("role")).thenReturn(null);
         when(locator.getAttribute("tabindex")).thenReturn("0");
         assertTrue(testSubject.isClickable());
     }
 
-    @Test
-    void isClickableFalse() {
+    @Test void isClickableFalse() {
         when(locator.getAttribute("role")).thenReturn(null);
         when(locator.getAttribute("tabindex")).thenReturn(null);
         assertFalse(testSubject.isClickable());
+    }
+
+    // getAvatar - findComponent returns non-null
+    @Test void getAvatar() {
+        Locator childLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.first()).thenReturn(firstLocator);
+        WebComponent avatar = testSubject.getAvatar();
+        assertNotNull(avatar);
+    }
+
+    // hasAvatar - findComponent always returns non-null
+    @Test void hasAvatar() {
+        Locator childLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.first()).thenReturn(childLocator);
+        assertTrue(testSubject.hasAvatar());
     }
 }

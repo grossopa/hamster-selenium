@@ -3,6 +3,7 @@ package com.github.grossopa.playwright.component.mui.v4.navigation;
 import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,5 +48,15 @@ class MuiAccordionSummaryTest {
     @Test void getText() {
         when(locator.innerText()).thenReturn("Section 1");
         assertEquals("Section 1", testSubject.getText());
+    }
+
+    // getExpandIcon - findComponent returns non-null wrapper
+    @Test void getExpandIcon() {
+        Locator childLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.first()).thenReturn(firstLocator);
+        WebComponent icon = testSubject.getExpandIcon();
+        assertNotNull(icon);
     }
 }

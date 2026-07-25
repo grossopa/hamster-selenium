@@ -26,8 +26,19 @@ class MuiCardTest {
     @Test void versions() { assertEquals(EnumSet.of(MuiVersion.V4, MuiVersion.V5, MuiVersion.V6), testSubject.versions()); }
 
     /**
+     * Mocks findComponent chain: locator.locator(any).first() → firstLocator
+     */
+    private Locator mockFindComponent() {
+        Locator childLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.first()).thenReturn(firstLocator);
+        return firstLocator;
+    }
+
+    /**
      * Mocks the locator chain for getActions():
-     * 1. findComponent(".MuiCardActions-root") → locator.locator(selector).first() → always non-null
+     * 1. findComponent(".MuiCardActions-root") → locator.locator(any).first() → always non-null
      * 2. actionsContainer.findComponents("button") → wrappedLocator.locator("button").all()
      */
     private void mockFindActions(Locator... buttonLocators) {
@@ -35,15 +46,34 @@ class MuiCardTest {
         Locator actionsFirstLocator = mock(Locator.class);
         Locator buttonChildLocator = mock(Locator.class);
 
-        // findComponent(".MuiCardActions-root") → locator.locator(any).first()
         when(locator.locator(anyString())).thenReturn(actionsRootLocator);
         when(actionsRootLocator.first()).thenReturn(actionsFirstLocator);
-
-        // actionsContainer.findComponents("button") → wrappedLocator.locator("button").all()
         when(actionsFirstLocator.locator(anyString())).thenReturn(buttonChildLocator);
         when(buttonChildLocator.all()).thenReturn(List.of(buttonLocators));
     }
 
+    // getTitle
+    @Test void getTitleFromCardHeader() {
+        Locator firstLocator = mockFindComponent();
+        when(firstLocator.innerText()).thenReturn("Card Title");
+        assertEquals("Card Title", testSubject.getTitle());
+    }
+
+    // getSubtitle
+    @Test void getSubtitle() {
+        Locator firstLocator = mockFindComponent();
+        when(firstLocator.innerText()).thenReturn("Card Subtitle");
+        assertEquals("Card Subtitle", testSubject.getSubtitle());
+    }
+
+    // getContent
+    @Test void getContent() {
+        Locator firstLocator = mockFindComponent();
+        when(firstLocator.innerText()).thenReturn("Card content text");
+        assertEquals("Card content text", testSubject.getContent());
+    }
+
+    // getActions
     @Test void getActionCount() {
         mockFindActions(mock(Locator.class), mock(Locator.class));
         assertEquals(2, testSubject.getActionCount());
@@ -60,5 +90,35 @@ class MuiCardTest {
     @Test void clickActionNotFound() {
         mockFindActions();
         assertThrows(IllegalArgumentException.class, () -> testSubject.clickAction("Save"));
+    }
+
+    // hasMedia - findComponent always returns non-null
+    @Test void hasMedia() {
+        mockFindComponent();
+        assertTrue(testSubject.hasMedia());
+    }
+
+    // getMediaSrc - findComponent → media, then media.findComponent("img") → img
+    @Test void getMediaSrc() {
+        // First findComponent(".MuiCardMedia-root")
+        Locator mediaChildLocator = mock(Locator.class);
+        Locator mediaFirstLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(mediaChildLocator);
+        when(mediaChildLocator.first()).thenReturn(mediaFirstLocator);
+
+        // Then media.findComponent("img") → mediaFirstLocator.locator("img").first()
+        Locator imgChildLocator = mock(Locator.class);
+        Locator imgFirstLocator = mock(Locator.class);
+        when(mediaFirstLocator.locator(anyString())).thenReturn(imgChildLocator);
+        when(imgChildLocator.first()).thenReturn(imgFirstLocator);
+        when(imgFirstLocator.getAttribute("src")).thenReturn("https://example.com/image.png");
+
+        assertEquals("https://example.com/image.png", testSubject.getMediaSrc());
+    }
+
+    // hasHeader - findComponent always returns non-null
+    @Test void hasHeader() {
+        mockFindComponent();
+        assertTrue(testSubject.hasHeader());
     }
 }
