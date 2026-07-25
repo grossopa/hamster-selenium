@@ -112,6 +112,11 @@
     <sonar.organization>grossopa</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.coverage.jacoco.xmlReportPaths>**/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
+    <!-- Exclude examples modules from Sonar analysis and coverage -->
+    <sonar.exclusions>**/hamster-selenium-examples/**,**/hamster-playwright-examples/**</sonar.exclusions>
+    <sonar.test.exclusions>**/hamster-selenium-examples/**,**/hamster-playwright-examples/**</sonar.test.exclusions>
+    <sonar.coverage.exclusions>**/hamster-selenium-examples/**,**/hamster-playwright-examples/**</sonar.coverage.exclusions>
   </properties>
 
   <dependencyManagement>
