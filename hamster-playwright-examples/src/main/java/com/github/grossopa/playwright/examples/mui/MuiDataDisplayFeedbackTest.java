@@ -302,26 +302,21 @@ public class MuiDataDisplayFeedbackTest extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiDataDisplayFeedbackTest test = new MuiDataDisplayFeedbackTest();
         test.setUpDriver();
-        
-        try {
-            test.testAvatar();
-            test.testBadge();
-            test.testChipWithActions();
-            test.testDivider();
-            test.testList();
-            test.testTooltip();
-            test.testAlert();
-            test.testSnackbar();
-            test.testBackdrop();
-            test.testSkeleton();
-            test.testCombinedDataDisplay();
-            
-            System.out.println("\n=== All Data Display & Feedback tests completed! ===");
-        } catch (Exception e) {
-            System.err.println("Test failed: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
+
+        test.runTestClass("MuiDataDisplayFeedbackTest", () -> {
+            test.runTest("testAvatar", test::testAvatar);
+            test.runTest("testBadge", test::testBadge);
+            test.runTest("testChipWithActions", test::testChipWithActions);
+            test.runTest("testDivider", test::testDivider);
+            test.runTest("testList", test::testList);
+            test.runTest("testTooltip", test::testTooltip);
+            test.runTest("testAlert", test::testAlert);
+            test.runTest("testSnackbar", test::testSnackbar);
+            test.runTest("testBackdrop", test::testBackdrop);
+            test.runTest("testSkeleton", test::testSkeleton);
+            test.runTest("testCombinedDataDisplay", test::testCombinedDataDisplay);
+        });
+
         // Keep browser open for manual inspection
         try {
             Thread.sleep(15000);

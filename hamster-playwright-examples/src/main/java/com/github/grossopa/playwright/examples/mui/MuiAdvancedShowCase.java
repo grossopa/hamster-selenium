@@ -300,44 +300,20 @@ public class MuiAdvancedShowCase extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiAdvancedShowCase test = new MuiAdvancedShowCase();
         test.setUpDriver();
-        
-        try {
-            System.out.println("=== Testing Button Variants ===");
-            test.testButtonVariants();
-            
-            System.out.println("\n=== Testing TextField States ===");
-            test.testTextFieldStates();
-            
-            System.out.println("\n=== Testing Checkbox and Radio ===");
-            test.testCheckboxAndRadio();
-            
-            System.out.println("\n=== Testing Switch ===");
-            test.testSwitch();
-            
-            System.out.println("\n=== Testing Slider ===");
-            test.testSlider();
-            
-            System.out.println("\n=== Testing Chip ===");
-            test.testChip();
-            
-            System.out.println("\n=== Testing Tabs ===");
-            test.testTabs();
-            
-            System.out.println("\n=== Testing Dialog ===");
-            test.testDialog();
-            
-            System.out.println("\n=== Testing Rating ===");
-            test.testRating();
-            
-            System.out.println("\n=== Testing Autocomplete ===");
-            test.testAutocomplete();
-            
-            System.out.println("\n=== All advanced tests completed! ===");
-        } catch (Exception e) {
-            System.err.println("Test failed: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
+
+        test.runTestClass("MuiAdvancedShowCase", () -> {
+            test.runTest("testButtonVariants", test::testButtonVariants);
+            test.runTest("testTextFieldStates", test::testTextFieldStates);
+            test.runTest("testCheckboxAndRadio", test::testCheckboxAndRadio);
+            test.runTest("testSwitch", test::testSwitch);
+            test.runTest("testSlider", test::testSlider);
+            test.runTest("testChip", test::testChip);
+            test.runTest("testTabs", test::testTabs);
+            test.runTest("testDialog", test::testDialog);
+            test.runTest("testRating", test::testRating);
+            test.runTest("testAutocomplete", test::testAutocomplete);
+        });
+
         // Keep browser open for manual inspection
         try {
             Thread.sleep(15000);

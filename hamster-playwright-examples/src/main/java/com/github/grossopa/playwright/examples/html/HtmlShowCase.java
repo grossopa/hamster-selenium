@@ -41,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Jack Yin
  * @since 1.12
  */
+@SuppressWarnings("all")
 public class HtmlShowCase extends AbstractBrowserSupport {
 
     public void testTable() {
@@ -107,14 +108,13 @@ public class HtmlShowCase extends AbstractBrowserSupport {
     public static void main(String[] args) {
         HtmlShowCase test = new HtmlShowCase();
         test.setUpDriver();
-        test.testTable();
-        test.testSelect();
-        test.testFormField();
-        // Keep browser open for manual inspection
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+
+        test.runTestClass("HtmlShowCase", () -> {
+            test.runTest("testTable", test::testTable);
+            test.runTest("testSelect", test::testSelect);
+            test.runTest("testFormField", test::testFormField);
+        });
+
+        test.tearDownAndReport();
     }
 }

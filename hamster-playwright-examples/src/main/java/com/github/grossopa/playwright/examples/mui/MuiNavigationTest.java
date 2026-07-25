@@ -327,25 +327,20 @@ public class MuiNavigationTest extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiNavigationTest test = new MuiNavigationTest();
         test.setUpDriver();
-        
-        try {
-            test.testTabs();
-            test.testMenu();
-            test.testMenuItem();
-            test.testDrawer();
-            test.testAccordion();
-            test.testBreadcrumbs();
-            test.testPagination();
-            test.testStepper();
-            test.testTabsWithContent();
-            test.testMenuInteractionFlow();
-            
-            System.out.println("\n=== All Navigation tests completed! ===");
-        } catch (Exception e) {
-            System.err.println("Test failed: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
+
+        test.runTestClass("MuiNavigationTest", () -> {
+            test.runTest("testTabs", test::testTabs);
+            test.runTest("testMenu", test::testMenu);
+            test.runTest("testMenuItem", test::testMenuItem);
+            test.runTest("testDrawer", test::testDrawer);
+            test.runTest("testAccordion", test::testAccordion);
+            test.runTest("testBreadcrumbs", test::testBreadcrumbs);
+            test.runTest("testPagination", test::testPagination);
+            test.runTest("testStepper", test::testStepper);
+            test.runTest("testTabsWithContent", test::testTabsWithContent);
+            test.runTest("testMenuInteractionFlow", test::testMenuInteractionFlow);
+        });
+
         // Keep browser open for manual inspection
         try {
             Thread.sleep(15000);

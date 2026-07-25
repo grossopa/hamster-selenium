@@ -268,21 +268,16 @@ public class MuiPerformanceTest extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiPerformanceTest test = new MuiPerformanceTest();
         test.setUpDriver();
-        
-        try {
-            test.testButtonClickPerformance();
-            test.testFormFillingPerformance();
-            test.testComponentFindingPerformance();
-            test.testPageLoadPerformance();
-            test.testStressTest();
-            test.testLocatorStrategyComparison();
-            
-            System.out.println("\n=== All Performance tests completed! ===");
-        } catch (Exception e) {
-            System.err.println("Test failed: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
+
+        test.runTestClass("MuiPerformanceTest", () -> {
+            test.runTest("testButtonClickPerformance", test::testButtonClickPerformance);
+            test.runTest("testFormFillingPerformance", test::testFormFillingPerformance);
+            test.runTest("testComponentFindingPerformance", test::testComponentFindingPerformance);
+            test.runTest("testPageLoadPerformance", test::testPageLoadPerformance);
+            test.runTest("testStressTest", test::testStressTest);
+            test.runTest("testLocatorStrategyComparison", test::testLocatorStrategyComparison);
+        });
+
         // Keep browser open for manual inspection
         try {
             Thread.sleep(10000);

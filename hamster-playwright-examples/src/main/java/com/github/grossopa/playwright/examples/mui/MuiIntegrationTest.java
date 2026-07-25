@@ -367,22 +367,16 @@ public class MuiIntegrationTest extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiIntegrationTest test = new MuiIntegrationTest();
         test.setUpDriver();
-        
-        try {
-            test.testEcommerceFilterScenario();
-            test.testUserProfileEditScenario();
-            test.testDashboardNavigationScenario();
-            test.testDataTablePaginationScenario();
-            test.testFormValidationScenario();
-            test.testMultiStepWizardScenario();
-            
-            System.out.println("\n=== All Integration tests completed successfully! ===");
-            System.out.println("These tests demonstrate real-world MUI component usage patterns.");
-        } catch (Exception e) {
-            System.err.println("Test failed: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
+
+        test.runTestClass("MuiIntegrationTest", () -> {
+            test.runTest("testEcommerceFilterScenario", test::testEcommerceFilterScenario);
+            test.runTest("testUserProfileEditScenario", test::testUserProfileEditScenario);
+            test.runTest("testDashboardNavigationScenario", test::testDashboardNavigationScenario);
+            test.runTest("testDataTablePaginationScenario", test::testDataTablePaginationScenario);
+            test.runTest("testFormValidationScenario", test::testFormValidationScenario);
+            test.runTest("testMultiStepWizardScenario", test::testMultiStepWizardScenario);
+        });
+
         // Keep browser open for manual inspection
         try {
             Thread.sleep(20000);

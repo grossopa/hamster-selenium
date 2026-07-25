@@ -183,29 +183,15 @@ public class MuiShowCase extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiShowCase test = new MuiShowCase();
         test.setUpDriver();
-        
-        try {
-            System.out.println("=== Testing MUI Button ===");
-            test.testButton();
-            
-            System.out.println("\n=== Testing MUI TextField ===");
-            test.testTextField();
-            
-            System.out.println("\n=== Testing Multiple Components ===");
-            test.testMultipleComponents();
-            
-            System.out.println("\n=== Testing MUI Select ===");
-            test.testSelect();
-            
-            System.out.println("\n=== Testing MUI Checkbox ===");
-            test.testCheckbox();
-            
-            System.out.println("\n=== All tests completed successfully! ===");
-        } catch (Exception e) {
-            System.err.println("Test failed: " + e.getMessage());
-            e.printStackTrace();
-        }
-        
+
+        test.runTestClass("MuiShowCase", () -> {
+            test.runTest("testButton", test::testButton);
+            test.runTest("testTextField", test::testTextField);
+            test.runTest("testMultipleComponents", test::testMultipleComponents);
+            test.runTest("testSelect", test::testSelect);
+            test.runTest("testCheckbox", test::testCheckbox);
+        });
+
         // Keep browser open for manual inspection
         try {
             Thread.sleep(10000);
