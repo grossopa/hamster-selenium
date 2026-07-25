@@ -48,6 +48,12 @@ public abstract class AbstractBrowserSupport {
         }
     }
 
+    public void tearDownDriver() {
+        if (driver != null) {
+            driver.playwright().close();
+        }
+    }
+
     public static void main(String[] args) {
 
     }

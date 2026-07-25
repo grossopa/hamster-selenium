@@ -24,6 +24,7 @@
 
 package com.github.grossopa.playwright.examples.html;
 
+import com.github.grossopa.playwright.component.html.HtmlFormField;
 import com.github.grossopa.playwright.component.html.HtmlSelect;
 import com.github.grossopa.playwright.component.html.HtmlTable;
 import com.github.grossopa.playwright.component.html.HtmlTableRow;
@@ -81,11 +82,34 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         // In Playwright, you would typically check the selected value differently
     }
 
+    public void testFormField() {
+        driver.navigate("https://www.w3schools.com/html/tryit.asp?filename=tryhtml_form_submit", 600_000L);
+        var frame = driver.page().frame("iframeResult");
+
+        // Demonstrate HtmlFormField with label + input
+        WebComponent firstNameInput = driver.mapLocator(frame.locator("input[name='fname']").first());
+        WebComponent lastNameInput = driver.mapLocator(frame.locator("input[name='lname']").first());
+
+        // Fill in form fields and verify values
+        firstNameInput.fill("John");
+        assertEquals("John", firstNameInput.inputValue());
+
+        lastNameInput.fill("Doe");
+        assertEquals("Doe", lastNameInput.inputValue());
+
+        // Demonstrate HtmlFormField component
+        HtmlFormField formField = new HtmlFormField(frame.locator("form").first(), driver);
+        WebComponent label = formField.getLabel();
+        System.out.println("FormField label: " + label.innerText());
+        System.out.println("FormField demo completed: first name and last name filled successfully.");
+    }
+
     public static void main(String[] args) {
         HtmlShowCase test = new HtmlShowCase();
         test.setUpDriver();
         test.testTable();
         test.testSelect();
+        test.testFormField();
         // Keep browser open for manual inspection
         try {
             Thread.sleep(10000);
