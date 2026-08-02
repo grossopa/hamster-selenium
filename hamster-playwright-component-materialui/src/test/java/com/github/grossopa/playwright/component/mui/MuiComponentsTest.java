@@ -25,6 +25,24 @@
 package com.github.grossopa.playwright.component.mui;
 
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
+import com.github.grossopa.playwright.component.mui.v4.feedback.MuiAlert;
+import com.github.grossopa.playwright.component.mui.v4.feedback.MuiDialog;
+import com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbar;
+import com.github.grossopa.playwright.component.mui.v4.inputs.MuiButton;
+import com.github.grossopa.playwright.component.mui.v4.inputs.MuiSelect;
+import com.github.grossopa.playwright.component.mui.v4.inputs.MuiSlider;
+import com.github.grossopa.playwright.component.mui.v4.lab.MuiAutocomplete;
+import com.github.grossopa.playwright.component.mui.v4.lab.MuiPagination;
+import com.github.grossopa.playwright.component.mui.v4.navigation.MuiAccordionActions;
+import com.github.grossopa.playwright.component.mui.v4.navigation.MuiAccordionDetails;
+import com.github.grossopa.playwright.component.mui.v4.navigation.MuiAccordionSummary;
+import com.github.grossopa.playwright.component.mui.v4.navigation.MuiBottomNavigation;
+import com.github.grossopa.playwright.component.mui.v4.navigation.MuiBottomNavigationAction;
+import com.github.grossopa.playwright.component.mui.v4.navigation.MuiBreadcrumbs;
+import com.github.grossopa.playwright.component.mui.v4.navigation.MuiLink;
+import com.github.grossopa.playwright.component.mui.v4.navigation.MuiStepper;
+import com.github.grossopa.playwright.component.mui.v4.navigation.MuiTabs;
+import com.github.grossopa.playwright.component.mui.v4.surfaces.MuiCard;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
@@ -82,52 +100,92 @@ class MuiComponentsTest {
 
     @Test
     void toButtonReturnsCorrectType() {
-        assertTrue(testSubject.toButton() instanceof com.github.grossopa.playwright.component.mui.v4.inputs.MuiButton);
+        assertInstanceOf(MuiButton.class, testSubject.toButton());
     }
 
     @Test
     void toSelectReturnsCorrectType() {
-        assertTrue(testSubject.toSelect() instanceof com.github.grossopa.playwright.component.mui.v4.inputs.MuiSelect);
+        assertInstanceOf(MuiSelect.class, testSubject.toSelect());
     }
 
     @Test
     void toSliderReturnsCorrectType() {
-        assertTrue(testSubject.toSlider() instanceof com.github.grossopa.playwright.component.mui.v4.inputs.MuiSlider);
+        assertInstanceOf(MuiSlider.class, testSubject.toSlider());
     }
 
     @Test
     void toDialogReturnsCorrectType() {
-        assertTrue(testSubject.toDialog() instanceof com.github.grossopa.playwright.component.mui.v4.feedback.MuiDialog);
+        assertInstanceOf(MuiDialog.class, testSubject.toDialog());
     }
 
     @Test
     void toAlertReturnsCorrectType() {
-        assertTrue(testSubject.toAlert() instanceof com.github.grossopa.playwright.component.mui.v4.feedback.MuiAlert);
+        assertInstanceOf(MuiAlert.class, testSubject.toAlert());
     }
 
     @Test
     void toSnackbarReturnsCorrectType() {
-        assertTrue(testSubject.toSnackbar() instanceof com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbar);
+        assertInstanceOf(MuiSnackbar.class, testSubject.toSnackbar());
     }
 
     @Test
     void toCardReturnsCorrectType() {
-        assertTrue(testSubject.toCard() instanceof com.github.grossopa.playwright.component.mui.v4.surfaces.MuiCard);
+        assertInstanceOf(MuiCard.class, testSubject.toCard());
     }
 
     @Test
     void toAutocompleteReturnsCorrectType() {
-        assertTrue(testSubject.toAutocomplete() instanceof com.github.grossopa.playwright.component.mui.v4.lab.MuiAutocomplete);
+        assertInstanceOf(MuiAutocomplete.class, testSubject.toAutocomplete());
     }
 
     @Test
     void toPaginationReturnsCorrectType() {
-        assertTrue(testSubject.toPagination() instanceof com.github.grossopa.playwright.component.mui.v4.lab.MuiPagination);
+        assertInstanceOf(MuiPagination.class, testSubject.toPagination());
     }
 
     @Test
     void toTabsReturnsCorrectType() {
-        assertTrue(testSubject.toTabs() instanceof com.github.grossopa.playwright.component.mui.v4.navigation.MuiTabs);
+        assertInstanceOf(MuiTabs.class, testSubject.toTabs());
+    }
+
+    @Test
+    void toBottomNavigationReturnsCorrectType() {
+        assertInstanceOf(MuiBottomNavigation.class, testSubject.toBottomNavigation());
+    }
+
+    @Test
+    void toBottomNavigationActionReturnsCorrectType() {
+        assertInstanceOf(MuiBottomNavigationAction.class, testSubject.toBottomNavigationAction());
+    }
+
+    @Test
+    void toBreadcrumbsReturnsCorrectType() {
+        assertInstanceOf(MuiBreadcrumbs.class, testSubject.toBreadcrumbs());
+    }
+
+    @Test
+    void toLinkReturnsCorrectType() {
+        assertInstanceOf(MuiLink.class, testSubject.toLink());
+    }
+
+    @Test
+    void toStepperReturnsCorrectType() {
+        assertInstanceOf(MuiStepper.class, testSubject.toStepper());
+    }
+
+    @Test
+    void toAccordionActionsReturnsCorrectType() {
+        assertInstanceOf(MuiAccordionActions.class, testSubject.toAccordionActions());
+    }
+
+    @Test
+    void toAccordionDetailsReturnsCorrectType() {
+        assertInstanceOf(MuiAccordionDetails.class, testSubject.toAccordionDetails());
+    }
+
+    @Test
+    void toAccordionSummaryReturnsCorrectType() {
+        assertInstanceOf(MuiAccordionSummary.class, testSubject.toAccordionSummary());
     }
 
     @Test
@@ -293,6 +351,46 @@ class MuiComponentsTest {
     @Test
     void toTabs() {
         assertNotNull(testSubject.toTabs());
+    }
+
+    @Test
+    void toBottomNavigation() {
+        assertNotNull(testSubject.toBottomNavigation());
+    }
+
+    @Test
+    void toBottomNavigationAction() {
+        assertNotNull(testSubject.toBottomNavigationAction());
+    }
+
+    @Test
+    void toBreadcrumbs() {
+        assertNotNull(testSubject.toBreadcrumbs());
+    }
+
+    @Test
+    void toLink() {
+        assertNotNull(testSubject.toLink());
+    }
+
+    @Test
+    void toStepper() {
+        assertNotNull(testSubject.toStepper());
+    }
+
+    @Test
+    void toAccordionActions() {
+        assertNotNull(testSubject.toAccordionActions());
+    }
+
+    @Test
+    void toAccordionDetails() {
+        assertNotNull(testSubject.toAccordionDetails());
+    }
+
+    @Test
+    void toAccordionSummary() {
+        assertNotNull(testSubject.toAccordionSummary());
     }
 
     // Surface Components
