@@ -234,6 +234,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     }
 
     @Override
+    @SuppressWarnings("javabugs:S2259")
     public void selectByIndex(int index, Long delayInMillis) {
         WebComponent component = getOptions2(delayInMillis).get(index);
         if (!config.isSelected(component)) {
