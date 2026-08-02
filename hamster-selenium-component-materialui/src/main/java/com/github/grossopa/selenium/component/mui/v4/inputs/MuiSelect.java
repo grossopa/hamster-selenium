@@ -27,6 +27,7 @@ package com.github.grossopa.selenium.component.mui.v4.inputs;
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
+import com.github.grossopa.selenium.component.mui.exception.OptionContainerNotFoundException;
 import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.v4.core.MuiPopover;
@@ -125,9 +126,11 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     }
 
     @Override
-    @SuppressWarnings("javabugs:S2259")
     public List<WebComponent> getOptions2(Long delayInMillis) {
         WebComponent container = this.openOptions(delayInMillis);
+        if (container == null) {
+            throw new OptionContainerNotFoundException("The options container is not found.");
+        }
         return container.findComponents(selectConfig.getOptionsLocator());
     }
 

@@ -30,6 +30,7 @@ import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
 import com.github.grossopa.selenium.component.mui.v4.core.MuiPopover;
+import com.github.grossopa.selenium.component.mui.exception.OptionContainerNotFoundException;
 import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
@@ -198,6 +199,15 @@ class MuiSelectTest {
     @Test
     void getOptions2WithDelay() {
         assertEquals(6, testSubject.getOptions2(500L).size());
+    }
+
+    @Test
+    void getOptions2WithDelayWhenContainerNotFound() {
+        doAnswer(a -> {
+            // do nothing, container stays null
+            return null;
+        }).when(openOptionsAction).open(eq(testSubject), any());
+        assertThrows(OptionContainerNotFoundException.class, () -> testSubject.getOptions2(500L));
     }
 
     @Test
