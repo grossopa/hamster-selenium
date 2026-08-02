@@ -33,6 +33,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>hamster-playwright-examples</artifactId>
+  <name>Hamster Playwright Examples</name>
 
   <dependencies>
     <dependency>

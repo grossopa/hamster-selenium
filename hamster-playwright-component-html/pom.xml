@@ -32,6 +32,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>hamster-playwright-component-html</artifactId>
+  <name>Hamster Playwright Component HTML</name>
 
   <dependencies>
     <dependency>

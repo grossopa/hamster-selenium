@@ -32,6 +32,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>hamster-selenium-component-antdesign</artifactId>
+  <name>Hamster Selenium Component Ant Design</name>
   <description>the Selenium implementation of https://ant.design/</description>
 
   <dependencies>

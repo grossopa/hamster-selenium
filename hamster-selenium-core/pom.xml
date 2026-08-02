@@ -32,6 +32,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>hamster-selenium-core</artifactId>
+  <name>Hamster Selenium Core</name>
 
   <dependencies>
     <dependency>

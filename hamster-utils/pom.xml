@@ -32,6 +32,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>hamster-utils</artifactId>
+  <name>Hamster Utils</name>
   <description>Common utilities and constants shared across hamster-selenium and hamster-playwright modules</description>
 
   <properties>
