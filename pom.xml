@@ -31,7 +31,7 @@
   <packaging>pom</packaging>
   <version>1.13.0-SNAPSHOT</version>
 
-  <name>hamster-selenium-parent</name>
+  <name>Hamster Selenium</name>
   <description>The framework to support selenium to be able to test against web applications built from modern
     front-end framework such as Material-UI
   </description>

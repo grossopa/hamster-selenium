@@ -32,6 +32,7 @@
   </parent>
 
   <artifactId>hamster-playwright-core</artifactId>
+  <name>Hamster Playwright Core</name>
 
   <properties>
     <maven.compiler.source>11</maven.compiler.source>

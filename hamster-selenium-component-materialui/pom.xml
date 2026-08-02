@@ -32,6 +32,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>hamster-selenium-component-materialui</artifactId>
+  <name>Hamster Selenium Component Material UI</name>
   <description>the Selenium implementation of https://material-ui.com/</description>
 
   <dependencies>
