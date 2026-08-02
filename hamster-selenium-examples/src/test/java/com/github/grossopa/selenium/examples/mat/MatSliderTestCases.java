@@ -61,7 +61,6 @@ public class MatSliderTestCases extends AbstractBrowserSupport {
         WebComponent configContainer = containers.get(0);
         WebComponent resultContainer = containers.get(1);
 
-        System.out.println(configContainer.outerHTML());
         // line 1 /mat-form-field[contains(@class,'mat-form-field')][0]
         MatFormField valueField = configContainer.findComponent(xpath(".//section[1]/mat-form-field[1]")).as(mat())
                 .toFormField();

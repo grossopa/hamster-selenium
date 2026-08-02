@@ -24,6 +24,8 @@
 
 package com.github.grossopa.hamster.selenium.component.mat.main;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
+
 import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -31,7 +33,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 /**
  * MatSnackBar is a service for displaying snack-bar notifications.
@@ -79,7 +81,7 @@ public class MatSnackbar extends AbstractMatComponent {
      * @return the action content.
      */
     public MatButton getActionButton() {
-        return new MatButton(this.findComponent(By.tagName("button")), driver, config);
+        return new MatButton(this.findComponent(By.tagName(BUTTON)), driver, config);
     }
 
     @Override

@@ -40,7 +40,7 @@ import org.openqa.selenium.interactions.Actions;
 import java.util.List;
 import java.util.function.DoubleConsumer;
 
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static java.util.Collections.singletonList;
 
 /**

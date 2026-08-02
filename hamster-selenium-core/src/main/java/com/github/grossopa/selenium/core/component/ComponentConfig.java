@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -24,8 +24,10 @@
 
 package com.github.grossopa.selenium.core.component;
 
+import org.openqa.selenium.WebElement;
+
 import static com.github.grossopa.selenium.core.component.util.WebComponentUtils.attributeContains;
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 /**
  * The root configuration of one front-end framework. e.g. Material UI.
@@ -80,7 +82,18 @@ public interface ComponentConfig {
      * @see #getIsDisabledCss()
      */
     default boolean isDisabled(WebComponent component) {
-        return !component.getWrappedElement().isEnabled() || attributeContains(component, CLASS, getIsDisabledCss());
+        if (component == null) {
+            return true;
+        }
+        try {
+            WebElement wrappedElement = component.getWrappedElement();
+            if (wrappedElement != null && !wrappedElement.isEnabled()) {
+                return true;
+            }
+        } catch (Exception e) {
+            // Ignore exceptions from getWrappedElement()
+        }
+        return attributeContains(component, CLASS, getIsDisabledCss());
     }
 
     /**

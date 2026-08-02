@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -44,7 +44,42 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.openqa.selenium.Keys.BACK_SPACE;
 
 /**
- * The Selenium framework utils
+ * The Selenium framework utils.
+ *
+ * <p>This utility class provides various helper methods for common Selenium operations
+ * that are not available in the standard Selenium API or are cumbersome to implement.
+ * The methods in this class handle edge cases, provide enhanced functionality, and
+ * improve the robustness of Selenium-based tests.</p>
+ *
+ * <p>Key utilities provided:
+ * <ul>
+ *   <li><strong>Error Handling:</strong> {@link #executeIgnoringStaleElementReference(Supplier, Object)} for graceful handling of stale elements</li>
+ *   <li><strong>Element State:</strong> {@link #isNotDisplayed(WebElement)} for safe element visibility checking</li>
+ *   <li><strong>Text Operations:</strong> {@link #cleanText(WebElement)} for clearing input fields</li>
+ *   <li><strong>XPath Helpers:</strong> {@link #enrichQuote(String)} for proper XPath string escaping</li>
+ *   <li><strong>DOM Navigation:</strong> Methods for finding child text nodes and comments</li>
+ *   <li><strong>Attribute Handling:</strong> {@link #isTrueAttribute(WebElement, String)} for boolean attribute checking</li>
+ * </ul>
+ *
+ * <p>Example usage:
+ * <pre>{@code
+ * // Safe element interaction
+ * String text = SeleniumUtils.executeIgnoringStaleElementReference(
+ *     () -> element.getText(), 
+ *     "Default Text"
+ * );
+ * 
+ * // Clean input field
+ * SeleniumUtils.cleanText(inputElement);
+ * 
+ * // Safe visibility check
+ * if (!SeleniumUtils.isNotDisplayed(element)) {
+ *     // Element is displayed, perform actions
+ * }
+ * 
+ * // Find child text nodes
+ * List<TextNodeElement> textNodes = SeleniumUtils.findChildTextNodes(driver, element);
+ * }</pre>
  *
  * @author Jack Yin
  * @since 1.1

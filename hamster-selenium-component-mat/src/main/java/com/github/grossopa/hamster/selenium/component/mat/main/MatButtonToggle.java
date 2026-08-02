@@ -24,13 +24,15 @@
 
 package com.github.grossopa.hamster.selenium.component.mat.main;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
+
 import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 
 /**
@@ -92,6 +94,6 @@ public class MatButtonToggle extends AbstractMatComponent {
      * @return the inner button element.
      */
     public WebComponent getButton() {
-        return this.findComponent(xpathBuilder().relative("button").build());
+        return this.findComponent(xpathBuilder().relative(BUTTON).build());
     }
 }

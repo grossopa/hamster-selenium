@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="HtmlShowCase" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.github.grossopa.selenium.examples.html.HtmlShowCase" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

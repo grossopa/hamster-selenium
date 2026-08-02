@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.datadisplay;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -155,7 +157,7 @@ public class MuiChip extends AbstractMuiComponent {
      * @return whether the Chip component is clickable.
      */
     public boolean isClickable() {
-        return this.attributeContains("class", config.getCssPrefix() + "Chip-clickable");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "Chip-clickable");
     }
 
     /**

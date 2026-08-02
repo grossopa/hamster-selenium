@@ -27,7 +27,7 @@ package com.github.grossopa.selenium.core;
 import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.element.WebElementDecorator;
-import com.github.grossopa.selenium.core.util.GracefulThreadSleep;
+import com.github.grossopa.utils.GracefulThreadSleep;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;

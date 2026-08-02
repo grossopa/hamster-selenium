@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.navigation;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
@@ -115,7 +117,7 @@ public class MuiTabs extends AbstractMuiComponent {
     }
 
     private List<MuiTabScrollButton> findTabScrollButtons() {
-        return this.findComponents(By2.attrContains("class", config.getCssPrefix() + "TabScrollButton-root")).stream()
+        return this.findComponents(By2.attrContains(CLASS, config.getCssPrefix() + "TabScrollButton-root")).stream()
                 .map(component -> new MuiTabScrollButton(component, driver, config)).collect(toList());
     }
 
@@ -125,6 +127,6 @@ public class MuiTabs extends AbstractMuiComponent {
      * @return true if the Tabs is vertical.
      */
     public boolean isVertical() {
-        return this.attributeContains("class", config.getCssPrefix() + "Tabs-vertical");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "Tabs-vertical");
     }
 }

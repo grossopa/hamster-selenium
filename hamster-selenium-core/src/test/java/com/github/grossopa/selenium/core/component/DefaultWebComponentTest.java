@@ -151,7 +151,7 @@ class DefaultWebComponentTest {
 
     @Test
     void outerHTML() {
-        when(element.getDomAttribute("outerHTML")).thenReturn("some-outer-html");
+        when(element.getDomProperty("outerHTML")).thenReturn("some-outer-html");
         assertEquals("some-outer-html", testSubject.outerHTML());
     }
 

@@ -24,6 +24,10 @@
 
 package com.github.grossopa.selenium.component.mui.v4.inputs;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.INPUT;
+import static com.github.grossopa.utils.consts.HtmlConstants.LABEL;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -97,7 +101,7 @@ public class MuiTextField extends AbstractMuiComponent implements FormField {
      */
     @Override
     public WebComponent getInput() {
-        return this.findComponent(By2.attrContains("class", config.getCssPrefix() + "InputBase-input", "input"));
+        return this.findComponent(By2.attrContains(CLASS, config.getCssPrefix() + "InputBase-input", INPUT));
     }
 
     /**
@@ -107,6 +111,6 @@ public class MuiTextField extends AbstractMuiComponent implements FormField {
      */
     @Override
     public WebComponent getLabel() {
-        return this.findComponent(By2.attrContains("class", config.getCssPrefix() + "InputLabel-root", "label"));
+        return this.findComponent(By2.attrContains(CLASS, config.getCssPrefix() + "InputLabel-root", LABEL));
     }
 }

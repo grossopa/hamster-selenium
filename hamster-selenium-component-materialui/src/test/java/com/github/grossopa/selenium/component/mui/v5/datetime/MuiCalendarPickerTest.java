@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.*;
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.BUTTON;
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
