@@ -44,7 +44,6 @@ import static java.util.stream.Collectors.toList;
  *   <li>Component-based element finding through {@link #findComponent(String)} and {@link #findComponents(String)}</li>
  *   <li>Utility methods for common web interactions</li>
  * </ul>
- * </p>
  *
  * @since 1.12
  * @see ComponentDriver

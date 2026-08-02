@@ -60,7 +60,6 @@ import static org.openqa.selenium.Keys.BACK_SPACE;
  *   <li><strong>DOM Navigation:</strong> Methods for finding child text nodes and comments</li>
  *   <li><strong>Attribute Handling:</strong> {@link #isTrueAttribute(WebElement, String)} for boolean attribute checking</li>
  * </ul>
- * </p>
  *
  * <p>Example usage:
  * <pre>{@code
@@ -81,7 +80,6 @@ import static org.openqa.selenium.Keys.BACK_SPACE;
  * // Find child text nodes
  * List<TextNodeElement> textNodes = SeleniumUtils.findChildTextNodes(driver, element);
  * }</pre>
- * </p>
  *
  * @author Jack Yin
  * @since 1.1

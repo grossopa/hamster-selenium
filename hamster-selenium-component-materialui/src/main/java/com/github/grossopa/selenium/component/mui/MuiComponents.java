@@ -85,7 +85,6 @@ import static java.util.Objects.requireNonNull;
  *   <li><strong>Pickers:</strong> Date/time pickers and related components</li>
  *   <li><strong>Lab Components:</strong> Experimental and lab components like Autocomplete</li>
  * </ul>
- * </p>
  *
  * <p>Key features:
  * <ul>
@@ -95,7 +94,6 @@ import static java.util.Objects.requireNonNull;
  *   <li><strong>Finders:</strong> Specialized finders for locating modals and other overlay components</li>
  *   <li><strong>Validation:</strong> Built-in validation to ensure components match expected MUI patterns</li>
  * </ul>
- * </p>
  *
  * <p>Example usage:
  * <pre>{@code
@@ -119,7 +117,6 @@ import static java.util.Objects.requireNonNull;
  * config.setButtonComponentVersion(V5);
  * MuiComponents muiV5 = new MuiComponents(config);
  * }</pre>
- * </p>
  *
  * @author Jack Yin
  * @since 1.0

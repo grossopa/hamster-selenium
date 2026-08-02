@@ -46,7 +46,6 @@ import javax.annotation.Nullable;
  *   <li>{@link #IE} - Internet Explorer</li>
  *   <li>{@link #SAFARI} - Apple Safari</li>
  * </ul>
- * </p>
  *
  * <p>Example usage:
  * <pre>{@code
@@ -59,7 +58,6 @@ import javax.annotation.Nullable;
  *     // ... other browser implementations
  * }, webDriverOptions);
  * }</pre>
- * </p>
  *
  * @author Jack Yin
  * @since 1.0

@@ -42,7 +42,6 @@ import org.openqa.selenium.By;
  *   <li><strong>State Locators:</strong> Methods for locating elements based on state like visibility, enabledness, etc.</li>
  *   <li><strong>XPath Builders:</strong> Fluent API for building complex XPath expressions with {@link #xpathBuilder()}</li>
  * </ul>
- * </p>
  *
  * <p>Example usage:
  * <pre>{@code
@@ -68,7 +67,6 @@ import org.openqa.selenium.By;
  *     .attr("class").contains("container")
  *     .build();
  * }</pre>
- * </p>
  *
  * @author Jack Yin
  * @since 1.0
@@ -262,7 +260,6 @@ public abstract class By2 extends By {
      *   <li>Present in the DOM</li>
      *   <li>Have a non-zero offsetWidth or offsetHeight (indicating visibility)</li>
      * </ol>
-     * </p>
      *
      * @param baseLocator The base locator to filter for visibility
      * @return A By which locates visible elements matching the base locator
@@ -282,7 +279,6 @@ public abstract class By2 extends By {
      *   <li>Match the base locator</li>
      *   <li>Do not have the 'disabled' attribute set</li>
      * </ol>
-     * </p>
      *
      * @param baseLocator The base locator to filter for enabled state
      * @return A By which locates enabled elements matching the base locator
@@ -300,7 +296,6 @@ public abstract class By2 extends By {
      *   <li>Match the base locator</li>
      *   <li>Have the 'selected' attribute set</li>
      * </ol>
-     * </p>
      *
      * @param baseLocator The base locator to filter for selected state
      * @return A By which locates selected elements matching the base locator
@@ -318,7 +313,6 @@ public abstract class By2 extends By {
      *   <li>Match the base locator</li>
      *   <li>Are at the specified index among their siblings (0-based)</li>
      * </ol>
-     * </p>
      *
      * @param baseLocator The base locator for elements
      * @param index The 0-based index of the element among its siblings
@@ -337,7 +331,6 @@ public abstract class By2 extends By {
      *   <li>Match the base locator</li>
      *   <li>Have the specified CSS property with the specified value</li>
      * </ol>
-     * </p>
      * 
      * <p>Note: This is a limited implementation as CSS property checking 
      * typically requires JavaScript execution. This checks for style attributes.</p>
@@ -359,7 +352,6 @@ public abstract class By2 extends By {
      * <ol>
      *   <li>Match all of the provided locators</li>
      * </ol>
-     * </p>
      *
      * @param locators The locators to combine
      * @return A By which locates elements matching all provided locators

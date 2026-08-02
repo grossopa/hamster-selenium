@@ -46,7 +46,6 @@ import org.openqa.selenium.By;
  * // You can write:
  * MuiButton button = MuiComponentFinder.findMuiButton(driver, By.className("MuiButton-root"));
  * }</pre>
- * </p>
  *
  * @author Jack Yin
  * @since 1.4

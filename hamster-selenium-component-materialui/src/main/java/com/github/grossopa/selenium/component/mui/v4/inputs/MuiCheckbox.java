@@ -41,7 +41,6 @@ import org.openqa.selenium.WebElement;
  *   <li>Component validation through the standard Material UI component interface</li>
  *   <li>Integration with Material UI configuration for styling checks</li>
  * </ul>
- * </p>
  *
  * @author Jack Yin
  * @see <a href="https://material-ui.com/components/checkboxes/">

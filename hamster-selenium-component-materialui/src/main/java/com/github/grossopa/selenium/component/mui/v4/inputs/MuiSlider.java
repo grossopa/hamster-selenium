@@ -59,7 +59,6 @@ import static java.util.stream.Collectors.toList;
  *   <li>Support for scaled sliders with custom inverse scale functions</li>
  *   <li>Comprehensive range operations (min/max values)</li>
  * </ul>
- * </p>
  *
  * @author Jack Yin
  * @see <a href="https://material-ui.com/components/slider/">

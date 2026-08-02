@@ -42,7 +42,7 @@
     </dependency>
     <dependency>
       <groupId>com.github.grossopa</groupId>
-      <artifactId>hamster-playwright-component-mui</artifactId>
+      <artifactId>hamster-playwright-component-materialui</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>

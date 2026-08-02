@@ -49,7 +49,6 @@ import java.util.function.Function;
  *   <li><strong>Enhanced Queries:</strong> Check attributes and styles with {@link #attributeContains(String, String)} and {@link #styleContains(String, String)}</li>
  *   <li><strong>Context Awareness:</strong> All element finding operations are scoped to this component's context</li>
  * </ul>
- * </p>
  *
  * <p>Example usage:
  * <pre>{@code
@@ -67,7 +66,6 @@ import java.util.function.Function;
  *     // perform actions
  * }
  * }</pre>
- * </p>
  *
  * @author Jack Yin
  * @since 1.0

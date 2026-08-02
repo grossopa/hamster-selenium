@@ -67,7 +67,6 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
  *   <li>Various selection methods (by index, value, visible text)</li>
  *   <li>Option management (select, deselect, get selected options)</li>
  * </ul>
- * </p>
  * 
  * <p><strong>Usage notes:</strong>
  * <ul>
@@ -76,7 +75,6 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
  *   <li>Once the options are displayed, subsequent operations don't necessarily require a wait time, 
  *       e.g. {@link #getOptions2()} can be called immediately to get displayed items.</li>
  * </ul>
- * </p>
  *
  * @author Jack Yin
  * @see <a href="https://material-ui.com/components/selects/">

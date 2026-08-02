@@ -72,7 +72,6 @@ public interface WebComponent extends Locator {
      * MuiButton button = component.as(MuiComponents.muiV5())::toButton);
      * MuiSelect select = component.as(MuiComponents.muiV5())::toSelect);
      * }</pre>
-     * </p>
      *
      * @param mapper The function that converts this WebComponent to a more specific type
      * @param <T>    The target component type

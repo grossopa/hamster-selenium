@@ -49,7 +49,6 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
  *   <li>Selection state detection</li>
  *   <li>Component validation through the standard Material UI component interface</li>
  * </ul>
- * </p>
  *
  * @author Jack Yin
  * @see <a href="https://material-ui.com/components/buttons/">

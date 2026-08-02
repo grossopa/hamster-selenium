@@ -58,7 +58,6 @@ import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
  *   <li>Enhanced wait mechanisms with {@link #createWait(long)}</li>
  *   <li>Thread sleep management with {@link #threadSleep(long)}</li>
  * </ul>
- * </p>
  *
  * @author Jack Yin
  * @since 1.4

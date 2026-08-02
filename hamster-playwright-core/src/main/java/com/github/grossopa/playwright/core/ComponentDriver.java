@@ -47,7 +47,6 @@ import java.util.function.Function;
  *   <li><strong>Enhanced utilities:</strong> Built-in support for common operations like scrolling and waiting</li>
  *   <li><strong>Seamless integration:</strong> Full compatibility with standard Playwright operations</li>
  * </ul>
- * </p>
  *
  * <p>Example usage:
  * <pre>{@code
@@ -60,7 +59,6 @@ import java.util.function.Function;
  * HtmlButton button = driver.findComponentAs("button", HtmlComponents.html()::toButton);
  * button.click();
  * }</pre>
- * </p>
  *
  * @author Jack Yin
  * @since 1.0

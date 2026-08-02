@@ -46,7 +46,6 @@
  * WebComponent component = driver.findComponent(".my-component");
  * component.click();
  * }</pre>
- * </p>
  *
  * @since 1.0
  */

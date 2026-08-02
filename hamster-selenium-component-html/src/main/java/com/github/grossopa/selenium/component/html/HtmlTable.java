@@ -49,7 +49,6 @@ import static java.util.stream.Collectors.toList;
  *   <li>Tables with implicit header rows (rows containing &lt;th&gt; elements)</li>
  *   <li>Tables with mixed header and body row structures</li>
  * </ul>
- * </p>
  *
  * <p>Key features:
  * <ul>
@@ -58,7 +57,6 @@ import static java.util.stream.Collectors.toList;
  *   <li><strong>Customizable Locators:</strong> Override default XPath locators for specific table structures</li>
  *   <li><strong>Validation:</strong> Built-in validation to ensure the component wraps a valid table element</li>
  * </ul>
- * </p>
  *
  * <p>Example usage:
  * <pre>{@code
@@ -79,7 +77,6 @@ import static java.util.stream.Collectors.toList;
  * TableRow firstRow = table.getBodyRow(0);
  * String cellValue = firstRow.getColumnValue(1); // Second column
  * }</pre>
- * </p>
  *
  * @author Jack Yin
  * @since 1.0
