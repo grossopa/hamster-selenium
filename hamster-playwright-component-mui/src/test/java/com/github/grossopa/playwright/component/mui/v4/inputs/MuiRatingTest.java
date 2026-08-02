@@ -8,8 +8,6 @@ import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -53,5 +51,85 @@ class MuiRatingTest {
     void isReadOnlyNull() {
         when(locator.getAttribute("class")).thenReturn(null);
         assertFalse(testSubject.isReadOnly());
+    }
+
+    private void mockStars(Locator... starLocators) {
+        Locator childLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.all()).thenReturn(List.of(starLocators));
+    }
+
+    @Test
+    void getStars() {
+        Locator star1 = mock(Locator.class);
+        Locator star2 = mock(Locator.class);
+        mockStars(star1, star2);
+        List<WebComponent> stars = testSubject.getStars();
+        assertEquals(2, stars.size());
+    }
+
+    @Test
+    void getMaxValue() {
+        mockStars(mock(Locator.class), mock(Locator.class), mock(Locator.class));
+        assertEquals(3, testSubject.getMaxValue());
+    }
+
+    @Test
+    void getValueReturnsThree() {
+        Locator star1 = mock(Locator.class);
+        Locator star2 = mock(Locator.class);
+        Locator star3 = mock(Locator.class);
+        when(star1.getAttribute("class")).thenReturn("MuiRating-icon MuiRating-iconFilled");
+        when(star2.getAttribute("class")).thenReturn("MuiRating-icon MuiRating-iconFilled");
+        when(star3.getAttribute("class")).thenReturn("MuiRating-icon MuiRating-iconFilled");
+        mockStars(star1, star2, star3);
+        assertEquals(3.0, testSubject.getValue());
+    }
+
+    @Test
+    void getValueReturnsZeroWhenNoFilled() {
+        Locator star1 = mock(Locator.class);
+        Locator star2 = mock(Locator.class);
+        when(star1.getAttribute("class")).thenReturn("MuiRating-icon");
+        when(star2.getAttribute("class")).thenReturn("MuiRating-icon");
+        mockStars(star1, star2);
+        assertEquals(0.0, testSubject.getValue());
+    }
+
+    @Test
+    void getValueReturnsZeroWhenNoStars() {
+        mockStars();
+        assertEquals(0.0, testSubject.getValue());
+    }
+
+    @Test
+    void setValueClicksStar() {
+        Locator star1 = mock(Locator.class);
+        Locator star2 = mock(Locator.class);
+        when(star1.getAttribute("class")).thenReturn("MuiRating-icon");
+        when(star2.getAttribute("class")).thenReturn("MuiRating-icon");
+        mockStars(star1, star2);
+        testSubject.setValue(2);
+        verify(star2).click();
+    }
+
+    @Test
+    void setValueZeroDoesNotClick() {
+        Locator star1 = mock(Locator.class);
+        mockStars(star1);
+        testSubject.setValue(0);
+        verify(star1, never()).click();
+    }
+
+    @Test
+    void setValueTooLargeThrows() {
+        mockStars(mock(Locator.class));
+        assertThrows(IllegalArgumentException.class, () -> testSubject.setValue(5));
+    }
+
+    @Test
+    void setValueNegativeThrows() {
+        mockStars(mock(Locator.class));
+        assertThrows(IllegalArgumentException.class, () -> testSubject.setValue(-1));
     }
 }

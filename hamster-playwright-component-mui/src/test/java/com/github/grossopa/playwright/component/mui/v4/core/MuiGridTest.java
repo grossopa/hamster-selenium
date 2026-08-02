@@ -80,6 +80,16 @@ class MuiGridTest {
         assertEquals("column", testSubject.getDirection());
     }
 
+    @Test void getDirectionRowReverse() {
+        when(locator.getAttribute("class")).thenReturn("direction-row-reverse");
+        assertEquals("row-reverse", testSubject.getDirection());
+    }
+
+    @Test void getDirectionColumnReverse() {
+        when(locator.getAttribute("class")).thenReturn("direction-column-reverse");
+        assertEquals("column-reverse", testSubject.getDirection());
+    }
+
     @Test void getJustifyContentDefault() {
         when(locator.getAttribute("class")).thenReturn(null);
         assertEquals("flex-start", testSubject.getJustifyContent());
@@ -90,6 +100,21 @@ class MuiGridTest {
         assertEquals("center", testSubject.getJustifyContent());
     }
 
+    @Test void getJustifyContentFlexEnd() {
+        when(locator.getAttribute("class")).thenReturn("justify-content-flex-end");
+        assertEquals("flex-end", testSubject.getJustifyContent());
+    }
+
+    @Test void getJustifyContentSpaceBetween() {
+        when(locator.getAttribute("class")).thenReturn("justify-content-space-between");
+        assertEquals("space-between", testSubject.getJustifyContent());
+    }
+
+    @Test void getJustifyContentSpaceAround() {
+        when(locator.getAttribute("class")).thenReturn("justify-content-space-around");
+        assertEquals("space-around", testSubject.getJustifyContent());
+    }
+
     @Test void getAlignItemsDefault() {
         when(locator.getAttribute("class")).thenReturn(null);
         assertEquals("flex-start", testSubject.getAlignItems());
@@ -98,5 +123,35 @@ class MuiGridTest {
     @Test void getAlignItemsCenter() {
         when(locator.getAttribute("class")).thenReturn("align-items-center");
         assertEquals("center", testSubject.getAlignItems());
+    }
+
+    @Test void getAlignItemsFlexEnd() {
+        when(locator.getAttribute("class")).thenReturn("align-items-flex-end");
+        assertEquals("flex-end", testSubject.getAlignItems());
+    }
+
+    @Test void getAlignItemsStretch() {
+        when(locator.getAttribute("class")).thenReturn("align-items-stretch");
+        assertEquals("stretch", testSubject.getAlignItems());
+    }
+
+    @Test void getAlignItemsBaseline() {
+        when(locator.getAttribute("class")).thenReturn("align-items-baseline");
+        assertEquals("baseline", testSubject.getAlignItems());
+    }
+
+    @Test void getSpacingNullClass() {
+        when(locator.getAttribute("class")).thenReturn("some-other-class");
+        assertEquals(0, testSubject.getSpacing());
+    }
+
+    @Test void isContainerNull() {
+        when(locator.getAttribute("class")).thenReturn(null);
+        assertFalse(testSubject.isContainer());
+    }
+
+    @Test void isItemNull() {
+        when(locator.getAttribute("class")).thenReturn(null);
+        assertFalse(testSubject.isItem());
     }
 }

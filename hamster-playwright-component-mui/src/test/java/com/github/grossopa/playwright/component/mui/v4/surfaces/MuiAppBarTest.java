@@ -54,6 +54,16 @@ class MuiAppBarTest {
         assertEquals("secondary", testSubject.getColor());
     }
 
+    @Test void getColorInherit() {
+        when(locator.getAttribute("class")).thenReturn("MuiAppBar-colorInherit");
+        assertEquals("inherit", testSubject.getColor());
+    }
+
+    @Test void getColorTransparent() {
+        when(locator.getAttribute("class")).thenReturn("MuiAppBar-colorTransparent");
+        assertEquals("transparent", testSubject.getColor());
+    }
+
     @Test void getColorDefault() {
         when(locator.getAttribute("class")).thenReturn(null);
         assertEquals("default", testSubject.getColor());
@@ -67,5 +77,19 @@ class MuiAppBarTest {
     @Test void hasElevationFalse() {
         when(locator.getAttribute("class")).thenReturn("MuiAppBar-root");
         assertFalse(testSubject.hasElevation());
+    }
+
+    @Test void hasElevationNull() {
+        when(locator.getAttribute("class")).thenReturn(null);
+        assertFalse(testSubject.hasElevation());
+    }
+
+    @Test void getTitleWithToolbar() {
+        Locator childLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(anyString())).thenReturn(childLocator);
+        when(childLocator.first()).thenReturn(firstLocator);
+        when(firstLocator.innerText()).thenReturn("App Title");
+        assertEquals("App Title", testSubject.getTitle());
     }
 }

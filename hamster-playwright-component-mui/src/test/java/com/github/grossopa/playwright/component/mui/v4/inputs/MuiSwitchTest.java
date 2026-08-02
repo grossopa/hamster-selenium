@@ -35,6 +35,8 @@ import java.util.EnumSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -103,7 +105,47 @@ class MuiSwitchTest {
 
     @Test
     void toggle() {
-        testSubject.toggle();
+        assertDoesNotThrow(() -> testSubject.toggle());
         // just verify no exception
+    }
+
+    @Test
+    void turnOnWhenOff() {
+        Locator buttonLocator = mock(Locator.class);
+        when(locator.locator(".MuiIconButton-root")).thenReturn(buttonLocator);
+        when(buttonLocator.first()).thenReturn(buttonLocator);
+        when(buttonLocator.getAttribute("class")).thenReturn("MuiIconButton-root");
+        testSubject.turnOn();
+        verify(locator).click();
+    }
+
+    @Test
+    void turnOnWhenAlreadyOn() {
+        Locator buttonLocator = mock(Locator.class);
+        when(locator.locator(".MuiIconButton-root")).thenReturn(buttonLocator);
+        when(buttonLocator.first()).thenReturn(buttonLocator);
+        when(buttonLocator.getAttribute("class")).thenReturn("MuiIconButton-root Mui-checked");
+        testSubject.turnOn();
+        verify(locator, never()).click();
+    }
+
+    @Test
+    void turnOffWhenOn() {
+        Locator buttonLocator = mock(Locator.class);
+        when(locator.locator(".MuiIconButton-root")).thenReturn(buttonLocator);
+        when(buttonLocator.first()).thenReturn(buttonLocator);
+        when(buttonLocator.getAttribute("class")).thenReturn("MuiIconButton-root Mui-checked");
+        testSubject.turnOff();
+        verify(locator).click();
+    }
+
+    @Test
+    void turnOffWhenAlreadyOff() {
+        Locator buttonLocator = mock(Locator.class);
+        when(locator.locator(".MuiIconButton-root")).thenReturn(buttonLocator);
+        when(buttonLocator.first()).thenReturn(buttonLocator);
+        when(buttonLocator.getAttribute("class")).thenReturn("MuiIconButton-root");
+        testSubject.turnOff();
+        verify(locator, never()).click();
     }
 }

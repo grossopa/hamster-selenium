@@ -70,4 +70,35 @@ class MuiTabsTest {
         mockFindTabs();
         assertThrows(IllegalArgumentException.class, () -> testSubject.selectTab("Tab 1"));
     }
+
+    @Test void getSelectedTabReturnsSelected() {
+        Locator tab1 = mock(Locator.class);
+        Locator tab2 = mock(Locator.class);
+        when(tab1.getAttribute("aria-selected")).thenReturn("false");
+        when(tab2.getAttribute("aria-selected")).thenReturn("true");
+        when(tab1.innerText()).thenReturn("Tab 1");
+        when(tab2.innerText()).thenReturn("Tab 2");
+        mockFindTabs(tab1, tab2);
+        MuiTab selected = testSubject.getSelectedTab();
+        assertNotNull(selected);
+    }
+
+    @Test void getSelectedTabReturnsNullWhenNoneSelected() {
+        Locator tab1 = mock(Locator.class);
+        when(tab1.getAttribute("aria-selected")).thenReturn("false");
+        when(tab1.innerText()).thenReturn("Tab 1");
+        mockFindTabs(tab1);
+        assertNull(testSubject.getSelectedTab());
+    }
+
+    @Test void isVerticalNull() {
+        when(locator.getAttribute("class")).thenReturn(null);
+        assertFalse(testSubject.isVertical());
+    }
+
+    @Test void selectTabByIndexNegative() {
+        Locator tab1 = mock(Locator.class);
+        mockFindTabs(tab1);
+        assertThrows(IndexOutOfBoundsException.class, () -> testSubject.selectTab(-1));
+    }
 }

@@ -147,9 +147,9 @@ public class MuiGrid extends AbstractMuiComponent {
     public String getDirection() {
         String className = getAttribute(CLASS);
         if (className != null) {
-            if (className.contains("direction-column")) return "column";
-            if (className.contains("direction-row-reverse")) return "row-reverse";
             if (className.contains("direction-column-reverse")) return "column-reverse";
+            if (className.contains("direction-row-reverse")) return "row-reverse";
+            if (className.contains("direction-column")) return "column";
         }
         return "row"; // default
     }
