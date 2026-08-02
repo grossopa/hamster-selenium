@@ -25,7 +25,13 @@
 package com.github.grossopa.playwright.component.mui;
 
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
+import com.github.grossopa.playwright.component.mui.v4.core.*;
+import com.github.grossopa.playwright.component.mui.v4.datadisplay.*;
+import com.github.grossopa.playwright.component.mui.v4.feedback.*;
 import com.github.grossopa.playwright.component.mui.v4.inputs.*;
+import com.github.grossopa.playwright.component.mui.v4.lab.*;
+import com.github.grossopa.playwright.component.mui.v4.navigation.*;
+import com.github.grossopa.playwright.component.mui.v4.surfaces.*;
 import com.github.grossopa.playwright.core.AbstractComponents;
 import com.github.grossopa.playwright.core.WebComponent;
 
@@ -225,66 +231,66 @@ public class MuiComponents extends AbstractComponents {
     /////////////////////////////
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiAvatar}.
+     * Converts the current component to {@link MuiAvatar}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiAvatar} instance
+     * @return the converted {@link MuiAvatar} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiAvatar toAvatar() {
-        return new com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiAvatar(component.locator(), driver, config);
+    public MuiAvatar toAvatar() {
+        return new MuiAvatar(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiBadge}.
+     * Converts the current component to {@link MuiBadge}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiBadge} instance
+     * @return the converted {@link MuiBadge} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiBadge toBadge() {
-        return new com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiBadge(component.locator(), driver, config);
+    public MuiBadge toBadge() {
+        return new MuiBadge(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiChip}.
+     * Converts the current component to {@link MuiChip}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiChip} instance
+     * @return the converted {@link MuiChip} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiChip toChip() {
-        return new com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiChip(component.locator(), driver, config);
+    public MuiChip toChip() {
+        return new MuiChip(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiDivider}.
+     * Converts the current component to {@link MuiDivider}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiDivider} instance
+     * @return the converted {@link MuiDivider} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiDivider toDivider() {
-        return new com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiDivider(component.locator(), driver, config);
+    public MuiDivider toDivider() {
+        return new MuiDivider(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiList}.
+     * Converts the current component to {@link MuiList}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiList} instance
+     * @return the converted {@link MuiList} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiList toList() {
-        return new com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiList(component.locator(), driver, config);
+    public MuiList toList() {
+        return new MuiList(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiListItem}.
+     * Converts the current component to {@link MuiListItem}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiListItem} instance
+     * @return the converted {@link MuiListItem} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiListItem toListItem() {
-        return new com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiListItem(component.locator(), driver, config);
+    public MuiListItem toListItem() {
+        return new MuiListItem(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiTooltip}.
+     * Converts the current component to {@link MuiTooltip}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiTooltip} instance
+     * @return the converted {@link MuiTooltip} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiTooltip toTooltip() {
-        return new com.github.grossopa.playwright.component.mui.v4.datadisplay.MuiTooltip(component.locator(), driver, config);
+    public MuiTooltip toTooltip() {
+        return new MuiTooltip(component.locator(), driver, config);
     }
 
     ////////////////////////
@@ -292,57 +298,57 @@ public class MuiComponents extends AbstractComponents {
     ////////////////////////
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiAlert}.
+     * Converts the current component to {@link MuiAlert}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiAlert} instance
+     * @return the converted {@link MuiAlert} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.feedback.MuiAlert toAlert() {
-        return new com.github.grossopa.playwright.component.mui.v4.feedback.MuiAlert(component.locator(), driver, config);
+    public MuiAlert toAlert() {
+        return new MuiAlert(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiBackdrop}.
+     * Converts the current component to {@link MuiBackdrop}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiBackdrop} instance
+     * @return the converted {@link MuiBackdrop} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.feedback.MuiBackdrop toBackdrop() {
-        return new com.github.grossopa.playwright.component.mui.v4.feedback.MuiBackdrop(component.locator(), driver, config);
+    public MuiBackdrop toBackdrop() {
+        return new MuiBackdrop(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiDialog}.
+     * Converts the current component to {@link MuiDialog}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiDialog} instance
+     * @return the converted {@link MuiDialog} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.feedback.MuiDialog toDialog() {
-        return new com.github.grossopa.playwright.component.mui.v4.feedback.MuiDialog(component.locator(), driver, config);
+    public MuiDialog toDialog() {
+        return new MuiDialog(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiSkeleton}.
+     * Converts the current component to {@link MuiSkeleton}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiSkeleton} instance
+     * @return the converted {@link MuiSkeleton} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.feedback.MuiSkeleton toSkeleton() {
-        return new com.github.grossopa.playwright.component.mui.v4.feedback.MuiSkeleton(component.locator(), driver, config);
+    public MuiSkeleton toSkeleton() {
+        return new MuiSkeleton(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbar}.
+     * Converts the current component to {@link MuiSnackbar}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbar} instance
+     * @return the converted {@link MuiSnackbar} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbar toSnackbar() {
-        return new com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbar(component.locator(), driver, config);
+    public MuiSnackbar toSnackbar() {
+        return new MuiSnackbar(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbarContent}.
+     * Converts the current component to {@link MuiSnackbarContent}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbarContent} instance
+     * @return the converted {@link MuiSnackbarContent} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbarContent toSnackbarContent() {
-        return new com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbarContent(component.locator(), driver, config);
+    public MuiSnackbarContent toSnackbarContent() {
+        return new MuiSnackbarContent(component.locator(), driver, config);
     }
 
     //////////////////////////
@@ -350,57 +356,137 @@ public class MuiComponents extends AbstractComponents {
     //////////////////////////
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiAccordion}.
+     * Converts the current component to {@link MuiAccordion}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiAccordion} instance
+     * @return the converted {@link MuiAccordion} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.navigation.MuiAccordion toAccordion() {
-        return new com.github.grossopa.playwright.component.mui.v4.navigation.MuiAccordion(component.locator(), driver, config);
+    public MuiAccordion toAccordion() {
+        return new MuiAccordion(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiDrawer}.
+     * Converts the current component to {@link MuiDrawer}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiDrawer} instance
+     * @return the converted {@link MuiDrawer} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.navigation.MuiDrawer toDrawer() {
-        return new com.github.grossopa.playwright.component.mui.v4.navigation.MuiDrawer(component.locator(), driver, config);
+    public MuiDrawer toDrawer() {
+        return new MuiDrawer(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiMenu}.
+     * Converts the current component to {@link MuiMenu}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiMenu} instance
+     * @return the converted {@link MuiMenu} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.navigation.MuiMenu toMenu() {
-        return new com.github.grossopa.playwright.component.mui.v4.navigation.MuiMenu(component.locator(), driver, config);
+    public MuiMenu toMenu() {
+        return new MuiMenu(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiMenuItem}.
+     * Converts the current component to {@link MuiMenuItem}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiMenuItem} instance
+     * @return the converted {@link MuiMenuItem} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.navigation.MuiMenuItem toMenuItem() {
-        return new com.github.grossopa.playwright.component.mui.v4.navigation.MuiMenuItem(component.locator(), driver, config);
+    public MuiMenuItem toMenuItem() {
+        return new MuiMenuItem(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiTab}.
+     * Converts the current component to {@link MuiTab}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiTab} instance
+     * @return the converted {@link MuiTab} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.navigation.MuiTab toTab() {
-        return new com.github.grossopa.playwright.component.mui.v4.navigation.MuiTab(component.locator(), driver, config);
+    public MuiTab toTab() {
+        return new MuiTab(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiTabs}.
+     * Converts the current component to {@link MuiTabs}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.navigation.MuiTabs} instance
+     * @return the converted {@link MuiTabs} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.navigation.MuiTabs toTabs() {
-        return new com.github.grossopa.playwright.component.mui.v4.navigation.MuiTabs(component.locator(), driver, config);
+    public MuiTabs toTabs() {
+        return new MuiTabs(component.locator(), driver, config);
+    }
+
+    /**
+     * Converts the current component to {@link MuiBottomNavigation}.
+     *
+     * @return the converted {@link MuiBottomNavigation} instance
+     * @since 1.14.0
+     */
+    public MuiBottomNavigation toBottomNavigation() {
+        return new MuiBottomNavigation(component.locator(), driver, config);
+    }
+
+    /**
+     * Converts the current component to {@link MuiBottomNavigationAction}.
+     *
+     * @return the converted {@link MuiBottomNavigationAction} instance
+     * @since 1.14.0
+     */
+    public MuiBottomNavigationAction toBottomNavigationAction() {
+        return new MuiBottomNavigationAction(component.locator(), driver, config);
+    }
+
+    /**
+     * Converts the current component to {@link MuiBreadcrumbs}.
+     *
+     * @return the converted {@link MuiBreadcrumbs} instance
+     * @since 1.14.0
+     */
+    public MuiBreadcrumbs toBreadcrumbs() {
+        return new MuiBreadcrumbs(component.locator(), driver, config);
+    }
+
+    /**
+     * Converts the current component to {@link MuiLink}.
+     *
+     * @return the converted {@link MuiLink} instance
+     * @since 1.14.0
+     */
+    public MuiLink toLink() {
+        return new MuiLink(component.locator(), driver, config);
+    }
+
+    /**
+     * Converts the current component to {@link MuiStepper}.
+     *
+     * @return the converted {@link MuiStepper} instance
+     * @since 1.14.0
+     */
+    public MuiStepper toStepper() {
+        return new MuiStepper(component.locator(), driver, config);
+    }
+
+    /**
+     * Converts the current component to {@link MuiAccordionActions}.
+     *
+     * @return the converted {@link MuiAccordionActions} instance
+     * @since 1.14.0
+     */
+    public MuiAccordionActions toAccordionActions() {
+        return new MuiAccordionActions(component.locator(), driver, config);
+    }
+
+    /**
+     * Converts the current component to {@link MuiAccordionDetails}.
+     *
+     * @return the converted {@link MuiAccordionDetails} instance
+     * @since 1.14.0
+     */
+    public MuiAccordionDetails toAccordionDetails() {
+        return new MuiAccordionDetails(component.locator(), driver, config);
+    }
+
+    /**
+     * Converts the current component to {@link MuiAccordionSummary}.
+     *
+     * @return the converted {@link MuiAccordionSummary} instance
+     * @since 1.14.0
+     */
+    public MuiAccordionSummary toAccordionSummary() {
+        return new MuiAccordionSummary(component.locator(), driver, config);
     }
 
     /////////////////////////
@@ -408,39 +494,39 @@ public class MuiComponents extends AbstractComponents {
     /////////////////////////
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.surfaces.MuiAppBar}.
+     * Converts the current component to {@link MuiAppBar}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.surfaces.MuiAppBar} instance
+     * @return the converted {@link MuiAppBar} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.surfaces.MuiAppBar toAppBar() {
-        return new com.github.grossopa.playwright.component.mui.v4.surfaces.MuiAppBar(component.locator(), driver, config);
+    public MuiAppBar toAppBar() {
+        return new MuiAppBar(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.surfaces.MuiCard}.
+     * Converts the current component to {@link MuiCard}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.surfaces.MuiCard} instance
+     * @return the converted {@link MuiCard} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.surfaces.MuiCard toCard() {
-        return new com.github.grossopa.playwright.component.mui.v4.surfaces.MuiCard(component.locator(), driver, config);
+    public MuiCard toCard() {
+        return new MuiCard(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.surfaces.MuiPaper}.
+     * Converts the current component to {@link MuiPaper}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.surfaces.MuiPaper} instance
+     * @return the converted {@link MuiPaper} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.surfaces.MuiPaper toPaper() {
-        return new com.github.grossopa.playwright.component.mui.v4.surfaces.MuiPaper(component.locator(), driver, config);
+    public MuiPaper toPaper() {
+        return new MuiPaper(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.surfaces.MuiToolbar}.
+     * Converts the current component to {@link MuiToolbar}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.surfaces.MuiToolbar} instance
+     * @return the converted {@link MuiToolbar} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.surfaces.MuiToolbar toToolbar() {
-        return new com.github.grossopa.playwright.component.mui.v4.surfaces.MuiToolbar(component.locator(), driver, config);
+    public MuiToolbar toToolbar() {
+        return new MuiToolbar(component.locator(), driver, config);
     }
 
     //////////////////////
@@ -448,30 +534,30 @@ public class MuiComponents extends AbstractComponents {
     //////////////////////
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.core.MuiGrid}.
+     * Converts the current component to {@link MuiGrid}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.core.MuiGrid} instance
+     * @return the converted {@link MuiGrid} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.core.MuiGrid toGrid() {
-        return new com.github.grossopa.playwright.component.mui.v4.core.MuiGrid(component.locator(), driver, config);
+    public MuiGrid toGrid() {
+        return new MuiGrid(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.core.MuiContainer}.
+     * Converts the current component to {@link MuiContainer}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.core.MuiContainer} instance
+     * @return the converted {@link MuiContainer} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.core.MuiContainer toContainer() {
-        return new com.github.grossopa.playwright.component.mui.v4.core.MuiContainer(component.locator(), driver, config);
+    public MuiContainer toContainer() {
+        return new MuiContainer(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.core.MuiBox}.
+     * Converts the current component to {@link MuiBox}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.core.MuiBox} instance
+     * @return the converted {@link MuiBox} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.core.MuiBox toBox() {
-        return new com.github.grossopa.playwright.component.mui.v4.core.MuiBox(component.locator(), driver, config);
+    public MuiBox toBox() {
+        return new MuiBox(component.locator(), driver, config);
     }
 
     /////////////////////
@@ -479,20 +565,20 @@ public class MuiComponents extends AbstractComponents {
     /////////////////////
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.lab.MuiAutocomplete}.
+     * Converts the current component to {@link MuiAutocomplete}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.lab.MuiAutocomplete} instance
+     * @return the converted {@link MuiAutocomplete} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.lab.MuiAutocomplete toAutocomplete() {
-        return new com.github.grossopa.playwright.component.mui.v4.lab.MuiAutocomplete(component.locator(), driver, config);
+    public MuiAutocomplete toAutocomplete() {
+        return new MuiAutocomplete(component.locator(), driver, config);
     }
 
     /**
-     * Converts the current component to {@link com.github.grossopa.playwright.component.mui.v4.lab.MuiPagination}.
+     * Converts the current component to {@link MuiPagination}.
      *
-     * @return the converted {@link com.github.grossopa.playwright.component.mui.v4.lab.MuiPagination} instance
+     * @return the converted {@link MuiPagination} instance
      */
-    public com.github.grossopa.playwright.component.mui.v4.lab.MuiPagination toPagination() {
-        return new com.github.grossopa.playwright.component.mui.v4.lab.MuiPagination(component.locator(), driver, config);
+    public MuiPagination toPagination() {
+        return new MuiPagination(component.locator(), driver, config);
     }
 }
