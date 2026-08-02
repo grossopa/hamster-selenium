@@ -143,6 +143,7 @@ public class MuiModalFinder {
      * @return the found top overlay component or null if no overlays found.
      */
     @Nullable
+    @SuppressWarnings("javabugs:S2259")
     public WebComponent findTopVisibleOverlay(String componentName) {
         List<WebComponent> overlays = findVisibleOverlays(componentName);
         return overlays.isEmpty() ? null : overlays.get(overlays.size() - 1);

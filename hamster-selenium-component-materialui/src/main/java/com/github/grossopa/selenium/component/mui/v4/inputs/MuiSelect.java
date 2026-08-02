@@ -25,17 +25,16 @@
 package com.github.grossopa.selenium.component.mui.v4.inputs;
 
 import com.github.grossopa.selenium.component.mui.MuiVersion;
-import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
-import com.github.grossopa.selenium.component.mui.v4.core.MuiPopover;
 import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
+import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
+import com.github.grossopa.selenium.component.mui.v4.core.MuiPopover;
 import com.github.grossopa.selenium.component.mui.v4.finder.MuiModalFinder;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -46,11 +45,10 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static org.apache.commons.lang3.Strings.CS;
 
 /**
  * A Material UI Select wrapper which supports the Popover-based options.
@@ -127,6 +125,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     }
 
     @Override
+    @SuppressWarnings("javabugs:S2259")
     public List<WebComponent> getOptions2(Long delayInMillis) {
         WebComponent container = this.openOptions(delayInMillis);
         return container.findComponents(selectConfig.getOptionsLocator());
@@ -217,13 +216,13 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     @Override
     public void selectByVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
-                option -> !config.isSelected(option) && StringUtils.equals(text, option.getText()));
+                option -> !config.isSelected(option) && CS.equals(text, option.getText()));
     }
 
     @Override
     public void selectByContainsVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
-                option -> !config.isSelected(option) && StringUtils.contains(option.getText(), text));
+                option -> !config.isSelected(option) && CS.contains(option.getText(), text));
     }
 
     @Override
@@ -246,7 +245,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void selectByValue(String value, Long delayInMillis) {
-        doFilterAndAction(getOptions2(delayInMillis), option -> !config.isSelected(option) && StringUtils.equals(value,
+        doFilterAndAction(getOptions2(delayInMillis), option -> !config.isSelected(option) && CS.equals(value,
                 option.getDomAttribute(selectConfig.getOptionValueAttribute())));
     }
 
@@ -268,7 +267,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void deselectByValue(String value, Long delayInMillis) {
-        doFilterAndAction(getOptions2(delayInMillis), option -> config.isSelected(option) && StringUtils.equals(value,
+        doFilterAndAction(getOptions2(delayInMillis), option -> config.isSelected(option) && CS.equals(value,
                 option.getDomAttribute(selectConfig.getOptionValueAttribute())));
     }
 
@@ -298,13 +297,13 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     @Override
     public void deselectByVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
-                option -> config.isSelected(option) && StringUtils.equals(text, option.getText()));
+                option -> config.isSelected(option) && CS.equals(text, option.getText()));
     }
 
     @Override
     public void deSelectByContainsVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
-                option -> config.isSelected(option) && StringUtils.contains(option.getText(), text));
+                option -> config.isSelected(option) && CS.contains(option.getText(), text));
     }
 
     private void doFilterAndAction(List<WebComponent> options, Predicate<WebComponent> isTrue) {
