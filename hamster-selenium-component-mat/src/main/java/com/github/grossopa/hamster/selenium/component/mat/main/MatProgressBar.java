@@ -29,7 +29,7 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static org.apache.commons.lang3.StringUtils.upperCase;
 
 /**

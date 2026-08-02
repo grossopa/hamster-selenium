@@ -29,13 +29,13 @@
   <groupId>com.github.grossopa</groupId>
   <artifactId>hamster-selenium-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.12.0-SNAPSHOT</version>
+  <version>1.13.0-SNAPSHOT</version>
 
   <name>hamster-selenium-parent</name>
   <description>The framework to support selenium to be able to test against web applications built from modern
     front-end framework such as Material-UI
   </description>
-  <url>https://github.com/grossopa/hamster-selenium</url>
+  <url>https://gitee.com/jackyinzs/hamster-selenium</url>
 
   <licenses>
     <license>
@@ -47,7 +47,7 @@
   <developers>
     <developer>
       <name>Jack Yin</name>
-      <email>grossopaforever@gmail.com</email>
+      <email>jackyinzs@163.com</email>
       <organization>N/A</organization>
       <organizationUrl>https://github.com/grossopa/hamster-selenium/</organizationUrl>
       <roles>
@@ -57,20 +57,24 @@
   </developers>
 
   <scm>
-    <connection>scm:git:git@github.com:grossopa/hamster-selenium.git</connection>
-    <developerConnection>scm:git:git@github.com:grossopa/hamster-selenium.git</developerConnection>
-    <url>http://github.com/grossopa/hamster-selenium/tree/main</url>
-    <tag>1.8.1</tag>
+    <connection>scm:git:git@gitee.com:jackyinzs/hamster-selenium.git</connection>
+    <developerConnection>scm:git:git@gitee.com:jackyinzs/hamster-selenium.git</developerConnection>
+    <url>https://gitee.com/jackyinzs/hamster-selenium</url>
+    <tag>HEAD</tag>
   </scm>
 
   <modules>
+    <module>hamster-utils</module>
     <module>hamster-selenium-core</module>
     <module>hamster-selenium-component-html</module>
     <module>hamster-selenium-component-materialui</module>
     <module>hamster-selenium-component-antdesign</module>
     <module>hamster-selenium-component-mat</module>
     <module>hamster-selenium-examples</module>
-    <module>hamster-playwright</module>
+    <module>hamster-playwright-core</module>
+    <module>hamster-playwright-component-html</module>
+    <module>hamster-playwright-component-materialui</module>
+    <module>hamster-playwright-examples</module>
   </modules>
 
   <properties>
@@ -78,13 +82,13 @@
     <java.version>11</java.version>
 
     <!-- project dependencies -->
-    <commons-lang3.version>3.17.0</commons-lang3.version>
+    <commons-lang3.version>3.18.0</commons-lang3.version>
     <commons-math3.version>3.6.1</commons-math3.version>
     <selenium-java.version>4.27.0</selenium-java.version>
 
     <!-- testing dependencies -->
-    <junit-jupiter.version>RELEASE</junit-jupiter.version>
-    <junit-platform-surefire-provider.version>RELEASE</junit-platform-surefire-provider.version>
+    <junit-jupiter.version>5.13.4</junit-jupiter.version>
+    <junit-platform-surefire-provider.version>1.3.2</junit-platform-surefire-provider.version>
     <mockito.version>RELEASE</mockito.version>
     <byte-buddy.version>RELEASE</byte-buddy.version>
     <openpojo.version>0.9.1</openpojo.version>
@@ -92,13 +96,13 @@
     <!-- Maven plugins -->
     <maven.compiler.target>11</maven.compiler.target>
     <maven.compiler.source>11</maven.compiler.source>
-    <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
     <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
     <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
     <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-    <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
+    <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
     <pitest-maven.version>1.5.2</pitest-maven.version>
     <pitest-junit5-plugin.version>0.14</pitest-junit5-plugin.version>
 
@@ -107,16 +111,23 @@
     <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
     <sonar.organization>grossopa</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-    <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/jacoco.xml
-    </sonar.coverage.jacoco.xmlReportPaths>
-    <sonar.language>java</sonar.language>
+    <sonar.coverage.jacoco.xmlReportPaths>**/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+
+    <!-- Exclude examples modules from Sonar analysis and coverage -->
+    <sonar.exclusions>**/hamster-selenium-examples/**,**/hamster-playwright-examples/**</sonar.exclusions>
+    <sonar.test.exclusions>**/hamster-selenium-examples/**,**/hamster-playwright-examples/**</sonar.test.exclusions>
+    <sonar.coverage.exclusions>**/hamster-selenium-examples/**,**/hamster-playwright-examples/**</sonar.coverage.exclusions>
   </properties>
 
   <dependencyManagement>
     <dependencies>
       <!-- Projects -->
+      <dependency>
+        <groupId>com.github.grossopa</groupId>
+        <artifactId>hamster-utils</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>com.github.grossopa</groupId>
         <artifactId>hamster-selenium-core</artifactId>
@@ -173,6 +184,13 @@
         <version>${junit-jupiter.version}</version>
         <scope>test</scope>
       </dependency>
+      
+      <dependency>
+        <groupId>org.junit.platform</groupId>
+        <artifactId>junit-platform-launcher</artifactId>
+        <version>1.13.4</version>
+        <scope>test</scope>
+      </dependency>
 
       <dependency>
         <groupId>org.mockito</groupId>
@@ -201,6 +219,10 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -278,22 +300,6 @@
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>${jacoco-maven-plugin.version}</version>
-          <executions>
-            <execution>
-              <id>prepare-agent</id>
-              <phase>initialize</phase>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-            </execution>
-            <execution>
-              <id>report</id>
-              <goals>
-                <goal>report</goal>
-              </goals>
-              <phase>test</phase>
-            </execution>
-          </executions>
         </plugin>
 
         <plugin>
@@ -317,14 +323,12 @@
         </plugin>
 
         <plugin>
-          <groupId>org.sonatype.plugins</groupId>
-          <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>${nexus-staging-maven-plugin.version}</version>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <version>0.11.0</version>
           <extensions>true</extensions>
           <configuration>
-            <serverId>ossrh</serverId>
-            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            <publishingServerId>central</publishingServerId>
           </configuration>
         </plugin>
 
@@ -344,17 +348,12 @@
 
     <plugins>
       <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-      </plugin>
-
-      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
       </plugin>
 
       <plugin>
-        <groupId>org.sonatype.plugins</groupId>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
       </plugin>
 
       <plugin>
@@ -371,6 +370,36 @@
   </build>
 
   <profiles>
+    <profile>
+      <id>coverage</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>report</id>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+                <configuration>
+                  <formats>
+                    <format>XML</format>
+                  </formats>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>release</id>
       <build>

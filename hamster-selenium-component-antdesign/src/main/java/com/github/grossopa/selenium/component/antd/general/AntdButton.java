@@ -24,6 +24,9 @@
 
 package com.github.grossopa.selenium.component.antd.general;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
+
 import com.github.grossopa.selenium.component.antd.AbstractAntdComponent;
 import com.github.grossopa.selenium.component.antd.config.AntdConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -60,7 +63,7 @@ public class AntdButton extends AbstractAntdComponent {
 
     @Override
     public boolean validate() {
-        return "button".equalsIgnoreCase(element.getTagName()) && attributeContains("class",
+        return BUTTON.equalsIgnoreCase(element.getTagName()) && attributeContains(CLASS,
                 config.getPrefixCls() + "-" + NAME);
     }
 
@@ -70,7 +73,7 @@ public class AntdButton extends AbstractAntdComponent {
      * @return the button is under loading status.
      */
     public boolean isLoading() {
-        return attributeContains("class", config.getPrefixCls() + "-" + NAME + "-loading");
+        return attributeContains(CLASS, config.getPrefixCls() + "-" + NAME + "-loading");
     }
 
 }

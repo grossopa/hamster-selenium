@@ -36,7 +36,7 @@ import org.openqa.selenium.TimeoutException;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
 

@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.finder;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.core.MuiPopover;
 import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
@@ -141,6 +143,7 @@ public class MuiModalFinder {
      * @return the found top overlay component or null if no overlays found.
      */
     @Nullable
+    @SuppressWarnings("javabugs:S2259")
     public WebComponent findTopVisibleOverlay(String componentName) {
         List<WebComponent> overlays = findVisibleOverlays(componentName);
         return overlays.isEmpty() ? null : overlays.get(overlays.size() - 1);
@@ -159,7 +162,7 @@ public class MuiModalFinder {
         List<WebComponent> divComponents = driver.findComponents(By.xpath(config.getOverlayAbsolutePath() + "/div"));
         return divComponents.stream().filter(component -> includeHidden || component.isDisplayed())
                 .filter(component -> classNames.stream()
-                        .anyMatch(modalClass -> attributeContains(component, "class", modalClass))).collect(toList());
+                        .anyMatch(modalClass -> attributeContains(component, CLASS, modalClass))).collect(toList());
     }
 
     @Override

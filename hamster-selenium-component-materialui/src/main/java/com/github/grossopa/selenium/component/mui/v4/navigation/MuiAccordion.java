@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.navigation;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -133,7 +135,7 @@ public class MuiAccordion extends AbstractMuiComponent {
 
     @Override
     public boolean isEnabled() {
-        return !WebComponentUtils.attributeContains(element, "class", config.getCssPrefix() + "-disabled");
+        return !WebComponentUtils.attributeContains(element, CLASS, config.getCssPrefix() + "-disabled");
     }
 
     @Override

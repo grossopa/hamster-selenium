@@ -1,0 +1,197 @@
+/*
+ * Copyright © 2023 the original author or authors.
+ *
+ * Licensed under the The MIT License (MIT) (the "License");
+ *  You may obtain a copy of the License at
+ *
+ *         https://mit-license.org/
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+package com.github.grossopa.playwright.component.html;
+
+import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.WebComponent;
+import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.options.SelectOption;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+/**
+ * Tests for {@link HtmlSelect}
+ *
+ * @author Jack Yin
+ * @since 1.12
+ */
+class HtmlSelectTest {
+
+    HtmlSelect testSubject;
+    Locator locator = mock(Locator.class);
+    ComponentDriver driver = mock(ComponentDriver.class);
+
+    @BeforeEach
+    void setUp() {
+        testSubject = new HtmlSelect(locator, driver);
+    }
+
+    @Test
+    void getComponentTagName() {
+        assertEquals("select", testSubject.getComponentTagName());
+    }
+
+    @Test
+    void selectByValue() {
+        testSubject.selectByValue("value1");
+        verify(locator).selectOption(new String[]{"value1"});
+    }
+
+    @Test
+    void selectByVisibleText() {
+        testSubject.selectByVisibleText("Label 1");
+        verify(locator).selectOption(any(SelectOption.class));
+    }
+
+    @Test
+    void getFirstSelectedOptionText() {
+        when(locator.innerText()).thenReturn("Selected Option");
+        String result = testSubject.getFirstSelectedOptionText();
+        assertEquals("Selected Option", result);
+    }
+
+    @Test
+    void isMultipleTrue() {
+        when(locator.getAttribute("multiple")).thenReturn("true");
+        assertTrue(testSubject.isMultiple());
+    }
+
+    @Test
+    void isMultipleFalse() {
+        when(locator.getAttribute("multiple")).thenReturn(null);
+        assertFalse(testSubject.isMultiple());
+    }
+
+    @Test
+    void getOptions() {
+        Locator optionLocator = mock(Locator.class);
+        Locator option1 = mock(Locator.class);
+        Locator option2 = mock(Locator.class);
+        
+        when(locator.locator("option")).thenReturn(optionLocator);
+        when(optionLocator.all()).thenReturn(Arrays.asList(option1, option2));
+        
+        List<WebComponent> options = testSubject.getOptions();
+        assertEquals(2, options.size());
+    }
+
+    @Test
+    void getAllSelectedOptions() {
+        Locator selectedLocator = mock(Locator.class);
+        Locator selected1 = mock(Locator.class);
+        
+        when(locator.locator("option:checked")).thenReturn(selectedLocator);
+        when(selectedLocator.all()).thenReturn(List.of(selected1));
+        
+        List<WebComponent> selected = testSubject.getAllSelectedOptions();
+        assertEquals(1, selected.size());
+    }
+
+    @Test
+    void getFirstSelectedOption() {
+        Locator selectedLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        
+        when(locator.locator("option:checked")).thenReturn(selectedLocator);
+        when(selectedLocator.first()).thenReturn(firstLocator);
+        
+        WebComponent first = testSubject.getFirstSelectedOption();
+        assertNotNull(first);
+    }
+
+    @Test
+    void selectByIndex() {
+        when(locator.evaluate("el => el.options[arguments[0]].value", 1)).thenReturn("option-value");
+        
+        testSubject.selectByIndex(1);
+        verify(locator).selectOption(new String[]{"option-value"});
+    }
+
+    @Test
+    void deselectAll() {
+        testSubject.deselectAll();
+        verify(locator).selectOption(new String[]{});
+    }
+
+    @Test
+    void deselectByValue() {
+        when(locator.evaluate("el => Array.from(el.selectedOptions).map(o => o.value).filter(v => v !== arguments[0])", "val1"))
+                .thenReturn(Arrays.asList("val2", "val3"));
+
+        testSubject.deselectByValue("val1");
+        verify(locator).selectOption(new String[]{"val2", "val3"});
+    }
+
+    @Test
+    void deselectByValueNonListResult() {
+        when(locator.evaluate("el => Array.from(el.selectedOptions).map(o => o.value).filter(v => v !== arguments[0])", "val1"))
+                .thenReturn("not-a-list");
+
+        testSubject.deselectByValue("val1");
+        verify(locator).selectOption(new String[]{});
+    }
+
+    @Test
+    void deselectByIndex() {
+        when(locator.evaluate("el => Array.from(el.options).map((o, i) => o.selected && i !== arguments[0] ? o.value : null).filter(v => v !== null)", 1))
+                .thenReturn(Arrays.asList("val0", "val2"));
+
+        testSubject.deselectByIndex(1);
+        verify(locator).selectOption(new String[]{"val0", "val2"});
+    }
+
+    @Test
+    void deselectByIndexNonListResult() {
+        when(locator.evaluate("el => Array.from(el.options).map((o, i) => o.selected && i !== arguments[0] ? o.value : null).filter(v => v !== null)", 0))
+                .thenReturn("not-a-list");
+
+        testSubject.deselectByIndex(0);
+        verify(locator).selectOption(new String[]{});
+    }
+
+    @Test
+    void deselectByVisibleText() {
+        when(locator.evaluate("el => Array.from(el.selectedOptions).filter(o => o.text !== arguments[0]).map(o => o.value)", "Label1"))
+                .thenReturn(Arrays.asList("val2", "val3"));
+
+        testSubject.deselectByVisibleText("Label1");
+        verify(locator).selectOption(new String[]{"val2", "val3"});
+    }
+
+    @Test
+    void deselectByVisibleTextNonListResult() {
+        when(locator.evaluate("el => Array.from(el.selectedOptions).filter(o => o.text !== arguments[0]).map(o => o.value)", "Label1"))
+                .thenReturn("not-a-list");
+
+        testSubject.deselectByVisibleText("Label1");
+        verify(locator).selectOption(new String[]{});
+    }
+}

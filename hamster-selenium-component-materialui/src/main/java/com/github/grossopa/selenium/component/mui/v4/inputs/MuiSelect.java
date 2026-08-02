@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -25,17 +25,17 @@
 package com.github.grossopa.selenium.component.mui.v4.inputs;
 
 import com.github.grossopa.selenium.component.mui.MuiVersion;
-import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
-import com.github.grossopa.selenium.component.mui.v4.core.MuiPopover;
+import com.github.grossopa.selenium.component.mui.exception.OptionContainerNotFoundException;
 import com.github.grossopa.selenium.component.mui.exception.OptionNotClosedException;
+import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
+import com.github.grossopa.selenium.component.mui.v4.core.MuiPopover;
 import com.github.grossopa.selenium.component.mui.v4.finder.MuiModalFinder;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -46,25 +46,34 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static org.apache.commons.lang3.Strings.CS;
 
 /**
- * A MUI Select wrapper which supports the Popover-based options.
- * <p>
- * The options are customized via a layer called popover which is in front of the page. hence there are no direct
- * relationship between the component and options. In order to treat them still as one component, additional operations
- * for opening the options are required before selecting an item.
- * </p>
- * <p>
- * And, options show and hide usually requires a wait time for the animation, which introduce a bit more complexity for
- * the framework to allow a wait time before actions such as {@link #getOptions2(Long)}. However, once the options are
- * displayed, next operation doesn't necessarily require a wait time, e.g. another method could be invoked {@link
- * #getOptions2()} and immediately gets all the displayed items.
- * </p>
+ * A Material UI Select wrapper which supports the Popover-based options.
+ * 
+ * <p>This component represents a Material UI Select dropdown which displays options in a popover overlay.
+ * The options are not direct children of the select element, but are rendered in a separate layer that
+ * appears in front of the page when the select is activated.</p>
+ * 
+ * <p>Key features:
+ * <ul>
+ *   <li>Popover-based option display with animation support</li>
+ *   <li>Delayed operations to handle animation timing</li>
+ *   <li>Single and multiple selection support</li>
+ *   <li>Various selection methods (by index, value, visible text)</li>
+ *   <li>Option management (select, deselect, get selected options)</li>
+ * </ul>
+ * 
+ * <p><strong>Usage notes:</strong>
+ * <ul>
+ *   <li>Options show and hide usually requires a wait time for the animation, which is why methods like 
+ *       {@link #getOptions2(Long)} accept a timeout parameter.</li>
+ *   <li>Once the options are displayed, subsequent operations don't necessarily require a wait time, 
+ *       e.g. {@link #getOptions2()} can be called immediately to get displayed items.</li>
+ * </ul>
  *
  * @author Jack Yin
  * @see <a href="https://material-ui.com/components/selects/">
@@ -74,7 +83,7 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSelect {
 
     /**
-     * the component name
+     * The component name used for identification and validation.
      */
     public static final String COMPONENT_NAME = "Select";
 
@@ -82,12 +91,12 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     private final MuiSelectConfig selectConfig;
 
     /**
-     * Constructs an instance with the delegated element and root driver
+     * Constructs a MuiSelect instance with the specified element, driver, and configuration.
      *
-     * @param element the delegated element
-     * @param driver the root driver
-     * @param config the Material UI configuration
-     * @param selectConfig the component configuration class
+     * @param element the WebElement representing the select component in the DOM
+     * @param driver the ComponentWebDriver for browser interactions
+     * @param config the Material UI configuration for styling and behavior
+     * @param selectConfig the component configuration class for select-specific behavior
      */
     public MuiSelect(WebElement element, ComponentWebDriver driver, MuiConfig config, MuiSelectConfig selectConfig) {
         super(element, driver, config);
@@ -119,6 +128,9 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     @Override
     public List<WebComponent> getOptions2(Long delayInMillis) {
         WebComponent container = this.openOptions(delayInMillis);
+        if (container == null) {
+            throw new OptionContainerNotFoundException("The options container is not found.");
+        }
         return container.findComponents(selectConfig.getOptionsLocator());
     }
 
@@ -207,13 +219,13 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     @Override
     public void selectByVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
-                option -> !config.isSelected(option) && StringUtils.equals(text, option.getText()));
+                option -> !config.isSelected(option) && CS.equals(text, option.getText()));
     }
 
     @Override
     public void selectByContainsVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
-                option -> !config.isSelected(option) && StringUtils.contains(option.getText(), text));
+                option -> !config.isSelected(option) && CS.contains(option.getText(), text));
     }
 
     @Override
@@ -222,6 +234,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     }
 
     @Override
+    @SuppressWarnings("javabugs:S2259")
     public void selectByIndex(int index, Long delayInMillis) {
         WebComponent component = getOptions2(delayInMillis).get(index);
         if (!config.isSelected(component)) {
@@ -236,7 +249,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void selectByValue(String value, Long delayInMillis) {
-        doFilterAndAction(getOptions2(delayInMillis), option -> !config.isSelected(option) && StringUtils.equals(value,
+        doFilterAndAction(getOptions2(delayInMillis), option -> !config.isSelected(option) && CS.equals(value,
                 option.getDomAttribute(selectConfig.getOptionValueAttribute())));
     }
 
@@ -258,7 +271,7 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public void deselectByValue(String value, Long delayInMillis) {
-        doFilterAndAction(getOptions2(delayInMillis), option -> config.isSelected(option) && StringUtils.equals(value,
+        doFilterAndAction(getOptions2(delayInMillis), option -> config.isSelected(option) && CS.equals(value,
                 option.getDomAttribute(selectConfig.getOptionValueAttribute())));
     }
 
@@ -288,13 +301,13 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
     @Override
     public void deselectByVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
-                option -> config.isSelected(option) && StringUtils.equals(text, option.getText()));
+                option -> config.isSelected(option) && CS.equals(text, option.getText()));
     }
 
     @Override
     public void deSelectByContainsVisibleText(String text, Long delayInMillis) {
         doFilterAndAction(getOptions2(delayInMillis),
-                option -> config.isSelected(option) && StringUtils.contains(option.getText(), text));
+                option -> config.isSelected(option) && CS.contains(option.getText(), text));
     }
 
     private void doFilterAndAction(List<WebComponent> options, Predicate<WebComponent> isTrue) {

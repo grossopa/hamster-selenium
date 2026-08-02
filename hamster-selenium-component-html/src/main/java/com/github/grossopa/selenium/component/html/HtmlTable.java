@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -39,8 +39,50 @@ import static java.util.stream.Collectors.toList;
 /**
  * Represents the native HTML table element.
  *
+ * <p>This component provides a high-level abstraction for interacting with HTML table elements
+ * (&lt;table&gt;). It implements the {@link Table} interface to provide standardized access to
+ * table headers, body rows, and individual cells.</p>
+ *
+ * <p>The component automatically handles different table structures:
+ * <ul>
+ *   <li>Tables with explicit &lt;thead&gt; and &lt;tbody&gt; sections</li>
+ *   <li>Tables with implicit header rows (rows containing &lt;th&gt; elements)</li>
+ *   <li>Tables with mixed header and body row structures</li>
+ * </ul>
+ *
+ * <p>Key features:
+ * <ul>
+ *   <li><strong>Header Access:</strong> Retrieve header rows and column labels with {@link #getHeaderRow()}, {@link #getHeaderRows()}, and {@link #getHeaderLabels()}</li>
+ *   <li><strong>Body Access:</strong> Retrieve body rows with {@link #getBodyRow(int)} and {@link #getBodyRows()}</li>
+ *   <li><strong>Customizable Locators:</strong> Override default XPath locators for specific table structures</li>
+ *   <li><strong>Validation:</strong> Built-in validation to ensure the component wraps a valid table element</li>
+ * </ul>
+ *
+ * <p>Example usage:
+ * <pre>{@code
+ * // Find a table component
+ * HtmlTable table = driver.findComponentAs(By.tagName("table"), HtmlComponents.html()::toTable);
+ * 
+ * // Access header information
+ * List<String> headers = table.getHeaderLabels();
+ * 
+ * // Access body rows
+ * List<TableRow> rows = table.getBodyRows();
+ * for (TableRow row : rows) {
+ *     List<String> cellValues = row.getColumnValues();
+ *     // Process cell values
+ * }
+ * 
+ * // Access specific row and cell
+ * TableRow firstRow = table.getBodyRow(0);
+ * String cellValue = firstRow.getColumnValue(1); // Second column
+ * }</pre>
+ *
  * @author Jack Yin
  * @since 1.0
+ * @see Table
+ * @see HtmlTableRow
+ * @see HtmlComponents
  */
 public class HtmlTable extends DefaultWebComponent implements Table {
 

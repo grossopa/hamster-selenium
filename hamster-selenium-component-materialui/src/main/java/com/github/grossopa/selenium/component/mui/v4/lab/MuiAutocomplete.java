@@ -50,7 +50,7 @@ import java.util.*;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 

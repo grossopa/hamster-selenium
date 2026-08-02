@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -34,7 +34,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.core.component.util.WebComponentUtils.attributeContains;
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static com.google.common.collect.Sets.newHashSet;
 
 /**
@@ -78,6 +78,7 @@ public class MuiConfig implements ComponentConfig {
      *
      * @return the overlay absolute xpath.
      */
+    @Override
     public String getOverlayAbsolutePath() {
         return overlayAbsolutePath;
     }
@@ -119,42 +120,6 @@ public class MuiConfig implements ComponentConfig {
     }
 
     /**
-     * Checks whether the component has the checked css present.
-     *
-     * @param component the component to check
-     * @return whether the checked css presents
-     * @see #getIsCheckedCss()
-     */
-    @Override
-    public boolean isChecked(WebComponent component) {
-        return attributeContains(component, CLASS, getIsCheckedCss());
-    }
-
-    /**
-     * Checks whether the component has the selected css present.
-     *
-     * @param component the component to check
-     * @return whether the selected css presents
-     * @see #getIsSelectedCss()
-     */
-    @Override
-    public boolean isSelected(WebComponent component) {
-        return attributeContains(component, CLASS, getIsSelectedCss());
-    }
-
-    /**
-     * Checks whether the component has the disabled css present.
-     *
-     * @param component the component to check
-     * @return whether the disabled css presents
-     * @see #getIsDisabledCss()
-     */
-    @Override
-    public boolean isDisabled(WebComponent component) {
-        return attributeContains(component, CLASS, getIsDisabledCss());
-    }
-
-    /**
      * Checks whether the Grid has the container css present.
      *
      * @param component the component to check
@@ -175,19 +140,37 @@ public class MuiConfig implements ComponentConfig {
     }
 
     /**
-     * Gets the isChecked CSS. default value is "Mui-checked"
+     * Checks whether the given component is selected.
      *
-     * @return the isChecked CSS
+     * @param component the component to check
+     * @return true if the component is selected, false otherwise
      */
     @Override
-    public String getIsCheckedCss() {
-        return cssPrefix + "-checked";
+    public boolean isSelected(WebComponent component) {
+        if (component == null) {
+            return false;
+        }
+        return attributeContains(component, CLASS, getIsSelectedCss());
     }
 
     /**
-     * Gets the isSelected CSS. default value is "Mui-selected"
+     * Checks whether the given component is checked.
      *
-     * @return the isSelected CSS
+     * @param component the component to check
+     * @return true if the component is checked, false otherwise
+     */
+    @Override
+    public boolean isChecked(WebComponent component) {
+        if (component == null) {
+            return false;
+        }
+        return attributeContains(component, CLASS, getIsCheckedCss());
+    }
+
+    /**
+     * Gets the CSS class for selected state.
+     *
+     * @return the selected CSS class
      */
     @Override
     public String getIsSelectedCss() {
@@ -195,13 +178,13 @@ public class MuiConfig implements ComponentConfig {
     }
 
     /**
-     * Gets the isDisabled CSS. default value is "Mui-disabled"
+     * Gets the CSS class for checked state.
      *
-     * @return the isDisabled CSS
+     * @return the checked CSS class
      */
     @Override
-    public String getIsDisabledCss() {
-        return cssPrefix + "-disabled";
+    public String getIsCheckedCss() {
+        return cssPrefix + "-checked";
     }
 
     /**

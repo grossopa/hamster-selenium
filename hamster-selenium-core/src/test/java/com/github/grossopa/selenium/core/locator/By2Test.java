@@ -7,7 +7,7 @@
  *         https://mit-license.org/
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the “Software”), to deal in the Software without
+ * and associated documentation files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use, copy, modify, merge, publish,
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following conditions:
@@ -15,7 +15,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
@@ -32,6 +32,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for {@link By2}
@@ -152,5 +153,95 @@ class By2Test {
     void axesBuilder() {
         By result = By2.axesBuilder().parent().build();
         assertEquals("By.xpath: ./parent::*", result.toString());
+    }
+
+    @Test
+    void visible() {
+        By baseLocator = By.tagName("div");
+        By result = By2.visible(baseLocator);
+        assertEquals("By.xpath: .//*[local-name()='div' and not(@hidden) and not(contains(@style,'display:none'))]", result.toString());
+    }
+
+    @Test
+    void enabled() {
+        By baseLocator = By.tagName("input");
+        By result = By2.enabled(baseLocator);
+        assertEquals("By.xpath: .//*[local-name()='input' and not(@disabled)]", result.toString());
+    }
+
+    @Test
+    void selected() {
+        By baseLocator = By.tagName("option");
+        By result = By2.selected(baseLocator);
+        assertEquals("By.xpath: .//*[local-name()='option' and (@selected or @checked)]", result.toString());
+    }
+
+    @Test
+    void index() {
+        By baseLocator = By.tagName("li");
+        By result = By2.index(baseLocator, 2);
+        assertEquals("By.xpath: .//*[local-name()='li'][3]", result.toString());
+    }
+
+    @Test
+    void cssPropertyValue() {
+        By baseLocator = By.className("text");
+        By result = By2.cssPropertyValue(baseLocator, "color", "red");
+        assertEquals("By.xpath: .//*[contains(@class, 'text') and contains(@style, 'color:red')]", result.toString());
+    }
+
+    @Test
+    void and() {
+        By locator1 = By.tagName("div");
+        By locator2 = By.className("container");
+        By result = By2.and(locator1, locator2);
+        assertEquals("By.xpath: .//*[local-name()='div' and contains(@class, 'container')]", result.toString());
+    }
+
+    @Test
+    void andWithSingleLocator() {
+        By locator1 = By.tagName("div");
+        By result = By2.and(locator1);
+        assertEquals("By.xpath: .//*[local-name()='div']", result.toString());
+    }
+
+    @Test
+    void andWithNoLocators() {
+        assertThrows(IllegalArgumentException.class, () -> By2.and());
+    }
+
+    @Test
+    void xpathFromById() {
+        By baseLocator = By.id("test-id");
+        By result = By2.visible(baseLocator);
+        assertEquals("By.xpath: .//*[@id='test-id' and not(@hidden) and not(contains(@style,'display:none'))]", result.toString());
+    }
+
+    @Test
+    void xpathFromByClassName() {
+        By baseLocator = By.className("test-class");
+        By result = By2.enabled(baseLocator);
+        assertEquals("By.xpath: .//*[contains(@class, 'test-class') and not(@disabled)]", result.toString());
+    }
+
+    @Test
+    void xpathFromByName() {
+        By baseLocator = By.name("test-name");
+        By result = By2.selected(baseLocator);
+        assertEquals("By.xpath: .//*[@name='test-name' and (@selected or @checked)]", result.toString());
+    }
+
+    @Test
+    void xpathFromByLinkText() {
+        By baseLocator = By.linkText("Click me");
+        By result = By2.index(baseLocator, 0);
+        assertEquals("By.xpath: .//*[text()='Click me'][1]", result.toString());
+    }
+
+    @Test
+    void xpathFromByPartialLinkText() {
+        By baseLocator = By.partialLinkText("Click");
+        By result = By2.index(baseLocator, 0);
+        assertEquals("By.xpath: .//*[contains(text(), 'Click')][1]", result.toString());
     }
 }

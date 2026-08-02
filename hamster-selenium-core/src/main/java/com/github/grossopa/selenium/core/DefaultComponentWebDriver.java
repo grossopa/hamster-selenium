@@ -28,11 +28,11 @@ import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.element.NoOpWebElementDecorator;
 import com.github.grossopa.selenium.core.element.WebElementDecorator;
-import com.github.grossopa.selenium.core.util.GracefulThreadSleep;
+import com.github.grossopa.utils.GracefulThreadSleep;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 
 /**
  * The default implementation of {@link ComponentWebDriver}
@@ -73,7 +73,7 @@ public class DefaultComponentWebDriver extends AbstractComponentWebDriver {
      */
     public DefaultComponentWebDriver(WebDriver driver, GracefulThreadSleep threadSleep, WebElementDecorator decorator) {
         super(driver, threadSleep);
-        this.decorator = defaultIfNull(decorator, new NoOpWebElementDecorator());
+        this.decorator = getIfNull(decorator, new NoOpWebElementDecorator());
     }
 
     @Override

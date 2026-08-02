@@ -1,0 +1,24 @@
+{
+  "en_US": {
+    "language": "en_US",
+    "file_path": "en_US.properties",
+    "md5_hash": "07b93ce27e2730150460764b8dd7efab",
+    "file_size": 16227,
+    "mod_time": "2026-03-26T14:52:59.174077448+08:00",
+    "load_time": "2026-05-16T22:21:49.223511+08:00",
+    "key_count": 244,
+    "file_format": "properties",
+    "version": "v0.0.0-dev-180c1f1"
+  },
+  "zh_CN": {
+    "language": "zh_CN",
+    "file_path": "zh_CN.properties",
+    "md5_hash": "a4643e2332d09ec8be337a601426642d",
+    "file_size": 14826,
+    "mod_time": "2026-03-26T14:52:59.174077448+08:00",
+    "load_time": "2026-05-16T22:21:49.223512+08:00",
+    "key_count": 244,
+    "file_format": "properties",
+    "version": "v0.0.0-dev-180c1f1"
+  }
+}

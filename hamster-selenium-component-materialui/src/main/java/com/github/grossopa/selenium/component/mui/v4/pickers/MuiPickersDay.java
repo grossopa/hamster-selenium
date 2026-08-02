@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.pickers;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
@@ -65,6 +67,6 @@ public class MuiPickersDay extends MuiButton {
 
     @Override
     public boolean isSelected() {
-        return this.attributeContains("class", config.getCssPrefix() + "PickersDay-daySelected");
+        return this.attributeContains(CLASS, config.getCssPrefix() + "PickersDay-daySelected");
     }
 }

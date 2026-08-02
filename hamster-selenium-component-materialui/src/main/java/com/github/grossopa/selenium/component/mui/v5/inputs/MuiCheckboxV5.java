@@ -35,7 +35,7 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
-import static com.github.grossopa.selenium.core.consts.HtmlConstants.CLASS;
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 /**
  * the Material UI version 5 implementation of a checkbox.

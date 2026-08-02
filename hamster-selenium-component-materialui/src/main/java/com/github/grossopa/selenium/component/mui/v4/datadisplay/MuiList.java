@@ -24,6 +24,8 @@
 
 package com.github.grossopa.selenium.component.mui.v4.datadisplay;
 
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
@@ -82,7 +84,7 @@ public class MuiList extends AbstractMuiComponent {
      * @return all the {@link MuiListItem} under this list.
      */
     public List<MuiListItem> getListItems() {
-        List<WebComponent> components = this.findComponents(By2.attrContains("class", config.getRootCss("ListItem")));
+        List<WebComponent> components = this.findComponents(By2.attrContains(CLASS, config.getRootCss("ListItem")));
         return components.stream().map(c -> new MuiListItem(c, driver, config)).collect(toList());
     }
 }
