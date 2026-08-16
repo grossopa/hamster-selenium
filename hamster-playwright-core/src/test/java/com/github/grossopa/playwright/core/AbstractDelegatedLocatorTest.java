@@ -787,12 +787,6 @@ class AbstractDelegatedLocatorTest {
     }
 
     @Test
-    void testDescribe() {
-        component.describe("desc");
-        verify(locator).describe("desc");
-    }
-
-    @Test
     void testContentFrame() {
         component.contentFrame();
         verify(locator).contentFrame();

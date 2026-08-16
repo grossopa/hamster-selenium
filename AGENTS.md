@@ -8,25 +8,22 @@ A Java component-based web automation testing framework supporting both Selenium
 
 ## Tech Stack
 
-- **Language**: Java 11 (source/target)
+- **Language**: Java 17 (source/target)
 - **Build**: Maven multi-module (11 sub-modules)
-- **Core Dependencies**: Selenium WebDriver 4.27.0, Playwright 1.52.0, Apache Commons Lang3 3.18.0
-- **Testing**: JUnit Jupiter 5.13.4, Mockito, OpenPojo 0.9.1, Byte Buddy
-- **Quality**: JaCoCo 0.8.12, PITest 1.5.2 (mutation testing), SonarCloud
+- **Core Dependencies**: Selenium WebDriver 4.33.0, Playwright 1.52.0, Apache Commons Lang3 3.20.0
+- **Testing**: JUnit Jupiter 5.12.2, Mockito 5.18.0, OpenPojo 0.9.1, Byte Buddy 1.17.5
+- **Quality**: JaCoCo 0.8.13, PITest 1.19.1 (mutation testing), SonarCloud
 - **Publishing**: Maven Central (central-publishing-maven-plugin)
 - **License**: MIT
 
 ## JDK Constraints
 
-**MUST use JDK 11 or JDK 17 for compilation and testing. JDK 21 is NOT supported.**
+**MUST use JDK 17 for compilation and testing.**
 
-- `maven.compiler.source` and `maven.compiler.target` are both `11`
-- `maven-javadoc-plugin` uses `<source>8</source>`
-- `surefire 2.22.2` crashes on JDK 21 (VM fork crash due to Byte Buddy incompatibility)
+- `maven.compiler.source` and `maven.compiler.target` are both `17`
+- `maven-javadoc-plugin` uses `<source>17</source>`
 - Local test command example:
   ```bash
-  JAVA_HOME=/usr/local/Cellar/openjdk@17/17.0.20/libexec/openjdk.jdk/Contents/Home \
-  PATH="$JAVA_HOME/bin:$PATH" \
   mvn test -pl <module> -f /Users/jack/source/hamster-selenium/pom.xml
   ```
 
@@ -178,7 +175,7 @@ Every `.java` file MUST start with the MIT License header:
 - Use JUnit Jupiter 5 (`@Test` from `org.junit.jupiter.api.Test`)
 - Use Mockito for mocking (`mock()`, `when()`, `verify()`)
 - Use OpenPojo for POJO/bean validation tests
-- Tests MUST run on JDK 11 or 17, NOT JDK 21
+- Tests MUST run on JDK 17
 - Each component class should have a corresponding test class (e.g., `MuiButton` → `MuiButtonTest`)
 - Test class naming: `{ClassName}Test.java`
 
@@ -208,14 +205,14 @@ src/main/java/.../
 
 - **Platform**: GitHub Actions (`.github/workflows/build.yml`)
 - **Triggers**: push to `main`, `develop`, `playwright-ai`; PRs
-- **Runtime**: Ubuntu latest, JDK 11 (Temurin)
+- **Runtime**: Ubuntu latest, JDK 17 (Temurin)
 - **Pipeline**: `mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage`
 - **SonarCloud**: Organization `grossopa`, project key `grossopa_hamster-selenium`
 - **Publishing**: Maven Central via `central-publishing-maven-plugin`
 
 ## Key Constraints for AI Agents
 
-1. **Never use JDK 21** for compilation or testing — surefire will crash
+1. **Use JDK 17** for compilation and testing
 2. **Never use `mui` as module name suffix** — always use `materialui` (full name)
 3. **Always add MIT License header** to new Java files
 4. **Always add Javadoc** to public APIs (interfaces, classes, methods)

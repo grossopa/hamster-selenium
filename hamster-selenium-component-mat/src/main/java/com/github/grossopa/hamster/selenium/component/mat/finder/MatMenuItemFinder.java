@@ -33,7 +33,7 @@ import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;

@@ -32,7 +32,7 @@ import com.github.grossopa.selenium.component.mui.v4.inputs.MuiSelect;
 import org.apache.commons.lang3.builder.Builder;
 import org.openqa.selenium.By;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -140,10 +140,9 @@ public class MuiSelectConfig {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MuiSelectConfig)) {
+        if (!(o instanceof MuiSelectConfig that)) {
             return false;
         }
-        MuiSelectConfig that = (MuiSelectConfig) o;
         return isMultiple == that.isMultiple && Objects.equals(optionValueAttribute, that.optionValueAttribute)
                 && Objects.equals(optionsLocator, that.optionsLocator) && Objects.equals(openOptionsAction,
                 that.openOptionsAction) && Objects.equals(closeOptionsAction, that.closeOptionsAction);
@@ -237,16 +236,16 @@ public class MuiSelectConfig {
         @Override
         public MuiSelectConfig build() {
             String optionValueAttributeVal = defaultIfBlank(this.optionValueAttribute, "data-value");
-            OpenOptionsAction openOptionsActionVal = defaultIfNull(this.openOptionsAction,
+            OpenOptionsAction openOptionsActionVal = getIfNull(this.openOptionsAction,
                     DefaultOpenOptionsAction::new);
-            CloseOptionsAction closeOptionsActionVal = defaultIfNull(this.closeOptionsAction,
+            CloseOptionsAction closeOptionsActionVal = getIfNull(this.closeOptionsAction,
                     DefaultCloseOptionsAction::new);
 
             return new MuiSelectConfig(this.optionsLocator, optionValueAttributeVal, openOptionsActionVal,
                     closeOptionsActionVal, this.isMultiple);
         }
 
-        private <T> T defaultIfNull(T object, Supplier<T> supplier) {
+        private <T> T getIfNull(T object, Supplier<T> supplier) {
             if (object == null) {
                 return supplier.get();
             }

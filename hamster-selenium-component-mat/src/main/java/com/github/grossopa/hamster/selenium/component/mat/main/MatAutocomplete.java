@@ -45,7 +45,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -55,7 +55,7 @@ import static com.github.grossopa.selenium.core.locator.By2.tagName;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 
 /**
  * The autocomplete is a normal text input enhanced by a panel of suggested options.
@@ -150,10 +150,10 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
             @Nullable MatOverlayFinder overlayFinder, @Nullable By optionLocator,
             @Nullable OpenOptionsAction openOptionsAction, @Nullable CloseOptionsAction closeOptionsAction) {
         super(element, driver, config);
-        this.overlayFinder = defaultIfNull(overlayFinder, new MatOverlayFinder(driver, config));
-        this.optionLocator = defaultIfNull(optionLocator, tagName(config.getTagPrefix() + "option"));
-        this.openOptionsAction = defaultIfNull(openOptionsAction, DEFAULT_OPEN_ACTION);
-        this.closeOptionsAction = defaultIfNull(closeOptionsAction, DEFAULT_CLOSE_ACTION);
+        this.overlayFinder = getIfNull(overlayFinder, () -> new MatOverlayFinder(driver, config));
+        this.optionLocator = getIfNull(optionLocator, () -> tagName(config.getTagPrefix() + "option"));
+        this.openOptionsAction = getIfNull(openOptionsAction, () -> DEFAULT_OPEN_ACTION);
+        this.closeOptionsAction = getIfNull(closeOptionsAction, () -> DEFAULT_CLOSE_ACTION);
     }
 
     public WebComponent getInput() {

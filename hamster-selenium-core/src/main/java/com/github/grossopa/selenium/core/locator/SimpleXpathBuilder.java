@@ -26,7 +26,7 @@ package com.github.grossopa.selenium.core.locator;
 
 import org.openqa.selenium.By;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.enrichQuote;
 import static java.util.Objects.requireNonNull;

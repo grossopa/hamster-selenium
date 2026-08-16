@@ -26,13 +26,14 @@ package com.github.grossopa.selenium.core;
 
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.utils.GracefulThreadSleep;
+import org.jspecify.annotations.NonNull;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.Interactive;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
@@ -40,8 +41,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 
 /**
  * The abstract implementation of {@link ComponentWebDriver} with generic type support.
@@ -79,12 +79,12 @@ public abstract class AbstractComponentWebDriver implements ComponentWebDriver {
     protected AbstractComponentWebDriver(WebDriver driver, @Nullable GracefulThreadSleep threadSleep) {
         requireNonNull(driver);
         this.driver = driver;
-        this.threadSleep = defaultIfNull(threadSleep, new GracefulThreadSleep());
+        this.threadSleep = getIfNull(threadSleep, GracefulThreadSleep::new);
     }
 
     @Override
     public List<WebComponent> findComponents(By by) {
-        return driver.findElements(by).stream().map(this::mapElement).collect(toList());
+        return driver.findElements(by).stream().map(this::mapElement).toList();
     }
 
     @Override
@@ -94,7 +94,7 @@ public abstract class AbstractComponentWebDriver implements ComponentWebDriver {
 
     @Override
     public <T> List<T> findComponentsAs(By by, Function<WebComponent, T> mappingFunction) {
-        return findComponents(by).stream().map(mappingFunction).collect(toList());
+        return findComponents(by).stream().map(mappingFunction).toList();
     }
 
     @Override
@@ -103,7 +103,7 @@ public abstract class AbstractComponentWebDriver implements ComponentWebDriver {
     }
 
     @Override
-    public void get(String url) {
+    public void get(@NonNull String url) {
         driver.get(url);
     }
 

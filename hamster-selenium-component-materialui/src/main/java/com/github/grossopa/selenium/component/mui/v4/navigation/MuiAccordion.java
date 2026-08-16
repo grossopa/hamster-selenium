@@ -35,7 +35,7 @@ import com.github.grossopa.selenium.core.component.util.WebComponentUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;

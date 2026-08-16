@@ -382,14 +382,6 @@ class InterceptingLocatorTest {
     }
 
     @Test
-    void testDescribe() {
-        Locator describeLocator = mock(Locator.class);
-        when(locator.describe("description")).thenReturn(describeLocator);
-        Locator result = interceptingLocator.describe("description");
-        assertNotNull(result);
-    }
-
-    @Test
     void testBoundingBox() {
         interceptingLocator.boundingBox();
         verify(locator).boundingBox();

@@ -30,16 +30,40 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
- * The parent class of managing the driver
+ * The parent class of managing the driver.
+ *
+ * <p>Automatically configures China mirror (npmmirror.com) for Playwright browser downloads
+ * when {@code PLAYWRIGHT_DOWNLOAD_HOST} environment variable is not set. If running from IDE
+ * without mirror configuration, the process will be re-launched with mirror environment variables.</p>
+ *
+ * <p><b>Manual browser installation from China mirror:</b></p>
+ * <pre>
+ * mvn generate-resources -pl hamster-playwright-examples -Pinstall-browsers-cn
+ * </pre>
  *
  * @author Jack Yin
  * @since 1.12
  */
+@SuppressWarnings("all")
 public abstract class AbstractBrowserSupport {
+
+    /**
+     * China mirror URL for Playwright browser downloads (npmmirror.com).
+     * Used by the {@code install-browsers-cn} Maven profile.
+     */
+    public static final String PLAYWRIGHT_MIRROR_CN = "https://npmmirror.com/mirrors/playwright/";
+
+    /**
+     * Local browser cache directory relative to project root.
+     * Set via {@code PLAYWRIGHT_BROWSERS_PATH} environment variable.
+     */
+    public static final String BROWSERS_PATH = ".cache/playwright";
 
     protected static ComponentDriver driver;
 
@@ -64,9 +88,62 @@ public abstract class AbstractBrowserSupport {
 
     public void setUpDriver() {
         if (driver == null) {
+            ensureMirrorConfigured();
             Playwright playwright = Playwright.create();
             Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
             driver = new DefaultComponentDriver(playwright, browser);
+        }
+    }
+
+    /**
+     * Ensures the Playwright China mirror is configured. If {@code PLAYWRIGHT_DOWNLOAD_HOST}
+     * is not set in the current environment, re-launches this JVM as a child process with
+     * the mirror environment variables injected.
+     */
+    static void ensureMirrorConfigured() {
+        Map<String, String> env = System.getenv();
+        if (env.containsKey("PLAYWRIGHT_DOWNLOAD_HOST")) {
+            return;
+        }
+
+        System.out.println("[INFO] PLAYWRIGHT_DOWNLOAD_HOST not set, re-launching with China mirror: "
+                + PLAYWRIGHT_MIRROR_CN);
+
+        try {
+            String javaHome = System.getProperty("java.home");
+            String javaBin = javaHome + File.separator + "bin" + File.separator + "java";
+            String classpath = System.getProperty("java.class.path");
+
+            // Find the main class from the call stack
+            String mainClass = null;
+            for (StackTraceElement ele : Thread.currentThread().getStackTrace()) {
+                if ("main".equals(ele.getMethodName())) {
+                    mainClass = ele.getClassName();
+                    break;
+                }
+            }
+            if (mainClass == null) {
+                System.err.println("[WARN] Cannot determine main class, skipping mirror configuration.");
+                return;
+            }
+
+            // Resolve absolute browsers path based on user.dir
+            String userDir = System.getProperty("user.dir");
+            String browsersPath = new File(userDir, BROWSERS_PATH).getAbsolutePath();
+
+            ProcessBuilder builder = new ProcessBuilder(javaBin,
+                    "-Dplaywright.mirror.configured=true",
+                    "-cp", classpath,
+                    mainClass);
+            builder.environment().put("PLAYWRIGHT_DOWNLOAD_HOST", PLAYWRIGHT_MIRROR_CN);
+            builder.environment().put("PLAYWRIGHT_BROWSERS_PATH", browsersPath);
+            builder.inheritIO();
+
+            Process process = builder.start();
+            int exitCode = process.waitFor();
+            System.exit(exitCode);
+        } catch (Exception e) {
+            System.err.println("[WARN] Failed to re-launch with mirror, continuing with default: " + e.getMessage());
         }
     }
 

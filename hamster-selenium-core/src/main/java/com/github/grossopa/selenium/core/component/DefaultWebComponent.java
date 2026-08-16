@@ -34,14 +34,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.findChildTextNodes;
 import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 
 /**
  * The default implementation of {@link WebComponent}.
@@ -74,7 +74,7 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
     public DefaultWebComponent(WebElement element, ComponentWebDriver driver, @Nullable WebElementDecorator decorator) {
         super(element);
         this.driver = driver;
-        this.decorator = defaultIfNull(decorator, new NoOpWebElementDecorator());
+        this.decorator = getIfNull(decorator, NoOpWebElementDecorator::new);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
 
     @Override
     public <T extends WebComponent> List<T> findComponentsAs(By by, Function<WebComponent, T> mappingFunction) {
-        return findComponents(by).stream().map(mappingFunction).collect(toList());
+        return findComponents(by).stream().map(mappingFunction).toList();
     }
 
     @Override
@@ -157,13 +157,12 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
         if (this == o) {
             return true;
         }
-        if (!(o instanceof DefaultWebComponent)) {
+        if (!(o instanceof DefaultWebComponent that)) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
-        DefaultWebComponent that = (DefaultWebComponent) o;
         return driver.equals(that.driver);
     }
 

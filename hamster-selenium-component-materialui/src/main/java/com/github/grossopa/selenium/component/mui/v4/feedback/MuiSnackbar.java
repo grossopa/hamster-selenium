@@ -33,7 +33,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import java.util.EnumSet;
 import java.util.Objects;

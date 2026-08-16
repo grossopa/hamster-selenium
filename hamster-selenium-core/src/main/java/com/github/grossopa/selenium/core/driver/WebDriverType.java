@@ -24,7 +24,7 @@
 
 package com.github.grossopa.selenium.core.driver;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Available Web Driver types.

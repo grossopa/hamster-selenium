@@ -86,12 +86,6 @@ public class InterceptingLocator implements Locator {
     }
 
     @Override
-    public Locator describe(String description) {
-        return handler.execute(() -> new InterceptingLocator(locator.describe(description), handler),
-                MethodInfo.create(locator, LOCATOR_DESCRIBE, description));
-    }
-
-    @Override
     public void dblclick() {
         handler.execute(() -> {
             locator.dblclick();

@@ -33,14 +33,13 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.core.component.util.WebComponentUtils.attributeContains;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 /**
  * The modal locator for locating all the Modal overlay modules.
@@ -162,7 +161,7 @@ public class MuiModalFinder {
         List<WebComponent> divComponents = driver.findComponents(By.xpath(config.getOverlayAbsolutePath() + "/div"));
         return divComponents.stream().filter(component -> includeHidden || component.isDisplayed())
                 .filter(component -> classNames.stream()
-                        .anyMatch(modalClass -> attributeContains(component, CLASS, modalClass))).collect(toList());
+                        .anyMatch(modalClass -> attributeContains(component, CLASS, modalClass))).toList();
     }
 
     @Override
@@ -170,10 +169,9 @@ public class MuiModalFinder {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MuiModalFinder)) {
+        if (!(o instanceof MuiModalFinder that)) {
             return false;
         }
-        MuiModalFinder that = (MuiModalFinder) o;
         return driver.equals(that.driver) && config.equals(that.config);
     }
 

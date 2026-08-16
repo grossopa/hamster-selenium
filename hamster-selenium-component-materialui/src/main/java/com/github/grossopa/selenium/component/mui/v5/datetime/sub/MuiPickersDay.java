@@ -30,7 +30,7 @@ import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.Set;
 

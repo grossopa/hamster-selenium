@@ -28,13 +28,12 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatOverlayContainer;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import jakarta.annotation.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 import static org.openqa.selenium.By.xpath;
 
 /**
@@ -77,7 +76,7 @@ public class MatOverlayFinder {
     }
 
     public List<MatOverlayContainer> findVisibleContainers() {
-        return findContainers().stream().filter(WebComponent::isDisplayed).collect(toList());
+        return findContainers().stream().filter(WebComponent::isDisplayed).toList();
     }
 
     @Nullable
@@ -91,10 +90,9 @@ public class MatOverlayFinder {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MatOverlayFinder)) {
+        if (!(o instanceof MatOverlayFinder that)) {
             return false;
         }
-        MatOverlayFinder that = (MatOverlayFinder) o;
         return driver.equals(that.driver) && config.equals(that.config);
     }
 

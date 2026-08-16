@@ -45,13 +45,13 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.*;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
@@ -133,11 +133,11 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
             @Nullable CloseOptionsAction closeOptionsAction) {
         super(element, driver, config);
         this.modalFinder = new MuiModalFinder(driver, config);
-        this.optionLocator = defaultIfNull(optionLocator, By.className(config.getCssPrefix() + "Autocomplete-option"));
-        this.tagLocators = defaultIfNull(tagLocators, MuiAutocompleteTagLocators.chipLocators(config));
-        this.openOptionsAction = defaultIfNull(openOptionsAction, (component, d) -> getInput().click());
-        this.closeOptionsAction = defaultIfNull(closeOptionsAction,
-                (component, options, d) -> getInput().sendKeys(Keys.ESCAPE));
+        this.optionLocator = getIfNull(optionLocator, () -> By.className(config.getCssPrefix() + "Autocomplete-option"));
+        this.tagLocators = getIfNull(tagLocators, () -> MuiAutocompleteTagLocators.chipLocators(config));
+        this.openOptionsAction = getIfNull(openOptionsAction, () -> (component, d) -> getInput().click());
+        this.closeOptionsAction = getIfNull(closeOptionsAction,
+                () -> (component, options, d) -> getInput().sendKeys(Keys.ESCAPE));
     }
 
     @Override

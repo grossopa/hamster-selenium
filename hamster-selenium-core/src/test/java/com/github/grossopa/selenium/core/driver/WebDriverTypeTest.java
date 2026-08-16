@@ -26,7 +26,7 @@ package com.github.grossopa.selenium.core.driver;
 
 import org.junit.jupiter.api.Test;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

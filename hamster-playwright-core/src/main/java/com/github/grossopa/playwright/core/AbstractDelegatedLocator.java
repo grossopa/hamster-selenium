@@ -727,11 +727,6 @@ public abstract class AbstractDelegatedLocator implements Locator {
     }
 
     @Override
-    public Locator describe(String description) {
-        return locator.describe(description);
-    }
-
-    @Override
     public FrameLocator contentFrame() {
         return locator.contentFrame();
     }

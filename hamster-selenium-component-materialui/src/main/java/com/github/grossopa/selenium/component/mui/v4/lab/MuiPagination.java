@@ -26,8 +26,8 @@ package com.github.grossopa.selenium.component.mui.v4.lab;
 
 import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.exception.PaginationNotFoundException;
+import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.api.Pagination;
@@ -40,11 +40,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static java.util.stream.Collectors.toList;
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
-import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
+import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 
 /**
  * The Pagination component enables the user to select a specific page from a range of pages.
@@ -84,7 +81,7 @@ public class MuiPagination extends AbstractMuiComponent implements Pagination<Mu
     public MuiPagination(WebElement element, ComponentWebDriver driver, MuiConfig config,
             MuiPaginationLocators locators) {
         super(element, driver, config);
-        this.locators = defaultIfNull(locators, MuiPaginationLocators.createDefault());
+        this.locators = getIfNull(locators, MuiPaginationLocators::createDefault);
     }
 
     @Override
@@ -163,7 +160,7 @@ public class MuiPagination extends AbstractMuiComponent implements Pagination<Mu
             scannedIndices.add(maxIndex);
 
             if (minIndex == lastMinIndex && maxIndex == lastMaxIndex) {
-                throw new PaginationNotFoundException(index, scannedIndices.stream().sorted().collect(toList()));
+                throw new PaginationNotFoundException(index, scannedIndices.stream().sorted().toList());
             }
 
             if (index < minIndex) {
@@ -203,13 +200,12 @@ public class MuiPagination extends AbstractMuiComponent implements Pagination<Mu
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MuiPagination)) {
+        if (!(o instanceof MuiPagination that)) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
-        MuiPagination that = (MuiPagination) o;
         return locators.equals(that.locators);
     }
 

@@ -32,7 +32,7 @@ import com.github.grossopa.selenium.core.locator.By2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 
 /**

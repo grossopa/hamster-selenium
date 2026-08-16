@@ -30,7 +30,7 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 import java.util.List;
 
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
