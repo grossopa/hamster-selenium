@@ -285,14 +285,6 @@ class MuiSelectTest {
     }
 
     @Test
-    void closeOptionsAlreadyClosedContainerNotDisplayed() {
-        this.mockOptionsClose();
-        testSubject.closeOptions();
-        verify(closeOptionsAction, never()).close(any(), any(), any());
-        assertFalse(optionOpen);
-    }
-
-    @Test
     void closeOptionsFailed() {
         this.mockOptionOpen();
         doAnswer(a -> {

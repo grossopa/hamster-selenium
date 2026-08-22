@@ -131,7 +131,7 @@ public class MuiBreadcrumbs extends AbstractMuiComponent {
     }
 
     protected By getSeparatorLocator() {
-        return By2.className(config.getCssPrefix() + "Breadcrumbs-separator");
+        return By.className(config.getCssPrefix() + "Breadcrumbs-separator");
     }
 
     protected By getTouchRippleLocator() {
@@ -139,6 +139,6 @@ public class MuiBreadcrumbs extends AbstractMuiComponent {
     }
 
     protected By getItemContainersLocator() {
-        return By2.className(config.getCssPrefix() + "Breadcrumbs-li");
+        return By.className(config.getCssPrefix() + "Breadcrumbs-li");
     }
 }

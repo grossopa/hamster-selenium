@@ -34,7 +34,6 @@ import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -57,8 +56,8 @@ public class MuiCoreTestCases extends AbstractBrowserSupport {
         MuiGrid testGrid = testGridParent.findComponent(By.className("MuiGrid-root")).as(mui()).toGrid();
         assertTrue(testGrid.isContainer());
         List<MuiGrid> testedItemGrids = testGrid.findComponents(By.className("MuiGrid-root")).stream()
-                .map(c -> c.as(mui()).toGrid()).collect(toList());
-        List<MuiGrid> testItemGrids = testedItemGrids.stream().filter(MuiGrid::isItem).collect(toList());
+                .map(c -> c.as(mui()).toGrid()).toList();
+        List<MuiGrid> testItemGrids = testedItemGrids.stream().filter(MuiGrid::isItem).toList();
         assertEquals(3, testItemGrids.toArray().length);
         testItemGrids.forEach(testItemGrid -> assertEquals(8, testItemGrid.gridItemSpacingValue(2)));
     }

@@ -37,7 +37,6 @@ import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.muiV5;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,7 +58,6 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
         MuiSelect select = driver.findComponent(By.id("BasicSelect.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiSelect-select")).as(muiV5()).toSelect(By.className("MuiMenuItem-root"),
                         builder -> builder.optionValueAttribute("data-value").build());
-        //assertTrue(select.validate());
 
         final long animationMs = 800L;
 
@@ -111,7 +109,6 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
                 .findComponentsAs(By.className("MuiSelect-select"), c -> c.as(muiV5())
                         .toSelect(By.className("MuiMenuItem-root"),
                                 builder -> builder.optionValueAttribute("data-value").build()));
-        //selectList.forEach(select -> assertTrue(select.validate()));
 
         assertFalse(selectList.get(0).isEnabled());
     }
@@ -126,7 +123,6 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
         MuiSelect select = driver.findComponent(By.id("MultipleSelect.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiSelect-select")).as(muiV5()).toSelect(By.className("MuiMenuItem-root"),
                         builder -> builder.multiple(true).optionValueAttribute("data-value").build());
-        //assertTrue(select.validate());
 
         final long animationMs = 1200L;
 
@@ -154,7 +150,6 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
         MuiSelect select = driver.findComponent(By.id("MultipleSelectCheckmarks.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiSelect-select")).as(muiV5()).toSelect(By.className("MuiMenuItem-root"),
                         builder -> builder.multiple(true).optionValueAttribute("data-value").build());
-        //assertTrue(select.validate());
 
         final long animationMs = 800L;
 
@@ -183,7 +178,6 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
         MuiSelect select = driver.findComponent(By.id("MultipleSelectChip.js")).findComponent(By2.parent())
                 .findComponent(By.className("MuiSelect-select")).as(muiV5()).toSelect(By.className("MuiMenuItem-root"),
                         builder -> builder.multiple(true).optionValueAttribute("data-value").build());
-        // assertTrue(select.validate());
 
         final long animationMs = 800L;
 
@@ -195,7 +189,7 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
         driver.moveTo(driver.findComponent(By.id("placeholder")));
         driver.threadSleep(animationMs);
         List<String> selectedValues = select.findComponents(By.className("MuiChip-label")).stream()
-                .map(WebElement::getText).collect(toList());
+                .map(WebElement::getText).toList();
         assertEquals("Omar Alexander, Bradley Wilkerson, Kelly Snyder", join(selectedValues, ", "));
         driver.threadSleep(animationMs);
 
@@ -203,7 +197,7 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
         driver.threadSleep(animationMs);
 
         selectedValues = select.findComponents(By.className("MuiChip-label")).stream().map(WebElement::getText)
-                .filter(StringUtils::isNotBlank).collect(toList());
+                .filter(StringUtils::isNotBlank).toList();
         assertEquals("Omar Alexander, Kelly Snyder", join(selectedValues, ", "));
 
         select.deselectAll(animationMs);
@@ -216,7 +210,7 @@ public class MuiSelectTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiSelectTestCases test = new MuiSelectTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/material-ui/react-select/");
+        driver.navigate().to("https://mui.com/material-ui/react-select/");
 
         test.testBasicSelect();
         test.testOtherProps();

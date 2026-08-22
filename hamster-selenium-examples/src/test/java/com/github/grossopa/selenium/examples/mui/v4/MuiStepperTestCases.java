@@ -145,7 +145,7 @@ public class MuiStepperTestCases extends AbstractBrowserSupport {
 
         List<MuiStepper> steppers = driver.findComponents(By.className("MuiStepper-root")).stream()
                 .map(component -> component.as(mui()).toStepper())
-                .collect(java.util.stream.Collectors.toList());
+                .toList();
 
         assertFalse(steppers.isEmpty());
 

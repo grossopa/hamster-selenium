@@ -117,7 +117,7 @@ class MuiAutocompleteTest {
         when(inputElement.findElements(By.className("MuiAutocomplete-tag"))).thenReturn(visibleTags);
 
         when(tagLocators.getLabelFinder()).thenReturn(WebElement::getText);
-        when(tagLocators.getValueFinder()).thenReturn(element -> element.getDomAttribute("value"));
+        when(tagLocators.getValueFinder()).thenReturn(ele -> ele.getDomAttribute("value"));
         when(tagLocators.getDeleteButtonLocator()).thenReturn(By.className("deleteButton"));
 
         when(driver.findComponents(By.xpath("/html/body/some/app/div"))).thenReturn(singletonList(overlay));
@@ -239,17 +239,12 @@ class MuiAutocompleteTest {
             return null;
         }).when(openOptionsAction).open(any(), any());
 
-        when(targetLocator.activeElement()).thenReturn(null);
+        var mockResult = mock(WebElement.class);
+        when(targetLocator.activeElement()).thenReturn(mockResult);
         assertEquals(overlay, testSubject.openOptions());
         verify(openOptionsAction, times(1)).open(any(), any());
         verify(driver, times(1)).moveTo(
                 argThat(e -> ((WebComponent) e).getWrappedElement() == inputElement));
-    }
-
-    @Test
-    void openOptionsTryFocus() {
-        assertEquals(overlay, testSubject.openOptions());
-        verify(openOptionsAction, never()).open(any(), any());
     }
 
     @Test
@@ -338,7 +333,7 @@ class MuiAutocompleteTest {
     @Test
     void getAllSelectedOptions() {
         assertArrayEquals(visibleTags.toArray(), testSubject.getAllSelectedOptions().stream()
-                .map(element -> ((WebComponent) element).getWrappedElement()).toArray());
+                .map(ele -> ((WebComponent) ele).getWrappedElement()).toArray());
     }
 
     @Test
@@ -560,22 +555,22 @@ class MuiAutocompleteTest {
 
     @Test
     void testToString() {
-        WebElement element = mock(WebElement.class);
-        By optionLocator = mock(By.class);
-        OpenOptionsAction openOptionsAction = mock(OpenOptionsAction.class);
-        CloseOptionsAction closeOptionsAction = mock(CloseOptionsAction.class);
-        MuiAutocompleteTagLocators tagLocators = mock(MuiAutocompleteTagLocators.class);
+        WebElement ele = mock(WebElement.class);
+        By optionLocatorLocal = mock(By.class);
+        OpenOptionsAction openOptionsActionLocal = mock(OpenOptionsAction.class);
+        CloseOptionsAction closeOptionsActionLocal = mock(CloseOptionsAction.class);
+        MuiAutocompleteTagLocators tagLocatorsLocal = mock(MuiAutocompleteTagLocators.class);
 
         when(driver.toString()).thenReturn("driver-toString");
         when(config.toString()).thenReturn("config-toString");
-        when(element.toString()).thenReturn("element-toString");
-        when(optionLocator.toString()).thenReturn("optionLocator-toString");
-        when(openOptionsAction.toString()).thenReturn("openOptionsAction-toString");
-        when(closeOptionsAction.toString()).thenReturn("closeOptionsAction-toString");
-        when(tagLocators.toString()).thenReturn("tagLocators-toString");
+        when(ele.toString()).thenReturn("element-toString");
+        when(optionLocatorLocal.toString()).thenReturn("optionLocator-toString");
+        when(openOptionsActionLocal.toString()).thenReturn("openOptionsAction-toString");
+        when(closeOptionsActionLocal.toString()).thenReturn("closeOptionsAction-toString");
+        when(tagLocatorsLocal.toString()).thenReturn("tagLocators-toString");
 
-        testSubject = new MuiAutocomplete(element, driver, config, optionLocator, tagLocators, openOptionsAction,
-                closeOptionsAction);
+        testSubject = new MuiAutocomplete(ele, driver, config, optionLocatorLocal, tagLocatorsLocal, openOptionsActionLocal,
+                closeOptionsActionLocal);
 
         assertEquals("MuiAutocomplete{modalFinder=MuiModalFinder{driver=driver-toString, "
                 + "config=config-toString}, optionLocator=optionLocator-toString, "

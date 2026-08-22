@@ -29,7 +29,6 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.exception.MenuItemNotFoundException;
 import com.github.grossopa.hamster.selenium.component.mat.main.sub.MatMenuItem;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

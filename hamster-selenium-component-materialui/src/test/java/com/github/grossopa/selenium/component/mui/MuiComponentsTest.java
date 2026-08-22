@@ -76,8 +76,6 @@ class MuiComponentsTest {
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
-    MuiCalendarPicker.ViewType view = YEAR;
-
     @BeforeEach
     void setUp() {
         when(component.getWrappedElement()).thenReturn(element);
@@ -99,8 +97,8 @@ class MuiComponentsTest {
 
     @Test
     void muiWithConfig() {
-        MuiConfig config = mock(MuiConfig.class);
-        assertEquals(config, MuiComponents.mui(config).getConfig());
+        MuiConfig c = mock(MuiConfig.class);
+        assertEquals(c, MuiComponents.mui(c).getConfig());
     }
 
     @Test

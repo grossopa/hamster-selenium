@@ -39,7 +39,6 @@ import java.util.List;
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -54,7 +53,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://v4.mui.com/components/breadcrumbs/");
 
         List<MuiBreadcrumbs> breadcrumbsList = driver.findComponents(By.className("MuiBreadcrumbs-root")).stream()
-                .map(component -> component.as(mui()).toBreadcrumbs()).collect(toList());
+                .map(component -> component.as(mui()).toBreadcrumbs()).toList();
 
         MuiBreadcrumbs breadcrumbs1 = breadcrumbsList.get(0);
         assertEquals(3, breadcrumbs1.getItems().size());
@@ -84,7 +83,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://v4.mui.com/components/bottom-navigation/");
 
         List<MuiBottomNavigation> bottomNavigationList = driver.findComponents(By.className("MuiBottomNavigation-root"))
-                .stream().map(component -> component.as(mui()).toBottomNavigation()).collect(toList());
+                .stream().map(component -> component.as(mui()).toBottomNavigation()).toList();
         MuiBottomNavigation bn1 = bottomNavigationList.get(0);
         List<MuiBottomNavigationAction> actions = bn1.getActions();
         assertEquals(3, actions.size());
@@ -100,7 +99,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://v4.mui.com/components/tabs/");
 
         List<MuiTabs> tabsList = driver.findComponents(By.className("MuiTabs-root")).stream()
-                .map(component -> component.as(mui()).toTabs()).collect(toList());
+                .map(component -> component.as(mui()).toTabs()).toList();
         MuiTabs tabs1 = tabsList.get(0);
         List<MuiTab> actions = tabs1.getTabs();
         assertEquals(3, actions.size());
@@ -162,7 +161,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
 
         List<MuiAccordion> simpleAccordionList = driver.findComponent(By.id("SimpleAccordion.js"))
                 .findComponent(By2.parent()).findComponents(By.className("MuiAccordion-root")).stream()
-                .map(component -> component.as(mui()).toAccordion()).collect(toList());
+                .map(component -> component.as(mui()).toAccordion()).toList();
         assertEquals(3, simpleAccordionList.size());
 
         assertEquals("Accordion 1", requireNonNull(simpleAccordionList.get(0).getAccordionSummary()).getText());
@@ -189,7 +188,7 @@ public class MuiNavigationTestCases extends AbstractBrowserSupport {
         //action
         List<MuiAccordion> actionAccordionList = driver.findComponent(By.id("ActionsInAccordionSummary.js"))
                 .findComponent(By2.parent()).findComponents(By.className("MuiAccordion-root")).stream()
-                .map(component -> component.as(mui()).toAccordion()).collect(toList());
+                .map(component -> component.as(mui()).toAccordion()).toList();
 
         MuiAccordion actionAccordion1 = actionAccordionList.get(0);
         assertFalse(actionAccordion1.isExpand());

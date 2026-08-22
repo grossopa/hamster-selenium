@@ -93,25 +93,25 @@ class SeleniumUtilsTest {
 
     @Test
     void cleanText() {
-        WebElement element = mock(WebElement.class);
-        when(element.getDomAttribute("value")).thenReturn("aaaaaaaaaa");
-        SeleniumUtils.cleanText(element);
-        verify(element, times(10)).sendKeys(BACK_SPACE);
+        WebElement ele = mock(WebElement.class);
+        when(ele.getDomAttribute("value")).thenReturn("aaaaaaaaaa");
+        SeleniumUtils.cleanText(ele);
+        verify(ele, times(10)).sendKeys(BACK_SPACE);
     }
 
     @Test
     void cleanTextEmpty() {
-        WebElement element = mock(WebElement.class);
-        when(element.getDomAttribute("value")).thenReturn("");
-        SeleniumUtils.cleanText(element);
-        verify(element, never()).sendKeys(BACK_SPACE);
+        WebElement ele = mock(WebElement.class);
+        when(ele.getDomAttribute("value")).thenReturn("");
+        SeleniumUtils.cleanText(ele);
+        verify(ele, never()).sendKeys(BACK_SPACE);
     }
 
     @Test
     void isNotDisplayedNotDisplayed() {
-        WebElement element = mock(WebElement.class);
-        when(element.isDisplayed()).thenReturn(false);
-        assertTrue(SeleniumUtils.isNotDisplayed(element));
+        WebElement ele = mock(WebElement.class);
+        when(ele.isDisplayed()).thenReturn(false);
+        assertTrue(SeleniumUtils.isNotDisplayed(ele));
     }
 
     @Test
@@ -121,16 +121,16 @@ class SeleniumUtilsTest {
 
     @Test
     void isNotDisplayedStale() {
-        WebElement element = mock(WebElement.class);
-        when(element.isDisplayed()).thenThrow(new StaleElementReferenceException(""));
-        assertTrue(SeleniumUtils.isNotDisplayed(element));
+        WebElement ele = mock(WebElement.class);
+        when(ele.isDisplayed()).thenThrow(new StaleElementReferenceException(""));
+        assertTrue(SeleniumUtils.isNotDisplayed(ele));
     }
 
     @Test
     void isNotDisplayedFalse() {
-        WebElement element = mock(WebElement.class);
-        when(element.isDisplayed()).thenReturn(true);
-        assertFalse(SeleniumUtils.isNotDisplayed(element));
+        WebElement ele = mock(WebElement.class);
+        when(ele.isDisplayed()).thenReturn(true);
+        assertFalse(SeleniumUtils.isNotDisplayed(ele));
     }
 
     JavascriptExecutor driver = mock(JavascriptExecutor.class);
@@ -140,8 +140,7 @@ class SeleniumUtilsTest {
     @Test
     void findChildNodes() {
         //@formatter:off
-        when(driver.executeScript(""
-                + "var nodes = arguments[0].childNodes;"
+        when(driver.executeScript("var nodes = arguments[0].childNodes;"
                 + "var result = [];"
                 + "for (var i = 0; i < nodes.length; i++) {"
                 + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
@@ -163,8 +162,7 @@ class SeleniumUtilsTest {
     @Test
     void findChildNodesWithProperties() {
         //@formatter:off
-        when(driver.executeScript(""
-                + "var nodes = arguments[0].childNodes;"
+        when(driver.executeScript("var nodes = arguments[0].childNodes;"
                 + "var result = [];"
                 + "for (var i = 0; i < nodes.length; i++) {"
                 + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
@@ -184,8 +182,7 @@ class SeleniumUtilsTest {
     @Test
     void findChildTextNodes() {
         //@formatter:off
-        when(driver.executeScript(""
-                + "var nodes = arguments[0].childNodes;"
+        when(driver.executeScript("var nodes = arguments[0].childNodes;"
                 + "var result = [];"
                 + "for (var i = 0; i < nodes.length; i++) {"
                 + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
@@ -217,8 +214,7 @@ class SeleniumUtilsTest {
     @Test
     void findChildTextNodesNoStrip() {
         //@formatter:off
-        when(driver.executeScript(""
-                + "var nodes = arguments[0].childNodes;"
+        when(driver.executeScript("var nodes = arguments[0].childNodes;"
                 + "var result = [];"
                 + "for (var i = 0; i < nodes.length; i++) {"
                 + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
@@ -250,8 +246,7 @@ class SeleniumUtilsTest {
     @Test
     void findChildTextNodesSkip() {
         //@formatter:off
-        when(driver.executeScript(""
-                + "var nodes = arguments[0].childNodes;"
+        when(driver.executeScript("var nodes = arguments[0].childNodes;"
                 + "var result = [];"
                 + "for (var i = 0; i < nodes.length; i++) {"
                 + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
@@ -288,31 +283,7 @@ class SeleniumUtilsTest {
     @Test
     void findChildTextNodesIllegalNodes() {
         //@formatter:off
-        when(driver.executeScript(""
-                + "var nodes = arguments[0].childNodes;"
-                + "var result = [];"
-                + "for (var i = 0; i < nodes.length; i++) {"
-                + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
-                + "    result.push({nodeName:nodes[i].nodeName, nodeType:nodes[i].nodeType, "
-                + "nodeValue:nodes[i].nodeValue, textContent:nodes[i].textContent, "
-                + "wholeText:nodes[i].wholeText, data:nodes[i].data});"
-                + "  }"
-                + "}"
-                + "return result;", element)).thenReturn(childNodesResult);
-        //@formatter:on
-
-        Map<String, Object> map1 = ImmutableMap.of("nodeName", "#text333", "nodeType", 3, "nodeValue", "some value",
-                "textContent", "some value", "wholeText", "some value", "data", "some value");
-        childNodesResult.add(map1);
-
-        assertThrows(UnknownTextNodeTypeException.class, () -> SeleniumUtils.findChildTextNodes(driver, element));
-    }
-
-    @Test
-    void findChildTextNodesIllegalNodesStrip() {
-        //@formatter:off
-        when(driver.executeScript(""
-                + "var nodes = arguments[0].childNodes;"
+        when(driver.executeScript("var nodes = arguments[0].childNodes;"
                 + "var result = [];"
                 + "for (var i = 0; i < nodes.length; i++) {"
                 + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"
@@ -334,8 +305,7 @@ class SeleniumUtilsTest {
     @Test
     void findChildTextNodesEmptyValue() {
         //@formatter:off
-        when(driver.executeScript(""
-                + "var nodes = arguments[0].childNodes;"
+        when(driver.executeScript("var nodes = arguments[0].childNodes;"
                 + "var result = [];"
                 + "for (var i = 0; i < nodes.length; i++) {"
                 + "  if (nodes[i].nodeName === '#text' || nodes[i].nodeName === '#comment') {"

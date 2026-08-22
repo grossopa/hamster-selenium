@@ -37,7 +37,6 @@ import java.util.function.Supplier;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -53,7 +52,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
 
         List<MuiAvatar> avatars = driver.findComponent(By.id("ImageAvatars.js")).findComponent(By.xpath("parent::*"))
                 .findComponents(By2.attrContains("class", "MuiAvatar-root")).stream().map(c -> c.as(mui()).toAvatar())
-                .collect(toList());
+                .toList();
 
         assertEquals(3, avatars.size());
         assertEquals("Remy Sharp", avatars.get(0).getAlt());
@@ -61,7 +60,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
 
         List<MuiAvatar> letterAvatars = driver.findComponent(By.id("LetterAvatars.js"))
                 .findComponent(By.xpath("parent::*")).findComponents(By2.attrContains("class", "MuiAvatar-root"))
-                .stream().map(c -> c.as(mui()).toAvatar()).collect(toList());
+                .stream().map(c -> c.as(mui()).toAvatar()).toList();
 
         assertEquals(3, letterAvatars.size());
         assertEquals("H", letterAvatars.get(0).getText());
@@ -74,7 +73,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
 
         List<MuiBadge> badges = driver.findComponent(By.id("SimpleBadge.js")).findComponent(By.xpath("parent::*"))
                 .findComponents(By2.className("MuiBadge-root")).stream().map(c -> c.as(mui()).toBadge())
-                .collect(toList());
+                        .toList();
 
         assertEquals(3, badges.size());
         assertEquals(4, badges.get(1).getBadgeNumber());
@@ -83,14 +82,14 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
 
         List<MuiBadge> badges2 = driver.findComponent(By.id("BadgeVisibility.js")).findComponent(By.xpath("parent::*"))
                 .findComponents(By2.className("MuiBadge-root")).stream().map(c -> c.as(mui()).toBadge())
-                .collect(toList());
+                        .toList();
 
         assertEquals(2, badges2.size());
         assertTrue(badges2.get(1).isDotDisplayed());
 
         List<MuiBadge> badges3 = driver.findComponent(By.id("ShowZeroBadge.js")).findComponent(By.xpath("parent::*"))
                 .findComponents(By2.className("MuiBadge-root")).stream().map(c -> c.as(mui()).toBadge())
-                .collect(toList());
+                        .toList();
 
         assertEquals(2, badges3.size());
         assertFalse(badges3.get(0).isBadgeDisplayed());
@@ -101,7 +100,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://v4.mui.com/components/chips/");
         List<MuiChip> chips = driver.findComponent(By.id("Chips.js")).findComponent(By.xpath("parent::*"))
                 .findComponents(By2.className("MuiChip-root")).stream().map(c -> c.as(mui()).toChip())
-                .collect(toList());
+                        .toList();
 
         assertTrue(chips.size() > 9);
 
@@ -126,7 +125,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
 
         Supplier<List<MuiChip>> arrayChipsSupplier = () -> driver.findComponent(By.id("ChipsArray.js"))
                 .findComponent(By.xpath("parent::*")).findComponents(By2.className("MuiChip-root")).stream()
-                .map(c -> c.as(mui()).toChip()).collect(toList());
+                .map(c -> c.as(mui()).toChip()).toList();
 
         List<MuiChip> arrayChips = arrayChipsSupplier.get();
         assertEquals(5, arrayChips.size());
@@ -150,7 +149,7 @@ public class MuiDataDisplayTestCases extends AbstractBrowserSupport {
 
         List<MuiList> simpleLists = driver.findComponent(By.id("SimpleList.js")).findComponent(By.xpath("parent::*"))
                 .findComponents(By2.className("MuiList-root")).stream().map(c -> c.as(mui()).toList())
-                .collect(toList());
+                .toList();
 
         assertEquals(2, simpleLists.size());
         assertEquals(2, simpleLists.get(0).getListItems().size());

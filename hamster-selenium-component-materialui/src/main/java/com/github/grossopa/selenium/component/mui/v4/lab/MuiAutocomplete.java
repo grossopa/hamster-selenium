@@ -38,7 +38,6 @@ import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.core.util.SeleniumUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;

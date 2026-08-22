@@ -29,7 +29,6 @@ import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiToolbar;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.core.locator.By2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;

@@ -37,7 +37,6 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
-import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.core.util.SeleniumUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -49,9 +48,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.github.grossopa.selenium.core.locator.By2.*;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
-import static com.github.grossopa.selenium.core.locator.By2.tagName;
-import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
 import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 import static org.apache.commons.lang3.Strings.CS;
@@ -353,8 +351,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     protected Optional<WebComponent> tryToFindAutocompletePanel() {
         MatOverlayContainer container = overlayFinder.findTopVisibleContainer();
         if (container != null) {
-            List<WebComponent> panels = container.findComponents(
-                    By2.className(config.getCssPrefix() + "autocomplete-panel"));
+            List<WebComponent> panels = container.findComponents(className(config.getCssPrefix() + "autocomplete-panel"));
             return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(panels.size() - 1));
         }
         return Optional.empty();

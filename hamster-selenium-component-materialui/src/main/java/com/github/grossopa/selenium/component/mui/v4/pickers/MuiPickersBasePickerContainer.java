@@ -30,7 +30,6 @@ import com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.selenium.component.mui.v4.surfaces.MuiToolbar;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.core.locator.By2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -91,7 +90,7 @@ public class MuiPickersBasePickerContainer extends AbstractMuiComponent {
      * @return the buttons within the top side toolbar
      */
     public List<MuiButton> getToolbarButtons() {
-        return getToolbar().findComponentsAs(By2.className(config.getRootCss(MuiButton.COMPONENT_NAME)),
+        return getToolbar().findComponentsAs(By.className(config.getRootCss(MuiButton.COMPONENT_NAME)),
                 c -> new MuiButton(c, driver, config));
     }
 

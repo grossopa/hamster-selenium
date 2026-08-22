@@ -114,11 +114,11 @@ class MuiAutocompleteTagTest {
 
     @Test
     void testToString() {
-        WebElement element = mock(WebElement.class);
-        when(element.toString()).thenReturn("element-toString");
-        MuiAutocompleteTagLocators locators = mock(MuiAutocompleteTagLocators.class);
-        when(locators.toString()).thenReturn("locators-toString");
-        testSubject = new MuiAutocompleteTag(element, driver, config, locators);
+        WebElement ele = mock(WebElement.class);
+        when(ele.toString()).thenReturn("element-toString");
+        MuiAutocompleteTagLocators locs = mock(MuiAutocompleteTagLocators.class);
+        when(locs.toString()).thenReturn("locators-toString");
+        testSubject = new MuiAutocompleteTag(ele, driver, config, locs);
         assertEquals("MuiAutocompleteTag{locators=locators-toString, element=element-toString}",
                 testSubject.toString());
     }

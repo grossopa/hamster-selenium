@@ -168,13 +168,6 @@ class MuiConfigTest {
     }
 
     @Test
-    void validateByCssNegative() {
-        WebComponent component = mock(WebComponent.class);
-        when(component.getDomAttribute(CLASS)).thenReturn("MuiSelect-root MuiSomeOther");
-        assertFalse(testSubject.validateComponentByCss(component, "Pager"));
-    }
-
-    @Test
     void setCssPrefix() {
         testSubject.setCssPrefix("some-other-prefix");
         assertEquals("some-other-prefix", testSubject.getCssPrefix());

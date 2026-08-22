@@ -529,7 +529,7 @@ class MuiSliderTest {
 
     @Test
     void getInverseScaleFunction() {
-        testSubject = new MuiSlider(element, driver, config, x -> x * 3);
+        testSubject = new MuiSlider(element, driver, config, xx -> xx * 3);
         assertEquals(9, testSubject.getInverseScaleFunction().apply(3d).intValue());
     }
 

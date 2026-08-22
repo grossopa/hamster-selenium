@@ -38,7 +38,6 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiComponents.mui;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,7 +70,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
         WebComponent checkBoxContainer = driver.findComponent(By2.className("MuiCheckbox-root"))
                 .findComponent(By.xpath("parent::*"));
         List<MuiCheckbox> checkboxes = checkBoxContainer.findComponents(By2.attrContains("class", "MuiCheckbox-root"))
-                .stream().map(checkbox -> checkbox.as(mui()).toCheckbox()).collect(toList());
+                .stream().map(checkbox -> checkbox.as(mui()).toCheckbox()).toList();
 
         assertEquals(8, checkboxes.size());
         assertEquals(8L, checkboxes.stream().filter(MuiCheckbox::validate).count());
@@ -88,7 +87,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
                 .findComponent(By2.xpath("parent::*"));
 
         List<MuiSelect> selects = selectContainer.findComponents(By2.className("MuiSelect-root")).stream()
-                .map(select -> select.as(mui()).toSelect(By2.className("MuiMenuItem-root"))).collect(toList());
+                .map(select -> select.as(mui()).toSelect(By2.className("MuiMenuItem-root"))).toList();
 
         assertEquals(12, selects.size());
 
@@ -264,7 +263,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://v4.mui.com/components/switches/");
 
         List<MuiSwitch> switches = driver.findComponents(By2.className("MuiSwitch-root")).stream()
-                .map(checkbox -> checkbox.as(mui()).toSwitch()).collect(toList());
+                .map(checkbox -> checkbox.as(mui()).toSwitch()).toList();
 
         MuiSwitch first = switches.get(0);
         assertTrue(first.isEnabled());
@@ -293,7 +292,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://v4.mui.com/components/radio-buttons/");
 
         List<MuiRadio> radios = driver.findComponents(By2.className("MuiRadio-root")).stream()
-                .map(radio -> radio.as(mui()).toRadio()).collect(toList());
+                .map(radio -> radio.as(mui()).toRadio()).toList();
 
         MuiRadio first = radios.get(0);
         MuiRadio second = radios.get(1);
@@ -327,7 +326,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://v4.mui.com/components/breadcrumbs/");
 
         List<MuiBreadcrumbs> breadcrumbsList = driver.findComponents(By.className("MuiBreadcrumbs-root")).stream()
-                .map(component -> component.as(mui()).toBreadcrumbs()).collect(toList());
+                .map(component -> component.as(mui()).toBreadcrumbs()).toList();
 
         MuiBreadcrumbs breadcrumbs1 = breadcrumbsList.get(0);
         assertEquals(3, breadcrumbs1.getItems().size());
@@ -357,7 +356,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://v4.mui.com/components/bottom-navigation/");
 
         List<MuiBottomNavigation> bottomNavigationList = driver.findComponents(By.className("MuiBottomNavigation-root"))
-                .stream().map(component -> component.as(mui()).toBottomNavigation()).collect(toList());
+                .stream().map(component -> component.as(mui()).toBottomNavigation()).toList();
         MuiBottomNavigation bn1 = bottomNavigationList.get(0);
         List<MuiBottomNavigationAction> actions = bn1.getActions();
         assertEquals(3, actions.size());
@@ -373,7 +372,7 @@ public class MuiInputsTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://v4.mui.com/components/tabs/");
 
         List<MuiTabs> tabsList = driver.findComponents(By.className("MuiTabs-root")).stream()
-                .map(component -> component.as(mui()).toTabs()).collect(toList());
+                .map(component -> component.as(mui()).toTabs()).toList();
         MuiTabs tabs1 = tabsList.get(0);
         List<MuiTab> actions = tabs1.getTabs();
         assertEquals(3, actions.size());

@@ -78,9 +78,9 @@ class MuiPaginationTest {
     private MuiButton createPageButton(int index) {
         MuiButton button = mock(MuiButton.class);
         when(button.getText()).thenReturn(String.valueOf(index));
-        WebElement element = mock(WebElement.class);
-        when(element.getText()).thenReturn(String.valueOf(index));
-        when(button.getWrappedElement()).thenReturn(element);
+        WebElement ele = mock(WebElement.class);
+        when(ele.getText()).thenReturn(String.valueOf(index));
+        when(button.getWrappedElement()).thenReturn(ele);
         return button;
     }
 
@@ -283,11 +283,11 @@ class MuiPaginationTest {
 
     @Test
     void testToString() {
-        WebElement element = mock(WebElement.class);
-        when(element.toString()).thenReturn("element-toString");
-        MuiPaginationLocators locators = mock(MuiPaginationLocators.class);
-        when(locators.toString()).thenReturn("locators-toString");
-        testSubject = new MuiPagination(element, driver, config, locators);
+        WebElement ele = mock(WebElement.class);
+        when(ele.toString()).thenReturn("element-toString");
+        MuiPaginationLocators l = mock(MuiPaginationLocators.class);
+        when(l.toString()).thenReturn("locators-toString");
+        testSubject = new MuiPagination(ele, driver, config, l);
         assertEquals("MuiPagination{locators=locators-toString, element=element-toString}", testSubject.toString());
     }
 }

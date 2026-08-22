@@ -301,12 +301,12 @@ class InterceptingWebElementTest {
 
     @Test
     void testToString() {
-        WebElement element = mock(WebElement.class);
-        InterceptingHandler handler = mock(InterceptingHandler.class);
-        when(element.toString()).thenReturn("WebElement[aaabbb]");
-        when(handler.toString()).thenReturn("InterceptingHandler[cccddd]");
+        WebElement ele = mock(WebElement.class);
+        InterceptingHandler h = mock(InterceptingHandler.class);
+        when(ele.toString()).thenReturn("WebElement[aaabbb]");
+        when(h.toString()).thenReturn("InterceptingHandler[cccddd]");
         assertEquals("InterceptingWebElement{element=WebElement[aaabbb], handler=InterceptingHandler[cccddd]}",
-                new InterceptingWebElement(element, handler).toString());
+                new InterceptingWebElement(ele, h).toString());
     }
 
 

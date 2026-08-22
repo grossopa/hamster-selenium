@@ -65,7 +65,7 @@ class MuiPickersCalendarTransitionContainerTest {
         when(element.findElements(By.className("eee" + MuiPickersDay.NAME)))
                 .thenReturn(newArrayList(pickersDay1, pickersDay2, pickersDay3, pickersDay4, pickersDay5));
 
-        Consumer<WebElement> mockFunc = element -> when(element.getDomAttribute("class"))
+        Consumer<WebElement> mockFunc = ele -> when(ele.getDomAttribute("class"))
                 .thenReturn("eeePickersDay-daySelectedabc");
 
         mockFunc.accept(pickersDay1);

@@ -176,10 +176,10 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
 
         driver.threadSleep(500L);
 
-        yearOnly.setDate(LocalDate.of(2030, 1, 1), 500L);
+        yearOnly.setDate(LocalDate.of(2030, Month.FEBRUARY, 1), 500L);
         assertEquals("2030", yearOnly.getInput().getDomAttribute("value"));
 
-        yearOnly.setDate(LocalDate.of(2041, 1, 1), 500L);
+        yearOnly.setDate(LocalDate.of(2041, Month.FEBRUARY, 1), 500L);
         assertEquals("2041", yearOnly.getInput().getDomAttribute("value"));
 
         MuiDatePickerFormField yearMonth = container.findComponent(textExact("Year and Month")).findComponent(parent())
@@ -228,7 +228,7 @@ public class MuiDatePickersTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiDatePickersTestCases test = new MuiDatePickersTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/x/react-date-pickers/date-picker/");
+        driver.navigate().to("https://mui.com/x/react-date-pickers/date-picker/");
 
         test.testBasicDatePicker();
         test.testSubComponentsPickersCalendarPicker();

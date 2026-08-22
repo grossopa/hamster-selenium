@@ -40,7 +40,6 @@ import java.util.logging.Logger;
 import static com.github.grossopa.selenium.component.mui.MuiComponents.muiV5;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.cleanText;
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -67,7 +66,7 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
 
         autocomplete.getInput().sendKeys("se");
 
-        List<String> options = autocomplete.getOptions2().stream().map(WebElement::getText).collect(toList());
+        List<String> options = autocomplete.getOptions2().stream().map(WebElement::getText).toList();
 
         assertTrue(options.contains("Apocalypse Now"));
         assertTrue(options.contains("Seven Samurai"));
@@ -107,7 +106,7 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
 
             autocomplete.getInput().sendKeys("se");
 
-            List<String> options = autocomplete.getOptions2().stream().map(WebElement::getText).collect(toList());
+            List<String> options = autocomplete.getOptions2().stream().map(WebElement::getText).toList();
 
             assertTrue(options.contains("Apocalypse Now"));
             assertTrue(options.contains("Seven Samurai"));
@@ -286,7 +285,7 @@ public class MuiAutocompleteTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MuiAutocompleteTestCases test = new MuiAutocompleteTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://mui.com/material-ui/react-autocomplete/");
+        driver.navigate().to("https://mui.com/material-ui/react-autocomplete/");
 
         test.testComboBox();
         test.testPlayground();

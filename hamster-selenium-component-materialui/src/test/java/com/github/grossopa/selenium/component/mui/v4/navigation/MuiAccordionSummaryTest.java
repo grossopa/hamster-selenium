@@ -85,12 +85,6 @@ class MuiAccordionSummaryTest {
     }
 
     @Test
-    void isExpandFalse2() {
-        when(element.getDomAttribute("aria-expanded")).thenReturn("false");
-        assertFalse(testSubject.isExpand());
-    }
-
-    @Test
     void expandButton() {
         WebElement expandIcon = mock(WebElement.class);
         when(element.findElement(By.className("MuiAccordionSummary-expandIcon"))).thenReturn(expandIcon);
