@@ -46,6 +46,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * and other components. They provide a structured way to display related information.</p>
  *
  * @see MuiList
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiListItem extends AbstractMuiComponent {

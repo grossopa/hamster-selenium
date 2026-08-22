@@ -46,6 +46,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * Lists are used to display data in a structured, easy-to-scan format.</p>
  *
  * @see <a href="https://material-ui.com/components/lists/">https://material-ui.com/components/lists/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiList extends AbstractMuiComponent {

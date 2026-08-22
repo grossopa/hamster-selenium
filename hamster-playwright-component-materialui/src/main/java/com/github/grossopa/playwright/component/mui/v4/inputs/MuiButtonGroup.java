@@ -50,6 +50,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  *
  * @see <a href="https://material-ui.com/components/button-group/">
  * https://material-ui.com/components/button-group/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiButtonGroup extends AbstractMuiComponent {

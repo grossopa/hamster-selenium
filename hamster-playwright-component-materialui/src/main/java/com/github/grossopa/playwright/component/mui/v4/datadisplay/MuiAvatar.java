@@ -49,6 +49,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * </ul>
  *
  * @see <a href="https://material-ui.com/components/avatars/">https://material-ui.com/components/avatars/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiAvatar extends AbstractMuiComponent {

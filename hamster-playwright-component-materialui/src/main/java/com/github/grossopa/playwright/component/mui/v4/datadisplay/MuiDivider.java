@@ -46,6 +46,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * They support horizontal and vertical orientations.</p>
  *
  * @see <a href="https://material-ui.com/components/dividers/">https://material-ui.com/components/dividers/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiDivider extends AbstractMuiComponent {

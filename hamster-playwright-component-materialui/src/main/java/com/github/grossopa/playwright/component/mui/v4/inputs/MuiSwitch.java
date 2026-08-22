@@ -45,6 +45,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  *
  * @see <a href="https://material-ui.com/components/switches/">
  * https://material-ui.com/components/switches/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiSwitch extends AbstractMuiComponent {

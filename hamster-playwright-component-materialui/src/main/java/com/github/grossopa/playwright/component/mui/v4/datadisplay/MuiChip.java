@@ -47,6 +47,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * They are commonly used for filters, tags, or selectable items.</p>
  *
  * @see <a href="https://material-ui.com/components/chips/">https://material-ui.com/components/chips/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiChip extends AbstractMuiComponent {

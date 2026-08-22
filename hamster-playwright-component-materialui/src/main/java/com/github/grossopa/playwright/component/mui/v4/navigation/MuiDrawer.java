@@ -45,6 +45,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Drawers slide in from the edge of the screen and can be dismissed by clicking outside 
  * or pressing Escape. They're commonly used for navigation menus.</p>
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiDrawer extends AbstractMuiComponent {

@@ -27,6 +27,7 @@ package com.github.grossopa.playwright.core;
 /**
  * The collector with a list of customized collections
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public interface Components {

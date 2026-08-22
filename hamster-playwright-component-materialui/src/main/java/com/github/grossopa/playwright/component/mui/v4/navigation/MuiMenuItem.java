@@ -46,6 +46,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * and can trigger actions when clicked.</p>
  *
  * @see MuiMenu
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiMenuItem extends AbstractMuiComponent {

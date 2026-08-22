@@ -60,6 +60,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.*;
  *
  * @see <a href="https://material-ui.com/components/selects/">
  * https://material-ui.com/components/selects/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiSelect extends AbstractMuiComponent {

@@ -36,6 +36,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * Intercepting wrapper for {@link Playwright} instance with customized handlers.
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class InterceptingPlaywright implements Playwright {

@@ -43,6 +43,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>It contains the main content of the accordion panel and is hidden when collapsed.</p>
  *
  * @see MuiAccordion
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiAccordionDetails extends AbstractMuiComponent {

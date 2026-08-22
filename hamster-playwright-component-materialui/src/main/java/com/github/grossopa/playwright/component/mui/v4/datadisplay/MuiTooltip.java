@@ -45,6 +45,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * on user interaction (hover, focus, or tap) and disappear when the interaction ends.</p>
  *
  * @see <a href="https://material-ui.com/components/tooltips/">https://material-ui.com/components/tooltips/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiTooltip extends AbstractMuiComponent {

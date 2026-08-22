@@ -47,6 +47,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * a number, text, or just a dot indicator.</p>
  *
  * @see <a href="https://material-ui.com/components/badges/">https://material-ui.com/components/badges/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiBadge extends AbstractMuiComponent {

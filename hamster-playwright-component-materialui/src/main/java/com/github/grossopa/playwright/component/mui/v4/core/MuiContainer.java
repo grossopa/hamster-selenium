@@ -45,6 +45,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Containers provide a means to center and horizontally pad your site's contents. 
  * They can be fixed width or fluid (max-width based on viewport).</p>
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiContainer extends AbstractMuiComponent {

@@ -44,6 +44,7 @@ import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
  *
  * @see <a href="https://material-ui.com/components/backdrop/">
  * https://material-ui.com/components/backdrop/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiBackdrop extends AbstractMuiComponent {

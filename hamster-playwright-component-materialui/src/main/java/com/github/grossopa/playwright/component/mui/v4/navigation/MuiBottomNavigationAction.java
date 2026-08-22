@@ -46,6 +46,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * to different sections of the application.</p>
  *
  * @see MuiBottomNavigation
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiBottomNavigationAction extends AbstractMuiComponent {

@@ -49,6 +49,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  *
  * @see <a href="https://material-ui.com/components/accordion/">
  * https://material-ui.com/components/accordion/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiAccordion extends AbstractMuiComponent {

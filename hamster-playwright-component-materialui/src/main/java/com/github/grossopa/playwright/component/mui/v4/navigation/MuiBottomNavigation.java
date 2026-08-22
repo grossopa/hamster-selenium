@@ -44,6 +44,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.*;
  * Each action includes an icon and an optional text label.</p>
  *
  * @see MuiBottomNavigationAction
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiBottomNavigation extends AbstractMuiComponent {

@@ -45,6 +45,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>The Link component is used as a wrapper around anchor tags or can be used with 
  * routing libraries like React Router for client-side navigation.</p>
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiLink extends AbstractMuiComponent {

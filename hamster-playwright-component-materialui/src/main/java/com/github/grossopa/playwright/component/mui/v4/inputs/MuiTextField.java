@@ -40,6 +40,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
 /**
  * The Material UI TextField implementation for Playwright.
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiTextField extends AbstractMuiComponent {

@@ -29,6 +29,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * The parent components class
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public abstract class AbstractComponents implements Components {

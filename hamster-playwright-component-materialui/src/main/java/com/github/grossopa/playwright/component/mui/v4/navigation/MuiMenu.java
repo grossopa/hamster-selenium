@@ -44,6 +44,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>It appears when the user interacts with a button, or other control. Menus are used for 
  * dropdown selections, context menus, and navigation options.</p>
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiMenu extends AbstractMuiComponent {

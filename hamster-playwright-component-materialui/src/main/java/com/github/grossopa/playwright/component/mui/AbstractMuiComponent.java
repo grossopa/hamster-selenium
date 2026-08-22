@@ -43,6 +43,7 @@ import static java.util.Objects.requireNonNull;
  * automation framework. It extends {@link DefaultWebComponent} and implements {@link MuiComponent}
  * to provide version support and configuration access.</p>
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public abstract class AbstractMuiComponent extends DefaultWebComponent implements MuiComponent {

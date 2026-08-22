@@ -55,6 +55,7 @@ import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
  *
  * @see <a href="https://material-ui.com/components/slider/">
  * https://material-ui.com/components/slider/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiSlider extends AbstractMuiComponent {

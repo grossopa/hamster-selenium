@@ -43,6 +43,7 @@ import java.util.function.Function;
  *   <li>Utility methods for common web interactions</li>
  * </ul>
  *
+ * @author Jack Yin
  * @since 1.12
  * @see ComponentDriver
  * @see WebComponent

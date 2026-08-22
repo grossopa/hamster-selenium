@@ -48,6 +48,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  *
  * @see <a href="https://material-ui.com/components/snackbars/">
  * https://material-ui.com/components/snackbars/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiSnackbar extends AbstractMuiComponent {

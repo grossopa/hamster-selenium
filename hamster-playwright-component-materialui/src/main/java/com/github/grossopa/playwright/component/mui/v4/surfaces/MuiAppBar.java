@@ -45,6 +45,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>The AppBar is typically used at the top of the application and contains branding, 
  * navigation, and action items. It can be positioned statically, fixed, or sticky.</p>
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiAppBar extends AbstractMuiComponent {

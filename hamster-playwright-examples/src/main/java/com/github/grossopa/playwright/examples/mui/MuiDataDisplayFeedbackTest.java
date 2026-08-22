@@ -32,8 +32,6 @@ import com.github.grossopa.playwright.examples.helper.AbstractBrowserSupport;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * Tests for MUI Data Display and Feedback components
  * Covers Avatar, Badge, Chip, Divider, List, Tooltip, Alert, Dialog, Snackbar, etc.

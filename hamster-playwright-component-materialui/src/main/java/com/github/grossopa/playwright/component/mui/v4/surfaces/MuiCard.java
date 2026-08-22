@@ -46,6 +46,7 @@ import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
  *
  * @see <a href="https://material-ui.com/components/cards/">
  * https://material-ui.com/components/cards/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiCard extends AbstractMuiComponent {

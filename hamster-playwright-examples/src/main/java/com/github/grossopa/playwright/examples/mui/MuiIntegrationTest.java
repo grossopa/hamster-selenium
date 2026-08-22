@@ -32,8 +32,6 @@ import com.github.grossopa.playwright.examples.helper.AbstractBrowserSupport;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * Integration tests demonstrating real-world MUI component scenarios
  * Combines multiple components in realistic user workflows

@@ -47,6 +47,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>They may also be used for navigation. Steppers can display a feedback on the steps 
  * via an optional step label and description.</p>
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiStepper extends AbstractMuiComponent {

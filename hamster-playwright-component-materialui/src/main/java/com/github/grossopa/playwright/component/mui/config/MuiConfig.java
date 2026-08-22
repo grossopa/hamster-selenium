@@ -39,6 +39,7 @@ import java.util.Set;
  * <p>This class provides configuration options for customizing the behavior of Material UI components,
  * including CSS prefixes, version settings, and overlay paths.</p>
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiConfig {
@@ -224,10 +225,9 @@ public class MuiConfig {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MuiConfig)) {
+        if (!(o instanceof MuiConfig muiConfig)) {
             return false;
         }
-        MuiConfig muiConfig = (MuiConfig) o;
         return version == muiConfig.version &&
                 Objects.equals(cssPrefix, muiConfig.cssPrefix) &&
                 Objects.equals(overlayAbsolutePath, muiConfig.overlayAbsolutePath);

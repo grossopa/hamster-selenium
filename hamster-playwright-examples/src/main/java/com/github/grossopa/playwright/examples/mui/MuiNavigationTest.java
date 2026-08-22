@@ -31,8 +31,6 @@ import com.github.grossopa.playwright.examples.helper.AbstractBrowserSupport;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * Tests for MUI Navigation components
  * Covers Tabs, Menu, Drawer, Accordion, Breadcrumbs, Pagination, etc.

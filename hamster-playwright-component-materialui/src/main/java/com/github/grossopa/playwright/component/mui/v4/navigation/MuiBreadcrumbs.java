@@ -46,6 +46,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * They typically display a path like: Home > Category > Current Page</p>
  *
  * @see MuiLink
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiBreadcrumbs extends AbstractMuiComponent {

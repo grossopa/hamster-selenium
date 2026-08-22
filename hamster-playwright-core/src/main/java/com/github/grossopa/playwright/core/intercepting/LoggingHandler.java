@@ -34,6 +34,7 @@ import static java.util.logging.Level.WARNING;
 /**
  * Prints log before, after and when exception happens with time spent in millisecond.
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class LoggingHandler implements InterceptingHandler {

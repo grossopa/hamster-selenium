@@ -45,6 +45,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Material Design's responsive UI is based on a 12-column grid layout. Grid supports both container 
  * and item modes for flexible layout construction.</p>
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiGrid extends AbstractMuiComponent {

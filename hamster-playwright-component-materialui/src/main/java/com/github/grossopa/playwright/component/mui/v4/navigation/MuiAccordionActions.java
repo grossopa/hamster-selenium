@@ -45,6 +45,7 @@ import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
  * like Save, Cancel, Delete, etc.</p>
  *
  * @see MuiAccordion
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiAccordionActions extends AbstractMuiComponent {

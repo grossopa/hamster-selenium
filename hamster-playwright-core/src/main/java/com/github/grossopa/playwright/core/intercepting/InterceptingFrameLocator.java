@@ -36,6 +36,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * Intercepting the FrameLocator actions with customized handlers.
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class InterceptingFrameLocator implements FrameLocator {
@@ -224,6 +225,10 @@ public class InterceptingFrameLocator implements FrameLocator {
                 MethodInfo.create(frameLocator, FRAME_LOCATOR_GET_BY_TITLE, text, options));
     }
 
+
+    /**
+     * @deprecated use {@link #owner()} instead.
+     */
     @Deprecated(since="1.12.0")
     @Override
     public FrameLocator first() {
@@ -231,6 +236,9 @@ public class InterceptingFrameLocator implements FrameLocator {
                 MethodInfo.create(frameLocator, FRAME_LOCATOR_FIRST));
     }
 
+    /**
+     * @deprecated use {@link #owner()} instead.
+     */
     @Deprecated(since="1.12.0")
     @Override
     public FrameLocator last() {
@@ -238,6 +246,9 @@ public class InterceptingFrameLocator implements FrameLocator {
                 MethodInfo.create(frameLocator, FRAME_LOCATOR_LAST));
     }
 
+    /**
+     * @deprecated use {@link #owner()} instead.
+     */
     @Deprecated(since="1.12.0")
     @Override
     public FrameLocator nth(int index) {

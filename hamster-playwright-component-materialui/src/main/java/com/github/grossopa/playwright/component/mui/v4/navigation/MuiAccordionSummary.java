@@ -43,6 +43,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>It typically contains a title and an expand/collapse icon. Clicking on it toggles the accordion state.</p>
  *
  * @see MuiAccordion
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiAccordionSummary extends AbstractMuiComponent {

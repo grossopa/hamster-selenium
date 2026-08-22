@@ -47,6 +47,7 @@ import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
  *
  * @see <a href="https://material-ui.com/api/toolbar/">
  * https://material-ui.com/api/toolbar/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiToolbar extends AbstractMuiComponent {

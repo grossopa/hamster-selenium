@@ -44,6 +44,7 @@ import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
  *
  * @see <a href="https://material-ui.com/components/skeleton/">
  * https://material-ui.com/components/skeleton/</a>
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiSkeleton extends AbstractMuiComponent {

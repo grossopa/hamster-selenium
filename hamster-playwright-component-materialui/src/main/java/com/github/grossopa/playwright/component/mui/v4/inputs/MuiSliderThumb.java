@@ -44,6 +44,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * This class provides methods to query the thumb's current value and position.</p>
  *
  * @see MuiSlider
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiSliderThumb extends AbstractMuiComponent {

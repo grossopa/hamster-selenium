@@ -43,6 +43,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Box is a flexible container that can be used to apply spacing, sizing, and other 
  * CSS properties through the sx prop or system props.</p>
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiBox extends AbstractMuiComponent {

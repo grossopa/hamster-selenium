@@ -531,7 +531,7 @@ public class InterceptingLocator implements Locator {
     /**
      * @deprecated use {@link #fill(String, FillOptions)} instead.
      */
-    @Deprecated(since = "1.12.0", forRemoval = true)
+    @Deprecated(since = "1.12.0")
     @Override
     public void type(String text, TypeOptions options) {
         handler.execute(() -> {
@@ -543,7 +543,7 @@ public class InterceptingLocator implements Locator {
     /**
      * @deprecated use {@link #fill(String)} instead.
      */
-    @Deprecated(since = "1.12.0", forRemoval = true)
+    @Deprecated(since = "1.12.0")
     @Override
     public void type(String text) {
         handler.execute(() -> {

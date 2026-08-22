@@ -48,6 +48,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * They work together with Tab components to create tabbed interfaces.</p>
  *
  * @see MuiTab
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiTabs extends AbstractMuiComponent {

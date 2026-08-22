@@ -45,6 +45,7 @@ import static com.github.grossopa.playwright.component.mui.MuiVersion.V6;
  * <p>Tabs display labels and can include icons. When clicked, they activate their associated panel.</p>
  *
  * @see MuiTabs
+ * @author Jack Yin
  * @since 1.12
  */
 public class MuiTab extends AbstractMuiComponent {

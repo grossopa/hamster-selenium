@@ -35,6 +35,7 @@ import java.nio.file.Path;
 /**
  * Defines all intercepting method names for logging and monitoring purpose.
  *
+ * @author Jack Yin
  * @since 1.12
  */
 public class InterceptingMethods {
@@ -140,11 +141,6 @@ public class InterceptingMethods {
      * Represents the {@link Locator#dblclick()}
      */
     public static final String LOCATOR_DBLCLICK = "locator.dblclick";
-
-    /**
-     * Represents the {@link Locator#describe(String)}
-     */
-    public static final String LOCATOR_DESCRIBE = "locator.describe";
 
     /**
      * Represents the {@link Locator#fill(String)}
@@ -268,6 +264,7 @@ public class InterceptingMethods {
     /**
      * Represents the {@link Locator#type(String)}
      */
+    @SuppressWarnings("deprecation")
     public static final String LOCATOR_TYPE = "locator.type";
 
     /**
@@ -477,16 +474,19 @@ public class InterceptingMethods {
     /**
      * Represents the {@link FrameLocator#first()}
      */
+    @SuppressWarnings("deprecation")
     public static final String FRAME_LOCATOR_FIRST = "frameLocator.first";
 
     /**
      * Represents the {@link FrameLocator#last()}
      */
+    @SuppressWarnings("deprecation")
     public static final String FRAME_LOCATOR_LAST = "frameLocator.last";
 
     /**
      * Represents the {@link FrameLocator#nth(int)}
      */
+    @SuppressWarnings("deprecation")
     public static final String FRAME_LOCATOR_NTH = "frameLocator.nth";
 
     /**
