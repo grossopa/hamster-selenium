@@ -40,7 +40,6 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,7 +70,7 @@ class MuiMonthPickerTest {
                     WebElement monthElement = mock(WebElement.class);
                     when(monthElement.getText()).thenReturn(m);
                     return element;
-                }).collect(Collectors.toList());
+                }).toList();
 
         when(element.findElements(By.xpath(".//button[contains(@class,\"PrivatePickersMonth-root\")]"))).thenReturn(
                 buttonElements);

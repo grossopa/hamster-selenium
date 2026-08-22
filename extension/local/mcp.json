@@ -1,4 +1,20 @@
 {
-    "mcpServers": {},
-    "userConfigMD5": "1a6618c9486afd375cdf1135b5b2acc4"
+    "mcpServers": {
+        "intellij": {
+            "identifier": "",
+            "command": "",
+            "args": null,
+            "url": "http://127.0.0.1:64342/sse",
+            "disabled": false,
+            "autoApprove": null,
+            "source": "",
+            "description": "",
+            "version": 0,
+            "createAt": 0,
+            "from": "",
+            "fromId": "",
+            "timeout": 0
+        }
+    },
+    "userConfigMD5": "4d8f0c697a355a93d2529ea13f09824d"
 }

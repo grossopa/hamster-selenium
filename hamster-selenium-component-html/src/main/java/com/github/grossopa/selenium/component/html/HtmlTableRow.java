@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 /**
  * The HTML table row element
@@ -70,8 +69,8 @@ public class HtmlTableRow extends DefaultWebComponent implements TableRow {
 
     @Override
     public List<WebComponent> getCells() {
-        return element.findElements(colsLocator).stream().map(element -> new DefaultWebComponent(element, driver))
-                .collect(toList());
+        return element.findElements(colsLocator).stream().<WebComponent>map(element -> new DefaultWebComponent(element, driver))
+                .toList();
     }
 
     @Override

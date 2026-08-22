@@ -40,7 +40,6 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static java.util.stream.Collectors.toList;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
@@ -85,6 +84,6 @@ public class MuiList extends AbstractMuiComponent {
      */
     public List<MuiListItem> getListItems() {
         List<WebComponent> components = this.findComponents(By2.attrContains(CLASS, config.getRootCss("ListItem")));
-        return components.stream().map(c -> new MuiListItem(c, driver, config)).collect(toList());
+        return components.stream().map(c -> new MuiListItem(c, driver, config)).toList();
     }
 }

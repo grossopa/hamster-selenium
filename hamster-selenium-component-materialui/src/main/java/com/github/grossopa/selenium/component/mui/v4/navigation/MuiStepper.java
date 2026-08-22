@@ -36,7 +36,6 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Strings.CI;
 import static org.openqa.selenium.By.className;
 
@@ -108,7 +107,7 @@ public class MuiStepper extends AbstractMuiComponent {
         return element.findElements(className(config.getCssPrefix() + "Step-root"))
                 .stream()
                 .map(driver::mapElement)
-                .collect(toList());
+                .toList();
     }
 
     /**
@@ -144,6 +143,6 @@ public class MuiStepper extends AbstractMuiComponent {
                         return "";
                     }
                 })
-                .collect(toList());
+                .toList();
     }
 }

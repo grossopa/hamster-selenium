@@ -37,7 +37,6 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static java.util.stream.Collectors.toList;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
@@ -82,6 +81,6 @@ public class MuiMenu extends MuiModal {
      */
     public List<MuiMenuItem> getMenuItems() {
         return this.findComponents(By.className(config.getRootCss(MuiMenuItem.COMPONENT_NAME))).stream()
-                .map(component -> new MuiMenuItem(component, driver, config)).collect(toList());
+                .map(component -> new MuiMenuItem(component, driver, config)).toList();
     }
 }

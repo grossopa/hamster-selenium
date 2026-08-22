@@ -50,7 +50,6 @@ import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.executeIgnoringStaleElementReference;
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.isNotDisplayed;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.join;
 
 /**
@@ -84,7 +83,7 @@ public class MuiDatePickerFormField extends MuiTextField {
             throw new IllegalArgumentException("view type is mandatory");
         }
 
-        this.views = List.copyOf(views.stream().distinct().collect(toList()));
+        this.views = List.copyOf(views.stream().distinct().toList());
     }
 
     @Override

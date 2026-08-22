@@ -3,12 +3,14 @@ package com.github.grossopa.playwright.core.intercepting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("unchecked")
 class LoggingHandlerTest {
 
     private Logger logger;
@@ -61,6 +63,6 @@ class LoggingHandlerTest {
         info.executionDone();
         Exception ex = new RuntimeException("test error");
         handler.onException(info, ex);
-        verify(logger).log(eq(Level.WARNING), any(String.class), eq(ex));
+        verify(logger).log(eq(Level.WARNING),  eq(ex), any(Supplier.class));
     }
 }

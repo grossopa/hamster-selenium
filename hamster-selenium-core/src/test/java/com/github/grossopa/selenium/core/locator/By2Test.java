@@ -40,7 +40,7 @@ class By2Test {
 
     @Test
     void constructor() {
-        assertEquals(By2.class, By2.class.getSuperclass());
+        assertEquals(By.class, By2.class.getSuperclass());
     }
 
     @Test

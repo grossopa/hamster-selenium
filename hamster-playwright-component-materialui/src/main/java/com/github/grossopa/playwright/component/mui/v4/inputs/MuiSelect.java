@@ -70,6 +70,11 @@ public class MuiSelect extends AbstractMuiComponent {
     public static final String COMPONENT_NAME = "Select";
 
     /**
+     * The CSS selector for option elements.
+     */
+    private static final String OPTION_SELECTOR = "[role=\"option\"]";
+
+    /**
      * Constructs a MuiSelect instance with the specified locator, driver, and configuration.
      *
      * @param locator the Locator representing the select component in the DOM
@@ -144,13 +149,13 @@ public class MuiSelect extends AbstractMuiComponent {
      */
     public List<WebComponent> getOptions() {
         // Try to find options within the select first
-        List<WebComponent> options = findComponents("[role=\"option\"]");
+        List<WebComponent> options = findComponents(OPTION_SELECTOR);
         if (!options.isEmpty()) {
             return options;
         }
         
         // If not found, look for options in the popover/menu
-        options = driver.findComponents("[role=\"option\"]");
+        options = driver.findComponents(OPTION_SELECTOR);
         return options;
     }
 
@@ -160,7 +165,7 @@ public class MuiSelect extends AbstractMuiComponent {
      * @return true if options are visible, false otherwise
      */
     public boolean isOpen() {
-        List<WebComponent> options = driver.findComponents("[role=\"option\"]");
+        List<WebComponent> options = driver.findComponents(OPTION_SELECTOR);
         return !options.isEmpty() && options.get(0).isVisible();
     }
 

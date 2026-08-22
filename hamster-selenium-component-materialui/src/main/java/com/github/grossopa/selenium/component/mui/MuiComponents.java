@@ -174,9 +174,7 @@ public class MuiComponents extends AbstractComponents {
         return new MuiComponents(config);
     }
 
-    ///////////////////////
-    // Inputs Components //
-    ///////////////////////
+    // Inputs Components
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiAutocomplete}.
@@ -475,9 +473,7 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiTextField(component, driver, config));
     }
 
-    /////////////////////////////
-    // Data Display Components //
-    /////////////////////////////
+    // Data Display Components
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiAvatar}.
@@ -571,9 +567,7 @@ public class MuiComponents extends AbstractComponents {
         return create(() -> new MuiRating(component, driver, config), () -> new MuiRating(component, driver, config));
     }
 
-    /////////////////////////
-    // Feedback Components //
-    /////////////////////////
+    // Feedback Components
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiBackdrop}.
@@ -633,9 +627,7 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiSnackbar(component, driver, config, autoHideDuration));
     }
 
-    //////////////////////////
-    //  Surfaces Components //
-    //////////////////////////
+    // Surfaces Components
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiAccordion}.
@@ -770,9 +762,7 @@ public class MuiComponents extends AbstractComponents {
         return create(() -> new MuiTabs(component, driver, config), () -> new MuiTabs(component, driver, config));
     }
 
-    /////////////////////
-    //  Lab Components //
-    /////////////////////
+    // Lab Components
 
     /**
      * Wraps the current {@link WebComponent} to {@link MuiCalendarPicker}.

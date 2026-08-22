@@ -37,7 +37,6 @@ import java.util.Set;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
-import static java.util.stream.Collectors.toList;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
@@ -89,6 +88,6 @@ public class MuiRadioGroup extends AbstractMuiComponent {
      */
     public List<MuiRadio> getRadios() {
         return element.findElements(config.radioLocator()).stream().map(radio -> new MuiRadio(radio, driver, config))
-                .collect(toList());
+                .toList();
     }
 }

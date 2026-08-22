@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Bottom navigation bars allow movement between primary destinations in an app.
@@ -81,6 +80,6 @@ public class MuiBottomNavigation extends AbstractMuiComponent {
      */
     public List<MuiBottomNavigationAction> getActions() {
         return this.findComponents(By.xpath("./button")).stream()
-                .map(component -> new MuiBottomNavigationAction(component, driver, config)).collect(toList());
+                .map(component -> new MuiBottomNavigationAction(component, driver, config)).toList();
     }
 }

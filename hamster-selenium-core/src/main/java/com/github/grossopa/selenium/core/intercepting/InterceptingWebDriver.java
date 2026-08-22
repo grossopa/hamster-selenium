@@ -33,7 +33,6 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.core.intercepting.InterceptingMethods.*;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Intercepts the driver actions with customized handlers.
@@ -81,8 +80,8 @@ public class InterceptingWebDriver
     @Override
     public List<WebElement> findElements(By by) {
         return handler.execute(
-                () -> driver.findElements(by).stream().map(element -> new InterceptingWebElement(element, handler))
-                        .collect(toList()), MethodInfo.create(driver, DRIVER_FIND_ELEMENTS, by));
+                () -> driver.findElements(by).stream().<WebElement>map(element -> new InterceptingWebElement(element, handler))
+                        .toList(), MethodInfo.create(driver, DRIVER_FIND_ELEMENTS, by));
     }
 
     @Override

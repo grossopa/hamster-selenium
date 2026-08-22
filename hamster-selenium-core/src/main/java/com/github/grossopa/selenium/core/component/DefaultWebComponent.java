@@ -40,7 +40,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import static com.github.grossopa.selenium.core.util.SeleniumUtils.findChildTextNodes;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 
 /**
@@ -84,10 +83,10 @@ public class DefaultWebComponent extends AbstractDelegatedWebElement implements 
 
     @Override
     public List<WebComponent> findComponents(By by) {
-        return element.findElements(by).stream().map(e -> {
+        return element.findElements(by).stream().<WebComponent>map(e -> {
             WebElement decoratedElement = decorator.decorate(e, driver);
             return new DefaultWebComponent(decoratedElement, driver);
-        }).collect(toList());
+        }).toList();
     }
 
     @Override

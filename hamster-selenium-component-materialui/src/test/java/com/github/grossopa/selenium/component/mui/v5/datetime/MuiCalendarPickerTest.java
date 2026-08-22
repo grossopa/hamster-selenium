@@ -41,14 +41,12 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.*;
 import static com.github.grossopa.utils.consts.HtmlConstants.BUTTON;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -123,7 +121,7 @@ class MuiCalendarPickerTest {
                 dayButtons);
         when(calendarViewElement.findElements(
                 By.xpath(".//button[contains(@class,'MuiPickersDay-root') and contains(@class,'Mui-selected')]"))).then(
-                a -> dayButtons.stream().filter(WebElement::isSelected).collect(toList()));
+                a -> dayButtons.stream().filter(WebElement::isSelected).toList());
         when(calendarViewElement.findElement(
                 By.xpath(".//button[contains(@class,'MuiPickersDay-root') and contains(@class,'Mui-selected')]"))).then(
                 a -> dayButtons.stream().filter(WebElement::isSelected).findFirst().orElseThrow());
@@ -155,7 +153,7 @@ class MuiCalendarPickerTest {
                     WebElement monthElement = mock(WebElement.class);
                     when(monthElement.getText()).thenReturn(m);
                     return element;
-                }).collect(Collectors.toList());
+                }).toList();
 
         when(element.findElements(By.xpath(".//button[contains(@class,\"PrivatePickersMonth-root\")]"))).thenReturn(
                 buttonElements);

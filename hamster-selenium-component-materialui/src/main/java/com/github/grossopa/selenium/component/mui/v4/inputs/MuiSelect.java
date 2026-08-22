@@ -48,7 +48,6 @@ import java.util.function.Predicate;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Strings.CS;
 
 /**
@@ -136,12 +135,12 @@ public class MuiSelect extends AbstractMuiComponent implements Select, DelayedSe
 
     @Override
     public List<WebComponent> getAllSelectedOptions2() {
-        return getOptions2().stream().filter(config::isSelected).collect(toList());
+        return getOptions2().stream().filter(config::isSelected).toList();
     }
 
     @Override
     public List<WebComponent> getAllSelectedOptions2(Long delayInMillis) {
-        return getOptions2(delayInMillis).stream().filter(config::isSelected).collect(toList());
+        return getOptions2(delayInMillis).stream().filter(config::isSelected).toList();
     }
 
     @Override

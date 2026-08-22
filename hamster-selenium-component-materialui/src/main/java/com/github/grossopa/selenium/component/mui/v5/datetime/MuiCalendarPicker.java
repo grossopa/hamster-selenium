@@ -48,7 +48,6 @@ import java.util.Set;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.v5.datetime.MuiCalendarPicker.ViewType.*;
 import static java.lang.Integer.parseInt;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.openqa.selenium.By.xpath;
 
@@ -100,7 +99,7 @@ public class MuiCalendarPicker extends AbstractMuiComponent {
     public MuiCalendarPicker(WebElement element, ComponentWebDriver driver, MuiConfig config,
             List<MuiCalendarPicker.ViewType> views, MonthStringFunction monthStringFunction) {
         super(element, driver, config);
-        this.views = List.copyOf(views.stream().distinct().collect(toList()));
+        this.views = List.copyOf(views.stream().distinct().toList());
         this.monthStringFunction = monthStringFunction;
     }
 

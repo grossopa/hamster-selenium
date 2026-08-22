@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 import static org.apache.commons.lang3.StringUtils.strip;
+import static org.apache.commons.lang3.Strings.CI;
 
 /**
  * The utils for {@link org.openqa.selenium.WebElement} and {@link WebComponent}.
@@ -94,7 +95,7 @@ public class WebComponentUtils {
     public static boolean styleContains(WebElement element, String styleName, String styleValue) {
         return stream(element.getDomAttribute("style").split(";")).map(
                         str -> stream(str.split(":")).map(String::strip).collect(Collectors.joining(":")))
-                .anyMatch(str -> StringUtils.equalsIgnoreCase(str, styleName + ":" + styleValue));
+                .anyMatch(str -> CI.equals(str, styleName + ":" + styleValue));
     }
 
     /**

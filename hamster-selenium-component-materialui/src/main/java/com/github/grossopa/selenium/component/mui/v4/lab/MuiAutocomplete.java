@@ -53,6 +53,7 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static org.apache.commons.lang3.Strings.CS;
 
 /**
  * The autocomplete is a normal text input enhanced by a panel of suggested options.
@@ -339,7 +340,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     public void selectByVisibleText(String text, Long delayInMillis) {
         List<WebComponent> options = getOptions2(delayInMillis);
         for (WebComponent option : options) {
-            if (StringUtils.equals(text, option.getText())) {
+            if (CS.equals(text, option.getText())) {
                 option.click();
                 return;
             }
@@ -350,7 +351,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     public void selectByContainsVisibleText(String text, Long delayInMillis) {
         List<WebComponent> options = getOptions2(delayInMillis);
         for (WebComponent option : options) {
-            if (StringUtils.contains(option.getText(), text)) {
+            if (CS.contains(option.getText(), text)) {
                 option.click();
                 return;
             }
@@ -404,7 +405,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     public void deselectByValue(String value) {
         List<MuiAutocompleteTag> options = getVisibleTags();
         for (MuiAutocompleteTag option : options) {
-            if (StringUtils.equals(value, option.getValue())) {
+            if (CS.equals(value, option.getValue())) {
                 option.getDeleteButton().click();
                 // return here as all components will be recreated after removing the element that caused
                 // the options are not valid after deletion. A potential side effect is that the deselect action
@@ -435,7 +436,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     public void deselectByVisibleText(String text) {
         List<MuiAutocompleteTag> options = getVisibleTags();
         for (MuiAutocompleteTag option : options) {
-            if (StringUtils.equals(text, option.getLabel())) {
+            if (CS.equals(text, option.getLabel())) {
                 option.getDeleteButton().click();
                 // return here as all components will be recreated after removing the element that caused
                 // the options are not valid after deletion. A potential side effect is that the deselect action
@@ -449,7 +450,7 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
     public void deSelectByContainsVisibleText(String text) {
         List<MuiAutocompleteTag> options = getVisibleTags();
         for (MuiAutocompleteTag option : options) {
-            if (StringUtils.contains(option.getLabel(), text)) {
+            if (CS.contains(option.getLabel(), text)) {
                 option.getDeleteButton().click();
                 // return here as all components will be recreated after removing the element that caused
                 // the options are not valid after deletion. A potential side effect is that the deselect action
@@ -551,13 +552,12 @@ public class MuiAutocomplete extends AbstractMuiComponent implements Select, Del
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MuiAutocomplete)) {
+        if (!(o instanceof MuiAutocomplete that)) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
-        MuiAutocomplete that = (MuiAutocomplete) o;
         return modalFinder.equals(that.modalFinder) && optionLocator.equals(that.optionLocator)
                 && openOptionsAction.equals(that.openOptionsAction) && closeOptionsAction.equals(
                 that.closeOptionsAction) && tagLocators.equals(that.tagLocators);

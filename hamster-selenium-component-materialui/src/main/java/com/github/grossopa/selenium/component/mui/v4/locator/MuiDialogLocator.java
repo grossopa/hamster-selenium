@@ -33,7 +33,6 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Locates the global {@link MuiDialog}.
@@ -68,7 +67,7 @@ public class MuiDialogLocator {
         return driver.findComponents(By.xpath(
                 String.format("%s/div[contains(@class, '%s')]", config.getOverlayAbsolutePath(),
                         config.getCssPrefix() + "Dialog-root"))).stream()
-                .map(component -> new MuiDialog(component, driver, config)).collect(toList());
+                .map(component -> new MuiDialog(component, driver, config)).toList();
     }
 
     /**
@@ -77,6 +76,6 @@ public class MuiDialogLocator {
      * @return all founded visible dialogs.
      */
     public List<MuiDialog> findVisibleDialogs() {
-        return findAllDialogs().stream().filter(WebElement::isDisplayed).collect(toList());
+        return findAllDialogs().stream().filter(WebElement::isDisplayed).toList();
     }
 }

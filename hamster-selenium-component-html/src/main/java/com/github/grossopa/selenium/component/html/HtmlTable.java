@@ -34,7 +34,6 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 
 /**
  * Represents the native HTML table element.
@@ -115,8 +114,8 @@ public class HtmlTable extends DefaultWebComponent implements Table {
 
         List<String> header = headerContainers.get(0).findElements(getHeaderColsLocator()).stream()
                 .map(WebElement::getText).toList();
-        return headerContainers.stream().map(e -> new HtmlTableRow(e, driver, getHeaderColsLocator(), header))
-                .collect(toList());
+        return headerContainers.stream().<TableRow>map(e -> new HtmlTableRow(e, driver, getHeaderColsLocator(), header))
+                .toList();
     }
 
     @Override
@@ -138,7 +137,7 @@ public class HtmlTable extends DefaultWebComponent implements Table {
     @Override
     public List<TableRow> getBodyRows() {
         return element.findElements(getRowsLocator()).stream()
-                .map(e -> new HtmlTableRow(e, driver, getColsLocator(), getHeaderLabels())).collect(toList());
+                .<TableRow>map(e -> new HtmlTableRow(e, driver, getColsLocator(), getHeaderLabels())).toList();
     }
 
     /**

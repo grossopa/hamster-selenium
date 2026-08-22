@@ -107,7 +107,7 @@ class MuiPickersBasePickerContainerTest {
 
         WebElement toolbarElement = mock(WebElement.class);
         MuiToolbar toolbar = new MuiToolbar(toolbarElement, driver, config);
-        when(toolbarElement.findElements(By2.className("MuiButton-root")))
+        when(toolbarElement.findElements(By.className("MuiButton-root")))
                 .thenReturn(newArrayList(button1Element, button2Element, button3Element));
 
         when(element.findElement(By.className("MuiToolbar-root"))).thenReturn(toolbar);

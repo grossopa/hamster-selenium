@@ -40,7 +40,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.*;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Tabs make it easy to explore and switch between different views.
@@ -85,7 +84,7 @@ public class MuiTabs extends AbstractMuiComponent {
      */
     public List<MuiTab> getTabs() {
         return this.findComponents(By.className(config.getRootCss("Tab"))).stream()
-                .map(component -> new MuiTab(component, driver, config)).collect(toList());
+                .map(component -> new MuiTab(component, driver, config)).toList();
     }
 
     /**
@@ -118,7 +117,7 @@ public class MuiTabs extends AbstractMuiComponent {
 
     private List<MuiTabScrollButton> findTabScrollButtons() {
         return this.findComponents(By2.attrContains(CLASS, config.getCssPrefix() + "TabScrollButton-root")).stream()
-                .map(component -> new MuiTabScrollButton(component, driver, config)).collect(toList());
+                .map(component -> new MuiTabScrollButton(component, driver, config)).toList();
     }
 
     /**

@@ -36,7 +36,6 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static java.util.stream.Collectors.toList;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
@@ -82,6 +81,6 @@ public class MuiButtonGroup extends AbstractMuiComponent {
      */
     public List<MuiButton> getButtons() {
         return element.findElements(config.buttonLocator()).stream()
-                .map(button -> new MuiButton(button, driver, config)).collect(toList());
+                .map(button -> new MuiButton(button, driver, config)).toList();
     }
 }

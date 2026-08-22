@@ -35,7 +35,6 @@ import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.google.common.collect.Lists.newArrayList;
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -69,7 +68,7 @@ class MuiCalendarViewTest {
                 dayButtons);
         when(element.findElements(
                 By.xpath(".//button[contains(@class,'MuiPickersDay-root') and contains(@class,'Mui-selected')]"))).then(
-                a -> dayButtons.stream().filter(WebElement::isSelected).collect(toList()));
+                a -> dayButtons.stream().filter(WebElement::isSelected).toList());
 
         when(element.findElement(
                 By.xpath(".//button[contains(@class,'MuiPickersDay-root') and contains(@class,'Mui-selected')]"))).then(

@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
 
 import static com.github.grossopa.playwright.core.intercepting.InterceptingMethods.*;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Intercepting the Locator actions with customized handlers.
@@ -529,7 +528,10 @@ public class InterceptingLocator implements Locator {
         }, MethodInfo.create(locator, LOCATOR_TAP));
     }
 
-    @Deprecated(since="1.12.0")
+    /**
+     * @deprecated use {@link #fill(String, FillOptions)} instead.
+     */
+    @Deprecated(since = "1.12.0", forRemoval = true)
     @Override
     public void type(String text, TypeOptions options) {
         handler.execute(() -> {
@@ -538,7 +540,10 @@ public class InterceptingLocator implements Locator {
         }, MethodInfo.create(locator, LOCATOR_TYPE, text, options));
     }
 
-    @Deprecated(since="1.12.0")
+    /**
+     * @deprecated use {@link #fill(String)} instead.
+     */
+    @Deprecated(since = "1.12.0", forRemoval = true)
     @Override
     public void type(String text) {
         handler.execute(() -> {
@@ -827,9 +832,8 @@ public class InterceptingLocator implements Locator {
 
     @Override
     public List<Locator> all() {
-        return handler.execute(() -> locator.all().stream()
-                        .map(l -> new InterceptingLocator(l, handler))
-                        .collect(toList()),
+        return handler.execute(() -> locator.all().stream().<Locator>map(l -> new InterceptingLocator(l, handler))
+                        .toList(),
                 MethodInfo.create(locator, LOCATOR_ALL));
     }
 

@@ -78,10 +78,10 @@ class MuiBreadcrumbsTest {
         when(config.getCssPrefix()).thenReturn("Mui");
         List<WebElement> itemContainers = asList(createItemContainer("Home"), createItemContainer("b1"),
                 createItemContainer("b2"));
-        when(element.findElements(By2.className("MuiBreadcrumbs-li"))).thenReturn(itemContainers);
+        when(element.findElements(By.className("MuiBreadcrumbs-li"))).thenReturn(itemContainers);
         when(element.findElements(By.className("MuiTouchRipple-root"))).thenReturn(new ArrayList<>());
         List<WebElement> separators = asList(createSeparator(), createSeparator());
-        when(element.findElements(By2.className("MuiBreadcrumbs-separator"))).thenReturn(separators);
+        when(element.findElements(By.className("MuiBreadcrumbs-separator"))).thenReturn(separators);
         when(touchRipple.findElement(By.xpath("parent::*"))).thenReturn(touchRippleParent);
 
         testSubject = new MuiBreadcrumbs(element, driver, config);

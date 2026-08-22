@@ -38,6 +38,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
+import static org.apache.commons.lang3.Strings.CS;
 import static org.openqa.selenium.Keys.ESCAPE;
 
 /**
@@ -116,7 +117,7 @@ public class MatMenu extends AbstractMatComponent {
      * @throws MenuItemNotFoundException when no matching menu items
      */
     public MatMenu expandItemByText(String text, long animationInMillis, long topMenuDelayInMillis) {
-        return actionBy(menuItem -> StringUtils.equals(text, menuItem.getText()),
+        return actionBy(menuItem -> CS.equals(text, menuItem.getText()),
                 menuItem -> menuItem.expand(animationInMillis, topMenuDelayInMillis));
     }
 
@@ -127,7 +128,7 @@ public class MatMenu extends AbstractMatComponent {
      * @throws MenuItemNotFoundException when no matching menu items
      */
     public void selectItemByText(String text) {
-        actionBy(menuItem -> StringUtils.equals(text, menuItem.getText()), menuItem -> {
+        actionBy(menuItem -> CS.equals(text, menuItem.getText()), menuItem -> {
             menuItem.click();
             return null;
         });

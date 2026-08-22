@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.DoubleUnaryOperator;
-import java.util.stream.Collectors;
 
 import static com.github.grossopa.playwright.component.mui.MuiVersion.*;
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
@@ -247,7 +246,7 @@ public class MuiSlider extends AbstractMuiComponent {
     public List<MuiSliderThumb> getAllThumbs() {
         return findComponents(config.sliderThumbLocator()).stream()
                 .map(thumb -> new MuiSliderThumb(thumb.locator(), driver, config))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

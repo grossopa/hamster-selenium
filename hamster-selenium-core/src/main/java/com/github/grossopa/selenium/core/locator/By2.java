@@ -76,11 +76,17 @@ import org.openqa.selenium.By;
 public abstract class By2 extends By {
 
     /**
+     * The common XPath prefix for relative descendant element searches.
+     */
+    private static final String XPATH_PREFIX = ".//*[";
+
+    /**
      * Finds by id.
      *
      * @param id The value of the "id" attribute to search for.
      * @return A By which locates elements by the value of the "id" attribute.
      */
+    @SuppressWarnings("java:S9149")
     public static By id(String id) {
         return By.id(id);
     }
@@ -91,6 +97,7 @@ public abstract class By2 extends By {
      * @param linkText The exact text to match against.
      * @return A By which locates A elements by the exact text it displays.
      */
+    @SuppressWarnings("java:S9149")
     public static By linkText(String linkText) {
         return By.linkText(linkText);
     }
@@ -101,6 +108,7 @@ public abstract class By2 extends By {
      * @param partialLinkText The partial text to match against
      * @return a By which locates elements that contain the given link text.
      */
+    @SuppressWarnings("java:S9149")
     public static By partialLinkText(String partialLinkText) {
         return By.partialLinkText(partialLinkText);
     }
@@ -111,6 +119,7 @@ public abstract class By2 extends By {
      * @param name The value of the "name" attribute to search for.
      * @return A By which locates elements by the value of the "name" attribute.
      */
+    @SuppressWarnings("java:S9149")
     public static By name(String name) {
         return By.name(name);
     }
@@ -121,6 +130,7 @@ public abstract class By2 extends By {
      * @param tagName The element's tag name.
      * @return A By which locates elements by their tag name.
      */
+    @SuppressWarnings("java:S9149")
     public static By tagName(String tagName) {
         return By.tagName(tagName);
     }
@@ -131,6 +141,7 @@ public abstract class By2 extends By {
      * @param xpathExpression The XPath to use.
      * @return A By which locates elements via XPath.
      */
+    @SuppressWarnings("java:S9149")
     public static By xpath(String xpathExpression) {
         return By.xpath(xpathExpression);
     }
@@ -143,6 +154,7 @@ public abstract class By2 extends By {
      * @param className The value of the "class" attribute to search for.
      * @return A By which locates elements by the value of the "class" attribute.
      */
+    @SuppressWarnings("java:S9149")
     public static By className(String className) {
         return By.className(className);
     }
@@ -155,6 +167,7 @@ public abstract class By2 extends By {
      * @param cssSelector CSS expression.
      * @return A By which locates elements by CSS.
      */
+    @SuppressWarnings("java:S9149")
     public static By cssSelector(String cssSelector) {
         return By.cssSelector(cssSelector);
     }
@@ -268,7 +281,7 @@ public abstract class By2 extends By {
     public static By visible(By baseLocator) {
         // Note: This is a simplified implementation. Actual visibility checking 
         // is more complex and usually handled at the WebDriver level.
-        return By.xpath(".//*[" + xpathFromBy(baseLocator) + " and not(@hidden) and not(contains(@style,'display:none'))]");
+        return By.xpath(XPATH_PREFIX + xpathFromBy(baseLocator) + " and not(@hidden) and not(contains(@style,'display:none'))]");
     }
     
     /**
@@ -285,7 +298,7 @@ public abstract class By2 extends By {
      * @since 1.6
      */
     public static By enabled(By baseLocator) {
-        return By.xpath(".//*[" + xpathFromBy(baseLocator) + " and not(@disabled)]");
+        return By.xpath(XPATH_PREFIX + xpathFromBy(baseLocator) + " and not(@disabled)]");
     }
     
     /**
@@ -302,7 +315,7 @@ public abstract class By2 extends By {
      * @since 1.6
      */
     public static By selected(By baseLocator) {
-        return By.xpath(".//*[" + xpathFromBy(baseLocator) + " and (@selected or @checked)]");
+        return By.xpath(XPATH_PREFIX + xpathFromBy(baseLocator) + " and (@selected or @checked)]");
     }
     
     /**
@@ -320,7 +333,7 @@ public abstract class By2 extends By {
      * @since 1.6
      */
     public static By index(By baseLocator, int index) {
-        return By.xpath(".//*[" + xpathFromBy(baseLocator) + "][" + (index + 1) + "]");
+        return By.xpath(XPATH_PREFIX + xpathFromBy(baseLocator) + "][" + (index + 1) + "]");
     }
     
     /**
@@ -342,7 +355,7 @@ public abstract class By2 extends By {
      * @since 1.6
      */
     public static By cssPropertyValue(By baseLocator, String cssProperty, String cssValue) {
-        return By.xpath(".//*[" + xpathFromBy(baseLocator) + " and contains(@style, '" + cssProperty + ":" + cssValue + "')]");
+        return By.xpath(XPATH_PREFIX + xpathFromBy(baseLocator) + " and contains(@style, '" + cssProperty + ":" + cssValue + "')]");
     }
     
     /**
@@ -362,7 +375,7 @@ public abstract class By2 extends By {
             throw new IllegalArgumentException("At least one locator must be provided");
         }
         
-        StringBuilder xpath = new StringBuilder(".//*[");
+        StringBuilder xpath = new StringBuilder(XPATH_PREFIX);
         for (int i = 0; i < locators.length; i++) {
             if (i > 0) {
                 xpath.append(" and ");

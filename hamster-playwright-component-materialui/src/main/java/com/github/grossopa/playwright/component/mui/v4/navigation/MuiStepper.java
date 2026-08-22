@@ -36,7 +36,6 @@ import com.microsoft.playwright.Locator;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.github.grossopa.playwright.component.mui.MuiVersion.V4;
 import static com.github.grossopa.playwright.component.mui.MuiVersion.V5;
@@ -142,6 +141,6 @@ public class MuiStepper extends AbstractMuiComponent {
                         return "";
                     }
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 }

@@ -76,7 +76,7 @@ class MatAutocompleteTest {
     WebElement inputElement = mock(WebElement.class);
 
     private void mockAutocompletePanelPresent() {
-        when(overlayContainer.findComponents(By2.className("mat-autocomplete-panel"))).thenReturn(
+        when(overlayContainer.findComponents(By.className("mat-autocomplete-panel"))).thenReturn(
                 newArrayList(autocompletePanel));
         when(autocompletePanel.isDisplayed()).thenReturn(true);
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
@@ -91,7 +91,7 @@ class MatAutocompleteTest {
     }
 
     private void mockAutocompletePanelNotFound1() {
-        when(overlayContainer.findComponents(By2.className("mat-autocomplete-panel"))).thenReturn(newArrayList());
+        when(overlayContainer.findComponents(By.className("mat-autocomplete-panel"))).thenReturn(newArrayList());
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
     }
 
@@ -100,7 +100,7 @@ class MatAutocompleteTest {
     }
 
     private void mockAutocompletePanelNotFound3() {
-        when(overlayContainer.findComponents(By2.className("mat-autocomplete-panel"))).thenReturn(
+        when(overlayContainer.findComponents(By.className("mat-autocomplete-panel"))).thenReturn(
                 newArrayList(autocompletePanel));
         when(autocompletePanel.isDisplayed()).thenReturn(false);
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
@@ -297,7 +297,7 @@ class MatAutocompleteTest {
     void closeOptions1AlreadyClosed() {
         this.mockAutocompletePanelNotFound1();
         testSubject.closeOptions();
-        assertTrue(overlayContainer.findComponents(By2.className("mat-autocomplete-panel")).isEmpty());
+        assertTrue(overlayContainer.findComponents(By.className("mat-autocomplete-panel")).isEmpty());
         verify(closeOptionsAction, never()).close(any(), any(), any());
     }
 
@@ -305,7 +305,7 @@ class MatAutocompleteTest {
     void closeOptionsSuccessful1() {
         this.mockAutocompletePanelCloseSuccessful1();
         testSubject.closeOptions();
-        assertTrue(overlayContainer.findComponents(By2.className("mat-autocomplete-panel")).isEmpty());
+        assertTrue(overlayContainer.findComponents(By.className("mat-autocomplete-panel")).isEmpty());
         verify(closeOptionsAction, times(1)).close(any(), any(), any());
     }
 

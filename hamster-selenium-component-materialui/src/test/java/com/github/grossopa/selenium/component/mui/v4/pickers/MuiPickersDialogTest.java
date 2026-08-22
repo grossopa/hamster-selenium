@@ -105,13 +105,13 @@ class MuiPickersDialogTest {
     @Test
     void getOkButtonLocator2() {
         testSubject = new MuiPickersDialog(element, driver, config, By.className("333"), By.className("444"));
-        assertEquals(By2.className("333"), testSubject.getOkButtonLocator());
+        assertEquals(By.className("333"), testSubject.getOkButtonLocator());
     }
 
     @Test
     void getCancelButtonLocator2() {
         testSubject = new MuiPickersDialog(element, driver, config, By.className("333"), By.className("444"));
-        assertEquals(By2.className("444"), testSubject.getCancelButtonLocator());
+        assertEquals(By.className("444"), testSubject.getCancelButtonLocator());
     }
 
     @Test

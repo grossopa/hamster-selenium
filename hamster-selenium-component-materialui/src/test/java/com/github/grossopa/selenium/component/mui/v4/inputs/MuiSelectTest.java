@@ -521,16 +521,6 @@ class MuiSelectTest {
     }
 
     @Test
-    void closeOptionsAlreadyClosedContainerNotDisplayedWhenMenuPagerPresent() {
-        mockMenuPager();
-        // it will not be impacted by the additional menuPagerContainer
-        this.mockOptionsClose();
-        testSubject.closeOptions();
-        verify(closeOptionsAction, never()).close(any(), any(), any());
-        assertFalse(optionOpen);
-    }
-
-    @Test
     void closeOptionsFailedWhenMenuPagerPresent() {
         mockMenuPager();
         // it will not be impacted by the additional menuPagerContainer

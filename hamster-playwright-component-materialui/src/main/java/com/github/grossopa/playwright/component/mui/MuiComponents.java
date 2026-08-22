@@ -123,9 +123,7 @@ public class MuiComponents extends AbstractComponents {
         return new MuiComponents(config);
     }
 
-    ///////////////////////
-    // Inputs Components //
-    ///////////////////////
+    // Inputs Components
 
     /**
      * Converts the current component to {@link MuiButton}.
@@ -226,9 +224,7 @@ public class MuiComponents extends AbstractComponents {
         return new MuiRadioGroup(component.locator(), driver, config);
     }
 
-    /////////////////////////////
-    // Data Display Components //
-    /////////////////////////////
+    // Data Display Components
 
     /**
      * Converts the current component to {@link MuiAvatar}.
@@ -293,9 +289,7 @@ public class MuiComponents extends AbstractComponents {
         return new MuiTooltip(component.locator(), driver, config);
     }
 
-    ////////////////////////
-    // Feedback Components //
-    ////////////////////////
+    // Feedback Components
 
     /**
      * Converts the current component to {@link MuiAlert}.
@@ -351,9 +345,7 @@ public class MuiComponents extends AbstractComponents {
         return new MuiSnackbarContent(component.locator(), driver, config);
     }
 
-    //////////////////////////
-    // Navigation Components //
-    //////////////////////////
+    // Navigation Components
 
     /**
      * Converts the current component to {@link MuiAccordion}.
@@ -489,9 +481,7 @@ public class MuiComponents extends AbstractComponents {
         return new MuiAccordionSummary(component.locator(), driver, config);
     }
 
-    /////////////////////////
-    // Surface Components //
-    /////////////////////////
+    // Surface Components
 
     /**
      * Converts the current component to {@link MuiAppBar}.
@@ -529,9 +519,7 @@ public class MuiComponents extends AbstractComponents {
         return new MuiToolbar(component.locator(), driver, config);
     }
 
-    //////////////////////
-    // Core Components //
-    //////////////////////
+    // Core Components
 
     /**
      * Converts the current component to {@link MuiGrid}.
@@ -560,9 +548,7 @@ public class MuiComponents extends AbstractComponents {
         return new MuiBox(component.locator(), driver, config);
     }
 
-    /////////////////////
-    // Lab Components //
-    /////////////////////
+    // Lab Components
 
     /**
      * Converts the current component to {@link MuiAutocomplete}.

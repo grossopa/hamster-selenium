@@ -29,7 +29,6 @@ import com.microsoft.playwright.Locator;
 import java.util.List;
 import java.util.function.Function;
 
-import static java.util.stream.Collectors.toList;
 
 /**
  * The default implementation of {@link WebComponent}
@@ -52,7 +51,7 @@ public class DefaultWebComponent extends AbstractDelegatedLocator implements Web
 
     @Override
     public List<WebComponent> findComponents(String selector) {
-        return locator.locator(selector).all().stream().map(l -> new DefaultWebComponent(l, driver)).collect(toList());
+        return locator.locator(selector).all().stream().<WebComponent>map(l -> new DefaultWebComponent(l, driver)).toList();
     }
 
     @Override

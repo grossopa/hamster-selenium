@@ -40,7 +40,6 @@ import java.util.Set;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
-import static java.util.stream.Collectors.toList;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 
 /**
@@ -96,7 +95,7 @@ public class MuiBreadcrumbs extends AbstractMuiComponent {
      */
     public List<WebComponent> getItems() {
         return this.findComponents(getItemContainersLocator()).stream()
-                .map(component -> component.findComponent(By.xpath(".//*"))).collect(toList());
+                .map(component -> component.findComponent(By.xpath(".//*"))).toList();
     }
 
     /**

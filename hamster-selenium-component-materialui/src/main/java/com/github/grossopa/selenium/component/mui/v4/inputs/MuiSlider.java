@@ -44,7 +44,6 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 /**
  * A MUI Slider wrapper that provides comprehensive slider manipulation capabilities.
@@ -340,7 +339,7 @@ public class MuiSlider extends AbstractMuiComponent implements Slider<MuiSliderT
     @Override
     public List<MuiSliderThumb> getAllThumbs() {
         return element.findElements(config.sliderThumbLocator()).stream().map(this::createSliderThumb)
-                .collect(toList());
+                .toList();
     }
 
     /**

@@ -34,7 +34,6 @@ import java.util.Objects;
 
 import static com.github.grossopa.selenium.core.intercepting.InterceptingMethods.*;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Intercepting the actions with customized handlers.
@@ -125,8 +124,8 @@ public class InterceptingWebElement extends AbstractDelegatedWebElement {
 
     @Override
     public List<WebElement> findElements(By by) {
-        return handler.execute(() -> super.findElements(by).stream().map(el -> new InterceptingWebElement(el, handler))
-                .collect(toList()), MethodInfo.create(element, ELEMENT_FIND_ELEMENTS, by));
+        return handler.execute(() -> super.findElements(by).stream().<WebElement>map(el -> new InterceptingWebElement(el, handler))
+                .toList(), MethodInfo.create(element, ELEMENT_FIND_ELEMENTS, by));
     }
 
     @Override
