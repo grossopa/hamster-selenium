@@ -82,6 +82,14 @@ class LoggingHandlerTest {
     }
 
     @Test
+    void testOnAfterWithNullElapsedTime() {
+        MethodInfo<Object> info = MethodInfo.create(new Object(), "test");
+        // do not call executionDone(), so getTimeElapsedInMillis() returns null
+        assertDoesNotThrow(() -> handler.onAfter(info, "result"));
+        verify(logger).log(eq(Level.INFO), any(java.util.function.Supplier.class));
+    }
+
+    @Test
     void testOnException() {
         MethodInfo<Object> info = MethodInfo.create(new Object(), "test");
         info.executionDone();

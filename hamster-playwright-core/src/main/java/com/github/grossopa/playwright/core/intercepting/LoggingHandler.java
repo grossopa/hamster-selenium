@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
 import static java.util.logging.Level.WARNING;
+import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 
 /**
  * Prints log before, after and when exception happens with time spent in millisecond.
@@ -71,7 +72,7 @@ public class LoggingHandler implements InterceptingHandler {
 
     @Override
     public void onAfter(MethodInfo<?> methodInfo, Object resultValue) {
-        if (methodInfo.getTimeElapsedInMillis() >= thresholdInMillis) {
+        if (getIfNull(methodInfo.getTimeElapsedInMillis(), 0L) >= thresholdInMillis) {
             log.log(Level.INFO, () -> format("Method {0} with params {1} on source {2} finished in {3} ms with result {4}",
                     methodInfo.getName(), methodInfo.getParams(), methodInfo.getSource(),
                     methodInfo.getTimeElapsedInMillis(), resultValue));
