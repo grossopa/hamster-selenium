@@ -78,8 +78,8 @@ public class DefaultComponentDriver extends AbstractComponentDriver {
 
     @Override
     public WebComponent mapLocator(Object locator) {
-        if (locator instanceof WebComponent) {
-            return (WebComponent) locator;
+        if (locator instanceof WebComponent webComponent) {
+            return webComponent;
         }
         return new DefaultWebComponent((Locator) locator, this);
     }

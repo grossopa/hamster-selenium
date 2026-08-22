@@ -104,10 +104,10 @@ public class LoggingHandler implements InterceptingHandler {
     @SuppressWarnings({"rawtypes", "java:S6212"})
     private String buildResultString(Object resultValue) {
         String result = "      Result: {0}\n";
-        if (resultValue instanceof Map) {
-            result = "      Result: count: " + ((Map) resultValue).size() + ", {0}\n";
-        } else if (resultValue instanceof Collection) {
-            result = "      Result: count: " + ((Collection) resultValue).size() + ", {0}\n";
+        if (resultValue instanceof Map map) {
+            result = "      Result: count: " + map.size() + ", {0}\n";
+        } else if (resultValue instanceof Collection coll) {
+            result = "      Result: count: " + coll.size() + ", {0}\n";
         }
         return format(result, resultValue);
     }

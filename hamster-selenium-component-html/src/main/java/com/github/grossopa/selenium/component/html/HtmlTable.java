@@ -114,7 +114,7 @@ public class HtmlTable extends DefaultWebComponent implements Table {
         }
 
         List<String> header = headerContainers.get(0).findElements(getHeaderColsLocator()).stream()
-                .map(WebElement::getText).collect(toList());
+                .map(WebElement::getText).toList();
         return headerContainers.stream().map(e -> new HtmlTableRow(e, driver, getHeaderColsLocator(), header))
                 .collect(toList());
     }
@@ -127,7 +127,7 @@ public class HtmlTable extends DefaultWebComponent implements Table {
         }
 
         return headerContainers.get(0).findElements(getHeaderColsLocator()).stream().map(WebElement::getText)
-                .collect(toList());
+                .toList();
     }
 
     @Override

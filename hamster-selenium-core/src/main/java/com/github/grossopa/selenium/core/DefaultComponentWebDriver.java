@@ -79,8 +79,8 @@ public class DefaultComponentWebDriver extends AbstractComponentWebDriver {
     @Override
     public WebComponent mapElement(WebElement element) {
         // if given element is already a web component then do nothing and return.
-        if (element instanceof WebComponent) {
-            return (WebComponent) element;
+        if (element instanceof WebComponent webComponent) {
+            return webComponent;
         }
         WebElement decoratedElement = decorator.decorate(element, driver);
         return new DefaultWebComponent(decoratedElement, this, this.decorator);

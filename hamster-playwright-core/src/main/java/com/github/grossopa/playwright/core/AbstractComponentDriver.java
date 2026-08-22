@@ -29,8 +29,6 @@ import com.microsoft.playwright.*;
 import java.util.List;
 import java.util.function.Function;
 
-import static java.util.stream.Collectors.toList;
-
 /**
  * The abstract implementation of {@link ComponentDriver} with generic type support.
  *
@@ -73,7 +71,7 @@ public abstract class AbstractComponentDriver implements ComponentDriver {
 
     @Override
     public List<WebComponent> findComponents(String selector) {
-        return page.locator(selector).all().stream().map(this::mapLocator).collect(toList());
+        return page.locator(selector).all().stream().map(this::mapLocator).toList();
     }
 
     @Override
@@ -83,7 +81,7 @@ public abstract class AbstractComponentDriver implements ComponentDriver {
 
     @Override
     public <T> List<T> findComponentsAs(String selector, Function<WebComponent, T> mappingFunction) {
-        return findComponents(selector).stream().map(mappingFunction).collect(toList());
+        return findComponents(selector).stream().map(mappingFunction).toList();
     }
 
     @Override

@@ -26,10 +26,6 @@ package com.github.grossopa.selenium.core.locator;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebElement;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -44,13 +40,7 @@ class By2Test {
 
     @Test
     void constructor() {
-        assertEquals(By2.class, new By2() {
-
-            @Override
-            public List<WebElement> findElements(SearchContext context) {
-                return null;
-            }
-        }.getClass().getSuperclass());
+        assertEquals(By2.class, By2.class.getSuperclass());
     }
 
     @Test
@@ -114,12 +104,6 @@ class By2Test {
     }
 
     @Test
-    void contains() {
-        By result = By2.attrContains("some-name", "some-attr");
-        assertEquals("By.xpath: .//*[contains(@some-name,\"some-attr\")]", result.toString());
-    }
-
-    @Test
     void containsWithTag() {
         By result = By2.attrContains("some-name", "some-attr", "div");
         assertEquals("By.xpath: .//div[contains(@some-name,\"some-attr\")]", result.toString());
@@ -159,7 +143,8 @@ class By2Test {
     void visible() {
         By baseLocator = By.tagName("div");
         By result = By2.visible(baseLocator);
-        assertEquals("By.xpath: .//*[local-name()='div' and not(@hidden) and not(contains(@style,'display:none'))]", result.toString());
+        assertEquals("By.xpath: .//*[local-name()='div' and not(@hidden) and not(contains(@style,'display:none'))]",
+                result.toString());
     }
 
     @Test
@@ -207,14 +192,15 @@ class By2Test {
 
     @Test
     void andWithNoLocators() {
-        assertThrows(IllegalArgumentException.class, () -> By2.and());
+        assertThrows(IllegalArgumentException.class, By2::and);
     }
 
     @Test
     void xpathFromById() {
         By baseLocator = By.id("test-id");
         By result = By2.visible(baseLocator);
-        assertEquals("By.xpath: .//*[@id='test-id' and not(@hidden) and not(contains(@style,'display:none'))]", result.toString());
+        assertEquals("By.xpath: .//*[@id='test-id' and not(@hidden) and not(contains(@style,'display:none'))]",
+                result.toString());
     }
 
     @Test

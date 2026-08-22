@@ -32,7 +32,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.github.grossopa.selenium.core.intercepting.InterceptingMethods.*;
 import static com.github.grossopa.selenium.core.intercepting.InterceptingTestHelper.afterEachVerify;
@@ -94,7 +93,7 @@ class InterceptingWebDriverTest {
         assertEquals(1, result.size());
         verify(driver, times(1)).findElements(By.id("aa"));
         afterEachVerify(handler, driver, DRIVER_FIND_ELEMENTS,
-                elements.stream().map(el -> new InterceptingWebElement(el, handler)).collect(Collectors.toList()),
+                elements.stream().map(el -> new InterceptingWebElement(el, handler)).toList(),
                 By.id("aa"));
     }
 

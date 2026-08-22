@@ -87,7 +87,7 @@ public interface ComponentConfig {
         }
         try {
             WebElement wrappedElement = component.getWrappedElement();
-            if (wrappedElement != null && !wrappedElement.isEnabled()) {
+            if (!wrappedElement.isEnabled()) {
                 return true;
             }
         } catch (Exception e) {

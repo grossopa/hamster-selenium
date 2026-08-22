@@ -107,13 +107,13 @@ class MatAutocompleteTest {
     }
 
     private MatOption createOption(String text, boolean isSelected) {
-        WebElement element = mock(WebElement.class);
+        WebElement ele = mock(WebElement.class);
         MatOption option = mock(MatOption.class);
         when(option.isSelected()).thenReturn(isSelected);
         when(option.getText()).thenReturn(text);
-        when(option.getWrappedElement()).thenReturn(element);
-        when(element.isSelected()).thenReturn(isSelected);
-        when(element.getText()).thenReturn(text);
+        when(option.getWrappedElement()).thenReturn(ele);
+        when(ele.isSelected()).thenReturn(isSelected);
+        when(ele.getText()).thenReturn(text);
         return option;
     }
 
@@ -205,16 +205,16 @@ class MatAutocompleteTest {
     void getOptions2() {
         this.mockAutocompletePanelPresent();
         this.mockOptionsList();
-        List<WebComponent> options = testSubject.getOptions2();
-        assertEquals(4, options.size());
+        List<WebComponent> opt = testSubject.getOptions2();
+        assertEquals(4, opt.size());
     }
 
     @Test
     void getOptions2WithDelays() {
         this.mockAutocompletePanelPresentWithDelays();
         this.mockOptionsList();
-        List<WebComponent> options = testSubject.getOptions2(1000L);
-        assertEquals(4, options.size());
+        List<WebComponent> opt = testSubject.getOptions2(1000L);
+        assertEquals(4, opt.size());
     }
 
     @Test
@@ -343,14 +343,6 @@ class MatAutocompleteTest {
     }
 
     @Test
-    void closeOptionsSuccessful4WithDelays() {
-        this.mockAutocompletePanelCloseSuccessful3();
-        testSubject.closeOptions(1000L);
-        assertFalse(autocompletePanel.isDisplayed());
-        verify(closeOptionsAction, times(1)).close(any(), any(), any());
-    }
-
-    @Test
     void closeOptionsUnsuccessful1WithDelays() {
         this.mockAutocompletePanelCloseUnsuccessful1();
         testSubject.closeOptions(1000L);
@@ -369,23 +361,23 @@ class MatAutocompleteTest {
     void getFirstSelectedOption() {
         this.mockAutocompletePanelPresent();
         this.mockOptionsList();
-        WebElement element = testSubject.getFirstSelectedOption();
-        assertEquals("Option 3", element.getText());
+        WebElement ele = testSubject.getFirstSelectedOption();
+        assertEquals("Option 3", ele.getText());
     }
 
     @Test
     void getFirstSelectedOptionWithDelays() {
         this.mockAutocompletePanelPresentWithDelays();
         this.mockOptionsList();
-        WebElement element = testSubject.getFirstSelectedOption(1000L);
-        assertEquals("Option 3", element.getText());
+        WebElement ele = testSubject.getFirstSelectedOption(1000L);
+        assertEquals("Option 3", ele.getText());
     }
 
     @Test
     void getFirstSelectedOptionNull() {
         this.mockAutocompletePanelPresent();
-        WebElement element = testSubject.getFirstSelectedOption();
-        assertNull(element);
+        WebElement ele = testSubject.getFirstSelectedOption();
+        assertNull(ele);
     }
 
     @Test

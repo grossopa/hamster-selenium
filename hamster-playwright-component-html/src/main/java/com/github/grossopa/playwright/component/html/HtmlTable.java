@@ -28,12 +28,11 @@ import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.DefaultWebComponent;
 
 import static com.github.grossopa.utils.consts.HtmlConstants.TABLE;
+
 import com.microsoft.playwright.Locator;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * The HTML table component.
@@ -73,7 +72,7 @@ public class HtmlTable extends DefaultWebComponent {
      * @return all the rows as a list
      */
     public List<HtmlTableRow> getRows() {
-        return this.locator.locator("tr").all().stream().map(l -> new HtmlTableRow(l, driver)).collect(toList());
+        return this.locator.locator("tr").all().stream().map(l -> new HtmlTableRow(l, driver)).toList();
     }
 
     /**
@@ -92,7 +91,7 @@ public class HtmlTable extends DefaultWebComponent {
      */
     public List<HtmlTableRow> getHeaderRows() {
         return this.locator.locator("tr:has(th)").all().stream()
-                .map(l -> new HtmlTableRow(l, driver, getHeaderLabels())).collect(toList());
+                .map(l -> new HtmlTableRow(l, driver, getHeaderLabels())).toList();
     }
 
     /**
@@ -106,7 +105,7 @@ public class HtmlTable extends DefaultWebComponent {
             return new ArrayList<>();
         }
         return headerRows.get(0).locator("th").all().stream()
-                .map(Locator::innerText).collect(toList());
+                .map(Locator::innerText).toList();
     }
 
     /**
@@ -136,7 +135,7 @@ public class HtmlTable extends DefaultWebComponent {
     public List<HtmlTableRow> getBodyRows() {
         List<String> headerLabels = getHeaderLabels();
         return this.locator.locator("tr:has(td)").all().stream()
-                .map(l -> new HtmlTableRow(l, driver, headerLabels)).collect(toList());
+                .map(l -> new HtmlTableRow(l, driver, headerLabels)).toList();
     }
 
     /**

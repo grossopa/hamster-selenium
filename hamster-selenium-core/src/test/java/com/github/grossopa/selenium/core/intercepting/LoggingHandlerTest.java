@@ -168,11 +168,11 @@ class LoggingHandlerTest {
     @Test
     @SuppressWarnings("unchecked")
     void onAfterThresholdNoLog() {
-        MethodInfo<String> info = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
+        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
-        info.executionDone();
-        testSubject.onAfter(info, "some-result");
-        assertTrue(10L > info.getTimeElapsedInMillis());
+        methodInfo.executionDone();
+        testSubject.onAfter(methodInfo, "some-result");
+        assertTrue(10L > methodInfo.getTimeElapsedInMillis());
         verify(log, times(0)).info(any(Supplier.class));
     }
 

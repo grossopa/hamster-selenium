@@ -39,7 +39,6 @@ import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.core.util.SeleniumUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -54,8 +53,8 @@ import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 import static com.github.grossopa.selenium.core.locator.By2.tagName;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.google.common.collect.Lists.newArrayList;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.ObjectUtils.getIfNull;
+import static org.apache.commons.lang3.Strings.CS;
 
 /**
  * The autocomplete is a normal text input enhanced by a panel of suggested options.
@@ -169,7 +168,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
 
     @Override
     public List<WebComponent> getAllSelectedOptions2(Long delayInMillis) {
-        return getOptions2().stream().filter(WebElement::isSelected).collect(toList());
+        return getOptions2().stream().filter(WebElement::isSelected).toList();
     }
 
     @Override
@@ -182,7 +181,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
         if (delayInMillis <= 0) {
             autocompletePanel = tryToFindAutocompletePanel();
         } else {
-            autocompletePanel = Optional.of(
+            autocompletePanel = Optional.ofNullable(
                     driver.createWait(delayInMillis).until(d -> tryToFindAutocompletePanel().orElse(null)));
         }
         return autocompletePanel.orElseThrow(
@@ -223,7 +222,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     public void selectByVisibleText(String text, Long delayInMillis) {
         List<WebComponent> options = getOptions2(delayInMillis);
         for (WebComponent option : options) {
-            if (StringUtils.equals(text, option.getText())) {
+            if (CS.equals(text, option.getText())) {
                 option.click();
                 return;
             }
@@ -234,7 +233,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
     public void selectByContainsVisibleText(String text, Long delayInMillis) {
         List<WebComponent> options = getOptions2(delayInMillis);
         for (WebComponent option : options) {
-            if (StringUtils.contains(option.getText(), text)) {
+            if (CS.contains(option.getText(), text)) {
                 option.click();
                 return;
             }
@@ -366,13 +365,12 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MatAutocomplete)) {
+        if (!(o instanceof MatAutocomplete that)) {
             return false;
         }
         if (!super.equals(o)) {
             return false;
         }
-        MatAutocomplete that = (MatAutocomplete) o;
         return overlayFinder.equals(that.overlayFinder) && optionLocator.equals(that.optionLocator);
     }
 

@@ -140,8 +140,8 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         WebComponent testContainer = driver.findComponent(By.id("test-container"));
 
         List<Object> items = SeleniumUtils.findChildNodes(driver, testContainer.getWrappedElement());
-        assertTrue(items.stream().anyMatch(object -> object instanceof Map));
-        assertTrue(items.stream().anyMatch(object -> object instanceof WebElement));
+        assertTrue(items.stream().anyMatch(Map.class::isInstance));
+        assertTrue(items.stream().anyMatch(WebElement.class::isInstance));
 
         List<TextNodeElement> textNodeElements = SeleniumUtils.findChildTextNodes(driver, testContainer, true);
         assertTrue(textNodeElements.stream()

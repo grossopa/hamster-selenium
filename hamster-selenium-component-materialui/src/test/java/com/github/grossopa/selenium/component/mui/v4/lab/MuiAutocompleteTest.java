@@ -243,7 +243,7 @@ class MuiAutocompleteTest {
         assertEquals(overlay, testSubject.openOptions());
         verify(openOptionsAction, times(1)).open(any(), any());
         verify(driver, times(1)).moveTo(
-                argThat(element -> ((WebComponent) element).getWrappedElement() == inputElement));
+                argThat(e -> ((WebComponent) e).getWrappedElement() == inputElement));
     }
 
     @Test

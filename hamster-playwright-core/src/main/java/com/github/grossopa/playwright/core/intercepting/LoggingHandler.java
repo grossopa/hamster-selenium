@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 
 import static java.text.MessageFormat.format;
 import static java.util.Objects.requireNonNull;
+import static java.util.logging.Level.WARNING;
 
 /**
  * Prints log before, after and when exception happens with time spent in millisecond.
@@ -78,9 +79,8 @@ public class LoggingHandler implements InterceptingHandler {
 
     @Override
     public void onException(MethodInfo<?> methodInfo, Exception exception) {
-        log.log(Level.WARNING,
-                format("Method {0} with params {1} on source {2} failed after {3} ms with exception {4}",
+        log.log(WARNING, exception, () -> format("Method {0} with params {1} on source {2} failed after {3} ms with exception {4}",
                         methodInfo.getName(), methodInfo.getParams(), methodInfo.getSource(),
-                        methodInfo.getTimeElapsedInMillis(), exception.getMessage()), exception);
+                        methodInfo.getTimeElapsedInMillis(), exception.getMessage()));
     }
 }

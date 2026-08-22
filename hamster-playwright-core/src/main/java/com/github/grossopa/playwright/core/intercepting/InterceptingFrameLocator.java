@@ -224,21 +224,21 @@ public class InterceptingFrameLocator implements FrameLocator {
                 MethodInfo.create(frameLocator, FRAME_LOCATOR_GET_BY_TITLE, text, options));
     }
 
-    @Deprecated
+    @Deprecated(since="1.12.0")
     @Override
     public FrameLocator first() {
         return handler.execute(() -> new InterceptingFrameLocator(frameLocator.first(), handler),
                 MethodInfo.create(frameLocator, FRAME_LOCATOR_FIRST));
     }
 
-    @Deprecated
+    @Deprecated(since="1.12.0")
     @Override
     public FrameLocator last() {
         return handler.execute(() -> new InterceptingFrameLocator(frameLocator.last(), handler),
                 MethodInfo.create(frameLocator, FRAME_LOCATOR_LAST));
     }
 
-    @Deprecated
+    @Deprecated(since="1.12.0")
     @Override
     public FrameLocator nth(int index) {
         return handler.execute(() -> new InterceptingFrameLocator(frameLocator.nth(index), handler),

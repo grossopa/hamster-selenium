@@ -158,7 +158,7 @@ public class MuiAutocomplete extends AbstractMuiComponent {
         List<WebComponent> chips = findComponents("." + config.getCssPrefix() + "Chip-root");
         return chips.stream()
                 .map(Locator::innerText)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

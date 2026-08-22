@@ -529,7 +529,7 @@ public class InterceptingLocator implements Locator {
         }, MethodInfo.create(locator, LOCATOR_TAP));
     }
 
-    @Deprecated
+    @Deprecated(since="1.12.0")
     @Override
     public void type(String text, TypeOptions options) {
         handler.execute(() -> {
@@ -538,7 +538,7 @@ public class InterceptingLocator implements Locator {
         }, MethodInfo.create(locator, LOCATOR_TYPE, text, options));
     }
 
-    @Deprecated
+    @Deprecated(since="1.12.0")
     @Override
     public void type(String text) {
         handler.execute(() -> {

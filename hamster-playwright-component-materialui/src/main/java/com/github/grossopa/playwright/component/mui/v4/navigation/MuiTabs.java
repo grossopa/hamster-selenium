@@ -88,7 +88,7 @@ public class MuiTabs extends AbstractMuiComponent {
         List<WebComponent> tabElements = findComponents("[role=\"tab\"]");
         return tabElements.stream()
                 .map(tab -> new MuiTab(tab.locator(), driver, config))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

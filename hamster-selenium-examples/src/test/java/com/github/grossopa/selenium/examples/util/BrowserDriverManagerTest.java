@@ -3,7 +3,6 @@ package com.github.grossopa.selenium.examples.util;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Test for BrowserDriverManager utility
  */
-public class BrowserDriverManagerTest extends AbstractBrowserSupport {
+class BrowserDriverManagerTest extends AbstractBrowserSupport {
 
     @Test
-    public void testGetChromeVersion() {
+    void testGetChromeVersion() {
         String version = org.hamster.selenium.examples.util.BrowserDriverManager.getChromeVersion();
         // Version can be null if Chrome is not installed
         System.out.println("Chrome version: " + version);
@@ -25,7 +24,7 @@ public class BrowserDriverManagerTest extends AbstractBrowserSupport {
     }
 
     @Test
-    public void testGetEdgeVersion() {
+    void testGetEdgeVersion() {
         String version = org.hamster.selenium.examples.util.BrowserDriverManager.getEdgeVersion();
         // Version can be null if Edge is not installed
         System.out.println("Edge version: " + version);
@@ -34,7 +33,7 @@ public class BrowserDriverManagerTest extends AbstractBrowserSupport {
     }
 
     @Test
-    public void testDownloadChromeDriver() {
+    void testDownloadChromeDriver() {
         String version = org.hamster.selenium.examples.util.BrowserDriverManager.getChromeVersion();
         if (version != null) {
             String tempDir = System.getProperty("java.io.tmpdir");
@@ -62,7 +61,7 @@ public class BrowserDriverManagerTest extends AbstractBrowserSupport {
     }
 
     @Test
-    public void testDownloadEdgeDriver() {
+    void testDownloadEdgeDriver() {
         String version = org.hamster.selenium.examples.util.BrowserDriverManager.getEdgeVersion();
         if (version != null) {
             String tempDir = System.getProperty("java.io.tmpdir");
@@ -90,7 +89,7 @@ public class BrowserDriverManagerTest extends AbstractBrowserSupport {
     }
     
     @Test
-    public void testChromeVersionDetector() {
+    void testChromeVersionDetector() {
         org.hamster.selenium.examples.util.ChromeVersionDetector detector = 
             new org.hamster.selenium.examples.util.ChromeVersionDetector();
         String version = detector.getVersion();
@@ -100,7 +99,7 @@ public class BrowserDriverManagerTest extends AbstractBrowserSupport {
     }
     
     @Test
-    public void testEdgeVersionDetector() {
+    void testEdgeVersionDetector() {
         org.hamster.selenium.examples.util.EdgeVersionDetector detector = 
             new org.hamster.selenium.examples.util.EdgeVersionDetector();
         String version = detector.getVersion();

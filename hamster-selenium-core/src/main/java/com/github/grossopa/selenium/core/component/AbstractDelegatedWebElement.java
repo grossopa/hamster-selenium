@@ -24,6 +24,7 @@
 
 package com.github.grossopa.selenium.core.component;
 
+import jakarta.annotation.Nonnull;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
 import org.openqa.selenium.interactions.Locatable;
@@ -55,8 +56,8 @@ public abstract class AbstractDelegatedWebElement
         requireNonNull(element);
         WebElement targetElement = element;
 
-        while (targetElement instanceof WebComponent) {
-            targetElement = ((WebComponent) targetElement).getWrappedElement();
+        while (targetElement instanceof WebComponent webComponent) {
+            targetElement = webComponent.getWrappedElement();
         }
 
         requireNonNull(targetElement);
@@ -74,7 +75,7 @@ public abstract class AbstractDelegatedWebElement
     }
 
     @Override
-    public void sendKeys(CharSequence... keysToSend) {
+    public void sendKeys(@Nonnull CharSequence... keysToSend) {
         element.sendKeys(keysToSend);
     }
 

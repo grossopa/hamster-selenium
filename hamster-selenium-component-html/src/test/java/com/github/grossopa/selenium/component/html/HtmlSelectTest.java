@@ -44,7 +44,6 @@ import static org.mockito.Mockito.*;
  * @author Jack Yin
  * @since 1.0
  */
-@SuppressWarnings("deprecation")
 class HtmlSelectTest {
 
     HtmlSelect testSubject;
@@ -53,19 +52,19 @@ class HtmlSelectTest {
     List<WebElement> options;
 
     private WebElement createOption(String value, String label, Integer index, boolean selected) {
-        WebElement element = mock(WebElement.class);
-        when(element.getDomAttribute("value")).thenReturn(value);
-        when(element.getAttribute("value")).thenReturn(value);
-        when(element.getText()).thenReturn(label);
-        when(element.getDomAttribute("index")).thenReturn(String.valueOf(index));
-        when(element.getAttribute("index")).thenReturn(String.valueOf(index));
-        when(element.isSelected()).thenReturn(selected);
-        when(element.isEnabled()).thenReturn(true);
+        WebElement ele = mock(WebElement.class);
+        when(ele.getDomAttribute("value")).thenReturn(value);
+        when(ele.getAttribute("value")).thenReturn(value);
+        when(ele.getText()).thenReturn(label);
+        when(ele.getDomAttribute("index")).thenReturn(String.valueOf(index));
+        when(ele.getAttribute("index")).thenReturn(String.valueOf(index));
+        when(ele.isSelected()).thenReturn(selected);
+        when(ele.isEnabled()).thenReturn(true);
         doAnswer(a -> {
-            when(element.isSelected()).thenReturn(!selected);
+            when(ele.isSelected()).thenReturn(!selected);
             return null;
-        }).when(element).click();
-        return element;
+        }).when(ele).click();
+        return ele;
     }
 
     @BeforeEach

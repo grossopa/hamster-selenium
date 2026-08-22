@@ -109,11 +109,11 @@ class MuiAutocompleteTagLocatorsTest {
     @Test
     @SuppressWarnings("unchecked")
     void testToString() {
-        Function<MuiAutocompleteTag, String> labelFinder = mock(Function.class);
-        when(labelFinder.toString()).thenReturn("labelFinder-toString");
-        Function<MuiAutocompleteTag, String> valueFinder = mock(Function.class);
-        when(valueFinder.toString()).thenReturn("valueFinder-toString");
-        testSubject = new MuiAutocompleteTagLocators(labelFinder, valueFinder, deleteButtonLocator);
+        Function<MuiAutocompleteTag, String> lf = mock(Function.class);
+        when(lf.toString()).thenReturn("labelFinder-toString");
+        Function<MuiAutocompleteTag, String> vf = mock(Function.class);
+        when(vf.toString()).thenReturn("valueFinder-toString");
+        testSubject = new MuiAutocompleteTagLocators(lf, vf, deleteButtonLocator);
         assertEquals("MuiAutocompleteTagLocators{labelFinder=labelFinder-toString, "
                 + "valueFinder=valueFinder-toString, deleteButtonLocator=By.className: ccc}", testSubject.toString());
     }

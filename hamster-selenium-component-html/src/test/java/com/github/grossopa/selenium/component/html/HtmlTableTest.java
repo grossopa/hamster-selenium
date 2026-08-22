@@ -80,19 +80,19 @@ class HtmlTableTest {
         when(header3.getText()).thenReturn("header 3");
 
         when(headerRow1.findElements(testSubject.getHeaderColsLocator())).thenReturn(asList(header1, header2, header3));
-        when(element.findElements(eq(testSubject.getHeaderRowsLocator()))).thenReturn(asList(headerRow1, headerRow2));
+        when(element.findElements(testSubject.getHeaderRowsLocator())).thenReturn(asList(headerRow1, headerRow2));
 
         List<WebElement> bodyContainers = asList(createBodyRow(0), createBodyRow(1), createBodyRow(2), createBodyRow(3),
                 createBodyRow(4));
         // body row
-        when(element.findElements(eq(testSubject.getRowsLocator()))).thenReturn(bodyContainers);
+        when(element.findElements(testSubject.getRowsLocator())).thenReturn(bodyContainers);
     }
 
     @Test
     void constructorNotTable() {
-        WebElement element = mock(WebElement.class);
-        when(element.getTagName()).thenReturn("div");
-        assertFalse(new HtmlTable(element, driver).validate());
+        WebElement ele = mock(WebElement.class);
+        when(ele.getTagName()).thenReturn("div");
+        assertFalse(new HtmlTable(ele, driver).validate());
     }
 
     @Test
@@ -116,7 +116,7 @@ class HtmlTableTest {
 
     @Test
     void getHeaderRowsEmpty() {
-        when(element.findElements(eq(testSubject.getHeaderRowsLocator()))).thenReturn(emptyList());
+        when(element.findElements(testSubject.getHeaderRowsLocator())).thenReturn(emptyList());
         List<TableRow> rows = testSubject.getHeaderRows();
         assertNotNull(rows);
         assertEquals(0, rows.size());
@@ -133,7 +133,7 @@ class HtmlTableTest {
 
     @Test
     void getHeaderLabelsEmpty() {
-        when(element.findElements(eq(testSubject.getHeaderRowsLocator()))).thenReturn(emptyList());
+        when(element.findElements(testSubject.getHeaderRowsLocator())).thenReturn(emptyList());
         List<String> labels = testSubject.getHeaderLabels();
         assertNotNull(labels);
         assertEquals(0, labels.size());
