@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 the original author or authors.
+ * Copyright © 2021 the original author or authors.
  *
  * Licensed under the The MIT License (MIT) (the "License");
  *  You may obtain a copy of the License at
@@ -21,7 +21,6 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
 package com.github.grossopa.playwright.core.intercepting;
 
 import static java.util.Objects.requireNonNull;
@@ -29,6 +28,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * The method information of current invoking
  *
+ * @param <T> the type of the source that invokes the method
  * @author Jack Yin
  * @since 1.12
  */
