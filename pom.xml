@@ -37,6 +37,8 @@
   </description>
   <url>https://gitee.com/jackyinzs/hamster-selenium</url>
 
+  <inceptionYear>2021</inceptionYear>
+
   <licenses>
     <license>
       <name>MIT License</name>
@@ -106,6 +108,8 @@
     <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
     <pitest-maven.version>1.19.1</pitest-maven.version>
     <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
+    <license-maven-plugin.version>4.6</license-maven-plugin.version>
+    <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
 
     <!-- CI -->
     <sonar.projectKey>grossopa_hamster-selenium</sonar.projectKey>
@@ -366,6 +370,59 @@
             <goals>deploy</goals>
           </configuration>
         </plugin>
+
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>${license-maven-plugin.version}</version>
+          <configuration>
+            <licenseSets>
+              <licenseSet>
+                <header>${maven.multiModuleProjectDirectory}/license-header.txt</header>
+                <includes>
+                  <include>src/main/java/**</include>
+                  <include>src/test/java/**</include>
+                </includes>
+              </licenseSet>
+            </licenseSets>
+            <properties>
+              <project.inceptionYear>${project.inceptionYear}</project.inceptionYear>
+            </properties>
+          </configuration>
+          <executions>
+            <execution>
+              <id>check-license</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${maven-checkstyle-plugin.version}</version>
+          <configuration>
+            <configLocation>${maven.multiModuleProjectDirectory}/checkstyle.xml</configLocation>
+            <sourceDirectories>
+              <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+            </sourceDirectories>
+            <consoleOutput>true</consoleOutput>
+            <failsOnError>false</failsOnError>
+            <violationSeverity>warning</violationSeverity>
+          </configuration>
+          <executions>
+            <execution>
+              <id>checkstyle-check</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -387,6 +444,16 @@
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
 
     </plugins>
