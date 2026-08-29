@@ -36,7 +36,7 @@ import java.util.Locale;
  * It detects the operating system and uses the appropriate system command to find and
  * terminate the driver process:</p>
  * <ul>
- *   <li>macOS / Linux: {@code lsof -ti :PORT} + {@code kill}</li>
+ *   <li>macOS / Linux: {@code lsof -ti TCP:PORT -sTCP:LISTEN} + {@code kill}</li>
  *   <li>Windows: {@code netstat -ano} + {@code taskkill /F /PID}</li>
  * </ul>
  *
@@ -88,8 +88,9 @@ public class StopDriverServiceEdge {
     // =====================================================================
 
     private static boolean stopDriverUnix(int port) throws IOException, InterruptedException {
-        // Find PID(s) listening on the port
-        ProcessBuilder pb = new ProcessBuilder("lsof", "-ti", ":" + port);
+        // Find PID(s) LISTENING on the port, client connections (e.g. leftover sockets of the
+        // calling JVM) must be excluded, otherwise the calling process may kill itself
+        ProcessBuilder pb = new ProcessBuilder("lsof", "-ti", "TCP:" + port, "-sTCP:LISTEN");
         pb.redirectErrorStream(true);
         Process process = pb.start();
 

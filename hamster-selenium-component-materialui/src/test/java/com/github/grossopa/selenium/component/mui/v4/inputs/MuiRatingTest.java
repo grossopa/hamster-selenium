@@ -31,8 +31,11 @@ import com.github.grossopa.selenium.core.locator.By2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
@@ -66,6 +69,9 @@ class MuiRatingTest {
     WebComponent starComponentParent4 = mock(WebComponent.class);
     WebComponent starComponentParent5 = mock(WebComponent.class);
 
+    List<WebComponent> starComponents = asList(starComponent1, starComponent2, starComponent3, starComponent4,
+            starComponent5);
+
     @BeforeEach
     void setUp() {
         WebElement starElement1 = mock(WebElement.class);
@@ -93,6 +99,30 @@ class MuiRatingTest {
         when(config.getCssPrefix()).thenReturn("Mui");
     }
 
+    /**
+     * Mocks a rating with fractional precision, e.g. decimalCount 2 and iconCount 4 simulates a 2-stars rating
+     * with precision 0.5.
+     *
+     * @param decimalCount the number of MuiRating-decimal spans
+     * @param iconCount the number of MuiRating-icon spans
+     */
+    private void mockDecimalRating(int decimalCount, int iconCount) {
+        List<WebElement> decimals = new ArrayList<>();
+        for (int i = 0; i < decimalCount; i++) {
+            decimals.add(mock(WebElement.class));
+        }
+        when(element.findElements(By.className("MuiRating-decimal"))).thenReturn(decimals);
+
+        List<WebElement> icons = new ArrayList<>();
+        for (int i = 0; i < iconCount; i++) {
+            icons.add(mock(WebElement.class));
+        }
+        when(element.findElements(By.className("MuiRating-icon"))).thenReturn(icons);
+        for (int i = 0; i < iconCount; i++) {
+            when(driver.mapElement(icons.get(i))).thenReturn(starComponents.get(i));
+        }
+    }
+
     @Test
     void getComponentName() {
         assertEquals("Rating", testSubject.getComponentName());
@@ -112,6 +142,31 @@ class MuiRatingTest {
     }
 
     @Test
+    void getValueFromCheckedInput() {
+        WebElement checkedInput = mock(WebElement.class);
+        when(checkedInput.getAttribute("value")).thenReturn("2.5");
+        when(element.findElements(By.cssSelector("input:checked"))).thenReturn(List.of(checkedInput));
+        assertEquals(2.5, testSubject.getValue());
+    }
+
+    @Test
+    void getValueFromCheckedEmptyInput() {
+        WebElement checkedInput = mock(WebElement.class);
+        when(checkedInput.getAttribute("value")).thenReturn("");
+        when(element.findElements(By.cssSelector("input:checked"))).thenReturn(List.of(checkedInput));
+        assertEquals(0.0, testSubject.getValue());
+    }
+
+    @Test
+    void getValueReadOnlyWithPrecision() {
+        mockDecimalRating(2, 4);
+        when(starComponent1.attributeContains("class", "MuiRating-iconFilled")).thenReturn(true);
+        when(starComponent2.attributeContains("class", "MuiRating-iconFilled")).thenReturn(true);
+        when(starComponent3.attributeContains("class", "MuiRating-iconFilled")).thenReturn(true);
+        assertEquals(1.5, testSubject.getValue());
+    }
+
+    @Test
     void setValue() {
         testSubject.setValue(2);
         verify(starComponentParent2).click();
@@ -121,6 +176,55 @@ class MuiRatingTest {
     void setValue_invalid() {
         assertThrows(IllegalArgumentException.class, () -> testSubject.setValue(6));
         assertThrows(IllegalArgumentException.class, () -> testSubject.setValue(-1));
+    }
+
+    @Test
+    void setValueDoubleWithPrecision() {
+        mockDecimalRating(2, 4);
+        when(starComponentParent4.getSize()).thenReturn(new Dimension(20, 10));
+        Actions actions = mock(Actions.class);
+        when(driver.createActions()).thenReturn(actions);
+        when(actions.moveToElement(starComponentParent4, -2, 5)).thenReturn(actions);
+        when(actions.click()).thenReturn(actions);
+
+        testSubject.setValue(1.5);
+
+        verify(actions).perform();
+    }
+
+    @Test
+    void setValueDouble_invalid() {
+        assertThrows(IllegalArgumentException.class, () -> testSubject.setValue(5.5));
+        assertThrows(IllegalArgumentException.class, () -> testSubject.setValue(-0.5));
+    }
+
+    @Test
+    void setValueDoubleZeroDoesNotClick() {
+        testSubject.setValue(0d);
+        verify(starComponentParent1, never()).click();
+        verify(starComponentParent2, never()).click();
+    }
+
+    @Test
+    void getPrecision() {
+        assertEquals(1.0, testSubject.getPrecision());
+    }
+
+    @Test
+    void getPrecisionWithDecimals() {
+        mockDecimalRating(2, 4);
+        assertEquals(0.5, testSubject.getPrecision());
+    }
+
+    @Test
+    void getMaxValue() {
+        assertEquals(5, testSubject.getMaxValue());
+    }
+
+    @Test
+    void getMaxValueWithDecimals() {
+        mockDecimalRating(2, 4);
+        assertEquals(2, testSubject.getMaxValue());
     }
 
     @Test

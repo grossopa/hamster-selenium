@@ -31,6 +31,7 @@ import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.options.BoundingBox;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -85,7 +86,24 @@ public class MuiRating extends AbstractMuiComponent {
      * @return the current rating value (0 if no stars are filled)
      */
     public double getValue() {
+        // editable ratings expose the current value via the checked radio input, including fractional values
+        List<WebComponent> checkedInputs = findComponents("input:checked");
+        if (!checkedInputs.isEmpty()) {
+            String value = checkedInputs.get(0).getAttribute("value");
+            return value == null || value.isEmpty() ? 0 : Double.parseDouble(value);
+        }
+        // read-only ratings render without radio inputs, calculate the value based on the filled icons
         List<WebComponent> stars = getStars();
+        double precision = getPrecision();
+        if (precision < 1) {
+            double filledIcons = stars.stream()
+                    .filter(star -> {
+                        String className = star.getAttribute(CLASS);
+                        return className != null && className.contains(config.getCssPrefix() + "Rating-iconFilled");
+                    })
+                    .count();
+            return filledIcons * precision;
+        }
         for (int i = stars.size() - 1; i >= 0; i--) {
             WebComponent star = stars.get(i);
             String className = star.getAttribute(CLASS);
@@ -103,16 +121,41 @@ public class MuiRating extends AbstractMuiComponent {
      * @throws IllegalArgumentException if value is out of valid range
      */
     public void setValue(int value) {
-        List<WebComponent> stars = getStars();
-        if (value < 0 || value > stars.size()) {
-            throw new IllegalArgumentException("Invalid rating value: " + value + ". Must be between 0 and " + stars.size());
+        setValue((double) value);
+    }
+
+    /**
+     * Sets the rating value by clicking on the appropriate position, fractional values are supported when the rating
+     * has a precision smaller than 1 (e.g. half stars with precision 0.5).
+     *
+     * @param value the rating value to set (must be between 0 and max stars)
+     * @throws IllegalArgumentException if value is out of valid range
+     * @since 1.15
+     */
+    public void setValue(double value) {
+        int maxValue = getMaxValue();
+        if (value < 0 || value > maxValue) {
+            throw new IllegalArgumentException("Invalid rating value: " + value + ". Must be between 0 and " + maxValue);
         }
-        if (value > 0) {
-            // Click on the star at the specified position
+        if (value == 0d) {
+            return;
+        }
+        double precision = getPrecision();
+        if (precision >= 1) {
             // In MUI, each star is wrapped in a clickable label/button
-            WebComponent targetStar = stars.get(value - 1);
-            targetStar.click();
+            getStars().get((int) Math.round(value) - 1).click();
+            return;
         }
+        // for fractional values click the corresponding position of the target star,
+        // the mouse move event of the rating will resolve the fractional value
+        int starIndex = (int) Math.ceil(value);
+        double fraction = value - (starIndex - 1);
+        int iconsPerStar = (int) Math.round(1 / precision);
+        // parent of the full value icon is the clickable label element
+        Locator label = getStars().get(starIndex * iconsPerStar - 1).locator("xpath=..");
+        BoundingBox box = label.boundingBox();
+        double xOffset = box.width * (fraction - precision / 4);
+        label.click(new Locator.ClickOptions().setPosition(xOffset, box.height / 2));
     }
 
     /**
@@ -135,11 +178,26 @@ public class MuiRating extends AbstractMuiComponent {
     }
 
     /**
+     * Gets the precision of the rating, e.g. 0.5 for half star ratings.
+     *
+     * @return the precision, 1 by default for whole star ratings
+     * @since 1.15
+     */
+    public double getPrecision() {
+        List<WebComponent> stars = getStars();
+        List<WebComponent> decimals = findComponents("." + config.getCssPrefix() + "Rating-decimal");
+        if (decimals.isEmpty() || stars.isEmpty()) {
+            return 1;
+        }
+        return (double) decimals.size() / stars.size();
+    }
+
+    /**
      * Gets the maximum possible rating value (number of stars).
      *
      * @return the maximum rating value
      */
     public int getMaxValue() {
-        return getStars().size();
+        return (int) Math.round(getStars().size() * getPrecision());
     }
 }

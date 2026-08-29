@@ -28,9 +28,12 @@ import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.options.BoundingBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -80,6 +83,36 @@ class MuiRatingTest {
         Locator childLocator = mock(Locator.class);
         when(locator.locator(anyString())).thenReturn(childLocator);
         when(childLocator.all()).thenReturn(List.of(starLocators));
+        // editable ratings expose the value via the checked input, default to no checked input
+        Locator checkedInputsLocator = mock(Locator.class);
+        when(checkedInputsLocator.all()).thenReturn(List.of());
+        when(locator.locator("input:checked")).thenReturn(checkedInputsLocator);
+    }
+
+    /**
+     * Mocks a 2-stars rating with precision 0.5 (4 icons in 2 decimal containers).
+     *
+     * @param filledIcons the number of icons with the MuiRating-iconFilled class
+     * @return the mocked icon locators
+     */
+    private List<Locator> mockDecimalRating(int filledIcons) {
+        List<Locator> icons = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            Locator icon = mock(Locator.class);
+            String className = i < filledIcons ? "MuiRating-icon MuiRating-iconFilled" : "MuiRating-icon";
+            when(icon.getAttribute("class")).thenReturn(className);
+            icons.add(icon);
+        }
+        Locator starsLocator = mock(Locator.class);
+        when(starsLocator.all()).thenReturn(icons);
+        Locator decimalsLocator = mock(Locator.class);
+        when(decimalsLocator.all()).thenReturn(List.of(mock(Locator.class), mock(Locator.class)));
+        Locator checkedInputsLocator = mock(Locator.class);
+        when(checkedInputsLocator.all()).thenReturn(List.of());
+        when(locator.locator(".MuiRating-icon")).thenReturn(starsLocator);
+        when(locator.locator(".MuiRating-decimal")).thenReturn(decimalsLocator);
+        when(locator.locator("input:checked")).thenReturn(checkedInputsLocator);
+        return icons;
     }
 
     @Test
@@ -126,6 +159,52 @@ class MuiRatingTest {
     }
 
     @Test
+    void getValueFromCheckedInput() {
+        mockStars();
+        Locator checkedInput = mock(Locator.class);
+        when(checkedInput.getAttribute("value")).thenReturn("2.5");
+        Locator checkedInputsLocator = mock(Locator.class);
+        when(checkedInputsLocator.all()).thenReturn(List.of(checkedInput));
+        when(locator.locator("input:checked")).thenReturn(checkedInputsLocator);
+        assertEquals(2.5, testSubject.getValue());
+    }
+
+    @Test
+    void getValueFromCheckedEmptyInput() {
+        mockStars();
+        Locator checkedInput = mock(Locator.class);
+        when(checkedInput.getAttribute("value")).thenReturn("");
+        Locator checkedInputsLocator = mock(Locator.class);
+        when(checkedInputsLocator.all()).thenReturn(List.of(checkedInput));
+        when(locator.locator("input:checked")).thenReturn(checkedInputsLocator);
+        assertEquals(0.0, testSubject.getValue());
+    }
+
+    @Test
+    void getValueReadOnlyWithPrecision() {
+        mockDecimalRating(3);
+        assertEquals(1.5, testSubject.getValue());
+    }
+
+    @Test
+    void getPrecision() {
+        mockStars(mock(Locator.class), mock(Locator.class));
+        assertEquals(1.0, testSubject.getPrecision());
+    }
+
+    @Test
+    void getPrecisionWithDecimals() {
+        mockDecimalRating(0);
+        assertEquals(0.5, testSubject.getPrecision());
+    }
+
+    @Test
+    void getMaxValueWithDecimals() {
+        mockDecimalRating(0);
+        assertEquals(2, testSubject.getMaxValue());
+    }
+
+    @Test
     void setValueClicksStar() {
         Locator star1 = mock(Locator.class);
         Locator star2 = mock(Locator.class);
@@ -154,5 +233,46 @@ class MuiRatingTest {
     void setValueNegativeThrows() {
         mockStars(mock(Locator.class));
         assertThrows(IllegalArgumentException.class, () -> testSubject.setValue(-1));
+    }
+
+    @Test
+    void setValueDoubleClicksStar() {
+        Locator star1 = mock(Locator.class);
+        Locator star2 = mock(Locator.class);
+        mockStars(star1, star2);
+        testSubject.setValue(2.0);
+        verify(star2).click();
+    }
+
+    @Test
+    void setValueDoubleWithPrecision() {
+        List<Locator> icons = mockDecimalRating(3);
+        Locator label = mock(Locator.class);
+        when(icons.get(3).locator("xpath=..")).thenReturn(label);
+        BoundingBox boundingBox = new BoundingBox();
+        boundingBox.x = 0;
+        boundingBox.y = 0;
+        boundingBox.width = 20;
+        boundingBox.height = 10;
+        when(label.boundingBox()).thenReturn(boundingBox);
+
+        testSubject.setValue(1.5);
+
+        ArgumentCaptor<Locator.ClickOptions> captor = ArgumentCaptor.forClass(Locator.ClickOptions.class);
+        verify(label).click(captor.capture());
+        assertEquals(7.5, captor.getValue().position.x);
+        assertEquals(5.0, captor.getValue().position.y);
+    }
+
+    @Test
+    void setValueDoubleTooLargeThrows() {
+        mockStars(mock(Locator.class));
+        assertThrows(IllegalArgumentException.class, () -> testSubject.setValue(1.5));
+    }
+
+    @Test
+    void setValueDoubleNegativeThrows() {
+        mockStars(mock(Locator.class));
+        assertThrows(IllegalArgumentException.class, () -> testSubject.setValue(-0.5));
     }
 }

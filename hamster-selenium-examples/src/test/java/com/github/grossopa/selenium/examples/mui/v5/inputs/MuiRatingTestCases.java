@@ -97,7 +97,26 @@ public class MuiRatingTestCases extends AbstractBrowserSupport {
      * https://mui.com/material-ui/react-rating/#rating-precision</a>
      */
     public void testRatingPrecision() {
-        // TODO not supported yet
+        driver.navigate().to("https://mui.com/material-ui/react-rating/");
+
+        // Test rating with precision of 0.5 (half stars)
+        MuiRating halfRating = driver.findComponent(
+                        By.xpath("//input[@name='half-rating']/ancestor::span[contains(@class, 'MuiRating-root')]"))
+                .as(muiV5()).toRating();
+        assertTrue(halfRating.validate());
+        assertEquals(0.5, halfRating.getPrecision(), 0.01);
+        assertEquals(2.5, halfRating.getValue(), 0.1);
+
+        // Test setting a fractional value
+        halfRating.setValue(4.5);
+        assertEquals(4.5, halfRating.getValue(), 0.1);
+
+        // Test read only rating with precision (rendered without radio inputs)
+        MuiRating readOnlyHalfRating = driver.findComponent(By.xpath("//span[@role='img' and @aria-label='2.5 Stars']"))
+                .as(muiV5()).toRating();
+        assertTrue(readOnlyHalfRating.validate());
+        assertTrue(readOnlyHalfRating.isReadOnly());
+        assertEquals(2.5, readOnlyHalfRating.getValue(), 0.1);
     }
 
     /**
@@ -110,7 +129,7 @@ public class MuiRatingTestCases extends AbstractBrowserSupport {
         driver.navigate().to("https://mui.com/material-ui/react-rating/");
 
         // Test 10 stars rating
-        MuiRating tenStarsRating= driver.findComponent(By.id("CustomizedRating.js"))
+        MuiRating tenStarsRating = driver.findComponent(By.id("CustomizedRating.js"))
                 .findComponent(By2.parent())
                 .findComponent(By.xpath(".//*[contains(text(), '10 stars')]/following::*[1]"))
                 .as(muiV5()).toRating();

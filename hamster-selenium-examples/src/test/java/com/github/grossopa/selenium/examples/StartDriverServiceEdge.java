@@ -358,7 +358,8 @@ public class StartDriverServiceEdge {
 
     /**
      * Main entry point. Detects the Edge browser version, ensures the matching driver
-     * is installed, then starts the Edge Driver Service.
+     * is installed, then starts the Edge Driver Service and keeps running until the
+     * process is terminated (e.g. Ctrl+C, IDE stop or {@link StopDriverServiceEdge}).
      *
      * <p>A JVM shutdown hook is registered to automatically stop the driver service
      * via {@link StopDriverServiceEdge} when the application exits.</p>
@@ -393,5 +394,13 @@ public class StartDriverServiceEdge {
         DriverService driverService = config.getType().apply(new CreateDriverServiceAction(), config);
         driverService.start();
         System.out.println("[INFO] EdgeDriver service started on port " + PORT);
+
+        // keep the JVM alive until the process is terminated, otherwise the JVM exits right after
+        // main() returns and the shutdown hook above would stop the service immediately
+        try {
+            Thread.currentThread().join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }
