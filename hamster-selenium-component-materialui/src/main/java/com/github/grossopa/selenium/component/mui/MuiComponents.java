@@ -31,9 +31,7 @@ import com.github.grossopa.selenium.component.mui.config.MuiSelectConfig;
 import com.github.grossopa.selenium.component.mui.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.core.MuiGrid;
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.*;
-import com.github.grossopa.selenium.component.mui.v4.feedback.MuiBackdrop;
-import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
-import com.github.grossopa.selenium.component.mui.v4.feedback.MuiSnackbar;
+import com.github.grossopa.selenium.component.mui.v4.feedback.*;
 import com.github.grossopa.selenium.component.mui.v4.finder.MuiModalFinder;
 import com.github.grossopa.selenium.component.mui.v4.inputs.*;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
@@ -625,6 +623,36 @@ public class MuiComponents extends AbstractComponents {
     public MuiSnackbar toSnackbar(long autoHideDuration) {
         return create(() -> new MuiSnackbar(component, driver, config, autoHideDuration),
                 () -> new MuiSnackbar(component, driver, config, autoHideDuration));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiCircularProgress}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiCircularProgress-root".</p>
+     *
+     * @return the wrapped {@link MuiCircularProgress} instance on the given component
+     * @since 1.15
+     */
+    public MuiCircularProgress toCircularProgress() {
+        return create(() -> new MuiCircularProgress(component, driver, config),
+                () -> new MuiCircularProgress(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiLinearProgress}.
+     *
+     * <p>It supports both Material UI version {@link MuiVersion#V4} and {@link MuiVersion#V5}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiLinearProgress-root".</p>
+     *
+     * @return the wrapped {@link MuiLinearProgress} instance on the given component
+     * @since 1.15
+     */
+    public MuiLinearProgress toLinearProgress() {
+        return create(() -> new MuiLinearProgress(component, driver, config),
+                () -> new MuiLinearProgress(component, driver, config));
     }
 
     // Surfaces Components

@@ -344,6 +344,26 @@ public class MuiComponents extends AbstractComponents {
         return new MuiSnackbarContent(component.locator(), driver, config);
     }
 
+    /**
+     * Converts the current component to {@link MuiCircularProgress}.
+     *
+     * @return the converted {@link MuiCircularProgress} instance
+     * @since 1.15.0
+     */
+    public MuiCircularProgress toCircularProgress() {
+        return new MuiCircularProgress(component.locator(), driver, config);
+    }
+
+    /**
+     * Converts the current component to {@link MuiLinearProgress}.
+     *
+     * @return the converted {@link MuiLinearProgress} instance
+     * @since 1.15.0
+     */
+    public MuiLinearProgress toLinearProgress() {
+        return new MuiLinearProgress(component.locator(), driver, config);
+    }
+
     // Navigation Components
 
     /**

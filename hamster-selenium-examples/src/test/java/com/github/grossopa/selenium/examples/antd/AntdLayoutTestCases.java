@@ -23,50 +23,64 @@
  */
 package com.github.grossopa.selenium.examples.antd;
 
-import com.github.grossopa.selenium.component.antd.general.AntdButton;
-import com.github.grossopa.selenium.core.locator.By2;
+import com.github.grossopa.selenium.component.antd.layout.*;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static com.github.grossopa.selenium.component.antd.AntdComponents.antd;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test cases for general components.
+ * Test cases for layout components based on the official Ant Design documentation page.
  *
  * @author Jack Yin
- * @since 1.4
+ * @since 1.15
  */
-public class AntdGeneralTestCases extends AbstractBrowserSupport {
+public class AntdLayoutTestCases extends AbstractBrowserSupport {
 
-    public void testButton() {
-        driver.navigate().to("https://ant.design/components/button/");
+    /**
+     * Waits for the lazy-loaded demo container to be rendered and returns it.
+     *
+     * @param id the demo container element id
+     * @return the demo container component
+     */
+    private WebComponent demo(String id) {
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.presenceOfElementLocated(By.id(id)));
+        return driver.findComponent(By.id(id));
+    }
 
-        AntdButton primaryButton = driver.findComponent(By.id("button-demo-basic"))
-                .findComponent(By2.textExact("Primary Button")).findComponent(By2.parent()).as(antd()).toButton();
+    public void testDivider() {
+        driver.navigate().to("https://ant.design/components/divider/");
 
-        assertTrue(primaryButton.validate());
-        assertFalse(primaryButton.isLoading());
+        AntdDivider divider = demo("divider-demo-horizontal")
+                .findComponent(By.className("ant-divider")).as(antd()).toDivider();
 
-        AntdButton loadingButton = driver.findComponent(By.id("button-demo-loading"))
-                .findComponent(By2.textExact("Loading")).findComponent(By2.parent()).as(antd()).toButton();
-        assertTrue(loadingButton.validate());
-        assertTrue(loadingButton.isLoading());
+        assertTrue(divider.validate());
+        assertFalse(divider.isVertical());
+    }
 
-        AntdButton disabledButton = driver.findComponent(By.id("button-demo-disabled"))
-                .findComponent(By2.textExact("Primary(disabled)")).findComponent(By2.parent()).as(antd()).toButton();
+    public void testSpace() {
+        driver.navigate().to("https://ant.design/components/space/");
 
-        assertTrue(disabledButton.validate());
-        assertFalse(disabledButton.isEnabled());
+        AntdSpace space = demo("space-demo-base")
+                .findComponent(By.className("ant-space")).as(antd()).toSpace();
+
+        assertTrue(space.validate());
+        assertFalse(space.getItems().isEmpty());
     }
 
     public static void main(String[] args) {
-        AntdGeneralTestCases test = new AntdGeneralTestCases();
+        AntdLayoutTestCases test = new AntdLayoutTestCases();
         try {
             test.setUpDriver(EDGE);
-            test.testButton();
+            test.testDivider();
+            test.testSpace();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

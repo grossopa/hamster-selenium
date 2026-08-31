@@ -28,9 +28,7 @@ import com.github.grossopa.selenium.component.mui.action.OpenOptionsAction;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.component.mui.exception.InvalidVersionException;
 import com.github.grossopa.selenium.component.mui.v4.datadisplay.*;
-import com.github.grossopa.selenium.component.mui.v4.feedback.MuiBackdrop;
-import com.github.grossopa.selenium.component.mui.v4.feedback.MuiDialog;
-import com.github.grossopa.selenium.component.mui.v4.feedback.MuiSnackbar;
+import com.github.grossopa.selenium.component.mui.v4.feedback.*;
 import com.github.grossopa.selenium.component.mui.v4.inputs.*;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocomplete;
 import com.github.grossopa.selenium.component.mui.v4.lab.MuiAutocompleteTagLocators;
@@ -424,6 +422,34 @@ class MuiComponentsTest {
         assertEquals(element, testSubject.toSnackbar(1000L).getWrappedElement());
         assertEquals(1000L, testSubject.toSnackbar(1000L).getAutoHideDuration());
         assertEquals(MuiSnackbar.class, testSubject.toSnackbar(1000L).getClass());
+    }
+
+    @Test
+    void toCircularProgressV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertNotNull(testSubject.toCircularProgress());
+        assertEquals(MuiCircularProgress.class, testSubject.toCircularProgress().getClass());
+    }
+
+    @Test
+    void toCircularProgressV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertNotNull(testSubject.toCircularProgress());
+        assertEquals(MuiCircularProgress.class, testSubject.toCircularProgress().getClass());
+    }
+
+    @Test
+    void toLinearProgressV4() {
+        when(config.getVersion()).thenReturn(V4);
+        assertNotNull(testSubject.toLinearProgress());
+        assertEquals(MuiLinearProgress.class, testSubject.toLinearProgress().getClass());
+    }
+
+    @Test
+    void toLinearProgressV5() {
+        when(config.getVersion()).thenReturn(V5);
+        assertNotNull(testSubject.toLinearProgress());
+        assertEquals(MuiLinearProgress.class, testSubject.toLinearProgress().getClass());
     }
 
     @Test

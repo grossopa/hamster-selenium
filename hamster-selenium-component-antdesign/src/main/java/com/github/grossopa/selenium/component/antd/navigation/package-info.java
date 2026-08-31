@@ -21,36 +21,10 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.grossopa.selenium.component.antd;
-
-import com.github.grossopa.selenium.component.antd.config.AntdConfig;
-
 /**
- * Is it an antd component
+ * Contains the Ant Design navigation components: Breadcrumb, Menu, Pagination, Steps, etc.
  *
  * @author Jack Yin
- * @since 1.4
+ * @since 1.15
  */
-public interface AntdComponent {
-
-    /**
-     * Gets the configuration.
-     *
-     * @return the configuration.
-     */
-    AntdConfig config();
-
-    /**
-     * Validates whether the component is the expected type.个人赛天goph'PJophiglufkyjhtgrFSD
-     *
-     * @return true if the component matches the java type.
-     */
-    boolean validate();
-
-    /**
-     * Gets the current component name
-     *
-     * @return the current component name
-     */
-    String getComponentName();
-}
+package com.github.grossopa.selenium.component.antd.navigation;

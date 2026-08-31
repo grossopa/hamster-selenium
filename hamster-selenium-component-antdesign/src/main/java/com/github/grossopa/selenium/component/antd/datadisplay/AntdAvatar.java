@@ -21,36 +21,57 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.grossopa.selenium.component.antd;
+package com.github.grossopa.selenium.component.antd.datadisplay;
 
+import com.github.grossopa.selenium.component.antd.AbstractAntdComponent;
 import com.github.grossopa.selenium.component.antd.config.AntdConfig;
+import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 /**
- * Is it an antd component
+ * Avatars can be used to represent people or objects.
  *
  * @author Jack Yin
- * @since 1.4
+ * @see <a href="https://ant.design/components/avatar">https://ant.design/components/avatar</a>
+ * @since 1.15
  */
-public interface AntdComponent {
+public class AntdAvatar extends AbstractAntdComponent {
 
     /**
-     * Gets the configuration.
-     *
-     * @return the configuration.
+     * The component name
      */
-    AntdConfig config();
+    public static final String NAME = "avatar";
 
     /**
-     * Validates whether the component is the expected type.个人赛天goph'PJophiglufkyjhtgrFSD
+     * Constructs an instance with the delegated element and root driver
      *
-     * @return true if the component matches the java type.
+     * @param element the delegated element
+     * @param driver root driver
+     * @param config the global Antd configuration
      */
-    boolean validate();
+    public AntdAvatar(WebElement element, ComponentWebDriver driver, AntdConfig config) {
+        super(element, driver, config);
+    }
+
+    @Override
+    public String getComponentName() {
+        return NAME;
+    }
+
+    @Override
+    public boolean validate() {
+        return attributeContains(CLASS, config.getPrefixCls() + "-" + NAME);
+    }
 
     /**
-     * Gets the current component name
+     * Whether the avatar contains an image.
      *
-     * @return the current component name
+     * @return true if the avatar contains an image
      */
-    String getComponentName();
+    public boolean hasImage() {
+        return !findComponents(By.tagName("img")).isEmpty();
+    }
 }

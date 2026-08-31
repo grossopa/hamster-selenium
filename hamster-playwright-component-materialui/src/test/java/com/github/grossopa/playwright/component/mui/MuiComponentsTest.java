@@ -25,7 +25,9 @@ package com.github.grossopa.playwright.component.mui;
 
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.component.mui.v4.feedback.MuiAlert;
+import com.github.grossopa.playwright.component.mui.v4.feedback.MuiCircularProgress;
 import com.github.grossopa.playwright.component.mui.v4.feedback.MuiDialog;
+import com.github.grossopa.playwright.component.mui.v4.feedback.MuiLinearProgress;
 import com.github.grossopa.playwright.component.mui.v4.feedback.MuiSnackbar;
 import com.github.grossopa.playwright.component.mui.v4.inputs.MuiButton;
 import com.github.grossopa.playwright.component.mui.v4.inputs.MuiSelect;
@@ -125,6 +127,18 @@ class MuiComponentsTest {
     @Test
     void toSnackbarReturnsCorrectType() {
         assertInstanceOf(MuiSnackbar.class, testSubject.toSnackbar());
+    }
+
+    @Test
+    void toCircularProgressReturnsCorrectType() {
+        assertNotNull(testSubject.toCircularProgress());
+        assertInstanceOf(MuiCircularProgress.class, testSubject.toCircularProgress());
+    }
+
+    @Test
+    void toLinearProgressReturnsCorrectType() {
+        assertNotNull(testSubject.toLinearProgress());
+        assertInstanceOf(MuiLinearProgress.class, testSubject.toLinearProgress());
     }
 
     @Test

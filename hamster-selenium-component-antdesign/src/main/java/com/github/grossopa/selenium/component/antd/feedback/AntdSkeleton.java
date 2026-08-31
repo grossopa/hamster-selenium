@@ -21,36 +21,56 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.grossopa.selenium.component.antd;
+package com.github.grossopa.selenium.component.antd.feedback;
 
+import com.github.grossopa.selenium.component.antd.AbstractAntdComponent;
 import com.github.grossopa.selenium.component.antd.config.AntdConfig;
+import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.openqa.selenium.WebElement;
+
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 /**
- * Is it an antd component
+ * Provide a placeholder while you wait for content to load.
  *
  * @author Jack Yin
- * @since 1.4
+ * @see <a href="https://ant.design/components/skeleton">https://ant.design/components/skeleton</a>
+ * @since 1.15
  */
-public interface AntdComponent {
+public class AntdSkeleton extends AbstractAntdComponent {
 
     /**
-     * Gets the configuration.
-     *
-     * @return the configuration.
+     * The component name
      */
-    AntdConfig config();
+    public static final String NAME = "skeleton";
 
     /**
-     * Validates whether the component is the expected type.个人赛天goph'PJophiglufkyjhtgrFSD
+     * Constructs an instance with the delegated element and root driver
      *
-     * @return true if the component matches the java type.
+     * @param element the delegated element
+     * @param driver root driver
+     * @param config the global Antd configuration
      */
-    boolean validate();
+    public AntdSkeleton(WebElement element, ComponentWebDriver driver, AntdConfig config) {
+        super(element, driver, config);
+    }
+
+    @Override
+    public String getComponentName() {
+        return NAME;
+    }
+
+    @Override
+    public boolean validate() {
+        return attributeContains(CLASS, config.getPrefixCls() + "-" + NAME);
+    }
 
     /**
-     * Gets the current component name
+     * Whether the skeleton shows the animation placeholder.
      *
-     * @return the current component name
+     * @return true if the skeleton shows the animation placeholder
      */
-    String getComponentName();
+    public boolean isActive() {
+        return attributeContains(CLASS, config.getPrefixCls() + "-" + NAME + "-active");
+    }
 }

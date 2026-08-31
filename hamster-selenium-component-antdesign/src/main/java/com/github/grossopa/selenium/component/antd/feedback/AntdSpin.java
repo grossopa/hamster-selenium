@@ -21,36 +21,56 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.grossopa.selenium.component.antd;
+package com.github.grossopa.selenium.component.antd.feedback;
 
+import com.github.grossopa.selenium.component.antd.AbstractAntdComponent;
 import com.github.grossopa.selenium.component.antd.config.AntdConfig;
+import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.openqa.selenium.WebElement;
+
+import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 /**
- * Is it an antd component
+ * Used for displaying the loading status of a page or a section.
  *
  * @author Jack Yin
- * @since 1.4
+ * @see <a href="https://ant.design/components/spin">https://ant.design/components/spin</a>
+ * @since 1.15
  */
-public interface AntdComponent {
+public class AntdSpin extends AbstractAntdComponent {
 
     /**
-     * Gets the configuration.
-     *
-     * @return the configuration.
+     * The component name
      */
-    AntdConfig config();
+    public static final String NAME = "spin";
 
     /**
-     * Validates whether the component is the expected type.个人赛天goph'PJophiglufkyjhtgrFSD
+     * Constructs an instance with the delegated element and root driver
      *
-     * @return true if the component matches the java type.
+     * @param element the delegated element
+     * @param driver root driver
+     * @param config the global Antd configuration
      */
-    boolean validate();
+    public AntdSpin(WebElement element, ComponentWebDriver driver, AntdConfig config) {
+        super(element, driver, config);
+    }
+
+    @Override
+    public String getComponentName() {
+        return NAME;
+    }
+
+    @Override
+    public boolean validate() {
+        return attributeContains(CLASS, config.getPrefixCls() + "-" + NAME);
+    }
 
     /**
-     * Gets the current component name
+     * Whether the spin is currently spinning.
      *
-     * @return the current component name
+     * @return true if the spin is currently spinning
      */
-    String getComponentName();
+    public boolean isSpinning() {
+        return attributeContains(CLASS, config.getPrefixCls() + "-" + NAME + "-spinning");
+    }
 }
