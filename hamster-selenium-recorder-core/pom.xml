@@ -31,10 +31,18 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>hamster-selenium-examples</artifactId>
-  <name>Hamster Selenium Examples</name>
+  <artifactId>hamster-selenium-recorder-core</artifactId>
+  <name>Hamster Selenium Recorder Core</name>
+  <description>The core engine for runtime page monitoring, guided element selection and page object generation.
+    It is independent from any interaction layer (CLI, web console, in-page guidance) while depending on the
+    hamster selenium core and component libraries.
+  </description>
 
   <dependencies>
+    <dependency>
+      <groupId>com.github.grossopa</groupId>
+      <artifactId>hamster-selenium-core</artifactId>
+    </dependency>
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-component-html</artifactId>
@@ -44,26 +52,8 @@
       <artifactId>hamster-selenium-component-materialui</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.github.grossopa</groupId>
-      <artifactId>hamster-selenium-component-mat</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.github.grossopa</groupId>
-      <artifactId>hamster-selenium-component-antdesign</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.github.grossopa</groupId>
-      <artifactId>hamster-selenium-recorder-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-launcher</artifactId>
-      <scope>compile</scope>
+      <groupId>com.squareup</groupId>
+      <artifactId>javapoet</artifactId>
     </dependency>
   </dependencies>
 

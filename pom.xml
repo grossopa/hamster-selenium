@@ -73,6 +73,8 @@
     <module>hamster-selenium-component-antdesign</module>
     <module>hamster-selenium-component-mat</module>
     <module>hamster-selenium-examples</module>
+    <module>hamster-selenium-recorder-core</module>
+    <module>hamster-selenium-recorder-cli</module>
     <module>hamster-playwright-core</module>
     <module>hamster-playwright-component-html</module>
     <module>hamster-playwright-component-materialui</module>
@@ -89,6 +91,9 @@
     <selenium-java.version>4.33.0</selenium-java.version>
     <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
     <playwright.version>1.52.0</playwright.version>
+    <javapoet.version>1.13.0</javapoet.version>
+    <picocli.version>4.7.6</picocli.version>
+    <jline.version>3.26.3</jline.version>
 
     <!-- testing dependencies -->
     <junit-jupiter.version>5.12.2</junit-jupiter.version>
@@ -164,6 +169,12 @@
       </dependency>
 
       <dependency>
+        <groupId>com.github.grossopa</groupId>
+        <artifactId>hamster-selenium-recorder-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
         <version>${selenium-java.version}</version>
@@ -222,6 +233,25 @@
         <groupId>com.microsoft.playwright</groupId>
         <artifactId>playwright</artifactId>
         <version>${playwright.version}</version>
+      </dependency>
+
+      <!-- Recorder -->
+      <dependency>
+        <groupId>com.squareup</groupId>
+        <artifactId>javapoet</artifactId>
+        <version>${javapoet.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>info.picocli</groupId>
+        <artifactId>picocli</artifactId>
+        <version>${picocli.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jline</groupId>
+        <artifactId>jline</artifactId>
+        <version>${jline.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
