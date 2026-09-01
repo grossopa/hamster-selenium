@@ -140,6 +140,13 @@ public class SeleniumUtils {
     @SuppressWarnings("java:S6212")
     public static void cleanText(WebElement inputElement) {
         String text = inputElement.getDomAttribute("value");
+        if (text == null) {
+            // the value attribute may be absent when the value is only set as a DOM property
+            text = inputElement.getDomProperty("value");
+        }
+        if (text == null) {
+            return;
+        }
         for (int i = 0; i < text.length(); i++) {
             inputElement.sendKeys(BACK_SPACE);
         }

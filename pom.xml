@@ -76,6 +76,7 @@
     <module>hamster-playwright-core</module>
     <module>hamster-playwright-component-html</module>
     <module>hamster-playwright-component-materialui</module>
+    <module>hamster-playwright-component-mat</module>
     <module>hamster-playwright-examples</module>
   </modules>
 

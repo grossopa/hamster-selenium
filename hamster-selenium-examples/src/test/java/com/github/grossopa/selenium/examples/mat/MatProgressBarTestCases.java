@@ -73,7 +73,7 @@ public class MatProgressBarTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MatProgressBarTestCases test = new MatProgressBarTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://material.angular.io/components/progress-bar/examples");
+        test.navigateToExamples("https://v12.material.angular.io/components/progress-bar/examples");
 
         test.testBufferProgressBar();
         test.testConfigurableProgressBar();

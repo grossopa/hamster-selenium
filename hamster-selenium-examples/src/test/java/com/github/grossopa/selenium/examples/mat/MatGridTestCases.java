@@ -45,7 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MatGridTestCases extends AbstractBrowserSupport {
 
     public void testGrid() {
-        driver.navigate().to("https://material.angular.io/components/grid-list/examples");
+        navigateToExamples("https://v12.material.angular.io/components/grid-list/examples");
 
         WebComponent container = driver.findComponent(By.tagName("grid-list-dynamic-example"));
         MatGridList gridList = container.findComponent(By.className("mat-grid-list")).as(mat()).toGridList();

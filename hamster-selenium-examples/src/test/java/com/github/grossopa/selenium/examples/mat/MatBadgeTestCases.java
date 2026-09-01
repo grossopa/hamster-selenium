@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MatBadgeTestCases extends AbstractBrowserSupport {
 
     public void testBadge() {
-        driver.navigate().to("https://material.angular.io/components/badge/examples");
+        navigateToExamples("https://v12.material.angular.io/components/badge/examples");
 
         WebComponent container = driver.findComponent(By.tagName("badge-overview-example"));
         List<MatBadge> badges = container.findComponentsAs(By.className("mat-badge"), c -> c.as(mat()).toBadge());

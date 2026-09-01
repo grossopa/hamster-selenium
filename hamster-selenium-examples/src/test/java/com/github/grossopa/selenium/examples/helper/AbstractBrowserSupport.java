@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.core.DefaultComponentWebDriver;
 import com.github.grossopa.selenium.core.driver.*;
 import com.github.grossopa.selenium.core.intercepting.InterceptingWebDriver;
 import com.github.grossopa.selenium.core.intercepting.LoggingHandler;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
@@ -55,6 +56,33 @@ public abstract class AbstractBrowserSupport {
             WebDriver temp = config.getType().apply(new CreateWebDriverFromRunningServiceAction(),
                     new RunningServiceParams(options, "http://localhost:38383"));
             driver = new DefaultComponentWebDriver(new InterceptingWebDriver(temp, new LoggingHandler(0L)));
+        }
+    }
+
+    /**
+     * Navigates to an examples page of the archived Angular Material v12 documentation site and
+     * waits until the page is rendered.
+     *
+     * @param url the examples page url
+     */
+    protected void navigateToExamples(String url) {
+        driver.navigate().to(url);
+        waitForExamplesPageRendered();
+    }
+
+    /**
+     * Waits until any Material component is rendered on the current page. The archived doc site
+     * occasionally fails to bootstrap; in that case the page is refreshed once and polled again.
+     */
+    protected void waitForExamplesPageRendered() {
+        for (int attempt = 0; attempt < 2; attempt++) {
+            for (int i = 0; i < 60; i++) {
+                if (!driver.findElements(By.cssSelector("[class*=mat-]")).isEmpty()) {
+                    return;
+                }
+                driver.threadSleep(250L);
+            }
+            driver.navigate().refresh();
         }
     }
 }

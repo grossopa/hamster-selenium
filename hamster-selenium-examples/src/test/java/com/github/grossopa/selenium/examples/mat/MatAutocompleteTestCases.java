@@ -45,7 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MatAutocompleteTestCases extends AbstractBrowserSupport {
 
     public void testAutocomplete() {
-        driver.navigate().to("https://material.angular.io/components/autocomplete/examples");
+        navigateToExamples("https://v12.material.angular.io/components/autocomplete/examples");
 
         MatAutocomplete autocomplete = driver.findComponent(By2.id("autocomplete-auto-active-first-option"))
                 .findComponent(By.tagName("mat-form-field")).as(mat()).toAutocomplete();
@@ -57,10 +57,10 @@ public class MatAutocompleteTestCases extends AbstractBrowserSupport {
 
         autocomplete.selectByIndex(0, 100L);
         assertEquals("One", autocomplete.getFirstSelectedOption().getText());
-        assertEquals("One", autocomplete.getInput().getDomAttribute("value"));
+        assertEquals("One", autocomplete.getInput().getDomProperty("value"));
 
         autocomplete.deselectAll();
-        assertEquals("", autocomplete.getInput().getDomAttribute("value"));
+        assertEquals("", autocomplete.getInput().getDomProperty("value"));
         autocomplete.closeOptions(100L);
     }
 

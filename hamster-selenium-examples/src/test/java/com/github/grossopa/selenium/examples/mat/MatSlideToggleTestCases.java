@@ -69,7 +69,7 @@ public class MatSlideToggleTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MatSlideToggleTestCases test = new MatSlideToggleTestCases();
         test.setUpDriver(EDGE);
-        test.driver.navigate().to("https://material.angular.io/components/slide-toggle/examples");
+        test.navigateToExamples("https://v12.material.angular.io/components/slide-toggle/examples");
         test.testSliderConfiguration();
     }
 }

@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatButtonTestCases extends AbstractBrowserSupport {
 
     public void testButtons() {
-        driver.navigate().to("https://material.angular.io/components/button/examples");
+        navigateToExamples("https://v12.material.angular.io/components/button/examples");
 
         WebComponent raisedButtonContainer = driver.findComponent(By.id("button-overview"))
                 .findComponent(By.tagName("button-overview-example"))

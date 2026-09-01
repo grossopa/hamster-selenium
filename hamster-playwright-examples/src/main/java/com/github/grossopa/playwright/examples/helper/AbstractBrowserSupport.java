@@ -174,7 +174,7 @@ public abstract class AbstractBrowserSupport {
             long elapsed = System.currentTimeMillis() - startTime;
             System.out.println("<<< END:   " + testName + " [PASSED] (" + elapsed + "ms)");
             testResults.add(new TestResult(testName, true, elapsed, null));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             long elapsed = System.currentTimeMillis() - startTime;
             System.err.println("<<< END:   " + testName + " [FAILED] (" + elapsed + "ms) - " + e.getMessage());
             testResults.add(new TestResult(testName, false, elapsed, e.getMessage()));

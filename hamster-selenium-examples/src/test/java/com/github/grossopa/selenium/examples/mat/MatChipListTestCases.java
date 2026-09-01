@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MatChipListTestCases extends AbstractBrowserSupport {
 
     public void testChipList() {
-        driver.navigate().to("https://material.angular.io/components/chips/examples");
+        navigateToExamples("https://v12.material.angular.io/components/chips/examples");
 
         MatFormField matFormField = driver.findComponent(By.tagName("chips-autocomplete-example"))
                 .findComponent(By.tagName("mat-form-field")).as(mat()).toFormField();

@@ -109,7 +109,7 @@ public class MatListTestCases extends AbstractBrowserSupport {
         MatListTestCases test = new MatListTestCases();
         try {
             test.setUpDriver(EDGE);
-            test.driver.navigate().to("https://material.angular.io/components/list/examples");
+            test.navigateToExamples("https://v12.material.angular.io/components/list/examples");
             test.testList();
             test.testListWithSelection();
             test.testListWithSingleSelection();

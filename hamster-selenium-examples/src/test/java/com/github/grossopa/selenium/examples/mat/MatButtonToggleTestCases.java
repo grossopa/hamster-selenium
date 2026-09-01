@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatButtonToggleTestCases extends AbstractBrowserSupport {
 
     public void testButtonToggleGroup() {
-        driver.navigate().to("https://material.angular.io/components/button-toggle/examples");
+        navigateToExamples("https://v12.material.angular.io/components/button-toggle/examples");
 
         MatButtonToggleGroup buttonToggleGroup = driver.findComponent(By.id("button-toggle-exclusive"))
                 .findComponent(By.tagName("button-toggle-exclusive-example"))

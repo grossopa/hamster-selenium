@@ -48,7 +48,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MatBottomSheetTestCases extends AbstractBrowserSupport {
 
     public void testBottomSheet() {
-        driver.navigate().to("https://material.angular.io/components/bottom-sheet/examples");
+        navigateToExamples("https://v12.material.angular.io/components/bottom-sheet/examples");
         WebComponent openFileButton = driver.findComponent(
                 xpathBuilder().anywhere("p").text().exact("You have received a file called \"cat-picture.jpeg\".")
                         .parent().build()).findComponent(By.tagName("button"));

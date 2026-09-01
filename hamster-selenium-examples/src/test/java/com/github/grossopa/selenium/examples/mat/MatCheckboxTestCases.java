@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatCheckboxTestCases extends AbstractBrowserSupport {
 
     public void testCheckbox() {
-        driver.navigate().to("https://material.angular.io/components/checkbox/examples");
+        navigateToExamples("https://v12.material.angular.io/components/checkbox/examples");
         List<MatCheckbox> checkboxList = driver.findComponent(By.id("checkbox-configurable"))
                 .findComponentsAs(By.tagName("mat-checkbox"), c -> c.as(mat()).toCheckbox());
 
