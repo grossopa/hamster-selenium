@@ -264,24 +264,36 @@ public class MuiPerformanceTest extends AbstractBrowserSupport {
              time2 <= time1 && time2 <= time3 ? "Tag Name" : "Attribute"));
     }
 
+    /**
+     * Main entry point. Starts the Playwright driver, runs all MUI performance tests and
+     * prints a summary report.
+     *
+     * <p>Optional first argument or {@code MUI_PERFORMANCE_FILTER} environment variable to run
+     * a single test by name.</p>
+     *
+     * @param args optional: first argument is the test name filter
+     */
     public static void main(String[] args) {
         MuiPerformanceTest test = new MuiPerformanceTest();
         test.setUpDriver();
 
-        test.runTestClass("MuiPerformanceTest", () -> {
-            test.runTest("testButtonClickPerformance", test::testButtonClickPerformance);
-            test.runTest("testFormFillingPerformance", test::testFormFillingPerformance);
-            test.runTest("testComponentFindingPerformance", test::testComponentFindingPerformance);
-            test.runTest("testPageLoadPerformance", test::testPageLoadPerformance);
-            test.runTest("testStressTest", test::testStressTest);
-            test.runTest("testLocatorStrategyComparison", test::testLocatorStrategyComparison);
-        });
+        String filter = args.length > 0 ? args[0] : System.getenv("MUI_PERFORMANCE_FILTER");
 
-        // Keep browser open for manual inspection
         try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            test.runTestClass("MuiPerformanceTest", () -> {
+                test.runIf(filter, "testButtonClickPerformance", test::testButtonClickPerformance);
+                test.runIf(filter, "testFormFillingPerformance", test::testFormFillingPerformance);
+                test.runIf(filter, "testComponentFindingPerformance", test::testComponentFindingPerformance);
+                test.runIf(filter, "testPageLoadPerformance", test::testPageLoadPerformance);
+                test.runIf(filter, "testStressTest", test::testStressTest);
+                test.runIf(filter, "testLocatorStrategyComparison", test::testLocatorStrategyComparison);
+            });
+        } finally {
+            test.tearDownAndReport();
+        }
+
+        if (test.hasFailures()) {
+            System.exit(1);
         }
     }
 }

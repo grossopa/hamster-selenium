@@ -267,29 +267,36 @@ public class MuiFormExample extends AbstractBrowserSupport {
         System.out.println("Form submission workflow completed!");
     }
 
+    /**
+     * Main entry point. Starts the Playwright driver, runs all MUI form tests and
+     * prints a summary report.
+     *
+     * <p>Optional first argument or {@code MUI_FORM_FILTER} environment variable to run
+     * a single test by name (e.g. {@code "testLoginForm"}).</p>
+     *
+     * @param args optional: first argument is the test name filter
+     */
     public static void main(String[] args) {
         MuiFormExample test = new MuiFormExample();
         test.setUpDriver();
-        
+
+        String filter = args.length > 0 ? args[0] : System.getenv("MUI_FORM_FILTER");
+
         try {
-            test.testLoginForm();
-            test.testRegistrationForm();
-            test.testFormValidation();
-            test.testRadioGroupForm();
-            test.testSliderForm();
-            test.testCompleteFormSubmission();
-            
-            System.out.println("\n=== All form tests completed successfully! ===");
-        } catch (Exception e) {
-            System.err.println("Test failed: " + e.getMessage());
-            e.printStackTrace();
+            test.runTestClass("MuiFormExample", () -> {
+                test.runIf(filter, "testLoginForm", test::testLoginForm);
+                test.runIf(filter, "testRegistrationForm", test::testRegistrationForm);
+                test.runIf(filter, "testFormValidation", test::testFormValidation);
+                test.runIf(filter, "testRadioGroupForm", test::testRadioGroupForm);
+                test.runIf(filter, "testSliderForm", test::testSliderForm);
+                test.runIf(filter, "testCompleteFormSubmission", test::testCompleteFormSubmission);
+            });
+        } finally {
+            test.tearDownAndReport();
         }
-        
-        // Keep browser open for manual inspection
-        try {
-            Thread.sleep(15000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+
+        if (test.hasFailures()) {
+            System.exit(1);
         }
     }
 }

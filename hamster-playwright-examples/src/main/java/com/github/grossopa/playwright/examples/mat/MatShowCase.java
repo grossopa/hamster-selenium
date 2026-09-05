@@ -88,8 +88,6 @@ public class MatShowCase extends AbstractBrowserSupport {
 
     private static final MatComponents mat = MatComponents.mat();
 
-    private boolean anyFailure = false;
-
     /**
      * Sets the mat converter context and applies the given converter.
      *
@@ -619,21 +617,6 @@ public class MatShowCase extends AbstractBrowserSupport {
     // =====================================================================
     // Main entry point
     // =====================================================================
-
-    private void run(String name, Runnable test) {
-        try {
-            runTest(name, test);
-        } catch (Throwable ex) {
-            anyFailure = true;
-            ex.printStackTrace(System.err);
-        }
-    }
-
-    private void runIf(String filter, String name, Runnable test) {
-        if (filter == null || filter.equals(name)) {
-            run(name, test);
-        }
-    }
 
     private static void sleep(long millis) {
         try {

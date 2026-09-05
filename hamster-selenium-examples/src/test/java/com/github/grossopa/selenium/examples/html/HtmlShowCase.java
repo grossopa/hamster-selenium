@@ -152,12 +152,34 @@ public class HtmlShowCase extends AbstractBrowserSupport {
                 .anyMatch(t -> TEXT == t.getType() && t.getText().equals("another plain text")));
     }
 
+    /**
+     * Main entry point. Starts the Edge driver, runs all HTML component tests and
+     * prints a summary report.
+     *
+     * <p>Optional first argument or {@code HTML_FILTER} environment variable to run
+     * a single test by name (e.g. {@code "testTable"}).</p>
+     *
+     * @param args optional: first argument is the test name filter
+     */
     public static void main(String[] args) {
         HtmlShowCase test = new HtmlShowCase();
         test.setUpDriver(WebDriverType.EDGE);
-        test.testTable();
-        test.testTableNoHeader();
-        test.testSelect();
-        test.testTextNode();
+
+        String filter = args.length > 0 ? args[0] : System.getenv("HTML_FILTER");
+
+        try {
+            test.runTestClass("HtmlShowCase", () -> {
+                test.runIf(filter, "testTable", test::testTable);
+                test.runIf(filter, "testTableNoHeader", test::testTableNoHeader);
+                test.runIf(filter, "testSelect", test::testSelect);
+                test.runIf(filter, "testTextNode", test::testTextNode);
+            });
+        } finally {
+            test.tearDownAndReport();
+        }
+
+        if (test.hasFailures()) {
+            System.exit(1);
+        }
     }
 }

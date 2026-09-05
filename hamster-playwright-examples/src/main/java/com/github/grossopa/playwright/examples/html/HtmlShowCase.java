@@ -104,16 +104,33 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         System.out.println("FormField demo completed: first name and last name filled successfully.");
     }
 
+    /**
+     * Main entry point. Starts the Playwright driver, runs all HTML component tests and
+     * prints a summary report.
+     *
+     * <p>Optional first argument or {@code HTML_FILTER} environment variable to run
+     * a single test by name (e.g. {@code "testTable"}).</p>
+     *
+     * @param args optional: first argument is the test name filter
+     */
     public static void main(String[] args) {
         HtmlShowCase test = new HtmlShowCase();
         test.setUpDriver();
 
-        test.runTestClass("HtmlShowCase", () -> {
-            test.runTest("testTable", test::testTable);
-            test.runTest("testSelect", test::testSelect);
-            test.runTest("testFormField", test::testFormField);
-        });
+        String filter = args.length > 0 ? args[0] : System.getenv("HTML_FILTER");
 
-        test.tearDownAndReport();
+        try {
+            test.runTestClass("HtmlShowCase", () -> {
+                test.runIf(filter, "testTable", test::testTable);
+                test.runIf(filter, "testSelect", test::testSelect);
+                test.runIf(filter, "testFormField", test::testFormField);
+            });
+        } finally {
+            test.tearDownAndReport();
+        }
+
+        if (test.hasFailures()) {
+            System.exit(1);
+        }
     }
 }

@@ -66,6 +66,9 @@ public abstract class AbstractBrowserSupport {
 
     protected static ComponentDriver driver;
 
+    /** Whether any test method has failed so far. */
+    protected boolean anyFailure = false;
+
     private final List<TestResult> testResults = new ArrayList<>();
 
     /**
@@ -144,6 +147,44 @@ public abstract class AbstractBrowserSupport {
         } catch (Exception e) {
             System.err.println("[WARN] Failed to re-launch with mirror, continuing with default: " + e.getMessage());
         }
+    }
+
+    /**
+     * Runs a single test, catching any throwable so that subsequent tests still execute.
+     * Sets {@link #anyFailure} to {@code true} on failure.
+     *
+     * @param name       the display name of the test
+     * @param test       the test logic to execute
+     */
+    protected void run(String name, Runnable test) {
+        try {
+            runTest(name, test);
+        } catch (Throwable ex) {
+            anyFailure = true;
+            ex.printStackTrace(System.err);
+        }
+    }
+
+    /**
+     * Conditionally runs a single test when the given filter matches (or is {@code null}).
+     *
+     * @param filter     the active filter, or {@code null} to run everything
+     * @param name       the display name of the test
+     * @param test       the test logic to execute
+     */
+    protected void runIf(String filter, String name, Runnable test) {
+        if (filter == null || filter.equals(name)) {
+            run(name, test);
+        }
+    }
+
+    /**
+     * Returns whether any test method has failed so far.
+     *
+     * @return {@code true} if at least one test has failed
+     */
+    protected boolean hasFailures() {
+        return anyFailure;
     }
 
     /**

@@ -296,29 +296,41 @@ public class MuiDataDisplayFeedbackTest extends AbstractBrowserSupport {
         System.out.println("Total chips on page: " + chips.size());
     }
 
+    /**
+     * Main entry point. Starts the Playwright driver, runs all MUI data display and feedback tests and
+     * prints a summary report.
+     *
+     * <p>Optional first argument or {@code MUI_DATA_DISPLAY_FILTER} environment variable to run
+     * a single test by name.</p>
+     *
+     * @param args optional: first argument is the test name filter
+     */
     public static void main(String[] args) {
         MuiDataDisplayFeedbackTest test = new MuiDataDisplayFeedbackTest();
         test.setUpDriver();
 
-        test.runTestClass("MuiDataDisplayFeedbackTest", () -> {
-            test.runTest("testAvatar", test::testAvatar);
-            test.runTest("testBadge", test::testBadge);
-            test.runTest("testChipWithActions", test::testChipWithActions);
-            test.runTest("testDivider", test::testDivider);
-            test.runTest("testList", test::testList);
-            test.runTest("testTooltip", test::testTooltip);
-            test.runTest("testAlert", test::testAlert);
-            test.runTest("testSnackbar", test::testSnackbar);
-            test.runTest("testBackdrop", test::testBackdrop);
-            test.runTest("testSkeleton", test::testSkeleton);
-            test.runTest("testCombinedDataDisplay", test::testCombinedDataDisplay);
-        });
+        String filter = args.length > 0 ? args[0] : System.getenv("MUI_DATA_DISPLAY_FILTER");
 
-        // Keep browser open for manual inspection
         try {
-            Thread.sleep(15000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            test.runTestClass("MuiDataDisplayFeedbackTest", () -> {
+                test.runIf(filter, "testAvatar", test::testAvatar);
+                test.runIf(filter, "testBadge", test::testBadge);
+                test.runIf(filter, "testChipWithActions", test::testChipWithActions);
+                test.runIf(filter, "testDivider", test::testDivider);
+                test.runIf(filter, "testList", test::testList);
+                test.runIf(filter, "testTooltip", test::testTooltip);
+                test.runIf(filter, "testAlert", test::testAlert);
+                test.runIf(filter, "testSnackbar", test::testSnackbar);
+                test.runIf(filter, "testBackdrop", test::testBackdrop);
+                test.runIf(filter, "testSkeleton", test::testSkeleton);
+                test.runIf(filter, "testCombinedDataDisplay", test::testCombinedDataDisplay);
+            });
+        } finally {
+            test.tearDownAndReport();
+        }
+
+        if (test.hasFailures()) {
+            System.exit(1);
         }
     }
 }

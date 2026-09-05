@@ -49,23 +49,6 @@ import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 @SuppressWarnings("all")
 public class MatShowCase extends AbstractBrowserSupport {
 
-    private boolean anyFailure = false;
-
-    private void run(String name, Runnable test) {
-        try {
-            runTest(name, test);
-        } catch (Throwable ex) {
-            anyFailure = true;
-            ex.printStackTrace(System.err);
-        }
-    }
-
-    private void runIf(String filter, String name, Runnable test) {
-        if (filter == null || filter.equals(name)) {
-            run(name, test);
-        }
-    }
-
     /**
      * Main entry point. Starts the Edge driver, runs all mat component tests and
      * prints a summary report.
