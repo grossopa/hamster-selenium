@@ -89,6 +89,7 @@
     <!-- project dependencies -->
     <commons-lang3.version>3.20.0</commons-lang3.version>
     <commons-math3.version>3.6.1</commons-math3.version>
+    <commons-io.version>2.22.0</commons-io.version>
     <selenium-java.version>4.33.0</selenium-java.version>
     <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
     <playwright.version>1.52.0</playwright.version>
@@ -98,6 +99,7 @@
 
     <!-- testing dependencies -->
     <junit-jupiter.version>6.1.3</junit-jupiter.version>
+    <junit-platform.version>6.1.3</junit-platform.version>
     <mockito.version>5.23.0</mockito.version>
     <byte-buddy.version>1.17.8</byte-buddy.version>
     <openpojo.version>0.9.1</openpojo.version>
@@ -119,6 +121,7 @@
     <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version>
     <license-maven-plugin.version>4.6</license-maven-plugin.version>
     <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
+    <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
 
     <!-- CI -->
     <sonar.projectKey>grossopa_hamster-selenium</sonar.projectKey>
@@ -179,6 +182,25 @@
       </dependency>
 
       <dependency>
+        <groupId>com.github.grossopa</groupId>
+        <artifactId>hamster-playwright-component-html</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.grossopa</groupId>
+        <artifactId>hamster-playwright-component-materialui</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.grossopa</groupId>
+        <artifactId>hamster-playwright-component-mat</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!-- Core Selenium Dependencies -->
+      <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
         <version>${selenium-java.version}</version>
@@ -197,6 +219,12 @@
         <version>${commons-math3.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${commons-io.version}</version>
+      </dependency>
+
       <!-- Testing -->
       <dependency>
         <groupId>org.junit.jupiter</groupId>
@@ -208,7 +236,7 @@
       <dependency>
         <groupId>org.junit.platform</groupId>
         <artifactId>junit-platform-launcher</artifactId>
-        <version>6.1.3</version>
+        <version>${junit-platform.version}</version>
         <scope>test</scope>
       </dependency>
 
@@ -264,22 +292,27 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>net.bytebuddy</groupId>
       <artifactId>byte-buddy</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.openpojo</groupId>
       <artifactId>openpojo</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>jakarta.annotation</groupId>
@@ -379,7 +412,7 @@
         <plugin>
           <groupId>org.sonatype.central</groupId>
           <artifactId>central-publishing-maven-plugin</artifactId>
-          <version>0.11.0</version>
+          <version>${central-publishing-maven-plugin.version}</version>
           <extensions>true</extensions>
           <configuration>
             <publishingServerId>central</publishingServerId>
