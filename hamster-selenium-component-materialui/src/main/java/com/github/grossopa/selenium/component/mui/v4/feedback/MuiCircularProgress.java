@@ -30,6 +30,7 @@ import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 
 import java.util.EnumSet;
@@ -38,6 +39,8 @@ import java.util.Set;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V4;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V5;
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.Strings.CI;
 
 /**
  * The Material UI CircularProgress implementation.
@@ -85,7 +88,7 @@ public class MuiCircularProgress extends AbstractMuiComponent {
      */
     public boolean isIndeterminate() {
         String className = element.getAttribute(CLASS);
-        return className.contains(config.getCssPrefix() + "CircularProgress-indeterminate");
+        return CI.contains(className, config.getCssPrefix() + "CircularProgress-indeterminate");
     }
 
     /**
@@ -98,7 +101,7 @@ public class MuiCircularProgress extends AbstractMuiComponent {
      */
     public Double getValue() {
         String value = element.getAttribute("aria-valuenow");
-        return value == null || value.isEmpty() ? null : Double.parseDouble(value);
+        return StringUtils.isEmpty(value) ? null : Double.parseDouble(value);
     }
 
     /**
@@ -111,8 +114,8 @@ public class MuiCircularProgress extends AbstractMuiComponent {
         String cssPrefix = config.getCssPrefix();
         String[] colors = {"primary", "secondary", "success", "error", "info", "warning", "inherit"};
         for (String color : colors) {
-            if (className.contains(cssPrefix + "CircularProgress-color"
-                    + color.substring(0, 1).toUpperCase() + color.substring(1))) {
+            if (CI.contains(className, cssPrefix + "CircularProgress-color"
+                    + capitalize(color))) {
                 return color;
             }
         }

@@ -23,10 +23,11 @@
  */
 package org.hamster.selenium.examples.util;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * Chrome browser version detector
@@ -53,9 +54,8 @@ public class ChromeVersionDetector extends BrowserVersionDetector {
                 process = Runtime.getRuntime().exec("google-chrome --version");
             }
             
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
+            List<String> lines = IOUtils.readLines(process.getInputStream(), java.nio.charset.StandardCharsets.UTF_8);
+            for (String line : lines) {
                 Pattern pattern = Pattern.compile("(\\d+\\.\\d+\\.\\d+\\.\\d+)");
                 Matcher matcher = pattern.matcher(line);
                 if (matcher.find()) {

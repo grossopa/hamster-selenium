@@ -31,6 +31,7 @@ import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -136,7 +137,7 @@ public class MuiStepper extends AbstractMuiComponent {
                 .map(step -> {
                     try {
                         WebComponent label = step.findComponent("." + config.getCssPrefix() + "StepLabel-label");
-                        return label != null ? label.innerText() : "";
+                        return StringUtils.defaultString(label != null ? label.innerText() : null);
                     } catch (Exception e) {
                         return "";
                     }

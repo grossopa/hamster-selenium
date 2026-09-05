@@ -28,6 +28,7 @@ import com.github.grossopa.playwright.component.mui.MuiVersion;
 import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.microsoft.playwright.Locator;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -95,7 +96,7 @@ public class MuiCircularProgress extends AbstractMuiComponent {
      */
     public Double getValue() {
         String value = getAttribute("aria-valuenow");
-        return value == null || value.isEmpty() ? null : Double.parseDouble(value);
+        return StringUtils.isEmpty(value) ? null : Double.parseDouble(value);
     }
 
     /**
@@ -109,7 +110,7 @@ public class MuiCircularProgress extends AbstractMuiComponent {
         String[] colors = {"primary", "secondary", "success", "error", "info", "warning", "inherit"};
         for (String color : colors) {
             if (className.contains(cssPrefix + "CircularProgress-color"
-                    + color.substring(0, 1).toUpperCase() + color.substring(1))) {
+                    + StringUtils.capitalize(color))) {
                 return color;
             }
         }

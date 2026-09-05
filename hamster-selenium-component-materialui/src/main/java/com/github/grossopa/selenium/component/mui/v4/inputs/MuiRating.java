@@ -30,6 +30,7 @@ import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
@@ -92,7 +93,7 @@ public class MuiRating extends AbstractMuiComponent {
         List<WebElement> checkedInputs = element.findElements(By.cssSelector("input:checked"));
         if (!checkedInputs.isEmpty()) {
             String value = checkedInputs.get(0).getAttribute("value");
-            return value == null || value.isEmpty() ? 0 : Double.parseDouble(value);
+            return StringUtils.isEmpty(value) ? 0 : Double.parseDouble(value);
         }
         // read-only ratings render without radio inputs, calculate the value based on the filled icons
         List<WebComponent> stars = getStars();

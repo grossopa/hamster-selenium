@@ -36,6 +36,9 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Cross-platform Edge driver starter with auto browser version detection and driver download.
  *
@@ -168,8 +171,9 @@ public class StartDriverServiceEdge {
         Process process = pb.start();
 
         String output;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-            output = reader.readLine();
+        try (InputStream is = process.getInputStream()) {
+            output = IOUtils.readLines(is, java.nio.charset.StandardCharsets.UTF_8).stream()
+                    .findFirst().orElse(null);
         }
 
         try {
@@ -187,7 +191,7 @@ public class StartDriverServiceEdge {
         }
 
         // Parse "Microsoft Edge 139.0.3405.102" -> "139.0.3405.102"
-        String version = output.replaceAll(".*Edge\\s+", "").trim();
+        String version = StringUtils.substringAfterLast(output, "Edge").trim();
         System.out.println("[INFO] Detected Edge version: " + version);
         return version;
     }
@@ -282,13 +286,14 @@ public class StartDriverServiceEdge {
             pb.redirectErrorStream(true);
             Process process = pb.start();
             String output;
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                output = reader.readLine();
+            try (InputStream is = process.getInputStream()) {
+                output = IOUtils.readLines(is, java.nio.charset.StandardCharsets.UTF_8).stream()
+                        .findFirst().orElse(null);
             }
             process.waitFor();
             // e.g. "MSEdgeDriver 139.0.3405.102 ..."
             if (output != null) {
-                return output.replaceAll(".*MSEdgeDriver\\s+", "").trim().split("\\s+")[0];
+                return StringUtils.substringAfterLast(output, "MSEdgeDriver").trim().split("\\s+")[0];
             }
         } catch (Exception e) {
             System.err.println("[WARN] Cannot read driver version: " + e.getMessage());

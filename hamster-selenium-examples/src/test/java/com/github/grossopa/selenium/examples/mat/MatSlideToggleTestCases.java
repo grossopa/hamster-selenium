@@ -41,6 +41,7 @@ import static org.openqa.selenium.By.className;
 public class MatSlideToggleTestCases extends AbstractBrowserSupport {
 
     public void testSliderConfiguration() {
+        navigateToExamples("https://v12.material.angular.io/components/slide-toggle/examples");
         WebComponent container = driver.findComponent(By.id("slide-toggle-configurable"));
 
         MatSlideToggle slideToggle = container.findComponent(className("mat-slide-toggle")).as(mat()).toSlideToggle();

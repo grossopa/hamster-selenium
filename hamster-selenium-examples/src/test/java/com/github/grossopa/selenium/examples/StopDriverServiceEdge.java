@@ -24,10 +24,12 @@
 
 package com.github.grossopa.selenium.examples;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Locale;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Stops a running Edge Driver Service by killing the process that occupies the configured port.
@@ -95,14 +97,8 @@ public class StopDriverServiceEdge {
         Process process = pb.start();
 
         String pids;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\n");
-            }
-            pids = sb.toString().trim();
-        }
+        List<String> lines = IOUtils.readLines(process.getInputStream(), java.nio.charset.StandardCharsets.UTF_8);
+        pids = String.join("\n", lines).trim();
         process.waitFor();
 
         if (pids.isEmpty()) {
@@ -113,7 +109,7 @@ public class StopDriverServiceEdge {
         // Kill each PID
         for (String pidStr : pids.split("\\n")) {
             String pid = pidStr.trim();
-            if (!pid.isEmpty()) {
+            if (StringUtils.isNotBlank(pid)) {
                 System.out.println("[INFO] Killing process " + pid + " on port " + port);
                 new ProcessBuilder("kill", pid).start().waitFor();
             }
@@ -134,20 +130,18 @@ public class StopDriverServiceEdge {
         Process process = pb.start();
 
         String pid = null;
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                // Format: TCP  0.0.0.0:38383  0.0.0.0:0  LISTENING  12345
-                String[] parts = line.trim().split("\\s+");
-                if (parts.length >= 5 && line.contains("LISTENING")) {
-                    pid = parts[parts.length - 1];
-                    break;
-                }
+        List<String> lines = IOUtils.readLines(process.getInputStream(), java.nio.charset.StandardCharsets.UTF_8);
+        for (String line : lines) {
+            // Format: TCP  0.0.0.0:38383  0.0.0.0:0  LISTENING  12345
+            String[] parts = line.trim().split("\\s+");
+            if (parts.length >= 5 && line.contains("LISTENING")) {
+                pid = parts[parts.length - 1];
+                break;
             }
         }
         process.waitFor();
 
-        if (pid == null || pid.isEmpty()) {
+        if (StringUtils.isBlank(pid)) {
             System.out.println("[INFO] No driver process found on port " + port);
             return false;
         }

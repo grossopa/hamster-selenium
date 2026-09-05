@@ -45,6 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MatSnackbarTestCases extends AbstractBrowserSupport {
 
     public void testSliderConfiguration() {
+        navigateToExamples("https://v12.material.angular.io/components/snack-bar/examples");
         // the snackbar content is taken from the input values at click time; on the slow archived
         // site Angular may not have hydrated the inputs yet, so wait for the values to be ready
         WebElement messageInput = driver.findElement(By.id("snack-bar-overview")).findElement(By.tagName("input"));

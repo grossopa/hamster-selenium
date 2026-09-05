@@ -66,6 +66,8 @@ public class MatButtonToggleTestCases extends AbstractBrowserSupport {
         assertTrue(buttonToggles.get(2).isEnabled());
         assertFalse(buttonToggles.get(3).isEnabled());
 
+        // scroll the group into the center of the viewport to avoid the floating popup overlay
+        driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", buttonToggleGroup);
         buttonToggles.get(1).click();
         assertFalse(buttonToggles.get(0).isSelected());
         assertTrue(buttonToggles.get(1).isSelected());

@@ -30,6 +30,7 @@ import com.github.grossopa.selenium.component.mui.MuiVersion;
 import com.github.grossopa.selenium.component.mui.v4.AbstractMuiComponent;
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebElement;
 
 import java.util.EnumSet;
@@ -117,7 +118,7 @@ public class MuiLinearProgress extends AbstractMuiComponent {
      */
     public Double getValue() {
         String value = element.getAttribute("aria-valuenow");
-        return value == null || value.isEmpty() ? null : Double.parseDouble(value);
+        return StringUtils.isEmpty(value) ? null : Double.parseDouble(value);
     }
 
     /**
@@ -131,7 +132,7 @@ public class MuiLinearProgress extends AbstractMuiComponent {
         String[] colors = {"primary", "secondary", "success", "error", "info", "warning", "inherit"};
         for (String color : colors) {
             if (className.contains(cssPrefix + "LinearProgress-color"
-                    + color.substring(0, 1).toUpperCase() + color.substring(1))) {
+                    + StringUtils.capitalize(color))) {
                 return color;
             }
         }

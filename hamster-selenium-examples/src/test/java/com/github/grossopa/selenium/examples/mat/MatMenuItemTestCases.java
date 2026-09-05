@@ -48,6 +48,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatMenuItemTestCases extends AbstractBrowserSupport {
 
     public void testMenuWithIcons() {
+        navigateToExamples("https://v12.material.angular.io/components/menu/examples");
         MatButton iconButton = driver.findComponent(By.tagName("menu-icons-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(mat()).toButton();
         iconButton.click();
@@ -72,6 +73,7 @@ public class MatMenuItemTestCases extends AbstractBrowserSupport {
     }
 
     public void testNestedMenu() {
+        navigateToExamples("https://v12.material.angular.io/components/menu/examples");
         MatButton animalIndexButton = driver.findComponent(By.tagName("menu-nested-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(mat()).toButton();
 
@@ -102,6 +104,7 @@ public class MatMenuItemTestCases extends AbstractBrowserSupport {
     }
 
     public void testNestedMenuComplexActions() {
+        navigateToExamples("https://v12.material.angular.io/components/menu/examples");
         MatButton animalIndexButton = driver.findComponent(By.tagName("menu-nested-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(mat()).toButton();
         animalIndexButton.click();
@@ -120,6 +123,7 @@ public class MatMenuItemTestCases extends AbstractBrowserSupport {
     }
 
     public void testSelection() {
+        navigateToExamples("https://v12.material.angular.io/components/menu/examples");
         MatButton animalIndexButton = driver.findComponent(By.tagName("menu-nested-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(mat()).toButton();
 

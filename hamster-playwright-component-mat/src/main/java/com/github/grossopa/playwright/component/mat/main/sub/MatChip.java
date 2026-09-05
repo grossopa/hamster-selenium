@@ -28,6 +28,7 @@ import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -112,13 +113,13 @@ public class MatChip extends AbstractMatComponent {
     public String getText() {
         String fullText = super.innerText();
         List<WebComponent> removeIcons = this.findComponents(removeIconSelector());
-        if (fullText != null && !removeIcons.isEmpty()) {
+        if (StringUtils.isNotEmpty(fullText) && !removeIcons.isEmpty()) {
             String removeIconText = removeIcons.get(0).textContent();
             if (removeIconText != null && fullText.endsWith(removeIconText)) {
                 return fullText.substring(0, fullText.length() - removeIconText.length()).trim();
             }
         }
-        return fullText == null ? "" : fullText.trim();
+        return StringUtils.defaultString(fullText).trim();
     }
 
     private String removeIconSelector() {

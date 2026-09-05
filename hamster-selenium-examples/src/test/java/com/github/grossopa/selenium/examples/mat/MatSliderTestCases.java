@@ -51,6 +51,7 @@ import static org.openqa.selenium.By.xpath;
 public class MatSliderTestCases extends AbstractBrowserSupport {
 
     public void testConfigurableSlider() {
+        navigateToExamples("https://v12.material.angular.io/components/slider/examples");
         // close cookie alert
         driver.findComponent(xpathBuilder().anywhereRelative("span").text().contains("Ok, Got it").parent().build())
                 .click();
@@ -92,10 +93,18 @@ public class MatSliderTestCases extends AbstractBrowserSupport {
         maxValueField.getInput().sendKeys("120");
         assertEquals(120, targetSlider.getMaxValueInteger());
 
+        // scroll the slider into the center of the viewport to avoid the floating popup overlay
+        // interfering with the drag-based moveThumb / setValue operations
+        driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", targetSlider);
+        driver.threadSleep(300L);
+
         // the default width is 284 while value range from 20 - 120, hence the movement will not be always accurate
         Consumer<MatSlider> testingApproximate = slider -> {
             cleanText(stepSizeField.getInput());
             stepSizeField.getInput().sendKeys("1");
+
+            // scroll slider to center so the drag avoids the floating popup overlay
+            driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", slider);
 
             driver.threadSleep(200L);
             slider.moveThumb(1);
@@ -117,6 +126,9 @@ public class MatSliderTestCases extends AbstractBrowserSupport {
             cleanText(stepSizeField.getInput());
             stepSizeField.getInput().sendKeys("10");
 
+            // scroll slider to center again after form field interaction scrolled the viewport away
+            driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", slider);
+
             driver.threadSleep(200L);
             // step 10 hence should move to close 120 node
             slider.setValue(118);
@@ -126,14 +138,17 @@ public class MatSliderTestCases extends AbstractBrowserSupport {
         testingApproximate.accept(targetSlider);
         // vertical testing
         verticalCheckbox.click();
+        driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", targetSlider);
         testingApproximate.accept(targetSlider);
 
         // inverted and vertical testing
         invertedCheckbox.click();
+        driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", targetSlider);
         testingApproximate.accept(targetSlider);
 
         // inverted testing
         verticalCheckbox.click();
+        driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", targetSlider);
         testingApproximate.accept(targetSlider);
 
         assertTrue(targetSlider.isEnabled());
@@ -154,6 +169,9 @@ public class MatSliderTestCases extends AbstractBrowserSupport {
         stepSizeField.getInput().sendKeys("1");
 
         Consumer<MatSlider> testingExact = slider -> {
+            // scroll slider to viewport center so drag operations avoid the floating popup overlay
+            driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", slider);
+
             // the archived doc site may render the slider with a slightly different width,
             // hence allow a small tolerance for the click-based value setting
             driver.threadSleep(200L);
@@ -173,14 +191,17 @@ public class MatSliderTestCases extends AbstractBrowserSupport {
         testingExact.accept(targetSlider);
         // vertical testing
         verticalCheckbox.click();
+        driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", targetSlider);
         testingExact.accept(targetSlider);
 
         // inverted and vertical testing
         invertedCheckbox.click();
+        driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", targetSlider);
         testingExact.accept(targetSlider);
 
         // inverted testing
         verticalCheckbox.click();
+        driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", targetSlider);
         testingExact.accept(targetSlider);
     }
 

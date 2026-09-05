@@ -263,6 +263,20 @@ public abstract class AbstractBrowserSupport {
         System.out.println(border);
         System.out.println(String.format(totalFmt, testResults.size(), passed, failed, totalElapsed));
         System.out.println(border);
+
+        // Print failed tests section
+        List<TestResult> failedResults = testResults.stream().filter(r -> !r.passed).toList();
+        if (!failedResults.isEmpty()) {
+            System.out.println();
+            System.out.println(border);
+            System.out.println("  FAILED TESTS (" + failedResults.size() + ")");
+            System.out.println(border);
+            for (TestResult result : failedResults) {
+                System.out.println("  - " + result.name + " (" + result.elapsedMs + "ms)");
+                System.out.println("    " + result.errorMessage);
+            }
+            System.out.println(border);
+        }
     }
 
     public static void main(String[] args) {
