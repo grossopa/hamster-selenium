@@ -25,3 +25,5 @@ cache
 /logs/
 /lingma_mcp.json
 /.run/
+
+/extension/
