@@ -28,12 +28,12 @@ Hamster Selenium encapsulates these complex DOM operations into **type-safe Java
 
 ## Supported Front-End Frameworks
 
-| Framework | Selenium Module | Playwright Module | Status |
-|---|---|---|---|
-| Plain HTML | `hamster-selenium-component-html` | `hamster-playwright-component-html` | Stable |
-| Material UI (React) v4/v5 | `hamster-selenium-component-materialui` | `hamster-playwright-component-materialui` | Stable |
-| Angular Material | `hamster-selenium-component-mat` | — | Stable |
-| Ant Design | `hamster-selenium-component-antdesign` | — | Early Stage |
+| Framework                 | Selenium Module                         | Playwright Module                         | Status      |
+|---------------------------|-----------------------------------------|-------------------------------------------|-------------|
+| Plain HTML                | `hamster-selenium-component-html`       | `hamster-playwright-component-html`       | Stable      |
+| Material UI (React) v4/v5 | `hamster-selenium-component-materialui` | `hamster-playwright-component-materialui` | Stable      |
+| Angular Material          | `hamster-selenium-component-mat`        | `hamster-playwright-component-mat`        | Stable      |
+| Ant Design                | `hamster-selenium-component-antdesign`  | —                                         | Early Stage |
 
 ## Quick Start
 
@@ -46,7 +46,7 @@ Choose the automation engine and UI framework you are using:
 <dependency>
   <groupId>com.github.grossopa</groupId>
   <artifactId>hamster-selenium-component-materialui</artifactId>
-  <version>1.14.0</version>
+  <version>1.15.0</version>
 </dependency>
 ```
 
@@ -55,7 +55,7 @@ Choose the automation engine and UI framework you are using:
 <dependency>
   <groupId>com.github.grossopa</groupId>
   <artifactId>hamster-playwright-component-materialui</artifactId>
-  <version>1.14.0</version>
+  <version>1.15.0</version>
 </dependency>
 ```
 
@@ -64,7 +64,7 @@ Choose the automation engine and UI framework you are using:
 <dependency>
   <groupId>com.github.grossopa</groupId>
   <artifactId>hamster-selenium-component-html</artifactId>
-  <version>1.14.0</version>
+  <version>1.15.0</version>
 </dependency>
 ```
 
@@ -73,7 +73,16 @@ Choose the automation engine and UI framework you are using:
 <dependency>
   <groupId>com.github.grossopa</groupId>
   <artifactId>hamster-selenium-component-mat</artifactId>
-  <version>1.14.0</version>
+  <version>1.15.0</version>
+</dependency>
+```
+
+**Playwright + Angular Material:**
+```xml
+<dependency>
+  <groupId>com.github.grossopa</groupId>
+  <artifactId>hamster-playwright-component-mat</artifactId>
+  <version>1.15.0</version>
 </dependency>
 ```
 
@@ -212,21 +221,34 @@ CalendarPicker, DatePickerFormField, MonthPicker, YearPicker
 
 ## Supported Angular Material Components
 
-Accordion, Autocomplete, Badge, BottomSheet, Button, ButtonToggle, ButtonToggleGroup, Checkbox, ChipList, Dialog, ExpansionPanel, FormField, GridList, GridTile, List, Menu (+MenuItem), OverlayContainer, ProgressBar, SelectionList, SlideToggle, Slider, Snackbar
+| Category        | Components                                                                                                 |
+|-----------------|------------------------------------------------------------------------------------------------------------|
+| Navigation      | Accordion, Autocomplete, BottomSheet, ExpansionPanel, Menu (+MenuItem), OverlayContainer                   |
+| Form Controls   | Button, ButtonToggle, ButtonToggleGroup, Checkbox, ChipList, FormField, SelectionList, SlideToggle, Slider |
+| Layout          | GridList, GridTile, List                                                                                   |
+| Popups & Modals | Dialog, Snackbar                                                                                           |
+| Data Display    | Badge, ProgressBar                                                                                         |
+
+> Available on both Selenium (`hamster-selenium-component-mat`) and Playwright (`hamster-playwright-component-mat`).
 
 ## Supported Ant Design Components
 
-| Component | Selenium | Playwright | Status |
-|---|---|---|---|
-| AntdButton | ✅ | — | Early Stage |
+| Category     | Components                                                                                     | Status      |
+|--------------|------------------------------------------------------------------------------------------------|-------------|
+| General      | AntdButton                                                                                     | Early Stage |
+| Data Entry   | AntdCheckbox, AntdInput, AntdRadio, AntdSelect, AntdSwitch                                     | Early Stage |
+| Data Display | AntdAvatar, AntdBadge, AntdCard, AntdCollapse, AntdEmpty, AntdList, AntdTab, AntdTabs, AntdTag | Early Stage |
+| Feedback     | AntdAlert, AntdDrawer, AntdModal, AntdProgress, AntdSkeleton, AntdSpin                         | Early Stage |
+| Navigation   | AntdBreadcrumb, AntdMenu, AntdMenuItem, AntdPagination, AntdSteps                              | Early Stage |
+| Layout       | AntdDivider, AntdSpace                                                                         | Early Stage |
 
 ## Supported HTML Components
 
-| Component | Selenium | Playwright |
-|---|---|---|
-| HtmlSelect | ✅ | ✅ |
-| HtmlTable (+HtmlTableRow) | ✅ | ✅ |
-| HtmlFormField | ✅ | ✅ |
+| Component                 | Selenium | Playwright |
+|---------------------------|----------|------------|
+| HtmlSelect                | ✅       | ✅         |
+| HtmlTable (+HtmlTableRow) | ✅       | ✅         |
+| HtmlFormField             | ✅       | ✅         |
 
 ## Advanced APIs
 
@@ -290,8 +312,8 @@ Examples cover HTML tables/forms, the full range of Material UI components (butt
 
 ## Requirements
 
-- **JDK**: 11 or higher
-- **Selenium**: 4.27.0 (Selenium modules)
+- **JDK**: 17 or higher
+- **Selenium**: 4.33.0 (Selenium modules)
 - **Playwright**: 1.52.0 (Playwright modules)
 
 ## License
