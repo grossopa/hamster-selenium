@@ -38,8 +38,8 @@ import java.util.List;
  * field documentation page of mui.com, scans the page, selects the demo text fields by their ids and generates the
  * page object into {@code target/recorder-generated}.
  *
- * <p>This example requires internet access. The browser driver executable is resolved automatically by Selenium
- * Manager. Run this class as a normal Java application.</p>
+ * <p>This example requires internet access. Requires the Edge Driver Service running on port 38383 (start via
+ * {@code StartDriverServiceEdge}). Run this class as a normal Java application.</p>
  *
  * @author Jack Yin
  * @since 1.15
@@ -64,6 +64,9 @@ public class RecorderMuiShowCase {
         WebDriver driver = RecorderExampleSupport.createDriver();
         try (RecorderSession session = new RecorderSession(driver, config)) {
             session.getDriver().get(TEXT_FIELD_PAGE_URL);
+
+            // scroll to top to ensure the sticky header (including product selector) is fully visible
+            session.getDriver().executeScript("window.scrollTo(0, 0)");
 
             List<ScannedElement> elements = session.scan();
             RecorderExampleSupport.printScannedElements(elements);

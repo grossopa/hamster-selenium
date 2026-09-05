@@ -1,0 +1,51 @@
+/*
+ * Copyright © 2021 the original author or authors.
+ *
+ * Licensed under the The MIT License (MIT) (the "License");
+ *  You may obtain a copy of the License at
+ *
+ *         https://mit-license.org/
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+package com.github.grossopa.selenium.recorder.scan.strategy;
+
+import com.github.grossopa.selenium.recorder.model.LocatorCandidate;
+import com.github.grossopa.selenium.recorder.scan.DefaultElementScanner;
+
+import java.util.List;
+import java.util.Map;
+
+import static com.github.grossopa.selenium.recorder.model.LocatorCandidate.PRIORITY_MARKER;
+import static com.github.grossopa.selenium.recorder.model.LocatorType.CSS_SELECTOR;
+import static com.github.grossopa.selenium.recorder.scan.DefaultElementScanner.MARKER_ATTRIBUTE;
+
+/**
+ * A fallback strategy that builds a locator candidate from the temporary marker attribute
+ * ({@value DefaultElementScanner#MARKER_ATTRIBUTE}) written by the scanner. This locator is only reliable within the
+ * current scan session and should be used as the last resort.
+ *
+ * @author Jack Yin
+ * @since 1.15
+ * @see LocatorCandidate#PRIORITY_MARKER
+ */
+public class MarkerLocatorCandidateStrategy implements LocatorCandidateStrategy {
+
+    @Override
+    public List<LocatorCandidate> toCandidates(int index, String tagName, Map<String, String> attributes, String text) {
+        return List.of(new LocatorCandidate(CSS_SELECTOR, "[" + MARKER_ATTRIBUTE + "=\"" + index + "\"]",   PRIORITY_MARKER, "by scan index " + index));
+    }
+}

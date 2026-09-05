@@ -107,7 +107,7 @@
     <!-- Maven plugins -->
     <!-- Empty default for @{argLine} referenced in surefire config. JaCoCo prepare-agent overrides it when -Pcoverage is active;
          without this default, running tests without -Pcoverage passes the literal "@{argLine}" to the JVM and causes a fork crash. -->
-    <argLine></argLine>
+    <argLine/>
     <maven.compiler.target>17</maven.compiler.target>
     <maven.compiler.source>17</maven.compiler.source>
     <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>

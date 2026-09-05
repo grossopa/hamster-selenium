@@ -23,10 +23,13 @@
  */
 package com.github.grossopa.selenium.examples.recorder;
 
+import com.github.grossopa.selenium.core.driver.CreateOptionsAction;
+import com.github.grossopa.selenium.core.driver.CreateWebDriverFromRunningServiceAction;
+import com.github.grossopa.selenium.core.driver.DriverConfig;
+import com.github.grossopa.selenium.core.driver.RunningServiceParams;
 import com.github.grossopa.selenium.recorder.model.ScannedElement;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -35,6 +38,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+
+import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 
 /**
  * The shared support of the recorder examples providing the driver creation, the embedded sample pages and the
@@ -94,12 +99,17 @@ public final class RecorderExampleSupport {
     }
 
     /**
-     * Creates a new Chrome driver. The driver executable is resolved automatically by Selenium Manager.
+     * Creates a driver connected to the running Edge Driver Service on {@code http://localhost:38383}. The service
+     * must be started externally via {@code StartDriverServiceEdge} before invoking this method.
      *
      * @return the created web driver
      */
     public static WebDriver createDriver() {
-        return RemoteWebDriver.builder().addAlternative(new ChromeOptions()).build();
+        DriverConfig config = new DriverConfig();
+        config.setType(EDGE);
+        Capabilities options = config.getType().apply(new CreateOptionsAction(), null);
+        return config.getType().apply(new CreateWebDriverFromRunningServiceAction(),
+                new RunningServiceParams(options, "http://localhost:38383"));
     }
 
     /**

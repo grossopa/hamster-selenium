@@ -26,8 +26,8 @@ package com.github.grossopa.selenium.recorder.scan;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.recorder.config.RecorderConfig;
 import com.github.grossopa.selenium.recorder.model.LocatorCandidate;
-import com.github.grossopa.selenium.recorder.model.LocatorType;
 import com.github.grossopa.selenium.recorder.model.ScannedElement;
+import com.github.grossopa.selenium.recorder.scan.strategy.*;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
@@ -36,6 +36,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -46,8 +47,13 @@ import static java.util.Objects.requireNonNull;
  * collects the configured key attributes (id, name and customized ones) and marks each found element with a temporary
  * attribute {@value #MARKER_ATTRIBUTE} so that the element could be re-located by its scan index afterwards.</p>
  *
+ * <p>The locator candidates are built by a list of {@link LocatorCandidateStrategy} instances returned from
+ * {@link #createDefaultLocatorCandidateStrategies(RecorderConfig)}. If none of the strategies produces a candidate
+ * for an element, that element is excluded from the scan result.</p>
+ *
  * @author Jack Yin
  * @since 1.15
+ * @see LocatorCandidateStrategy
  */
 public class DefaultElementScanner implements ElementScanner {
 
@@ -74,18 +80,14 @@ public class DefaultElementScanner implements ElementScanner {
             var markerAttr = arguments[2];
             var results = [];
             var elems = document.querySelectorAll(selector);
-            for (var i = 0; i < elems.length; i++) {
-                var el = elems[i];
-                var rect = el.getBoundingClientRect();
-                var style = window.getComputedStyle(el);
-                if (style.display === 'none' || style.visibility === 'hidden'
-                        || (rect.width === 0 && rect.height === 0)) {
-                    continue;
-                }
-                var obj = {tagName: el.tagName.toLowerCase(),
+            for (let i = 0; i < elems.length; i++) {
+                let el = elems[i];
+                let rect = el.getBoundingClientRect();
+                let style = window.getComputedStyle(el);
+                let obj = {tagName: el.tagName.toLowerCase(),
                     text: (el.innerText || '').trim().substring(0, arguments[3]), attributes: {}};
-                for (var j = 0; j < attrs.length; j++) {
-                    var value = el.getAttribute(attrs[j]);
+                for (let j = 0; j < attrs.length; j++) {
+                    let value = el.getAttribute(attrs[j]);
                     if (value) {
                         obj.attributes[attrs[j]] = value;
                     }
@@ -97,14 +99,55 @@ public class DefaultElementScanner implements ElementScanner {
             """;
 
     private final RecorderConfig config;
+    private final List<LocatorCandidateStrategy> strategies;
 
     /**
-     * Constructs an instance with the recorder configuration.
+     * Constructs an instance with the recorder configuration and the default locator candidate strategies created by
+     * {@link #createDefaultLocatorCandidateStrategies(RecorderConfig)}.
      *
      * @param config the recorder configuration, must not be null
      */
     public DefaultElementScanner(RecorderConfig config) {
+        this(config, createDefaultLocatorCandidateStrategies(config));
+    }
+
+    /**
+     * Constructs an instance with the recorder configuration and a customized list of locator candidate strategies.
+     *
+     * @param config the recorder configuration, must not be null
+     * @param strategies the locator candidate strategies, must not be null
+     */
+    public DefaultElementScanner(RecorderConfig config, List<LocatorCandidateStrategy> strategies) {
         this.config = requireNonNull(config);
+        this.strategies = List.copyOf(requireNonNull(strategies));
+    }
+
+    /**
+     * Gets the locator candidate strategies used by this scanner.
+     *
+     * @return the unmodifiable list of locator candidate strategies
+     */
+    public List<LocatorCandidateStrategy> getStrategies() {
+        return strategies;
+    }
+
+    /**
+     * Creates the default list of locator candidate strategies: {@link IdLocatorCandidateStrategy},
+     * {@link NameLocatorCandidateStrategy}, {@link CustomAttributeLocatorCandidateStrategy}.
+     * {@link TextLocatorCandidateStrategy} and {@link MarkerLocatorCandidateStrategy}.
+     *
+     * <p>The {@link MarkerLocatorCandidateStrategy} is intentionally excluded from the default list because it always
+     * produces a candidate and would prevent the scanner from filtering out elements that do not match any meaningful
+     * strategy. The marker candidate is appended automatically by the scanner after at least one strategy has
+     * matched.</p>
+     *
+     * @param config the recorder configuration providing the key attributes
+     * @return the default list of locator candidate strategies
+     */
+    public static List<LocatorCandidateStrategy> createDefaultLocatorCandidateStrategies(RecorderConfig config) {
+        return List.of(new IdLocatorCandidateStrategy(), new NameLocatorCandidateStrategy(),
+                new CustomAttributeLocatorCandidateStrategy(config.getKeyAttributes()),
+                new TextLocatorCandidateStrategy());
     }
 
     @Override
@@ -116,7 +159,10 @@ public class DefaultElementScanner implements ElementScanner {
                 : List.of();
         List<ScannedElement> scannedElements = new ArrayList<>();
         for (int i = 0; i < rawElements.size(); i++) {
-            scannedElements.add(toScannedElement(i, rawElements.get(i)));
+            ScannedElement element = toScannedElement(i, rawElements.get(i));
+            if (!element.getLocatorCandidates().isEmpty()) {
+                scannedElements.add(element);
+            }
         }
         return scannedElements;
     }
@@ -128,7 +174,7 @@ public class DefaultElementScanner implements ElementScanner {
      * @return the {@link By} locator of the marked element
      */
     public static By markerLocator(int index) {
-        return By.cssSelector("[" + MARKER_ATTRIBUTE + "=\"" + index + "\"]");
+        return xpathBuilder().empty().attr(MARKER_ATTRIBUTE).exact(String.valueOf(index)).build();
     }
 
     /**
@@ -155,7 +201,7 @@ public class DefaultElementScanner implements ElementScanner {
         String text = String.valueOf(rawElement.getOrDefault("text", ""));
         Map<String, String> attributes = toStringAttributes(
                 (Map<String, Object>) rawElement.getOrDefault("attributes", Map.of()));
-        List<LocatorCandidate> candidates = buildLocatorCandidates(index, tagName, text, attributes);
+        List<LocatorCandidate> candidates = buildLocatorCandidates(index, tagName, attributes, text);
         return new ScannedElement(index, tagName, attributes, text, candidates);
     }
 
@@ -169,36 +215,16 @@ public class DefaultElementScanner implements ElementScanner {
         return attributes;
     }
 
-    private List<LocatorCandidate> buildLocatorCandidates(int index, String tagName, String text,
-            Map<String, String> attributes) {
+    private List<LocatorCandidate> buildLocatorCandidates(int index, String tagName, Map<String, String> attributes,
+            String text) {
         List<LocatorCandidate> candidates = new ArrayList<>();
-        String id = attributes.get("id");
-        if (id != null && !id.isBlank()) {
-            candidates.add(
-                    new LocatorCandidate(LocatorType.ID, id, LocatorCandidate.PRIORITY_ID, "by id \"" + id + "\""));
+        for (LocatorCandidateStrategy strategy : strategies) {
+            candidates.addAll(strategy.toCandidates(index, tagName, attributes, text));
         }
-        String name = attributes.get("name");
-        if (name != null && !name.isBlank()) {
-            candidates.add(new LocatorCandidate(LocatorType.NAME, name, LocatorCandidate.PRIORITY_NAME,
-                    "by name \"" + name + "\""));
+        // append the marker candidate only when at least one strategy has matched
+        if (!candidates.isEmpty()) {
+            candidates.addAll(new MarkerLocatorCandidateStrategy().toCandidates(index, tagName, attributes, text));
         }
-        for (Map.Entry<String, String> entry : attributes.entrySet()) {
-            if (!"id".equals(entry.getKey()) && !"name".equals(entry.getKey()) && !entry.getValue().isBlank()
-                    && !entry.getValue().contains("\"")) {
-                String cssValue = "[" + entry.getKey() + "=\"" + entry.getValue() + "\"]";
-                candidates.add(new LocatorCandidate(LocatorType.CSS_SELECTOR, cssValue,
-                        LocatorCandidate.PRIORITY_CUSTOM_ATTRIBUTE,
-                        "by attribute " + entry.getKey() + "=\"" + entry.getValue() + "\""));
-            }
-        }
-        if (!text.isBlank() && !text.contains("'") && text.length() <= MAX_TEXT_LENGTH) {
-            String xpathValue = "//" + tagName + "[normalize-space()='" + text + "']";
-            candidates.add(new LocatorCandidate(LocatorType.XPATH, xpathValue, LocatorCandidate.PRIORITY_TEXT,
-                    "by text \"" + text + "\""));
-        }
-        candidates.add(new LocatorCandidate(LocatorType.CSS_SELECTOR,
-                "[" + MARKER_ATTRIBUTE + "=\"" + index + "\"]", LocatorCandidate.PRIORITY_MARKER,
-                "by scan index " + index));
         candidates.sort(Comparator.comparingInt(LocatorCandidate::getPriority));
         return candidates;
     }

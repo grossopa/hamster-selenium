@@ -37,8 +37,8 @@ import java.util.List;
  * page to {@code target/recorder-examples}, launches Chrome, scans the page, selects a few elements and generates
  * the page object into {@code target/recorder-generated}.
  *
- * <p>The browser driver executable is resolved automatically by Selenium Manager. Run this class as a normal Java
- * application.</p>
+ * <p>Requires the Edge Driver Service running on port 38383 (start via {@code StartDriverServiceEdge}).
+ * Run this class as a normal Java application.</p>
  *
  * @author Jack Yin
  * @since 1.15

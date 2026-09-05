@@ -25,11 +25,9 @@ package com.github.grossopa.selenium.recorder.model;
 
 import jakarta.annotation.Nullable;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import static java.util.Comparator.comparingInt;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -120,8 +118,7 @@ public class ScannedElement {
      */
     @Nullable
     public LocatorCandidate getBestLocator() {
-        return locatorCandidates.stream().min((a, b) -> Integer.compare(a.getPriority(), b.getPriority()))
-                .orElse(null);
+        return locatorCandidates.stream().min(comparingInt(LocatorCandidate::getPriority)).orElse(null);
     }
 
     /**

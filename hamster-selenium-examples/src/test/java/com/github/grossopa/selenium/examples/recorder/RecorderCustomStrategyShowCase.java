@@ -39,8 +39,8 @@ import java.util.List;
  * sample application into one single page so that the elements collected on both the login page and the dashboard
  * page are merged into one generated page object.
  *
- * <p>The browser driver executable is resolved automatically by Selenium Manager. Run this class as a normal Java
- * application.</p>
+ * <p>Requires the Edge Driver Service running on port 38383 (start via {@code StartDriverServiceEdge}).
+ * Run this class as a normal Java application.</p>
  *
  * @author Jack Yin
  * @since 1.15

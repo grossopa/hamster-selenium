@@ -28,6 +28,7 @@ import com.github.grossopa.selenium.recorder.config.RecorderConfig;
 import com.github.grossopa.selenium.recorder.model.LocatorCandidate;
 import com.github.grossopa.selenium.recorder.model.LocatorType;
 import com.github.grossopa.selenium.recorder.model.ScannedElement;
+import com.github.grossopa.selenium.recorder.scan.strategy.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
@@ -36,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -96,8 +98,32 @@ class DefaultElementScannerTest {
     }
 
     @Test
+    void testScanExcludesElementWithNoMatchingStrategy() {
+        when(driver.executeScript(anyString(), any(), any(), any(), any())).thenReturn(
+                List.of(Map.of("tagName", "div", "text", "", "attributes", Map.of())));
+        List<ScannedElement> result = testSubject.scan(driver);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testCreateDefaultLocatorCandidateStrategies() {
+        List<LocatorCandidateStrategy> strategies = DefaultElementScanner.createDefaultLocatorCandidateStrategies(config);
+        assertEquals(4, strategies.size());
+        assertInstanceOf(IdLocatorCandidateStrategy.class, strategies.get(0));
+        assertInstanceOf(NameLocatorCandidateStrategy.class, strategies.get(1));
+        assertInstanceOf(CustomAttributeLocatorCandidateStrategy.class, strategies.get(2));
+        assertInstanceOf(TextLocatorCandidateStrategy.class, strategies.get(3));
+    }
+
+    @Test
+    void testGetStrategies() {
+        List<LocatorCandidateStrategy> strategies = testSubject.getStrategies();
+        assertEquals(4, strategies.size());
+    }
+
+    @Test
     void testMarkerLocator() {
-        assertEquals(By.cssSelector("[data-hamster-rec-idx=\"3\"]"), DefaultElementScanner.markerLocator(3));
+        assertEquals(By.xpath("*[@data-hamster-rec-idx=\"3\"]"), DefaultElementScanner.markerLocator(3));
     }
 
     @Test
