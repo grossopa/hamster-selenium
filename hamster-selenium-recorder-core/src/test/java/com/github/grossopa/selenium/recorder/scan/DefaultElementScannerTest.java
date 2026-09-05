@@ -76,15 +76,13 @@ class DefaultElementScannerTest {
         assertEquals("Login", first.getText());
         assertEquals("login-btn", first.getAttributes().get("id"));
 
-        // id > custom attribute > text > marker
+        // id > custom attribute > marker (text strategy is not in default list)
         List<LocatorCandidate> candidates = first.getLocatorCandidates();
-        assertEquals(4, candidates.size());
+        assertEquals(3, candidates.size());
         assertEquals(LocatorType.ID, candidates.get(0).getType());
         assertEquals(LocatorType.CSS_SELECTOR, candidates.get(1).getType());
         assertEquals("[data-testid=\"login\"]", candidates.get(1).getValue());
-        assertEquals(LocatorType.XPATH, candidates.get(2).getType());
-        assertEquals("//button[normalize-space()='Login']", candidates.get(2).getValue());
-        assertEquals(LocatorCandidate.PRIORITY_MARKER, candidates.get(3).getPriority());
+        assertEquals(LocatorCandidate.PRIORITY_MARKER, candidates.get(2).getPriority());
 
         ScannedElement second = result.get(1);
         assertEquals(LocatorType.NAME, second.getBestLocator().getType());
@@ -108,17 +106,16 @@ class DefaultElementScannerTest {
     @Test
     void testCreateDefaultLocatorCandidateStrategies() {
         List<LocatorCandidateStrategy> strategies = DefaultElementScanner.createDefaultLocatorCandidateStrategies(config);
-        assertEquals(4, strategies.size());
+        assertEquals(3, strategies.size());
         assertInstanceOf(IdLocatorCandidateStrategy.class, strategies.get(0));
         assertInstanceOf(NameLocatorCandidateStrategy.class, strategies.get(1));
         assertInstanceOf(CustomAttributeLocatorCandidateStrategy.class, strategies.get(2));
-        assertInstanceOf(TextLocatorCandidateStrategy.class, strategies.get(3));
     }
 
     @Test
     void testGetStrategies() {
         List<LocatorCandidateStrategy> strategies = testSubject.getStrategies();
-        assertEquals(4, strategies.size());
+        assertEquals(3, strategies.size());
     }
 
     @Test

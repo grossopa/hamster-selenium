@@ -133,21 +133,20 @@ public class DefaultElementScanner implements ElementScanner {
 
     /**
      * Creates the default list of locator candidate strategies: {@link IdLocatorCandidateStrategy},
-     * {@link NameLocatorCandidateStrategy}, {@link CustomAttributeLocatorCandidateStrategy}.
-     * {@link TextLocatorCandidateStrategy} and {@link MarkerLocatorCandidateStrategy}.
+     * {@link NameLocatorCandidateStrategy} and {@link CustomAttributeLocatorCandidateStrategy}.
      *
-     * <p>The {@link MarkerLocatorCandidateStrategy} is intentionally excluded from the default list because it always
-     * produces a candidate and would prevent the scanner from filtering out elements that do not match any meaningful
-     * strategy. The marker candidate is appended automatically by the scanner after at least one strategy has
-     * matched.</p>
+     * <p>The {@link TextLocatorCandidateStrategy} and {@link MarkerLocatorCandidateStrategy} are intentionally excluded
+     * from the default list. The text strategy is opt-in because text-based locators are often fragile. The marker
+     * strategy always produces a candidate and would prevent the scanner from filtering out elements that do not match
+     * any meaningful strategy. The marker candidate is appended automatically by the scanner after at least one
+     * strategy has matched.</p>
      *
      * @param config the recorder configuration providing the key attributes
      * @return the default list of locator candidate strategies
      */
     public static List<LocatorCandidateStrategy> createDefaultLocatorCandidateStrategies(RecorderConfig config) {
         return List.of(new IdLocatorCandidateStrategy(), new NameLocatorCandidateStrategy(),
-                new CustomAttributeLocatorCandidateStrategy(config.getKeyAttributes()),
-                new TextLocatorCandidateStrategy());
+                new CustomAttributeLocatorCandidateStrategy(config.getKeyAttributes()));
     }
 
     @Override
