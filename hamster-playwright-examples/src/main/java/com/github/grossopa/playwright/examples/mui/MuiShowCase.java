@@ -179,23 +179,35 @@ public class MuiShowCase extends AbstractBrowserSupport {
         }
     }
 
+    /**
+     * Main entry point. Starts the Playwright driver, runs all MUI component tests and
+     * prints a summary report.
+     *
+     * <p>Optional first argument or {@code MUI_FILTER} environment variable to run
+     * a single test by name (e.g. {@code "testButton"}).</p>
+     *
+     * @param args optional: first argument is the test name filter
+     */
     public static void main(String[] args) {
         MuiShowCase test = new MuiShowCase();
         test.setUpDriver();
 
-        test.runTestClass("MuiShowCase", () -> {
-            test.runTest("testButton", test::testButton);
-            test.runTest("testTextField", test::testTextField);
-            test.runTest("testMultipleComponents", test::testMultipleComponents);
-            test.runTest("testSelect", test::testSelect);
-            test.runTest("testCheckbox", test::testCheckbox);
-        });
+        String filter = args.length > 0 ? args[0] : System.getenv("MUI_FILTER");
 
-        // Keep browser open for manual inspection
         try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            test.runTestClass("MuiShowCase", () -> {
+                test.runIf(filter, "testButton", test::testButton);
+                test.runIf(filter, "testTextField", test::testTextField);
+                test.runIf(filter, "testMultipleComponents", test::testMultipleComponents);
+                test.runIf(filter, "testSelect", test::testSelect);
+                test.runIf(filter, "testCheckbox", test::testCheckbox);
+            });
+        } finally {
+            test.tearDownAndReport();
+        }
+
+        if (test.hasFailures()) {
+            System.exit(1);
         }
     }
 }

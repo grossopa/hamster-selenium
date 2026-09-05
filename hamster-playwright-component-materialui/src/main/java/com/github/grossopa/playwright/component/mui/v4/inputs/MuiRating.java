@@ -32,6 +32,7 @@ import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.BoundingBox;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -90,7 +91,7 @@ public class MuiRating extends AbstractMuiComponent {
         List<WebComponent> checkedInputs = findComponents("input:checked");
         if (!checkedInputs.isEmpty()) {
             String value = checkedInputs.get(0).getAttribute("value");
-            return value == null || value.isEmpty() ? 0 : Double.parseDouble(value);
+            return StringUtils.isEmpty(value) ? 0 : Double.parseDouble(value);
         }
         // read-only ratings render without radio inputs, calculate the value based on the filled icons
         List<WebComponent> stars = getStars();

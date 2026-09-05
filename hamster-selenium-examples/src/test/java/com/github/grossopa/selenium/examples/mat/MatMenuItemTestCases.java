@@ -28,6 +28,7 @@ import com.github.grossopa.hamster.selenium.component.mat.finder.MatMenuItemFind
 import com.github.grossopa.hamster.selenium.component.mat.main.MatButton;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatMenu;
 import com.github.grossopa.hamster.selenium.component.mat.main.sub.MatMenuItem;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
@@ -47,6 +48,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatMenuItemTestCases extends AbstractBrowserSupport {
 
     public void testMenuWithIcons() {
+        navigateToExamples("https://v12.material.angular.io/components/menu/examples");
         MatButton iconButton = driver.findComponent(By.tagName("menu-icons-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(mat()).toButton();
         iconButton.click();
@@ -61,15 +63,17 @@ public class MatMenuItemTestCases extends AbstractBrowserSupport {
         assertFalse(menuItems.get(1).isEnabled());
         assertTrue(menuItems.get(2).isEnabled());
 
-        assertEquals("Redial", menuItems.get(0).findComponent(By.tagName("span")).getText());
-        assertEquals("Check voice mail", menuItems.get(1).findComponent(By.tagName("span")).getText());
-        assertEquals("Disable alerts", menuItems.get(2).findComponent(By.tagName("span")).getText());
+        // the archived doc site is slow; poll until the menu item texts are rendered
+        assertEquals("Redial", awaitText(menuItems.get(0).findComponent(By.tagName("span"))));
+        assertEquals("Check voice mail", awaitText(menuItems.get(1).findComponent(By.tagName("span"))));
+        assertEquals("Disable alerts", awaitText(menuItems.get(2).findComponent(By.tagName("span"))));
 
         menu.close();
-        driver.threadSleep(500L);
+        driver.threadSleep(1500L);
     }
 
     public void testNestedMenu() {
+        navigateToExamples("https://v12.material.angular.io/components/menu/examples");
         MatButton animalIndexButton = driver.findComponent(By.tagName("menu-nested-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(mat()).toButton();
 
@@ -77,31 +81,30 @@ public class MatMenuItemTestCases extends AbstractBrowserSupport {
 
         MatMenuItemFinder finder = new MatMenuItemFinder(driver, new MatConfig());
         MatMenu menu = finder.findTopMenu(300L);
-        menu.expandItemByText("Vertebrates", 300L, 300L).expandItemByText("Amphibians", 300L, 300L);
+        expandAfterTextRendered(menu, "Vertebrates").expandItemByText("Amphibians", 300L, 300L);
 
         List<MatMenu> menus = finder.findMenus(0L);
 
         assertEquals(3, menus.size());
         menus.forEach(container -> assertTrue(container.validate()));
 
-        assertEquals("Vertebrates",
-                menus.get(0).findComponentsAs(By.className("mat-menu-item"), c -> c.as(mat()).toMenuItem()).stream()
-                        .peek(item -> assertTrue(item::validate)).filter(MatMenuItem::isExpanded).findFirst()
-                        .orElseThrow().getText());
+        assertEquals("Vertebrates", awaitText(menus.get(0).findComponentsAs(By.className("mat-menu-item"),
+                c -> c.as(mat()).toMenuItem()).stream().peek(item -> assertTrue(item::validate))
+                .filter(MatMenuItem::isExpanded).findFirst().orElseThrow()));
 
-        assertEquals("Amphibians",
-                menus.get(1).findComponentsAs(By.className("mat-menu-item"), c -> c.as(mat()).toMenuItem()).stream()
-                        .peek(item -> assertTrue(item::validate)).filter(MatMenuItem::isExpanded).findFirst()
-                        .orElseThrow().getText());
+        assertEquals("Amphibians", awaitText(menus.get(1).findComponentsAs(By.className("mat-menu-item"),
+                c -> c.as(mat()).toMenuItem()).stream().peek(item -> assertTrue(item::validate))
+                .filter(MatMenuItem::isExpanded).findFirst().orElseThrow()));
 
         MatMenu menuToClose;
         while ((menuToClose = finder.findTopMenu()) != null) {
             menuToClose.close();
-            driver.threadSleep(500L);
+            driver.threadSleep(1500L);
         }
     }
 
     public void testNestedMenuComplexActions() {
+        navigateToExamples("https://v12.material.angular.io/components/menu/examples");
         MatButton animalIndexButton = driver.findComponent(By.tagName("menu-nested-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(mat()).toButton();
         animalIndexButton.click();
@@ -115,11 +118,12 @@ public class MatMenuItemTestCases extends AbstractBrowserSupport {
         MatMenu menuToClose;
         while ((menuToClose = finder.findTopMenu()) != null) {
             menuToClose.close();
-            driver.threadSleep(500L);
+            driver.threadSleep(1500L);
         }
     }
 
     public void testSelection() {
+        navigateToExamples("https://v12.material.angular.io/components/menu/examples");
         MatButton animalIndexButton = driver.findComponent(By.tagName("menu-nested-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(mat()).toButton();
 
@@ -127,10 +131,10 @@ public class MatMenuItemTestCases extends AbstractBrowserSupport {
 
         MatMenuItemFinder finder = new MatMenuItemFinder(driver, new MatConfig());
         MatMenu menu = finder.findTopMenu(300L);
-        MatMenu menu3 = menu.expandItemByText("Vertebrates", 300L, 300L).expandItemByText("Amphibians", 300L, 300L);
+        MatMenu menu3 = expandAfterTextRendered(menu, "Vertebrates").expandItemByText("Amphibians", 300L, 300L);
 
         menu3.selectItemByIndex(0);
-        driver.threadSleep(500L);
+        driver.threadSleep(1500L);
         assertNull(finder.findTopMenu());
 
         animalIndexButton.click();
@@ -139,15 +143,42 @@ public class MatMenuItemTestCases extends AbstractBrowserSupport {
         MatMenu menu31 = menu11.expandItemByText("Vertebrates", 300L, 300L).expandItemByText("Amphibians", 300L, 300L);
 
         menu31.selectItemByText("Arroyo toad");
-        driver.threadSleep(500L);
+        driver.threadSleep(1500L);
         assertNull(finder.findTopMenu());
+    }
+
+    /**
+     * Waits until the menu item texts are rendered on the slow archived site, then expands the item by text.
+     */
+    private MatMenu expandAfterTextRendered(MatMenu menu, String text) {
+        // the archived doc site is slow; poll until any menu item text is rendered before matching by text
+        for (int i = 0; i < 40; i++) {
+            MatMenuItem rendered = menu.getMenuItems().stream()
+                    .filter(item -> item.getText() != null && !item.getText().isBlank()).findFirst().orElse(null);
+            if (rendered != null) {
+                break;
+            }
+            driver.threadSleep(250L);
+        }
+        return menu.expandItemByText(text, 300L, 300L);
+    }
+
+    private String awaitText(WebComponent component) {
+        for (int i = 0; i < 40; i++) {
+            String text = component.getText();
+            if (text != null && !text.isBlank()) {
+                return text;
+            }
+            driver.threadSleep(250L);
+        }
+        return component.getText();
     }
 
     public static void main(String[] args) {
         MatMenuItemTestCases test = new MatMenuItemTestCases();
         try {
             test.setUpDriver(EDGE);
-            test.driver.navigate().to("https://material.angular.io/components/menu/examples");
+            test.navigateToExamples("https://v12.material.angular.io/components/menu/examples");
             test.testMenuWithIcons();
             test.testNestedMenu();
             test.testNestedMenuComplexActions();

@@ -24,6 +24,7 @@
 package com.github.grossopa.selenium.examples.mat;
 
 import com.github.grossopa.hamster.selenium.component.mat.main.MatFormField;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -44,7 +45,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatFormFieldTestCases extends AbstractBrowserSupport {
 
     public void navigate() {
-        driver.navigate().to("https://material.angular.io/components/form-field/examples");
+        navigateToExamples("https://v12.material.angular.io/components/form-field/examples");
     }
 
     public void testAppearance() {
@@ -55,7 +56,7 @@ public class MatFormFieldTestCases extends AbstractBrowserSupport {
         assertTrue(appearanceFormFields.stream().allMatch(MatFormField::validate));
         assertTrue(appearanceFormFields.stream().allMatch(MatFormField::isEnabled));
 
-        assertEquals("Hint", appearanceFormFields.get(0).getHint().getText());
+        assertEquals("Hint", awaitText(appearanceFormFields.get(0).getHint()));
 
         assertDoesNotThrow(() -> appearanceFormFields.get(1).getSuffix()
                 .findComponent(xpathBuilder().relative("mat-icon").build()));
@@ -67,26 +68,45 @@ public class MatFormFieldTestCases extends AbstractBrowserSupport {
                 .as(mat()).toFormField();
 
         errorFormField.getInput().sendKeys("ddddd");
-        // send Tab key to make the input to lose focus, and trigger the error check
-        errorFormField.getInput().sendKeys(Keys.TAB);
-        assertEquals("Enter your email", errorFormField.getLabel().getText());
-        assertEquals("Not a valid email", errorFormField.getError().getText());
+        // poll until the label and error message are rendered after the blur event; on the slow
+        // archived site the blur may be missed, so re-focus and tab out again on each retry
+        String error = "";
+        for (int i = 0; i < 5 && error.isBlank(); i++) {
+            errorFormField.getInput().sendKeys(Keys.TAB);
+            assertEquals("Enter your email", awaitText(errorFormField.getLabel()));
+            error = awaitText(errorFormField.getError());
+            if (error.isBlank()) {
+                errorFormField.getInput().click();
+            }
+        }
+        assertEquals("Not a valid email", error);
     }
 
     public void testHints() {
         List<MatFormField> hintsFormFields = driver.findComponent(By.id("form-field-hint"))
                 .findComponentsAs(By.tagName("mat-form-field"), c -> c.as(mat()).toFormField());
 
-        assertEquals("Max 10 characters", hintsFormFields.get(0).getHint().getText());
-        assertEquals("Here's the dropdown arrow ^", hintsFormFields.get(1).getHint().getText());
+        assertEquals("Max 10 characters", awaitText(hintsFormFields.get(0).getHint()));
+        assertEquals("Here's the dropdown arrow ^", awaitText(hintsFormFields.get(1).getHint()));
     }
 
     public void testPrefixSuffix() {
         List<MatFormField> prefixSuffixFormFields = driver.findComponent(By.id("form-field-prefix-suffix"))
                 .findComponentsAs(By.tagName("mat-form-field"), c -> c.as(mat()).toFormField());
 
-        assertEquals("$", prefixSuffixFormFields.get(1).getPrefix().getText().trim());
-        assertEquals(".00", prefixSuffixFormFields.get(1).getSuffix().getText());
+        assertEquals("$", awaitText(prefixSuffixFormFields.get(1).getPrefix()).trim());
+        assertEquals(".00", awaitText(prefixSuffixFormFields.get(1).getSuffix()));
+    }
+
+    private String awaitText(WebComponent component) {
+        for (int i = 0; i < 40; i++) {
+            String text = component.getText();
+            if (text != null && !text.isBlank()) {
+                return text;
+            }
+            driver.threadSleep(250L);
+        }
+        return component.getText();
     }
 
     public static void main(String[] args) {

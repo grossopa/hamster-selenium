@@ -23,7 +23,12 @@
  */
 package org.hamster.selenium.examples.util;
 
-import java.io.*;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -145,13 +150,8 @@ public class BrowserDriverManager {
      * @throws IOException if an I/O error occurs
      */
     private static String readStringFromUrl(String urlString) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(urlString).openStream()))) {
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-            }
-            return sb.toString();
+        try (InputStream is = new URL(urlString).openStream()) {
+            return IOUtils.toString(is, java.nio.charset.StandardCharsets.UTF_8);
         }
     }
     
@@ -177,7 +177,7 @@ public class BrowserDriverManager {
         
         // Add version number to the executable name
         String versionedExecutableName = finalExecutableName;
-        if (version != null && !version.isEmpty()) {
+        if (StringUtils.isNotEmpty(version)) {
             int dotIndex = version.indexOf('.');
             String majorVersion = (dotIndex != -1) ? version.substring(0, dotIndex) : version;
             versionedExecutableName = finalExecutableName + "_" + majorVersion;
@@ -211,13 +211,7 @@ public class BrowserDriverManager {
                       zipEntry.getName().endsWith("\\" + executableName + ".exe"))) {
                     
                     // Extract the file
-                    try (FileOutputStream fos = new FileOutputStream(executablePath.toFile())) {
-                        byte[] buffer = new byte[1024];
-                        int len;
-                        while ((len = zis.read(buffer)) > 0) {
-                            fos.write(buffer, 0, len);
-                        }
-                    }
+                    Files.copy(zis, executablePath, StandardCopyOption.REPLACE_EXISTING);
                     break;
                 }
             }

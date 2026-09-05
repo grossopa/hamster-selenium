@@ -66,6 +66,9 @@ public abstract class AbstractBrowserSupport {
 
     protected static ComponentDriver driver;
 
+    /** Whether any test method has failed so far. */
+    protected boolean anyFailure = false;
+
     private final List<TestResult> testResults = new ArrayList<>();
 
     /**
@@ -147,6 +150,44 @@ public abstract class AbstractBrowserSupport {
     }
 
     /**
+     * Runs a single test, catching any throwable so that subsequent tests still execute.
+     * Sets {@link #anyFailure} to {@code true} on failure.
+     *
+     * @param name       the display name of the test
+     * @param test       the test logic to execute
+     */
+    protected void run(String name, Runnable test) {
+        try {
+            runTest(name, test);
+        } catch (Throwable ex) {
+            anyFailure = true;
+            ex.printStackTrace(System.err);
+        }
+    }
+
+    /**
+     * Conditionally runs a single test when the given filter matches (or is {@code null}).
+     *
+     * @param filter     the active filter, or {@code null} to run everything
+     * @param name       the display name of the test
+     * @param test       the test logic to execute
+     */
+    protected void runIf(String filter, String name, Runnable test) {
+        if (filter == null || filter.equals(name)) {
+            run(name, test);
+        }
+    }
+
+    /**
+     * Returns whether any test method has failed so far.
+     *
+     * @return {@code true} if at least one test has failed
+     */
+    protected boolean hasFailures() {
+        return anyFailure;
+    }
+
+    /**
      * Prints the overall test result summary and closes the driver.
      *
      * <p>This method replaces the former {@code tearDownDriver} to reflect its expanded
@@ -174,7 +215,7 @@ public abstract class AbstractBrowserSupport {
             long elapsed = System.currentTimeMillis() - startTime;
             System.out.println("<<< END:   " + testName + " [PASSED] (" + elapsed + "ms)");
             testResults.add(new TestResult(testName, true, elapsed, null));
-        } catch (Exception e) {
+        } catch (Throwable e) {
             long elapsed = System.currentTimeMillis() - startTime;
             System.err.println("<<< END:   " + testName + " [FAILED] (" + elapsed + "ms) - " + e.getMessage());
             testResults.add(new TestResult(testName, false, elapsed, e.getMessage()));
@@ -263,6 +304,20 @@ public abstract class AbstractBrowserSupport {
         System.out.println(border);
         System.out.println(String.format(totalFmt, testResults.size(), passed, failed, totalElapsed));
         System.out.println(border);
+
+        // Print failed tests section
+        List<TestResult> failedResults = testResults.stream().filter(r -> !r.passed).toList();
+        if (!failedResults.isEmpty()) {
+            System.out.println();
+            System.out.println(border);
+            System.out.println("  FAILED TESTS (" + failedResults.size() + ")");
+            System.out.println(border);
+            for (TestResult result : failedResults) {
+                System.out.println("  - " + result.name + " (" + result.elapsedMs + "ms)");
+                System.out.println("    " + result.errorMessage);
+            }
+            System.out.println(border);
+        }
     }
 
     public static void main(String[] args) {

@@ -361,24 +361,36 @@ public class MuiIntegrationTest extends AbstractBrowserSupport {
         System.out.println("Multi-step wizard workflow completed!");
     }
 
+    /**
+     * Main entry point. Starts the Playwright driver, runs all MUI integration tests and
+     * prints a summary report.
+     *
+     * <p>Optional first argument or {@code MUI_INTEGRATION_FILTER} environment variable to run
+     * a single test by name.</p>
+     *
+     * @param args optional: first argument is the test name filter
+     */
     public static void main(String[] args) {
         MuiIntegrationTest test = new MuiIntegrationTest();
         test.setUpDriver();
 
-        test.runTestClass("MuiIntegrationTest", () -> {
-            test.runTest("testEcommerceFilterScenario", test::testEcommerceFilterScenario);
-            test.runTest("testUserProfileEditScenario", test::testUserProfileEditScenario);
-            test.runTest("testDashboardNavigationScenario", test::testDashboardNavigationScenario);
-            test.runTest("testDataTablePaginationScenario", test::testDataTablePaginationScenario);
-            test.runTest("testFormValidationScenario", test::testFormValidationScenario);
-            test.runTest("testMultiStepWizardScenario", test::testMultiStepWizardScenario);
-        });
+        String filter = args.length > 0 ? args[0] : System.getenv("MUI_INTEGRATION_FILTER");
 
-        // Keep browser open for manual inspection
         try {
-            Thread.sleep(20000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            test.runTestClass("MuiIntegrationTest", () -> {
+                test.runIf(filter, "testEcommerceFilterScenario", test::testEcommerceFilterScenario);
+                test.runIf(filter, "testUserProfileEditScenario", test::testUserProfileEditScenario);
+                test.runIf(filter, "testDashboardNavigationScenario", test::testDashboardNavigationScenario);
+                test.runIf(filter, "testDataTablePaginationScenario", test::testDataTablePaginationScenario);
+                test.runIf(filter, "testFormValidationScenario", test::testFormValidationScenario);
+                test.runIf(filter, "testMultiStepWizardScenario", test::testMultiStepWizardScenario);
+            });
+        } finally {
+            test.tearDownAndReport();
+        }
+
+        if (test.hasFailures()) {
+            System.exit(1);
         }
     }
 }

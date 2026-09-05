@@ -55,9 +55,9 @@ class MatChipTest {
     void setUp() {
         when(config.getCssPrefix()).thenReturn("mat-");
         when(config.getTagPrefix()).thenReturn("mat-");
-        when(element.findElement(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
+        when(element.findElement(By.xpath(".//*[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
                 removeIconElement);
-        when(element.findElements(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
+        when(element.findElements(By.xpath(".//*[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
                 newArrayList(removeIconElement));
         testSubject = new MatChip(element, driver, config);
     }
@@ -90,7 +90,7 @@ class MatChipTest {
     @Test
     void getTextNoRemoveIcon() {
         when(element.getText()).thenReturn("Lemon");
-        when(element.findElements(By.xpath(".//mat-icon[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
+        when(element.findElements(By.xpath(".//*[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
                 newArrayList());
         assertEquals("Lemon", testSubject.getText());
     }

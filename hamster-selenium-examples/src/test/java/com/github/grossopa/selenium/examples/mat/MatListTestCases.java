@@ -46,6 +46,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatListTestCases extends AbstractBrowserSupport {
 
     public void testList() {
+        navigateToExamples("https://v12.material.angular.io/components/list/examples");
         WebComponent container = driver.findComponent(By.tagName("list-overview-example"));
         MatList list = container.findComponent(By.className("mat-list")).as(mat()).toList();
         assertTrue(list.validate());
@@ -58,6 +59,7 @@ public class MatListTestCases extends AbstractBrowserSupport {
     }
 
     public void testListWithSelection() {
+        navigateToExamples("https://v12.material.angular.io/components/list/examples");
         WebComponent container = driver.findComponent(By.tagName("list-selection-example"));
         MatSelectionList selectionList = container.findComponent(By.className("mat-selection-list")).as(mat())
                 .toSelectionList();
@@ -82,6 +84,7 @@ public class MatListTestCases extends AbstractBrowserSupport {
     }
 
     public void testListWithSingleSelection() {
+        navigateToExamples("https://v12.material.angular.io/components/list/examples");
         WebComponent container = driver.findComponent(By.tagName("list-single-selection-example"));
         MatSelectionList selectionList = container.findComponent(By.className("mat-selection-list")).as(mat())
                 .toSelectionList();
@@ -109,7 +112,7 @@ public class MatListTestCases extends AbstractBrowserSupport {
         MatListTestCases test = new MatListTestCases();
         try {
             test.setUpDriver(EDGE);
-            test.driver.navigate().to("https://material.angular.io/components/list/examples");
+            test.navigateToExamples("https://v12.material.angular.io/components/list/examples");
             test.testList();
             test.testListWithSelection();
             test.testListWithSingleSelection();

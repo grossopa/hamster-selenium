@@ -26,6 +26,8 @@ package com.github.grossopa.selenium.core.locator;
 
 import org.openqa.selenium.By;
 
+import static org.apache.commons.lang3.Strings.CI;
+
 /**
  * Delegates the {@link By} static methods and with additional helper methods.
  *
@@ -400,22 +402,22 @@ public abstract class By2 extends By {
     private static String xpathFromBy(By by) {
         String toString = by.toString();
         if (toString.startsWith("By.id: ")) {
-            return "@id='" + toString.substring(7) + "'";
+            return "@id='" + CI.removeStart(toString, "By.id: ") + "'";
         } else if (toString.startsWith("By.className: ")) {
-            return "contains(@class, '" + toString.substring(14) + "')";
+            return "contains(@class, '" + CI.removeStart(toString, "By.className: ") + "')";
         } else if (toString.startsWith("By.tagName: ")) {
-            return "local-name()='" + toString.substring(12) + "'";
+            return "local-name()='" + CI.removeStart(toString, "By.tagName: ") + "'";
         } else if (toString.startsWith("By.name: ")) {
-            return "@name='" + toString.substring(9) + "'";
+            return "@name='" + CI.removeStart(toString, "By.name: ") + "'";
         } else if (toString.startsWith("By.xpath: ")) {
-            return toString.substring(10);
+            return CI.removeStart(toString, "By.xpath: ");
         } else if (toString.startsWith("By.cssSelector: ")) {
             // This is a simplified conversion - full CSS to XPath is complex
             return ""; // Would need a full CSS to XPath converter
         } else if (toString.startsWith("By.linkText: ")) {
-            return "text()='" + toString.substring(13) + "'";
+            return "text()='" + CI.removeStart(toString, "By.linkText: ") + "'";
         } else if (toString.startsWith("By.partialLinkText: ")) {
-            return "contains(text(), '" + toString.substring(20) + "')";
+            return "contains(text(), '" + CI.removeStart(toString, "By.partialLinkText: ") + "')";
         }
         // Fallback - try to use the whole expression
         return toString;

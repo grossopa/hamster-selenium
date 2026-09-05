@@ -29,6 +29,7 @@ import com.github.grossopa.hamster.selenium.component.mat.main.MatButton;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatChipList;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatDialog;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatOverlayContainer;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
@@ -47,7 +48,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatDialogTestCases extends AbstractBrowserSupport {
 
     public void testDialog() {
-        driver.navigate().to("https://material.angular.io/components/dialog/examples");
+        navigateToExamples("https://v12.material.angular.io/components/dialog/examples");
 
         MatOverlayFinder overlayFinder = new MatOverlayFinder(driver, new MatConfig());
         MatButton openDialogButton1 = driver.findComponent(By.tagName("dialog-content-example"))
@@ -57,18 +58,32 @@ public class MatDialogTestCases extends AbstractBrowserSupport {
         assertNotNull(overlayContainer);
         MatDialog dialog = overlayContainer.findComponent(By.tagName("mat-dialog-container")).as(mat()).toDialog();
         assertTrue(dialog.validate());
-        assertEquals("Install Angular", dialog.getDialogTitle().getText());
-        assertTrue(dialog.getDialogContent().getText().startsWith("Develop across all platforms"));
+        // the archived doc site is slow; poll until the dialog texts are rendered
+        assertEquals("Install Angular", awaitText(dialog.getDialogTitle()));
+        assertTrue(awaitText(dialog.getDialogContent()).startsWith("Develop across all platforms"));
 
         List<MatButton> buttons = dialog.getDialogActions()
                 .findComponentsAs(By.tagName("button"), c -> c.as(mat()).toButton());
-        assertEquals("Cancel", buttons.get(0).getText());
-        assertEquals("Install", buttons.get(1).getText());
+        assertEquals("Cancel", awaitText(buttons.get(0)));
+        assertEquals("Install", awaitText(buttons.get(1)));
 
         buttons.get(0).click();
-        // wait for animation to end
-        driver.threadSleep(1000L);
+        // poll until the dialog dismiss animation ends
+        for (int i = 0; i < 40 && overlayFinder.findTopVisibleContainer() != null; i++) {
+            driver.threadSleep(250L);
+        }
         assertNull(overlayFinder.findTopVisibleContainer());
+    }
+
+    private String awaitText(WebComponent component) {
+        for (int i = 0; i < 40; i++) {
+            String text = component.getText();
+            if (text != null && !text.isBlank()) {
+                return text;
+            }
+            driver.threadSleep(250L);
+        }
+        return component.getText();
     }
 
     public static void main(String[] args) {

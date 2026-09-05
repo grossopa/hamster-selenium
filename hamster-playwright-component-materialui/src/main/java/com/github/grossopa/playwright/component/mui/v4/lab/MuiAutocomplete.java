@@ -32,6 +32,7 @@ import com.github.grossopa.playwright.component.mui.config.MuiConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -148,7 +149,7 @@ public class MuiAutocomplete extends AbstractMuiComponent {
         WebComponent input = getInput();
         if (input != null) {
             String value = input.getAttribute("value");
-            if (value != null && !value.isEmpty()) {
+            if (StringUtils.isNotEmpty(value)) {
                 return List.of(value);
             }
         }

@@ -82,8 +82,9 @@ public class MatChip extends AbstractMatComponent {
     }
 
     private By removeIconLocator() {
-        return xpathBuilder().anywhereRelative(config.getTagPrefix() + "icon").attr(CLASS)
-                .contains(config.getCssPrefix() + "chip-remove").build();
+        // the mat-chip-remove class is on the wrapping button element, not on the inner mat-icon
+        return xpathBuilder().anywhereRelative().attr(CLASS).contains(config.getCssPrefix() + "chip-remove")
+                .build();
     }
 
     /**
@@ -94,7 +95,9 @@ public class MatChip extends AbstractMatComponent {
      * <mat-chip>
      *   <div class="mat-chip-ripple"></div>
      *   " Lemon "
-     *   <mat-icon>cancel</mat-icon>
+     *   <button class="mat-chip-remove">
+     *     <mat-icon>cancel</mat-icon>
+     *   </button>
      * </mat-chip>
      * }
      *

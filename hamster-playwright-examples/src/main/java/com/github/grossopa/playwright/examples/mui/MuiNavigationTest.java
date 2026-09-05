@@ -321,28 +321,40 @@ public class MuiNavigationTest extends AbstractBrowserSupport {
         }
     }
 
+    /**
+     * Main entry point. Starts the Playwright driver, runs all MUI navigation tests and
+     * prints a summary report.
+     *
+     * <p>Optional first argument or {@code MUI_NAVIGATION_FILTER} environment variable to run
+     * a single test by name.</p>
+     *
+     * @param args optional: first argument is the test name filter
+     */
     public static void main(String[] args) {
         MuiNavigationTest test = new MuiNavigationTest();
         test.setUpDriver();
 
-        test.runTestClass("MuiNavigationTest", () -> {
-            test.runTest("testTabs", test::testTabs);
-            test.runTest("testMenu", test::testMenu);
-            test.runTest("testMenuItem", test::testMenuItem);
-            test.runTest("testDrawer", test::testDrawer);
-            test.runTest("testAccordion", test::testAccordion);
-            test.runTest("testBreadcrumbs", test::testBreadcrumbs);
-            test.runTest("testPagination", test::testPagination);
-            test.runTest("testStepper", test::testStepper);
-            test.runTest("testTabsWithContent", test::testTabsWithContent);
-            test.runTest("testMenuInteractionFlow", test::testMenuInteractionFlow);
-        });
+        String filter = args.length > 0 ? args[0] : System.getenv("MUI_NAVIGATION_FILTER");
 
-        // Keep browser open for manual inspection
         try {
-            Thread.sleep(15000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            test.runTestClass("MuiNavigationTest", () -> {
+                test.runIf(filter, "testTabs", test::testTabs);
+                test.runIf(filter, "testMenu", test::testMenu);
+                test.runIf(filter, "testMenuItem", test::testMenuItem);
+                test.runIf(filter, "testDrawer", test::testDrawer);
+                test.runIf(filter, "testAccordion", test::testAccordion);
+                test.runIf(filter, "testBreadcrumbs", test::testBreadcrumbs);
+                test.runIf(filter, "testPagination", test::testPagination);
+                test.runIf(filter, "testStepper", test::testStepper);
+                test.runIf(filter, "testTabsWithContent", test::testTabsWithContent);
+                test.runIf(filter, "testMenuInteractionFlow", test::testMenuInteractionFlow);
+            });
+        } finally {
+            test.tearDownAndReport();
+        }
+
+        if (test.hasFailures()) {
+            System.exit(1);
         }
     }
 }

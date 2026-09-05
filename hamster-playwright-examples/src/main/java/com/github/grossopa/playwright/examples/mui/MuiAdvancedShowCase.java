@@ -296,28 +296,40 @@ public class MuiAdvancedShowCase extends AbstractBrowserSupport {
         }
     }
 
+    /**
+     * Main entry point. Starts the Playwright driver, runs all advanced MUI component tests and
+     * prints a summary report.
+     *
+     * <p>Optional first argument or {@code MUI_ADVANCED_FILTER} environment variable to run
+     * a single test by name (e.g. {@code "testButtonVariants"}).</p>
+     *
+     * @param args optional: first argument is the test name filter
+     */
     public static void main(String[] args) {
         MuiAdvancedShowCase test = new MuiAdvancedShowCase();
         test.setUpDriver();
 
-        test.runTestClass("MuiAdvancedShowCase", () -> {
-            test.runTest("testButtonVariants", test::testButtonVariants);
-            test.runTest("testTextFieldStates", test::testTextFieldStates);
-            test.runTest("testCheckboxAndRadio", test::testCheckboxAndRadio);
-            test.runTest("testSwitch", test::testSwitch);
-            test.runTest("testSlider", test::testSlider);
-            test.runTest("testChip", test::testChip);
-            test.runTest("testTabs", test::testTabs);
-            test.runTest("testDialog", test::testDialog);
-            test.runTest("testRating", test::testRating);
-            test.runTest("testAutocomplete", test::testAutocomplete);
-        });
+        String filter = args.length > 0 ? args[0] : System.getenv("MUI_ADVANCED_FILTER");
 
-        // Keep browser open for manual inspection
         try {
-            Thread.sleep(15000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            test.runTestClass("MuiAdvancedShowCase", () -> {
+                test.runIf(filter, "testButtonVariants", test::testButtonVariants);
+                test.runIf(filter, "testTextFieldStates", test::testTextFieldStates);
+                test.runIf(filter, "testCheckboxAndRadio", test::testCheckboxAndRadio);
+                test.runIf(filter, "testSwitch", test::testSwitch);
+                test.runIf(filter, "testSlider", test::testSlider);
+                test.runIf(filter, "testChip", test::testChip);
+                test.runIf(filter, "testTabs", test::testTabs);
+                test.runIf(filter, "testDialog", test::testDialog);
+                test.runIf(filter, "testRating", test::testRating);
+                test.runIf(filter, "testAutocomplete", test::testAutocomplete);
+            });
+        } finally {
+            test.tearDownAndReport();
+        }
+
+        if (test.hasFailures()) {
+            System.exit(1);
         }
     }
 }

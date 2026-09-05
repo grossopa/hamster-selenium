@@ -45,7 +45,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatExpansionPanelTestCases extends AbstractBrowserSupport {
 
     public void testExpansionPanel() {
-        driver.navigate().to("https://material.angular.io/components/expansion/examples");
+        navigateToExamples("https://v12.material.angular.io/components/expansion/examples");
 
         WebComponent container = driver.findComponent(By.id("expansion-expand-collapse-all"));
         MatAccordion accordion = container.findComponent(By.tagName("mat-accordion")).as(mat()).toAccordion();
