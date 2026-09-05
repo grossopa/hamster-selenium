@@ -31,33 +31,25 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>hamster-selenium-examples</artifactId>
-  <name>Hamster Selenium Examples</name>
+  <artifactId>hamster-selenium-recorder-cli</artifactId>
+  <name>Hamster Selenium Recorder CLI</name>
+  <description>The command line interaction layer of the hamster selenium recorder. It launches the browser,
+    starts a recorder session from the recorder core engine and guides the user through scanning, selecting
+    elements, managing pages and generating page objects via an interactive REPL.
+  </description>
 
   <dependencies>
-    <dependency>
-      <groupId>com.github.grossopa</groupId>
-      <artifactId>hamster-selenium-component-html</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.github.grossopa</groupId>
-      <artifactId>hamster-selenium-component-materialui</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.github.grossopa</groupId>
-      <artifactId>hamster-selenium-component-mat</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.github.grossopa</groupId>
-      <artifactId>hamster-selenium-component-antdesign</artifactId>
-    </dependency>
     <dependency>
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-recorder-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
+      <groupId>info.picocli</groupId>
+      <artifactId>picocli</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jline</groupId>
+      <artifactId>jline</artifactId>
     </dependency>
   </dependencies>
 
