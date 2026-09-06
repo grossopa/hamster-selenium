@@ -36,6 +36,7 @@ import java.io.PrintStream;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
@@ -139,7 +140,8 @@ public class Repl {
                 : element.getTagName();
         String attributes = element.getAttributes().entrySet().stream()
                 .map(entry -> entry.getKey() + "=" + entry.getValue()).collect(Collectors.joining(", "));
-        String locator = element.getBestLocator() != null ? element.getBestLocator().getDescription() : "-";
+        var bestLocator = element.getBestLocator();
+        String locator = bestLocator != null ? bestLocator.getDescription() : "-";
         return String.format(Locale.ROOT, "  [%2d] %-14s %-30s %-20s %s", element.getIndex(), type,
                 abbreviate(attributes, 30), abbreviate(element.getText(), 20), locator);
     }
@@ -153,8 +155,10 @@ public class Repl {
         PageElementModel selected = session.select(index, parts[2]);
         String type = selected.getDetectedComponent() != null ? selected.getDetectedComponent().getTypeName()
                 : "WebComponent";
+        var currentPage = session.getCurrentPage();
+        var currentPageName = Optional.ofNullable(currentPage).map(PageModel::getName).orElse("-");
         out.println("Selected element " + index + " as '" + parts[2] + "' (" + type + ") into page '"
-                + session.getCurrentPage().getName() + "'.");
+                + currentPageName  + "'.");
     }
 
     private void pages() {
