@@ -24,6 +24,7 @@
 package com.github.grossopa.hamster.selenium.component.mat.main;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
+import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,5 +67,40 @@ class MatDatepickerTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatDatepicker{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void equalsSameInstance() {
+        assertEquals(testSubject, testSubject);
+    }
+
+    @Test
+    void equalsDifferentInstance() {
+        // Two instances with same element are equal (parent equals uses element comparison)
+        MatDatepicker other = new MatDatepicker(element, driver, config);
+        assertEquals(testSubject, other);
+    }
+
+    @Test
+    void equalsDifferentOverlayFinder() {
+        MatOverlayFinder overlayFinder = mock(MatOverlayFinder.class);
+        MatDatepicker other = new MatDatepicker(element, driver, config, overlayFinder);
+        assertNotEquals(testSubject, other);
+    }
+
+    @Test
+    void equalsNull() {
+        assertNotEquals(null, testSubject);
+    }
+
+    @Test
+    void equalsDifferentType() {
+        assertNotEquals("string", testSubject);
+    }
+
+    @Test
+    void hashCodeSameValues() {
+        MatDatepicker other = new MatDatepicker(element, driver, config);
+        assertEquals(testSubject.hashCode(), other.hashCode());
     }
 }

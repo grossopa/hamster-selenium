@@ -43,6 +43,7 @@ import jakarta.annotation.Nullable;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -274,5 +275,31 @@ public class MatAutocomplete extends AbstractMatComponent implements HasInput<We
         MatOverlayContainer container = containers.get(containers.size() - 1);
         List<WebComponent> panels = container.findComponents("." + config.getCssPrefix() + "autocomplete-panel");
         return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(0));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MatAutocomplete that)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        return overlayFinder.equals(that.overlayFinder) && optionSelector.equals(that.optionSelector);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), overlayFinder, optionSelector);
+    }
+
+    @Override
+    public String toString() {
+        return "MatAutocomplete{" + "overlayFinder=" + overlayFinder + ", optionSelector=" + optionSelector
+                + ", openOptionsAction=" + openOptionsAction + ", closeOptionsAction=" + closeOptionsAction
+                + ", locator=" + locator() + '}';
     }
 }

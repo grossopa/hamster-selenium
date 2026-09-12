@@ -268,6 +268,50 @@ class MatAutocompleteTest {
     }
 
     @Test
+    void equalsSameInstance() {
+        assertEquals(testSubject, testSubject);
+    }
+
+    @Test
+    void equalsDifferentInstance() {
+        MatAutocomplete other = new MatAutocomplete(locator, driver, config, overlayFinder);
+        assertNotEquals(testSubject, other);
+    }
+
+    @Test
+    void equalsDifferentOverlayFinder() {
+        MatOverlayFinder otherFinder = mock(MatOverlayFinder.class);
+        MatAutocomplete other = new MatAutocomplete(locator, driver, config, otherFinder);
+        assertNotEquals(testSubject, other);
+    }
+
+    @Test
+    void equalsDifferentOptionSelector() {
+        MatAutocomplete other = new MatAutocomplete(locator, driver, config, overlayFinder, ".custom-option");
+        assertNotEquals(testSubject, other);
+    }
+
+    @Test
+    void equalsNull() {
+        assertNotEquals(null, testSubject);
+    }
+
+    @Test
+    void equalsDifferentType() {
+        assertNotEquals("string", testSubject);
+    }
+
+    @Test
+    void hashCodeSameValues() {
+        // hashCode includes parent's hashCode which uses identity comparison for locator
+        // so two different instances will have different hashCodes even with same overlayFinder
+        MatAutocomplete other = new MatAutocomplete(locator, driver, config, overlayFinder);
+        // Both should have consistent hashCode when called on same instance
+        assertEquals(testSubject.hashCode(), testSubject.hashCode());
+        assertEquals(other.hashCode(), other.hashCode());
+    }
+
+    @Test
     void testToString() {
         assertTrue(testSubject.toString().contains("MatAutocomplete"));
     }

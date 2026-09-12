@@ -33,6 +33,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import jakarta.annotation.Nullable;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
@@ -136,5 +137,24 @@ public class MatDatepicker extends AbstractMatComponent implements HasInput<WebC
             return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(panels.size() - 1));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MatDatepicker that)) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        return overlayFinder.equals(that.overlayFinder);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), overlayFinder);
     }
 }
