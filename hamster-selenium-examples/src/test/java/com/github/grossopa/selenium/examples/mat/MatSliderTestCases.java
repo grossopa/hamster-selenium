@@ -172,7 +172,7 @@ public class MatSliderTestCases extends AbstractBrowserSupport {
             // scroll slider to viewport center so drag operations avoid the floating popup overlay
             driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", slider);
 
-            // the archived doc site may render the slider with a slightly different width,
+            // the archived v12 doc site may render the slider with a slightly different width,
             // hence allow a small tolerance for the click-based value setting
             driver.threadSleep(200L);
             slider.setValue(13);

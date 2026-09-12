@@ -35,6 +35,7 @@ import com.github.grossopa.playwright.component.mat.main.MatBottomSheet;
 import com.github.grossopa.playwright.component.mat.main.MatButton;
 import com.github.grossopa.playwright.component.mat.main.MatButtonToggle;
 import com.github.grossopa.playwright.component.mat.main.MatButtonToggleGroup;
+import com.github.grossopa.playwright.component.mat.main.MatCard;
 import com.github.grossopa.playwright.component.mat.main.MatCheckbox;
 import com.github.grossopa.playwright.component.mat.main.MatChipList;
 import com.github.grossopa.playwright.component.mat.main.MatDialog;
@@ -42,14 +43,28 @@ import com.github.grossopa.playwright.component.mat.main.MatExpansionPanel;
 import com.github.grossopa.playwright.component.mat.main.MatFormField;
 import com.github.grossopa.playwright.component.mat.main.MatGridList;
 import com.github.grossopa.playwright.component.mat.main.MatGridTile;
+import com.github.grossopa.playwright.component.mat.main.MatInput;
 import com.github.grossopa.playwright.component.mat.main.MatList;
 import com.github.grossopa.playwright.component.mat.main.MatMenu;
 import com.github.grossopa.playwright.component.mat.main.MatOverlayContainer;
+import com.github.grossopa.playwright.component.mat.main.MatPaginator;
 import com.github.grossopa.playwright.component.mat.main.MatProgressBar;
+import com.github.grossopa.playwright.component.mat.main.MatRadioButton;
+import com.github.grossopa.playwright.component.mat.main.MatRadioGroup;
+import com.github.grossopa.playwright.component.mat.main.MatSelect;
 import com.github.grossopa.playwright.component.mat.main.MatSelectionList;
+import com.github.grossopa.playwright.component.mat.main.MatSidenav;
+import com.github.grossopa.playwright.component.mat.main.MatSidenavContainer;
 import com.github.grossopa.playwright.component.mat.main.MatSlideToggle;
 import com.github.grossopa.playwright.component.mat.main.MatSlider;
 import com.github.grossopa.playwright.component.mat.main.MatSnackbar;
+import com.github.grossopa.playwright.component.mat.main.MatStep;
+import com.github.grossopa.playwright.component.mat.main.MatStepper;
+import com.github.grossopa.playwright.component.mat.main.MatTab;
+import com.github.grossopa.playwright.component.mat.main.MatTabGroup;
+import com.github.grossopa.playwright.component.mat.main.MatTable;
+import com.github.grossopa.playwright.component.mat.main.MatTree;
+import com.github.grossopa.playwright.component.mat.main.MatTreeNode;
 import com.github.grossopa.playwright.component.mat.main.sub.MatChip;
 import com.github.grossopa.playwright.component.mat.main.sub.MatListOption;
 import com.github.grossopa.playwright.component.mat.main.sub.MatMenuItem;
@@ -125,7 +140,7 @@ public class MatShowCase extends AbstractBrowserSupport {
     }
 
     private void waitForExamplesPageRendered() {
-        // the archived doc site occasionally fails to bootstrap; reload once and wait again
+        // the archived v12 doc site occasionally fails to bootstrap; reload once and wait again
         for (int attempt = 0; attempt < 2; attempt++) {
             Locator matElements = driver.page().locator("[class*=mat-]");
             for (int i = 0; i < 60; i++) {
@@ -615,6 +630,138 @@ public class MatShowCase extends AbstractBrowserSupport {
     }
 
     // =====================================================================
+    // New components (since 1.16)
+    // =====================================================================
+
+    public void testInput() {
+        navigateTo("input/examples");
+        waitFor("input-overview-example mat-form-field input");
+        MatInput input = as(driver.findComponent("input-overview-example")
+                .findComponent("mat-form-field").findComponent("input"), MatComponents::toInput);
+        assertTrue(input.validate());
+        // Playwright fill() sets the DOM property value; getValue() reads the same property
+        input.fill("Hello");
+        assertEquals("Hello", input.getValue());
+        System.out.println("Verified input value set and get");
+    }
+
+    public void testSelect() {
+        navigateTo("select/examples");
+        waitFor("select-overview-example mat-form-field mat-select");
+        MatSelect select = as(driver.findComponent("select-overview-example")
+                .findComponent("mat-form-field").findComponent("mat-select"), MatComponents::toSelect);
+        assertTrue(select.validate());
+        // click the select to open the dropdown panel
+        select.click();
+        sleep(500L);
+        List<MatOption> options = select.getOptions();
+        assertTrue(options.size() >= 3);
+        select.selectByIndex(0);
+        assertNotNull(select.getSelectedValue());
+        System.out.println("Verified select options and selection");
+    }
+
+    public void testRadioGroup() {
+        navigateTo("radio/examples");
+        waitFor("radio-overview-example mat-radio-group");
+        MatRadioGroup group = as(driver.findComponent("radio-overview-example")
+                .findComponent("mat-radio-group"), MatComponents::toRadioGroup);
+        assertTrue(group.validate());
+        List<MatRadioButton> buttons = group.getRadioButtons();
+        assertEquals(2, buttons.size());
+        assertTrue(buttons.stream().allMatch(MatRadioButton::validate));
+        group.selectByIndex(1);
+        assertTrue(buttons.get(1).isSelected());
+        System.out.println("Verified radio group selection");
+    }
+
+    public void testCard() {
+        navigateTo("card/examples");
+        waitFor("card-overview-example mat-card");
+        MatCard card = as(driver.findComponent("card-overview-example")
+                .findComponent("mat-card"), MatComponents::toCard);
+        assertTrue(card.validate());
+        assertNotNull(card.getTitle());
+        assertNotNull(card.getSubtitle());
+        System.out.println("Verified card title and subtitle");
+    }
+
+    public void testTabs() {
+        navigateTo("tabs/examples");
+        waitFor("tab-group-basic-example mat-tab-group");
+        MatTabGroup tabGroup = as(driver.findComponent("tab-group-basic-example")
+                .findComponent("mat-tab-group"), MatComponents::toTabGroup);
+        assertTrue(tabGroup.validate());
+        List<WebComponent> labels = tabGroup.getTabLabels();
+        assertTrue(labels.size() >= 2);
+        tabGroup.selectTab(1);
+        sleep(500L);
+        assertEquals(1, tabGroup.getSelectedTabIndex());
+        System.out.println("Verified tab group selection");
+    }
+
+    public void testStepper() {
+        navigateTo("stepper/examples");
+        waitFor("stepper-overview-example mat-stepper");
+        MatStepper stepper = as(driver.findComponent("stepper-overview-example")
+                .findComponent("mat-stepper"), MatComponents::toStepper);
+        assertTrue(stepper.validate());
+        // verify the stepper has step headers (the steps are rendered as headers in v12)
+        List<WebComponent> headers = stepper.findComponents(".mat-step-header");
+        assertTrue(headers.size() >= 2);
+        stepper.next();
+        sleep(500L);
+        System.out.println("Verified stepper with " + headers.size() + " steps and navigation");
+    }
+
+    public void testTable() {
+        navigateTo("table/examples");
+        // the v12 overview example renders a <table class="mat-table"> rather than <mat-table>
+        waitFor("table-overview-example .mat-table");
+        MatTable table = as(driver.findComponent("table-overview-example")
+                .findComponent(".mat-table"), MatComponents::toTable);
+        assertTrue(table.validate());
+        List<WebComponent> headerCells = table.getHeaderCells();
+        assertTrue(headerCells.size() >= 2);
+        List<WebComponent> rows = table.getRows();
+        assertTrue(rows.size() >= 1);
+        System.out.println("Verified table with " + rows.size() + " rows and " + headerCells.size() + " columns");
+    }
+
+    public void testPaginator() {
+        navigateTo("paginator/examples");
+        waitFor("paginator-overview-example mat-paginator");
+        MatPaginator paginator = as(driver.findComponent("paginator-overview-example")
+                .findComponent("mat-paginator"), MatComponents::toPaginator);
+        assertTrue(paginator.validate());
+        assertNotNull(paginator.getRangeLabel());
+        System.out.println("Verified paginator range label: " + paginator.getRangeLabel());
+    }
+
+    public void testSidenav() {
+        navigateTo("sidenav/examples");
+        waitFor("sidenav-drawer-overview-example mat-drawer-container");
+        MatSidenavContainer container = as(driver.findComponent("sidenav-drawer-overview-example")
+                .findComponent("mat-drawer-container"), MatComponents::toSidenavContainer);
+        assertTrue(container.validate());
+        MatSidenav sidenav = container.getSidenav();
+        assertTrue(sidenav.validate());
+        assertNotNull(container.getContent());
+        System.out.println("Verified sidenav container and drawer");
+    }
+
+    public void testTree() {
+        navigateTo("tree/examples");
+        waitFor("tree-flat-overview-example mat-tree");
+        MatTree tree = as(driver.findComponent("tree-flat-overview-example")
+                .findComponent("mat-tree"), MatComponents::toTree);
+        assertTrue(tree.validate());
+        List<MatTreeNode> nodes = tree.getNodes();
+        assertTrue(nodes.size() >= 1);
+        System.out.println("Verified tree with " + nodes.size() + " nodes");
+    }
+
+    // =====================================================================
     // Main entry point
     // =====================================================================
 
@@ -651,6 +798,16 @@ public class MatShowCase extends AbstractBrowserSupport {
                 test.runIf(filter, "testMenu", test::testMenu);
                 test.runIf(filter, "testAutocomplete", test::testAutocomplete);
                 test.runIf(filter, "testChipList", test::testChipList);
+                test.runIf(filter, "testInput", test::testInput);
+                test.runIf(filter, "testSelect", test::testSelect);
+                test.runIf(filter, "testRadioGroup", test::testRadioGroup);
+                test.runIf(filter, "testCard", test::testCard);
+                test.runIf(filter, "testTabs", test::testTabs);
+                test.runIf(filter, "testStepper", test::testStepper);
+                test.runIf(filter, "testTable", test::testTable);
+                test.runIf(filter, "testPaginator", test::testPaginator);
+                test.runIf(filter, "testSidenav", test::testSidenav);
+                test.runIf(filter, "testTree", test::testTree);
             });
         } finally {
             test.tearDownAndReport();

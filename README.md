@@ -221,13 +221,13 @@ CalendarPicker, DatePickerFormField, MonthPicker, YearPicker
 
 ## Supported Angular Material Components
 
-| Category        | Components                                                                                                 |
-|-----------------|------------------------------------------------------------------------------------------------------------|
-| Navigation      | Accordion, Autocomplete, BottomSheet, ExpansionPanel, Menu (+MenuItem), OverlayContainer                   |
-| Form Controls   | Button, ButtonToggle, ButtonToggleGroup, Checkbox, ChipList, FormField, SelectionList, SlideToggle, Slider |
-| Layout          | GridList, GridTile, List                                                                                   |
-| Popups & Modals | Dialog, Snackbar                                                                                           |
-| Data Display    | Badge, ProgressBar                                                                                         |
+| Category        | Components                                                                                                                                                    |
+|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Navigation      | Accordion, Autocomplete, BottomSheet, ExpansionPanel, Menu (+MenuItem), OverlayContainer, Sidenav (+Container), TabGroup (+Tab)                                |
+| Form Controls   | Button, ButtonToggle, ButtonToggleGroup, Checkbox, ChipList, Datepicker (+Calendar), FormField, Input, RadioGroup (+RadioButton), Select, SelectionList, SlideToggle, Slider |
+| Layout          | Card, GridList, GridTile, List, Stepper (+Step), Tree (+TreeNode)                                                                                              |
+| Popups & Modals | Dialog, Snackbar                                                                                                                                              |
+| Data Display    | Badge, Paginator, ProgressBar, Table                                                                                                                          |
 
 > Available on both Selenium (`hamster-selenium-component-mat`) and Playwright (`hamster-playwright-component-mat`).
 

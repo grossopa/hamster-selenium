@@ -170,6 +170,22 @@ Every `.java` file MUST start with the MIT License header:
 - Components identify their target DOM element by CSS class (e.g., `MuiButton-root`, `MatSelect-root`)
 - Config classes use Builder pattern where appropriate (e.g., `MuiSelectConfig.builder()`)
 
+### String Utility Rules
+
+All string operations MUST use Apache Commons Lang3 utilities instead of manual implementations.
+
+- **Null-insensitive comparison**: Use `Strings.CS` (case-sensitive) or `Strings.CI` (case-insensitive) from `org.apache.commons.lang3.Strings`. Both handle `null` arguments gracefully without throwing `NullPointerException`.
+  - `CS.equals(a, b)` instead of `Objects.equals(a, b)` or manual null checks
+  - `CS.contains(str, search)` instead of `str != null && str.contains(search)`
+  - `CI.equals(a, b)` for case-insensitive null-safe equality
+  - `CI.contains(str, search)` for case-insensitive null-safe containment check
+  - Import as static: `import static org.apache.commons.lang3.Strings.CS;` or `import static org.apache.commons.lang3.Strings.CI;`
+- **Blank-insensitive check**: Use `StringUtils.isBlank()` / `StringUtils.isNotBlank()` from `org.apache.commons.lang3.StringUtils` when checking whether a string is null, empty, or contains only whitespace.
+  - `StringUtils.isBlank(str)` instead of `str == null || str.trim().isEmpty()`
+  - `StringUtils.isNotBlank(str)` instead of `str != null && !str.trim().isEmpty()`
+- **Other common utilities**: Use `StringUtils.defaultString()`, `StringUtils.capitalize()`, `StringUtils.removeStart()`, `StringUtils.substringAfterLast()` etc. instead of manual implementations.
+- **Prefer `strip()` over `trim()`**: Use `String.strip()` (JDK 11+) or `StringUtils.strip()` instead of `String.trim()`. The `strip()` method is Unicode-aware and correctly handles all Unicode whitespace characters, whereas `trim()` only removes ASCII characters <= U+0020. When null safety is needed, use `StringUtils.strip()`.
+
 ### Testing Rules
 
 - Use JUnit Jupiter 5 (`@Test` from `org.junit.jupiter.api.Test`)

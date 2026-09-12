@@ -253,12 +253,39 @@ public class MatComponents extends AbstractComponents {
     }
 
     /**
+     * Wraps the given element to {@link MatMenu}.
+     *
+     * @return the {@link MatMenu} instance
+     */
+    public MatMenu toMenu() {
+        return new MatMenu(component, driver, config);
+    }
+
+    /**
      * Wraps the given element to {@link MatMenuItem}.
      *
      * @return the {@link MatMenuItem} instance
      */
     public MatMenuItem toMenuItem() {
         return new MatMenuItem(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatInput}.
+     *
+     * @return the {@link MatInput} instance
+     */
+    public MatInput toInput() {
+        return new MatInput(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatCard}.
+     *
+     * @return the {@link MatCard} instance
+     */
+    public MatCard toCard() {
+        return new MatCard(component, driver, config);
     }
 
     /**
@@ -295,5 +322,160 @@ public class MatComponents extends AbstractComponents {
      */
     public MatSnackbar toSnackbar() {
         return new MatSnackbar(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatRadioGroup}.
+     *
+     * @return the {@link MatRadioGroup} instance
+     */
+    public MatRadioGroup toRadioGroup() {
+        return new MatRadioGroup(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatRadioButton}.
+     *
+     * @return the {@link MatRadioButton} instance
+     */
+    public MatRadioButton toRadioButton() {
+        return new MatRadioButton(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatSelect}.
+     *
+     * @return the {@link MatSelect} instance
+     */
+    public MatSelect toSelect() {
+        return new MatSelect(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatSelect} with customized overlayFinder.
+     *
+     * @param overlayFinder optional, the customized overlayFinder for locating the overlay
+     * @return the {@link MatSelect} instance
+     */
+    public MatSelect toSelect(@Nullable MatOverlayFinder overlayFinder) {
+        return new MatSelect(component, driver, config, overlayFinder);
+    }
+
+    /**
+     * Wraps the given element to {@link MatTabGroup}.
+     *
+     * @return the {@link MatTabGroup} instance
+     */
+    public MatTabGroup toTabGroup() {
+        return new MatTabGroup(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatTab}.
+     *
+     * @return the {@link MatTab} instance
+     */
+    public MatTab toTab() {
+        return new MatTab(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatSidenavContainer}.
+     *
+     * @return the {@link MatSidenavContainer} instance
+     */
+    public MatSidenavContainer toSidenavContainer() {
+        return new MatSidenavContainer(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatSidenav}.
+     *
+     * @return the {@link MatSidenav} instance
+     */
+    public MatSidenav toSidenav() {
+        return new MatSidenav(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatStepper}.
+     *
+     * @return the {@link MatStepper} instance
+     */
+    public MatStepper toStepper() {
+        return new MatStepper(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatStep}.
+     *
+     * @return the {@link MatStep} instance
+     */
+    public MatStep toStep() {
+        return new MatStep(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatTree}.
+     *
+     * @return the {@link MatTree} instance
+     */
+    public MatTree toTree() {
+        return new MatTree(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatTreeNode}.
+     *
+     * @return the {@link MatTreeNode} instance
+     */
+    public MatTreeNode toTreeNode() {
+        return new MatTreeNode(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatTable}.
+     *
+     * @return the {@link MatTable} instance
+     */
+    public MatTable toTable() {
+        return new MatTable(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatPaginator}.
+     *
+     * @return the {@link MatPaginator} instance
+     */
+    public MatPaginator toPaginator() {
+        return new MatPaginator(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatDatepicker}.
+     *
+     * @return the {@link MatDatepicker} instance
+     */
+    public MatDatepicker toDatepicker() {
+        return new MatDatepicker(component, driver, config);
+    }
+
+    /**
+     * Wraps the given element to {@link MatDatepicker} with customized overlayFinder.
+     *
+     * @param overlayFinder optional, the customized overlayFinder for locating the overlay
+     * @return the {@link MatDatepicker} instance
+     */
+    public MatDatepicker toDatepicker(@Nullable MatOverlayFinder overlayFinder) {
+        return new MatDatepicker(component, driver, config, overlayFinder);
+    }
+
+    /**
+     * Wraps the given element to {@link MatCalendar}.
+     *
+     * @return the {@link MatCalendar} instance
+     */
+    public MatCalendar toCalendar() {
+        return new MatCalendar(component, driver, config);
     }
 }

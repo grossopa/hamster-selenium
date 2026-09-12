@@ -27,6 +27,7 @@ import com.github.grossopa.playwright.component.mat.AbstractMatComponent;
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
+import com.github.grossopa.utils.component.HasInput;
 import com.microsoft.playwright.Locator;
 
 /**
@@ -38,7 +39,7 @@ import com.microsoft.playwright.Locator;
  * https://material.angular.io/components/form-field/overview</a>
  * @since 1.15
  */
-public class MatFormField extends AbstractMatComponent {
+public class MatFormField extends AbstractMatComponent implements HasInput<WebComponent> {
 
     /**
      * The component name
@@ -107,6 +108,7 @@ public class MatFormField extends AbstractMatComponent {
      *
      * @return the inner input element
      */
+    @Override
     public WebComponent getInput() {
         return this.getInfix().findComponent("input");
     }

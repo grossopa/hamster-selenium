@@ -82,6 +82,7 @@ public class MatShowCase extends AbstractBrowserSupport {
         MatSlideToggleTestCases slideToggle = new MatSlideToggleTestCases();
         MatSliderTestCases slider = new MatSliderTestCases();
         MatSnackbarTestCases snackbar = new MatSnackbarTestCases();
+        MatNewComponentsTestCases newComponents = new MatNewComponentsTestCases();
 
         try {
             // ---- Form Controls ----
@@ -167,6 +168,20 @@ public class MatShowCase extends AbstractBrowserSupport {
 
             runner.runTestClass("MatBottomSheetTestCases", () -> {
                 runner.runIf(filter, "testBottomSheet", bottomSheet::testBottomSheet);
+            });
+
+            // ---- New Components (since 1.16) ----
+            runner.runTestClass("MatNewComponentsTestCases", () -> {
+                runner.runIf(filter, "testInput", newComponents::testInput);
+                runner.runIf(filter, "testSelect", newComponents::testSelect);
+                runner.runIf(filter, "testRadioGroup", newComponents::testRadioGroup);
+                runner.runIf(filter, "testCard", newComponents::testCard);
+                runner.runIf(filter, "testTabs", newComponents::testTabs);
+                runner.runIf(filter, "testStepper", newComponents::testStepper);
+                runner.runIf(filter, "testTable", newComponents::testTable);
+                runner.runIf(filter, "testPaginator", newComponents::testPaginator);
+                runner.runIf(filter, "testSidenav", newComponents::testSidenav);
+                runner.runIf(filter, "testTree", newComponents::testTree);
             });
 
         } finally {

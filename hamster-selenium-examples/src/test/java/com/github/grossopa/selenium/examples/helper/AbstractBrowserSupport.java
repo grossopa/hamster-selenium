@@ -96,7 +96,7 @@ public abstract class AbstractBrowserSupport {
     }
 
     /**
-     * Waits until any Material component is rendered on the current page. The archived doc site
+     * Waits until any Material component is rendered on the current page. The archived v12 doc site
      * occasionally fails to bootstrap; in that case the page is refreshed once and polled again.
      */
     protected void waitForExamplesPageRendered() {

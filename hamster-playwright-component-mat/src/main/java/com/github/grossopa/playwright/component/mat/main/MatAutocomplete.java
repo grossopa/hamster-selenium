@@ -34,6 +34,7 @@ import com.github.grossopa.playwright.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.playwright.component.mat.main.sub.MatOption;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
+import com.github.grossopa.utils.component.HasInput;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
@@ -53,7 +54,7 @@ import java.util.Optional;
  * https://material.angular.io/components/autocomplete/overview</a>
  * @since 1.15
  */
-public class MatAutocomplete extends AbstractMatComponent {
+public class MatAutocomplete extends AbstractMatComponent implements HasInput<WebComponent> {
 
     /**
      * The component name
@@ -142,6 +143,7 @@ public class MatAutocomplete extends AbstractMatComponent {
      *
      * @return the inner input element
      */
+    @Override
     public WebComponent getInput() {
         return this.findComponent("input." + config.getCssPrefix() + "autocomplete-trigger");
     }

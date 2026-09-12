@@ -187,8 +187,23 @@ class MatComponentsTest {
     }
 
     @Test
+    void toMenu() {
+        assertInstanceOf(MatMenu.class, testSubject.toMenu());
+    }
+
+    @Test
     void toMenuItem() {
         assertInstanceOf(MatMenuItem.class, testSubject.toMenuItem());
+    }
+
+    @Test
+    void toInput() {
+        assertInstanceOf(MatInput.class, testSubject.toInput());
+    }
+
+    @Test
+    void toCard() {
+        assertInstanceOf(MatCard.class, testSubject.toCard());
     }
 
     @Test
@@ -209,5 +224,90 @@ class MatComponentsTest {
     @Test
     void toSnackbar() {
         assertInstanceOf(MatSnackbar.class, testSubject.toSnackbar());
+    }
+
+    @Test
+    void toRadioGroup() {
+        assertInstanceOf(MatRadioGroup.class, testSubject.toRadioGroup());
+    }
+
+    @Test
+    void toRadioButton() {
+        assertInstanceOf(MatRadioButton.class, testSubject.toRadioButton());
+    }
+
+    @Test
+    void toSelect() {
+        assertInstanceOf(MatSelect.class, testSubject.toSelect());
+    }
+
+    @Test
+    void toSelectWithOverlayFinder() {
+        assertInstanceOf(MatSelect.class, testSubject.toSelect(mock(MatOverlayFinder.class)));
+    }
+
+    @Test
+    void toTabGroup() {
+        assertInstanceOf(MatTabGroup.class, testSubject.toTabGroup());
+    }
+
+    @Test
+    void toTab() {
+        assertInstanceOf(MatTab.class, testSubject.toTab());
+    }
+
+    @Test
+    void toSidenavContainer() {
+        assertInstanceOf(MatSidenavContainer.class, testSubject.toSidenavContainer());
+    }
+
+    @Test
+    void toSidenav() {
+        assertInstanceOf(MatSidenav.class, testSubject.toSidenav());
+    }
+
+    @Test
+    void toStepper() {
+        assertInstanceOf(MatStepper.class, testSubject.toStepper());
+    }
+
+    @Test
+    void toStep() {
+        assertInstanceOf(MatStep.class, testSubject.toStep());
+    }
+
+    @Test
+    void toTree() {
+        assertInstanceOf(MatTree.class, testSubject.toTree());
+    }
+
+    @Test
+    void toTreeNode() {
+        assertInstanceOf(MatTreeNode.class, testSubject.toTreeNode());
+    }
+
+    @Test
+    void toTable() {
+        assertInstanceOf(MatTable.class, testSubject.toTable());
+    }
+
+    @Test
+    void toPaginator() {
+        assertInstanceOf(MatPaginator.class, testSubject.toPaginator());
+    }
+
+    @Test
+    void toDatepicker() {
+        assertInstanceOf(MatDatepicker.class, testSubject.toDatepicker());
+    }
+
+    @Test
+    void toDatepickerWithOverlayFinder() {
+        assertInstanceOf(MatDatepicker.class, testSubject.toDatepicker(mock(MatOverlayFinder.class)));
+    }
+
+    @Test
+    void toCalendar() {
+        assertInstanceOf(MatCalendar.class, testSubject.toCalendar());
     }
 }

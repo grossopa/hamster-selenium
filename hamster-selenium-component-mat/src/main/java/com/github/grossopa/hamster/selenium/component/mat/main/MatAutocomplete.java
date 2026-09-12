@@ -34,6 +34,7 @@ import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinde
 import com.github.grossopa.hamster.selenium.component.mat.main.sub.MatOption;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.utils.component.HasInput;
 import com.github.grossopa.selenium.core.component.api.DelayedSelect;
 import com.github.grossopa.selenium.core.component.api.Select;
 import com.github.grossopa.selenium.core.util.SeleniumUtils;
@@ -61,7 +62,7 @@ import static org.apache.commons.lang3.Strings.CS;
  * https://material.angular.io/components/autocomplete/overview</a>
  * @since 1.6
  */
-public class MatAutocomplete extends AbstractMatComponent implements Select, DelayedSelect {
+public class MatAutocomplete extends AbstractMatComponent implements HasInput<WebComponent>, Select, DelayedSelect {
 
     /**
      * The default open options action
@@ -152,6 +153,7 @@ public class MatAutocomplete extends AbstractMatComponent implements Select, Del
         this.closeOptionsAction = getIfNull(closeOptionsAction, () -> DEFAULT_CLOSE_ACTION);
     }
 
+    @Override
     public WebComponent getInput() {
         return this.findComponent(xpathBuilder().anywhereRelative("input").attr(CLASS)
                 .contains(config.getCssPrefix() + "autocomplete-trigger").build());

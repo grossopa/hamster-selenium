@@ -58,7 +58,7 @@ public class MatDialogTestCases extends AbstractBrowserSupport {
         assertNotNull(overlayContainer);
         MatDialog dialog = overlayContainer.findComponent(By.tagName("mat-dialog-container")).as(mat()).toDialog();
         assertTrue(dialog.validate());
-        // the archived doc site is slow; poll until the dialog texts are rendered
+        // the archived v12 doc site is slow; poll until the dialog texts are rendered
         assertEquals("Install Angular", awaitText(dialog.getDialogTitle()));
         assertTrue(awaitText(dialog.getDialogContent()).startsWith("Develop across all platforms"));
 

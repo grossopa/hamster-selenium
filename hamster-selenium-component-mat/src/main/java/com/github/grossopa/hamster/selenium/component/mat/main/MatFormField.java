@@ -27,6 +27,7 @@ import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.utils.component.HasInput;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -42,7 +43,7 @@ import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
  * https://material.angular.io/components/form-field/overview</a>
  * @since 1.6
  */
-public class MatFormField extends AbstractMatComponent {
+public class MatFormField extends AbstractMatComponent implements HasInput<WebComponent> {
 
     /**
      * The component name
@@ -111,6 +112,7 @@ public class MatFormField extends AbstractMatComponent {
      *
      * @return the inner input element
      */
+    @Override
     public WebComponent getInput() {
         return this.getInfix().findComponent(By.xpath("./input"));
     }

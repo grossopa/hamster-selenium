@@ -166,8 +166,23 @@ class MatComponentsTest {
     }
 
     @Test
+    void toMenu() {
+        assertEquals(element, testSubject.toMenu().getWrappedElement());
+    }
+
+    @Test
     void toMenuItem() {
         assertEquals(element, testSubject.toMenuItem().getWrappedElement());
+    }
+
+    @Test
+    void toInput() {
+        assertEquals(element, testSubject.toInput().getWrappedElement());
+    }
+
+    @Test
+    void toCard() {
+        assertEquals(element, testSubject.toCard().getWrappedElement());
     }
 
     @Test
@@ -188,5 +203,90 @@ class MatComponentsTest {
     @Test
     void toProgressBar() {
         assertEquals(element, testSubject.toProgressBar().getWrappedElement());
+    }
+
+    @Test
+    void toRadioGroup() {
+        assertEquals(element, testSubject.toRadioGroup().getWrappedElement());
+    }
+
+    @Test
+    void toRadioButton() {
+        assertEquals(element, testSubject.toRadioButton().getWrappedElement());
+    }
+
+    @Test
+    void toSelect() {
+        assertEquals(element, testSubject.toSelect().getWrappedElement());
+    }
+
+    @Test
+    void toSelect2() {
+        assertEquals(element, testSubject.toSelect(mock(MatOverlayFinder.class)).getWrappedElement());
+    }
+
+    @Test
+    void toTabGroup() {
+        assertEquals(element, testSubject.toTabGroup().getWrappedElement());
+    }
+
+    @Test
+    void toTab() {
+        assertEquals(element, testSubject.toTab().getWrappedElement());
+    }
+
+    @Test
+    void toSidenavContainer() {
+        assertEquals(element, testSubject.toSidenavContainer().getWrappedElement());
+    }
+
+    @Test
+    void toSidenav() {
+        assertEquals(element, testSubject.toSidenav().getWrappedElement());
+    }
+
+    @Test
+    void toStepper() {
+        assertEquals(element, testSubject.toStepper().getWrappedElement());
+    }
+
+    @Test
+    void toStep() {
+        assertEquals(element, testSubject.toStep().getWrappedElement());
+    }
+
+    @Test
+    void toTree() {
+        assertEquals(element, testSubject.toTree().getWrappedElement());
+    }
+
+    @Test
+    void toTreeNode() {
+        assertEquals(element, testSubject.toTreeNode().getWrappedElement());
+    }
+
+    @Test
+    void toTable() {
+        assertEquals(element, testSubject.toTable().getWrappedElement());
+    }
+
+    @Test
+    void toPaginator() {
+        assertEquals(element, testSubject.toPaginator().getWrappedElement());
+    }
+
+    @Test
+    void toDatepicker() {
+        assertEquals(element, testSubject.toDatepicker().getWrappedElement());
+    }
+
+    @Test
+    void toDatepicker2() {
+        assertEquals(element, testSubject.toDatepicker(mock(MatOverlayFinder.class)).getWrappedElement());
+    }
+
+    @Test
+    void toCalendar() {
+        assertEquals(element, testSubject.toCalendar().getWrappedElement());
     }
 }

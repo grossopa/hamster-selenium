@@ -69,7 +69,7 @@ public class MatFormFieldTestCases extends AbstractBrowserSupport {
 
         errorFormField.getInput().sendKeys("ddddd");
         // poll until the label and error message are rendered after the blur event; on the slow
-        // archived site the blur may be missed, so re-focus and tab out again on each retry
+        // archived v12 site the blur may be missed, so re-focus and tab out again on each retry
         String error = "";
         for (int i = 0; i < 5 && error.isBlank(); i++) {
             errorFormField.getInput().sendKeys(Keys.TAB);

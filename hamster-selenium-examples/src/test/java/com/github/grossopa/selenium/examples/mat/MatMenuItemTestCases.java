@@ -63,7 +63,7 @@ public class MatMenuItemTestCases extends AbstractBrowserSupport {
         assertFalse(menuItems.get(1).isEnabled());
         assertTrue(menuItems.get(2).isEnabled());
 
-        // the archived doc site is slow; poll until the menu item texts are rendered
+        // the archived v12 doc site is slow; poll until the menu item texts are rendered
         assertEquals("Redial", awaitText(menuItems.get(0).findComponent(By.tagName("span"))));
         assertEquals("Check voice mail", awaitText(menuItems.get(1).findComponent(By.tagName("span"))));
         assertEquals("Disable alerts", awaitText(menuItems.get(2).findComponent(By.tagName("span"))));
@@ -148,10 +148,10 @@ public class MatMenuItemTestCases extends AbstractBrowserSupport {
     }
 
     /**
-     * Waits until the menu item texts are rendered on the slow archived site, then expands the item by text.
+     * Waits until the menu item texts are rendered on the slow archived v12 site, then expands the item by text.
      */
     private MatMenu expandAfterTextRendered(MatMenu menu, String text) {
-        // the archived doc site is slow; poll until any menu item text is rendered before matching by text
+        // the archived v12 doc site is slow; poll until any menu item text is rendered before matching by text
         for (int i = 0; i < 40; i++) {
             MatMenuItem rendered = menu.getMenuItems().stream()
                     .filter(item -> item.getText() != null && !item.getText().isBlank()).findFirst().orElse(null);
