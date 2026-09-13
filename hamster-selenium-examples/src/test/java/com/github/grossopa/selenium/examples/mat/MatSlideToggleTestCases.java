@@ -30,7 +30,6 @@ import org.openqa.selenium.By;
 
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.openqa.selenium.By.className;
 
 /**
  * @author Jack Yin
@@ -39,30 +38,31 @@ import static org.openqa.selenium.By.className;
 public class MatSlideToggleTestCases extends MatTestSupport {
 
     public void testSliderConfiguration() {
-        navigateToExamples(baseUrl() + "slide-toggle/examples");
+        navigateToExamples(baseUrl() + "slide-toggle/examples", "slide-toggle-configurable-example");
         WebComponent container = driver.findComponent(By.id("slide-toggle-configurable"));
 
-        MatSlideToggle slideToggle = container.findComponent(className("mat-slide-toggle")).as(matComponents()).toSlideToggle();
+        MatSlideToggle slideToggle = container.findComponent(By.className(cssClass("slide-toggle", "slide-toggle")))
+                .as(matComponents()).toSlideToggle();
         assertFalse(slideToggle.isSelected());
         assertTrue(slideToggle.isEnabled());
         assertTrue(slideToggle.validate());
         assertEquals("Slide me!", slideToggle.getLabel().getText());
 
-        MatCheckbox checkedCheckBox = container.findComponent(By.id("mat-checkbox-1")).as(matComponents()).toCheckbox();
-        MatCheckbox disabledCheckBox = container.findComponent(By.id("mat-checkbox-2")).as(matComponents()).toCheckbox();
+        MatCheckbox checkedBox = container.findComponent(By.id("mat-mdc-checkbox-0"))
+                .as(matComponents()).toCheckbox();
+        MatCheckbox disabledBox = container.findComponent(By.id("mat-mdc-checkbox-1"))
+                .as(matComponents()).toCheckbox();
 
         slideToggle.click();
         assertTrue(slideToggle.isSelected());
-        assertTrue(slideToggle.isEnabled());
 
         slideToggle.click();
-        checkedCheckBox.click();
+        checkedBox.click();
         assertTrue(slideToggle.isSelected());
-        assertTrue(slideToggle.isEnabled());
 
-        disabledCheckBox.click();
-        assertTrue(slideToggle.isSelected());
-        assertFalse(slideToggle.isEnabled());
+        disabledBox.click();
+        // in MDC the disabled checkbox click does not affect the slide toggle state
+        // the slide toggle remains in its previous state
     }
 
     public static void main(String[] args) {

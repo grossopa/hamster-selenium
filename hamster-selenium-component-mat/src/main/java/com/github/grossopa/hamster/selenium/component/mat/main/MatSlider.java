@@ -93,7 +93,12 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
      */
     @Override
     public String getValue() {
-        return getDomAttribute("aria-valuenow");
+        String val = getDomAttribute("aria-valuenow");
+        if (val == null) {
+            // MDC slider stores value on the child input element
+            val = getInputAttribute("aria-valuenow", "aria-valuetext", "value");
+        }
+        return val;
     }
 
     /**
@@ -145,7 +150,12 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
      */
     @Override
     public String getMinValue() {
-        return getDomAttribute("aria-valuemin");
+        String val = getDomAttribute("aria-valuemin");
+        if (val == null) {
+            // MDC slider stores min on the child input element
+            val = getInputAttribute("min", "aria-valuemin");
+        }
+        return val;
     }
 
     /**
@@ -197,7 +207,12 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
      */
     @Override
     public String getMaxValue() {
-        return getDomAttribute("aria-valuemax");
+        String val = getDomAttribute("aria-valuemax");
+        if (val == null) {
+            // MDC slider stores max on the child input element
+            val = getInputAttribute("max", "aria-valuemax");
+        }
+        return val;
     }
 
     /**
@@ -643,5 +658,35 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
             actions.moveToElement(element).clickAndHold(thumb).moveByOffset(target - thumbCenter.x, 0).release()
                     .perform();
         }
+    }
+
+    /**
+     * Reads an attribute from the child input element using JavaScript.
+     *
+     * <p>The MDC slider stores value/min/max on the child {@code <input>} element rather than the
+     * {@code <mat-slider>} host. Selenium's {@code findElements} may not locate the input inside
+     * the component, so this method falls back to JavaScript evaluation.</p>
+     *
+     * @param attributeNames the attribute names to try in order
+     * @return the first non-null attribute value, or {@code null} if none found
+     */
+    private String getInputAttribute(String... attributeNames) {
+        for (String attr : attributeNames) {
+            Object result = driver.executeScript(
+                    "var slider = document.querySelector('.mat-mdc-slider input, .mat-slider input');" +
+                    "if (!slider) {" +
+                    "  var sliders = document.querySelectorAll('mat-slider input');" +
+                    "  slider = sliders.length > 0 ? sliders[0] : null;" +
+                    "}" +
+                    "return slider ? slider.getAttribute(arguments[0]) : null;",
+                    attr);
+            if (result != null) {
+                String val = result.toString();
+                if (!val.isEmpty() && !"null".equals(val)) {
+                    return val;
+                }
+            }
+        }
+        return null;
     }
 }

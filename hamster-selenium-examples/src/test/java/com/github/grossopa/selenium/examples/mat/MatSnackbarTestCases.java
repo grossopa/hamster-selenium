@@ -23,36 +23,28 @@
  */
 package com.github.grossopa.selenium.examples.mat;
 
-import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatSnackbar;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
+ * Tests the actual features of {@link MatSnackbar}.
+ *
  * @author Jack Yin
  * @since 1.0
  */
 public class MatSnackbarTestCases extends MatTestSupport {
 
     public void testSliderConfiguration() {
-        navigateToExamples(baseUrl() + "snack-bar/examples");
-        // the snackbar content is taken from the input values at click time; on the slow
-        // site Angular may not have hydrated the inputs yet, so wait for the values to be ready
-        WebElement messageInput = driver.findElement(By.id("snack-bar-overview")).findElement(By.tagName("input"));
-        for (int i = 0; i < 40 && !"Disco party!".equals(messageInput.getDomProperty("value")); i++) {
-            driver.threadSleep(250L);
-        }
-
-        WebComponent button = driver.findComponent(By.id("snack-bar-overview"))
-                .findComponent(xpathBuilder().anywhereRelative().text().exact("Show snack-bar").build());
+        navigateToExamples(baseUrl() + "snack-bar/examples", "snack-bar-overview-example");
+        WebComponent button = driver.findComponent(By.tagName("snack-bar-overview-example"))
+                .findComponent(By.tagName("button"));
         button.click();
 
         // wait for the snackbar animation to settle before reading its content
@@ -61,8 +53,8 @@ public class MatSnackbarTestCases extends MatTestSupport {
         MatOverlayFinder finder = new MatOverlayFinder(driver, matConfig());
         WebComponent overlayContainer = finder.findTopVisibleContainer();
         assertNotNull(overlayContainer);
-        MatSnackbar snackbar = overlayContainer.findComponent(By.tagName("simple-snack-bar")).as(matComponents()).toSnackbar();
-        // the doc site is slow; poll until the label text is rendered
+        MatSnackbar snackbar = overlayContainer.findComponent(By.tagName("simple-snack-bar"))
+                .as(matComponents()).toSnackbar();
         assertEquals("Disco party!", awaitText(snackbar.getLabel()));
         assertEquals("Dance", awaitText(snackbar.getActionButton()));
 
@@ -77,8 +69,8 @@ public class MatSnackbarTestCases extends MatTestSupport {
                 driver.threadSleep(250L);
                 if (i == 39) {
                     // re-locate the action button as the previous reference may be stale
-                    overlayContainer.findComponent(By.tagName("simple-snack-bar")).as(matComponents()).toSnackbar()
-                            .getActionButton().click();
+                    overlayContainer.findComponent(By.tagName("simple-snack-bar")).as(matComponents())
+                            .toSnackbar().getActionButton().click();
                 }
             }
         }
@@ -100,7 +92,7 @@ public class MatSnackbarTestCases extends MatTestSupport {
     public static void main(String[] args) {
         MatSnackbarTestCases test = new MatSnackbarTestCases();
         test.setUpDriver(EDGE);
-        test.navigateToExamples(test.baseUrl() + "snack-bar/examples");
+        test.navigateToExamples(test.baseUrl() + "snack-bar/examples", "snack-bar-overview-example");
         test.testSliderConfiguration();
     }
 }

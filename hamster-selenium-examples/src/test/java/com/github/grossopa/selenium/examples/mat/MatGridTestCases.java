@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MatGridTestCases extends MatTestSupport {
 
     public void testGrid() {
-        navigateToExamples(baseUrl() + "grid-list/examples");
+        navigateToExamples(baseUrl() + "grid-list/examples", "grid-list-dynamic-example");
 
         WebComponent container = driver.findComponent(By.tagName("grid-list-dynamic-example"));
         MatGridList gridList = container.findComponent(By.className("mat-grid-list")).as(matComponents()).toGridList();

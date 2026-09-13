@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MatProgressBarTestCases extends MatTestSupport {
 
     public void testBufferProgressBar() {
-        navigateToExamples(baseUrl() + "progress-bar/examples");
+        navigateToExamples(baseUrl() + "progress-bar/examples", "progress-bar-buffer-example");
         MatProgressBar progressBar = driver.findComponent(By.tagName("progress-bar-buffer-example"))
                 .findComponent(By.tagName("mat-progress-bar")).as(matComponents()).toProgressBar();
         assertTrue(progressBar.validate());
@@ -47,7 +47,7 @@ public class MatProgressBarTestCases extends MatTestSupport {
     }
 
     public void testConfigurableProgressBar() {
-        navigateToExamples(baseUrl() + "progress-bar/examples");
+        navigateToExamples(baseUrl() + "progress-bar/examples", "progress-bar-configurable-example");
         MatProgressBar progressBar = driver.findComponent(By.tagName("progress-bar-configurable-example"))
                 .findComponent(By.tagName("mat-progress-bar")).as(matComponents()).toProgressBar();
 
@@ -59,14 +59,14 @@ public class MatProgressBarTestCases extends MatTestSupport {
     }
 
     public void testIndeterminateProgressBar() {
-        navigateToExamples(baseUrl() + "progress-bar/examples");
+        navigateToExamples(baseUrl() + "progress-bar/examples", "progress-bar-indeterminate-example");
         MatProgressBar progressBar = driver.findComponent(By.tagName("progress-bar-indeterminate-example"))
                 .findComponent(By.tagName("mat-progress-bar")).as(matComponents()).toProgressBar();
         assertEquals(MatProgressBar.Mode.INDETERMINATE, progressBar.getMode());
     }
 
     public void testQueryProgressBar() {
-        navigateToExamples(baseUrl() + "progress-bar/examples");
+        navigateToExamples(baseUrl() + "progress-bar/examples", "progress-bar-query-example");
         MatProgressBar progressBar = driver.findComponent(By.tagName("progress-bar-query-example"))
                 .findComponent(By.tagName("mat-progress-bar")).as(matComponents()).toProgressBar();
         assertEquals(MatProgressBar.Mode.QUERY, progressBar.getMode());
@@ -75,7 +75,7 @@ public class MatProgressBarTestCases extends MatTestSupport {
     public static void main(String[] args) {
         MatProgressBarTestCases test = new MatProgressBarTestCases();
         test.setUpDriver(EDGE);
-        test.navigateToExamples(test.baseUrl() + "progress-bar/examples");
+        test.navigateToExamples(test.baseUrl() + "progress-bar/examples", "progress-bar-buffer-example");
 
         test.testBufferProgressBar();
         test.testConfigurableProgressBar();

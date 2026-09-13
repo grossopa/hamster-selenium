@@ -27,6 +27,7 @@ import com.github.grossopa.hamster.selenium.component.mat.main.MatAutocomplete;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatChipList;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatFormField;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -41,12 +42,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MatChipListTestCases extends MatTestSupport {
 
     public void testChipList() {
-        navigateToExamples(baseUrl() + "chips/examples");
+        navigateToExamples(baseUrl() + "chips/examples", "chips-autocomplete-example");
 
         MatFormField matFormField = driver.findComponent(By.tagName("chips-autocomplete-example"))
                 .findComponent(By.tagName("mat-form-field")).as(matComponents()).toFormField();
 
-        MatChipList chipList = matFormField.getInfix().findComponent(By.tagName("mat-chip-list")).as(matComponents())
+        MatChipList chipList = matFormField.getInfix().findComponent(By.tagName("mat-chip-grid")).as(matComponents())
                 .toChipList();
 
         assertEquals(1, chipList.getChips().size());
@@ -55,11 +56,18 @@ public class MatChipListTestCases extends MatTestSupport {
         assertTrue(chipList.getChips().isEmpty());
 
         MatAutocomplete autocomplete = matFormField.as(matComponents()).toAutocomplete();
-        autocomplete.selectByVisibleText("Apple");
-        autocomplete.selectByVisibleText("Orange");
-        autocomplete.selectByVisibleText("Strawberry");
+        for (String fruit : new String[]{"Apple", "Orange", "Strawberry"}) {
+            // click the input to open the autocomplete panel
+            autocomplete.getInput().click();
+            driver.threadSleep(500L);
+            autocomplete.selectByVisibleText(fruit);
+            // the selection keeps the input focused and the overlay is destroyed;
+            // press Tab to blur so the next click on the input reopens the panel
+            autocomplete.getInput().sendKeys(Keys.TAB);
+            driver.threadSleep(500L);
+        }
 
-        MatChipList newChipList = matFormField.getInfix().findComponent(By.tagName("mat-chip-list")).as(matComponents())
+        MatChipList newChipList = matFormField.getInfix().findComponent(By.tagName("mat-chip-grid")).as(matComponents())
                 .toChipList();
 
         assertEquals(3, newChipList.getChips().size());

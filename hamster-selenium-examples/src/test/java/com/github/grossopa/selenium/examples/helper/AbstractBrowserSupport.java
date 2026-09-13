@@ -96,6 +96,21 @@ public abstract class AbstractBrowserSupport {
     }
 
     /**
+     * Navigates to an examples page and waits until the given example element tag is present.
+     *
+     * @param url              the examples page url
+     * @param exampleTagName   the custom element tag name to wait for (e.g. {@code "button-overview-example"})
+     */
+    protected void navigateToExamples(String url, String exampleTagName) {
+        driver.navigate().to(url);
+        waitForExamplesPageRendered();
+        // the doc site renders the navbar first; poll until the specific example element appears
+        for (int i = 0; i < 80 && driver.findElements(By.tagName(exampleTagName)).isEmpty(); i++) {
+            driver.threadSleep(250L);
+        }
+    }
+
+    /**
      * Waits until any Material component is rendered on the current page. The doc site
      * occasionally fails to bootstrap; in that case the page is refreshed once and polled again.
      */

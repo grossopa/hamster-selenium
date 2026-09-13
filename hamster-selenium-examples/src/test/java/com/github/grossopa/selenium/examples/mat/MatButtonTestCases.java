@@ -42,26 +42,25 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatButtonTestCases extends MatTestSupport {
 
     public void testButtons() {
-        navigateToExamples(baseUrl() + "button/examples");
+        navigateToExamples(baseUrl() + "button/examples", "button-overview-example");
 
-        WebComponent raisedButtonContainer = driver.findComponent(By.id("button-overview"))
-                .findComponent(By.tagName("button-overview-example"))
-                .findComponents(By2.xpathBuilder().relative("section").build()).get(1);
+        WebComponent example = driver.findComponent(By.id("button-overview"))
+                .findComponent(By.tagName("button-overview-example"));
+        // the latest page has 9 sections (Text/Elevated/Outlined/Filled/Tonal/Icon/FAB/Mini FAB/Extended FAB)
+        // each text-type section has 3 buttons: Basic, Disabled, Link
+        WebComponent section = example.findComponents(By2.xpathBuilder().relative("section").build()).get(0);
 
-        List<MatButton> buttons = raisedButtonContainer.findComponentsAs(
+        List<MatButton> buttons = section.findComponentsAs(
                 By.className(cssClass("button-base", "button")),
                 c -> c.as(matComponents()).toButton());
-        assertEquals(6, buttons.size());
-        assertEquals(6L, buttons.stream().filter(MatButton::validate).count());
+        assertEquals(3, buttons.size());
+        assertEquals(3L, buttons.stream().filter(MatButton::validate).count());
         assertTrue(buttons.get(0).isEnabled());
-        assertFalse(buttons.get(4).isEnabled());
+        assertFalse(buttons.get(1).isEnabled());
         assertEquals("Basic", buttons.get(0).getText());
-        assertEquals("Primary", buttons.get(1).getText());
-        assertEquals("Accent", buttons.get(2).getText());
-        assertEquals("Warn", buttons.get(3).getText());
-        assertEquals("Disabled", buttons.get(4).getText());
-        assertEquals("Link", buttons.get(5).getText());
-        assertDoesNotThrow(() -> buttons.get(2).click());
+        assertEquals("Disabled", buttons.get(1).getText());
+        assertEquals("Link", buttons.get(2).getText());
+        assertDoesNotThrow(() -> buttons.get(0).click());
     }
 
     public static void main(String[] args) {

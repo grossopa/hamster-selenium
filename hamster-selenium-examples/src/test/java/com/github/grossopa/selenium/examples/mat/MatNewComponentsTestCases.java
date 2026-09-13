@@ -38,8 +38,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatNewComponentsTestCases extends MatTestSupport {
 
     public void testInput() {
-        navigateToExamples(baseUrl() + "input/examples");
-        WebComponent formField = driver.findComponent(By.id("input-overview-example"))
+        navigateToExamples(baseUrl() + "input/examples", "input-overview-example");
+        WebComponent formField = driver.findComponent(By.tagName("input-overview-example"))
                 .findComponent(By.tagName("mat-form-field"));
         MatInput input = formField.findComponent(By.tagName("input")).as(matComponents()).toInput();
         assertTrue(input.validate());
@@ -51,8 +51,8 @@ public class MatNewComponentsTestCases extends MatTestSupport {
     }
 
     public void testSelect() {
-        navigateToExamples(baseUrl() + "select/examples");
-        WebComponent formField = driver.findComponent(By.id("select-overview-example"))
+        navigateToExamples(baseUrl() + "select/examples", "select-overview-example");
+        WebComponent formField = driver.findComponent(By.tagName("select-overview-example"))
                 .findComponent(By.tagName("mat-form-field"));
         MatSelect select = formField.findComponent(By.tagName("mat-select")).as(matComponents()).toSelect();
         assertTrue(select.validate());
@@ -67,8 +67,8 @@ public class MatNewComponentsTestCases extends MatTestSupport {
     }
 
     public void testRadioGroup() {
-        navigateToExamples(baseUrl() + "radio/examples");
-        MatRadioGroup group = driver.findComponent(By.id("radio-overview-example"))
+        navigateToExamples(baseUrl() + "radio/examples", "radio-overview-example");
+        MatRadioGroup group = driver.findComponent(By.tagName("radio-overview-example"))
                 .findComponent(By.tagName("mat-radio-group")).as(matComponents()).toRadioGroup();
         assertTrue(group.validate());
         var buttons = group.getRadioButtons();
@@ -79,7 +79,7 @@ public class MatNewComponentsTestCases extends MatTestSupport {
     }
 
     public void testCard() {
-        navigateToExamples(baseUrl() + "card/examples");
+        navigateToExamples(baseUrl() + "card/examples", "card-overview-example");
         MatCard card = driver.findComponent(By.tagName("card-overview-example"))
                 .findComponent(By.tagName("mat-card")).as(matComponents()).toCard();
         assertTrue(card.validate());
@@ -88,7 +88,7 @@ public class MatNewComponentsTestCases extends MatTestSupport {
     }
 
     public void testTabs() {
-        navigateToExamples(baseUrl() + "tabs/examples");
+        navigateToExamples(baseUrl() + "tabs/examples", "tab-group-basic-example");
         MatTabGroup tabGroup = driver.findComponent(By.tagName("tab-group-basic-example"))
                 .findComponent(By.tagName("mat-tab-group")).as(matComponents()).toTabGroup();
         assertTrue(tabGroup.validate());
@@ -100,8 +100,8 @@ public class MatNewComponentsTestCases extends MatTestSupport {
     }
 
     public void testStepper() {
-        navigateToExamples(baseUrl() + "stepper/examples");
-        MatStepper stepper = driver.findComponent(By.id("stepper-overview-example"))
+        navigateToExamples(baseUrl() + "stepper/examples", "stepper-overview-example");
+        MatStepper stepper = driver.findComponent(By.tagName("stepper-overview-example"))
                 .findComponent(By.tagName("mat-stepper")).as(matComponents()).toStepper();
         assertTrue(stepper.validate());
         // the stepper renders step headers (mat-step-header) rather than mat-step elements;
@@ -113,9 +113,9 @@ public class MatNewComponentsTestCases extends MatTestSupport {
     }
 
     public void testTable() {
-        navigateToExamples(baseUrl() + "table/examples");
+        navigateToExamples(baseUrl() + "table/examples", "table-overview-example");
         // the overview example renders a <table class="mat-mdc-table"> rather than <mat-table>
-        MatTable table = driver.findComponent(By.id("table-overview-example"))
+        MatTable table = driver.findComponent(By.tagName("table-overview-example"))
                 .findComponent(By.className(cssClass("table", "table"))).as(matComponents()).toTable();
         assertTrue(table.validate());
         var headerCells = table.getHeaderCells();
@@ -126,8 +126,8 @@ public class MatNewComponentsTestCases extends MatTestSupport {
     }
 
     public void testPaginator() {
-        navigateToExamples(baseUrl() + "paginator/examples");
-        MatPaginator paginator = driver.findComponent(By.id("paginator-overview-example"))
+        navigateToExamples(baseUrl() + "paginator/examples", "paginator-overview-example");
+        MatPaginator paginator = driver.findComponent(By.tagName("paginator-overview-example"))
                 .findComponent(By.tagName("mat-paginator")).as(matComponents()).toPaginator();
         assertTrue(paginator.validate());
         assertNotNull(paginator.getRangeLabel());
@@ -135,7 +135,7 @@ public class MatNewComponentsTestCases extends MatTestSupport {
     }
 
     public void testSidenav() {
-        navigateToExamples(baseUrl() + "sidenav/examples");
+        navigateToExamples(baseUrl() + "sidenav/examples", "sidenav-drawer-overview-example");
         // the sidenav-overview-example does not render inline;
         // use sidenav-drawer-overview-example which uses <mat-drawer-container>/<mat-drawer>
         MatSidenavContainer container = driver.findComponent(By.tagName("sidenav-drawer-overview-example"))
@@ -148,7 +148,7 @@ public class MatNewComponentsTestCases extends MatTestSupport {
     }
 
     public void testTree() {
-        navigateToExamples(baseUrl() + "tree/examples");
+        navigateToExamples(baseUrl() + "tree/examples", "tree-flat-overview-example");
         // the tree page uses tree-flat-overview-example instead of tree-overview-example
         MatTree tree = driver.findComponent(By.tagName("tree-flat-overview-example"))
                 .findComponent(By.tagName("mat-tree")).as(matComponents()).toTree();

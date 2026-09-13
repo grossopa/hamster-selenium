@@ -143,6 +143,12 @@ public class MatFormField extends AbstractMatComponent implements HasInput<WebCo
      * @return the label element
      */
     public WebComponent getLabel() {
+        // MDC uses .mat-mdc-floating-label (nested inside label wrapper); legacy uses label-wrapper > label > mat-label
+        List<WebComponent> mdcLabels = this.findComponents(
+                By.cssSelector("." + config.getComponentCssPrefix() + "floating-label"));
+        if (!mdcLabels.isEmpty()) {
+            return mdcLabels.get(0);
+        }
         return this.getInfix().findComponent(xpathBuilder().anywhereRelative().attr(CLASS)
                 .contains(config.getComponentCssPrefix() + "form-field-label-wrapper").child("label").axes().child("mat-label")
                 .build());

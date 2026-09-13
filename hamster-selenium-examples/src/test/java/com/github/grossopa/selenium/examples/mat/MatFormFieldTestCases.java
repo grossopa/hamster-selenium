@@ -43,26 +43,23 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatFormFieldTestCases extends MatTestSupport {
 
     public void navigate() {
-        navigateToExamples(baseUrl() + "form-field/examples");
+        navigateToExamples(baseUrl() + "form-field/examples", "form-field-appearance-example");
     }
 
     public void testAppearance() {
-        List<MatFormField> appearanceFormFields = driver.findComponent(By.id("form-field-appearance"))
+        List<MatFormField> appearanceFormFields = driver.findComponent(By.tagName("form-field-appearance-example"))
                 .findComponentsAs(By.tagName("mat-form-field"), c -> c.as(matComponents()).toFormField());
 
-        assertEquals(4, appearanceFormFields.size());
+        assertEquals(2, appearanceFormFields.size());
         assertTrue(appearanceFormFields.stream().allMatch(MatFormField::validate));
         assertTrue(appearanceFormFields.stream().allMatch(MatFormField::isEnabled));
 
         assertEquals("Hint", awaitText(appearanceFormFields.get(0).getHint()));
-
-        assertDoesNotThrow(() -> appearanceFormFields.get(1).getSuffix()
-                .findComponent(xpathBuilder().relative("mat-icon").build()));
     }
 
     public void testError() {
-        MatFormField errorFormField = driver.findComponent(By.id("form-field-error"))
-                .findComponent(By.tagName("form-field-error-example")).findComponent(By.tagName("mat-form-field"))
+        MatFormField errorFormField = driver.findComponent(By.tagName("form-field-error-example"))
+                .findComponent(By.tagName("mat-form-field"))
                 .as(matComponents()).toFormField();
 
         errorFormField.getInput().sendKeys("ddddd");
@@ -81,7 +78,7 @@ public class MatFormFieldTestCases extends MatTestSupport {
     }
 
     public void testHints() {
-        List<MatFormField> hintsFormFields = driver.findComponent(By.id("form-field-hint"))
+        List<MatFormField> hintsFormFields = driver.findComponent(By.tagName("form-field-hint-example"))
                 .findComponentsAs(By.tagName("mat-form-field"), c -> c.as(matComponents()).toFormField());
 
         assertEquals("Max 10 characters", awaitText(hintsFormFields.get(0).getHint()));
@@ -89,7 +86,7 @@ public class MatFormFieldTestCases extends MatTestSupport {
     }
 
     public void testPrefixSuffix() {
-        List<MatFormField> prefixSuffixFormFields = driver.findComponent(By.id("form-field-prefix-suffix"))
+        List<MatFormField> prefixSuffixFormFields = driver.findComponent(By.tagName("form-field-prefix-suffix-example"))
                 .findComponentsAs(By.tagName("mat-form-field"), c -> c.as(matComponents()).toFormField());
 
         assertEquals("$", awaitText(prefixSuffixFormFields.get(1).getPrefix()).trim());

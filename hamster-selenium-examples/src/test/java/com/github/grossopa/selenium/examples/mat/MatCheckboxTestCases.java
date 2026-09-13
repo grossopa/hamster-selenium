@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatCheckboxTestCases extends MatTestSupport {
 
     public void testCheckbox() {
-        navigateToExamples(baseUrl() + "checkbox/examples");
+        navigateToExamples(baseUrl() + "checkbox/examples", "checkbox-configurable-example");
         List<MatCheckbox> checkboxList = driver.findComponent(By.id("checkbox-configurable"))
                 .findComponentsAs(By.tagName("mat-checkbox"), c -> c.as(matComponents()).toCheckbox());
 

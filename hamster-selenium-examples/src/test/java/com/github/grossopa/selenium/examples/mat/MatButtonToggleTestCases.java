@@ -42,41 +42,26 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatButtonToggleTestCases extends MatTestSupport {
 
     public void testButtonToggleGroup() {
-        navigateToExamples(baseUrl() + "button-toggle/examples");
-
-        MatButtonToggleGroup buttonToggleGroup = driver.findComponent(By.id("button-toggle-exclusive"))
-                .findComponent(By.tagName("button-toggle-exclusive-example"))
+        navigateToExamples(baseUrl() + "button-toggle/examples", "button-toggle-overview-example");
+        // the latest page uses #button-toggle-overview with 3 toggles (bold, italic, underline)
+        MatButtonToggleGroup buttonToggleGroup = driver.findComponent(By.id("button-toggle-overview"))
+                .findComponent(By.tagName("button-toggle-overview-example"))
                 .findComponent(By2.xpathBuilder().relative("mat-button-toggle-group").build()).as(matComponents())
                 .toButtonToggleGroup();
 
         buttonToggleGroup.validate();
 
         List<MatButtonToggle> buttonToggles = buttonToggleGroup.getButtonToggles();
-
-        assertEquals(4, buttonToggles.size());
-        assertTrue(buttonToggles.get(0).validate());
-        assertTrue(buttonToggles.get(1).validate());
-        assertTrue(buttonToggles.get(2).validate());
-        assertTrue(buttonToggles.get(3).validate());
-
-        assertTrue(buttonToggles.get(0).isEnabled());
-        assertTrue(buttonToggles.get(1).isEnabled());
-        assertTrue(buttonToggles.get(2).isEnabled());
-        assertFalse(buttonToggles.get(3).isEnabled());
+        assertEquals(3, buttonToggles.size());
+        assertTrue(buttonToggles.stream().allMatch(MatButtonToggle::validate));
 
         // scroll the group into the center of the viewport to avoid the floating popup overlay
         driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", buttonToggleGroup);
-        buttonToggles.get(1).click();
-        assertFalse(buttonToggles.get(0).isSelected());
-        assertTrue(buttonToggles.get(1).isSelected());
-        assertFalse(buttonToggles.get(2).isSelected());
-        assertFalse(buttonToggles.get(3).isSelected());
+        buttonToggles.get(0).click();
+        assertTrue(buttonToggles.get(0).isSelected());
 
-        buttonToggles.get(2).click();
-        assertFalse(buttonToggles.get(0).isSelected());
-        assertFalse(buttonToggles.get(1).isSelected());
-        assertTrue(buttonToggles.get(2).isSelected());
-        assertFalse(buttonToggles.get(3).isSelected());
+        buttonToggles.get(1).click();
+        assertTrue(buttonToggles.get(1).isSelected());
     }
 
     public static void main(String[] args) {

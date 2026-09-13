@@ -52,7 +52,13 @@ class MatStepperTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-stepper");
+        when(element.getDomAttribute("class")).thenReturn("mat-stepper-horizontal");
+        assertTrue(testSubject.validate());
+    }
+
+    @Test
+    void validateVertical() {
+        when(element.getDomAttribute("class")).thenReturn("mat-stepper-vertical");
         assertTrue(testSubject.validate());
     }
 

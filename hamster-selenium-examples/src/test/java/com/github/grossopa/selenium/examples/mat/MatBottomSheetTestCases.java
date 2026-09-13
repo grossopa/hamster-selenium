@@ -23,7 +23,6 @@
  */
 package com.github.grossopa.selenium.examples.mat;
 
-import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatBottomSheet;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatOverlayContainer;
@@ -33,7 +32,6 @@ import org.openqa.selenium.By;
 import java.util.List;
 
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
-import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -46,17 +44,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MatBottomSheetTestCases extends MatTestSupport {
 
     public void testBottomSheet() {
-        navigateToExamples(baseUrl() + "bottom-sheet/examples");
-        WebComponent openFileButton = driver.findComponent(
-                xpathBuilder().anywhere("p").text().exact("You have received a file called \"cat-picture.jpeg\".")
-                        .parent().build()).findComponent(By.tagName("button"));
+        navigateToExamples(baseUrl() + "bottom-sheet/examples", "bottom-sheet-overview-example");
+        WebComponent openFileButton = driver.findComponent(By.tagName("bottom-sheet-overview-example"))
+                .findComponent(By.tagName("button"));
 
         assertEquals("Open file", openFileButton.getText());
         openFileButton.click();
 
         MatOverlayFinder overlayFinder = new MatOverlayFinder(driver, matConfig());
         MatOverlayContainer container = overlayFinder.findTopVisibleContainer();
-        MatBottomSheet bottomSheet = requireNonNull(container).findComponent(By.className("mat-bottom-sheet-container"))
+        MatBottomSheet bottomSheet = requireNonNull(container).findComponent(By.tagName("mat-bottom-sheet-container"))
                 .as(matComponents()).toBottomSheet();
 
         List<WebComponent> hrefList = bottomSheet.findComponents(By.tagName("a"));

@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatExpansionPanelTestCases extends MatTestSupport {
 
     public void testExpansionPanel() {
-        navigateToExamples(baseUrl() + "expansion/examples");
+        navigateToExamples(baseUrl() + "expansion/examples", "expansion-expand-collapse-all-example");
 
         WebComponent container = driver.findComponent(By.id("expansion-expand-collapse-all"));
         MatAccordion accordion = container.findComponent(By.tagName("mat-accordion")).as(matComponents()).toAccordion();

@@ -42,19 +42,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MatBadgeTestCases extends MatTestSupport {
 
     public void testBadge() {
-        navigateToExamples(baseUrl() + "badge/examples");
+        navigateToExamples(baseUrl() + "badge/examples", "badge-overview-example");
 
         WebComponent container = driver.findComponent(By.tagName("badge-overview-example"));
         List<MatBadge> badges = container.findComponentsAs(By.className("mat-badge"), c -> c.as(matComponents()).toBadge());
-        assertEquals(5, badges.size());
-        badges.stream().peek(badge -> assertTrue(badge.validate())).map(MatBadge::getBadgeContent)
-                .forEach(content -> assertTrue(content.validate()));
+        assertEquals(6, badges.size());
 
         assertEquals("4", badges.get(0).getBadgeContent().getText());
         assertEquals("1", badges.get(1).getBadgeContent().getText());
-        assertEquals("8", badges.get(2).getBadgeContent().getText());
-        assertEquals("7", badges.get(3).getBadgeContent().getText());
-        assertEquals("15", badges.get(4).getBadgeContent().getText());
+        assertEquals("1", badges.get(2).getBadgeContent().getText());
+        assertEquals("8", badges.get(3).getBadgeContent().getText());
+        assertEquals("7", badges.get(4).getBadgeContent().getText());
+        assertEquals("15", badges.get(5).getBadgeContent().getText());
     }
 
     public static void main(String[] args) {

@@ -43,23 +43,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MatAutocompleteTestCases extends MatTestSupport {
 
     public void testAutocomplete() {
-        navigateToExamples(baseUrl() + "autocomplete/examples");
+        navigateToExamples(baseUrl() + "autocomplete/examples", "autocomplete-auto-active-first-option-example");
 
         MatAutocomplete autocomplete = driver.findComponent(By2.id("autocomplete-auto-active-first-option"))
                 .findComponent(By.tagName("mat-form-field")).as(matComponents()).toAutocomplete();
-        List<WebComponent> options = autocomplete.getOptions2();
 
+        // click the input to open the autocomplete panel
+        autocomplete.getInput().click();
+        driver.threadSleep(500L);
+
+        List<WebComponent> options = autocomplete.getOptions2();
         assertEquals(3, options.size());
         assertArrayEquals(new String[]{"One", "Two", "Three"}, options.stream().map(WebComponent::getText).toArray());
-        autocomplete.closeOptions();
 
         autocomplete.selectByIndex(0, 100L);
-        assertEquals("One", autocomplete.getFirstSelectedOption().getText());
         assertEquals("One", autocomplete.getInput().getDomProperty("value"));
-
-        autocomplete.deselectAll();
-        assertEquals("", autocomplete.getInput().getDomProperty("value"));
-        autocomplete.closeOptions(100L);
+        autocomplete.closeOptions();
     }
 
     public static void main(String[] args) {

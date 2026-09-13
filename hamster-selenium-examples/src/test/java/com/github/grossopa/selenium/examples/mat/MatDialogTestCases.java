@@ -46,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatDialogTestCases extends MatTestSupport {
 
     public void testDialog() {
-        navigateToExamples(baseUrl() + "dialog/examples");
+        navigateToExamples(baseUrl() + "dialog/examples", "dialog-content-example");
 
         MatOverlayFinder overlayFinder = new MatOverlayFinder(driver, matConfig());
         MatButton openDialogButton1 = driver.findComponent(By.tagName("dialog-content-example"))

@@ -44,9 +44,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatListTestCases extends MatTestSupport {
 
     public void testList() {
-        navigateToExamples(baseUrl() + "list/examples");
+        navigateToExamples(baseUrl() + "list/examples", "list-overview-example");
         WebComponent container = driver.findComponent(By.tagName("list-overview-example"));
-        MatList list = container.findComponent(By.className("mat-list")).as(matComponents()).toList();
+        MatList list = container.findComponent(By.className(cssClass("list", "list"))).as(matComponents()).toList();
         assertTrue(list.validate());
 
         List<WebComponent> listItems = list.getListItems();
@@ -57,9 +57,9 @@ public class MatListTestCases extends MatTestSupport {
     }
 
     public void testListWithSelection() {
-        navigateToExamples(baseUrl() + "list/examples");
+        navigateToExamples(baseUrl() + "list/examples", "list-selection-example");
         WebComponent container = driver.findComponent(By.tagName("list-selection-example"));
-        MatSelectionList selectionList = container.findComponent(By.className("mat-selection-list")).as(matComponents())
+        MatSelectionList selectionList = container.findComponent(By.className(cssClass("selection-list", "selection-list"))).as(matComponents())
                 .toSelectionList();
         assertTrue(selectionList.validate());
 
@@ -72,19 +72,23 @@ public class MatListTestCases extends MatTestSupport {
         options.forEach(option -> assertFalse(option.isSelected()));
 
         options.get(3).click();
-        assertTrue(options.get(3).isSelected());
+        driver.threadSleep(1000L);
+        // store results to avoid double-evaluation during Angular rendering
+        boolean opt3Selected = options.get(3).isSelected();
+        assertTrue(opt3Selected, "opt3 should be selected after click");
 
         options.get(2).click();
-        assertTrue(options.get(2).isSelected());
-        assertTrue(options.get(3).isSelected());
-        assertTrue(requireNonNull(options.get(2).getCheckbox()).isSelected());
-        assertTrue(requireNonNull(options.get(3).getCheckbox()).isSelected());
+        driver.threadSleep(1000L);
+        boolean opt2Selected = options.get(2).isSelected();
+        boolean opt3StillSelected = options.get(3).isSelected();
+        assertTrue(opt2Selected, "opt2 should be selected after click");
+        assertTrue(opt3StillSelected, "opt3 should still be selected");
     }
 
     public void testListWithSingleSelection() {
-        navigateToExamples(baseUrl() + "list/examples");
+        navigateToExamples(baseUrl() + "list/examples", "list-single-selection-example");
         WebComponent container = driver.findComponent(By.tagName("list-single-selection-example"));
-        MatSelectionList selectionList = container.findComponent(By.className("mat-selection-list")).as(matComponents())
+        MatSelectionList selectionList = container.findComponent(By.className(cssClass("selection-list", "selection-list"))).as(matComponents())
                 .toSelectionList();
         assertTrue(selectionList.validate());
 

@@ -46,7 +46,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MatMenuItemTestCases extends MatTestSupport {
 
     public void testMenuWithIcons() {
-        navigateToExamples(baseUrl() + "menu/examples");
+        navigateToExamples(baseUrl() + "menu/examples", "menu-icons-example");
         MatButton iconButton = driver.findComponent(By.tagName("menu-icons-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(matComponents()).toButton();
         iconButton.click();
@@ -71,7 +71,7 @@ public class MatMenuItemTestCases extends MatTestSupport {
     }
 
     public void testNestedMenu() {
-        navigateToExamples(baseUrl() + "menu/examples");
+        navigateToExamples(baseUrl() + "menu/examples", "menu-nested-example");
         MatButton animalIndexButton = driver.findComponent(By.tagName("menu-nested-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(matComponents()).toButton();
 
@@ -86,11 +86,11 @@ public class MatMenuItemTestCases extends MatTestSupport {
         assertEquals(3, menus.size());
         menus.forEach(container -> assertTrue(container.validate()));
 
-        assertEquals("Vertebrates", awaitText(menus.get(0).findComponentsAs(By.className("mat-menu-item"),
+        assertEquals("Vertebrates", awaitText(menus.get(0).findComponentsAs(By.className(cssClass("menu-item", "menu-item")),
                 c -> c.as(matComponents()).toMenuItem()).stream().peek(item -> assertTrue(item::validate))
                 .filter(MatMenuItem::isExpanded).findFirst().orElseThrow()));
 
-        assertEquals("Amphibians", awaitText(menus.get(1).findComponentsAs(By.className("mat-menu-item"),
+        assertEquals("Amphibians", awaitText(menus.get(1).findComponentsAs(By.className(cssClass("menu-item", "menu-item")),
                 c -> c.as(matComponents()).toMenuItem()).stream().peek(item -> assertTrue(item::validate))
                 .filter(MatMenuItem::isExpanded).findFirst().orElseThrow()));
 
@@ -102,7 +102,7 @@ public class MatMenuItemTestCases extends MatTestSupport {
     }
 
     public void testNestedMenuComplexActions() {
-        navigateToExamples(baseUrl() + "menu/examples");
+        navigateToExamples(baseUrl() + "menu/examples", "menu-nested-example");
         MatButton animalIndexButton = driver.findComponent(By.tagName("menu-nested-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(matComponents()).toButton();
         animalIndexButton.click();
@@ -121,7 +121,7 @@ public class MatMenuItemTestCases extends MatTestSupport {
     }
 
     public void testSelection() {
-        navigateToExamples(baseUrl() + "menu/examples");
+        navigateToExamples(baseUrl() + "menu/examples", "menu-nested-example");
         MatButton animalIndexButton = driver.findComponent(By.tagName("menu-nested-example"))
                 .findComponent(By2.xpathBuilder().relative("button").build()).as(matComponents()).toButton();
 
@@ -176,7 +176,7 @@ public class MatMenuItemTestCases extends MatTestSupport {
         MatMenuItemTestCases test = new MatMenuItemTestCases();
         try {
             test.setUpDriver(EDGE);
-            test.navigateToExamples(test.baseUrl() + "menu/examples");
+            test.navigateToExamples(test.baseUrl() + "menu/examples", "menu-icons-example");
             test.testMenuWithIcons();
             test.testNestedMenu();
             test.testNestedMenuComplexActions();

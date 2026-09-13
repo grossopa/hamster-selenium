@@ -67,7 +67,11 @@ public class MatStepper extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, "mat-" + "stepper");
+        // MDC uses mat-stepper-horizontal / mat-stepper-vertical; legacy uses mat-stepper
+        return this.attributeContains(CLASS, "mat-" + "stepper-horizontal")
+                || this.attributeContains(CLASS, "mat-" + "stepper-vertical")
+                || this.attributeContains(CLASS, config.getComponentCssPrefix() + "horizontal-stepper")
+                || this.attributeContains(CLASS, config.getComponentCssPrefix() + "vertical-stepper");
     }
 
     /**
