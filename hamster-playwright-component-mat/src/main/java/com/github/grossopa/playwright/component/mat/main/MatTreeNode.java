@@ -64,7 +64,7 @@ public class MatTreeNode extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "tree-node");
+        return attributeContains(CLASS, "mat-" + "tree-node");
     }
 
     /**
@@ -73,7 +73,7 @@ public class MatTreeNode extends AbstractMatComponent {
      * @return true if the node is expanded
      */
     public boolean isExpanded() {
-        return attributeContains(CLASS, config.getCssPrefix() + "tree-node-expanded");
+        return attributeContains(CLASS, "mat-" + "tree-node-expanded");
     }
 
     /**
@@ -83,7 +83,7 @@ public class MatTreeNode extends AbstractMatComponent {
      */
     public WebComponent getToggleButton() {
         try {
-            return this.findComponent("." + config.getCssPrefix() + "tree-node-toggle");
+            return this.findComponent("." + "mat-" + "tree-node-toggle");
         } catch (Exception e) {
             return null;
         }
@@ -115,7 +115,7 @@ public class MatTreeNode extends AbstractMatComponent {
      * @return the list of child tree nodes
      */
     public List<MatTreeNode> getChildren() {
-        return this.findComponents(config.getTagPrefix() + "tree-node." + config.getCssPrefix() + "tree-node")
+        return this.findComponents(config.getTagPrefix() + "tree-node." + "mat-" + "tree-node")
                 .stream().map(c -> new MatTreeNode(c, driver, config)).toList();
     }
 }

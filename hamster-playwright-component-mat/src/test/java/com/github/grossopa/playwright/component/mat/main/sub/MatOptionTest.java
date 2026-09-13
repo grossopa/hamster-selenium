@@ -90,13 +90,13 @@ class MatOptionTest {
 
     @Test
     void isSelected() {
-        when(locator.getAttribute("class")).thenReturn("mat-option mat-selected");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-option mat-mdc-selected");
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-option");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-option");
         assertFalse(testSubject.isSelected());
     }
 

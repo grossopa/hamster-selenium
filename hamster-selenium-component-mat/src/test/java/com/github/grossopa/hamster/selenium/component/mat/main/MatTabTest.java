@@ -41,7 +41,7 @@ class MatTabTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatTab(element, driver, config);
     }
 
@@ -52,7 +52,7 @@ class MatTabTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-tab");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-tab");
         assertTrue(testSubject.validate());
     }
 

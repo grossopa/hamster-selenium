@@ -63,7 +63,7 @@ public class MatButtonToggleGroup extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "button-toggle-group");
+        return attributeContains(CLASS, "mat-" + "button-toggle-group");
     }
 
     /**
@@ -72,7 +72,7 @@ public class MatButtonToggleGroup extends AbstractMatComponent {
      * @return the contained {@link MatButtonToggle} list
      */
     public List<MatButtonToggle> getButtonToggles() {
-        return this.findComponents(config.getTagPrefix() + "button-toggle." + config.getCssPrefix()
+        return this.findComponents(config.getTagPrefix() + "button-toggle." + "mat-"
                 + "button-toggle").stream().map(c -> new MatButtonToggle(c, driver, config)).toList();
     }
 }

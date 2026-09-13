@@ -30,6 +30,7 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
@@ -71,7 +72,12 @@ public class MatSnackbar extends AbstractMatComponent {
      * @return the label content.
      */
     public WebComponent getLabel() {
-        return this.findComponent(By.tagName("span"));
+        // MDC structure uses [matsnackbarlabel] attribute; legacy uses <span>
+        try {
+            return this.findComponent(By.cssSelector("[matsnackbarlabel]"));
+        } catch (NoSuchElementException ex) {
+            return this.findComponent(By.tagName("span"));
+        }
     }
 
     /**
@@ -85,6 +91,6 @@ public class MatSnackbar extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "simple-snackbar");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "simple-snack-bar");
     }
 }

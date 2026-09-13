@@ -32,7 +32,7 @@ import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
  *
  * <p>This is the Selenium counterpart of the Playwright {@code MatShowCase}. It reuses
  * the individual {@code MatXxxTestCases} classes, each of which targets a specific
- * component on the archived v12 material.angular.io documentation site.</p>
+ * component on the material.angular.dev documentation site.</p>
  *
  * <p>Usage:</p>
  * <pre>{@code

@@ -25,10 +25,8 @@ package com.github.grossopa.selenium.examples.mat;
 
 import com.github.grossopa.hamster.selenium.component.mat.main.*;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -37,15 +35,15 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.16
  */
-public class MatNewComponentsTestCases extends AbstractBrowserSupport {
+public class MatNewComponentsTestCases extends MatTestSupport {
 
     public void testInput() {
-        navigateToExamples("https://v12.material.angular.io/components/input/examples");
+        navigateToExamples(baseUrl() + "input/examples");
         WebComponent formField = driver.findComponent(By.id("input-overview-example"))
                 .findComponent(By.tagName("mat-form-field"));
-        MatInput input = formField.findComponent(By.tagName("input")).as(mat()).toInput();
+        MatInput input = formField.findComponent(By.tagName("input")).as(matComponents()).toInput();
         assertTrue(input.validate());
-        // the v12 input has a pre-filled value; clear it first then type new value
+        // the input has a pre-filled value; clear it first then type new value
         input.clear();
         input.sendKeys("Hello");
         assertEquals("Hello", input.getValue());
@@ -53,10 +51,10 @@ public class MatNewComponentsTestCases extends AbstractBrowserSupport {
     }
 
     public void testSelect() {
-        navigateToExamples("https://v12.material.angular.io/components/select/examples");
+        navigateToExamples(baseUrl() + "select/examples");
         WebComponent formField = driver.findComponent(By.id("select-overview-example"))
                 .findComponent(By.tagName("mat-form-field"));
-        MatSelect select = formField.findComponent(By.tagName("mat-select")).as(mat()).toSelect();
+        MatSelect select = formField.findComponent(By.tagName("mat-select")).as(matComponents()).toSelect();
         assertTrue(select.validate());
         // click the select to open the dropdown panel
         select.click();
@@ -69,9 +67,9 @@ public class MatNewComponentsTestCases extends AbstractBrowserSupport {
     }
 
     public void testRadioGroup() {
-        navigateToExamples("https://v12.material.angular.io/components/radio/examples");
+        navigateToExamples(baseUrl() + "radio/examples");
         MatRadioGroup group = driver.findComponent(By.id("radio-overview-example"))
-                .findComponent(By.tagName("mat-radio-group")).as(mat()).toRadioGroup();
+                .findComponent(By.tagName("mat-radio-group")).as(matComponents()).toRadioGroup();
         assertTrue(group.validate());
         var buttons = group.getRadioButtons();
         assertEquals(2, buttons.size());
@@ -81,18 +79,18 @@ public class MatNewComponentsTestCases extends AbstractBrowserSupport {
     }
 
     public void testCard() {
-        navigateToExamples("https://v12.material.angular.io/components/card/examples");
+        navigateToExamples(baseUrl() + "card/examples");
         MatCard card = driver.findComponent(By.tagName("card-overview-example"))
-                .findComponent(By.tagName("mat-card")).as(mat()).toCard();
+                .findComponent(By.tagName("mat-card")).as(matComponents()).toCard();
         assertTrue(card.validate());
         assertNotNull(card.getTitle());
         System.out.println("Verified card title: " + card.getTitle().getText());
     }
 
     public void testTabs() {
-        navigateToExamples("https://v12.material.angular.io/components/tabs/examples");
+        navigateToExamples(baseUrl() + "tabs/examples");
         MatTabGroup tabGroup = driver.findComponent(By.tagName("tab-group-basic-example"))
-                .findComponent(By.tagName("mat-tab-group")).as(mat()).toTabGroup();
+                .findComponent(By.tagName("mat-tab-group")).as(matComponents()).toTabGroup();
         assertTrue(tabGroup.validate());
         var labels = tabGroup.getTabLabels();
         assertTrue(labels.size() >= 2);
@@ -102,11 +100,11 @@ public class MatNewComponentsTestCases extends AbstractBrowserSupport {
     }
 
     public void testStepper() {
-        navigateToExamples("https://v12.material.angular.io/components/stepper/examples");
+        navigateToExamples(baseUrl() + "stepper/examples");
         MatStepper stepper = driver.findComponent(By.id("stepper-overview-example"))
-                .findComponent(By.tagName("mat-stepper")).as(mat()).toStepper();
+                .findComponent(By.tagName("mat-stepper")).as(matComponents()).toStepper();
         assertTrue(stepper.validate());
-        // the v12 stepper renders step headers (mat-step-header) rather than mat-step elements;
+        // the stepper renders step headers (mat-step-header) rather than mat-step elements;
         // verify the step labels via the header container
         var headers = stepper.findComponents(By.className("mat-step-header"));
         assertTrue(headers.size() >= 2);
@@ -115,10 +113,10 @@ public class MatNewComponentsTestCases extends AbstractBrowserSupport {
     }
 
     public void testTable() {
-        navigateToExamples("https://v12.material.angular.io/components/table/examples");
-        // the v12 overview example renders a <table class="mat-table"> rather than <mat-table>
+        navigateToExamples(baseUrl() + "table/examples");
+        // the overview example renders a <table class="mat-mdc-table"> rather than <mat-table>
         MatTable table = driver.findComponent(By.id("table-overview-example"))
-                .findComponent(By.className("mat-table")).as(mat()).toTable();
+                .findComponent(By.className(cssClass("table", "table"))).as(matComponents()).toTable();
         assertTrue(table.validate());
         var headerCells = table.getHeaderCells();
         assertTrue(headerCells.size() >= 2);
@@ -128,20 +126,20 @@ public class MatNewComponentsTestCases extends AbstractBrowserSupport {
     }
 
     public void testPaginator() {
-        navigateToExamples("https://v12.material.angular.io/components/paginator/examples");
+        navigateToExamples(baseUrl() + "paginator/examples");
         MatPaginator paginator = driver.findComponent(By.id("paginator-overview-example"))
-                .findComponent(By.tagName("mat-paginator")).as(mat()).toPaginator();
+                .findComponent(By.tagName("mat-paginator")).as(matComponents()).toPaginator();
         assertTrue(paginator.validate());
         assertNotNull(paginator.getRangeLabel());
         System.out.println("Verified paginator range label: " + paginator.getRangeLabel());
     }
 
     public void testSidenav() {
-        navigateToExamples("https://v12.material.angular.io/components/sidenav/examples");
-        // the v12 sidenav-overview-example does not render inline;
+        navigateToExamples(baseUrl() + "sidenav/examples");
+        // the sidenav-overview-example does not render inline;
         // use sidenav-drawer-overview-example which uses <mat-drawer-container>/<mat-drawer>
         MatSidenavContainer container = driver.findComponent(By.tagName("sidenav-drawer-overview-example"))
-                .findComponent(By.tagName("mat-drawer-container")).as(mat()).toSidenavContainer();
+                .findComponent(By.tagName("mat-drawer-container")).as(matComponents()).toSidenavContainer();
         assertTrue(container.validate());
         MatSidenav sidenav = container.getSidenav();
         assertTrue(sidenav.validate());
@@ -150,10 +148,10 @@ public class MatNewComponentsTestCases extends AbstractBrowserSupport {
     }
 
     public void testTree() {
-        navigateToExamples("https://v12.material.angular.io/components/tree/examples");
-        // the v12 tree page uses tree-flat-overview-example instead of tree-overview-example
+        navigateToExamples(baseUrl() + "tree/examples");
+        // the tree page uses tree-flat-overview-example instead of tree-overview-example
         MatTree tree = driver.findComponent(By.tagName("tree-flat-overview-example"))
-                .findComponent(By.tagName("mat-tree")).as(mat()).toTree();
+                .findComponent(By.tagName("mat-tree")).as(matComponents()).toTree();
         assertTrue(tree.validate());
         var nodes = tree.getNodes();
         assertTrue(nodes.size() >= 1);

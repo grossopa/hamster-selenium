@@ -26,6 +26,7 @@ package com.github.grossopa.playwright.component.mat.main;
 import com.github.grossopa.playwright.component.mat.AbstractMatComponent;
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.DefaultWebComponent;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.github.grossopa.utils.component.HasInput;
 import com.microsoft.playwright.Locator;
@@ -64,7 +65,7 @@ public class MatFormField extends AbstractMatComponent implements HasInput<WebCo
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "form-field");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "form-field");
     }
 
     /**
@@ -73,7 +74,13 @@ public class MatFormField extends AbstractMatComponent implements HasInput<WebCo
      * @return the prefix component
      */
     public WebComponent getPrefix() {
-        return this.findComponent("." + config.getCssPrefix() + "form-field-prefix");
+        // MDC uses .mat-mdc-form-field-text-prefix; legacy uses .mat-form-field-prefix
+        Locator mdcPrefix = locator.locator("." + config.getComponentCssPrefix()
+                + "form-field-text-prefix").first();
+        if (mdcPrefix.count() > 0) {
+            return new DefaultWebComponent(mdcPrefix, driver);
+        }
+        return this.findComponent("." + config.getComponentCssPrefix() + "form-field-prefix");
     }
 
     /**
@@ -82,7 +89,7 @@ public class MatFormField extends AbstractMatComponent implements HasInput<WebCo
      * @return the infix component
      */
     public WebComponent getInfix() {
-        return this.findComponent("." + config.getCssPrefix() + "form-field-infix");
+        return this.findComponent("." + config.getComponentCssPrefix() + "form-field-infix");
     }
 
     /**
@@ -91,7 +98,13 @@ public class MatFormField extends AbstractMatComponent implements HasInput<WebCo
      * @return the suffix component
      */
     public WebComponent getSuffix() {
-        return this.findComponent("." + config.getCssPrefix() + "form-field-suffix");
+        // MDC uses .mat-mdc-form-field-text-suffix; legacy uses .mat-form-field-suffix
+        Locator mdcSuffix = locator.locator("." + config.getComponentCssPrefix()
+                + "form-field-text-suffix").first();
+        if (mdcSuffix.count() > 0) {
+            return new DefaultWebComponent(mdcSuffix, driver);
+        }
+        return this.findComponent("." + config.getComponentCssPrefix() + "form-field-suffix");
     }
 
     /**
@@ -100,7 +113,13 @@ public class MatFormField extends AbstractMatComponent implements HasInput<WebCo
      * @return the hint component
      */
     public WebComponent getHint() {
-        return this.findComponent("." + config.getCssPrefix() + "hint");
+        // MDC uses .mat-mdc-form-field-hint; legacy uses .mat-hint
+        Locator mdcHint = locator.locator("." + config.getComponentCssPrefix()
+                + "form-field-hint").first();
+        if (mdcHint.count() > 0) {
+            return new DefaultWebComponent(mdcHint, driver);
+        }
+        return this.findComponent("." + config.getComponentCssPrefix() + "hint");
     }
 
     /**
@@ -119,7 +138,12 @@ public class MatFormField extends AbstractMatComponent implements HasInput<WebCo
      * @return the label element
      */
     public WebComponent getLabel() {
-        return this.findComponent("." + config.getCssPrefix() + "form-field-label");
+        // MDC structure uses .mat-mdc-floating-label; legacy uses .mat-form-field-label
+        Locator legacy = locator.locator(
+                "." + config.getComponentCssPrefix() + "form-field-label");
+        Locator mdc = locator.locator(
+                "." + config.getComponentCssPrefix() + "floating-label");
+        return new DefaultWebComponent(legacy.or(mdc).first(), driver);
     }
 
     /**
@@ -128,7 +152,15 @@ public class MatFormField extends AbstractMatComponent implements HasInput<WebCo
      * @return the error component
      */
     public WebComponent getError() {
-        return this.findComponent("." + config.getCssPrefix() + "form-field-subscript-wrapper ."
-                + config.getCssPrefix() + "error");
+        // MDC uses .mat-mdc-form-field-error; legacy uses .mat-error
+        String mdcSelector = "." + config.getComponentCssPrefix()
+                + "form-field-subscript-wrapper ." + config.getComponentCssPrefix() + "form-field-error";
+        String legacySelector = "." + config.getComponentCssPrefix()
+                + "form-field-subscript-wrapper ." + config.getComponentCssPrefix() + "error";
+        Locator mdcLocator = locator.locator(mdcSelector);
+        if (mdcLocator.count() > 0) {
+            return new DefaultWebComponent(mdcLocator.first(), driver);
+        }
+        return new DefaultWebComponent(locator.locator(legacySelector).first(), driver);
     }
 }

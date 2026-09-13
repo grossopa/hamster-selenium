@@ -27,13 +27,11 @@ import com.github.grossopa.hamster.selenium.component.mat.main.MatCheckbox;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatFormField;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatSlider;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static com.github.grossopa.selenium.core.locator.By2.axesBuilder;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
@@ -48,10 +46,10 @@ import static org.openqa.selenium.By.xpath;
  * @author Jack Yin
  * @since 1.7
  */
-public class MatSliderTestCases extends AbstractBrowserSupport {
+public class MatSliderTestCases extends MatTestSupport {
 
     public void testConfigurableSlider() {
-        navigateToExamples("https://v12.material.angular.io/components/slider/examples");
+        navigateToExamples(baseUrl() + "slider/examples");
         // close cookie alert
         driver.findComponent(xpathBuilder().anywhereRelative("span").text().contains("Ok, Got it").parent().build())
                 .click();
@@ -62,24 +60,24 @@ public class MatSliderTestCases extends AbstractBrowserSupport {
         WebComponent resultContainer = containers.get(1);
 
         // line 1 /mat-form-field[contains(@class,'mat-form-field')][0]
-        MatFormField valueField = configContainer.findComponent(xpath(".//section[1]/mat-form-field[1]")).as(mat())
+        MatFormField valueField = configContainer.findComponent(xpath(".//section[1]/mat-form-field[1]")).as(matComponents())
                 .toFormField();
-        MatFormField minValueField = configContainer.findComponent(xpath(".//section[1]/mat-form-field[2]")).as(mat())
+        MatFormField minValueField = configContainer.findComponent(xpath(".//section[1]/mat-form-field[2]")).as(matComponents())
                 .toFormField();
-        MatFormField maxValueField = configContainer.findComponent(xpath(".//section[1]/mat-form-field[3]")).as(mat())
+        MatFormField maxValueField = configContainer.findComponent(xpath(".//section[1]/mat-form-field[3]")).as(matComponents())
                 .toFormField();
-        MatFormField stepSizeField = configContainer.findComponent(xpath(".//section[1]/mat-form-field[4]")).as(mat())
+        MatFormField stepSizeField = configContainer.findComponent(xpath(".//section[1]/mat-form-field[4]")).as(matComponents())
                 .toFormField();
         // line 4
-        MatCheckbox verticalCheckbox = configContainer.findComponent(xpath(".//section[4]/mat-checkbox[1]")).as(mat())
+        MatCheckbox verticalCheckbox = configContainer.findComponent(xpath(".//section[4]/mat-checkbox[1]")).as(matComponents())
                 .toCheckbox();
-        MatCheckbox invertedCheckbox = configContainer.findComponent(xpath(".//section[4]/mat-checkbox[2]")).as(mat())
+        MatCheckbox invertedCheckbox = configContainer.findComponent(xpath(".//section[4]/mat-checkbox[2]")).as(matComponents())
                 .toCheckbox();
         // line 5
-        MatCheckbox disabledCheckbox = configContainer.findComponent(xpath(".//section[5]/mat-checkbox[1]")).as(mat())
+        MatCheckbox disabledCheckbox = configContainer.findComponent(xpath(".//section[5]/mat-checkbox[1]")).as(matComponents())
                 .toCheckbox();
 
-        MatSlider targetSlider = resultContainer.findComponent(By.tagName("mat-slider")).as(mat()).toSlider();
+        MatSlider targetSlider = resultContainer.findComponent(By.tagName("mat-slider")).as(matComponents()).toSlider();
 
         cleanText(valueField.getInput());
         valueField.getInput().sendKeys("50");
@@ -172,7 +170,7 @@ public class MatSliderTestCases extends AbstractBrowserSupport {
             // scroll slider to viewport center so drag operations avoid the floating popup overlay
             driver.executeScript("arguments[0].scrollIntoView({block: 'center'});", slider);
 
-            // the archived v12 doc site may render the slider with a slightly different width,
+            // the doc site may render the slider with a slightly different width,
             // hence allow a small tolerance for the click-based value setting
             driver.threadSleep(200L);
             slider.setValue(13);
@@ -208,7 +206,7 @@ public class MatSliderTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MatSliderTestCases test = new MatSliderTestCases();
         test.setUpDriver(EDGE);
-        test.navigateToExamples("https://v12.material.angular.io/components/slider/examples");
+        test.navigateToExamples(test.baseUrl() + "slider/examples");
 
         test.testConfigurableSlider();
     }

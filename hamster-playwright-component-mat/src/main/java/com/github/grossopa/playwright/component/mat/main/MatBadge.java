@@ -64,7 +64,7 @@ public class MatBadge extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "badge");
+        return attributeContains(CLASS, "mat-" + "badge");
     }
 
     /**
@@ -73,7 +73,7 @@ public class MatBadge extends AbstractMatComponent {
      * @return the badge content instance
      */
     public MatBadgeContent getBadgeContent() {
-        WebComponent component = this.findComponent("." + config.getCssPrefix() + "badge-content");
+        WebComponent component = this.findComponent("." + "mat-" + "badge-content");
         return new MatBadgeContent(component, driver, config);
     }
 }

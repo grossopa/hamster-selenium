@@ -83,6 +83,34 @@ class HtmlComponentsTest {
     }
 
     @Test
+    void checkbox() {
+        HtmlCheckbox result = testSubject.checkbox();
+        assertNotNull(result);
+        assertInstanceOf(HtmlCheckbox.class, result);
+    }
+
+    @Test
+    void radioGroup() {
+        HtmlRadioGroup result = testSubject.radioGroup();
+        assertNotNull(result);
+        assertInstanceOf(HtmlRadioGroup.class, result);
+    }
+
+    @Test
+    void fileInput() {
+        HtmlFileInput result = testSubject.fileInput();
+        assertNotNull(result);
+        assertInstanceOf(HtmlFileInput.class, result);
+    }
+
+    @Test
+    void textArea() {
+        HtmlTextArea result = testSubject.textArea();
+        assertNotNull(result);
+        assertInstanceOf(HtmlTextArea.class, result);
+    }
+
+    @Test
     void getComponent() {
         assertEquals(component, testSubject.getComponent());
     }

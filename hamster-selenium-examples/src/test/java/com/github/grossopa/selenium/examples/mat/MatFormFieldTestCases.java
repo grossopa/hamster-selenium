@@ -25,13 +25,11 @@ package com.github.grossopa.selenium.examples.mat;
 
 import com.github.grossopa.hamster.selenium.component.mat.main.MatFormField;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,15 +40,15 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatFormFieldTestCases extends AbstractBrowserSupport {
+public class MatFormFieldTestCases extends MatTestSupport {
 
     public void navigate() {
-        navigateToExamples("https://v12.material.angular.io/components/form-field/examples");
+        navigateToExamples(baseUrl() + "form-field/examples");
     }
 
     public void testAppearance() {
         List<MatFormField> appearanceFormFields = driver.findComponent(By.id("form-field-appearance"))
-                .findComponentsAs(By.tagName("mat-form-field"), c -> c.as(mat()).toFormField());
+                .findComponentsAs(By.tagName("mat-form-field"), c -> c.as(matComponents()).toFormField());
 
         assertEquals(4, appearanceFormFields.size());
         assertTrue(appearanceFormFields.stream().allMatch(MatFormField::validate));
@@ -65,11 +63,11 @@ public class MatFormFieldTestCases extends AbstractBrowserSupport {
     public void testError() {
         MatFormField errorFormField = driver.findComponent(By.id("form-field-error"))
                 .findComponent(By.tagName("form-field-error-example")).findComponent(By.tagName("mat-form-field"))
-                .as(mat()).toFormField();
+                .as(matComponents()).toFormField();
 
         errorFormField.getInput().sendKeys("ddddd");
         // poll until the label and error message are rendered after the blur event; on the slow
-        // archived v12 site the blur may be missed, so re-focus and tab out again on each retry
+        // the doc site the blur may be missed, so re-focus and tab out again on each retry
         String error = "";
         for (int i = 0; i < 5 && error.isBlank(); i++) {
             errorFormField.getInput().sendKeys(Keys.TAB);
@@ -84,7 +82,7 @@ public class MatFormFieldTestCases extends AbstractBrowserSupport {
 
     public void testHints() {
         List<MatFormField> hintsFormFields = driver.findComponent(By.id("form-field-hint"))
-                .findComponentsAs(By.tagName("mat-form-field"), c -> c.as(mat()).toFormField());
+                .findComponentsAs(By.tagName("mat-form-field"), c -> c.as(matComponents()).toFormField());
 
         assertEquals("Max 10 characters", awaitText(hintsFormFields.get(0).getHint()));
         assertEquals("Here's the dropdown arrow ^", awaitText(hintsFormFields.get(1).getHint()));
@@ -92,7 +90,7 @@ public class MatFormFieldTestCases extends AbstractBrowserSupport {
 
     public void testPrefixSuffix() {
         List<MatFormField> prefixSuffixFormFields = driver.findComponent(By.id("form-field-prefix-suffix"))
-                .findComponentsAs(By.tagName("mat-form-field"), c -> c.as(mat()).toFormField());
+                .findComponentsAs(By.tagName("mat-form-field"), c -> c.as(matComponents()).toFormField());
 
         assertEquals("$", awaitText(prefixSuffixFormFields.get(1).getPrefix()).trim());
         assertEquals(".00", awaitText(prefixSuffixFormFields.get(1).getSuffix()));

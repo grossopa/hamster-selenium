@@ -52,7 +52,7 @@ class MatCheckboxTest {
 
     @BeforeEach
     void setUp() {
-        when(locator.locator(".mat-checkbox-input")).thenReturn(inputLocator);
+        when(locator.locator(".mdc-checkbox__native-control")).thenReturn(inputLocator);
         when(inputLocator.first()).thenReturn(inputFirst);
         testSubject = new MatCheckbox(locator, driver, config);
     }
@@ -69,7 +69,7 @@ class MatCheckboxTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-checkbox");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-checkbox");
         assertTrue(testSubject.validate());
     }
 
@@ -93,13 +93,13 @@ class MatCheckboxTest {
 
     @Test
     void isEnabled() {
-        when(locator.getAttribute("class")).thenReturn("mat-checkbox");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-checkbox");
         assertTrue(testSubject.isEnabled());
     }
 
     @Test
     void isEnabledFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-checkbox mat-checkbox-disabled");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-checkbox mat-mdc-checkbox-disabled");
         assertFalse(testSubject.isEnabled());
     }
 

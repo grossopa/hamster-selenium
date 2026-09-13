@@ -63,7 +63,7 @@ public class MatGridList extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "grid-list");
+        return attributeContains(CLASS, "mat-" + "grid-list");
     }
 
     /**
@@ -81,7 +81,7 @@ public class MatGridList extends AbstractMatComponent {
      * @return the contained {@link MatGridTile} list
      */
     public List<MatGridTile> getGridTiles() {
-        return this.findComponents("." + config.getCssPrefix() + "grid-tile").stream().map(
+        return this.findComponents("." + "mat-" + "grid-tile").stream().map(
                 c -> new MatGridTile(c, driver, config)).toList();
     }
 }

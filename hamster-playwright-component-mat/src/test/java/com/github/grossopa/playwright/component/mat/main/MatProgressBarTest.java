@@ -64,13 +64,13 @@ class MatProgressBarTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-progress-bar");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-progress-bar");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-slider");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slider");
         assertFalse(testSubject.validate());
     }
 

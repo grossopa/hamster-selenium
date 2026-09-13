@@ -26,6 +26,8 @@ package com.github.grossopa.hamster.selenium.component.mat.main.sub;
 import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.DefaultWebComponent;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -68,12 +70,21 @@ public class MatListOption extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "list-option");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "list-option");
     }
 
     @Override
     public boolean isSelected() {
-        return "true".equalsIgnoreCase(this.getDomAttribute("aria-selected"));
+        String ariaSelected = this.getDomAttribute("aria-selected");
+        if ("true".equalsIgnoreCase(ariaSelected)) {
+            return true;
+        }
+        // MDC selection list uses native <input type="checkbox"> instead of pseudo-checkbox
+        List<WebElement> nativeCheckboxes = element.findElements(By.cssSelector("input[type=checkbox]"));
+        if (!nativeCheckboxes.isEmpty()) {
+            return nativeCheckboxes.get(0).isSelected();
+        }
+        return false;
     }
 
     @Override
@@ -89,7 +100,16 @@ public class MatListOption extends AbstractMatComponent {
     @Nullable
     public MatPseudoCheckbox getCheckbox() {
         List<MatPseudoCheckbox> checkboxList = this.findComponentsAs(
-                By.className(config.getCssPrefix() + "pseudo-checkbox"), c -> new MatPseudoCheckbox(c, driver, config));
-        return checkboxList.isEmpty() ? null : checkboxList.get(0);
+                By.className(config.getComponentCssPrefix() + "pseudo-checkbox"),
+                c -> new MatPseudoCheckbox(c, driver, config));
+        if (!checkboxList.isEmpty()) {
+            return checkboxList.get(0);
+        }
+        // MDC uses native <div class="mdc-checkbox"> instead of pseudo-checkbox
+        List<WebElement> mdcCheckboxes = element.findElements(By.className("mdc-checkbox"));
+        if (!mdcCheckboxes.isEmpty()) {
+            return new MatPseudoCheckbox(new DefaultWebComponent(mdcCheckboxes.get(0), driver), driver, config);
+        }
+        return null;
     }
 }

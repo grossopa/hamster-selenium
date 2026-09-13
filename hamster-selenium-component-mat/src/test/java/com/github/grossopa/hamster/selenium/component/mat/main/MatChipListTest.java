@@ -32,6 +32,7 @@ import org.openqa.selenium.WebElement;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -54,7 +55,7 @@ class MatChipListTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         when(config.getTagPrefix()).thenReturn("mat-");
         when(element.findElements(By.tagName("mat-chip"))).thenReturn(newArrayList(chipElement1, chipElement2));
 
@@ -68,13 +69,13 @@ class MatChipListTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-chip-list");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-chip-set");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getDomAttribute("class")).thenReturn("mat-chip-list-333");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-chip-set-333");
         assertFalse(testSubject.validate());
     }
 

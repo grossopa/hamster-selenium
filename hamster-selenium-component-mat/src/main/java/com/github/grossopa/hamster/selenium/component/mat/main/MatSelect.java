@@ -91,7 +91,7 @@ public class MatSelect extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "select");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "select");
     }
 
     /**
@@ -100,7 +100,7 @@ public class MatSelect extends AbstractMatComponent {
      * @return the selected value text
      */
     public String getSelectedValue() {
-        return this.findComponent(By.className(config.getCssPrefix() + "select-value")).getText();
+        return this.findComponent(By.className(config.getComponentCssPrefix() + "select-value")).getText();
     }
 
     /**
@@ -109,7 +109,7 @@ public class MatSelect extends AbstractMatComponent {
      * @return the trigger element
      */
     public WebComponent getTrigger() {
-        return this.findComponent(By.className(config.getCssPrefix() + "select-trigger"));
+        return this.findComponent(By.className(config.getComponentCssPrefix() + "select-trigger"));
     }
 
     /**
@@ -183,14 +183,22 @@ public class MatSelect extends AbstractMatComponent {
      * @return true if multiple selection is enabled
      */
     public boolean isMultiple() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "select-multiple");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "select-multiple");
     }
 
     protected Optional<WebComponent> tryToFindSelectPanel() {
+        // MDC renders the select panel inline within the component rather than in the
+        // body-level cdk-overlay-container; search the full page first
+        String panelSelector = config.getComponentCssPrefix() + "select-panel";
+        List<WebComponent> pagePanels = driver.findComponents(By.className(panelSelector));
+        List<WebComponent> visiblePanels = pagePanels.stream().filter(WebComponent::isDisplayed).toList();
+        if (!visiblePanels.isEmpty()) {
+            return Optional.of(visiblePanels.get(visiblePanels.size() - 1));
+        }
+        // fall back to the legacy body-level overlay container lookup
         MatOverlayContainer container = overlayFinder.findTopVisibleContainer();
         if (container != null) {
-            List<WebComponent> panels = container.findComponents(
-                    By.className(config.getCssPrefix() + "select-panel"));
+            List<WebComponent> panels = container.findComponents(By.className(panelSelector));
             return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(panels.size() - 1));
         }
         return Optional.empty();

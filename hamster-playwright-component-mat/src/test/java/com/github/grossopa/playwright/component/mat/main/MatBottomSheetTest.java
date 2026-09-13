@@ -70,7 +70,7 @@ class MatBottomSheetTest {
 
     @Test
     void validateFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-dialog-container");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-dialog-container");
         assertFalse(testSubject.validate());
     }
 

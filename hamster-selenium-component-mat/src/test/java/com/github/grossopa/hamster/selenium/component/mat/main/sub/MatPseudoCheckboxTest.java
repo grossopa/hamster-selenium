@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +51,7 @@ class MatPseudoCheckboxTest {
     @BeforeEach
     void setUp() {
         when(config.getTagPrefix()).thenReturn("mat-");
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatPseudoCheckbox(element, driver, config);
     }
 
@@ -61,26 +62,26 @@ class MatPseudoCheckboxTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-pseudo-checkbox");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-pseudo-checkbox");
         assertTrue(testSubject.validate());
     }
 
 
     @Test
     void validateNegative() {
-        when(element.getDomAttribute("class")).thenReturn("mat-pseudo-checkbox-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-pseudo-checkbox-23");
         assertFalse(testSubject.validate());
     }
 
     @Test
     void isSelected() {
-        when(element.getDomAttribute("class")).thenReturn("mat-pseudo-checkbox-checked");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-pseudo-checkbox-checked");
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedNegative() {
-        when(element.getDomAttribute("class")).thenReturn("mat-pseudo-checkbox");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-pseudo-checkbox");
         assertFalse(testSubject.isSelected());
     }
 

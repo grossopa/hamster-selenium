@@ -87,7 +87,7 @@ public class MatSelect extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "select");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "select");
     }
 
     /**
@@ -96,7 +96,7 @@ public class MatSelect extends AbstractMatComponent {
      * @return the selected value text
      */
     public String getSelectedValue() {
-        return this.findComponent("." + config.getCssPrefix() + "select-value").innerText();
+        return this.findComponent("." + config.getComponentCssPrefix() + "select-value").innerText();
     }
 
     /**
@@ -105,7 +105,7 @@ public class MatSelect extends AbstractMatComponent {
      * @return the trigger element
      */
     public WebComponent getTrigger() {
-        return this.findComponent("." + config.getCssPrefix() + "select-trigger");
+        return this.findComponent("." + config.getComponentCssPrefix() + "select-trigger");
     }
 
     /**
@@ -123,7 +123,7 @@ public class MatSelect extends AbstractMatComponent {
     public void closeOptions() {
         if (tryToFindSelectPanel().isPresent()) {
             driver.page().keyboard().press("Escape");
-            driver.page().waitForSelector("." + config.getCssPrefix() + "select-panel",
+            driver.page().waitForSelector("." + config.getComponentCssPrefix() + "select-panel",
                     new Page.WaitForSelectorOptions().setState(WaitForSelectorState.HIDDEN));
         }
     }
@@ -172,14 +172,27 @@ public class MatSelect extends AbstractMatComponent {
      * @return true if multiple selection is enabled
      */
     public boolean isMultiple() {
-        return attributeContains(CLASS, config.getCssPrefix() + "select-multiple");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "select-multiple");
     }
 
     protected Optional<WebComponent> tryToFindSelectPanel() {
-        MatOverlayContainer container = overlayFinder.findTopVisibleContainer();
-        if (container != null) {
-            List<WebComponent> panels = container.findComponents("." + config.getCssPrefix() + "select-panel");
-            return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(panels.size() - 1));
+        // MDC renders the select panel inline within the component rather than in the
+        // body-level cdk-overlay-container; search the full page first
+        String panelSelector = "." + config.getComponentCssPrefix() + "select-panel";
+        List<WebComponent> pagePanels = driver.findComponents(panelSelector);
+        List<WebComponent> visiblePanels = pagePanels.stream().filter(WebComponent::isVisible).toList();
+        if (!visiblePanels.isEmpty()) {
+            return Optional.of(visiblePanels.get(visiblePanels.size() - 1));
+        }
+        // fall back to the legacy body-level overlay container lookup
+        try {
+            MatOverlayContainer container = overlayFinder.findTopVisibleContainer();
+            if (container != null) {
+                List<WebComponent> panels = container.findComponents(panelSelector);
+                return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(panels.size() - 1));
+            }
+        } catch (Exception ex) {
+            // no visible overlay container
         }
         return Optional.empty();
     }

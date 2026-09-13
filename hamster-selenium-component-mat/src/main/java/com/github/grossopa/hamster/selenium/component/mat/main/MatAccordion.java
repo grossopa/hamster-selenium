@@ -62,7 +62,7 @@ public class MatAccordion extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "accordion");
+        return this.attributeContains(CLASS, "mat-" + "accordion");
     }
 
     @Override
@@ -76,7 +76,7 @@ public class MatAccordion extends AbstractMatComponent {
      * @return the  list of {@link MatExpansionPanel} list.
      */
     public List<MatExpansionPanel> getExpansionPanels() {
-        return this.findComponentsAs(By.className(config.getCssPrefix() + "expansion-panel"),
+        return this.findComponentsAs(By.className("mat-" + "expansion-panel"),
                 c -> new MatExpansionPanel(c, driver, config));
     }
 }

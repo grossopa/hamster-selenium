@@ -59,7 +59,7 @@ public class MatGridTile extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "grid-tile");
+        return this.attributeContains(CLASS, "mat-" + "grid-tile");
     }
 
     /**

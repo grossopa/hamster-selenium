@@ -72,7 +72,7 @@ class MatPseudoCheckboxTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-pseudo-checkbox");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-pseudo-checkbox");
         assertTrue(testSubject.validate());
     }
 
@@ -84,13 +84,13 @@ class MatPseudoCheckboxTest {
 
     @Test
     void isSelected() {
-        when(locator.getAttribute("class")).thenReturn("mat-pseudo-checkbox mat-pseudo-checkbox-checked");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-pseudo-checkbox mat-mdc-pseudo-checkbox-checked");
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-pseudo-checkbox");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-pseudo-checkbox");
         assertFalse(testSubject.isSelected());
     }
 

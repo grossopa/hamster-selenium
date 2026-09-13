@@ -31,6 +31,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -49,7 +50,7 @@ class MatSlideToggleTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
 
         testSubject = new MatSlideToggle(element, driver, config);
     }
@@ -61,7 +62,7 @@ class MatSlideToggleTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-slide-toggle");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-slide-toggle");
         assertTrue(testSubject.validate());
     }
 
@@ -73,20 +74,20 @@ class MatSlideToggleTest {
 
     @Test
     void isSelected() {
-        when(config.isChecked(testSubject)).thenReturn(true);
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-slide-toggle mat-mdc-slide-toggle-checked");
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedFalse() {
-        when(config.isChecked(testSubject)).thenReturn(false);
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-slide-toggle");
         assertFalse(testSubject.isSelected());
     }
 
     @Test
     void getLabel() {
         WebElement content = mock(WebElement.class);
-        when(element.findElement(By.className("mat-slide-toggle-content"))).thenReturn(content);
+        when(element.findElement(By.className("mat-mdc-slide-toggle-content"))).thenReturn(content);
         assertEquals(content, testSubject.getLabel().getWrappedElement());
     }
 

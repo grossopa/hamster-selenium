@@ -46,14 +46,18 @@ class MatSlideToggleTest {
     MatConfig config = new MatConfig();
 
     Locator labelLocator = mock(Locator.class);
+    Locator mdcLabelLocator = mock(Locator.class);
+    Locator combinedLabelLocator = mock(Locator.class);
     Locator labelFirst = mock(Locator.class);
 
     MatSlideToggle testSubject;
 
     @BeforeEach
     void setUp() {
-        when(locator.locator(".mat-slide-toggle-content")).thenReturn(labelLocator);
-        when(labelLocator.first()).thenReturn(labelFirst);
+        when(locator.locator(".mat-mdc-slide-toggle-content")).thenReturn(labelLocator);
+        when(locator.locator(".mdc-label")).thenReturn(mdcLabelLocator);
+        when(labelLocator.or(mdcLabelLocator)).thenReturn(combinedLabelLocator);
+        when(combinedLabelLocator.first()).thenReturn(labelFirst);
         testSubject = new MatSlideToggle(locator, driver, config);
     }
 
@@ -69,7 +73,7 @@ class MatSlideToggleTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-slide-toggle");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slide-toggle");
         assertTrue(testSubject.validate());
     }
 
@@ -81,13 +85,13 @@ class MatSlideToggleTest {
 
     @Test
     void isSelected() {
-        when(locator.getAttribute("class")).thenReturn("mat-slide-toggle mat-checked");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slide-toggle mat-mdc-slide-toggle-checked");
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-slide-toggle");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slide-toggle");
         assertFalse(testSubject.isSelected());
     }
 

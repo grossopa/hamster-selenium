@@ -27,6 +27,7 @@ import com.github.grossopa.playwright.component.mat.AbstractMatComponent;
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.github.grossopa.playwright.core.WebComponent;
+import com.github.grossopa.playwright.core.DefaultWebComponent;
 import com.microsoft.playwright.Locator;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public class MatTabGroup extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "tab-group");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "tab-group");
     }
 
     /**
@@ -73,7 +74,13 @@ public class MatTabGroup extends AbstractMatComponent {
      * @return the list of tab label elements
      */
     public List<WebComponent> getTabLabels() {
-        return this.findComponents("." + config.getCssPrefix() + "tab-label");
+        // MDC uses .mat-mdc-tab on <div role="tab">; legacy uses .mat-tab-label
+        Locator mdcLabels = locator.locator("." + config.getComponentCssPrefix() + "tab");
+        if (mdcLabels.count() > 0) {
+            return mdcLabels.all().stream()
+                    .map(l -> (WebComponent) new DefaultWebComponent(l, driver)).toList();
+        }
+        return this.findComponents("." + config.getComponentCssPrefix() + "tab-label");
     }
 
     /**
@@ -82,7 +89,7 @@ public class MatTabGroup extends AbstractMatComponent {
      * @return the list of tab elements
      */
     public List<MatTab> getTabs() {
-        return this.findComponents(config.getTagPrefix() + "tab." + config.getCssPrefix() + "tab")
+        return this.findComponents(config.getTagPrefix() + "tab." + config.getComponentCssPrefix() + "tab")
                 .stream().map(c -> new MatTab(c, driver, config)).toList();
     }
 
@@ -103,7 +110,10 @@ public class MatTabGroup extends AbstractMatComponent {
     public int getSelectedTabIndex() {
         List<WebComponent> labels = getTabLabels();
         for (int i = 0; i < labels.size(); i++) {
-            if (labels.get(i).getAttribute(CLASS).contains(config.getCssPrefix() + "tab-label-active")) {
+            String cls = labels.get(i).getAttribute(CLASS);
+            // MDC uses .mdc-tab--active; legacy uses .mat-tab-label-active
+            if (cls != null && (cls.contains("mdc-tab--active")
+                    || cls.contains(config.getComponentCssPrefix() + "tab-label-active"))) {
                 return i;
             }
         }

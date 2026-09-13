@@ -72,15 +72,15 @@ class MatMenuTest {
         menuItems.add(menuItem2);
         menuItems.add(menuItem3);
 
-        when(menuItem1.getDomAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
-        when(menuItem2.getDomAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
-        when(menuItem3.getDomAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
+        when(menuItem1.getDomAttribute("class")).thenReturn("mat-mdc-menu-item-submenu-trigger");
+        when(menuItem2.getDomAttribute("class")).thenReturn("mat-mdc-menu-item-submenu-trigger");
+        when(menuItem3.getDomAttribute("class")).thenReturn("mat-mdc-menu-item-submenu-trigger");
 
         when(menuItem1.getText()).thenReturn("Item 1");
         when(menuItem2.getText()).thenReturn("Item 2");
         when(menuItem3.getText()).thenReturn("Item 3");
 
-        when(element.findElements(By.className("mat-menu-item"))).thenReturn(menuItems);
+        when(element.findElements(By.className("mat-mdc-menu-item"))).thenReturn(menuItems);
 
         WebDriverWait wait = mock(WebDriverWait.class);
         MatOverlayContainer overlayContainer = mock(MatOverlayContainer.class);
@@ -99,13 +99,13 @@ class MatMenuTest {
         when(overlayContainer.isDisplayed()).thenReturn(true);
         when(menuPanel.getWrappedElement()).thenReturn(menuPanelElement);
 
-        when(box.findComponent(By.className("mat-menu-panel"))).thenReturn(menuPanel);
+        when(box.findComponent(By.className("mat-mdc-menu-panel"))).thenReturn(menuPanel);
         List<WebComponent> boxes = newArrayList(box);
         when(overlayContainer.findComponents(className("cdk-overlay-connected-position-bounding-box"))).thenReturn(
                 boxes);
 
         when(config.getOverlayAbsolutePath()).thenReturn("/html/body");
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         when(config.getCdkPrefix()).thenReturn("cdk-");
         when(config.getTagPrefix()).thenReturn("mat-");
         testSubject = new MatMenu(element, driver, config);
@@ -118,13 +118,13 @@ class MatMenuTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-menu-panel");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-menu-panel");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getDomAttribute("class")).thenReturn("mat-menu-panel-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-menu-panel-23");
         assertFalse(testSubject.validate());
     }
 

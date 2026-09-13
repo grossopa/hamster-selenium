@@ -53,7 +53,7 @@ class MatSelectionListTest {
 
     @BeforeEach
     void setUp() {
-        when(locator.locator(".mat-list-option")).thenReturn(optionsLocator);
+        when(locator.locator(".mat-mdc-list-option")).thenReturn(optionsLocator);
         testSubject = new MatSelectionList(locator, driver, config);
     }
 
@@ -69,13 +69,13 @@ class MatSelectionListTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-selection-list");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-selection-list");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-list");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-list");
         assertFalse(testSubject.validate());
     }
 

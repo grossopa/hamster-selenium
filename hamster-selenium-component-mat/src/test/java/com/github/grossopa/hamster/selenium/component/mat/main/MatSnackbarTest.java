@@ -31,6 +31,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -53,8 +54,9 @@ class MatSnackbarTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
 
+        when(element.findElement(By.cssSelector("[matsnackbarlabel]"))).thenReturn(labelElement);
         when(element.findElement(By.tagName("span"))).thenReturn(labelElement);
         when(element.findElement(By.tagName("button"))).thenReturn(buttonElement);
 
@@ -69,13 +71,13 @@ class MatSnackbarTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-simple-snackbar");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-simple-snack-bar");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getDomAttribute("class")).thenReturn("mat-simple-snackbar-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-simple-snack-bar-23");
         assertFalse(testSubject.validate());
     }
 

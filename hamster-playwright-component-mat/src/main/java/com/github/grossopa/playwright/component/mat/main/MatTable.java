@@ -65,7 +65,7 @@ public class MatTable extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "table");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "table");
     }
 
     /**
@@ -74,7 +74,7 @@ public class MatTable extends AbstractMatComponent {
      * @return the list of header cell elements
      */
     public List<WebComponent> getHeaderCells() {
-        return this.findComponents("." + config.getCssPrefix() + "header-cell");
+        return this.findComponents("." + config.getComponentCssPrefix() + "header-cell");
     }
 
     /**
@@ -83,7 +83,7 @@ public class MatTable extends AbstractMatComponent {
      * @return the list of row elements
      */
     public List<WebComponent> getRows() {
-        return this.findComponents("." + config.getCssPrefix() + "row");
+        return this.findComponents("." + config.getComponentCssPrefix() + "row");
     }
 
     /**
@@ -93,7 +93,7 @@ public class MatTable extends AbstractMatComponent {
      * @return the list of cell elements in the row
      */
     public List<WebComponent> getRowCells(int rowIndex) {
-        return getRows().get(rowIndex).findComponents("." + config.getCssPrefix() + "cell");
+        return getRows().get(rowIndex).findComponents("." + config.getComponentCssPrefix() + "cell");
     }
 
     /**

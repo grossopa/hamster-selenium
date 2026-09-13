@@ -32,6 +32,7 @@ import org.openqa.selenium.WebElement;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -53,11 +54,11 @@ class MatChipTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         when(config.getTagPrefix()).thenReturn("mat-");
-        when(element.findElement(By.xpath(".//*[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
+        when(element.findElement(By.xpath(".//*[contains(@class,\"mat-mdc-chip-remove\")]"))).thenReturn(
                 removeIconElement);
-        when(element.findElements(By.xpath(".//*[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
+        when(element.findElements(By.xpath(".//*[contains(@class,\"mat-mdc-chip-remove\")]"))).thenReturn(
                 newArrayList(removeIconElement));
         testSubject = new MatChip(element, driver, config);
     }
@@ -90,7 +91,7 @@ class MatChipTest {
     @Test
     void getTextNoRemoveIcon() {
         when(element.getText()).thenReturn("Lemon");
-        when(element.findElements(By.xpath(".//*[contains(@class,\"mat-chip-remove\")]"))).thenReturn(
+        when(element.findElements(By.xpath(".//*[contains(@class,\"mat-mdc-chip-remove\")]"))).thenReturn(
                 newArrayList());
         assertEquals("Lemon", testSubject.getText());
     }
@@ -103,7 +104,7 @@ class MatChipTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-chip");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-chip");
         assertTrue(testSubject.validate());
     }
 

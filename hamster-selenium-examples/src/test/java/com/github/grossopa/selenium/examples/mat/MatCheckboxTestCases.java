@@ -24,12 +24,10 @@
 package com.github.grossopa.selenium.examples.mat;
 
 import com.github.grossopa.hamster.selenium.component.mat.main.MatCheckbox;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,12 +37,12 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatCheckboxTestCases extends AbstractBrowserSupport {
+public class MatCheckboxTestCases extends MatTestSupport {
 
     public void testCheckbox() {
-        navigateToExamples("https://v12.material.angular.io/components/checkbox/examples");
+        navigateToExamples(baseUrl() + "checkbox/examples");
         List<MatCheckbox> checkboxList = driver.findComponent(By.id("checkbox-configurable"))
-                .findComponentsAs(By.tagName("mat-checkbox"), c -> c.as(mat()).toCheckbox());
+                .findComponentsAs(By.tagName("mat-checkbox"), c -> c.as(matComponents()).toCheckbox());
 
         assertEquals(4, checkboxList.size());
         assertTrue(checkboxList.stream().allMatch(MatCheckbox::validate));

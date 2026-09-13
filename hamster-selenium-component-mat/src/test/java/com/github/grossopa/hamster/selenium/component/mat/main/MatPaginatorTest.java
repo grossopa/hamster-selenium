@@ -41,7 +41,7 @@ class MatPaginatorTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatPaginator(element, driver, config);
     }
 
@@ -52,7 +52,7 @@ class MatPaginatorTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-paginator");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-paginator");
         assertTrue(testSubject.validate());
     }
 

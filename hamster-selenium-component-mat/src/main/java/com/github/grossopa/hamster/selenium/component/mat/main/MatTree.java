@@ -67,7 +67,7 @@ public class MatTree extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "tree");
+        return this.attributeContains(CLASS, "mat-" + "tree");
     }
 
     /**
@@ -76,7 +76,7 @@ public class MatTree extends AbstractMatComponent {
      * @return the list of tree nodes
      */
     public List<MatTreeNode> getNodes() {
-        return this.findComponentsAs(By.className(config.getCssPrefix() + "tree-node"),
+        return this.findComponentsAs(By.className("mat-" + "tree-node"),
                 c -> new MatTreeNode(c, driver, config));
     }
 
@@ -86,6 +86,6 @@ public class MatTree extends AbstractMatComponent {
      * @return true if the tree uses nested nodes
      */
     public boolean isNested() {
-        return !this.findComponents(By.className(config.getCssPrefix() + "nested-tree-node")).isEmpty();
+        return !this.findComponents(By.className("mat-" + "nested-tree-node")).isEmpty();
     }
 }

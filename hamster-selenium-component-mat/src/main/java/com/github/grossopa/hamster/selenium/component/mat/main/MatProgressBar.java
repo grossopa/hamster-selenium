@@ -62,7 +62,7 @@ public class MatProgressBar extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "progress-bar");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "progress-bar");
     }
 
     /**

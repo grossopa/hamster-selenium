@@ -136,7 +136,7 @@ public class MatAutocomplete extends AbstractMatComponent implements HasInput<We
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "autocomplete-trigger");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "autocomplete-trigger");
     }
 
     /**
@@ -146,7 +146,7 @@ public class MatAutocomplete extends AbstractMatComponent implements HasInput<We
      */
     @Override
     public WebComponent getInput() {
-        return this.findComponent("input." + config.getCssPrefix() + "autocomplete-trigger");
+        return this.findComponent("input." + config.getComponentCssPrefix() + "autocomplete-trigger");
     }
 
     /**
@@ -172,7 +172,7 @@ public class MatAutocomplete extends AbstractMatComponent implements HasInput<We
      */
     private void waitForPanelRendering() {
         try {
-            driver.page().waitForSelector("." + config.getCssPrefix() + "autocomplete-panel",
+            driver.page().waitForSelector("." + config.getComponentCssPrefix() + "autocomplete-panel",
                     new Page.WaitForSelectorOptions().setTimeout(3000));
         } catch (PlaywrightException ex) {
             // panel did not show up within the short timeout
@@ -268,12 +268,21 @@ public class MatAutocomplete extends AbstractMatComponent implements HasInput<We
     }
 
     private Optional<WebComponent> tryToFindAutocompletePanel() {
+        // MDC renders the autocomplete panel inline within the component rather than in the
+        // body-level cdk-overlay-container; search the full page first
+        String panelSelector = "." + config.getComponentCssPrefix() + "autocomplete-panel";
+        List<WebComponent> pagePanels = driver.findComponents(panelSelector);
+        List<WebComponent> visiblePanels = pagePanels.stream().filter(WebComponent::isVisible).toList();
+        if (!visiblePanels.isEmpty()) {
+            return Optional.of(visiblePanels.get(0));
+        }
+        // fall back to the legacy body-level overlay container lookup
         List<MatOverlayContainer> containers = overlayFinder.findVisibleContainers();
         if (containers.isEmpty()) {
             return Optional.empty();
         }
         MatOverlayContainer container = containers.get(containers.size() - 1);
-        List<WebComponent> panels = container.findComponents("." + config.getCssPrefix() + "autocomplete-panel");
+        List<WebComponent> panels = container.findComponents(panelSelector);
         return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(0));
     }
 

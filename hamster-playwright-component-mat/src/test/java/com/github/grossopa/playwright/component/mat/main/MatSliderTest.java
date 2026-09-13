@@ -49,13 +49,22 @@ class MatSliderTest {
 
     Locator thumbLocator = mock(Locator.class);
     Locator thumbFirst = mock(Locator.class);
+    Locator mdcThumbLocator = mock(Locator.class);
+    Locator combinedThumbLocator = mock(Locator.class);
+    Locator inputLocator = mock(Locator.class);
+    Locator inputFirst = mock(Locator.class);
 
     MatSlider testSubject;
 
     @BeforeEach
     void setUp() {
-        when(locator.locator(".mat-slider-thumb")).thenReturn(thumbLocator);
+        when(locator.locator(".mat-mdc-slider-thumb")).thenReturn(thumbLocator);
         when(thumbLocator.first()).thenReturn(thumbFirst);
+        when(locator.locator(".mdc-slider__thumb")).thenReturn(mdcThumbLocator);
+        when(mdcThumbLocator.or(thumbLocator)).thenReturn(combinedThumbLocator);
+        when(combinedThumbLocator.first()).thenReturn(mock(Locator.class));
+        when(locator.locator("input")).thenReturn(inputLocator);
+        when(inputLocator.first()).thenReturn(inputFirst);
         testSubject = new MatSlider(locator, driver, config);
     }
 
@@ -71,7 +80,7 @@ class MatSliderTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-slider");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slider");
         assertTrue(testSubject.validate());
     }
 
@@ -165,25 +174,25 @@ class MatSliderTest {
 
     @Test
     void isVertical() {
-        when(locator.getAttribute("class")).thenReturn("mat-slider mat-slider-vertical");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slider mat-mdc-slider-vertical");
         assertTrue(testSubject.isVertical());
     }
 
     @Test
     void isVerticalFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-slider");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slider");
         assertFalse(testSubject.isVertical());
     }
 
     @Test
     void isInverted() {
-        when(locator.getAttribute("class")).thenReturn("mat-slider mat-slider-axis-inverted");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slider mat-mdc-slider-axis-inverted");
         assertTrue(testSubject.isInverted());
     }
 
     @Test
     void isInvertedFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-slider");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slider");
         assertFalse(testSubject.isInverted());
     }
 
@@ -191,7 +200,7 @@ class MatSliderTest {
     void setValueHorizontal() {
         when(locator.getAttribute("aria-valuemin")).thenReturn("0");
         when(locator.getAttribute("aria-valuemax")).thenReturn("100");
-        when(locator.getAttribute("class")).thenReturn("mat-slider");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slider");
         when(locator.boundingBox()).thenReturn(boundingBox(0, 0, 200, 20));
         Page page = mock(Page.class);
         Mouse mouse = mock(Mouse.class);
@@ -207,7 +216,7 @@ class MatSliderTest {
     void setValueVertical() {
         when(locator.getAttribute("aria-valuemin")).thenReturn("0");
         when(locator.getAttribute("aria-valuemax")).thenReturn("100");
-        when(locator.getAttribute("class")).thenReturn("mat-slider mat-slider-vertical");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slider mat-mdc-slider-vertical");
         when(locator.boundingBox()).thenReturn(boundingBox(0, 0, 20, 200));
         Page page = mock(Page.class);
         Mouse mouse = mock(Mouse.class);
@@ -223,7 +232,7 @@ class MatSliderTest {
     void setValueInteger() {
         when(locator.getAttribute("aria-valuemin")).thenReturn("0");
         when(locator.getAttribute("aria-valuemax")).thenReturn("100");
-        when(locator.getAttribute("class")).thenReturn("mat-slider");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slider");
         when(locator.boundingBox()).thenReturn(boundingBox(0, 0, 100, 10));
         Page page = mock(Page.class);
         Mouse mouse = mock(Mouse.class);
@@ -239,7 +248,7 @@ class MatSliderTest {
     void setValueLong() {
         when(locator.getAttribute("aria-valuemin")).thenReturn("0");
         when(locator.getAttribute("aria-valuemax")).thenReturn("100");
-        when(locator.getAttribute("class")).thenReturn("mat-slider");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-slider");
         when(locator.boundingBox()).thenReturn(boundingBox(0, 0, 100, 10));
         Page page = mock(Page.class);
         Mouse mouse = mock(Mouse.class);

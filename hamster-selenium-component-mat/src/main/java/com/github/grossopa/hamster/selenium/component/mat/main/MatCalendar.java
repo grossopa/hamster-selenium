@@ -65,7 +65,7 @@ public class MatCalendar extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "calendar");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "calendar");
     }
 
     /**
@@ -74,21 +74,21 @@ public class MatCalendar extends AbstractMatComponent {
      * @return the period label text
      */
     public String getPeriodLabel() {
-        return this.findComponent(By.className(config.getCssPrefix() + "calendar-period-label")).getText();
+        return this.findComponent(By.className(config.getComponentCssPrefix() + "calendar-period-label")).getText();
     }
 
     /**
      * Navigates to the previous month.
      */
     public void previousMonth() {
-        this.findComponent(By.className(config.getCssPrefix() + "calendar-previous-button")).click();
+        this.findComponent(By.className(config.getComponentCssPrefix() + "calendar-previous-button")).click();
     }
 
     /**
      * Navigates to the next month.
      */
     public void nextMonth() {
-        this.findComponent(By.className(config.getCssPrefix() + "calendar-next-button")).click();
+        this.findComponent(By.className(config.getComponentCssPrefix() + "calendar-next-button")).click();
     }
 
     /**
@@ -97,7 +97,7 @@ public class MatCalendar extends AbstractMatComponent {
      * @return the list of date cell elements
      */
     public java.util.List<WebComponent> getDateCells() {
-        return this.findComponents(By.className(config.getCssPrefix() + "calendar-body-cell"));
+        return this.findComponents(By.className(config.getComponentCssPrefix() + "calendar-body-cell"));
     }
 
     /**
@@ -126,7 +126,7 @@ public class MatCalendar extends AbstractMatComponent {
         for (WebComponent cell : cells) {
             if (dayText.equals(cell.getText())) {
                 String classAttr = cell.getAttribute(CLASS);
-                return classAttr.contains(config.getCssPrefix() + "calendar-body-selected");
+                return classAttr.contains(config.getComponentCssPrefix() + "calendar-body-selected");
             }
         }
         return false;

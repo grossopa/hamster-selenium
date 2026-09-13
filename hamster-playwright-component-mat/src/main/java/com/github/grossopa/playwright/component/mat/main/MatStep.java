@@ -62,7 +62,7 @@ public class MatStep extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "step");
+        return attributeContains(CLASS, "mat-" + "step");
     }
 
     /**
@@ -71,7 +71,7 @@ public class MatStep extends AbstractMatComponent {
      * @return the step label element
      */
     public WebComponent getLabel() {
-        return this.findComponent("." + config.getCssPrefix() + "step-label");
+        return this.findComponent("." + "mat-" + "step-label");
     }
 
     /**
@@ -80,7 +80,7 @@ public class MatStep extends AbstractMatComponent {
      * @return true if the step is active
      */
     public boolean isActive() {
-        return attributeContains(CLASS, config.getCssPrefix() + "step-active");
+        return attributeContains(CLASS, "mat-" + "step-active");
     }
 
     /**
@@ -89,7 +89,7 @@ public class MatStep extends AbstractMatComponent {
      * @return true if the step is completed
      */
     public boolean isCompleted() {
-        return attributeContains(CLASS, config.getCssPrefix() + "step-completed");
+        return attributeContains(CLASS, "mat-" + "step-completed");
     }
 
     /**
@@ -98,6 +98,6 @@ public class MatStep extends AbstractMatComponent {
      * @return the step content element
      */
     public WebComponent getContent() {
-        return this.findComponent("." + config.getCssPrefix() + "step-content");
+        return this.findComponent("." + "mat-" + "step-content");
     }
 }

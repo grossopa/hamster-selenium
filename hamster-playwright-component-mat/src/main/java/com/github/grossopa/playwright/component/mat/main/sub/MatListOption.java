@@ -26,6 +26,7 @@ package com.github.grossopa.playwright.component.mat.main.sub;
 import com.github.grossopa.playwright.component.mat.AbstractMatComponent;
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.DefaultWebComponent;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 
@@ -75,12 +76,22 @@ public class MatListOption extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "list-option");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "list-option");
     }
 
     @Override
     public boolean isSelected() {
-        return "true".equalsIgnoreCase(getAttribute("aria-selected"));
+        // MDC uses native checkbox checked state; also check aria-selected as fallback
+        String ariaSelected = getAttribute("aria-selected");
+        if ("true".equalsIgnoreCase(ariaSelected)) {
+            return true;
+        }
+        Locator nativeCheckbox = locator().locator("input[type=checkbox]").first();
+        if (nativeCheckbox.count() > 0) {
+            Object checked = nativeCheckbox.evaluate("el => el.checked");
+            return Boolean.TRUE.equals(checked);
+        }
+        return false;
     }
 
     @Override
@@ -95,9 +106,17 @@ public class MatListOption extends AbstractMatComponent {
      */
     @Nullable
     public MatPseudoCheckbox getCheckbox() {
+        // legacy uses <mat-pseudo-checkbox>; MDC uses <div class="mdc-checkbox">
         List<MatPseudoCheckbox> checkboxList = this.findComponents(
-                "." + config.getCssPrefix() + "pseudo-checkbox").stream().map(
+                "." + config.getComponentCssPrefix() + "pseudo-checkbox").stream().map(
                 c -> new MatPseudoCheckbox(c, driver, config)).toList();
-        return checkboxList.isEmpty() ? null : checkboxList.get(0);
+        if (!checkboxList.isEmpty()) {
+            return checkboxList.get(0);
+        }
+        Locator mdcCheckbox = locator().locator(".mdc-checkbox").first();
+        if (mdcCheckbox.count() > 0) {
+            return new MatPseudoCheckbox(new DefaultWebComponent(mdcCheckbox, driver), driver, config);
+        }
+        return null;
     }
 }

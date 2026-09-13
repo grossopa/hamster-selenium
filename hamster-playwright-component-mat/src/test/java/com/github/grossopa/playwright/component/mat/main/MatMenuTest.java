@@ -56,7 +56,7 @@ class MatMenuTest {
 
     @BeforeEach
     void setUp() {
-        when(locator.locator(".mat-menu-item")).thenReturn(itemsLocator);
+        when(locator.locator(".mat-mdc-menu-item")).thenReturn(itemsLocator);
         when(itemsLocator.all()).thenReturn(List.of(item1, item2));
         testSubject = new MatMenu(locator, driver, config);
     }
@@ -73,13 +73,13 @@ class MatMenuTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-menu-panel");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-menu-panel");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-dialog-container");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-dialog-container");
         assertFalse(testSubject.validate());
     }
 
@@ -111,7 +111,7 @@ class MatMenuTest {
 
     @Test
     void expandItemByIndexNotExpandable() {
-        when(item1.getAttribute("class")).thenReturn("mat-menu-item");
+        when(item1.getAttribute("class")).thenReturn("mat-mdc-menu-item");
         assertThrows(MenuItemNotFoundException.class, () -> testSubject.expandItemByIndex(0));
     }
 
@@ -119,18 +119,18 @@ class MatMenuTest {
     void expandItemByTextNotExpandable() {
         when(item1.textContent()).thenReturn("One");
         when(item2.textContent()).thenReturn("Two");
-        when(item2.getAttribute("class")).thenReturn("mat-menu-item");
+        when(item2.getAttribute("class")).thenReturn("mat-mdc-menu-item");
         assertThrows(MenuItemNotFoundException.class, () -> testSubject.expandItemByText("Two"));
     }
 
     @Test
     void expandItemByIndex() {
-        when(item1.getAttribute("class")).thenReturn("mat-menu-item mat-menu-item-submenu-trigger");
+        when(item1.getAttribute("class")).thenReturn("mat-mdc-menu-item mat-mdc-menu-item-submenu-trigger");
         WebComponent box = mock(WebComponent.class);
         WebComponent panel = mock(WebComponent.class);
         when(driver.findComponents(".cdk-overlay-connected-position-bounding-box")).thenReturn(List.of(box));
         when(box.isVisible()).thenReturn(true);
-        when(box.findComponent(".mat-menu-panel")).thenReturn(panel);
+        when(box.findComponent(".mat-mdc-menu-panel")).thenReturn(panel);
         when(panel.locator()).thenReturn(mock(Locator.class));
 
         MatMenu childMenu = testSubject.expandItemByIndex(0);

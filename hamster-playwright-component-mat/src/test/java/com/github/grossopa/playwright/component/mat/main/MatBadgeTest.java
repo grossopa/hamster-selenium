@@ -76,7 +76,7 @@ class MatBadgeTest {
 
     @Test
     void validateFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-button");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-button");
         assertFalse(testSubject.validate());
     }
 

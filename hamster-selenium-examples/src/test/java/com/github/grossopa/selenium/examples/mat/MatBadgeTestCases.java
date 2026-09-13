@@ -25,12 +25,10 @@ package com.github.grossopa.selenium.examples.mat;
 
 import com.github.grossopa.hamster.selenium.component.mat.main.MatBadge;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -41,13 +39,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatBadgeTestCases extends AbstractBrowserSupport {
+public class MatBadgeTestCases extends MatTestSupport {
 
     public void testBadge() {
-        navigateToExamples("https://v12.material.angular.io/components/badge/examples");
+        navigateToExamples(baseUrl() + "badge/examples");
 
         WebComponent container = driver.findComponent(By.tagName("badge-overview-example"));
-        List<MatBadge> badges = container.findComponentsAs(By.className("mat-badge"), c -> c.as(mat()).toBadge());
+        List<MatBadge> badges = container.findComponentsAs(By.className("mat-badge"), c -> c.as(matComponents()).toBadge());
         assertEquals(5, badges.size());
         badges.stream().peek(badge -> assertTrue(badge.validate())).map(MatBadge::getBadgeContent)
                 .forEach(content -> assertTrue(content.validate()));

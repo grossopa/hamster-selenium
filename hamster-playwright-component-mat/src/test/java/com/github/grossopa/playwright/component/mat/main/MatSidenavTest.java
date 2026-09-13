@@ -41,7 +41,7 @@ class MatSidenavTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-");
         testSubject = new MatSidenav(locator, driver, config);
     }
 

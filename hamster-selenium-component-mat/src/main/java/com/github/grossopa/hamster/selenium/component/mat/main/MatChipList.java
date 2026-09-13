@@ -27,6 +27,7 @@ import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.main.sub.MatChip;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -68,7 +69,7 @@ public class MatChipList extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "chip-list");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "chip-set");
     }
 
     /**
@@ -77,6 +78,11 @@ public class MatChipList extends AbstractMatComponent {
      * @return the inner chips.
      */
     public List<MatChip> getChips() {
-        return this.findComponentsAs(By.tagName(config.getTagPrefix() + "chip"), c -> new MatChip(c, driver, config));
+        List<WebComponent> chips = this.findComponents(By.tagName(config.getTagPrefix() + "chip"));
+        if (chips.isEmpty()) {
+            // MDC uses <mat-chip-row> instead of <mat-chip>
+            chips = this.findComponents(By.tagName(config.getTagPrefix() + "chip-row"));
+        }
+        return chips.stream().map(c -> new MatChip(c, driver, config)).toList();
     }
 }

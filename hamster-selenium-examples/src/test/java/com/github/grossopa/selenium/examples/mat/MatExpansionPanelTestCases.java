@@ -27,12 +27,10 @@ import com.github.grossopa.hamster.selenium.component.mat.main.MatAccordion;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatChipList;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatExpansionPanel;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,13 +40,13 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatExpansionPanelTestCases extends AbstractBrowserSupport {
+public class MatExpansionPanelTestCases extends MatTestSupport {
 
     public void testExpansionPanel() {
-        navigateToExamples("https://v12.material.angular.io/components/expansion/examples");
+        navigateToExamples(baseUrl() + "expansion/examples");
 
         WebComponent container = driver.findComponent(By.id("expansion-expand-collapse-all"));
-        MatAccordion accordion = container.findComponent(By.tagName("mat-accordion")).as(mat()).toAccordion();
+        MatAccordion accordion = container.findComponent(By.tagName("mat-accordion")).as(matComponents()).toAccordion();
 
         assertTrue(accordion.validate());
 

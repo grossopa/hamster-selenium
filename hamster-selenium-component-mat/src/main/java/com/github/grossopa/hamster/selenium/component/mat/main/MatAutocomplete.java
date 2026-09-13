@@ -102,7 +102,7 @@ public class MatAutocomplete extends AbstractMatComponent implements HasInput<We
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "autocomplete-trigger");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "autocomplete-trigger");
     }
 
     /**
@@ -156,7 +156,7 @@ public class MatAutocomplete extends AbstractMatComponent implements HasInput<We
     @Override
     public WebComponent getInput() {
         return this.findComponent(xpathBuilder().anywhereRelative("input").attr(CLASS)
-                .contains(config.getCssPrefix() + "autocomplete-trigger").build());
+                .contains(config.getComponentCssPrefix() + "autocomplete-trigger").build());
     }
 
     @Override
@@ -350,9 +350,18 @@ public class MatAutocomplete extends AbstractMatComponent implements HasInput<We
     }
 
     protected Optional<WebComponent> tryToFindAutocompletePanel() {
+        // MDC renders the autocomplete panel inline within the component rather than in the
+        // body-level cdk-overlay-container; search the full page first
+        String panelSelector = config.getComponentCssPrefix() + "autocomplete-panel";
+        List<WebComponent> pagePanels = driver.findComponents(By.className(panelSelector));
+        List<WebComponent> visiblePanels = pagePanels.stream().filter(WebComponent::isDisplayed).toList();
+        if (!visiblePanels.isEmpty()) {
+            return Optional.of(visiblePanels.get(0));
+        }
+        // fall back to the legacy body-level overlay container lookup
         MatOverlayContainer container = overlayFinder.findTopVisibleContainer();
         if (container != null) {
-            List<WebComponent> panels = container.findComponents(className(config.getCssPrefix() + "autocomplete-panel"));
+            List<WebComponent> panels = container.findComponents(className(panelSelector));
             return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(panels.size() - 1));
         }
         return Optional.empty();

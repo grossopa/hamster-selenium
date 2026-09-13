@@ -79,6 +79,6 @@ public class MatOption extends AbstractMatComponent {
 
     @Override
     public boolean isSelected() {
-        return attributeContains(CLASS, config.getCssPrefix() + "selected");
+        return attributeContains(CLASS, config.getIsSelectedCss());
     }
 }

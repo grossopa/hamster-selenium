@@ -74,7 +74,7 @@ class MatAutocompleteTest {
     WebElement inputElement = mock(WebElement.class);
 
     private void mockAutocompletePanelPresent() {
-        when(overlayContainer.findComponents(By.className("mat-autocomplete-panel"))).thenReturn(
+        when(overlayContainer.findComponents(By.className("mat-mdc-autocomplete-panel"))).thenReturn(
                 newArrayList(autocompletePanel));
         when(autocompletePanel.isDisplayed()).thenReturn(true);
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
@@ -89,7 +89,7 @@ class MatAutocompleteTest {
     }
 
     private void mockAutocompletePanelNotFound1() {
-        when(overlayContainer.findComponents(By.className("mat-autocomplete-panel"))).thenReturn(newArrayList());
+        when(overlayContainer.findComponents(By.className("mat-mdc-autocomplete-panel"))).thenReturn(newArrayList());
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
     }
 
@@ -98,7 +98,7 @@ class MatAutocompleteTest {
     }
 
     private void mockAutocompletePanelNotFound3() {
-        when(overlayContainer.findComponents(By.className("mat-autocomplete-panel"))).thenReturn(
+        when(overlayContainer.findComponents(By.className("mat-mdc-autocomplete-panel"))).thenReturn(
                 newArrayList(autocompletePanel));
         when(autocompletePanel.isDisplayed()).thenReturn(false);
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
@@ -159,14 +159,14 @@ class MatAutocompleteTest {
     @BeforeEach
     @SuppressWarnings("all")
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         when(driver.createWait(anyLong())).thenReturn(wait);
         when(wait.until(any())).then(answer -> {
             Function func = answer.getArgument(0);
             return func.apply(driver);
         });
 
-        when(element.findElement(By.xpath(".//input[contains(@class,\"mat-autocomplete-trigger\")]"))).thenReturn(
+        when(element.findElement(By.xpath(".//input[contains(@class,\"mat-mdc-autocomplete-trigger\")]"))).thenReturn(
                 inputElement);
 
         testSubject = new MatAutocomplete(element, driver, config, overlayFinder, optionLocator, openOptionsAction,
@@ -295,7 +295,7 @@ class MatAutocompleteTest {
     void closeOptions1AlreadyClosed() {
         this.mockAutocompletePanelNotFound1();
         testSubject.closeOptions();
-        assertTrue(overlayContainer.findComponents(By.className("mat-autocomplete-panel")).isEmpty());
+        assertTrue(overlayContainer.findComponents(By.className("mat-mdc-autocomplete-panel")).isEmpty());
         verify(closeOptionsAction, never()).close(any(), any(), any());
     }
 
@@ -303,7 +303,7 @@ class MatAutocompleteTest {
     void closeOptionsSuccessful1() {
         this.mockAutocompletePanelCloseSuccessful1();
         testSubject.closeOptions();
-        assertTrue(overlayContainer.findComponents(By.className("mat-autocomplete-panel")).isEmpty());
+        assertTrue(overlayContainer.findComponents(By.className("mat-mdc-autocomplete-panel")).isEmpty());
         verify(closeOptionsAction, times(1)).close(any(), any(), any());
     }
 
@@ -549,15 +549,15 @@ class MatAutocompleteTest {
 
     @Test
     void validate() {
-        when(config.getCssPrefix()).thenReturn("mat-");
-        when(element.getDomAttribute("class")).thenReturn("mat-autocomplete-trigger");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-autocomplete-trigger");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(config.getCssPrefix()).thenReturn("mat-");
-        when(element.getDomAttribute("class")).thenReturn("mat-autocomplete-trigger-some-other");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-autocomplete-trigger-some-other");
         assertFalse(testSubject.validate());
     }
 }

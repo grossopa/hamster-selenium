@@ -67,7 +67,7 @@ public class MatGridList extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "grid-list");
+        return this.attributeContains(CLASS, "mat-" + "grid-list");
     }
 
     /**
@@ -80,7 +80,7 @@ public class MatGridList extends AbstractMatComponent {
     }
 
     public List<MatGridTile> getGridTiles() {
-        return this.findComponentsAs(By.className(config.getCssPrefix() + "grid-tile"),
+        return this.findComponentsAs(By.className("mat-" + "grid-tile"),
                 c -> new MatGridTile(c, driver, config));
     }
 }

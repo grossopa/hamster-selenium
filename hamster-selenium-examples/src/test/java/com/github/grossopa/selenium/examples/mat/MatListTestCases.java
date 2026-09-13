@@ -27,12 +27,10 @@ import com.github.grossopa.hamster.selenium.component.mat.main.MatList;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatSelectionList;
 import com.github.grossopa.hamster.selenium.component.mat.main.sub.MatListOption;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,12 +41,12 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatListTestCases extends AbstractBrowserSupport {
+public class MatListTestCases extends MatTestSupport {
 
     public void testList() {
-        navigateToExamples("https://v12.material.angular.io/components/list/examples");
+        navigateToExamples(baseUrl() + "list/examples");
         WebComponent container = driver.findComponent(By.tagName("list-overview-example"));
-        MatList list = container.findComponent(By.className("mat-list")).as(mat()).toList();
+        MatList list = container.findComponent(By.className("mat-list")).as(matComponents()).toList();
         assertTrue(list.validate());
 
         List<WebComponent> listItems = list.getListItems();
@@ -59,9 +57,9 @@ public class MatListTestCases extends AbstractBrowserSupport {
     }
 
     public void testListWithSelection() {
-        navigateToExamples("https://v12.material.angular.io/components/list/examples");
+        navigateToExamples(baseUrl() + "list/examples");
         WebComponent container = driver.findComponent(By.tagName("list-selection-example"));
-        MatSelectionList selectionList = container.findComponent(By.className("mat-selection-list")).as(mat())
+        MatSelectionList selectionList = container.findComponent(By.className("mat-selection-list")).as(matComponents())
                 .toSelectionList();
         assertTrue(selectionList.validate());
 
@@ -84,9 +82,9 @@ public class MatListTestCases extends AbstractBrowserSupport {
     }
 
     public void testListWithSingleSelection() {
-        navigateToExamples("https://v12.material.angular.io/components/list/examples");
+        navigateToExamples(baseUrl() + "list/examples");
         WebComponent container = driver.findComponent(By.tagName("list-single-selection-example"));
-        MatSelectionList selectionList = container.findComponent(By.className("mat-selection-list")).as(mat())
+        MatSelectionList selectionList = container.findComponent(By.className("mat-selection-list")).as(matComponents())
                 .toSelectionList();
         assertTrue(selectionList.validate());
 
@@ -112,7 +110,7 @@ public class MatListTestCases extends AbstractBrowserSupport {
         MatListTestCases test = new MatListTestCases();
         try {
             test.setUpDriver(EDGE);
-            test.navigateToExamples("https://v12.material.angular.io/components/list/examples");
+            test.navigateToExamples(test.baseUrl() + "list/examples");
             test.testList();
             test.testListWithSelection();
             test.testListWithSingleSelection();

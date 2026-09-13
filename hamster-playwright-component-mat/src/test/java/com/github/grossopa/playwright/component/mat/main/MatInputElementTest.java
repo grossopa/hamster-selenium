@@ -64,7 +64,7 @@ class MatInputElementTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-input-element mat-form-field-autocomplete-trigger");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-input-element mat-form-field-autocomplete-trigger");
         assertTrue(testSubject.validate());
     }
 
@@ -76,13 +76,13 @@ class MatInputElementTest {
 
     @Test
     void isEnabled() {
-        when(locator.getAttribute("class")).thenReturn("mat-input-element");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-input-element");
         assertTrue(testSubject.isEnabled());
     }
 
     @Test
     void isEnabledFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-input-element mat-input-element-disabled");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-input-element mat-mdc-input-element-disabled");
         assertFalse(testSubject.isEnabled());
     }
 

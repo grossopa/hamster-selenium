@@ -27,11 +27,9 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatSnackbar;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,11 +40,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Jack Yin
  * @since 1.0
  */
-public class MatSnackbarTestCases extends AbstractBrowserSupport {
+public class MatSnackbarTestCases extends MatTestSupport {
 
     public void testSliderConfiguration() {
-        navigateToExamples("https://v12.material.angular.io/components/snack-bar/examples");
-        // the snackbar content is taken from the input values at click time; on the slow archived v12
+        navigateToExamples(baseUrl() + "snack-bar/examples");
+        // the snackbar content is taken from the input values at click time; on the slow
         // site Angular may not have hydrated the inputs yet, so wait for the values to be ready
         WebElement messageInput = driver.findElement(By.id("snack-bar-overview")).findElement(By.tagName("input"));
         for (int i = 0; i < 40 && !"Disco party!".equals(messageInput.getDomProperty("value")); i++) {
@@ -60,18 +58,18 @@ public class MatSnackbarTestCases extends AbstractBrowserSupport {
         // wait for the snackbar animation to settle before reading its content
         driver.threadSleep(1000L);
 
-        MatOverlayFinder finder = new MatOverlayFinder(driver, new MatConfig());
+        MatOverlayFinder finder = new MatOverlayFinder(driver, matConfig());
         WebComponent overlayContainer = finder.findTopVisibleContainer();
         assertNotNull(overlayContainer);
-        MatSnackbar snackbar = overlayContainer.findComponent(By.tagName("simple-snack-bar")).as(mat()).toSnackbar();
-        // the archived v12 doc site is slow; poll until the label text is rendered
+        MatSnackbar snackbar = overlayContainer.findComponent(By.tagName("simple-snack-bar")).as(matComponents()).toSnackbar();
+        // the doc site is slow; poll until the label text is rendered
         assertEquals("Disco party!", awaitText(snackbar.getLabel()));
         assertEquals("Dance", awaitText(snackbar.getActionButton()));
 
         snackbar.getActionButton().click();
 
         // poll until the snackbar is removed from the overlay after the dismiss animation;
-        // the first click may be missed on the slow archived v12 site, so click once more on timeout
+        // the first click may be missed on the slow doc site, so click once more on timeout
         boolean dismissed = false;
         for (int i = 0; i < 80 && !dismissed; i++) {
             dismissed = overlayContainer.findComponents(By.tagName("simple-snack-bar")).isEmpty();
@@ -79,7 +77,7 @@ public class MatSnackbarTestCases extends AbstractBrowserSupport {
                 driver.threadSleep(250L);
                 if (i == 39) {
                     // re-locate the action button as the previous reference may be stale
-                    overlayContainer.findComponent(By.tagName("simple-snack-bar")).as(mat()).toSnackbar()
+                    overlayContainer.findComponent(By.tagName("simple-snack-bar")).as(matComponents()).toSnackbar()
                             .getActionButton().click();
                 }
             }
@@ -102,7 +100,7 @@ public class MatSnackbarTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MatSnackbarTestCases test = new MatSnackbarTestCases();
         test.setUpDriver(EDGE);
-        test.navigateToExamples("https://v12.material.angular.io/components/snack-bar/examples");
+        test.navigateToExamples(test.baseUrl() + "snack-bar/examples");
         test.testSliderConfiguration();
     }
 }

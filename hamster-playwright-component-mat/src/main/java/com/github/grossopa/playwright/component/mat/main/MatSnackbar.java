@@ -26,6 +26,7 @@ package com.github.grossopa.playwright.component.mat.main;
 import com.github.grossopa.playwright.component.mat.AbstractMatComponent;
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.DefaultWebComponent;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 
@@ -66,7 +67,10 @@ public class MatSnackbar extends AbstractMatComponent {
      * @return the snackbar label component
      */
     public WebComponent getLabel() {
-        return this.findComponent("span");
+        // MDC structure uses [matsnackbarlabel] attribute; legacy uses <span>
+        Locator legacy = locator.locator("span");
+        Locator mdc = locator.locator("[matsnackbarlabel]");
+        return new DefaultWebComponent(mdc.or(legacy).first(), driver);
     }
 
     /**
@@ -80,6 +84,6 @@ public class MatSnackbar extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "simple-snackbar");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "simple-snack-bar");
     }
 }

@@ -63,7 +63,7 @@ public abstract class AbstractMatComponent extends DefaultWebComponent implement
 
     @Override
     public boolean isSelected() {
-        return config.isChecked(this);
+        return config.isSelected(this);
     }
 
     @Override

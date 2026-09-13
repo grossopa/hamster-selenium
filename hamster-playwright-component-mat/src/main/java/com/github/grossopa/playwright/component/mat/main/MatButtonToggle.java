@@ -64,7 +64,7 @@ public class MatButtonToggle extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "button-toggle");
+        return attributeContains(CLASS, "mat-" + "button-toggle");
     }
 
     @Override
@@ -74,7 +74,7 @@ public class MatButtonToggle extends AbstractMatComponent {
 
     @Override
     public boolean isSelected() {
-        return attributeContains(CLASS, config.getCssPrefix() + "button-toggle-checked");
+        return attributeContains(CLASS, "mat-" + "button-toggle-checked");
     }
 
     @Override

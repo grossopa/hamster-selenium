@@ -70,6 +70,16 @@ public class HtmlTableRow extends DefaultWebComponent {
     }
 
     /**
+     * Validates that the current locator points to a {@code <tr>} element.
+     *
+     * @return true if the element tag name is "tr" (case-insensitive)
+     * @since 1.15
+     */
+    public boolean validate() {
+        return "tr".equalsIgnoreCase(locator.evaluate("el => el.tagName").toString());
+    }
+
+    /**
      * Gets all the cells in current row
      *
      * @return all the cells in current row

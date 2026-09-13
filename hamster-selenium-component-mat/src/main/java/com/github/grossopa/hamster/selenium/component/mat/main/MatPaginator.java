@@ -68,7 +68,7 @@ public class MatPaginator extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "paginator");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "paginator");
     }
 
     /**
@@ -77,7 +77,7 @@ public class MatPaginator extends AbstractMatComponent {
      * @return the range label text (e.g. "1 – 10 of 50")
      */
     public String getRangeLabel() {
-        return this.findComponent(By.className(config.getCssPrefix() + "paginator-range-label")).getText();
+        return this.findComponent(By.className(config.getComponentCssPrefix() + "paginator-range-label")).getText();
     }
 
     /**
@@ -86,35 +86,35 @@ public class MatPaginator extends AbstractMatComponent {
      * @return the page size select element
      */
     public WebComponent getPageSizeSelect() {
-        return this.findComponent(By.className(config.getCssPrefix() + "paginator-page-size"));
+        return this.findComponent(By.className(config.getComponentCssPrefix() + "paginator-page-size"));
     }
 
     /**
      * Clicks the next page button.
      */
     public void nextPage() {
-        this.findComponent(By.className(config.getCssPrefix() + "paginator-navigation-next")).click();
+        this.findComponent(By.className(config.getComponentCssPrefix() + "paginator-navigation-next")).click();
     }
 
     /**
      * Clicks the previous page button.
      */
     public void previousPage() {
-        this.findComponent(By.className(config.getCssPrefix() + "paginator-navigation-previous")).click();
+        this.findComponent(By.className(config.getComponentCssPrefix() + "paginator-navigation-previous")).click();
     }
 
     /**
      * Clicks the first page button.
      */
     public void firstPage() {
-        this.findComponent(By.className(config.getCssPrefix() + "paginator-navigation-first")).click();
+        this.findComponent(By.className(config.getComponentCssPrefix() + "paginator-navigation-first")).click();
     }
 
     /**
      * Clicks the last page button.
      */
     public void lastPage() {
-        this.findComponent(By.className(config.getCssPrefix() + "paginator-navigation-last")).click();
+        this.findComponent(By.className(config.getComponentCssPrefix() + "paginator-navigation-last")).click();
     }
 
     /**
@@ -123,7 +123,7 @@ public class MatPaginator extends AbstractMatComponent {
      * @return the list of page size option texts
      */
     public List<String> getPageSizeOptions() {
-        return this.findComponents(By.className(config.getCssPrefix() + "paginator-page-size-label"))
+        return this.findComponents(By.className(config.getComponentCssPrefix() + "paginator-page-size-label"))
                 .stream().map(WebComponent::getText).toList();
     }
 }

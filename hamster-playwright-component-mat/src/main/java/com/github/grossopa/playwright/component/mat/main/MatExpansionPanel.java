@@ -57,7 +57,7 @@ public class MatExpansionPanel extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "expansion-panel");
+        return attributeContains(CLASS, "mat-" + "expansion-panel");
     }
 
     @Override
@@ -76,7 +76,7 @@ public class MatExpansionPanel extends AbstractMatComponent {
      * @return true if the expansion panel has expanded
      */
     public boolean isExpanded() {
-        return attributeContains(CLASS, config.getCssPrefix() + "expanded");
+        return attributeContains(CLASS, "mat-" + "expanded");
     }
 
     /**
@@ -103,7 +103,7 @@ public class MatExpansionPanel extends AbstractMatComponent {
      * @return the expansion panel header element
      */
     public WebComponent getExpansionPanelHeader() {
-        return this.findComponent("." + config.getCssPrefix() + "expansion-panel-header");
+        return this.findComponent("." + "mat-" + "expansion-panel-header");
     }
 
     /**
@@ -112,6 +112,6 @@ public class MatExpansionPanel extends AbstractMatComponent {
      * @return the expansion panel body element
      */
     public WebComponent getExpansionPanelBody() {
-        return this.findComponent("." + config.getCssPrefix() + "expansion-panel-body");
+        return this.findComponent("." + "mat-" + "expansion-panel-body");
     }
 }

@@ -89,7 +89,7 @@ class MatSliderTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         when(config.getTagPrefix()).thenReturn("mat-");
         when(driver.mapElement(any())).then(a -> new DefaultWebComponent(a.getArgument(0), driver));
         when(driver.createActions()).thenReturn(actions);
@@ -112,14 +112,14 @@ class MatSliderTest {
         when(actions1.release()).thenReturn(actions1);
         when(actions2.release()).thenReturn(actions2);
 
-        when(element.findElement(By.className("mat-slider-thumb"))).thenReturn(thumb1);
-        when(element.findElements(By.className("mat-slider-thumb"))).thenReturn(List.of(thumb1));
+        when(element.findElement(By.className("mat-mdc-slider-thumb"))).thenReturn(thumb1);
+        when(element.findElements(By.className("mat-mdc-slider-thumb"))).thenReturn(List.of(thumb1));
         when(element.findElement(By2.attrExact("type", "hidden", "input"))).thenReturn(hiddenInput);
 
-        when(element.findElement(By.className("mat-slider-wrapper"))).thenReturn(sliderWrapper);
+        when(element.findElement(By.className("mat-mdc-slider-wrapper"))).thenReturn(sliderWrapper);
         when(sliderWrapper.getRect()).then(a -> new Rectangle(x, y, height, width));
 
-        when(element.getDomAttribute("class")).then(a -> "mat-slider");
+        when(element.getDomAttribute("class")).then(a -> "mat-mdc-slider");
         when(hiddenInput.getDomAttribute("value")).then(a -> rawValue1);
 
         when(element.getDomAttribute("aria-valuemin")).then(a -> minValue.toString());
@@ -152,13 +152,13 @@ class MatSliderTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-slider");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-slider");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getDomAttribute("class")).thenReturn("mat-slider-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-slider-23");
         assertFalse(testSubject.validate());
     }
 
@@ -229,25 +229,25 @@ class MatSliderTest {
 
     @Test
     void isVertical() {
-        when(element.getDomAttribute("class")).then(a -> "mat-slider mat-slider-vertical");
+        when(element.getDomAttribute("class")).then(a -> "mat-mdc-slider mat-mdc-slider-vertical");
         assertTrue(testSubject.isVertical());
     }
 
     @Test
     void isVerticalNegative() {
-        when(element.getDomAttribute("class")).then(a -> "mat-slider ");
+        when(element.getDomAttribute("class")).then(a -> "mat-mdc-slider ");
         assertFalse(testSubject.isVertical());
     }
 
     @Test
     void isInverted() {
-        when(element.getDomAttribute("class")).then(a -> "mat-slider mat-slider-axis-inverted");
+        when(element.getDomAttribute("class")).then(a -> "mat-mdc-slider mat-mdc-slider-axis-inverted");
         assertTrue(testSubject.isInverted());
     }
 
     @Test
     void isInvertedNegative() {
-        when(element.getDomAttribute("class")).then(a -> "mat-slider");
+        when(element.getDomAttribute("class")).then(a -> "mat-mdc-slider");
         assertFalse(testSubject.isInverted());
     }
 

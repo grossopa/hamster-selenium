@@ -68,7 +68,7 @@ public class MatList extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "list");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "list");
     }
 
     /**
@@ -77,6 +77,6 @@ public class MatList extends AbstractMatComponent {
      * @return the list items.
      */
     public List<WebComponent> getListItems() {
-        return this.findComponents(By.className(config.getCssPrefix() + "list-item"));
+        return this.findComponents(By.className(config.getComponentCssPrefix() + "list-item"));
     }
 }

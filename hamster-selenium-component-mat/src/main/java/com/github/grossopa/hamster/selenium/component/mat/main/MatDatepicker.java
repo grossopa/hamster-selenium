@@ -88,7 +88,7 @@ public class MatDatepicker extends AbstractMatComponent implements HasInput<WebC
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "datepicker");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "datepicker");
     }
 
     /**
@@ -107,7 +107,7 @@ public class MatDatepicker extends AbstractMatComponent implements HasInput<WebC
     public void openCalendar() {
         Optional<WebComponent> content = tryToFindCalendarContent();
         if (content.isEmpty()) {
-            this.findComponent(By.className(config.getCssPrefix() + "datepicker-toggle")).click();
+            this.findComponent(By.className(config.getComponentCssPrefix() + "datepicker-toggle")).click();
         }
     }
 
@@ -126,14 +126,14 @@ public class MatDatepicker extends AbstractMatComponent implements HasInput<WebC
     public MatCalendar getCalendar() {
         WebComponent content = tryToFindCalendarContent().orElseThrow(
                 () -> new IllegalStateException("Calendar is not open. Call openCalendar() first."));
-        WebComponent calendar = content.findComponent(By.className(config.getCssPrefix() + "calendar"));
+        WebComponent calendar = content.findComponent(By.className(config.getComponentCssPrefix() + "calendar"));
         return new MatCalendar(calendar, driver, config);
     }
 
     protected Optional<WebComponent> tryToFindCalendarContent() {
         MatOverlayContainer container = overlayFinder.findTopVisibleContainer();
         if (container != null) {
-            var panels = container.findComponents(By.className(config.getCssPrefix() + "datepicker-content"));
+            var panels = container.findComponents(By.className(config.getComponentCssPrefix() + "datepicker-content"));
             return panels.isEmpty() ? Optional.empty() : Optional.of(panels.get(panels.size() - 1));
         }
         return Optional.empty();

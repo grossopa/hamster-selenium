@@ -65,7 +65,7 @@ public class MatTab extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "tab");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "tab");
     }
 
     /**
@@ -74,7 +74,7 @@ public class MatTab extends AbstractMatComponent {
      * @return true if the tab is active
      */
     public boolean isActive() {
-        return !this.attributeContains(CLASS, config.getCssPrefix() + "tab-body-hidden");
+        return !this.attributeContains(CLASS, config.getComponentCssPrefix() + "tab-body-hidden");
     }
 
     /**
@@ -83,6 +83,6 @@ public class MatTab extends AbstractMatComponent {
      * @return the tab body content element
      */
     public WebComponent getContent() {
-        return this.findComponent(By.className(config.getCssPrefix() + "tab-body"));
+        return this.findComponent(By.className(config.getComponentCssPrefix() + "tab-body"));
     }
 }

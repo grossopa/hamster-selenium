@@ -62,7 +62,7 @@ public class MatSidenavContainer extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "drawer-container");
+        return attributeContains(CLASS, "mat-" + "drawer-container");
     }
 
     /**
@@ -71,7 +71,7 @@ public class MatSidenavContainer extends AbstractMatComponent {
      * @return the sidenav element
      */
     public MatSidenav getSidenav() {
-        WebComponent drawer = this.findComponent("." + config.getCssPrefix() + "drawer");
+        WebComponent drawer = this.findComponent("." + "mat-" + "drawer");
         return new MatSidenav(drawer.locator(), driver, config);
     }
 
@@ -81,6 +81,6 @@ public class MatSidenavContainer extends AbstractMatComponent {
      * @return the content element
      */
     public WebComponent getContent() {
-        return this.findComponent("." + config.getCssPrefix() + "drawer-content");
+        return this.findComponent("." + "mat-" + "drawer-content");
     }
 }

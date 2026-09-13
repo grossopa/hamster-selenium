@@ -30,12 +30,10 @@ import com.github.grossopa.hamster.selenium.component.mat.main.MatChipList;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatDialog;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatOverlayContainer;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,25 +43,25 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatDialogTestCases extends AbstractBrowserSupport {
+public class MatDialogTestCases extends MatTestSupport {
 
     public void testDialog() {
-        navigateToExamples("https://v12.material.angular.io/components/dialog/examples");
+        navigateToExamples(baseUrl() + "dialog/examples");
 
-        MatOverlayFinder overlayFinder = new MatOverlayFinder(driver, new MatConfig());
+        MatOverlayFinder overlayFinder = new MatOverlayFinder(driver, matConfig());
         MatButton openDialogButton1 = driver.findComponent(By.tagName("dialog-content-example"))
-                .findComponent(By.tagName("button")).as(mat()).toButton();
+                .findComponent(By.tagName("button")).as(matComponents()).toButton();
         openDialogButton1.click();
         MatOverlayContainer overlayContainer = overlayFinder.findTopVisibleContainer();
         assertNotNull(overlayContainer);
-        MatDialog dialog = overlayContainer.findComponent(By.tagName("mat-dialog-container")).as(mat()).toDialog();
+        MatDialog dialog = overlayContainer.findComponent(By.tagName("mat-dialog-container")).as(matComponents()).toDialog();
         assertTrue(dialog.validate());
-        // the archived v12 doc site is slow; poll until the dialog texts are rendered
+        // the doc site is slow; poll until the dialog texts are rendered
         assertEquals("Install Angular", awaitText(dialog.getDialogTitle()));
         assertTrue(awaitText(dialog.getDialogContent()).startsWith("Develop across all platforms"));
 
         List<MatButton> buttons = dialog.getDialogActions()
-                .findComponentsAs(By.tagName("button"), c -> c.as(mat()).toButton());
+                .findComponentsAs(By.tagName("button"), c -> c.as(matComponents()).toButton());
         assertEquals("Cancel", awaitText(buttons.get(0)));
         assertEquals("Install", awaitText(buttons.get(1)));
 

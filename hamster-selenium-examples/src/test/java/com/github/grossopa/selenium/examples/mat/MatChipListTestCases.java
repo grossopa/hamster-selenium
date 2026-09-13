@@ -26,10 +26,8 @@ package com.github.grossopa.selenium.examples.mat;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatAutocomplete;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatChipList;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatFormField;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -40,15 +38,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatChipListTestCases extends AbstractBrowserSupport {
+public class MatChipListTestCases extends MatTestSupport {
 
     public void testChipList() {
-        navigateToExamples("https://v12.material.angular.io/components/chips/examples");
+        navigateToExamples(baseUrl() + "chips/examples");
 
         MatFormField matFormField = driver.findComponent(By.tagName("chips-autocomplete-example"))
-                .findComponent(By.tagName("mat-form-field")).as(mat()).toFormField();
+                .findComponent(By.tagName("mat-form-field")).as(matComponents()).toFormField();
 
-        MatChipList chipList = matFormField.getInfix().findComponent(By.tagName("mat-chip-list")).as(mat())
+        MatChipList chipList = matFormField.getInfix().findComponent(By.tagName("mat-chip-list")).as(matComponents())
                 .toChipList();
 
         assertEquals(1, chipList.getChips().size());
@@ -56,12 +54,12 @@ public class MatChipListTestCases extends AbstractBrowserSupport {
         chipList.getChips().get(0).getRemoveIcon().click();
         assertTrue(chipList.getChips().isEmpty());
 
-        MatAutocomplete autocomplete = matFormField.as(mat()).toAutocomplete();
+        MatAutocomplete autocomplete = matFormField.as(matComponents()).toAutocomplete();
         autocomplete.selectByVisibleText("Apple");
         autocomplete.selectByVisibleText("Orange");
         autocomplete.selectByVisibleText("Strawberry");
 
-        MatChipList newChipList = matFormField.getInfix().findComponent(By.tagName("mat-chip-list")).as(mat())
+        MatChipList newChipList = matFormField.getInfix().findComponent(By.tagName("mat-chip-list")).as(matComponents())
                 .toChipList();
 
         assertEquals(3, newChipList.getChips().size());

@@ -41,7 +41,7 @@ class MatRadioButtonTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatRadioButton(element, driver, config);
     }
 
@@ -52,7 +52,7 @@ class MatRadioButtonTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-radio-button");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-radio-button");
         assertTrue(testSubject.validate());
     }
 

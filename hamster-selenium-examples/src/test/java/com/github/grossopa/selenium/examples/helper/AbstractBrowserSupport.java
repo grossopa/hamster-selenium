@@ -85,7 +85,7 @@ public abstract class AbstractBrowserSupport {
     }
 
     /**
-     * Navigates to an examples page of the archived Angular Material v12 documentation site and
+     * Navigates to an examples page of the Angular Material documentation site and
      * waits until the page is rendered.
      *
      * @param url the examples page url
@@ -96,7 +96,7 @@ public abstract class AbstractBrowserSupport {
     }
 
     /**
-     * Waits until any Material component is rendered on the current page. The archived v12 doc site
+     * Waits until any Material component is rendered on the current page. The doc site
      * occasionally fails to bootstrap; in that case the page is refreshed once and polled again.
      */
     protected void waitForExamplesPageRendered() {

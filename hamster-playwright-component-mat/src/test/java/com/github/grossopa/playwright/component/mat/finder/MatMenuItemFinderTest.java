@@ -65,7 +65,7 @@ class MatMenuItemFinderTest {
         Locator panelLocator = mock(Locator.class);
         when(driver.findComponents(".cdk-overlay-connected-position-bounding-box")).thenReturn(List.of(box));
         when(box.isVisible()).thenReturn(true);
-        when(box.findComponent(".mat-menu-panel")).thenReturn(panel);
+        when(box.findComponent(".mat-mdc-menu-panel")).thenReturn(panel);
         when(panel.locator()).thenReturn(panelLocator);
 
         MatMenu result = testSubject.findTopMenu();
@@ -83,7 +83,7 @@ class MatMenuItemFinderTest {
                 List.of(invisibleBox, visibleBox));
         when(invisibleBox.isVisible()).thenReturn(false);
         when(visibleBox.isVisible()).thenReturn(true);
-        when(visibleBox.findComponent(".mat-menu-panel")).thenReturn(panel);
+        when(visibleBox.findComponent(".mat-mdc-menu-panel")).thenReturn(panel);
         when(panel.locator()).thenReturn(panelLocator);
 
         MatMenu result = testSubject.findTopMenu();
@@ -108,7 +108,7 @@ class MatMenuItemFinderTest {
     void findMenusSelector() {
         doReturn(List.of()).when(driver).findComponentsAs(anyString(), any());
         testSubject.findMenus();
-        verify(driver).findComponentsAs(eq(".cdk-overlay-connected-position-bounding-box .mat-menu-panel"), any());
+        verify(driver).findComponentsAs(eq(".cdk-overlay-connected-position-bounding-box .mat-mdc-menu-panel"), any());
     }
 
     @Test

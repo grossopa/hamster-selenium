@@ -53,9 +53,9 @@ class MatDialogTest {
 
     @BeforeEach
     void setUp() {
-        when(locator.locator(".mat-dialog-title")).thenReturn(titleLocator);
-        when(locator.locator(".mat-dialog-content")).thenReturn(contentLocator);
-        when(locator.locator(".mat-dialog-actions")).thenReturn(actionsLocator);
+        when(locator.locator(".mat-mdc-dialog-title")).thenReturn(titleLocator);
+        when(locator.locator(".mat-mdc-dialog-content")).thenReturn(contentLocator);
+        when(locator.locator(".mat-mdc-dialog-actions")).thenReturn(actionsLocator);
         when(titleLocator.first()).thenReturn(mock(Locator.class));
         when(contentLocator.first()).thenReturn(mock(Locator.class));
         when(actionsLocator.first()).thenReturn(mock(Locator.class));
@@ -74,13 +74,13 @@ class MatDialogTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-dialog-container");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-dialog-container");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-menu-panel");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-menu-panel");
         assertFalse(testSubject.validate());
     }
 

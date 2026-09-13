@@ -61,7 +61,7 @@ public class MatDialog extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "dialog-container");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "dialog-container");
     }
 
     @Override
@@ -75,7 +75,7 @@ public class MatDialog extends AbstractMatComponent {
      * @return the dialog title container
      */
     public WebComponent getDialogTitle() {
-        return this.findComponent(By.className(config.getCssPrefix() + "dialog-title"));
+        return this.findComponent(By.className(config.getComponentCssPrefix() + "dialog-title"));
     }
 
     /**
@@ -84,7 +84,7 @@ public class MatDialog extends AbstractMatComponent {
      * @return the primary scrollable content of the dialog.
      */
     public WebComponent getDialogContent() {
-        return this.findComponent(By.className(config.getCssPrefix() + "dialog-content"));
+        return this.findComponent(By.className(config.getComponentCssPrefix() + "dialog-content"));
     }
 
     /**
@@ -94,6 +94,6 @@ public class MatDialog extends AbstractMatComponent {
      * @return the container for action buttons at the bottom of the dialog
      */
     public WebComponent getDialogActions() {
-        return this.findComponent(By.className(config.getCssPrefix() + "dialog-actions"));
+        return this.findComponent(By.className(config.getComponentCssPrefix() + "dialog-actions"));
     }
 }

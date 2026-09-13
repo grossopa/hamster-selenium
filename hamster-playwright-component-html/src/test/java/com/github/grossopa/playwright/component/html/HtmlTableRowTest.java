@@ -61,6 +61,18 @@ class HtmlTableRowTest {
     }
 
     @Test
+    void validateTrue() {
+        when(locator.evaluate("el => el.tagName")).thenReturn("TR");
+        assertTrue(testSubject.validate());
+    }
+
+    @Test
+    void validateFalse() {
+        when(locator.evaluate("el => el.tagName")).thenReturn("td");
+        assertFalse(testSubject.validate());
+    }
+
+    @Test
     void constructorWithoutHeaderLabels() {
         HtmlTableRow row = new HtmlTableRow(locator, driver);
         assertNotNull(row.getHeaderLabels());

@@ -67,7 +67,7 @@ public class MatTabGroup extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "tab-group");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "tab-group");
     }
 
     /**
@@ -76,7 +76,13 @@ public class MatTabGroup extends AbstractMatComponent {
      * @return the list of tab label elements
      */
     public List<WebComponent> getTabLabels() {
-        return this.findComponents(By.className(config.getCssPrefix() + "tab-label"));
+        // MDC uses .mat-mdc-tab on <div role="tab">; legacy uses .mat-tab-label
+        List<WebComponent> mdcTabs = this.findComponents(
+                By.className(config.getComponentCssPrefix() + "tab"));
+        if (!mdcTabs.isEmpty()) {
+            return mdcTabs;
+        }
+        return this.findComponents(By.className(config.getComponentCssPrefix() + "tab-label"));
     }
 
     /**
@@ -85,7 +91,7 @@ public class MatTabGroup extends AbstractMatComponent {
      * @return the list of tab elements
      */
     public List<MatTab> getTabs() {
-        return this.findComponentsAs(By.className(config.getCssPrefix() + "tab"),
+        return this.findComponentsAs(By.className(config.getComponentCssPrefix() + "tab"),
                 c -> new MatTab(c, driver, config));
     }
 
@@ -106,7 +112,10 @@ public class MatTabGroup extends AbstractMatComponent {
     public int getSelectedTabIndex() {
         List<WebComponent> labels = getTabLabels();
         for (int i = 0; i < labels.size(); i++) {
-            if (labels.get(i).getAttribute(CLASS).contains(config.getCssPrefix() + "tab-label-active")) {
+            String cls = labels.get(i).getAttribute(CLASS);
+            // MDC uses .mdc-tab--active; legacy uses .mat-tab-label-active
+            if (cls != null && (cls.contains("mdc-tab--active")
+                    || cls.contains(config.getComponentCssPrefix() + "tab-label-active"))) {
                 return i;
             }
         }

@@ -83,4 +83,44 @@ public class HtmlComponents extends AbstractComponents {
     public HtmlTable table() {
         return new HtmlTable(component, driver);
     }
+
+    /**
+     * Gets the checkbox component
+     *
+     * @return the checkbox component
+     * @since 1.15
+     */
+    public HtmlCheckbox checkbox() {
+        return new HtmlCheckbox(component, driver);
+    }
+
+    /**
+     * Gets the radio group component
+     *
+     * @return the radio group component
+     * @since 1.15
+     */
+    public HtmlRadioGroup radioGroup() {
+        return new HtmlRadioGroup(component, driver);
+    }
+
+    /**
+     * Gets the file input component
+     *
+     * @return the file input component
+     * @since 1.15
+     */
+    public HtmlFileInput fileInput() {
+        return new HtmlFileInput(component, driver);
+    }
+
+    /**
+     * Gets the textarea component
+     *
+     * @return the textarea component
+     * @since 1.15
+     */
+    public HtmlTextArea textArea() {
+        return new HtmlTextArea(component, driver);
+    }
 }

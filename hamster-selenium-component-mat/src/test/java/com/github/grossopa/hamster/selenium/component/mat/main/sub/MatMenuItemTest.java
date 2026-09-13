@@ -58,7 +58,7 @@ class MatMenuItemTest {
     @BeforeEach
     void setUp() {
         when(config.getOverlayAbsolutePath()).thenReturn("/html/body");
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         when(config.getCdkPrefix()).thenReturn("cdk-");
         when(config.getTagPrefix()).thenReturn("mat-");
         testSubject = new MatMenuItem(element, driver, config);
@@ -71,7 +71,7 @@ class MatMenuItemTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-menu-item");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-menu-item");
         assertTrue(testSubject.validate());
     }
 
@@ -102,13 +102,13 @@ class MatMenuItemTest {
 
     @Test
     void isExpandable() {
-        when(element.getDomAttribute("class")).thenReturn("mat-menu-item-submenu-trigger");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-menu-item-submenu-trigger");
         assertTrue(testSubject.isExpandable());
     }
 
     @Test
     void isExpandableNegative() {
-        when(element.getDomAttribute("class")).thenReturn("mat-menu-item-submenu-trigger-123");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-menu-item-submenu-trigger-123");
         assertFalse(testSubject.isExpandable());
     }
 
@@ -143,7 +143,7 @@ class MatMenuItemTest {
         when(overlayContainer.isDisplayed()).thenReturn(true);
         when(menuPanel.getWrappedElement()).thenReturn(menuPanelElement);
 
-        when(box.findComponent(By.className("mat-menu-panel"))).thenReturn(menuPanel);
+        when(box.findComponent(By.className("mat-mdc-menu-panel"))).thenReturn(menuPanel);
         List<WebComponent> boxes = newArrayList(box);
         when(overlayContainer.findComponents(className("cdk-overlay-connected-position-bounding-box"))).thenReturn(
                 boxes);

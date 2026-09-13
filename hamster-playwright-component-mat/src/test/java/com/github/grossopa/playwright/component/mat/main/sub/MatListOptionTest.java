@@ -49,12 +49,20 @@ class MatListOptionTest {
     MatConfig config = new MatConfig();
 
     Locator checkboxesLocator = mock(Locator.class);
+    Locator nativeCheckboxLocator = mock(Locator.class);
+    Locator mdcCheckboxLocator = mock(Locator.class);
 
     MatListOption testSubject;
 
     @BeforeEach
     void setUp() {
-        when(locator.locator(".mat-pseudo-checkbox")).thenReturn(checkboxesLocator);
+        when(locator.locator(".mat-mdc-pseudo-checkbox")).thenReturn(checkboxesLocator);
+        when(locator.locator("input[type=checkbox]")).thenReturn(nativeCheckboxLocator);
+        when(nativeCheckboxLocator.first()).thenReturn(nativeCheckboxLocator);
+        when(nativeCheckboxLocator.count()).thenReturn(0);
+        when(locator.locator(".mdc-checkbox")).thenReturn(mdcCheckboxLocator);
+        when(mdcCheckboxLocator.first()).thenReturn(mdcCheckboxLocator);
+        when(mdcCheckboxLocator.count()).thenReturn(0);
         testSubject = new MatListOption(locator, driver, config);
     }
 
@@ -77,7 +85,7 @@ class MatListOptionTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-list-option");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-list-option");
         assertTrue(testSubject.validate());
     }
 
@@ -120,6 +128,7 @@ class MatListOptionTest {
     @Test
     void getCheckboxNull() {
         when(checkboxesLocator.all()).thenReturn(List.of());
+        when(mdcCheckboxLocator.count()).thenReturn(0);
         assertNull(testSubject.getCheckbox());
     }
 

@@ -26,12 +26,10 @@ package com.github.grossopa.selenium.examples.mat;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatAutocomplete;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,13 +40,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatAutocompleteTestCases extends AbstractBrowserSupport {
+public class MatAutocompleteTestCases extends MatTestSupport {
 
     public void testAutocomplete() {
-        navigateToExamples("https://v12.material.angular.io/components/autocomplete/examples");
+        navigateToExamples(baseUrl() + "autocomplete/examples");
 
         MatAutocomplete autocomplete = driver.findComponent(By2.id("autocomplete-auto-active-first-option"))
-                .findComponent(By.tagName("mat-form-field")).as(mat()).toAutocomplete();
+                .findComponent(By.tagName("mat-form-field")).as(matComponents()).toAutocomplete();
         List<WebComponent> options = autocomplete.getOptions2();
 
         assertEquals(3, options.size());

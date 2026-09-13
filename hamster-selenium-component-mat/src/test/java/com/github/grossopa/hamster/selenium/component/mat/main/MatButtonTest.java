@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -49,7 +50,7 @@ class MatButtonTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatButton(element, driver, config);
     }
 
@@ -60,13 +61,13 @@ class MatButtonTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-button-base");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-button-base");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getDomAttribute("class")).thenReturn("mat-button-base-123");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-button-base-123");
         assertFalse(testSubject.validate());
     }
 

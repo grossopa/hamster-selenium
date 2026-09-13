@@ -62,11 +62,11 @@ public class MatPseudoCheckbox extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "pseudo-checkbox");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "pseudo-checkbox");
     }
 
     @Override
     public boolean isSelected() {
-        return attributeContains(CLASS, config.getCssPrefix() + "pseudo-checkbox-checked");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "pseudo-checkbox-checked");
     }
 }

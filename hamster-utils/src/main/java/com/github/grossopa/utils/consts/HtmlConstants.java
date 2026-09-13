@@ -90,4 +90,9 @@ public class HtmlConstants {
      * The tag label
      */
     public static final String LABEL = "label";
+
+    /**
+     * The tag textarea
+     */
+    public static final String TEXTAREA = "textarea";
 }

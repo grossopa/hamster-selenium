@@ -26,6 +26,7 @@ package com.github.grossopa.playwright.component.mat.main;
 import com.github.grossopa.playwright.component.mat.AbstractMatComponent;
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.DefaultWebComponent;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 
@@ -62,12 +63,12 @@ public class MatSlideToggle extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "slide-toggle");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "slide-toggle");
     }
 
     @Override
     public boolean isSelected() {
-        return config.isChecked(this);
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "slide-toggle-checked");
     }
 
     /**
@@ -76,6 +77,11 @@ public class MatSlideToggle extends AbstractMatComponent {
      * @return the label content component
      */
     public WebComponent getLabel() {
-        return this.findComponent("." + config.getCssPrefix() + "slide-toggle-content");
+        // MDC structure uses .mdc-label inside .mdc-form-field;
+        // legacy structure uses .{prefix}slide-toggle-content
+        Locator legacy = locator.locator(
+                "." + config.getComponentCssPrefix() + "slide-toggle-content");
+        Locator mdc = locator.locator(".mdc-label");
+        return new DefaultWebComponent(legacy.or(mdc).first(), driver);
     }
 }

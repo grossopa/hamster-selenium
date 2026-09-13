@@ -63,7 +63,7 @@ public class MatRadioGroup extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "radio-group");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "radio-group");
     }
 
     /**
@@ -72,7 +72,7 @@ public class MatRadioGroup extends AbstractMatComponent {
      * @return the list of radio buttons
      */
     public List<MatRadioButton> getRadioButtons() {
-        return this.findComponents(config.getTagPrefix() + "radio-button." + config.getCssPrefix() + "radio-button")
+        return this.findComponents(config.getTagPrefix() + "radio-button." + config.getComponentCssPrefix() + "radio-button")
                 .stream().map(c -> new MatRadioButton(c, driver, config)).toList();
     }
 

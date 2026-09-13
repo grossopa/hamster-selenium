@@ -41,7 +41,7 @@ class MatStepTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-");
         testSubject = new MatStep(locator, driver, config);
     }
 

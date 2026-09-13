@@ -26,12 +26,10 @@ package com.github.grossopa.selenium.examples.mat;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatButtonToggle;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatButtonToggleGroup;
 import com.github.grossopa.selenium.core.locator.By2;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,14 +39,14 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatButtonToggleTestCases extends AbstractBrowserSupport {
+public class MatButtonToggleTestCases extends MatTestSupport {
 
     public void testButtonToggleGroup() {
-        navigateToExamples("https://v12.material.angular.io/components/button-toggle/examples");
+        navigateToExamples(baseUrl() + "button-toggle/examples");
 
         MatButtonToggleGroup buttonToggleGroup = driver.findComponent(By.id("button-toggle-exclusive"))
                 .findComponent(By.tagName("button-toggle-exclusive-example"))
-                .findComponent(By2.xpathBuilder().relative("mat-button-toggle-group").build()).as(mat())
+                .findComponent(By2.xpathBuilder().relative("mat-button-toggle-group").build()).as(matComponents())
                 .toButtonToggleGroup();
 
         buttonToggleGroup.validate();

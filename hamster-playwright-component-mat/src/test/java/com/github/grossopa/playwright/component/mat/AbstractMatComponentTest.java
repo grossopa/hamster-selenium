@@ -84,7 +84,7 @@ class AbstractMatComponentTest {
 
     @Test
     void isSelectedTrue() {
-        when(locator.getAttribute("class")).thenReturn("mat-option mat-selected");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-option mat-mdc-selected");
         assertTrue(testSubject.isSelected());
     }
 
@@ -109,7 +109,7 @@ class AbstractMatComponentTest {
 
     @Test
     void isEnabledFalseByClass() {
-        when(locator.getAttribute("class")).thenReturn("mat-option mat-disabled");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-option mat-mdc-disabled");
         assertFalse(testSubject.isEnabled());
     }
 

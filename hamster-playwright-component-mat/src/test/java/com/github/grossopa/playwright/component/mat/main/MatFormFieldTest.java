@@ -49,6 +49,14 @@ class MatFormFieldTest {
     Locator infixLocator = mock(Locator.class);
     Locator infixFirst = mock(Locator.class);
 
+    Locator legacyLabelLocator = mock(Locator.class);
+    Locator mdcLabelLocator = mock(Locator.class);
+    Locator combinedLabelLocator = mock(Locator.class);
+
+    Locator legacyErrorLocator = mock(Locator.class);
+    Locator mdcErrorLocator = mock(Locator.class);
+    Locator combinedErrorLocator = mock(Locator.class);
+
     MatFormField testSubject;
 
     @BeforeEach
@@ -56,9 +64,22 @@ class MatFormFieldTest {
         Locator childLocator = mock(Locator.class);
         when(locator.locator(anyString())).thenReturn(childLocator);
         when(childLocator.first()).thenReturn(mock(Locator.class));
-        when(locator.locator(".mat-form-field-infix")).thenReturn(infixLocator);
+        when(locator.locator(".mat-mdc-form-field-infix")).thenReturn(infixLocator);
         when(infixLocator.first()).thenReturn(infixFirst);
         when(infixFirst.locator("input")).thenReturn(childLocator);
+
+        // specific mocks for getLabel() .or() chain
+        when(locator.locator(".mat-mdc-form-field-label")).thenReturn(legacyLabelLocator);
+        when(locator.locator(".mat-mdc-floating-label")).thenReturn(mdcLabelLocator);
+        when(legacyLabelLocator.or(mdcLabelLocator)).thenReturn(combinedLabelLocator);
+        when(combinedLabelLocator.first()).thenReturn(mock(Locator.class));
+
+        // specific mocks for getError() - MDC path: count() > 0 so it uses the MDC locator
+        when(locator.locator(".mat-mdc-form-field-subscript-wrapper .mat-mdc-error")).thenReturn(legacyErrorLocator);
+        when(locator.locator(".mat-mdc-form-field-subscript-wrapper .mat-mdc-form-field-error")).thenReturn(mdcErrorLocator);
+        when(mdcErrorLocator.count()).thenReturn(1);
+        when(mdcErrorLocator.first()).thenReturn(mock(Locator.class));
+
         testSubject = new MatFormField(locator, driver, config);
     }
 
@@ -74,7 +95,7 @@ class MatFormFieldTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-form-field");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-form-field");
         assertTrue(testSubject.validate());
     }
 

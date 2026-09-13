@@ -188,4 +188,34 @@ public class HtmlSelect extends DefaultWebComponent {
         List<String> currentValues = result instanceof List ? (List<String>) result : List.of();
         locator.selectOption(currentValues.toArray(new String[0]));
     }
+
+    /**
+     * Selects the option by visible text that contains the given string.
+     *
+     * @param text the text to match (partial match)
+     * @since 1.15
+     */
+    public void selectByContainsVisibleText(String text) {
+        locator.evaluate(
+                "el => { const opt = Array.from(el.options).find(o => o.text.includes(arguments[0])); if (opt) el.value = opt.value; }",
+                text
+        );
+    }
+
+    /**
+     * Deselects the option by visible text that contains the given string (only for multi-select).
+     *
+     * @param text the text to match (partial match)
+     * @since 1.15
+     */
+    @SuppressWarnings("unused")
+    public void deselectByContainsVisibleText(String text) {
+        Object result = locator.evaluate(
+                "el => Array.from(el.selectedOptions).filter(o => !o.text.includes(arguments[0])).map(o => o.value)",
+                text
+        );
+        @SuppressWarnings("unchecked")
+        List<String> currentValues = result instanceof List ? (List<String>) result : List.of();
+        locator.selectOption(currentValues.toArray(new String[0]));
+    }
 }

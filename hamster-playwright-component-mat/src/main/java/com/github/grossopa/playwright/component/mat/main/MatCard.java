@@ -63,7 +63,7 @@ public class MatCard extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "card");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "card");
     }
 
     /**
@@ -72,7 +72,7 @@ public class MatCard extends AbstractMatComponent {
      * @return the card title element
      */
     public WebComponent getTitle() {
-        return this.findComponent("." + config.getCssPrefix() + "card-title");
+        return this.findComponent("." + config.getComponentCssPrefix() + "card-title");
     }
 
     /**
@@ -81,7 +81,7 @@ public class MatCard extends AbstractMatComponent {
      * @return the card subtitle element
      */
     public WebComponent getSubtitle() {
-        return this.findComponent("." + config.getCssPrefix() + "card-subtitle");
+        return this.findComponent("." + config.getComponentCssPrefix() + "card-subtitle");
     }
 
     /**
@@ -90,7 +90,7 @@ public class MatCard extends AbstractMatComponent {
      * @return the card content element
      */
     public WebComponent getContent() {
-        return this.findComponent("." + config.getCssPrefix() + "card-content");
+        return this.findComponent("." + config.getComponentCssPrefix() + "card-content");
     }
 
     /**
@@ -99,7 +99,7 @@ public class MatCard extends AbstractMatComponent {
      * @return the card actions element
      */
     public WebComponent getActions() {
-        return this.findComponent("." + config.getCssPrefix() + "card-actions");
+        return this.findComponent("." + config.getComponentCssPrefix() + "card-actions");
     }
 
     /**
@@ -108,7 +108,7 @@ public class MatCard extends AbstractMatComponent {
      * @return the card header element
      */
     public WebComponent getHeader() {
-        return this.findComponent("." + config.getCssPrefix() + "card-header");
+        return this.findComponent("." + config.getComponentCssPrefix() + "card-header");
     }
 
     /**
@@ -117,6 +117,6 @@ public class MatCard extends AbstractMatComponent {
      * @return the card footer element
      */
     public WebComponent getFooter() {
-        return this.findComponent("." + config.getCssPrefix() + "card-footer");
+        return this.findComponent("." + config.getComponentCssPrefix() + "card-footer");
     }
 }

@@ -69,7 +69,7 @@ class MatMenuItemFinderTest {
         });
 
         when(config.getOverlayAbsolutePath()).thenReturn("/html/body");
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         when(config.getCdkPrefix()).thenReturn("cdk-");
         when(config.getTagPrefix()).thenReturn("mat-");
         when(driver.findComponentsAs(eq(By.xpath("/html/body/div[contains(@class,'cdk-overlay-container')]")),
@@ -83,7 +83,7 @@ class MatMenuItemFinderTest {
     @Test
     void findTopMenu() {
         WebComponent box = mock(WebComponent.class);
-        when(box.findComponent(By.className("mat-menu-panel"))).thenReturn(menuPanel);
+        when(box.findComponent(By.className("mat-mdc-menu-panel"))).thenReturn(menuPanel);
         List<WebComponent> boxes = newArrayList(box);
         when(overlayContainer.findComponents(className("cdk-overlay-connected-position-bounding-box"))).thenReturn(
                 boxes);
@@ -93,7 +93,7 @@ class MatMenuItemFinderTest {
     @Test
     void findTopMenuWithDelays() {
         WebComponent box = mock(WebComponent.class);
-        when(box.findComponent(By.className("mat-menu-panel"))).thenReturn(menuPanel);
+        when(box.findComponent(By.className("mat-mdc-menu-panel"))).thenReturn(menuPanel);
         List<WebComponent> boxes = newArrayList(box);
         when(overlayContainer.findComponents(className("cdk-overlay-connected-position-bounding-box"))).thenReturn(
                 boxes);
@@ -116,7 +116,7 @@ class MatMenuItemFinderTest {
     void findMenus() {
         List<WebComponent> menus = newArrayList(mock(MatMenu.class));
         when(overlayContainer.findComponentsAs(eq(By.xpath(
-                        ".//*[contains(@class,\"cdk-overlay-connected-position-bounding-box\")]/descendant::*[contains(@class,\"mat-menu-panel\")]")),
+                        ".//*[contains(@class,\"cdk-overlay-connected-position-bounding-box\")]/descendant::*[contains(@class,\"mat-mdc-menu-panel\")]")),
                 any())).then(a -> {
             Function<WebComponent, MatMenu> arg1 = a.getArgument(1);
             WebElement element = mock(WebElement.class);
@@ -139,7 +139,7 @@ class MatMenuItemFinderTest {
     void findMenusWithDelays() {
         List<WebComponent> menus = newArrayList(mock(MatMenu.class));
         when(overlayContainer.findComponentsAs(eq(By.xpath(
-                        ".//*[contains(@class,\"cdk-overlay-connected-position-bounding-box\")]/descendant::*[contains(@class,\"mat-menu-panel\")]")),
+                        ".//*[contains(@class,\"cdk-overlay-connected-position-bounding-box\")]/descendant::*[contains(@class,\"mat-mdc-menu-panel\")]")),
                 any())).thenReturn(menus);
         assertEquals(1, testSubject.findMenus(1000L).size());
     }

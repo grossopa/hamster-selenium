@@ -54,7 +54,7 @@ class MatChipTest {
 
     @BeforeEach
     void setUp() {
-        when(locator.locator(".mat-chip-remove")).thenReturn(removeIconsLocator);
+        when(locator.locator(".mat-mdc-chip-remove")).thenReturn(removeIconsLocator);
         when(removeIconsLocator.first()).thenReturn(removeIcon);
         testSubject = new MatChip(locator, driver, config);
     }
@@ -78,7 +78,7 @@ class MatChipTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-chip");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-chip");
         assertTrue(testSubject.validate());
     }
 

@@ -48,12 +48,14 @@ class MatChipListTest {
     MatConfig config = new MatConfig();
 
     Locator chipsLocator = mock(Locator.class);
+    Locator chipRowLocator = mock(Locator.class);
 
     MatChipList testSubject;
 
     @BeforeEach
     void setUp() {
         when(locator.locator("mat-chip")).thenReturn(chipsLocator);
+        when(locator.locator("mat-chip-row")).thenReturn(chipRowLocator);
         testSubject = new MatChipList(locator, driver, config);
     }
 
@@ -69,13 +71,13 @@ class MatChipListTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-chip-list");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-chip-set");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-list");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-list");
         assertFalse(testSubject.validate());
     }
 
@@ -88,6 +90,7 @@ class MatChipListTest {
     @Test
     void getChipsEmpty() {
         when(chipsLocator.all()).thenReturn(List.of());
+        when(chipRowLocator.all()).thenReturn(List.of());
         assertTrue(testSubject.getChips().isEmpty());
     }
 

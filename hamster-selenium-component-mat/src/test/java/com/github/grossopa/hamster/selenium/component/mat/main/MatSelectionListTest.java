@@ -32,6 +32,7 @@ import org.openqa.selenium.WebElement;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -52,7 +53,7 @@ class MatSelectionListTest {
     @BeforeEach
     void setUp() {
         when(config.getTagPrefix()).thenReturn("mat-");
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
 
         testSubject = new MatSelectionList(element, driver, config);
     }
@@ -64,13 +65,13 @@ class MatSelectionListTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-selection-list");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-selection-list");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getDomAttribute("class")).thenReturn("mat-selection-list-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-selection-list-23");
         assertFalse(testSubject.validate());
     }
 
@@ -84,7 +85,7 @@ class MatSelectionListTest {
     void getListOptions() {
         WebElement listItem1 = mock(WebElement.class);
         WebElement listItem2 = mock(WebElement.class);
-        when(element.findElements(By.className("mat-list-option"))).thenReturn(newArrayList(listItem1, listItem2));
+        when(element.findElements(By.className("mat-mdc-list-option"))).thenReturn(newArrayList(listItem1, listItem2));
 
         assertEquals(2, testSubject.getListOptions().size());
     }

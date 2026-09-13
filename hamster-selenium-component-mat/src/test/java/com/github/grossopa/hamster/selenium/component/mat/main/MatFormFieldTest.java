@@ -31,6 +31,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,20 +51,20 @@ class MatFormFieldTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         when(config.getTagPrefix()).thenReturn("mat-");
         testSubject = new MatFormField(element, driver, config);
     }
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-form-field");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-form-field");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getDomAttribute("class")).thenReturn("mat-form-field-333");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-form-field-333");
         assertFalse(testSubject.validate());
     }
 
@@ -82,35 +83,35 @@ class MatFormFieldTest {
     @Test
     void getPrefix() {
         WebElement prefixElement = mock(WebElement.class);
-        when(element.findElement(By.className("mat-form-field-prefix"))).thenReturn(prefixElement);
+        when(element.findElement(By.className("mat-mdc-form-field-prefix"))).thenReturn(prefixElement);
         assertEquals(prefixElement, testSubject.getPrefix().getWrappedElement());
     }
 
     @Test
     void getInfix() {
         WebElement infixElement = mock(WebElement.class);
-        when(element.findElement(By.className("mat-form-field-infix"))).thenReturn(infixElement);
+        when(element.findElement(By.className("mat-mdc-form-field-infix"))).thenReturn(infixElement);
         assertEquals(infixElement, testSubject.getInfix().getWrappedElement());
     }
 
     @Test
     void getSuffix() {
         WebElement suffixElement = mock(WebElement.class);
-        when(element.findElement(By.className("mat-form-field-suffix"))).thenReturn(suffixElement);
+        when(element.findElement(By.className("mat-mdc-form-field-suffix"))).thenReturn(suffixElement);
         assertEquals(suffixElement, testSubject.getSuffix().getWrappedElement());
     }
 
     @Test
     void getHint() {
         WebElement hintElement = mock(WebElement.class);
-        when(element.findElement(By.className("mat-hint"))).thenReturn(hintElement);
+        when(element.findElement(By.className("mat-mdc-hint"))).thenReturn(hintElement);
         assertEquals(hintElement, testSubject.getHint().getWrappedElement());
     }
 
     @Test
     void getInput() {
         WebElement infixElement = mock(WebElement.class);
-        when(element.findElement(By.className("mat-form-field-infix"))).thenReturn(infixElement);
+        when(element.findElement(By.className("mat-mdc-form-field-infix"))).thenReturn(infixElement);
 
         WebElement inputElement = mock(WebElement.class);
         when(infixElement.findElement(By.xpath("./input"))).thenReturn(inputElement);
@@ -120,11 +121,11 @@ class MatFormFieldTest {
     @Test
     void getLabel() {
         WebElement infixElement = mock(WebElement.class);
-        when(element.findElement(By.className("mat-form-field-infix"))).thenReturn(infixElement);
+        when(element.findElement(By.className("mat-mdc-form-field-infix"))).thenReturn(infixElement);
 
         WebElement inputElement = mock(WebElement.class);
         when(infixElement.findElement(By.xpath(
-                ".//*[contains(@class,\"mat-form-field-label-wrapper\")]/child::label/child::mat-label"))).thenReturn(
+                ".//*[contains(@class,\"mat-mdc-form-field-label-wrapper\")]/child::label/child::mat-label"))).thenReturn(
                 inputElement);
         assertEquals(inputElement, testSubject.getLabel().getWrappedElement());
     }
@@ -132,9 +133,9 @@ class MatFormFieldTest {
     @Test
     void getError() {
         WebElement wrapperElement = mock(WebElement.class);
-        when(element.findElement(By.className("mat-form-field-subscript-wrapper"))).thenReturn(wrapperElement);
+        when(element.findElement(By.className("mat-mdc-form-field-subscript-wrapper"))).thenReturn(wrapperElement);
         WebElement errorElement = mock(WebElement.class);
-        when(wrapperElement.findElement(By.className("mat-error"))).thenReturn(errorElement);
+        when(wrapperElement.findElement(By.className("mat-mdc-error"))).thenReturn(errorElement);
         assertEquals(errorElement, testSubject.getError().getWrappedElement());
     }
 

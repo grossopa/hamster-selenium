@@ -24,10 +24,8 @@
 package com.github.grossopa.selenium.examples.mat;
 
 import com.github.grossopa.hamster.selenium.component.mat.main.MatProgressBar;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,20 +36,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Jack Yin
  * @since 1.7
  */
-public class MatProgressBarTestCases extends AbstractBrowserSupport {
+public class MatProgressBarTestCases extends MatTestSupport {
 
     public void testBufferProgressBar() {
-        navigateToExamples("https://v12.material.angular.io/components/progress-bar/examples");
+        navigateToExamples(baseUrl() + "progress-bar/examples");
         MatProgressBar progressBar = driver.findComponent(By.tagName("progress-bar-buffer-example"))
-                .findComponent(By.tagName("mat-progress-bar")).as(mat()).toProgressBar();
+                .findComponent(By.tagName("mat-progress-bar")).as(matComponents()).toProgressBar();
         assertTrue(progressBar.validate());
         assertEquals(MatProgressBar.Mode.BUFFER, progressBar.getMode());
     }
 
     public void testConfigurableProgressBar() {
-        navigateToExamples("https://v12.material.angular.io/components/progress-bar/examples");
+        navigateToExamples(baseUrl() + "progress-bar/examples");
         MatProgressBar progressBar = driver.findComponent(By.tagName("progress-bar-configurable-example"))
-                .findComponent(By.tagName("mat-progress-bar")).as(mat()).toProgressBar();
+                .findComponent(By.tagName("mat-progress-bar")).as(matComponents()).toProgressBar();
 
         assertTrue(progressBar.validate());
         assertEquals("0", progressBar.getMinValue());
@@ -61,23 +59,23 @@ public class MatProgressBarTestCases extends AbstractBrowserSupport {
     }
 
     public void testIndeterminateProgressBar() {
-        navigateToExamples("https://v12.material.angular.io/components/progress-bar/examples");
+        navigateToExamples(baseUrl() + "progress-bar/examples");
         MatProgressBar progressBar = driver.findComponent(By.tagName("progress-bar-indeterminate-example"))
-                .findComponent(By.tagName("mat-progress-bar")).as(mat()).toProgressBar();
+                .findComponent(By.tagName("mat-progress-bar")).as(matComponents()).toProgressBar();
         assertEquals(MatProgressBar.Mode.INDETERMINATE, progressBar.getMode());
     }
 
     public void testQueryProgressBar() {
-        navigateToExamples("https://v12.material.angular.io/components/progress-bar/examples");
+        navigateToExamples(baseUrl() + "progress-bar/examples");
         MatProgressBar progressBar = driver.findComponent(By.tagName("progress-bar-query-example"))
-                .findComponent(By.tagName("mat-progress-bar")).as(mat()).toProgressBar();
+                .findComponent(By.tagName("mat-progress-bar")).as(matComponents()).toProgressBar();
         assertEquals(MatProgressBar.Mode.QUERY, progressBar.getMode());
     }
 
     public static void main(String[] args) {
         MatProgressBarTestCases test = new MatProgressBarTestCases();
         test.setUpDriver(EDGE);
-        test.navigateToExamples("https://v12.material.angular.io/components/progress-bar/examples");
+        test.navigateToExamples(test.baseUrl() + "progress-bar/examples");
 
         test.testBufferProgressBar();
         test.testConfigurableProgressBar();

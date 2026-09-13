@@ -71,7 +71,7 @@ public class MatMenu extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "menu-panel");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "menu-panel");
     }
 
     /**
@@ -80,7 +80,7 @@ public class MatMenu extends AbstractMatComponent {
      * @return the menu items.
      */
     public List<MatMenuItem> getMenuItems() {
-        return this.findComponentsAs(By.className(config.getCssPrefix() + "menu-item"),
+        return this.findComponentsAs(By.className(config.getComponentCssPrefix() + "menu-item"),
                 c -> new MatMenuItem(c, driver, config));
     }
 

@@ -41,7 +41,7 @@ class MatDatepickerTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatDatepicker(locator, driver, config);
     }
 
@@ -52,7 +52,7 @@ class MatDatepickerTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-datepicker");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-datepicker");
         assertTrue(testSubject.validate());
     }
 

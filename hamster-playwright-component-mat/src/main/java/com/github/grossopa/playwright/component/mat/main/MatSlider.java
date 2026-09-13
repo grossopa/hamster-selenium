@@ -26,6 +26,7 @@ package com.github.grossopa.playwright.component.mat.main;
 import com.github.grossopa.playwright.component.mat.AbstractMatComponent;
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.DefaultWebComponent;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.BoundingBox;
@@ -68,7 +69,7 @@ public class MatSlider extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "slider");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "slider");
     }
 
     /**
@@ -77,7 +78,12 @@ public class MatSlider extends AbstractMatComponent {
      * @return the raw value in String
      */
     public String getValue() {
-        return getAttribute("aria-valuenow");
+        String val = getAttribute("aria-valuenow");
+        if (val == null) {
+            // MDC slider stores value on the child input element
+            val = locator.locator("input").first().getAttribute("aria-valuetext");
+        }
+        return val;
     }
 
     /**
@@ -113,7 +119,12 @@ public class MatSlider extends AbstractMatComponent {
      * @return the raw min value
      */
     public String getMinValue() {
-        return getAttribute("aria-valuemin");
+        String val = getAttribute("aria-valuemin");
+        if (val == null) {
+            // MDC slider stores min on the child input element
+            val = locator.locator("input").first().getAttribute("min");
+        }
+        return val;
     }
 
     /**
@@ -149,7 +160,12 @@ public class MatSlider extends AbstractMatComponent {
      * @return the raw max value
      */
     public String getMaxValue() {
-        return getAttribute("aria-valuemax");
+        String val = getAttribute("aria-valuemax");
+        if (val == null) {
+            // MDC slider stores max on the child input element
+            val = locator.locator("input").first().getAttribute("max");
+        }
+        return val;
     }
 
     /**
@@ -185,7 +201,11 @@ public class MatSlider extends AbstractMatComponent {
      * @return the first thumb element
      */
     public WebComponent getFirstThumb() {
-        return this.findComponent("." + config.getCssPrefix() + "slider-thumb");
+        // MDC structure uses .mdc-slider__thumb; legacy uses .{prefix}slider-thumb
+        Locator legacy = locator.locator(
+                "." + config.getComponentCssPrefix() + "slider-thumb");
+        Locator mdc = locator.locator(".mdc-slider__thumb");
+        return new DefaultWebComponent(mdc.or(legacy).first(), driver);
     }
 
     /**
@@ -203,7 +223,7 @@ public class MatSlider extends AbstractMatComponent {
      * @return true if the slider is vertical
      */
     public boolean isVertical() {
-        return attributeContains(CLASS, config.getCssPrefix() + "slider-vertical");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "slider-vertical");
     }
 
     /**
@@ -212,7 +232,7 @@ public class MatSlider extends AbstractMatComponent {
      * @return true if the slider is inverted
      */
     public boolean isInverted() {
-        return attributeContains(CLASS, config.getCssPrefix() + "slider-axis-inverted");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "slider-axis-inverted");
     }
 
     /**

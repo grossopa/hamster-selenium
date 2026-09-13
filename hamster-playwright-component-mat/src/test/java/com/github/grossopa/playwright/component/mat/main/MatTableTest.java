@@ -41,7 +41,7 @@ class MatTableTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatTable(locator, driver, config);
     }
 
@@ -52,7 +52,7 @@ class MatTableTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-table");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-table");
         assertTrue(testSubject.validate());
     }
 

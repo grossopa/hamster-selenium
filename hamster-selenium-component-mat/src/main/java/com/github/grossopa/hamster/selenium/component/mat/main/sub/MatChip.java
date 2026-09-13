@@ -69,7 +69,7 @@ public class MatChip extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "chip");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "chip");
     }
 
     /**
@@ -83,7 +83,7 @@ public class MatChip extends AbstractMatComponent {
 
     private By removeIconLocator() {
         // the mat-chip-remove class is on the wrapping button element, not on the inner mat-icon
-        return xpathBuilder().anywhereRelative().attr(CLASS).contains(config.getCssPrefix() + "chip-remove")
+        return xpathBuilder().anywhereRelative().attr(CLASS).contains(config.getComponentCssPrefix() + "chip-remove")
                 .build();
     }
 

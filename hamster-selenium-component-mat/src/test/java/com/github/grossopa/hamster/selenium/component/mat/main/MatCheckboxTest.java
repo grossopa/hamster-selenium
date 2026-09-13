@@ -31,6 +31,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -52,9 +53,10 @@ class MatCheckboxTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
-        when(element.getDomAttribute("class")).thenReturn("mat-checkbox");
-        when(element.findElement(By.className("mat-checkbox-input"))).thenReturn(inputElement);
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
+        when(config.getInternalSelector("checkbox-input")).thenReturn("mdc-checkbox__native-control");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-checkbox");
+        when(element.findElement(By.className("mdc-checkbox__native-control"))).thenReturn(inputElement);
 
         testSubject = new MatCheckbox(element, driver, config);
     }
@@ -90,13 +92,13 @@ class MatCheckboxTest {
 
     @Test
     void isEnabled() {
-        when(element.getDomAttribute("class")).thenReturn("mat-checkbox");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-checkbox");
         assertTrue(testSubject.isEnabled());
     }
 
     @Test
     void isEnabledFalse() {
-        when(element.getDomAttribute("class")).thenReturn("mat-checkbox mat-checkbox-disabled");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-checkbox mat-mdc-checkbox-disabled");
         assertFalse(testSubject.isEnabled());
     }
 

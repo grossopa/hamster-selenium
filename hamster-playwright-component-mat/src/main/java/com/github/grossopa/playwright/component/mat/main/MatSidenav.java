@@ -61,7 +61,7 @@ public class MatSidenav extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "drawer");
+        return attributeContains(CLASS, "mat-" + "drawer");
     }
 
     /**
@@ -70,7 +70,7 @@ public class MatSidenav extends AbstractMatComponent {
      * @return true if the sidenav is open
      */
     public boolean isOpen() {
-        return !attributeContains(CLASS, config.getCssPrefix() + "drawer-closed");
+        return !attributeContains(CLASS, "mat-" + "drawer-closed");
     }
 
     /**
@@ -106,13 +106,13 @@ public class MatSidenav extends AbstractMatComponent {
     public String getMode() {
         String cls = this.getAttribute(CLASS);
         if (cls != null) {
-            if (cls.contains(config.getCssPrefix() + "drawer-over")) {
+            if (cls.contains("mat-" + "drawer-over")) {
                 return "over";
             }
-            if (cls.contains(config.getCssPrefix() + "drawer-side")) {
+            if (cls.contains("mat-" + "drawer-side")) {
                 return "side";
             }
-            if (cls.contains(config.getCssPrefix() + "drawer-push")) {
+            if (cls.contains("mat-" + "drawer-push")) {
                 return "push";
             }
         }

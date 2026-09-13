@@ -23,16 +23,20 @@
  */
 package com.github.grossopa.playwright.examples.html;
 
+import com.github.grossopa.playwright.component.html.HtmlCheckbox;
+import com.github.grossopa.playwright.component.html.HtmlFileInput;
 import com.github.grossopa.playwright.component.html.HtmlFormField;
+import com.github.grossopa.playwright.component.html.HtmlRadioGroup;
 import com.github.grossopa.playwright.component.html.HtmlSelect;
 import com.github.grossopa.playwright.component.html.HtmlTable;
 import com.github.grossopa.playwright.component.html.HtmlTableRow;
+import com.github.grossopa.playwright.component.html.HtmlTextArea;
 import com.github.grossopa.playwright.core.WebComponent;
 import com.github.grossopa.playwright.examples.helper.AbstractBrowserSupport;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests HTML with Playwright
@@ -104,6 +108,115 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         System.out.println("FormField demo completed: first name and last name filled successfully.");
     }
 
+    public void testCheckbox() {
+        driver.navigate("https://www.w3schools.com/html/tryit.asp?filename=tryhtml_form_checkbox", 600_000L);
+        var frame = driver.page().frame("iframeResult");
+
+        // Demonstrate HtmlCheckbox with vehicle checkbox
+        HtmlCheckbox vehicleCheckbox = new HtmlCheckbox(frame.locator("#vehicle1"), driver);
+        assertTrue(vehicleCheckbox.validate(), "Should be a checkbox input");
+
+        // Check and verify
+        vehicleCheckbox.check();
+        assertTrue(vehicleCheckbox.isChecked(), "Should be checked after check()");
+
+        // Toggle and verify
+        vehicleCheckbox.toggle();
+        assertFalse(vehicleCheckbox.isChecked(), "Should be unchecked after toggle()");
+
+        // Toggle again
+        vehicleCheckbox.toggle();
+        assertTrue(vehicleCheckbox.isChecked(), "Should be checked after second toggle()");
+
+        // Uncheck
+        vehicleCheckbox.uncheck();
+        assertFalse(vehicleCheckbox.isChecked(), "Should be unchecked after uncheck()");
+
+        System.out.println("Checkbox demo completed: check/uncheck/toggle verified successfully.");
+    }
+
+    public void testRadioGroup() {
+        driver.navigate("https://www.w3schools.com/html/tryit.asp?filename=tryhtml_form_radio", 600_000L);
+        var frame = driver.page().frame("iframeResult");
+
+        // Demonstrate HtmlRadioGroup with gender radio buttons
+        HtmlRadioGroup radioGroup = new HtmlRadioGroup(frame.locator("form"), driver);
+
+        // Verify option count
+        int optionCount = radioGroup.getOptionCount();
+        assertTrue(optionCount >= 2, "Should have at least 2 radio options");
+        System.out.println("Radio group has " + optionCount + " options");
+
+        // Select by value
+        radioGroup.selectByValue("female");
+        String selectedValue = radioGroup.getSelectedValue();
+        assertEquals("female", selectedValue, "Should have selected 'female'");
+
+        // Verify getSelectedOption
+        WebComponent selectedOption = radioGroup.getSelectedOption();
+        assertNotNull(selectedOption, "Should find the selected radio option");
+
+        // Select another value
+        radioGroup.selectByValue("male");
+        assertEquals("male", radioGroup.getSelectedValue(), "Should have selected 'male'");
+
+        System.out.println("RadioGroup demo completed: selectByValue/getSelectedValue verified successfully.");
+    }
+
+    public void testTextArea() {
+        driver.navigate("https://www.w3schools.com/html/tryit.asp?filename=tryhtml_textarea", 600_000L);
+        var frame = driver.page().frame("iframeResult");
+
+        // Demonstrate HtmlTextArea
+        HtmlTextArea textArea = new HtmlTextArea(frame.locator("textarea"), driver);
+        assertTrue(textArea.validate(), "Should be a textarea element");
+
+        // Set value and verify
+        textArea.setValue("Hello, this is a test message!");
+        assertEquals("Hello, this is a test message!", textArea.getValue());
+
+        // Clear and verify
+        textArea.clear();
+        assertEquals("", textArea.getValue());
+
+        // Set value again and append
+        textArea.setValue("Line 1");
+        textArea.appendText("\nLine 2");
+        String value = textArea.getValue();
+        assertTrue(value.contains("Line 1"), "Should contain 'Line 1'");
+        assertTrue(value.contains("Line 2"), "Should contain 'Line 2'");
+
+        // Query attributes
+        int rows = textArea.getRows();
+        int cols = textArea.getCols();
+        System.out.println("TextArea rows: " + rows + ", cols: " + cols);
+
+        System.out.println("TextArea demo completed: setValue/getValue/appendText/clear verified successfully.");
+    }
+
+    public void testFileInput() {
+        driver.navigate("https://www.w3schools.com/html/tryit.asp?filename=tryhtml_form_fileupload", 600_000L);
+        var frame = driver.page().frame("iframeResult");
+
+        // Demonstrate HtmlFileInput
+        HtmlFileInput fileInput = new HtmlFileInput(frame.locator("input[type='file']"), driver);
+        assertTrue(fileInput.validate(), "Should be a file input element");
+
+        // Verify initially no files
+        List<String> initialFiles = fileInput.getFileNames();
+        assertTrue(initialFiles.isEmpty(), "Should have no files initially");
+
+        // Verify multiple attribute
+        boolean isMultiple = fileInput.isMultiple();
+        System.out.println("File input multiple: " + isMultiple);
+
+        // Verify accept attribute
+        String accept = fileInput.getAccept();
+        System.out.println("File input accept: " + accept);
+
+        System.out.println("FileInput demo completed: validate/getFileNames/isMultiple/getAccept verified successfully.");
+    }
+
     /**
      * Main entry point. Starts the Playwright driver, runs all HTML component tests and
      * prints a summary report.
@@ -124,6 +237,10 @@ public class HtmlShowCase extends AbstractBrowserSupport {
                 test.runIf(filter, "testTable", test::testTable);
                 test.runIf(filter, "testSelect", test::testSelect);
                 test.runIf(filter, "testFormField", test::testFormField);
+                test.runIf(filter, "testCheckbox", test::testCheckbox);
+                test.runIf(filter, "testRadioGroup", test::testRadioGroup);
+                test.runIf(filter, "testTextArea", test::testTextArea);
+                test.runIf(filter, "testFileInput", test::testFileInput);
             });
         } finally {
             test.tearDownAndReport();

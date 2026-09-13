@@ -64,7 +64,7 @@ public class MatInput extends AbstractMatComponent implements HasInput<WebCompon
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "input-element");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "input-element");
     }
 
     /**
@@ -104,6 +104,6 @@ public class MatInput extends AbstractMatComponent implements HasInput<WebCompon
 
     @Override
     public boolean isEnabled() {
-        return !attributeContains(CLASS, config.getCssPrefix() + "input-element-disabled");
+        return !attributeContains(CLASS, config.getComponentCssPrefix() + "input-element-disabled");
     }
 }

@@ -67,7 +67,7 @@ public class MatCheckbox extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "checkbox");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "checkbox");
     }
 
     @Override
@@ -77,7 +77,7 @@ public class MatCheckbox extends AbstractMatComponent {
 
     @Override
     public boolean isEnabled() {
-        return !attributeContains(CLASS, config.getCssPrefix() + "checkbox-disabled");
+        return !attributeContains(CLASS, config.getComponentCssPrefix() + "checkbox-disabled");
     }
 
     /**
@@ -86,7 +86,7 @@ public class MatCheckbox extends AbstractMatComponent {
      * @return the inner input element.
      */
     public WebComponent getInput() {
-        return this.findComponent(By.className(config.getCssPrefix() + "checkbox-input"));
+        return this.findComponent(By.className(config.getInternalSelector("checkbox-input")));
     }
 }
 

@@ -26,12 +26,10 @@ package com.github.grossopa.selenium.examples.mat;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatButton;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.locator.By2;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,17 +39,18 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatButtonTestCases extends AbstractBrowserSupport {
+public class MatButtonTestCases extends MatTestSupport {
 
     public void testButtons() {
-        navigateToExamples("https://v12.material.angular.io/components/button/examples");
+        navigateToExamples(baseUrl() + "button/examples");
 
         WebComponent raisedButtonContainer = driver.findComponent(By.id("button-overview"))
                 .findComponent(By.tagName("button-overview-example"))
                 .findComponents(By2.xpathBuilder().relative("section").build()).get(1);
 
-        List<MatButton> buttons = raisedButtonContainer.findComponentsAs(By.className("mat-button-base"),
-                c -> c.as(mat()).toButton());
+        List<MatButton> buttons = raisedButtonContainer.findComponentsAs(
+                By.className(cssClass("button-base", "button")),
+                c -> c.as(matComponents()).toButton());
         assertEquals(6, buttons.size());
         assertEquals(6L, buttons.stream().filter(MatButton::validate).count());
         assertTrue(buttons.get(0).isEnabled());

@@ -41,7 +41,7 @@ class MatTreeTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-");
         testSubject = new MatTree(locator, driver, config);
     }
 

@@ -61,14 +61,21 @@ class MatConfigTest {
     }
 
     @Test
-    void getCssPrefix() {
-        assertEquals("mat-", testSubject.getCssPrefix());
+    void getComponentCssPrefixDefault() {
+        assertEquals("mat-mdc-", testSubject.getComponentCssPrefix());
     }
 
     @Test
-    void setCssPrefix() {
-        testSubject.setCssPrefix("abc-");
-        assertEquals("abc-", testSubject.getCssPrefix());
+    void getComponentCssPrefixIgnoresComponentName() {
+        assertEquals(testSubject.getComponentCssPrefix(), testSubject.getComponentCssPrefix());
+    }
+
+    @Test
+    void legacyConfig() {
+        MatConfig legacy = MatConfig.legacy();
+        assertEquals("mat-", legacy.getComponentCssPrefix());
+        assertEquals("mat-", legacy.getComponentCssPrefix());
+        assertEquals(MatVersion.LEGACY, legacy.getVersion());
     }
 
     @Test
@@ -97,36 +104,49 @@ class MatConfigTest {
     void testEquals() {
         SimpleEqualsTester tester = new SimpleEqualsTester();
 
-        tester.addEqualityGroup(MatConfig.create("tag-", "css-", "cdk-", "/html/body"),
-                MatConfig.create("tag-", "css-", "cdk-", "/html/body"));
+        tester.addEqualityGroup(MatConfig.create("tag-", "cdk-", "/html/body"),
+                MatConfig.create("tag-", "cdk-", "/html/body"));
 
-        tester.addEqualityGroup(MatConfig.create("tag-1", "css-", "cdk-", "/html/body"));
-        tester.addEqualityGroup(MatConfig.create("tag-", "css-1", "cdk-", "/html/body"));
-        tester.addEqualityGroup(MatConfig.create("tag-", "css-", "cdk-1", "/html/body"));
-        tester.addEqualityGroup(MatConfig.create("tag-", "css-", "cdk-", "/html/body1"));
+        tester.addEqualityGroup(MatConfig.create("tag-1", "cdk-", "/html/body"));
+        tester.addEqualityGroup(MatConfig.create("tag-", "cdk-1", "/html/body"));
+        tester.addEqualityGroup(MatConfig.create("tag-", "cdk-", "/html/body1"));
+
+        tester.testEquals();
+    }
+
+    @Test
+    void testEqualsWithComponentCssPrefix() {
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+
+        tester.addEqualityGroup(MatConfig.create("tag-", "custom-", "cdk-", "/html/body"),
+                MatConfig.create("tag-", "custom-", "cdk-", "/html/body"));
+
+        tester.addEqualityGroup(MatConfig.create("tag-", "custom2-", "cdk-", "/html/body"));
 
         tester.testEquals();
     }
 
     @Test
     void testToString() {
-        assertEquals("MatConfig{tagPrefix='mat-', cssPrefix='mat-', "
-                + "cdkPrefix='cdk-', overlayAbsolutePath='/html/body'}", testSubject.toString());
+        String result = testSubject.toString();
+        assertTrue(result.startsWith("MatConfig{tagPrefix='mat-', componentCssPrefix='mat-mdc-', "));
+        assertTrue(result.contains("cdkPrefix='cdk-'"));
+        assertTrue(result.contains("version=MDC"));
     }
 
     @Test
     void getIsCheckedCss() {
-        assertEquals("mat-checked", testSubject.getIsCheckedCss());
+        assertEquals("mat-mdc-checkbox-checked", testSubject.getIsCheckedCss());
     }
 
     @Test
     void getIsSelectedCss() {
-        assertEquals("mat-selected", testSubject.getIsSelectedCss());
+        assertEquals("mat-mdc-selected", testSubject.getIsSelectedCss());
     }
 
     @Test
     void getIsDisabledCss() {
-        assertEquals("mat-disabled", testSubject.getIsDisabledCss());
+        assertEquals("mat-mdc-disabled", testSubject.getIsDisabledCss());
     }
 
     @Test
@@ -144,7 +164,7 @@ class MatConfigTest {
         WebElement element = mock(WebElement.class);
         when(component.getWrappedElement()).thenReturn(element);
         when(element.isEnabled()).thenReturn(true);
-        when(component.getDomAttribute("class")).thenReturn("mat-disabled");
+        when(component.getDomAttribute("class")).thenReturn("mat-mdc-disabled");
         assertTrue(testSubject.isDisabled(component));
     }
 

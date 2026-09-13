@@ -31,6 +31,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,20 +51,20 @@ class MatDialogTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         when(config.getTagPrefix()).thenReturn("mat-");
         testSubject = new MatDialog(element, driver, config);
     }
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-dialog-container");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-dialog-container");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(element.getDomAttribute("class")).thenReturn("mat-dialog-container-333");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-dialog-container-333");
         assertFalse(testSubject.validate());
     }
 
@@ -81,21 +82,21 @@ class MatDialogTest {
     @Test
     void getDialogTitle() {
         WebElement dialogTitle = mock(WebElement.class);
-        when(element.findElement(By.className("mat-dialog-title"))).thenReturn(dialogTitle);
+        when(element.findElement(By.className("mat-mdc-dialog-title"))).thenReturn(dialogTitle);
         assertEquals(dialogTitle, testSubject.getDialogTitle().getWrappedElement());
     }
 
     @Test
     void getDialogContent() {
         WebElement dialogContent = mock(WebElement.class);
-        when(element.findElement(By.className("mat-dialog-content"))).thenReturn(dialogContent);
+        when(element.findElement(By.className("mat-mdc-dialog-content"))).thenReturn(dialogContent);
         assertEquals(dialogContent, testSubject.getDialogContent().getWrappedElement());
     }
 
     @Test
     void getDialogActions() {
         WebElement dialogActions = mock(WebElement.class);
-        when(element.findElement(By.className("mat-dialog-actions"))).thenReturn(dialogActions);
+        when(element.findElement(By.className("mat-mdc-dialog-actions"))).thenReturn(dialogActions);
         assertEquals(dialogActions, testSubject.getDialogActions().getWrappedElement());
     }
 }

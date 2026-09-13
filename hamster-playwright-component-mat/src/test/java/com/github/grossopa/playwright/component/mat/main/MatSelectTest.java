@@ -41,7 +41,7 @@ class MatSelectTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatSelect(locator, driver, config);
     }
 
@@ -52,7 +52,7 @@ class MatSelectTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-select");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-select");
         assertTrue(testSubject.validate());
     }
 

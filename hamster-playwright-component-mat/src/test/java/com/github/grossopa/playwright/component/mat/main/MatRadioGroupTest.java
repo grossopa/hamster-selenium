@@ -41,7 +41,7 @@ class MatRadioGroupTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatRadioGroup(locator, driver, config);
     }
 
@@ -52,7 +52,7 @@ class MatRadioGroupTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-radio-group");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-radio-group");
         assertTrue(testSubject.validate());
     }
 

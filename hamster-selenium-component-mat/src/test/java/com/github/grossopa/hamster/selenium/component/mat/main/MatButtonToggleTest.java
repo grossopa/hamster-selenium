@@ -50,7 +50,7 @@ class MatButtonToggleTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-");
         when(element.getDomAttribute("class")).thenReturn("mat-button-toggle");
         when(element.findElement(By.xpath("./button"))).thenReturn(buttonElement);
         testSubject = new MatButtonToggle(element, driver, config);

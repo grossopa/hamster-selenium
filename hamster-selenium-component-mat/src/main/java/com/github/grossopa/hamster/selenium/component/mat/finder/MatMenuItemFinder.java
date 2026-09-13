@@ -82,7 +82,7 @@ public class MatMenuItemFinder extends MatOverlayFinder {
                     By.className(config.getCdkPrefix() + "overlay-connected-position-bounding-box"));
             if (!boxes.isEmpty()) {
                 WebComponent topVisibleBox = boxes.get(boxes.size() - 1);
-                WebComponent panel = topVisibleBox.findComponent(By.className(config.getCssPrefix() + "menu-panel"));
+                WebComponent panel = topVisibleBox.findComponent(By.className(config.getComponentCssPrefix() + "menu-panel"));
                 return new MatMenu(panel, driver, config);
             }
         }
@@ -104,7 +104,7 @@ public class MatMenuItemFinder extends MatOverlayFinder {
         if (container != null) {
             return container.findComponentsAs(xpathBuilder().anywhereRelative().attr(CLASS)
                             .contains(config.getCdkPrefix() + "overlay-connected-position-bounding-box").descendant()
-                            .attr(CLASS).contains(config.getCssPrefix() + "menu-panel").build(),
+                            .attr(CLASS).contains(config.getComponentCssPrefix() + "menu-panel").build(),
                     c -> new MatMenu(c, driver, config));
         }
         return newArrayList();

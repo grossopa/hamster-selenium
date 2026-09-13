@@ -92,9 +92,27 @@ public abstract class AbstractBrowserSupport {
         if (driver == null) {
             ensureMirrorConfigured();
             Playwright playwright = Playwright.create();
-            Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
+            BrowserType.LaunchOptions options = new BrowserType.LaunchOptions().setHeadless(false);
+            // Configure proxy from environment variables if available
+            String proxyServer = firstNonBlank(
+                    System.getenv("HTTPS_PROXY"), System.getenv("HTTP_PROXY"),
+                    System.getenv("https_proxy"), System.getenv("http_proxy"));
+            if (proxyServer != null) {
+                System.out.println("[INFO] Using proxy: " + proxyServer);
+                options.setProxy(new com.microsoft.playwright.options.Proxy(proxyServer));
+            }
+            Browser browser = playwright.chromium().launch(options);
             driver = new DefaultComponentDriver(playwright, browser);
         }
+    }
+
+    private static String firstNonBlank(String... values) {
+        for (String v : values) {
+            if (v != null && !v.isBlank()) {
+                return v;
+            }
+        }
+        return null;
     }
 
     /**

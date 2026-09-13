@@ -64,13 +64,13 @@ class MatCardTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-card");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-card");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-button");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-button");
         assertFalse(testSubject.validate());
     }
 

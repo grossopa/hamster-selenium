@@ -25,9 +25,12 @@ package com.github.grossopa.playwright.component.mat.config;
 
 import com.github.grossopa.playwright.core.WebComponent;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
+import static org.apache.commons.lang3.Strings.CS;
 
 /**
  * The root configuration for Material UI Angular components for Playwright.
@@ -44,12 +47,36 @@ public class MatConfig {
 
     private String tagPrefix = "mat-";
 
-    private String cssPrefix = "mat-";
+    private final String componentCssPrefix;
 
     private String cdkPrefix = "cdk-";
 
     @SuppressWarnings("java:S1075")
     private String overlayAbsolutePath = "/html/body";
+
+    private MatVersion version = MatVersion.MDC;
+
+    private final Map<String, String> internalSelectors = new HashMap<>(Map.of(
+            "checkbox-input", "mdc-checkbox__native-control",
+            "radio-input", "mdc-radio__native-control",
+            "radio-label", "mdc-form-field"
+    ));
+
+    /**
+     * Default constructor creating an MDC config with {@code "mat-mdc-"} component CSS prefix.
+     */
+    public MatConfig() {
+        this("mat-mdc-");
+    }
+
+    /**
+     * Constructs a config with the given immutable component CSS prefix.
+     *
+     * @param componentCssPrefix the CSS prefix for all components, must not be {@code null}
+     */
+    private MatConfig(String componentCssPrefix) {
+        this.componentCssPrefix = requireNonNull(componentCssPrefix);
+    }
 
     /**
      * Gets the prefix of the html tag, e.g. &lt;mat-option&gt;....default value is "mat-".
@@ -68,26 +95,6 @@ public class MatConfig {
     public void setTagPrefix(String tagPrefix) {
         requireNonNull(tagPrefix);
         this.tagPrefix = tagPrefix;
-    }
-
-    /**
-     * Gets the prefix of the css classes, e.g. &lt;mat-option class="<b>mat-selected</b>" &gt;....default value is
-     * "mat-".
-     *
-     * @return the prefix of the css classes
-     */
-    public String getCssPrefix() {
-        return cssPrefix;
-    }
-
-    /**
-     * Sets the prefix of the css classes.
-     *
-     * @param cssPrefix the new prefix of css classes to set
-     */
-    public void setCssPrefix(String cssPrefix) {
-        requireNonNull(cssPrefix);
-        this.cssPrefix = cssPrefix;
     }
 
     /**
@@ -129,31 +136,105 @@ public class MatConfig {
         this.overlayAbsolutePath = overlayAbsolutePath;
     }
 
+    // =====================================================================
+    // Version-aware component CSS prefix
+    // =====================================================================
+
     /**
-     * Gets the isChecked CSS, default value is "mat-checked".
+     * Gets the Angular Material version used for CSS selector resolution.
+     *
+     * @return the current version, default is {@link MatVersion#MDC}
+     */
+    public MatVersion getVersion() {
+        return version;
+    }
+
+    /**
+     * Sets the Angular Material version.
+     *
+     * @param version the version to set
+     */
+    public void setVersion(MatVersion version) {
+        requireNonNull(version);
+        this.version = version;
+    }
+
+    /**
+     * Returns the immutable CSS prefix for all components, e.g. {@code "mat-mdc-"} in MDC mode or {@code "mat-"}
+     * in legacy mode. The prefix is determined at construction time and does not change based on component name.
+     *
+     * @return the immutable CSS prefix
+     */
+    public String getComponentCssPrefix() {
+        return componentCssPrefix;
+    }
+
+    // =====================================================================
+    // Internal selector overrides
+    // =====================================================================
+
+    /**
+     * Gets the internal CSS selector for the given key. Internal selectors differ between Angular Material versions
+     * (e.g. the checkbox input is {@code .mdc-checkbox__native-control} in MDC but {@code .mat-checkbox-input} in
+     * legacy).
+     *
+     * @param key the internal selector key, e.g. "checkbox-input", "radio-input", "radio-label"
+     * @return the CSS selector string
+     */
+    public String getInternalSelector(String key) {
+        return internalSelectors.getOrDefault(key, key);
+    }
+
+    /**
+     * Sets an internal CSS selector override.
+     *
+     * @param key the internal selector key
+     * @param selector the CSS selector to use
+     */
+    public void setInternalSelector(String key, String selector) {
+        requireNonNull(key);
+        requireNonNull(selector);
+        internalSelectors.put(key, selector);
+    }
+
+    /**
+     * Gets the internal selector map.
+     *
+     * @return the mutable internal selector map
+     */
+    public Map<String, String> getInternalSelectors() {
+        return internalSelectors;
+    }
+
+    // =====================================================================
+    // State CSS methods
+    // =====================================================================
+
+    /**
+     * Gets the isChecked CSS for the given component, default value is "mat-mdc-checkbox-checked".
      *
      * @return the isChecked CSS
      */
     public String getIsCheckedCss() {
-        return getCssPrefix() + "checked";
+        return componentCssPrefix + "checkbox-checked";
     }
 
     /**
-     * Gets the isSelected CSS, default value is "mat-selected".
+     * Gets the isSelected CSS, default value is "mat-mdc-selected".
      *
      * @return the isSelected CSS
      */
     public String getIsSelectedCss() {
-        return getCssPrefix() + "selected";
+        return componentCssPrefix + "selected";
     }
 
     /**
-     * Gets the isDisabled CSS, default value is "mat-disabled".
+     * Gets the isDisabled CSS. default value is "mat-mdc-disabled"
      *
      * @return the isDisabled CSS
      */
     public String getIsDisabledCss() {
-        return getCssPrefix() + "disabled";
+        return componentCssPrefix + "disabled";
     }
 
     /**
@@ -189,8 +270,34 @@ public class MatConfig {
     }
 
     private boolean attributeContains(WebComponent component, String value) {
-        String classAttribute = component.getAttribute(CLASS);
-        return classAttribute != null && classAttribute.contains(value);
+        return CS.contains(component.getAttribute(CLASS), value);
+    }
+
+    // =====================================================================
+    // Factory methods
+    // =====================================================================
+
+    /**
+     * Creates a config for the latest Angular Material (MDC-based) version. This is the default.
+     *
+     * @return a new MDC config instance
+     */
+    public static MatConfig mdc() {
+        return new MatConfig();
+    }
+
+    /**
+     * Creates a config for the legacy Angular Material v12 version where all components use the {@code mat-} prefix.
+     *
+     * @return a new legacy config instance
+     */
+    public static MatConfig legacy() {
+        MatConfig config = new MatConfig("mat-");
+        config.version = MatVersion.LEGACY;
+        config.setInternalSelector("checkbox-input", "mat-checkbox-input");
+        config.setInternalSelector("radio-input", "mat-radio-input");
+        config.setInternalSelector("radio-label", "mat-radio-label");
+        return config;
     }
 
     @Override
@@ -198,38 +305,61 @@ public class MatConfig {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MatConfig)) {
+        if (!(o instanceof MatConfig matConfig)) {
             return false;
         }
-        MatConfig matConfig = (MatConfig) o;
-        return tagPrefix.equals(matConfig.tagPrefix) && cssPrefix.equals(matConfig.cssPrefix) && cdkPrefix.equals(
-                matConfig.cdkPrefix) && overlayAbsolutePath.equals(matConfig.overlayAbsolutePath);
+        return tagPrefix.equals(matConfig.tagPrefix) && componentCssPrefix.equals(matConfig.componentCssPrefix)
+                && cdkPrefix.equals(matConfig.cdkPrefix) && overlayAbsolutePath.equals(
+                matConfig.overlayAbsolutePath) && version == matConfig.version && internalSelectors.equals(
+                matConfig.internalSelectors);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tagPrefix, cssPrefix, cdkPrefix, overlayAbsolutePath);
+        return Objects.hash(tagPrefix, componentCssPrefix, cdkPrefix, overlayAbsolutePath, version,
+                internalSelectors);
     }
 
     @Override
     public String toString() {
-        return "MatConfig{" + "tagPrefix='" + tagPrefix + '\'' + ", cssPrefix='" + cssPrefix + '\'' + ", cdkPrefix='"
-                + cdkPrefix + '\'' + ", overlayAbsolutePath='" + overlayAbsolutePath + '\'' + '}';
+        return "MatConfig{" + "tagPrefix='" + tagPrefix + '\''
+                + ", componentCssPrefix='" + componentCssPrefix + '\''
+                + ", cdkPrefix='" + cdkPrefix + '\''
+                + ", overlayAbsolutePath='" + overlayAbsolutePath + '\''
+                + ", version=" + version
+                + ", internalSelectors=" + internalSelectors
+                + '}';
     }
 
     /**
-     * Creates an instance with all values.
+     * Creates an instance with custom tag prefix, CDK prefix, overlay path and the default MDC component CSS prefix.
      *
      * @param tagPrefix the prefix of the html tag
-     * @param cssPrefix the prefix of the css classes
      * @param cdkPrefix the prefix of the cdk classes
      * @param overlayAbsolutePath the absolute path of the overlay container
      * @return the created instance
      */
-    public static MatConfig create(String tagPrefix, String cssPrefix, String cdkPrefix, String overlayAbsolutePath) {
+    public static MatConfig create(String tagPrefix, String cdkPrefix, String overlayAbsolutePath) {
         MatConfig config = new MatConfig();
         config.setTagPrefix(tagPrefix);
-        config.setCssPrefix(cssPrefix);
+        config.setCdkPrefix(cdkPrefix);
+        config.setOverlayAbsolutePath(overlayAbsolutePath);
+        return config;
+    }
+
+    /**
+     * Creates an instance with all values including a custom component CSS prefix.
+     *
+     * @param tagPrefix the prefix of the html tag
+     * @param componentCssPrefix the immutable component CSS prefix
+     * @param cdkPrefix the prefix of the cdk classes
+     * @param overlayAbsolutePath the absolute path of the overlay container
+     * @return the created instance
+     */
+    public static MatConfig create(String tagPrefix, String componentCssPrefix, String cdkPrefix,
+                                   String overlayAbsolutePath) {
+        MatConfig config = new MatConfig(componentCssPrefix);
+        config.setTagPrefix(tagPrefix);
         config.setCdkPrefix(cdkPrefix);
         config.setOverlayAbsolutePath(overlayAbsolutePath);
         return config;

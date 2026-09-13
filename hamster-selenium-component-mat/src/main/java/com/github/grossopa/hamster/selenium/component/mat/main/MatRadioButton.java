@@ -66,17 +66,17 @@ public class MatRadioButton extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "radio-button");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "radio-button");
     }
 
     @Override
     public boolean isSelected() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "radio-checked");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "radio-checked");
     }
 
     @Override
     public boolean isEnabled() {
-        return !attributeContains(CLASS, config.getCssPrefix() + "radio-disabled");
+        return !attributeContains(CLASS, config.getComponentCssPrefix() + "radio-disabled");
     }
 
     /**
@@ -85,7 +85,7 @@ public class MatRadioButton extends AbstractMatComponent {
      * @return the label text
      */
     public String getLabel() {
-        return this.findComponent(By.className(config.getCssPrefix() + "radio-label")).getText();
+        return this.findComponent(By.className(config.getInternalSelector("radio-label"))).getText();
     }
 
     /**
@@ -94,6 +94,6 @@ public class MatRadioButton extends AbstractMatComponent {
      * @return the inner input element
      */
     public WebComponent getInput() {
-        return this.findComponent(By.className(config.getCssPrefix() + "radio-input"));
+        return this.findComponent(By.className(config.getInternalSelector("radio-input")));
     }
 }

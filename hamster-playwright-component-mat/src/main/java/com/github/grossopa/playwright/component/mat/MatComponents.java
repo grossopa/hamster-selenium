@@ -62,6 +62,15 @@ public class MatComponents extends AbstractComponents {
     }
 
     /**
+     * Gets the current {@link MatConfig} instance.
+     *
+     * @return the mat config instance
+     */
+    public MatConfig getConfig() {
+        return config;
+    }
+
+    /**
      * Constructs an instance with default {@link MatConfig}.
      *
      * @return the created instance

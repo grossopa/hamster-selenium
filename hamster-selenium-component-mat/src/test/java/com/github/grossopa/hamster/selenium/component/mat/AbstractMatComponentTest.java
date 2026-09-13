@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +51,7 @@ class AbstractMatComponentTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("some-");
+        when(config.getComponentCssPrefix()).thenReturn("some-");
 
         testSubject = new AbstractMatComponent(element, driver, config) {
             @Override
@@ -102,25 +103,25 @@ class AbstractMatComponentTest {
 
     @Test
     void isSelected() {
-        when(config.isChecked(testSubject)).thenReturn(true);
+        when(config.isSelected(eq(testSubject))).thenReturn(true);
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedFalse() {
-        when(config.isChecked(testSubject)).thenReturn(false);
+        when(config.isSelected(eq(testSubject))).thenReturn(false);
         assertFalse(testSubject.isSelected());
     }
 
     @Test
     void isEnabled() {
-        when(config.isDisabled(testSubject)).thenReturn(false);
+        when(config.isDisabled(eq(testSubject))).thenReturn(false);
         assertTrue(testSubject.isEnabled());
     }
 
     @Test
     void isEnabledTrue() {
-        when(config.isDisabled(testSubject)).thenReturn(true);
+        when(config.isDisabled(eq(testSubject))).thenReturn(true);
         assertFalse(testSubject.isEnabled());
     }
 }

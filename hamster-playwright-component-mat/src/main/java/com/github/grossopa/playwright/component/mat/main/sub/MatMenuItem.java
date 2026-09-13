@@ -74,7 +74,7 @@ public class MatMenuItem extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "menu-item");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "menu-item");
     }
 
     /**
@@ -83,7 +83,7 @@ public class MatMenuItem extends AbstractMatComponent {
      * @return true if the menu item is expandable
      */
     public boolean isExpandable() {
-        return attributeContains(CLASS, config.getCssPrefix() + "menu-item-submenu-trigger");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "menu-item-submenu-trigger");
     }
 
     /**

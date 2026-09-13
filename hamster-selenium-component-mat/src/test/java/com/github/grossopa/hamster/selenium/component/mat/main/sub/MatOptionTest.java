@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -49,8 +50,8 @@ class MatOptionTest {
     @BeforeEach
     void setUp() {
         when(config.getTagPrefix()).thenReturn("mat-");
-        when(config.getCssPrefix()).thenReturn("mat-");
-
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
+        when(config.getIsSelectedCss()).thenReturn("mdc-list-item--selected");
         testSubject = new MatOption(element, driver, config);
     }
 
@@ -74,7 +75,7 @@ class MatOptionTest {
 
     @Test
     void isSelected() {
-        when(element.getDomAttribute("class")).thenReturn("mat-selected");
+        when(element.getDomAttribute("class")).thenReturn("mdc-list-item--selected");
         assertTrue(testSubject.isSelected());
     }
 

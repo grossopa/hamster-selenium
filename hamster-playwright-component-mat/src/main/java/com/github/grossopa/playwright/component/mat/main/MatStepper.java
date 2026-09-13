@@ -64,7 +64,7 @@ public class MatStepper extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "stepper");
+        return attributeContains(CLASS, "mat-" + "stepper");
     }
 
     /**
@@ -73,7 +73,7 @@ public class MatStepper extends AbstractMatComponent {
      * @return the list of steps
      */
     public List<MatStep> getSteps() {
-        return this.findComponents(config.getTagPrefix() + "step." + config.getCssPrefix() + "step")
+        return this.findComponents(config.getTagPrefix() + "step." + "mat-" + "step")
                 .stream().map(c -> new MatStep(c, driver, config)).toList();
     }
 
@@ -81,14 +81,14 @@ public class MatStepper extends AbstractMatComponent {
      * Clicks the next button to advance to the next step.
      */
     public void next() {
-        this.findComponent("." + config.getCssPrefix() + "stepper-next").click();
+        this.findComponent("." + "mat-" + "stepper-next").click();
     }
 
     /**
      * Clicks the previous button to go back to the previous step.
      */
     public void previous() {
-        this.findComponent("." + config.getCssPrefix() + "stepper-previous").click();
+        this.findComponent("." + "mat-" + "stepper-previous").click();
     }
 
     /**
@@ -97,7 +97,7 @@ public class MatStepper extends AbstractMatComponent {
      * @return true if the stepper is linear
      */
     public boolean isLinear() {
-        return attributeContains(CLASS, config.getCssPrefix() + "stepper-linear");
+        return attributeContains(CLASS, "mat-" + "stepper-linear");
     }
 
     /**
@@ -106,7 +106,7 @@ public class MatStepper extends AbstractMatComponent {
      * @return true if the stepper is vertical
      */
     public boolean isVertical() {
-        return attributeContains(CLASS, config.getCssPrefix() + "stepper-vertical");
+        return attributeContains(CLASS, "mat-" + "stepper-vertical");
     }
 
     /**
@@ -115,6 +115,6 @@ public class MatStepper extends AbstractMatComponent {
      * @return the stepper header element
      */
     public WebComponent getHeader() {
-        return this.findComponent("." + config.getCssPrefix() + "stepper-header");
+        return this.findComponent("." + "mat-" + "stepper-header");
     }
 }

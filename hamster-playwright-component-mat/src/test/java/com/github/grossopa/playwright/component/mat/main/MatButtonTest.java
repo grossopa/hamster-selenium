@@ -64,7 +64,7 @@ class MatButtonTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-button mat-button-base");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-button mat-mdc-button-base");
         assertTrue(testSubject.validate());
     }
 

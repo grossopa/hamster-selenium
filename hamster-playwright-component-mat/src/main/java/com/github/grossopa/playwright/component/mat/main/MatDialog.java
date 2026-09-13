@@ -58,7 +58,7 @@ public class MatDialog extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "dialog-container");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "dialog-container");
     }
 
     @Override
@@ -72,7 +72,7 @@ public class MatDialog extends AbstractMatComponent {
      * @return the dialog title component
      */
     public WebComponent getDialogTitle() {
-        return this.findComponent("." + config.getCssPrefix() + "dialog-title");
+        return this.findComponent("." + config.getComponentCssPrefix() + "dialog-title");
     }
 
     /**
@@ -81,7 +81,7 @@ public class MatDialog extends AbstractMatComponent {
      * @return the dialog content component
      */
     public WebComponent getDialogContent() {
-        return this.findComponent("." + config.getCssPrefix() + "dialog-content");
+        return this.findComponent("." + config.getComponentCssPrefix() + "dialog-content");
     }
 
     /**
@@ -90,6 +90,6 @@ public class MatDialog extends AbstractMatComponent {
      * @return the dialog actions component
      */
     public WebComponent getDialogActions() {
-        return this.findComponent("." + config.getCssPrefix() + "dialog-actions");
+        return this.findComponent("." + config.getComponentCssPrefix() + "dialog-actions");
     }
 }

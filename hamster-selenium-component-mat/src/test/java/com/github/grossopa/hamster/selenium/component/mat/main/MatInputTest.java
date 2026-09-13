@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -49,7 +50,7 @@ class MatInputTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatInput(element, driver, config);
     }
 
@@ -60,7 +61,7 @@ class MatInputTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-input-element mat-form-field-autocomplete-trigger");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-input-element mat-mdc-form-field-autocomplete-trigger");
         assertTrue(testSubject.validate());
     }
 
@@ -72,13 +73,13 @@ class MatInputTest {
 
     @Test
     void isEnabled() {
-        when(element.getDomAttribute("class")).thenReturn("mat-input-element");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-input-element");
         assertTrue(testSubject.isEnabled());
     }
 
     @Test
     void isEnabledFalse() {
-        when(element.getDomAttribute("class")).thenReturn("mat-input-element mat-input-element-disabled");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-input-element mat-mdc-input-element-disabled");
         assertFalse(testSubject.isEnabled());
     }
 

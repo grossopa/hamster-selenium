@@ -64,7 +64,7 @@ public class MatCalendar extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "calendar");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "calendar");
     }
 
     /**
@@ -73,21 +73,21 @@ public class MatCalendar extends AbstractMatComponent {
      * @return the period label text
      */
     public String getPeriodLabel() {
-        return this.findComponent("." + config.getCssPrefix() + "calendar-period-label").innerText();
+        return this.findComponent("." + config.getComponentCssPrefix() + "calendar-period-label").innerText();
     }
 
     /**
      * Navigates to the previous month.
      */
     public void previousMonth() {
-        this.findComponent("." + config.getCssPrefix() + "calendar-previous-button").click();
+        this.findComponent("." + config.getComponentCssPrefix() + "calendar-previous-button").click();
     }
 
     /**
      * Navigates to the next month.
      */
     public void nextMonth() {
-        this.findComponent("." + config.getCssPrefix() + "calendar-next-button").click();
+        this.findComponent("." + config.getComponentCssPrefix() + "calendar-next-button").click();
     }
 
     /**
@@ -96,7 +96,7 @@ public class MatCalendar extends AbstractMatComponent {
      * @return the list of date cell elements
      */
     public List<WebComponent> getDateCells() {
-        return this.findComponents("." + config.getCssPrefix() + "calendar-body-cell");
+        return this.findComponents("." + config.getComponentCssPrefix() + "calendar-body-cell");
     }
 
     /**
@@ -125,7 +125,7 @@ public class MatCalendar extends AbstractMatComponent {
         for (WebComponent cell : cells) {
             if (dayText.equals(cell.innerText())) {
                 String classAttr = cell.getAttribute("class");
-                return classAttr.contains(config.getCssPrefix() + "calendar-body-selected");
+                return classAttr.contains(config.getComponentCssPrefix() + "calendar-body-selected");
             }
         }
         return false;

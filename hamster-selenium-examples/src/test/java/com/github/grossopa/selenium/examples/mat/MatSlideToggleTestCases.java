@@ -26,10 +26,8 @@ package com.github.grossopa.selenium.examples.mat;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatCheckbox;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatSlideToggle;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.openqa.selenium.By.className;
@@ -38,20 +36,20 @@ import static org.openqa.selenium.By.className;
  * @author Jack Yin
  * @since 1.0
  */
-public class MatSlideToggleTestCases extends AbstractBrowserSupport {
+public class MatSlideToggleTestCases extends MatTestSupport {
 
     public void testSliderConfiguration() {
-        navigateToExamples("https://v12.material.angular.io/components/slide-toggle/examples");
+        navigateToExamples(baseUrl() + "slide-toggle/examples");
         WebComponent container = driver.findComponent(By.id("slide-toggle-configurable"));
 
-        MatSlideToggle slideToggle = container.findComponent(className("mat-slide-toggle")).as(mat()).toSlideToggle();
+        MatSlideToggle slideToggle = container.findComponent(className("mat-slide-toggle")).as(matComponents()).toSlideToggle();
         assertFalse(slideToggle.isSelected());
         assertTrue(slideToggle.isEnabled());
         assertTrue(slideToggle.validate());
         assertEquals("Slide me!", slideToggle.getLabel().getText());
 
-        MatCheckbox checkedCheckBox = container.findComponent(By.id("mat-checkbox-1")).as(mat()).toCheckbox();
-        MatCheckbox disabledCheckBox = container.findComponent(By.id("mat-checkbox-2")).as(mat()).toCheckbox();
+        MatCheckbox checkedCheckBox = container.findComponent(By.id("mat-checkbox-1")).as(matComponents()).toCheckbox();
+        MatCheckbox disabledCheckBox = container.findComponent(By.id("mat-checkbox-2")).as(matComponents()).toCheckbox();
 
         slideToggle.click();
         assertTrue(slideToggle.isSelected());
@@ -70,7 +68,7 @@ public class MatSlideToggleTestCases extends AbstractBrowserSupport {
     public static void main(String[] args) {
         MatSlideToggleTestCases test = new MatSlideToggleTestCases();
         test.setUpDriver(EDGE);
-        test.navigateToExamples("https://v12.material.angular.io/components/slide-toggle/examples");
+        test.navigateToExamples(test.baseUrl() + "slide-toggle/examples");
         test.testSliderConfiguration();
     }
 }

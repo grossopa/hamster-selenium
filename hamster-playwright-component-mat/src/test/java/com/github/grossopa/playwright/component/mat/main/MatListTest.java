@@ -53,7 +53,7 @@ class MatListTest {
 
     @BeforeEach
     void setUp() {
-        when(locator.locator(".mat-list-item")).thenReturn(itemsLocator);
+        when(locator.locator(".mat-mdc-list-item")).thenReturn(itemsLocator);
         testSubject = new MatList(locator, driver, config);
     }
 
@@ -69,13 +69,13 @@ class MatListTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-list");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-list");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateFalse() {
-        when(locator.getAttribute("class")).thenReturn("mat-chip-list");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-chip-list");
         assertFalse(testSubject.validate());
     }
 

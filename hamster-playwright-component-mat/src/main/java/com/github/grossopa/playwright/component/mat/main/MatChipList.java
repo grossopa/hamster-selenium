@@ -27,6 +27,7 @@ import com.github.grossopa.playwright.component.mat.AbstractMatComponent;
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.component.mat.main.sub.MatChip;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 
 import java.util.List;
@@ -65,7 +66,7 @@ public class MatChipList extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getCssPrefix() + "chip-list");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "chip-set");
     }
 
     /**
@@ -74,7 +75,11 @@ public class MatChipList extends AbstractMatComponent {
      * @return the contained {@link MatChip} list
      */
     public List<MatChip> getChips() {
-        return this.findComponents(config.getTagPrefix() + "chip").stream().map(
-                c -> new MatChip(c, driver, config)).toList();
+        // MDC uses <mat-chip-row> instead of <mat-chip>
+        List<WebComponent> chips = this.findComponents(config.getTagPrefix() + "chip");
+        if (chips.isEmpty()) {
+            chips = this.findComponents(config.getTagPrefix() + "chip-row");
+        }
+        return chips.stream().map(c -> new MatChip(c, driver, config)).toList();
     }
 }

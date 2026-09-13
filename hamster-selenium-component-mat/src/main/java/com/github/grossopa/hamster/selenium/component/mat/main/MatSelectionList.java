@@ -67,7 +67,7 @@ public class MatSelectionList extends AbstractMatComponent {
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "selection-list");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "selection-list");
     }
 
     /**
@@ -76,7 +76,7 @@ public class MatSelectionList extends AbstractMatComponent {
      * @return the list options.
      */
     public List<MatListOption> getListOptions() {
-        return this.findComponentsAs(By.className(config.getCssPrefix() + "list-option"),
+        return this.findComponentsAs(By.className(config.getComponentCssPrefix() + "list-option"),
                 c -> new MatListOption(c, driver, config));
     }
 }

@@ -193,4 +193,34 @@ class HtmlSelectTest {
         testSubject.deselectByVisibleText("Label1");
         verify(locator).selectOption(new String[]{});
     }
+
+    @Test
+    void selectByContainsVisibleText() {
+        testSubject.selectByContainsVisibleText("Lab");
+        verify(locator).evaluate(
+                "el => { const opt = Array.from(el.options).find(o => o.text.includes(arguments[0])); if (opt) el.value = opt.value; }",
+                "Lab");
+    }
+
+    @Test
+    void deselectByContainsVisibleText() {
+        when(locator.evaluate(
+                "el => Array.from(el.selectedOptions).filter(o => !o.text.includes(arguments[0])).map(o => o.value)",
+                "Lab"))
+                .thenReturn(Arrays.asList("val2", "val3"));
+
+        testSubject.deselectByContainsVisibleText("Lab");
+        verify(locator).selectOption(new String[]{"val2", "val3"});
+    }
+
+    @Test
+    void deselectByContainsVisibleTextNonListResult() {
+        when(locator.evaluate(
+                "el => Array.from(el.selectedOptions).filter(o => !o.text.includes(arguments[0])).map(o => o.value)",
+                "Lab"))
+                .thenReturn("not-a-list");
+
+        testSubject.deselectByContainsVisibleText("Lab");
+        verify(locator).selectOption(new String[]{});
+    }
 }

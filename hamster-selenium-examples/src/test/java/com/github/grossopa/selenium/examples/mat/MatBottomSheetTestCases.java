@@ -28,12 +28,10 @@ import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinde
 import com.github.grossopa.hamster.selenium.component.mat.main.MatBottomSheet;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatOverlayContainer;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static java.util.Objects.requireNonNull;
@@ -45,10 +43,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatBottomSheetTestCases extends AbstractBrowserSupport {
+public class MatBottomSheetTestCases extends MatTestSupport {
 
     public void testBottomSheet() {
-        navigateToExamples("https://v12.material.angular.io/components/bottom-sheet/examples");
+        navigateToExamples(baseUrl() + "bottom-sheet/examples");
         WebComponent openFileButton = driver.findComponent(
                 xpathBuilder().anywhere("p").text().exact("You have received a file called \"cat-picture.jpeg\".")
                         .parent().build()).findComponent(By.tagName("button"));
@@ -56,10 +54,10 @@ public class MatBottomSheetTestCases extends AbstractBrowserSupport {
         assertEquals("Open file", openFileButton.getText());
         openFileButton.click();
 
-        MatOverlayFinder overlayFinder = new MatOverlayFinder(driver, new MatConfig());
+        MatOverlayFinder overlayFinder = new MatOverlayFinder(driver, matConfig());
         MatOverlayContainer container = overlayFinder.findTopVisibleContainer();
         MatBottomSheet bottomSheet = requireNonNull(container).findComponent(By.className("mat-bottom-sheet-container"))
-                .as(mat()).toBottomSheet();
+                .as(matComponents()).toBottomSheet();
 
         List<WebComponent> hrefList = bottomSheet.findComponents(By.tagName("a"));
         assertEquals(4, hrefList.size());

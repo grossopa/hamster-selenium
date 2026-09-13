@@ -41,7 +41,7 @@ class MatCalendarTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatCalendar(element, driver, config);
     }
 
@@ -52,7 +52,7 @@ class MatCalendarTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-calendar");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-calendar");
         assertTrue(testSubject.validate());
     }
 

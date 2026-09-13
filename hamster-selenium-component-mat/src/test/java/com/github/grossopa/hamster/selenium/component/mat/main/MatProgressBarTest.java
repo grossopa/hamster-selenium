@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -49,7 +50,7 @@ class MatProgressBarTest {
     @BeforeEach
     void setUp() {
         when(config.getTagPrefix()).thenReturn("mat-");
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatProgressBar(element, driver, config);
     }
 
@@ -60,13 +61,13 @@ class MatProgressBarTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-progress-bar");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-progress-bar");
         assertTrue(testSubject.validate());
     }
 
     @Test
     void validateNegative() {
-        when(element.getDomAttribute("class")).thenReturn("mat-progress-bar-23");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-progress-bar-23");
         assertFalse(testSubject.validate());
     }
 

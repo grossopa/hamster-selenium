@@ -52,7 +52,7 @@ class MatExpansionPanelTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-");
         when(config.getTagPrefix()).thenReturn("mat-");
 
         when(element.findElement(By.className("mat-expansion-panel-header"))).thenReturn(headerElement);

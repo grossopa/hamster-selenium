@@ -41,7 +41,7 @@ class MatSidenavContainerTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-");
         testSubject = new MatSidenavContainer(locator, driver, config);
     }
 

@@ -68,7 +68,7 @@ class MatAutocompleteTest {
     @BeforeEach
     void setUp() {
         container = new MatOverlayContainer(containerLocator, driver, config);
-        when(containerLocator.locator(".mat-autocomplete-panel")).thenReturn(panelLocator);
+        when(containerLocator.locator(".mat-mdc-autocomplete-panel")).thenReturn(panelLocator);
         when(panelLocator.all()).thenReturn(List.of(panelItem));
         when(panelItem.locator("mat-option")).thenReturn(optionsLocator);
         when(optionsLocator.all()).thenReturn(List.of(option1, option2));
@@ -103,7 +103,7 @@ class MatAutocompleteTest {
 
     @Test
     void validate() {
-        when(locator.getAttribute("class")).thenReturn("mat-autocomplete-trigger");
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-autocomplete-trigger");
         assertTrue(testSubject.validate());
     }
 
@@ -116,7 +116,7 @@ class MatAutocompleteTest {
     @Test
     void getInput() {
         Locator inputLocator = mock(Locator.class);
-        when(locator.locator("input.mat-autocomplete-trigger")).thenReturn(inputLocator);
+        when(locator.locator("input.mat-mdc-autocomplete-trigger")).thenReturn(inputLocator);
         when(inputLocator.first()).thenReturn(mock(Locator.class));
         assertNotNull(testSubject.getInput());
     }
@@ -186,31 +186,31 @@ class MatAutocompleteTest {
     @Test
     void getAllSelectedOptions() {
         when(overlayFinder.findVisibleContainers()).thenReturn(List.of(container));
-        when(option1.getAttribute("class")).thenReturn("mat-option mat-selected");
-        when(option2.getAttribute("class")).thenReturn("mat-option");
+        when(option1.getAttribute("class")).thenReturn("mat-mdc-option mat-mdc-selected");
+        when(option2.getAttribute("class")).thenReturn("mat-mdc-option");
         assertEquals(1, testSubject.getAllSelectedOptions().size());
     }
 
     @Test
     void getAllSelectedOptionsEmpty() {
         when(overlayFinder.findVisibleContainers()).thenReturn(List.of(container));
-        when(option1.getAttribute("class")).thenReturn("mat-option");
-        when(option2.getAttribute("class")).thenReturn("mat-option");
+        when(option1.getAttribute("class")).thenReturn("mat-mdc-option");
+        when(option2.getAttribute("class")).thenReturn("mat-mdc-option");
         assertTrue(testSubject.getAllSelectedOptions().isEmpty());
     }
 
     @Test
     void getFirstSelectedOption() {
         when(overlayFinder.findVisibleContainers()).thenReturn(List.of(container));
-        when(option1.getAttribute("class")).thenReturn("mat-option mat-selected");
+        when(option1.getAttribute("class")).thenReturn("mat-mdc-option mat-mdc-selected");
         assertNotNull(testSubject.getFirstSelectedOption());
     }
 
     @Test
     void getFirstSelectedOptionNull() {
         when(overlayFinder.findVisibleContainers()).thenReturn(List.of(container));
-        when(option1.getAttribute("class")).thenReturn("mat-option");
-        when(option2.getAttribute("class")).thenReturn("mat-option");
+        when(option1.getAttribute("class")).thenReturn("mat-mdc-option");
+        when(option2.getAttribute("class")).thenReturn("mat-mdc-option");
         assertNull(testSubject.getFirstSelectedOption());
     }
 

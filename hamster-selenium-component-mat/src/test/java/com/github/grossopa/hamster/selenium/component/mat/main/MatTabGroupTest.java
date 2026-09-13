@@ -41,7 +41,7 @@ class MatTabGroupTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
         testSubject = new MatTabGroup(element, driver, config);
     }
 
@@ -52,7 +52,7 @@ class MatTabGroupTest {
 
     @Test
     void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-tab-group");
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-tab-group");
         assertTrue(testSubject.validate());
     }
 

@@ -26,6 +26,7 @@ package com.github.grossopa.hamster.selenium.component.mat.main;
 import com.github.grossopa.hamster.selenium.component.mat.AbstractMatComponent;
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import com.github.grossopa.selenium.core.component.api.Slider;
 import com.github.grossopa.selenium.core.component.util.WebComponentUtils;
@@ -79,7 +80,7 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
 
     @Override
     public boolean validate() {
-        return this.attributeContains(CLASS, config.getCssPrefix() + "slider");
+        return this.attributeContains(CLASS, config.getComponentCssPrefix() + "slider");
     }
 
     /**
@@ -245,7 +246,12 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
      */
     @Override
     public WebComponent getFirstThumb() {
-        return this.findComponent(By.className(config.getCssPrefix() + "slider-thumb"));
+        // MDC structure uses .mdc-slider__thumb; legacy uses .{prefix}slider-thumb
+        List<WebElement> mdcThumbs = element.findElements(By.className("mdc-slider__thumb"));
+        if (!mdcThumbs.isEmpty()) {
+            return new DefaultWebComponent(mdcThumbs.get(0), driver);
+        }
+        return this.findComponent(By.className(config.getComponentCssPrefix() + "slider-thumb"));
     }
 
     /**
@@ -265,7 +271,7 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
      */
     @Override
     public boolean isVertical() {
-        return attributeContains(CLASS, config.getCssPrefix() + "slider-vertical");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "slider-vertical");
     }
 
     /**
@@ -275,7 +281,7 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
      */
     @Override
     public boolean isInverted() {
-        return attributeContains(CLASS, config.getCssPrefix() + "slider-axis-inverted");
+        return attributeContains(CLASS, config.getComponentCssPrefix() + "slider-axis-inverted");
     }
 
     /**
@@ -610,7 +616,7 @@ public class MatSlider extends AbstractMatComponent implements Slider<WebCompone
         if (Precision.compareTo(percentage, 1, 0.0001d) == 1 || Precision.compareTo(percentage, 0, 0.0001d) == -1) {
             throw new IllegalArgumentException("Percentage must be in range of [0.0, 1.0]");
         }
-        Rectangle rect = element.findElement(By.className(config.getCssPrefix() + "slider-wrapper")).getRect();
+        Rectangle rect = element.findElement(By.className(config.getComponentCssPrefix() + "slider-wrapper")).getRect();
 
         boolean vertical = isVertical();
         boolean inverted = isInverted();

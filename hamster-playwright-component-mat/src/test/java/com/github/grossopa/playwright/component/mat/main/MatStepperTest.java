@@ -41,7 +41,7 @@ class MatStepperTest {
 
     @BeforeEach
     void setUp() {
-        when(config.getCssPrefix()).thenReturn("mat-");
+        when(config.getComponentCssPrefix()).thenReturn("mat-");
         testSubject = new MatStepper(locator, driver, config);
     }
 

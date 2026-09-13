@@ -26,12 +26,10 @@ package com.github.grossopa.selenium.examples.mat;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatGridList;
 import com.github.grossopa.hamster.selenium.component.mat.main.MatGridTile;
 import com.github.grossopa.selenium.core.component.WebComponent;
-import com.github.grossopa.selenium.examples.helper.AbstractBrowserSupport;
 import org.openqa.selenium.By;
 
 import java.util.List;
 
-import static com.github.grossopa.hamster.selenium.component.mat.MatComponents.mat;
 import static com.github.grossopa.selenium.core.driver.WebDriverType.EDGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,13 +40,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Jack Yin
  * @since 1.6
  */
-public class MatGridTestCases extends AbstractBrowserSupport {
+public class MatGridTestCases extends MatTestSupport {
 
     public void testGrid() {
-        navigateToExamples("https://v12.material.angular.io/components/grid-list/examples");
+        navigateToExamples(baseUrl() + "grid-list/examples");
 
         WebComponent container = driver.findComponent(By.tagName("grid-list-dynamic-example"));
-        MatGridList gridList = container.findComponent(By.className("mat-grid-list")).as(mat()).toGridList();
+        MatGridList gridList = container.findComponent(By.className("mat-grid-list")).as(matComponents()).toGridList();
         assertTrue(gridList.validate());
 
         List<MatGridTile> tiles = gridList.getGridTiles();
