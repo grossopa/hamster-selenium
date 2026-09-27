@@ -52,6 +52,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import static java.util.Objects.requireNonNull;
 
@@ -75,6 +77,8 @@ import static java.util.Objects.requireNonNull;
  * @see PageRegistry
  */
 public class RecorderSession implements AutoCloseable {
+
+    private static final Logger logger = Logger.getLogger(RecorderSession.class.getName());
 
     private final WebDriver rawDriver;
     private final RecorderConfig config;
@@ -170,6 +174,11 @@ public class RecorderSession implements AutoCloseable {
     /**
      * Selects the scanned element with the given index into the current page with the given field name.
      *
+     * <p>The best locator candidate (lowest priority value) is chosen. If the chosen locator matches more than one
+     * element on the page and is not a list locator, the method will try to find a better list locator from the
+     * available candidates. If a list locator is found, it is used instead; otherwise the original best locator is kept
+     * with a warning logged to {@link System#err}.</p>
+     *
      * @param index the scan index of the element to select
      * @param fieldName the field/method name of the element in the generated page object, must be a valid java
      * identifier
@@ -182,6 +191,23 @@ public class RecorderSession implements AutoCloseable {
         PageModel page = currentOrClassify();
         LocatorCandidate locator = Optional.ofNullable(scanned.getBestLocator())
                 .orElseThrow(() -> new IllegalArgumentException("No locator candidate found for element: " + index));
+
+        // uniqueness verification: if the best locator matches multiple elements, try to find a list locator
+        if (!locator.isList()) {
+            int matchCount = verifyLocatorCount(locator);
+            if (matchCount > 1) {
+                LocatorCandidate listLocator = scanned.getLocatorCandidates().stream()
+                        .filter(LocatorCandidate::isList).findFirst().orElse(null);
+                if (listLocator != null) {
+                    locator = listLocator;
+                } else {
+                    logger.log(Level.WARNING,
+                            "locator {0} matches {1} elements, consider using a more specific locator for element: {2}",
+                            new Object[] { locator.getDescription(), matchCount, index });
+                }
+            }
+        }
+
         PageElementModel element = new PageElementModel(fieldName, locator, scanned.getDetectedComponent());
         if (!page.addElement(element)) {
             throw new IllegalArgumentException("Field name already exists in page " + page.getName() + ": " + fieldName);
@@ -299,7 +325,7 @@ public class RecorderSession implements AutoCloseable {
                 }
             }
         } catch (RuntimeException exception) {
-            // the element may be gone (e.g. page changed), skip detection
+            // silently ignore detection failures (element may have disappeared)
         }
     }
 
@@ -312,6 +338,23 @@ public class RecorderSession implements AutoCloseable {
             if (!Character.isJavaIdentifierPart(fieldName.charAt(i))) {
                 throw new IllegalArgumentException("Invalid field name: " + fieldName);
             }
+        }
+    }
+
+    /**
+     * Verifies how many elements the given locator matches on the current page by executing a JavaScript snippet.
+     *
+     * @param locator the locator candidate to verify
+     * @return the number of matched elements, 0 if verification fails
+     */
+    private int verifyLocatorCount(LocatorCandidate locator) {
+        try {
+            String selector = locator.getType().toSelectorString(locator.getValue());
+            String script = "return document.querySelectorAll('" + selector.replace("'", "\\'") + "').length;";
+            Object result = ((org.openqa.selenium.JavascriptExecutor) rawDriver).executeScript(script);
+            return result instanceof Number num ? num.intValue() : 0;
+        } catch (RuntimeException exception) {
+            return 0;
         }
     }
 }

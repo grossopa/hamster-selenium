@@ -59,7 +59,7 @@ public class RecorderCustomStrategyShowCase {
         RecorderConfig config = RecorderConfig.builder()
                 .framework(ComponentFramework.of("html"))
                 .extraSelector("table")
-                .outputDir(Path.of("target", "recorder-generated"))
+                .outputDir(Path.of("hamster-selenium-examples", "target", "recorder-generated"))
                 .basePackage("com.example.pageobjects")
                 .build();
         WebDriver driver = RecorderExampleSupport.createDriver();

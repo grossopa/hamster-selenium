@@ -26,6 +26,8 @@ package com.github.grossopa.selenium.recorder.scan;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.recorder.config.RecorderConfig;
 import com.github.grossopa.selenium.recorder.model.LocatorCandidate;
+import com.github.grossopa.selenium.recorder.model.LocatorContext;
+import com.github.grossopa.selenium.recorder.model.LocatorContext.AncestorInfo;
 import com.github.grossopa.selenium.recorder.model.ScannedElement;
 import com.github.grossopa.selenium.recorder.scan.strategy.*;
 import org.openqa.selenium.By;
@@ -74,23 +76,95 @@ public class DefaultElementScanner implements ElementScanner {
      */
     public static final int MAX_TEXT_LENGTH = 80;
 
-    private static final String SCAN_SCRIPT = """
+    /**
+     * The maximum depth to traverse when looking for an ancestor anchor.
+     *
+     * @since 1.16
+     */
+    public static final int MAX_ANCESTOR_DEPTH = 10;
+
+    private static final String CLEAR_AND_SCAN_SCRIPT = """
             var selector = arguments[0];
             var attrs = arguments[1];
             var markerAttr = arguments[2];
+            var maxTextLen = arguments[3];
+            var anchorAttrs = arguments[4];
+            // Clear markers from any previous scan to ensure indices start from 0
+            document.querySelectorAll('[' + markerAttr + ']').forEach(function(e) {
+                e.removeAttribute(markerAttr);
+            });
             var results = [];
             var elems = document.querySelectorAll(selector);
-            for (let i = 0; i < elems.length; i++) {
-                let el = elems[i];
-                let rect = el.getBoundingClientRect();
-                let style = window.getComputedStyle(el);
-                let obj = {tagName: el.tagName.toLowerCase(),
-                    text: (el.innerText || '').trim().substring(0, arguments[3]), attributes: {}};
-                for (let j = 0; j < attrs.length; j++) {
-                    let value = el.getAttribute(attrs[j]);
+            for (var i = 0; i < elems.length; i++) {
+                var el = elems[i];
+                var rect = el.getBoundingClientRect();
+                var style = window.getComputedStyle(el);
+                var obj = {tagName: el.tagName.toLowerCase(),
+                    text: (el.innerText || '').trim().substring(0, maxTextLen), attributes: {},
+                    ancestor: null, siblingCount: 1, nameSiblingCounts: {}};
+                for (var j = 0; j < attrs.length; j++) {
+                    var value = el.getAttribute(attrs[j]);
                     if (value) {
                         obj.attributes[attrs[j]] = value;
                     }
+                }
+                // ancestor traversal
+                var current = el.parentElement;
+                var childPath = '';
+                var firstClass = '';
+                if (el.className && typeof el.className === 'string') {
+                    var cls = el.className.trim().split(/\\s+/);
+                    for (var c = 0; c < cls.length; c++) {
+                        if (cls[c].length > 2 && !cls[c].startsWith('css-')) {
+                            firstClass = '.' + cls[c];
+                            break;
+                        }
+                    }
+                }
+                childPath = firstClass || el.tagName.toLowerCase();
+                var depth = 0;
+                while (current && depth < 10) {
+                    if (current.id) {
+                        obj.ancestor = {id: current.id, childPath: childPath};
+                        break;
+                    }
+                    var foundAnchor = false;
+                    for (var a = 0; a < anchorAttrs.length; a++) {
+                        if (anchorAttrs[a] !== 'id' && anchorAttrs[a] !== 'name') {
+                            var av = current.getAttribute(anchorAttrs[a]);
+                            if (av) {
+                                obj.ancestor = {testId: av, anchorAttr: anchorAttrs[a], childPath: childPath};
+                                foundAnchor = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (foundAnchor) break;
+                    var seg = current.tagName.toLowerCase();
+                    if (current.className && typeof current.className === 'string') {
+                        var classes = current.className.trim().split(/\\s+/);
+                        for (var k = 0; k < classes.length; k++) {
+                            if (classes[k].length > 2 && !classes[k].startsWith('css-')) {
+                                seg = '.' + classes[k];
+                                break;
+                            }
+                        }
+                    }
+                    childPath = seg + ' > ' + childPath;
+                    current = current.parentElement;
+                    depth++;
+                }
+                // sibling count and name counts
+                var parent = el.parentElement;
+                if (parent) {
+                    var siblings = parent.querySelectorAll(':scope > ' + el.tagName.toLowerCase());
+                    obj.siblingCount = siblings.length;
+                    var nameCounts = {};
+                    for (var s = 0; s < siblings.length; s++) {
+                        var n = siblings[s].getAttribute('name');
+                        if (n) { nameCounts[n] = (nameCounts[n] || 0) + 1; }
+                    }
+                    obj.nameSiblingCounts = nameCounts;
                 }
                 el.setAttribute(markerAttr, String(results.length));
                 results.push(obj);
@@ -133,7 +207,8 @@ public class DefaultElementScanner implements ElementScanner {
 
     /**
      * Creates the default list of locator candidate strategies: {@link IdLocatorCandidateStrategy},
-     * {@link NameLocatorCandidateStrategy} and {@link CustomAttributeLocatorCandidateStrategy}.
+     * {@link NameLocatorCandidateStrategy}, {@link CustomAttributeLocatorCandidateStrategy},
+     * {@link AncestorLocatorCandidateStrategy} and {@link SiblingListLocatorCandidateStrategy}.
      *
      * <p>The {@link TextLocatorCandidateStrategy} and {@link MarkerLocatorCandidateStrategy} are intentionally excluded
      * from the default list. The text strategy is opt-in because text-based locators are often fragile. The marker
@@ -146,14 +221,15 @@ public class DefaultElementScanner implements ElementScanner {
      */
     public static List<LocatorCandidateStrategy> createDefaultLocatorCandidateStrategies(RecorderConfig config) {
         return List.of(new IdLocatorCandidateStrategy(), new NameLocatorCandidateStrategy(),
-                new CustomAttributeLocatorCandidateStrategy(config.getKeyAttributes()));
+                new CustomAttributeLocatorCandidateStrategy(config.getKeyAttributes()),
+                new AncestorLocatorCandidateStrategy(), new SiblingListLocatorCandidateStrategy());
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<ScannedElement> scan(ComponentWebDriver driver) {
-        Object result = driver.executeScript(SCAN_SCRIPT, buildSelector(), config.getKeyAttributes(),
-                MARKER_ATTRIBUTE, MAX_TEXT_LENGTH);
+        Object result = driver.executeScript(CLEAR_AND_SCAN_SCRIPT, buildSelector(), config.getKeyAttributes(),
+                MARKER_ATTRIBUTE, MAX_TEXT_LENGTH, config.getKeyAttributes());
         List<Map<String, Object>> rawElements = result instanceof List<?> list ? (List<Map<String, Object>>) list
                 : List.of();
         List<ScannedElement> scannedElements = new ArrayList<>();
@@ -173,7 +249,7 @@ public class DefaultElementScanner implements ElementScanner {
      * @return the {@link By} locator of the marked element
      */
     public static By markerLocator(int index) {
-        return xpathBuilder().empty().attr(MARKER_ATTRIBUTE).exact(String.valueOf(index)).build();
+        return xpathBuilder().anywhere().attr(MARKER_ATTRIBUTE).exact(String.valueOf(index)).build();
     }
 
     /**
@@ -195,12 +271,14 @@ public class DefaultElementScanner implements ElementScanner {
         return builder.toString();
     }
 
+    @SuppressWarnings("unchecked")
     private ScannedElement toScannedElement(int index, Map<String, Object> rawElement) {
         String tagName = String.valueOf(rawElement.getOrDefault("tagName", ""));
         String text = String.valueOf(rawElement.getOrDefault("text", ""));
         Map<String, String> attributes = toStringAttributes(
                 (Map<String, Object>) rawElement.getOrDefault("attributes", Map.of()));
-        List<LocatorCandidate> candidates = buildLocatorCandidates(index, tagName, attributes, text);
+        LocatorContext context = buildLocatorContext(rawElement);
+        List<LocatorCandidate> candidates = buildLocatorCandidates(index, tagName, attributes, text, context);
         return new ScannedElement(index, tagName, attributes, text, candidates);
     }
 
@@ -215,10 +293,10 @@ public class DefaultElementScanner implements ElementScanner {
     }
 
     private List<LocatorCandidate> buildLocatorCandidates(int index, String tagName, Map<String, String> attributes,
-            String text) {
+            String text, LocatorContext context) {
         List<LocatorCandidate> candidates = new ArrayList<>();
         for (LocatorCandidateStrategy strategy : strategies) {
-            candidates.addAll(strategy.toCandidates(index, tagName, attributes, text));
+            candidates.addAll(strategy.toCandidates(index, tagName, attributes, text, context));
         }
         // append the marker candidate only when at least one strategy has matched
         if (!candidates.isEmpty()) {
@@ -226,5 +304,28 @@ public class DefaultElementScanner implements ElementScanner {
         }
         candidates.sort(Comparator.comparingInt(LocatorCandidate::getPriority));
         return candidates;
+    }
+
+    private LocatorContext buildLocatorContext(Map<String, Object> rawElement) {
+        AncestorInfo ancestor = null;
+        Object rawAncestor = rawElement.get("ancestor");
+        if (rawAncestor instanceof Map<?, ?> ancestorMap) {
+            String id = ancestorMap.get("id") != null ? String.valueOf(ancestorMap.get("id")) : null;
+            String testId = ancestorMap.get("testId") != null ? String.valueOf(ancestorMap.get("testId")) : null;
+            String childPath = ancestorMap.containsKey("childPath") ? String.valueOf(ancestorMap.get("childPath"))
+                    : "";
+            ancestor = new AncestorInfo(id, testId, childPath);
+        }
+        int siblingCount = rawElement.get("siblingCount") instanceof Number num ? num.intValue() : 1;
+        Map<String, Integer> nameSiblingCounts = new LinkedHashMap<>();
+        Object rawNameCounts = rawElement.get("nameSiblingCounts");
+        if (rawNameCounts instanceof Map<?, ?> nameCountsMap) {
+            for (Map.Entry<?, ?> entry : nameCountsMap.entrySet()) {
+                if (entry.getKey() != null && entry.getValue() instanceof Number num) {
+                    nameSiblingCounts.put(String.valueOf(entry.getKey()), num.intValue());
+                }
+            }
+        }
+        return new LocatorContext(ancestor, siblingCount, nameSiblingCounts);
     }
 }

@@ -40,18 +40,37 @@ public class PageElementModel {
     private final String fieldName;
     private final LocatorCandidate locator;
     private final DetectedComponent detectedComponent;
+    private final boolean list;
 
     /**
-     * Constructs an instance with field name, chosen locator and optionally the detected component.
+     * Constructs a single-element instance with field name, chosen locator and optionally the detected component.
      *
      * @param fieldName the field/method name in the generated page object, must not be null
      * @param locator the chosen locator candidate, must not be null
      * @param detectedComponent the detected component, null if the element is treated as plain web component
      */
     public PageElementModel(String fieldName, LocatorCandidate locator, @Nullable DetectedComponent detectedComponent) {
+        this(fieldName, locator, detectedComponent, false);
+    }
+
+    /**
+     * Constructs an instance with field name, chosen locator, optionally the detected component and a list flag.
+     *
+     * <p>When {@code list} is {@code true}, the generated page object method returns a {@code List} of components
+     * using {@code findComponents()} instead of a single component using {@code findComponent()}.</p>
+     *
+     * @param fieldName the field/method name in the generated page object, must not be null
+     * @param locator the chosen locator candidate, must not be null
+     * @param detectedComponent the detected component, null if the element is treated as plain web component
+     * @param list whether this element represents a list of components found by {@code findComponents()}
+     * @since 1.16
+     */
+    public PageElementModel(String fieldName, LocatorCandidate locator, @Nullable DetectedComponent detectedComponent,
+            boolean list) {
         this.fieldName = requireNonNull(fieldName);
         this.locator = requireNonNull(locator);
         this.detectedComponent = detectedComponent;
+        this.list = list;
     }
 
     /**
@@ -82,9 +101,19 @@ public class PageElementModel {
         return detectedComponent;
     }
 
+    /**
+     * Whether this element represents a list of components.
+     *
+     * @return {@code true} if the generated method should return a {@code List} of components
+     * @since 1.16
+     */
+    public boolean isList() {
+        return list;
+    }
+
     @Override
     public String toString() {
         return "PageElementModel{" + "fieldName='" + fieldName + '\'' + ", locator=" + locator
-                + ", detectedComponent=" + detectedComponent + '}';
+                + ", detectedComponent=" + detectedComponent + ", list=" + list + '}';
     }
 }

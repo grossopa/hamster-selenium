@@ -88,4 +88,18 @@ class CustomAttributeLocatorCandidateStrategyTest {
                 Map.of("class", "primary"), "Submit");
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void testToCandidatesWithValueContainingNewline() {
+        List<LocatorCandidate> result = testSubject.toCandidates(0, "button",
+                Map.of("data-testid", "has\nline"), "Submit");
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testToCandidatesWithValueContainingCarriageReturn() {
+        List<LocatorCandidate> result = testSubject.toCandidates(0, "button",
+                Map.of("data-testid", "has\rreturn"), "Submit");
+        assertTrue(result.isEmpty());
+    }
 }

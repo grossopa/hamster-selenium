@@ -63,7 +63,8 @@ public class CustomAttributeLocatorCandidateStrategy implements LocatorCandidate
                 continue;
             }
             String value = attributes.get(attrName);
-            if (StringUtils.isNotBlank(value) && !value.contains("\"")) {
+            if (StringUtils.isNotBlank(value) && !value.contains("\"") && !value.contains("\n")
+                    && !value.contains("\r")) {
                 String cssValue = "[" + attrName + "=\"" + value + "\"]";
                 candidates.add(new LocatorCandidate(LocatorType.CSS_SELECTOR, cssValue,
                         LocatorCandidate.PRIORITY_CUSTOM_ATTRIBUTE,

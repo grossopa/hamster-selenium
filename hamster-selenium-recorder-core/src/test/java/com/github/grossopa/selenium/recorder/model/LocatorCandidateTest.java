@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -47,6 +48,16 @@ class LocatorCandidateTest {
         assertEquals("login", testSubject.getValue());
         assertEquals(LocatorCandidate.PRIORITY_ID, testSubject.getPriority());
         assertEquals("by id \"login\"", testSubject.getDescription());
+        assertFalse(testSubject.isList());
+    }
+
+    @Test
+    void testListConstructor() {
+        LocatorCandidate listCandidate = new LocatorCandidate(LocatorType.CSS_SELECTOR, ".MuiButton-root",
+                LocatorCandidate.PRIORITY_SIBLING_LIST, "by sibling list", true);
+        assertTrue(listCandidate.isList());
+        assertEquals(LocatorType.CSS_SELECTOR, listCandidate.getType());
+        assertEquals(LocatorCandidate.PRIORITY_SIBLING_LIST, listCandidate.getPriority());
     }
 
     @Test
@@ -58,12 +69,16 @@ class LocatorCandidateTest {
     void testEqualsHashCodeToString() {
         LocatorCandidate same = new LocatorCandidate(LocatorType.ID, "login", LocatorCandidate.PRIORITY_ID,
                 "by id \"login\"");
-        assertEquals(testSubject, testSubject);
         assertEquals(testSubject, same);
         assertEquals(testSubject.hashCode(), same.hashCode());
-        assertNotEquals(testSubject, new LocatorCandidate(LocatorType.NAME, "login",
-                LocatorCandidate.PRIORITY_NAME, "by name \"login\""));
-        assertNotEquals(testSubject, new Object());
+        assertNotEquals(new LocatorCandidate(LocatorType.NAME, "login",
+                LocatorCandidate.PRIORITY_NAME, "by name \"login\""), testSubject);
+        assertNotEquals(new Object(), testSubject);
         assertTrue(testSubject.toString().contains("login"));
+
+        // list field affects equality
+        LocatorCandidate listCandidate = new LocatorCandidate(LocatorType.ID, "login", LocatorCandidate.PRIORITY_ID,
+                "by id \"login\"", true);
+        assertNotEquals(testSubject, listCandidate);
     }
 }

@@ -148,4 +148,42 @@ class HamsterPageObjectGeneratorTest {
         assertTrue(code.contains("public WebComponent select()"));
         assertTrue(code.contains("driver.findComponent(By.id(\"sel\"))"));
     }
+
+    @Test
+    void testGenerateListComponentWithDetectedComponent() throws IOException {
+        PageModel page = new PageModel("User Login", "/user/login");
+        page.addElement(new PageElementModel("buttons",
+                new LocatorCandidate(LocatorType.CSS_SELECTOR, ".section .MuiButton-root",
+                        LocatorCandidate.PRIORITY_CUSTOM_ATTRIBUTE, "by css"),
+                muiTextField, true));
+        String code = generateAndRead(config(ComponentFramework.MUI, MuiVersion.V4), page);
+        assertTrue(code.contains("public List<MuiTextField> buttons()"));
+        assertTrue(code.contains("driver.findComponents(By.cssSelector(\".section .MuiButton-root\")).stream()"
+                + ".map(c -> c.as(components).toTextField()).toList()"));
+        assertTrue(code.contains("import java.util.List;"));
+    }
+
+    @Test
+    void testGenerateListComponentWithoutDetectedComponent() throws IOException {
+        PageModel page = new PageModel("User Login", "/user/login");
+        page.addElement(new PageElementModel("items",
+                new LocatorCandidate(LocatorType.CSS_SELECTOR, ".container .MuiBox-root",
+                        LocatorCandidate.PRIORITY_CUSTOM_ATTRIBUTE, "by css"),
+                null, true));
+        String code = generateAndRead(config(ComponentFramework.MUI, MuiVersion.V4), page);
+        assertTrue(code.contains("public List<WebComponent> items()"));
+        assertTrue(code.contains("driver.findComponents(By.cssSelector(\".container .MuiBox-root\"))"));
+    }
+
+    @Test
+    void testGenerateListWithRequiresArgsFallsBackToWebComponentList() throws IOException {
+        PageModel page = new PageModel("User Login", "/user/login");
+        page.addElement(new PageElementModel("selects",
+                new LocatorCandidate(LocatorType.CSS_SELECTOR, ".section .MuiSelect-root",
+                        LocatorCandidate.PRIORITY_CUSTOM_ATTRIBUTE, "by css"),
+                muiSelect, true));
+        String code = generateAndRead(config(ComponentFramework.MUI, MuiVersion.V4), page);
+        assertTrue(code.contains("public List<WebComponent> selects()"));
+        assertTrue(code.contains("driver.findComponents(By.cssSelector(\".section .MuiSelect-root\"))"));
+    }
 }

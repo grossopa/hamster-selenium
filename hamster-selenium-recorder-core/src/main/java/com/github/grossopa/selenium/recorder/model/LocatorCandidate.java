@@ -55,6 +55,20 @@ public class LocatorCandidate {
     public static final int PRIORITY_CUSTOM_ATTRIBUTE = 20;
 
     /**
+     * The priority of a locator based on an ancestor anchor (id or test id of a parent element).
+     *
+     * @since 1.16
+     */
+    public static final int PRIORITY_ANCESTOR = 30;
+
+    /**
+     * The priority of a locator based on sibling list grouping.
+     *
+     * @since 1.16
+     */
+    public static final int PRIORITY_SIBLING_LIST = 35;
+
+    /**
      * The priority of a locator based on the visible text.
      */
     public static final int PRIORITY_TEXT = 50;
@@ -68,6 +82,7 @@ public class LocatorCandidate {
     private final String value;
     private final int priority;
     private final String description;
+    private final boolean list;
 
     /**
      * Constructs an instance with locator type, value, priority and description.
@@ -78,10 +93,28 @@ public class LocatorCandidate {
      * @param description the human readable description of this candidate, must not be null
      */
     public LocatorCandidate(LocatorType type, String value, int priority, String description) {
+        this(type, value, priority, description, false);
+    }
+
+    /**
+     * Constructs an instance with locator type, value, priority, description and a list flag.
+     *
+     * <p>When {@code list} is {@code true}, this candidate represents a group of sibling elements rather than a single
+     * element. The generated page object method will return a {@code List} of components.</p>
+     *
+     * @param type the locator type, must not be null
+     * @param value the locator value, must not be null
+     * @param priority the priority of this candidate, the lower the more preferred
+     * @param description the human readable description of this candidate, must not be null
+     * @param list whether this candidate targets a list of sibling elements
+     * @since 1.16
+     */
+    public LocatorCandidate(LocatorType type, String value, int priority, String description, boolean list) {
         this.type = requireNonNull(type);
         this.value = requireNonNull(value);
         this.priority = priority;
         this.description = requireNonNull(description);
+        this.list = list;
     }
 
     /**
@@ -121,6 +154,16 @@ public class LocatorCandidate {
     }
 
     /**
+     * Whether this candidate targets a list of sibling elements rather than a single element.
+     *
+     * @return {@code true} if this is a list locator
+     * @since 1.16
+     */
+    public boolean isList() {
+        return list;
+    }
+
+    /**
      * Builds the {@link By} instance from this candidate.
      *
      * @return the built {@link By} instance
@@ -138,17 +181,17 @@ public class LocatorCandidate {
             return false;
         }
         return priority == that.priority && type == that.type && value.equals(that.value)
-                && description.equals(that.description);
+                && description.equals(that.description) && list == that.list;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, value, priority, description);
+        return Objects.hash(type, value, priority, description, list);
     }
 
     @Override
     public String toString() {
         return "LocatorCandidate{" + "type=" + type + ", value='" + value + '\'' + ", priority=" + priority
-                + ", description='" + description + '\'' + '}';
+                + ", description='" + description + '\'' + ", list=" + list + '}';
     }
 }

@@ -36,7 +36,9 @@ import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
+import com.squareup.javapoet.TypeName;
 
 import javax.lang.model.element.Modifier;
 import java.io.IOException;
@@ -94,6 +96,7 @@ public class HamsterPageObjectGenerator implements PageObjectGenerator {
     private static final ClassName WEB_COMPONENT = ClassName.get("com.github.grossopa.selenium.core.component",
             "WebComponent");
     private static final ClassName BY = ClassName.get("org.openqa.selenium", "By");
+    private static final ClassName LIST = ClassName.get("java.util", "List");
     private static final ClassName MUI_COMPONENTS = ClassName.get(MuiComponents.class);
     private static final ClassName HTML_COMPONENTS = ClassName.get(HtmlComponents.class);
 
@@ -138,23 +141,30 @@ public class HamsterPageObjectGenerator implements PageObjectGenerator {
                         .build())
                 .addField(FieldSpec.builder(componentsType, COMPONENTS_FIELD, Modifier.PRIVATE, Modifier.FINAL)
                         .build())
-                .addMethod(buildConstructor(className, componentsType, config));
+                .addMethod(buildConstructor(componentsType, config));
         for (PageElementModel element : page.getElements()) {
-            typeBuilder.addMethod(buildElementMethod(element));
+            if (element.isList()) {
+                typeBuilder.addMethod(buildListElementMethod(element));
+            } else {
+                typeBuilder.addMethod(buildElementMethod(element));
+            }
         }
         return JavaFile.builder(config.getBasePackage(), typeBuilder.build()).skipJavaLangImports(true)
                 .indent("    ").build();
     }
 
-    private MethodSpec buildConstructor(String className, ClassName componentsType, RecorderConfig config) {
+    private MethodSpec buildConstructor(ClassName componentsType, RecorderConfig config) {
         String factoryExpression = switch (config.getFramework()) {
             case MUI -> config.getMuiVersion() == MuiVersion.V5 ? "$T.muiV5()" : "$T.mui()";
             case HTML -> "$T.html()";
             default -> "$T.html()";
         };
         return MethodSpec.constructorBuilder().addModifiers(Modifier.PUBLIC)
-                .addJavadoc("Constructs an instance with the component web driver.\n\n"
-                        + "@param driver the component web driver, must not be null\n")
+                .addJavadoc("""
+                        Constructs an instance with the component web driver.
+
+                        @param driver the component web driver, must not be null
+                        """)
                 .addParameter(COMPONENT_WEB_DRIVER, DRIVER_FIELD)
                 .addStatement("this.$N = $N", DRIVER_FIELD, DRIVER_FIELD)
                 .addStatement(CodeBlock.of("this.$N = " + factoryExpression, COMPONENTS_FIELD, componentsType))
@@ -179,6 +189,38 @@ public class HamsterPageObjectGenerator implements PageObjectGenerator {
                         element.getFieldName())
                 .returns(WEB_COMPONENT)
                 .addStatement("return $N.findComponent($L)", DRIVER_FIELD, byCode)
+                .build();
+    }
+
+    /**
+     * Builds a list method for the given page element model. The generated method returns a {@code List} of
+     * components using {@code findComponents()} with stream mapping.
+     *
+     * @param element the page element model to build the list method for
+     * @return the built method spec
+     * @since 1.16
+     */
+    public MethodSpec buildListElementMethod(PageElementModel element) {
+        DetectedComponent detected = element.getDetectedComponent();
+        CodeBlock byCode = buildByCode(element.getLocator());
+
+        if (detected != null && !detected.isRequiresArgs()) {
+            ClassName componentType = ClassName.bestGuess(detected.getTypeQualifiedName());
+            TypeName listType = ParameterizedTypeName.get(LIST, componentType);
+            return MethodSpec.methodBuilder(element.getFieldName()).addModifiers(Modifier.PUBLIC)
+                    .addJavadoc("Finds all $L components \"$L\".\n\n@return the list of $L components\n",
+                            detected.getTypeName(), element.getFieldName(), detected.getTypeName())
+                    .returns(listType)
+                    .addStatement("return $N.findComponents($L).stream().map($N -> $N.as($N).$N()).toList()",
+                            DRIVER_FIELD, byCode, "c", "c", COMPONENTS_FIELD, detected.getFactoryMethodName())
+                    .build();
+        }
+        TypeName listType = ParameterizedTypeName.get(LIST, WEB_COMPONENT);
+        return MethodSpec.methodBuilder(element.getFieldName()).addModifiers(Modifier.PUBLIC)
+                .addJavadoc("Finds all web components \"$L\".\n\n@return the list of web components\n",
+                        element.getFieldName())
+                .returns(listType)
+                .addStatement("return $N.findComponents($L)", DRIVER_FIELD, byCode)
                 .build();
     }
 

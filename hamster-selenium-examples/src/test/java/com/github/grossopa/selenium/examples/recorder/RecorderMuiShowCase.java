@@ -58,7 +58,7 @@ public class RecorderMuiShowCase {
         RecorderConfig config = RecorderConfig.builder()
                 .framework(ComponentFramework.of("mui"))
                 .muiVersion(MuiVersion.V5)
-                .outputDir(Path.of("target", "recorder-generated"))
+                .outputDir(Path.of("hamster-selenium-examples", "target", "recorder-generated"))
                 .basePackage("com.example.pageobjects")
                 .build();
         WebDriver driver = RecorderExampleSupport.createDriver();

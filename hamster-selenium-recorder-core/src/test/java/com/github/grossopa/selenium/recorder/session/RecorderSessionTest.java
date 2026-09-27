@@ -53,9 +53,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -73,6 +75,7 @@ class RecorderSessionTest {
     ElementScanner scanner = mock(ElementScanner.class);
     ComponentDetector detector = mock(ComponentDetector.class);
     PageObjectGenerator generator = mock(PageObjectGenerator.class);
+    WebElement webElement = mock(WebElement.class);
     AtomicReference<String> currentUrl = new AtomicReference<>("http://localhost/user/login");
     RecorderConfig config = RecorderConfig.builder().build();
 
@@ -87,6 +90,7 @@ class RecorderSessionTest {
     @BeforeEach
     void setUp() {
         when(rawDriver.getCurrentUrl()).thenAnswer(invocation -> currentUrl.get());
+        when(((JavascriptExecutor) rawDriver).executeScript(anyString())).thenReturn(1);
         testSubject = new RecorderSession(rawDriver, config, scanner, List.of(detector), generator);
     }
 
@@ -103,7 +107,7 @@ class RecorderSessionTest {
     void testScanDetectsComponents() {
         ScannedElement scanned = new ScannedElement(0, "input", Map.of("id", "username"), "", List.of(candidate));
         when(scanner.scan(any())).thenReturn(List.of(scanned));
-        when(rawDriver.findElement(any(By.class))).thenReturn(mock(WebElement.class));
+        when(rawDriver.findElement(any(By.class))).thenReturn(webElement);
         when(detector.detect(any(), any())).thenReturn(Optional.of(detected));
 
         List<ScannedElement> result = testSubject.scan();
@@ -120,6 +124,23 @@ class RecorderSessionTest {
         assertEquals("username", selected.getFieldName());
         assertEquals(candidate, selected.getLocator());
         assertTrue(testSubject.getCurrentPage().hasField("username"));
+    }
+
+    @Test
+    void testSelectWithNonUniqueLocatorFallsBackToListLocator() {
+        LocatorCandidate listCandidate = new LocatorCandidate(LocatorType.CSS_SELECTOR, ".MuiButton-root",
+                LocatorCandidate.PRIORITY_SIBLING_LIST, "by sibling list", true);
+        ScannedElement scanned = new ScannedElement(0, "button", Map.of(), "Click",
+                List.of(candidate, listCandidate));
+        when(scanner.scan(any())).thenReturn(List.of(scanned));
+        when(rawDriver.findElement(any(By.class))).thenReturn(webElement);
+        when(detector.detect(any(), any())).thenReturn(Optional.empty());
+        // verifyLocatorCount returns 2 (non-unique)
+        when(((JavascriptExecutor) rawDriver).executeScript(anyString())).thenReturn(2);
+
+        testSubject.scan();
+        PageElementModel selected = testSubject.select(0, "buttons");
+        assertSame(listCandidate, selected.getLocator());
     }
 
     @Test
@@ -195,7 +216,7 @@ class RecorderSessionTest {
     private void stubScan() {
         ScannedElement scanned = new ScannedElement(0, "input", Map.of("id", "username"), "", List.of(candidate));
         when(scanner.scan(any())).thenReturn(List.of(scanned));
-        when(rawDriver.findElement(any(By.class))).thenReturn(mock(WebElement.class));
+        when(rawDriver.findElement(any(By.class))).thenReturn(webElement);
         when(detector.detect(any(), any())).thenReturn(Optional.of(detected));
     }
 }

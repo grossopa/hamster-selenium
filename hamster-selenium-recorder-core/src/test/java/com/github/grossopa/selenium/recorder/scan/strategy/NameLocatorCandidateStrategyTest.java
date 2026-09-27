@@ -24,6 +24,7 @@
 package com.github.grossopa.selenium.recorder.scan.strategy;
 
 import com.github.grossopa.selenium.recorder.model.LocatorCandidate;
+import com.github.grossopa.selenium.recorder.model.LocatorContext;
 import com.github.grossopa.selenium.recorder.model.LocatorType;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -61,6 +63,33 @@ class NameLocatorCandidateStrategyTest {
     @Test
     void testToCandidatesWithBlankName() {
         List<LocatorCandidate> result = testSubject.toCandidates(0, "input", Map.of("name", "  "), "");
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testToCandidatesWithDuplicateName() {
+        LocatorContext context = new LocatorContext(null, 3, Map.of("gender", 3));
+        List<LocatorCandidate> result = testSubject.toCandidates(0, "input", Map.of("name", "gender"), "", context);
+        assertEquals(1, result.size());
+        assertEquals(LocatorType.NAME, result.get(0).getType());
+        assertEquals("gender", result.get(0).getValue());
+        assertEquals(NameLocatorCandidateStrategy.PRIORITY_DUPLICATE_NAME, result.get(0).getPriority());
+        assertTrue(result.get(0).isList());
+    }
+
+    @Test
+    void testToCandidatesWithUniqueName() {
+        LocatorContext context = new LocatorContext(null, 3, Map.of("username", 1));
+        List<LocatorCandidate> result = testSubject.toCandidates(0, "input", Map.of("name", "username"), "", context);
+        assertEquals(1, result.size());
+        assertEquals(LocatorCandidate.PRIORITY_NAME, result.get(0).getPriority());
+        assertFalse(result.get(0).isList());
+    }
+
+    @Test
+    void testToCandidatesWithContextButNoName() {
+        LocatorContext context = new LocatorContext(null, 3, Map.of());
+        List<LocatorCandidate> result = testSubject.toCandidates(0, "input", Map.of("id", "field"), "", context);
         assertTrue(result.isEmpty());
     }
 }

@@ -57,7 +57,7 @@ public class RecorderLocalHtmlShowCase {
                 .framework(ComponentFramework.of("html"))
                 .keyAttribute("data-testid")
                 .extraSelector("table")
-                .outputDir(Path.of("target", "recorder-generated"))
+                .outputDir(Path.of("hamster-selenium-examples", "target", "recorder-generated"))
                 .basePackage("com.example.pageobjects")
                 .build();
         WebDriver driver = RecorderExampleSupport.createDriver();

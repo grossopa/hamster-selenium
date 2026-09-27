@@ -72,4 +72,25 @@ public enum LocatorType {
             case XPATH -> By.xpath(value);
         };
     }
+
+    /**
+     * Converts the locator value to a CSS or XPath selector string that can be directly executed by
+     * {@code document.querySelectorAll} (for CSS) or {@code document.evaluate} (for XPath). This is mainly used for
+     * uniqueness verification of a locator candidate.
+     *
+     * <p>For {@link #ID}, the value is converted to {@code #value}. For {@link #NAME}, the value is converted to
+     * {@code [name="value"]}. For {@link #CSS_SELECTOR} and {@link #XPATH}, the value is returned as-is.</p>
+     *
+     * @param value the locator value
+     * @return the CSS or XPath selector string
+     * @since 1.16
+     */
+    public String toSelectorString(String value) {
+        requireNonNull(value);
+        return switch (this) {
+            case ID -> "#" + value;
+            case NAME -> "[name=\"" + value + "\"]";
+            case CSS_SELECTOR, XPATH -> value;
+        };
+    }
 }

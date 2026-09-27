@@ -23,14 +23,18 @@
  */
 package com.github.grossopa.selenium.recorder.component;
 
+import com.github.grossopa.selenium.component.mui.MuiComponent;
 import com.github.grossopa.selenium.component.mui.MuiComponents;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -53,21 +57,60 @@ class MuiComponentDefinitionsTest {
     void testComponentNamesUnique() {
         Set<String> names = defaults.stream().map(MuiComponentDefinition::getComponentName)
                 .collect(Collectors.toSet());
-        assertTrue(names.size() == defaults.size(), "duplicated component names found");
+        assertEquals(defaults.size(), names.size(), "duplicated component names found");
     }
 
     @Test
     void testFactoryMethodsExistOnMuiComponents() {
         for (MuiComponentDefinition definition : defaults) {
-            List<java.lang.reflect.Method> methods = Arrays.stream(MuiComponents.class.getMethods())
+            List<Method> methods = Arrays.stream(MuiComponents.class.getMethods())
                     .filter(method -> method.getName().equals(definition.getFactoryMethodName()))
-                    .collect(Collectors.toList());
+                    .toList();
             assertFalse(methods.isEmpty(),
                     "factory method not found on MuiComponents: " + definition.getFactoryMethodName());
             if (!definition.isRequiresArgs()) {
                 assertTrue(methods.stream().anyMatch(method -> method.getParameterCount() == 0),
                         "factory method without args not found: " + definition.getFactoryMethodName());
             }
+        }
+    }
+
+    @Test
+    void testAutoDiscoveredComponentsHaveNoRequiresArgs() {
+        defaults.stream().filter(d -> !d.isRequiresArgs()).forEach(d -> assertTrue(Arrays.stream(MuiComponents.class.getMethods()).anyMatch(m -> m.getName()
+                        .equals(d.getFactoryMethodName()) && m.getParameterCount() == 0
+                        && MuiComponent.class.isAssignableFrom(m.getReturnType())),
+                "no-arg factory method not found for: " + d.getFactoryMethodName()));
+    }
+
+    @Test
+    void testSelectRequiresArgs() {
+        List<MuiComponentDefinition> selectDefs = defaults.stream()
+                .filter(d -> d.getComponentName().equals("Select")).toList();
+        assertEquals(1, selectDefs.size());
+        assertTrue(selectDefs.get(0).isRequiresArgs());
+    }
+
+    @Test
+    void testAllNoArgFactoryMethodsDiscovered() {
+        Map<String, MuiComponentDefinition> byFactoryMethod = defaults.stream()
+                .collect(Collectors.toMap(MuiComponentDefinition::getFactoryMethodName, d -> d));
+
+        for (Method method : MuiComponents.class.getMethods()) {
+            if (!method.getName().startsWith("to")) {
+                continue;
+            }
+            if (method.getParameterCount() != 0) {
+                continue;
+            }
+            if (!MuiComponent.class.isAssignableFrom(method.getReturnType())) {
+                continue;
+            }
+            if (method.getReturnType().getName().contains(".finder.")) {
+                continue;
+            }
+            assertTrue(byFactoryMethod.containsKey(method.getName()),
+                    "auto-discovered method missing from defaults: " + method.getName());
         }
     }
 }

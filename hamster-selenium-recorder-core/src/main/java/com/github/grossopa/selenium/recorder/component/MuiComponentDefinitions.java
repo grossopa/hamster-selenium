@@ -23,12 +23,24 @@
  */
 package com.github.grossopa.selenium.recorder.component;
 
+import com.github.grossopa.selenium.component.mui.MuiComponent;
+import com.github.grossopa.selenium.component.mui.MuiComponents;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The registry of the known Material UI component definitions that map the MUI root css classes to the hamster
  * selenium component types and the {@code MuiComponents} factory methods. The definitions reuse the same root css
  * naming convention as {@code MuiConfig.getRootCss(componentName)}.
+ *
+ * <p>The component definitions are auto-discovered via reflection on {@link MuiComponents} class. All public no-arg
+ * factory methods returning a {@link MuiComponent} subtype are automatically included. Components whose factory
+ * methods require arguments (e.g. {@code toSelect(By)}) are maintained manually in
+ * {@link #REQUIRES_ARGS_OVERRIDES}.</p>
  *
  * @author Jack Yin
  * @since 1.15
@@ -37,13 +49,20 @@ import java.util.List;
  */
 public class MuiComponentDefinitions {
 
-    private static final String INPUTS = "com.github.grossopa.selenium.component.mui.v4.inputs.";
-    private static final String DATADISPLAY = "com.github.grossopa.selenium.component.mui.v4.datadisplay.";
-    private static final String FEEDBACK = "com.github.grossopa.selenium.component.mui.v4.feedback.";
-    private static final String NAVIGATION = "com.github.grossopa.selenium.component.mui.v4.navigation.";
-    private static final String SURFACES = "com.github.grossopa.selenium.component.mui.v4.surfaces.";
-    private static final String CORE = "com.github.grossopa.selenium.component.mui.v4.core.";
-    private static final String LAB = "com.github.grossopa.selenium.component.mui.v4.lab.";
+    /**
+     * Return types to exclude from auto-discovery. These are internal utility types that implement
+     * {@link MuiComponent} but are not actual UI components detectable by css class.
+     */
+    private static final Set<String> EXCLUDE_RETURN_TYPES = Set.of(
+            "com.github.grossopa.selenium.component.mui.v4.finder.MuiModalFinder");
+
+    /**
+     * Manual overrides for components whose factory methods require additional arguments. These cannot be
+     * auto-discovered since they have no zero-parameter factory method on {@link MuiComponents}.
+     */
+    private static final List<MuiComponentDefinition> REQUIRES_ARGS_OVERRIDES = List.of(
+            new MuiComponentDefinition("Select", "MuiSelect",
+                    "com.github.grossopa.selenium.component.mui.v4.inputs.MuiSelect", "toSelect", true));
 
     /**
      * private constructor
@@ -53,62 +72,39 @@ public class MuiComponentDefinitions {
     }
 
     /**
-     * Gets the default definitions covering the Material UI components supported by {@code MuiComponents}.
+     * Gets the default definitions covering the Material UI components supported by {@code MuiComponents}. The
+     * definitions are auto-discovered via reflection on all public no-arg factory methods of {@link MuiComponents}
+     * that return a {@link MuiComponent} subtype, supplemented by manual overrides for components requiring
+     * additional arguments.
      *
      * @return the default component definitions
      */
     public static List<MuiComponentDefinition> defaults() {
-        return List.of(
-                // Inputs Components
-                new MuiComponentDefinition("Button", "MuiButton", INPUTS + "MuiButton", "toButton", false),
-                new MuiComponentDefinition("ButtonGroup", "MuiButtonGroup", INPUTS + "MuiButtonGroup", "toButtonGroup",
-                        false),
-                new MuiComponentDefinition("Checkbox", "MuiCheckbox", INPUTS + "MuiCheckbox", "toCheckbox", false),
-                new MuiComponentDefinition("Fab", "MuiFab", INPUTS + "MuiFab", "toFab", false),
-                new MuiComponentDefinition("Radio", "MuiRadio", INPUTS + "MuiRadio", "toRadio", false),
-                new MuiComponentDefinition("RadioGroup", "MuiRadioGroup", INPUTS + "MuiRadioGroup", "toRadioGroup",
-                        false),
-                new MuiComponentDefinition("Select", "MuiSelect", INPUTS + "MuiSelect", "toSelect", true),
-                new MuiComponentDefinition("Slider", "MuiSlider", INPUTS + "MuiSlider", "toSlider", false),
-                new MuiComponentDefinition("Switch", "MuiSwitch", INPUTS + "MuiSwitch", "toSwitch", false),
-                new MuiComponentDefinition("TextField", "MuiTextField", INPUTS + "MuiTextField", "toTextField", false),
-                new MuiComponentDefinition("Rating", "MuiRating", INPUTS + "MuiRating", "toRating", false),
-                // Data Display Components
-                new MuiComponentDefinition("Avatar", "MuiAvatar", DATADISPLAY + "MuiAvatar", "toAvatar", false),
-                new MuiComponentDefinition("Badge", "MuiBadge", DATADISPLAY + "MuiBadge", "toBadge", false),
-                new MuiComponentDefinition("Chip", "MuiChip", DATADISPLAY + "MuiChip", "toChip", false),
-                new MuiComponentDefinition("Divider", "MuiDivider", DATADISPLAY + "MuiDivider", "toDivider", false),
-                new MuiComponentDefinition("List", "MuiList", DATADISPLAY + "MuiList", "toList", false),
-                new MuiComponentDefinition("ListItem", "MuiListItem", DATADISPLAY + "MuiListItem", "toListItem",
-                        false),
-                // Feedback Components
-                new MuiComponentDefinition("Backdrop", "MuiBackdrop", FEEDBACK + "MuiBackdrop", "toBackdrop", false),
-                new MuiComponentDefinition("Dialog", "MuiDialog", FEEDBACK + "MuiDialog", "toDialog", false),
-                new MuiComponentDefinition("Snackbar", "MuiSnackbar", FEEDBACK + "MuiSnackbar", "toSnackbar", false),
-                new MuiComponentDefinition("CircularProgress", "MuiCircularProgress", FEEDBACK + "MuiCircularProgress",
-                        "toCircularProgress", false),
-                new MuiComponentDefinition("LinearProgress", "MuiLinearProgress", FEEDBACK + "MuiLinearProgress",
-                        "toLinearProgress", false),
-                // Navigation Components
-                new MuiComponentDefinition("Accordion", "MuiAccordion", NAVIGATION + "MuiAccordion", "toAccordion",
-                        false),
-                new MuiComponentDefinition("BottomNavigation", "MuiBottomNavigation", NAVIGATION
-                        + "MuiBottomNavigation", "toBottomNavigation", false),
-                new MuiComponentDefinition("Breadcrumbs", "MuiBreadcrumbs", NAVIGATION + "MuiBreadcrumbs",
-                        "toBreadcrumbs", false),
-                new MuiComponentDefinition("Link", "MuiLink", NAVIGATION + "MuiLink", "toLink", false),
-                new MuiComponentDefinition("Menu", "MuiMenu", NAVIGATION + "MuiMenu", "toMenu", false),
-                new MuiComponentDefinition("Tabs", "MuiTabs", NAVIGATION + "MuiTabs", "toTabs", false),
-                new MuiComponentDefinition("Stepper", "MuiStepper", NAVIGATION + "MuiStepper", "toStepper", false),
-                // Surfaces Components
-                new MuiComponentDefinition("AppBar", "MuiAppBar", SURFACES + "MuiAppBar", "toAppBar", false),
-                new MuiComponentDefinition("Pager", "MuiPager", SURFACES + "MuiPager", "toPager", false),
-                // Core Components
-                new MuiComponentDefinition("Grid", "MuiGrid", CORE + "MuiGrid", "toGrid", false),
-                // Lab Components
-                new MuiComponentDefinition("Autocomplete", "MuiAutocomplete", LAB + "MuiAutocomplete",
-                        "toAutocomplete", false),
-                new MuiComponentDefinition("Pagination", "MuiPagination", LAB + "MuiPagination", "toPagination",
-                        false));
+        List<MuiComponentDefinition> result = new ArrayList<>();
+
+        // Auto-discover from MuiComponents no-arg factory methods
+        for (Method method : MuiComponents.class.getMethods()) {
+            if (method.getName().startsWith("to") && method.getParameterCount() == 0) {
+                Class<?> returnType = method.getReturnType();
+                if (MuiComponent.class.isAssignableFrom(returnType)
+                        && !EXCLUDE_RETURN_TYPES.contains(returnType.getName())) {
+                    result.add(toDefinition(method));
+                }
+            }
+        }
+
+        // Add manual overrides for components requiring args
+        result.addAll(REQUIRES_ARGS_OVERRIDES);
+
+        result.sort(Comparator.comparing(MuiComponentDefinition::getTypeQualifiedName));
+        return List.copyOf(result);
+    }
+
+    private static MuiComponentDefinition toDefinition(Method method) {
+        Class<?> returnType = method.getReturnType();
+        String typeName = returnType.getSimpleName();
+        String componentName = typeName.substring("Mui".length());
+        String fqn = returnType.getName();
+        return new MuiComponentDefinition(componentName, typeName, fqn, method.getName(), false);
     }
 }

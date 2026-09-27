@@ -59,10 +59,12 @@ class DefaultElementScannerTest {
 
     @BeforeEach
     void setUp() {
-        when(driver.executeScript(anyString(), any(), any(), any(), any())).thenReturn(
+        when(driver.executeScript(anyString(), any(), any(), any(), any(), any())).thenReturn(
                 List.of(Map.of("tagName", "button", "text", "Login", "attributes",
-                                Map.of("id", "login-btn", "data-testid", "login")),
-                        Map.of("tagName", "input", "text", "", "attributes", Map.of("name", "password"))));
+                                Map.of("id", "login-btn", "data-testid", "login"), "ancestor", Map.of(),
+                                "siblingCount", 1, "nameSiblingCounts", Map.of()),
+                        Map.of("tagName", "input", "text", "", "attributes", Map.of("name", "password"),
+                                "ancestor", Map.of(), "siblingCount", 1, "nameSiblingCounts", Map.of())));
     }
 
     @Test
@@ -91,14 +93,15 @@ class DefaultElementScannerTest {
 
     @Test
     void testScanWithNonListResult() {
-        when(driver.executeScript(anyString(), any(), any(), any(), any())).thenReturn("invalid");
+        when(driver.executeScript(anyString(), any(), any(), any(), any(), any())).thenReturn("invalid");
         assertTrue(testSubject.scan(driver).isEmpty());
     }
 
     @Test
     void testScanExcludesElementWithNoMatchingStrategy() {
-        when(driver.executeScript(anyString(), any(), any(), any(), any())).thenReturn(
-                List.of(Map.of("tagName", "div", "text", "", "attributes", Map.of())));
+        when(driver.executeScript(anyString(), any(), any(), any(), any(), any())).thenReturn(
+                List.of(Map.of("tagName", "div", "text", "", "attributes", Map.of(), "ancestor", Map.of(),
+                        "siblingCount", 1, "nameSiblingCounts", Map.of())));
         List<ScannedElement> result = testSubject.scan(driver);
         assertTrue(result.isEmpty());
     }
@@ -106,21 +109,23 @@ class DefaultElementScannerTest {
     @Test
     void testCreateDefaultLocatorCandidateStrategies() {
         List<LocatorCandidateStrategy> strategies = DefaultElementScanner.createDefaultLocatorCandidateStrategies(config);
-        assertEquals(3, strategies.size());
+        assertEquals(5, strategies.size());
         assertInstanceOf(IdLocatorCandidateStrategy.class, strategies.get(0));
         assertInstanceOf(NameLocatorCandidateStrategy.class, strategies.get(1));
         assertInstanceOf(CustomAttributeLocatorCandidateStrategy.class, strategies.get(2));
+        assertInstanceOf(AncestorLocatorCandidateStrategy.class, strategies.get(3));
+        assertInstanceOf(SiblingListLocatorCandidateStrategy.class, strategies.get(4));
     }
 
     @Test
     void testGetStrategies() {
         List<LocatorCandidateStrategy> strategies = testSubject.getStrategies();
-        assertEquals(3, strategies.size());
+        assertEquals(5, strategies.size());
     }
 
     @Test
     void testMarkerLocator() {
-        assertEquals(By.xpath("*[@data-hamster-rec-idx=\"3\"]"), DefaultElementScanner.markerLocator(3));
+        assertEquals(By.xpath("//*[@data-hamster-rec-idx=\"3\"]"), DefaultElementScanner.markerLocator(3));
     }
 
     @Test

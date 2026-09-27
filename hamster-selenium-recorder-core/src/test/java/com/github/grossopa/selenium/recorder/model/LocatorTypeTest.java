@@ -43,4 +43,12 @@ class LocatorTypeTest {
         assertEquals(By.cssSelector("#abc"), LocatorType.CSS_SELECTOR.toBy("#abc"));
         assertEquals(By.xpath("//div"), LocatorType.XPATH.toBy("//div"));
     }
+
+    @Test
+    void testToSelectorString() {
+        assertEquals("#abc", LocatorType.ID.toSelectorString("abc"));
+        assertEquals("[name=\"abc\"]", LocatorType.NAME.toSelectorString("abc"));
+        assertEquals("#abc", LocatorType.CSS_SELECTOR.toSelectorString("#abc"));
+        assertEquals("//div", LocatorType.XPATH.toSelectorString("//div"));
+    }
 }

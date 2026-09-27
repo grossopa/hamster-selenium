@@ -25,59 +25,56 @@ package com.github.grossopa.selenium.recorder.scan.strategy;
 
 import com.github.grossopa.selenium.recorder.model.LocatorCandidate;
 import com.github.grossopa.selenium.recorder.model.LocatorContext;
-import org.apache.commons.lang3.StringUtils;
+import com.github.grossopa.selenium.recorder.model.LocatorContext.AncestorInfo;
+import com.github.grossopa.selenium.recorder.model.LocatorType;
 
 import java.util.List;
 import java.util.Map;
 
-import static com.github.grossopa.selenium.recorder.model.LocatorCandidate.PRIORITY_NAME;
-import static com.github.grossopa.selenium.recorder.model.LocatorType.NAME;
-
 /**
- * A strategy that builds a locator candidate from the {@code name} attribute of the scanned element.
+ * A strategy that builds a locator candidate from the ancestor anchor information. When the scanned element has no
+ * {@code id} or {@code name} but one of its ancestors has an {@code id} or a configured anchor attribute (e.g.
+ * {@code data-testid}), this strategy generates a CSS selector combining the ancestor anchor with the child path.
  *
- * <p>When the {@link LocatorContext} indicates that multiple siblings share the same {@code name} value (e.g. radio
- * buttons or checkboxes), the priority is lowered to {@value #PRIORITY_DUPLICATE_NAME} and the candidate is marked as a
- * list locator to reflect that the locator is not unique for a single element.</p>
+ * <p>Examples of generated locators:
+ * <ul>
+ * <li>Ancestor with id: {@code #formSection .MuiButton-root}</li>
+ * <li>Ancestor with test id: {@code [data-testid="header"] .MuiTextField-root}</li>
+ * </ul>
  *
  * @author Jack Yin
- * @since 1.15
- * @see LocatorCandidate#PRIORITY_NAME
+ * @since 1.16
+ * @see LocatorCandidate#PRIORITY_ANCESTOR
+ * @see LocatorContext
  */
-public class NameLocatorCandidateStrategy implements LocatorCandidateStrategy {
-
-    /**
-     * The priority of a locator based on a duplicated {@code name} attribute shared by multiple siblings.
-     *
-     * @since 1.16
-     */
-    public static final int PRIORITY_DUPLICATE_NAME = 25;
-
-    private static final String DESCRIPTION_PREFIX = "by name \"";
+public class AncestorLocatorCandidateStrategy implements LocatorCandidateStrategy {
 
     @Override
     public List<LocatorCandidate> toCandidates(int index, String tagName, Map<String, String> attributes, String text) {
-        String name = attributes.get("name");
-        if (StringUtils.isNotBlank(name)) {
-            return List.of(new LocatorCandidate(NAME, name, PRIORITY_NAME, DESCRIPTION_PREFIX + name + "\""));
-        }
         return List.of();
     }
 
     @Override
     public List<LocatorCandidate> toCandidates(int index, String tagName, Map<String, String> attributes, String text,
             LocatorContext context) {
-        String name = attributes.get("name");
-        if (StringUtils.isBlank(name)) {
+        AncestorInfo ancestor = context.getAncestor();
+        if (ancestor == null) {
             return List.of();
         }
 
-        Integer nameCount = context.getNameSiblingCounts().get(name);
-        if (nameCount != null && nameCount > 1) {
-            return List.of(new LocatorCandidate(NAME, name, PRIORITY_DUPLICATE_NAME,
-                    DESCRIPTION_PREFIX + name + "\" (shared by " + nameCount + " siblings)", true));
+        String cssValue;
+        String description;
+        if (ancestor.id() != null) {
+            cssValue = "#" + ancestor.id() + " " + ancestor.childPath();
+            description = "by ancestor #" + ancestor.id() + " -> " + ancestor.childPath();
+        } else if (ancestor.testId() != null) {
+            cssValue = "[data-testid=\"" + ancestor.testId() + "\"] " + ancestor.childPath();
+            description = "by ancestor data-testid \"" + ancestor.testId() + "\" -> " + ancestor.childPath();
+        } else {
+            return List.of();
         }
 
-        return List.of(new LocatorCandidate(NAME, name, PRIORITY_NAME, DESCRIPTION_PREFIX + name + "\""));
+        return List.of(new LocatorCandidate(LocatorType.CSS_SELECTOR, cssValue, LocatorCandidate.PRIORITY_ANCESTOR,
+                description));
     }
 }

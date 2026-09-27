@@ -27,6 +27,7 @@ import com.github.grossopa.selenium.recorder.config.ComponentFramework;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -50,12 +51,30 @@ class PageElementModelTest {
         assertEquals("loginButton", testSubject.getFieldName());
         assertEquals(locator, testSubject.getLocator());
         assertEquals(detected, testSubject.getDetectedComponent());
+        assertFalse(testSubject.isList());
     }
 
     @Test
     void testNullDetectedComponentAndToString() {
         PageElementModel testSubject = new PageElementModel("banner", locator, null);
         assertNull(testSubject.getDetectedComponent());
+        assertFalse(testSubject.isList());
         assertTrue(testSubject.toString().contains("banner"));
+    }
+
+    @Test
+    void testListConstructor() {
+        PageElementModel testSubject = new PageElementModel("buttons", locator, detected, true);
+        assertEquals("buttons", testSubject.getFieldName());
+        assertEquals(locator, testSubject.getLocator());
+        assertEquals(detected, testSubject.getDetectedComponent());
+        assertTrue(testSubject.isList());
+        assertTrue(testSubject.toString().contains("list=true"));
+    }
+
+    @Test
+    void testListConstructorFalse() {
+        PageElementModel testSubject = new PageElementModel("button", locator, detected, false);
+        assertFalse(testSubject.isList());
     }
 }

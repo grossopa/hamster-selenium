@@ -24,6 +24,7 @@
 package com.github.grossopa.selenium.recorder.scan.strategy;
 
 import com.github.grossopa.selenium.recorder.model.LocatorCandidate;
+import com.github.grossopa.selenium.recorder.model.LocatorContext;
 
 import java.util.List;
 import java.util.Map;
@@ -31,12 +32,16 @@ import java.util.Map;
 /**
  * A strategy for building locator candidates from the scanned element data. Each strategy focuses on one specific
  * locator source, e.g. the {@code id} attribute, the {@code name} attribute, a customized key attribute, the visible
- * text or the temporary marker attribute.
+ * text, the ancestor anchor or the temporary marker attribute.
  *
  * <p>Multiple strategies are composed via
  * {@link com.github.grossopa.selenium.recorder.scan.DefaultElementScanner#createDefaultLocatorCandidateStrategies(
  * com.github.grossopa.selenium.recorder.config.RecorderConfig)} to form the full set of locator candidates for a
  * scanned element. If none of the strategies produces a candidate, the element is excluded from the scan result.</p>
+ *
+ * <p>Strategies that need DOM context (e.g. ancestor information) should override the 5-parameter
+ * {@link #toCandidates(int, String, Map, String, LocatorContext)} method. The default implementation delegates to the
+ * 4-parameter method, so strategies that do not need context can simply implement the simpler method.</p>
  *
  * @author Jack Yin
  * @since 1.15
@@ -55,4 +60,23 @@ public interface LocatorCandidateStrategy {
      * @return the list of locator candidates produced by this strategy, empty if this strategy does not match
      */
     List<LocatorCandidate> toCandidates(int index, String tagName, Map<String, String> attributes, String text);
+
+    /**
+     * Builds locator candidates from the given scanned element data with the additional DOM context information.
+     *
+     * <p>The default implementation delegates to {@link #toCandidates(int, String, Map, String)}, ignoring the context.
+     * Strategies that need DOM context (e.g. ancestor anchor, sibling count) should override this method.</p>
+     *
+     * @param index the scan index of the element
+     * @param tagName the tag name of the element in lower case
+     * @param attributes the snapshot of the key attributes (only the present ones)
+     * @param text the visible text of the element
+     * @param context the DOM context information including ancestor and sibling data
+     * @return the list of locator candidates produced by this strategy, empty if this strategy does not match
+     * @since 1.16
+     */
+    default List<LocatorCandidate> toCandidates(int index, String tagName, Map<String, String> attributes, String text,
+            LocatorContext context) {
+        return toCandidates(index, tagName, attributes, text);
+    }
 }
