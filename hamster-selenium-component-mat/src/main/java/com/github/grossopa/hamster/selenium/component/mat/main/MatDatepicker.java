@@ -157,4 +157,9 @@ public class MatDatepicker extends AbstractMatComponent implements HasInput<WebC
     public int hashCode() {
         return Objects.hash(super.hashCode(), overlayFinder);
     }
+
+    @Override
+    public String toString() {
+        return "MatDatepicker{" + "overlayFinder=" + overlayFinder + ", element=" + element + '}';
+    }
 }

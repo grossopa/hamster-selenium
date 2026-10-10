@@ -39,11 +39,12 @@ class MatDatepickerTest {
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MatConfig config = mock(MatConfig.class);
+    MatOverlayFinder overlayFinder = mock(MatOverlayFinder.class);
 
     @BeforeEach
     void setUp() {
         when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
-        testSubject = new MatDatepicker(element, driver, config);
+        testSubject = new MatDatepicker(element, driver, config, overlayFinder);
     }
 
     @Test
@@ -65,8 +66,9 @@ class MatDatepickerTest {
 
     @Test
     void testToString() {
+        when(overlayFinder.toString()).thenReturn("overlayFinder");
         when(element.toString()).thenReturn("inner-element");
-        assertEquals("MatDatepicker{element=inner-element}", testSubject.toString());
+        assertEquals("MatDatepicker{overlayFinder=overlayFinder, element=inner-element}", testSubject.toString());
     }
 
     @Test
@@ -76,15 +78,15 @@ class MatDatepickerTest {
 
     @Test
     void equalsDifferentInstance() {
-        // Two instances with same element are equal (parent equals uses element comparison)
-        MatDatepicker other = new MatDatepicker(element, driver, config);
+        // Two instances with same element and overlayFinder are equal
+        MatDatepicker other = new MatDatepicker(element, driver, config, overlayFinder);
         assertEquals(testSubject, other);
     }
 
     @Test
     void equalsDifferentOverlayFinder() {
-        MatOverlayFinder overlayFinder = mock(MatOverlayFinder.class);
-        MatDatepicker other = new MatDatepicker(element, driver, config, overlayFinder);
+        MatOverlayFinder differentOverlayFinder = mock(MatOverlayFinder.class);
+        MatDatepicker other = new MatDatepicker(element, driver, config, differentOverlayFinder);
         assertNotEquals(testSubject, other);
     }
 
@@ -100,7 +102,7 @@ class MatDatepickerTest {
 
     @Test
     void hashCodeSameValues() {
-        MatDatepicker other = new MatDatepicker(element, driver, config);
+        MatDatepicker other = new MatDatepicker(element, driver, config, overlayFinder);
         assertEquals(testSubject.hashCode(), other.hashCode());
     }
 }

@@ -24,6 +24,7 @@
 package com.github.grossopa.hamster.selenium.component.mat.main;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
+import com.github.grossopa.hamster.selenium.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,11 +39,12 @@ class MatSelectTest {
     WebElement element = mock(WebElement.class);
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MatConfig config = mock(MatConfig.class);
+    MatOverlayFinder overlayFinder = mock(MatOverlayFinder.class);
 
     @BeforeEach
     void setUp() {
         when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
-        testSubject = new MatSelect(element, driver, config);
+        testSubject = new MatSelect(element, driver, config, overlayFinder);
     }
 
     @Test
@@ -64,7 +66,8 @@ class MatSelectTest {
 
     @Test
     void testToString() {
+        when(overlayFinder.toString()).thenReturn("overlayFinder");
         when(element.toString()).thenReturn("inner-element");
-        assertEquals("MatSelect{element=inner-element}", testSubject.toString());
+        assertEquals("MatSelect{overlayFinder=overlayFinder, element=inner-element}", testSubject.toString());
     }
 }

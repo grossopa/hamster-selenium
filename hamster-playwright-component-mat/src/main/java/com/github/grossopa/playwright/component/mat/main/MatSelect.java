@@ -215,4 +215,9 @@ public class MatSelect extends AbstractMatComponent {
     public int hashCode() {
         return Objects.hash(super.hashCode(), overlayFinder);
     }
+
+    @Override
+    public String toString() {
+        return "MatSelect{" + "overlayFinder=" + overlayFinder + ", locator=" + locator() + '}';
+    }
 }

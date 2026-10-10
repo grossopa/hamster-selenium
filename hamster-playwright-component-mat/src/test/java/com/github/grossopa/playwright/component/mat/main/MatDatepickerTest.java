@@ -24,6 +24,7 @@
 package com.github.grossopa.playwright.component.mat.main;
 
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
+import com.github.grossopa.playwright.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.playwright.core.ComponentDriver;
 import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,11 +39,12 @@ class MatDatepickerTest {
     Locator locator = mock(Locator.class);
     ComponentDriver driver = mock(ComponentDriver.class);
     MatConfig config = mock(MatConfig.class);
+    MatOverlayFinder overlayFinder = mock(MatOverlayFinder.class);
 
     @BeforeEach
     void setUp() {
         when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
-        testSubject = new MatDatepicker(locator, driver, config);
+        testSubject = new MatDatepicker(locator, driver, config, overlayFinder);
     }
 
     @Test
@@ -64,7 +66,8 @@ class MatDatepickerTest {
 
     @Test
     void testToString() {
+        when(overlayFinder.toString()).thenReturn("overlayFinder");
         when(locator.toString()).thenReturn("inner-locator");
-        assertEquals("MatDatepicker{locator=inner-locator}", testSubject.toString());
+        assertEquals("MatDatepicker{overlayFinder=overlayFinder, locator=inner-locator}", testSubject.toString());
     }
 }
