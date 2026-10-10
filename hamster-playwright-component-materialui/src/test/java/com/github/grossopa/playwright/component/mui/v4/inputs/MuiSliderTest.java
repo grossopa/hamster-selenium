@@ -293,4 +293,33 @@ class MuiSliderTest {
         MuiSliderThumb thumb = testSubject.createSliderThumb(thumbLocator);
         assertNotNull(thumb);
     }
+
+    // equals - always false for different instances since super.equals uses identity
+    @Test void equalsNull() {
+        assertFalse(testSubject.equals(null));
+    }
+
+    @Test void equalsDifferentType() {
+        assertFalse(testSubject.equals("string"));
+    }
+
+    @Test void equalsDifferentInstance() {
+        MuiSlider other = new MuiSlider(locator, driver, config);
+        assertFalse(testSubject.equals(other));
+    }
+
+    @Test void equalsSameInstance() {
+        assertEquals(testSubject, testSubject);
+    }
+
+    // hashCode
+    @Test void hashCodeConsistent() {
+        assertEquals(testSubject.hashCode(), testSubject.hashCode());
+    }
+
+    @Test void hashCodeDiffersForCustomScaleFunction() {
+        MuiSlider custom = new MuiSlider(locator, driver, config, x -> x * 2);
+        // different inverseScaleFunction should produce different hashCode
+        assertNotEquals(testSubject.hashCode(), custom.hashCode());
+    }
 }

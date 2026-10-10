@@ -86,4 +86,16 @@ class DefaultComponentDriverTest {
         assertNotNull(result);
         assertInstanceOf(DefaultWebComponent.class, result);
     }
+
+    @Test
+    void testConstructorWithPlaywrightOnly() {
+        BrowserType browserType = mock(BrowserType.class);
+        when(playwright.chromium()).thenReturn(browserType);
+        when(browserType.launch()).thenReturn(browser);
+        when(browser.newContext()).thenReturn(context);
+        when(context.newPage()).thenReturn(page);
+        DefaultComponentDriver driver = new DefaultComponentDriver(playwright);
+        assertEquals(playwright, driver.playwright());
+        assertEquals(browser, driver.browser());
+    }
 }

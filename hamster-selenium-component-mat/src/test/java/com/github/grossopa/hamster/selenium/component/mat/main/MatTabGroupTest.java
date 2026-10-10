@@ -25,10 +25,15 @@ package com.github.grossopa.hamster.selenium.component.mat.main;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -66,5 +71,74 @@ class MatTabGroupTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatTabGroup{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void getTabLabelsMdc() {
+        WebElement tab1 = mock(WebElement.class);
+        WebElement tab2 = mock(WebElement.class);
+        when(element.findElements(By.className("mat-mdc-tab"))).thenReturn(newArrayList(tab1, tab2));
+
+        List<WebComponent> result = testSubject.getTabLabels();
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    void getTabLabelsLegacy() {
+        WebElement label1 = mock(WebElement.class);
+        when(element.findElements(By.className("mat-mdc-tab"))).thenReturn(newArrayList());
+        when(element.findElements(By.className("mat-mdc-tab-label"))).thenReturn(newArrayList(label1));
+
+        List<WebComponent> result = testSubject.getTabLabels();
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void selectTab() {
+        WebElement tab1 = mock(WebElement.class);
+        WebElement tab2 = mock(WebElement.class);
+        when(element.findElements(By.className("mat-mdc-tab"))).thenReturn(newArrayList(tab1, tab2));
+
+        testSubject.selectTab(1);
+        verify(tab2).click();
+        verify(tab1, never()).click();
+    }
+
+    @Test
+    void getSelectedTabIndexMdc() {
+        WebElement tab1 = mock(WebElement.class);
+        when(tab1.getAttribute("class")).thenReturn("mat-mdc-tab");
+        WebElement tab2 = mock(WebElement.class);
+        when(tab2.getAttribute("class")).thenReturn("mat-mdc-tab mdc-tab--active");
+        when(element.findElements(By.className("mat-mdc-tab"))).thenReturn(newArrayList(tab1, tab2));
+
+        assertEquals(1, testSubject.getSelectedTabIndex());
+    }
+
+    @Test
+    void getSelectedTabIndexLegacy() {
+        WebElement tab1 = mock(WebElement.class);
+        when(tab1.getAttribute("class")).thenReturn("mat-mdc-tab-label mat-mdc-tab-label-active");
+        WebElement tab2 = mock(WebElement.class);
+        when(tab2.getAttribute("class")).thenReturn("mat-mdc-tab-label");
+        when(element.findElements(By.className("mat-mdc-tab"))).thenReturn(newArrayList(tab1, tab2));
+
+        assertEquals(0, testSubject.getSelectedTabIndex());
+    }
+
+    @Test
+    void getSelectedTabIndexNone() {
+        WebElement tab1 = mock(WebElement.class);
+        when(tab1.getAttribute("class")).thenReturn("mat-mdc-tab");
+        when(element.findElements(By.className("mat-mdc-tab"))).thenReturn(newArrayList(tab1));
+
+        assertEquals(-1, testSubject.getSelectedTabIndex());
+    }
+
+    @Test
+    void getTabs() {
+        WebElement tabEl = mock(WebElement.class);
+        when(element.findElements(By.className("mat-mdc-tab"))).thenReturn(newArrayList(tabEl));
+        assertEquals(1, testSubject.getTabs().size());
     }
 }

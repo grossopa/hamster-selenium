@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -82,9 +82,53 @@ class MatFormFieldTest {
 
     @Test
     void getPrefix() {
+        // MDC path returns empty, fallback to legacy
+        when(element.findElements(By.className("mat-mdc-form-field-text-prefix"))).thenReturn(newArrayList());
         WebElement prefixElement = mock(WebElement.class);
         when(element.findElement(By.className("mat-mdc-form-field-prefix"))).thenReturn(prefixElement);
         assertEquals(prefixElement, testSubject.getPrefix().getWrappedElement());
+    }
+
+    @Test
+    void getPrefixMdc() {
+        WebElement prefixElement = mock(WebElement.class);
+        when(element.findElements(By.className("mat-mdc-form-field-text-prefix"))).thenReturn(
+                newArrayList(prefixElement));
+        assertNotNull(testSubject.getPrefix());
+    }
+
+    @Test
+    void getSuffixMdc() {
+        WebElement suffixElement = mock(WebElement.class);
+        when(element.findElements(By.className("mat-mdc-form-field-text-suffix"))).thenReturn(
+                newArrayList(suffixElement));
+        assertNotNull(testSubject.getSuffix());
+    }
+
+    @Test
+    void getHintMdc() {
+        WebElement hintElement = mock(WebElement.class);
+        when(element.findElements(By.className("mat-mdc-form-field-hint"))).thenReturn(
+                newArrayList(hintElement));
+        assertNotNull(testSubject.getHint());
+    }
+
+    @Test
+    void getLabelMdc() {
+        WebElement labelElement = mock(WebElement.class);
+        when(element.findElements(By.cssSelector(".mat-mdc-floating-label"))).thenReturn(
+                newArrayList(labelElement));
+        assertNotNull(testSubject.getLabel());
+    }
+
+    @Test
+    void getErrorMdc() {
+        WebElement wrapperElement = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-form-field-subscript-wrapper"))).thenReturn(wrapperElement);
+        WebElement errorElement = mock(WebElement.class);
+        when(wrapperElement.findElements(By.className("mat-mdc-form-field-error"))).thenReturn(
+                newArrayList(errorElement));
+        assertNotNull(testSubject.getError());
     }
 
     @Test
@@ -96,6 +140,8 @@ class MatFormFieldTest {
 
     @Test
     void getSuffix() {
+        // MDC path returns empty, fallback to legacy
+        when(element.findElements(By.className("mat-mdc-form-field-text-suffix"))).thenReturn(newArrayList());
         WebElement suffixElement = mock(WebElement.class);
         when(element.findElement(By.className("mat-mdc-form-field-suffix"))).thenReturn(suffixElement);
         assertEquals(suffixElement, testSubject.getSuffix().getWrappedElement());
@@ -103,6 +149,8 @@ class MatFormFieldTest {
 
     @Test
     void getHint() {
+        // MDC path returns empty, fallback to legacy
+        when(element.findElements(By.className("mat-mdc-form-field-hint"))).thenReturn(newArrayList());
         WebElement hintElement = mock(WebElement.class);
         when(element.findElement(By.className("mat-mdc-hint"))).thenReturn(hintElement);
         assertEquals(hintElement, testSubject.getHint().getWrappedElement());
@@ -120,20 +168,24 @@ class MatFormFieldTest {
 
     @Test
     void getLabel() {
+        // MDC path returns empty, fallback to legacy
+        when(element.findElements(By.cssSelector(".mat-mdc-floating-label"))).thenReturn(newArrayList());
         WebElement infixElement = mock(WebElement.class);
         when(element.findElement(By.className("mat-mdc-form-field-infix"))).thenReturn(infixElement);
 
-        WebElement inputElement = mock(WebElement.class);
+        WebElement labelElement = mock(WebElement.class);
         when(infixElement.findElement(By.xpath(
                 ".//*[contains(@class,\"mat-mdc-form-field-label-wrapper\")]/child::label/child::mat-label"))).thenReturn(
-                inputElement);
-        assertEquals(inputElement, testSubject.getLabel().getWrappedElement());
+                labelElement);
+        assertEquals(labelElement, testSubject.getLabel().getWrappedElement());
     }
 
     @Test
     void getError() {
         WebElement wrapperElement = mock(WebElement.class);
         when(element.findElement(By.className("mat-mdc-form-field-subscript-wrapper"))).thenReturn(wrapperElement);
+        // MDC path returns empty, fallback to legacy
+        when(wrapperElement.findElements(By.className("mat-mdc-form-field-error"))).thenReturn(newArrayList());
         WebElement errorElement = mock(WebElement.class);
         when(wrapperElement.findElement(By.className("mat-mdc-error"))).thenReturn(errorElement);
         assertEquals(errorElement, testSubject.getError().getWrappedElement());

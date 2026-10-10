@@ -136,4 +136,20 @@ class MatListOptionTest {
     void testToString() {
         assertTrue(testSubject.toString().contains("MatListOption"));
     }
+
+    @Test
+    void isSelectedNativeCheckbox() {
+        when(locator.getAttribute("aria-selected")).thenReturn(null);
+        when(nativeCheckboxLocator.count()).thenReturn(1);
+        when(nativeCheckboxLocator.evaluate("el => el.checked")).thenReturn(true);
+        assertTrue(testSubject.isSelected());
+    }
+
+    @Test
+    void getCheckboxMdc() {
+        when(checkboxesLocator.all()).thenReturn(java.util.List.of());
+        when(mdcCheckboxLocator.count()).thenReturn(1);
+        assertNotNull(testSubject.getCheckbox());
+    }
+
 }

@@ -26,9 +26,15 @@ package com.github.grossopa.playwright.component.mat.main;
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.component.mat.finder.MatOverlayFinder;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.WebComponent;
+import com.microsoft.playwright.Keyboard;
 import com.microsoft.playwright.Locator;
+import com.microsoft.playwright.Page;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -69,5 +75,103 @@ class MatDatepickerTest {
         when(overlayFinder.toString()).thenReturn("overlayFinder");
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatDatepicker{overlayFinder=overlayFinder, locator=inner-locator}", testSubject.toString());
+    }
+
+    @Test
+    void componentConstructor() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.locator()).thenReturn(locator);
+        assertInstanceOf(MatDatepicker.class, new MatDatepicker(component, driver, config, overlayFinder));
+    }
+
+    @Test
+    void getInput() {
+        Locator inputLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator("input")).thenReturn(inputLocator);
+        when(inputLocator.first()).thenReturn(firstLocator);
+        assertNotNull(testSubject.getInput());
+    }
+
+    @Test
+    void openCalendarOverlayNotFound() {
+        when(overlayFinder.findTopVisibleContainer()).thenThrow(new NoSuchElementException("no overlay"));
+        assertThrows(NoSuchElementException.class, () -> testSubject.openCalendar());
+    }
+
+    @Test
+    void openCalendarAlreadyOpen() {
+        MatOverlayContainer container = mock(MatOverlayContainer.class);
+        Locator panelLocator = mock(Locator.class);
+        when(container.findComponents(".mat-mdc-datepicker-content"))
+                .thenReturn(List.of(new com.github.grossopa.playwright.core.DefaultWebComponent(panelLocator, driver)));
+        when(panelLocator.isVisible()).thenReturn(true);
+        when(overlayFinder.findTopVisibleContainer()).thenReturn(container);
+        testSubject.openCalendar();
+        verify(locator, never()).locator(".mat-mdc-datepicker-toggle");
+    }
+
+    @Test
+    void closeCalendar() {
+        Page page = mock(Page.class);
+        Keyboard keyboard = mock(Keyboard.class);
+        when(driver.page()).thenReturn(page);
+        when(page.keyboard()).thenReturn(keyboard);
+        testSubject.closeCalendar();
+        verify(keyboard).press("Escape");
+    }
+
+    @Test
+    void getCalendar() {
+        MatOverlayContainer container = mock(MatOverlayContainer.class);
+        Locator panelLocator = mock(Locator.class);
+        when(container.findComponents(".mat-mdc-datepicker-content"))
+                .thenReturn(List.of(new com.github.grossopa.playwright.core.DefaultWebComponent(panelLocator, driver)));
+        when(panelLocator.isVisible()).thenReturn(true);
+        when(overlayFinder.findTopVisibleContainer()).thenReturn(container);
+
+        Locator calendarInner = mock(Locator.class);
+        Locator calendarFirst = mock(Locator.class);
+        when(panelLocator.locator(".mat-mdc-calendar")).thenReturn(calendarInner);
+        when(calendarInner.first()).thenReturn(calendarFirst);
+
+        MatCalendar calendar = testSubject.getCalendar();
+        assertNotNull(calendar);
+    }
+
+    @Test
+    void getCalendarNotOpen() {
+        when(overlayFinder.findTopVisibleContainer()).thenThrow(new NoSuchElementException("no overlay"));
+        assertThrows(NoSuchElementException.class, () -> testSubject.getCalendar());
+    }
+
+    @Test
+    void equalsSameInstance() {
+        assertEquals(testSubject, testSubject);
+    }
+
+    @Test
+    void equalsDifferentInstance() {
+        MatDatepicker other = new MatDatepicker(locator, driver, config, overlayFinder);
+        assertNotEquals(testSubject, other);
+    }
+
+    @Test
+    void hashCodeConsistent() {
+        assertEquals(testSubject.hashCode(), testSubject.hashCode());
+    }
+
+    @Test
+    void openCalendarOverlayContainerFoundButNoContent() {
+        MatOverlayContainer container = mock(MatOverlayContainer.class);
+        when(container.findComponents(".mat-mdc-datepicker-content")).thenReturn(List.of());
+        when(overlayFinder.findTopVisibleContainer()).thenReturn(container);
+        // container found but no datepicker-content panels → should click toggle
+        Locator toggleLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-datepicker-toggle")).thenReturn(toggleLocator);
+        when(toggleLocator.first()).thenReturn(firstLocator);
+        testSubject.openCalendar();
+        verify(firstLocator).click();
     }
 }

@@ -42,6 +42,8 @@ class MatRadioButtonTest {
     @BeforeEach
     void setUp() {
         when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
+        when(config.getInternalSelector("radio-label")).thenReturn("mdc-form-field");
+        when(config.getInternalSelector("radio-input")).thenReturn("mdc-radio__native-control");
         testSubject = new MatRadioButton(locator, driver, config);
     }
 
@@ -67,4 +69,48 @@ class MatRadioButtonTest {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatRadioButton{locator=inner-locator}", testSubject.toString());
     }
+
+    @Test
+    void isSelectedTrue() {
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-radio-button mat-mdc-radio-checked");
+        assertTrue(testSubject.isSelected());
+    }
+
+    @Test
+    void isSelectedFalse() {
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-radio-button");
+        assertFalse(testSubject.isSelected());
+    }
+
+    @Test
+    void isEnabledTrue() {
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-radio-button");
+        assertTrue(testSubject.isEnabled());
+    }
+
+    @Test
+    void isEnabledFalse() {
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-radio-button mat-mdc-radio-disabled");
+        assertFalse(testSubject.isEnabled());
+    }
+
+    @Test
+    void getLabel() {
+        Locator labelLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mdc-form-field")).thenReturn(labelLocator);
+        when(labelLocator.first()).thenReturn(firstLocator);
+        when(firstLocator.innerText()).thenReturn("Option A");
+        assertEquals("Option A", testSubject.getLabel());
+    }
+
+    @Test
+    void getInput() {
+        Locator inputLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mdc-radio__native-control")).thenReturn(inputLocator);
+        when(inputLocator.first()).thenReturn(firstLocator);
+        assertNotNull(testSubject.getInput());
+    }
+
 }

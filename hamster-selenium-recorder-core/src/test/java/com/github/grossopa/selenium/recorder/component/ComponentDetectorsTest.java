@@ -27,9 +27,11 @@ import com.github.grossopa.selenium.recorder.config.ComponentFramework;
 import com.github.grossopa.selenium.recorder.config.RecorderConfig;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -39,6 +41,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @since 1.15
  */
 class ComponentDetectorsTest {
+
+    @Test
+    void constructor() throws Exception {
+        Constructor<ComponentDetectors> constructor = ComponentDetectors.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThrows(java.lang.reflect.InvocationTargetException.class, () -> constructor.newInstance());
+    }
 
     @Test
     void testForMuiFramework() {

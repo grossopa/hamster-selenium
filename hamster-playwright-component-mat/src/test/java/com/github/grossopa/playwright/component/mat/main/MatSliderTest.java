@@ -273,4 +273,25 @@ class MatSliderTest {
     void testToString() {
         assertTrue(testSubject.toString().contains("MatSlider"));
     }
+
+    @Test
+    void getValueFallbackToInput() {
+        when(locator.getAttribute("aria-valuenow")).thenReturn(null);
+        when(inputFirst.getAttribute("aria-valuetext")).thenReturn("42");
+        assertEquals("42", testSubject.getValue());
+    }
+
+    @Test
+    void getMinValueFallbackToInput() {
+        when(locator.getAttribute("aria-valuemin")).thenReturn(null);
+        when(inputFirst.getAttribute("min")).thenReturn("10");
+        assertEquals("10", testSubject.getMinValue());
+    }
+
+    @Test
+    void getMaxValueFallbackToInput() {
+        when(locator.getAttribute("aria-valuemax")).thenReturn(null);
+        when(inputFirst.getAttribute("max")).thenReturn("200");
+        assertEquals("200", testSubject.getMaxValue());
+    }
 }

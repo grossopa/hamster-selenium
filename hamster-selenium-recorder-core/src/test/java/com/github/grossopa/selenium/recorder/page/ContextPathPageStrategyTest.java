@@ -72,6 +72,19 @@ class ContextPathPageStrategyTest {
     }
 
     @Test
+    void testToPageNameAllSegmentsFiltered() {
+        // When all segments are blank or start with "{", builder is empty → returns ROOT_PAGE_NAME
+        assertEquals("Home", testSubject.toPageName("/{id}"));
+        assertEquals("Home", testSubject.toPageName("//"));
+    }
+
+    @Test
+    void testExtractPathInvalidUrl() {
+        // Invalid URL should fall back to "/"
+        assertEquals("/", testSubject.toPageKey("://invalid"));
+    }
+
+    @Test
     void testIdentifyMatchesExistingPage() {
         PageModel page = new PageModel("UserLogin", "/user/login");
         PageIdentification result = testSubject.identify("http://localhost/user/login?x=1", List.of(page));

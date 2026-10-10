@@ -85,6 +85,14 @@ class MatChipListTest {
     }
 
     @Test
+    void getChipsFallbackToChipRow() {
+        when(element.findElements(By.tagName("mat-chip"))).thenReturn(newArrayList());
+        WebElement rowElement1 = mock(WebElement.class);
+        when(element.findElements(By.tagName("mat-chip-row"))).thenReturn(newArrayList(rowElement1));
+        assertEquals(1, testSubject.getChips().size());
+    }
+
+    @Test
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatChipList{element=inner-element}", testSubject.toString());

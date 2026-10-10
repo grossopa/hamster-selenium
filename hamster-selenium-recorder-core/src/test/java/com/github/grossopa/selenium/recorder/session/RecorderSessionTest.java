@@ -213,6 +213,94 @@ class RecorderSessionTest {
         verify(rawDriver).quit();
     }
 
+    @Test
+    void testTwoArgConstructor() {
+        RecorderSession session = new RecorderSession(rawDriver, config);
+        assertNotNull(session.getDriver());
+        assertNotNull(session.getConfig());
+        session.close();
+    }
+
+    @Test
+    void testSelectWithNoLocatorCandidates() {
+        ScannedElement scanned = new ScannedElement(0, "div", Map.of(), "", List.of());
+        when(scanner.scan(any())).thenReturn(List.of(scanned));
+        testSubject.scan();
+        assertThrows(IllegalArgumentException.class, () -> testSubject.select(0, "field"));
+    }
+
+    @Test
+    void testSelectWithNonUniqueNonListLocatorNoFallback() {
+        ScannedElement scanned = new ScannedElement(0, "button", Map.of(), "Click", List.of(candidate));
+        when(scanner.scan(any())).thenReturn(List.of(scanned));
+        when(rawDriver.findElement(any(By.class))).thenReturn(webElement);
+        when(detector.detect(any(), any())).thenReturn(Optional.empty());
+        // verifyLocatorCount returns 3 (non-unique), no list locator available
+        when(((JavascriptExecutor) rawDriver).executeScript(anyString())).thenReturn(3);
+
+        testSubject.scan();
+        PageElementModel selected = testSubject.select(0, "btn");
+        // should still use the original best locator
+        assertSame(candidate, selected.getLocator());
+    }
+
+    @Test
+    void testSelectWithInvalidIndexAfterScan() {
+        stubScan();
+        testSubject.scan();
+        // index 99 does not exist in scan result
+        assertThrows(IllegalArgumentException.class, () -> testSubject.select(99, "field"));
+    }
+
+    @Test
+    void testDetectComponentWithEmptyDetectors() {
+        RecorderSession session = new RecorderSession(rawDriver, config, scanner, List.of(), generator);
+        ScannedElement scanned = new ScannedElement(0, "input", Map.of("id", "test"), "", List.of(candidate));
+        when(scanner.scan(any())).thenReturn(List.of(scanned));
+        session.scan();
+        // no detection should happen, no exception
+        assertEquals(null, scanned.getDetectedComponent());
+        session.close();
+    }
+
+    @Test
+    void testDetectComponentWithDetectionFailure() {
+        ScannedElement scanned = new ScannedElement(0, "input", Map.of("id", "test"), "", List.of(candidate));
+        when(scanner.scan(any())).thenReturn(List.of(scanned));
+        when(rawDriver.findElement(any(By.class))).thenThrow(new RuntimeException("stale element"));
+        testSubject.scan();
+        // detection failure should be silently ignored
+        assertEquals(null, scanned.getDetectedComponent());
+    }
+
+    @Test
+    void testVerifyLocatorCountWithNonNumberResult() {
+        ScannedElement scanned = new ScannedElement(0, "button", Map.of(), "Click", List.of(candidate));
+        when(scanner.scan(any())).thenReturn(List.of(scanned));
+        when(rawDriver.findElement(any(By.class))).thenReturn(webElement);
+        when(detector.detect(any(), any())).thenReturn(Optional.empty());
+        // verifyLocatorCount returns non-Number → treated as 0
+        when(((JavascriptExecutor) rawDriver).executeScript(anyString())).thenReturn("not a number");
+
+        testSubject.scan();
+        PageElementModel selected = testSubject.select(0, "btn");
+        assertSame(candidate, selected.getLocator());
+    }
+
+    @Test
+    void testVerifyLocatorCountWithException() {
+        ScannedElement scanned = new ScannedElement(0, "button", Map.of(), "Click", List.of(candidate));
+        when(scanner.scan(any())).thenReturn(List.of(scanned));
+        when(rawDriver.findElement(any(By.class))).thenReturn(webElement);
+        when(detector.detect(any(), any())).thenReturn(Optional.empty());
+        // verifyLocatorCount throws → treated as 0
+        when(((JavascriptExecutor) rawDriver).executeScript(anyString())).thenThrow(new RuntimeException("js error"));
+
+        testSubject.scan();
+        PageElementModel selected = testSubject.select(0, "btn");
+        assertSame(candidate, selected.getLocator());
+    }
+
     private void stubScan() {
         ScannedElement scanned = new ScannedElement(0, "input", Map.of("id", "username"), "", List.of(candidate));
         when(scanner.scan(any())).thenReturn(List.of(scanned));

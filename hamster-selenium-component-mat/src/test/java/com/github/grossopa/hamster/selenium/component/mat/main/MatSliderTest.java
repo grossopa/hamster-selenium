@@ -425,6 +425,50 @@ class MatSliderTest {
     }
 
     @Test
+    void getValueFallbackToInputAttribute() {
+        when(element.getDomAttribute("aria-valuenow")).thenReturn(null);
+        when(driver.executeScript(anyString(), eq("aria-valuenow"))).thenReturn("42.5");
+        assertEquals("42.5", testSubject.getValue());
+    }
+
+    @Test
+    void getMinValueFallbackToInputAttribute() {
+        when(element.getDomAttribute("aria-valuemin")).thenReturn(null);
+        when(driver.executeScript(anyString(), eq("min"))).thenReturn("0");
+        assertEquals("0", testSubject.getMinValue());
+    }
+
+    @Test
+    void getMaxValueFallbackToInputAttribute() {
+        when(element.getDomAttribute("aria-valuemax")).thenReturn(null);
+        when(driver.executeScript(anyString(), eq("max"))).thenReturn("100");
+        assertEquals("100", testSubject.getMaxValue());
+    }
+
+    @Test
+    void getInputAttributeReturnsNullWhenAllEmpty() {
+        when(element.getDomAttribute("aria-valuenow")).thenReturn(null);
+        when(driver.executeScript(anyString(), anyString())).thenReturn(null);
+        assertNull(testSubject.getValue());
+    }
+
+    @Test
+    void getInputAttributeSkipsEmptyAndNullStrings() {
+        when(element.getDomAttribute("aria-valuenow")).thenReturn(null);
+        when(driver.executeScript(anyString(), eq("aria-valuenow"))).thenReturn("");
+        when(driver.executeScript(anyString(), eq("aria-valuetext"))).thenReturn("null");
+        when(driver.executeScript(anyString(), eq("value"))).thenReturn("77");
+        assertEquals("77", testSubject.getValue());
+    }
+
+    @Test
+    void getFirstThumbMdc() {
+        WebElement mdcThumb = mock(WebElement.class);
+        when(element.findElements(By.className("mdc-slider__thumb"))).thenReturn(List.of(mdcThumb));
+        assertEquals(mdcThumb, testSubject.getFirstThumb().getWrappedElement());
+    }
+
+    @Test
     void testEquals() {
         WebElement element1 = mock(WebElement.class);
         WebElement element2 = mock(WebElement.class);

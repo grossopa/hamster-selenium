@@ -25,7 +25,10 @@ package com.github.grossopa.selenium.recorder.codegen;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for {@link PageObjectNaming}
@@ -34,6 +37,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @since 1.15
  */
 class PageObjectNamingTest {
+
+    @Test
+    void constructor() throws Exception {
+        Constructor<PageObjectNaming> constructor = PageObjectNaming.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThrows(java.lang.reflect.InvocationTargetException.class, () -> constructor.newInstance());
+    }
 
     @Test
     void testToClassName() {

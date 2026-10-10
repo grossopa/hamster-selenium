@@ -111,6 +111,16 @@ class MatFormFieldTest {
     }
 
     @Test
+    void getPrefixMdc() {
+        Locator prefixIntermediate = mock(Locator.class);
+        Locator prefixFirst = mock(Locator.class);
+        when(locator.locator(".mat-mdc-form-field-text-prefix")).thenReturn(prefixIntermediate);
+        when(prefixIntermediate.first()).thenReturn(prefixFirst);
+        when(prefixFirst.count()).thenReturn(1);
+        assertNotNull(testSubject.getPrefix());
+    }
+
+    @Test
     void getInfix() {
         assertNotNull(testSubject.getInfix());
     }
@@ -121,7 +131,27 @@ class MatFormFieldTest {
     }
 
     @Test
+    void getSuffixMdc() {
+        Locator suffixIntermediate = mock(Locator.class);
+        Locator suffixFirst = mock(Locator.class);
+        when(locator.locator(".mat-mdc-form-field-text-suffix")).thenReturn(suffixIntermediate);
+        when(suffixIntermediate.first()).thenReturn(suffixFirst);
+        when(suffixFirst.count()).thenReturn(1);
+        assertNotNull(testSubject.getSuffix());
+    }
+
+    @Test
     void getHint() {
+        assertNotNull(testSubject.getHint());
+    }
+
+    @Test
+    void getHintMdc() {
+        Locator hintIntermediate = mock(Locator.class);
+        Locator hintFirst = mock(Locator.class);
+        when(locator.locator(".mat-mdc-form-field-hint")).thenReturn(hintIntermediate);
+        when(hintIntermediate.first()).thenReturn(hintFirst);
+        when(hintFirst.count()).thenReturn(1);
         assertNotNull(testSubject.getHint());
     }
 

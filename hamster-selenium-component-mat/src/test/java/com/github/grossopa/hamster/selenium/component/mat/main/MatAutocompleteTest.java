@@ -74,7 +74,7 @@ class MatAutocompleteTest {
     WebElement inputElement = mock(WebElement.class);
 
     private void mockAutocompletePanelPresent() {
-        when(overlayContainer.findComponents(By.className("mat-mdc-autocomplete-panel"))).thenReturn(
+        when(driver.findComponents(By.className("mat-mdc-autocomplete-panel"))).thenReturn(
                 newArrayList(autocompletePanel));
         when(autocompletePanel.isDisplayed()).thenReturn(true);
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
@@ -89,16 +89,18 @@ class MatAutocompleteTest {
     }
 
     private void mockAutocompletePanelNotFound1() {
+        when(driver.findComponents(By.className("mat-mdc-autocomplete-panel"))).thenReturn(newArrayList());
         when(overlayContainer.findComponents(By.className("mat-mdc-autocomplete-panel"))).thenReturn(newArrayList());
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
     }
 
     private void mockAutocompletePanelNotFound2() {
+        when(driver.findComponents(By.className("mat-mdc-autocomplete-panel"))).thenReturn(newArrayList());
         when(overlayFinder.findTopVisibleContainer()).thenReturn(null);
     }
 
     private void mockAutocompletePanelNotFound3() {
-        when(overlayContainer.findComponents(By.className("mat-mdc-autocomplete-panel"))).thenReturn(
+        when(driver.findComponents(By.className("mat-mdc-autocomplete-panel"))).thenReturn(
                 newArrayList(autocompletePanel));
         when(autocompletePanel.isDisplayed()).thenReturn(false);
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
@@ -502,6 +504,30 @@ class MatAutocompleteTest {
     void deselectByVisibleTextWithDelays() {
         when(inputElement.getDomAttribute("value")).thenReturn("Option 2");
         testSubject.deselectByVisibleText(null, 1000L);
+        verify(inputElement, times(8)).sendKeys(BACK_SPACE);
+    }
+
+    @Test
+    void selectByContainsVisibleText() {
+        this.mockAutocompletePanelPresent();
+        this.mockOptionsList();
+        testSubject.selectByContainsVisibleText("Option 2");
+        verify(options.get(1), times(1)).click();
+    }
+
+    @Test
+    void selectByContainsVisibleTextNoMatch() {
+        this.mockAutocompletePanelPresent();
+        this.mockOptionsList();
+        testSubject.selectByContainsVisibleText("ZZZZZ");
+        verify(options.get(0), never()).click();
+        verify(options.get(1), never()).click();
+    }
+
+    @Test
+    void deSelectByContainsVisibleText() {
+        when(inputElement.getDomAttribute("value")).thenReturn("Option 2");
+        testSubject.deSelectByContainsVisibleText("Option");
         verify(inputElement, times(8)).sendKeys(BACK_SPACE);
     }
 

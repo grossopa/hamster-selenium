@@ -29,6 +29,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
+
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -66,5 +70,62 @@ class MatPaginatorTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatPaginator{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void getRangeLabel() {
+        WebElement labelEl = mock(WebElement.class);
+        when(labelEl.getText()).thenReturn("1 – 10 of 50");
+        when(element.findElement(By.className("mat-mdc-paginator-range-label"))).thenReturn(labelEl);
+        assertEquals("1 – 10 of 50", testSubject.getRangeLabel());
+    }
+
+    @Test
+    void getPageSizeSelect() {
+        WebElement selectEl = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-paginator-page-size"))).thenReturn(selectEl);
+        assertNotNull(testSubject.getPageSizeSelect());
+    }
+
+    @Test
+    void nextPage() {
+        WebElement btn = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-paginator-navigation-next"))).thenReturn(btn);
+        testSubject.nextPage();
+        verify(btn).click();
+    }
+
+    @Test
+    void previousPage() {
+        WebElement btn = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-paginator-navigation-previous"))).thenReturn(btn);
+        testSubject.previousPage();
+        verify(btn).click();
+    }
+
+    @Test
+    void firstPage() {
+        WebElement btn = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-paginator-navigation-first"))).thenReturn(btn);
+        testSubject.firstPage();
+        verify(btn).click();
+    }
+
+    @Test
+    void lastPage() {
+        WebElement btn = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-paginator-navigation-last"))).thenReturn(btn);
+        testSubject.lastPage();
+        verify(btn).click();
+    }
+
+    @Test
+    void getPageSizeOptions() {
+        WebElement opt1 = mock(WebElement.class);
+        when(opt1.getText()).thenReturn("5");
+        WebElement opt2 = mock(WebElement.class);
+        when(opt2.getText()).thenReturn("10");
+        when(element.findElements(By.className("mat-mdc-paginator-page-size-label"))).thenReturn(newArrayList(opt1, opt2));
+        assertEquals(java.util.List.of("5", "10"), testSubject.getPageSizeOptions());
     }
 }

@@ -106,6 +106,18 @@ class ComponentConfigTest {
     }
 
     @Test
+    void isDisabledNullComponent() {
+        assertTrue(testSubject.isDisabled(null));
+    }
+
+    @Test
+    void isDisabledGetWrappedElementException() {
+        when(component.getWrappedElement()).thenThrow(new RuntimeException("stale element"));
+        when(component.getDomAttribute(CLASS)).thenReturn("prefix-disabled");
+        assertTrue(testSubject.isDisabled(component));
+    }
+
+    @Test
     void getIsCheckedCss() {
         assertEquals("prefix-checked", testSubject.getIsCheckedCss());
     }

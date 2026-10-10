@@ -26,6 +26,7 @@ package com.github.grossopa.selenium.core.locator;
 
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -229,5 +230,48 @@ class By2Test {
         By baseLocator = By.partialLinkText("Click");
         By result = By2.index(baseLocator, 0);
         assertEquals("By.xpath: .//*[contains(text(), 'Click')][1]", result.toString());
+    }
+
+    @Test
+    void xpathFromByXpath() {
+        By baseLocator = By.xpath("@id='test'");
+        By result = By2.visible(baseLocator);
+        assertEquals("By.xpath: .//*[@id='test' and not(@hidden) and not(contains(@style,'display:none'))]",
+                result.toString());
+    }
+
+    @Test
+    void xpathFromByCssSelector() {
+        By baseLocator = By.cssSelector("div.test");
+        By result = By2.visible(baseLocator);
+        assertEquals("By.xpath: .//*[ and not(@hidden) and not(contains(@style,'display:none'))]",
+                result.toString());
+    }
+
+    @Test
+    void xpathFromByLinkTextViaAnd() {
+        By locator1 = By.linkText("Click me");
+        By locator2 = By.tagName("a");
+        By result = By2.and(locator1, locator2);
+        assertEquals("By.xpath: .//*[text()='Click me' and local-name()='a']", result.toString());
+    }
+
+    @Test
+    void xpathFromByFallback() {
+        // Create a custom By that produces an unrecognized toString prefix
+        By customBy = new By() {
+            @Override
+            public java.util.List<WebElement> findElements(org.openqa.selenium.SearchContext context) {
+                return java.util.Collections.emptyList();
+            }
+
+            @Override
+            public String toString() {
+                return "By.custom: something";
+            }
+        };
+        By result = By2.visible(customBy);
+        assertEquals("By.xpath: .//*[By.custom: something and not(@hidden) and not(contains(@style,'display:none'))]",
+                result.toString());
     }
 }

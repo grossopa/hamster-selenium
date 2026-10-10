@@ -29,6 +29,8 @@ import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -67,4 +69,44 @@ class MatTableTest {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatTable{locator=inner-locator}", testSubject.toString());
     }
+
+    @Test
+    void getHeaderCells() {
+        Locator headerLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-header-cell")).thenReturn(headerLocator);
+        when(headerLocator.all()).thenReturn(java.util.List.of(headerLocator));
+        assertEquals(1, testSubject.getHeaderCells().size());
+    }
+
+    @Test
+    void getRows() {
+        Locator rowLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-row")).thenReturn(rowLocator);
+        when(rowLocator.all()).thenReturn(java.util.List.of(rowLocator));
+        assertEquals(1, testSubject.getRows().size());
+    }
+
+    @Test
+    void getRowCells() {
+        Locator rowLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-row")).thenReturn(rowLocator);
+        when(rowLocator.all()).thenReturn(List.of(rowLocator));
+        Locator cellLocator = mock(Locator.class);
+        when(rowLocator.locator(".mat-mdc-cell")).thenReturn(cellLocator);
+        when(cellLocator.all()).thenReturn(List.of(cellLocator));
+        assertEquals(1, testSubject.getRowCells(0).size());
+    }
+
+    @Test
+    void getCellValue() {
+        Locator rowLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-row")).thenReturn(rowLocator);
+        when(rowLocator.all()).thenReturn(List.of(rowLocator));
+        Locator cellLocator = mock(Locator.class);
+        when(rowLocator.locator(".mat-mdc-cell")).thenReturn(cellLocator);
+        when(cellLocator.all()).thenReturn(List.of(cellLocator));
+        when(cellLocator.innerText()).thenReturn("Cell Value");
+        assertEquals("Cell Value", testSubject.getCellValue(0, 0));
+    }
+
 }

@@ -25,14 +25,14 @@ package com.github.grossopa.hamster.selenium.component.mat.main;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link MatCard}
@@ -75,5 +75,59 @@ class MatCardTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatCard{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void getTitle() {
+        WebElement titleElement = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-card-title"))).thenReturn(titleElement);
+        WebComponent result = testSubject.getTitle();
+        assertNotNull(result);
+        assertEquals(titleElement, result.getWrappedElement());
+    }
+
+    @Test
+    void getSubtitle() {
+        WebElement subtitleElement = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-card-subtitle"))).thenReturn(subtitleElement);
+        WebComponent result = testSubject.getSubtitle();
+        assertNotNull(result);
+        assertEquals(subtitleElement, result.getWrappedElement());
+    }
+
+    @Test
+    void getContent() {
+        WebElement contentElement = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-card-content"))).thenReturn(contentElement);
+        WebComponent result = testSubject.getContent();
+        assertNotNull(result);
+        assertEquals(contentElement, result.getWrappedElement());
+    }
+
+    @Test
+    void getActions() {
+        WebElement actionsElement = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-card-actions"))).thenReturn(actionsElement);
+        WebComponent result = testSubject.getActions();
+        assertNotNull(result);
+        assertEquals(actionsElement, result.getWrappedElement());
+    }
+
+    @Test
+    void getHeader() {
+        WebElement headerElement = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-card-header"))).thenReturn(headerElement);
+        WebComponent result = testSubject.getHeader();
+        assertNotNull(result);
+        assertEquals(headerElement, result.getWrappedElement());
+    }
+
+    @Test
+    void getFooter() {
+        WebElement footerElement = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-card-footer"))).thenReturn(footerElement);
+        WebComponent result = testSubject.getFooter();
+        assertNotNull(result);
+        assertEquals(footerElement, result.getWrappedElement());
     }
 }

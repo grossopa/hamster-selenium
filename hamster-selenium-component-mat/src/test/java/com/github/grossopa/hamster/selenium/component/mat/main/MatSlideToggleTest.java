@@ -30,6 +30,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -95,5 +97,13 @@ class MatSlideToggleTest {
     void testToString() {
         when(element.toString()).thenReturn("element");
         assertEquals("MatSlideToggle{element=element}", testSubject.toString());
+    }
+
+    @Test
+    void getLabelLegacy() {
+        when(element.findElement(By.className("mat-mdc-slide-toggle-content"))).thenThrow(new NoSuchElementException("not found"));
+        WebElement labelEl = mock(WebElement.class);
+        when(element.findElement(By.className("mdc-label"))).thenReturn(labelEl);
+        assertNotNull(testSubject.getLabel());
     }
 }

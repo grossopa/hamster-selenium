@@ -29,8 +29,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -105,5 +106,13 @@ class MatInputTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatInput{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void getInput() {
+        WebElement inputEl = mock(WebElement.class);
+        when(element.findElement(By.tagName("input"))).thenReturn(inputEl);
+        WebComponent result = testSubject.getInput();
+        assertEquals(inputEl, result.getWrappedElement());
     }
 }

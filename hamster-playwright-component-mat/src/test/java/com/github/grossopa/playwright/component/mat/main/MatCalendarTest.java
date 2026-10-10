@@ -25,9 +25,12 @@ package com.github.grossopa.playwright.component.mat.main;
 
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -66,5 +69,108 @@ class MatCalendarTest {
     void testToString() {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatCalendar{locator=inner-locator}", testSubject.toString());
+    }
+
+    @Test
+    void componentConstructor() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.locator()).thenReturn(locator);
+        assertInstanceOf(MatCalendar.class, new MatCalendar(component, driver, config));
+    }
+
+    @Test
+    void getPeriodLabel() {
+        Locator periodLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-calendar-period-label")).thenReturn(periodLocator);
+        when(periodLocator.first()).thenReturn(firstLocator);
+        when(firstLocator.innerText()).thenReturn("SEP 2023");
+        assertEquals("SEP 2023", testSubject.getPeriodLabel());
+    }
+
+    @Test
+    void previousMonth() {
+        Locator prevLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-calendar-previous-button")).thenReturn(prevLocator);
+        when(prevLocator.first()).thenReturn(firstLocator);
+        testSubject.previousMonth();
+        verify(firstLocator).click();
+    }
+
+    @Test
+    void nextMonth() {
+        Locator nextLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-calendar-next-button")).thenReturn(nextLocator);
+        when(nextLocator.first()).thenReturn(firstLocator);
+        testSubject.nextMonth();
+        verify(firstLocator).click();
+    }
+
+    @Test
+    void getDateCells() {
+        Locator cellsLocator = mock(Locator.class);
+        Locator cell1 = mock(Locator.class);
+        Locator cell2 = mock(Locator.class);
+        when(locator.locator(".mat-mdc-calendar-body-cell")).thenReturn(cellsLocator);
+        when(cellsLocator.all()).thenReturn(List.of(cell1, cell2));
+        assertEquals(2, testSubject.getDateCells().size());
+    }
+
+    @Test
+    void selectDate() {
+        Locator cellsLocator = mock(Locator.class);
+        Locator cell1 = mock(Locator.class);
+        Locator cell2 = mock(Locator.class);
+        when(locator.locator(".mat-mdc-calendar-body-cell")).thenReturn(cellsLocator);
+        when(cellsLocator.all()).thenReturn(List.of(cell1, cell2));
+        when(cell1.innerText()).thenReturn("14");
+        when(cell2.innerText()).thenReturn("15");
+        testSubject.selectDate("15");
+        verify(cell2).click();
+    }
+
+    @Test
+    void selectDateNoMatch() {
+        Locator cellsLocator = mock(Locator.class);
+        Locator cell1 = mock(Locator.class);
+        when(locator.locator(".mat-mdc-calendar-body-cell")).thenReturn(cellsLocator);
+        when(cellsLocator.all()).thenReturn(List.of(cell1));
+        when(cell1.innerText()).thenReturn("14");
+        testSubject.selectDate("20");
+        verify(cell1, never()).click();
+    }
+
+    @Test
+    void isDateSelectedTrue() {
+        Locator cellsLocator = mock(Locator.class);
+        Locator cell1 = mock(Locator.class);
+        when(locator.locator(".mat-mdc-calendar-body-cell")).thenReturn(cellsLocator);
+        when(cellsLocator.all()).thenReturn(List.of(cell1));
+        when(cell1.innerText()).thenReturn("15");
+        when(cell1.getAttribute("class")).thenReturn("mat-mdc-calendar-body-cell mat-mdc-calendar-body-selected");
+        assertTrue(testSubject.isDateSelected("15"));
+    }
+
+    @Test
+    void isDateSelectedFalse() {
+        Locator cellsLocator = mock(Locator.class);
+        Locator cell1 = mock(Locator.class);
+        when(locator.locator(".mat-mdc-calendar-body-cell")).thenReturn(cellsLocator);
+        when(cellsLocator.all()).thenReturn(List.of(cell1));
+        when(cell1.innerText()).thenReturn("15");
+        when(cell1.getAttribute("class")).thenReturn("mat-mdc-calendar-body-cell");
+        assertFalse(testSubject.isDateSelected("15"));
+    }
+
+    @Test
+    void isDateSelectedNotFound() {
+        Locator cellsLocator = mock(Locator.class);
+        Locator cell1 = mock(Locator.class);
+        when(locator.locator(".mat-mdc-calendar-body-cell")).thenReturn(cellsLocator);
+        when(cellsLocator.all()).thenReturn(List.of(cell1));
+        when(cell1.innerText()).thenReturn("14");
+        assertFalse(testSubject.isDateSelected("20"));
     }
 }

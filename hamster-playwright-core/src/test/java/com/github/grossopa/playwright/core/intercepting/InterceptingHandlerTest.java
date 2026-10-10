@@ -58,4 +58,26 @@ class InterceptingHandlerTest {
             throw ex;
         }, info));
     }
+
+    @Test
+    void testExecuteSuccessVerifyOnBeforeCalled() {
+        MethodInfo<Object> info = MethodInfo.create(new Object(), "test");
+        Integer result = handler.execute(() -> 42, info);
+        assertEquals(42, result);
+        verify(handler).onBefore(eq(info));
+        verify(handler).onAfter(eq(info), eq(42));
+    }
+
+    @Test
+    void testExecuteWithExceptionVerifyOnExceptionCalled() {
+        MethodInfo<Object> info = MethodInfo.create(new Object(), "test");
+        RuntimeException ex = new IllegalStateException("bad state");
+
+        assertThrows(IllegalStateException.class, () -> handler.execute(() -> {
+            throw ex;
+        }, info));
+
+        verify(handler).onException(eq(info), eq(ex));
+        assertNull(info.getEndTimeInMillis());
+    }
 }

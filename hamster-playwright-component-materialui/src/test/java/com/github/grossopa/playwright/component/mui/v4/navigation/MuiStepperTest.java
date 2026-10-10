@@ -143,4 +143,11 @@ class MuiStepperTest {
         mockFindSteps();
         assertTrue(testSubject.getStepLabels().isEmpty());
     }
+
+    @Test void getStepLabelsException() {
+        Locator step1 = mock(Locator.class);
+        when(step1.locator(anyString())).thenThrow(new RuntimeException("mock error"));
+        mockFindSteps(step1);
+        assertEquals(List.of(""), testSubject.getStepLabels());
+    }
 }

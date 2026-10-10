@@ -133,4 +133,28 @@ class DefaultElementScannerTest {
         DefaultElementScanner.clearMarkers(driver);
         verify(driver).executeScript(anyString());
     }
+
+    @Test
+    void testScanWithAncestorAndSiblingData() {
+        Map<String, Object> ancestorData = Map.of("id", "main-form", "testId", "form-testid", "childPath", ".fieldset");
+        Map<String, Object> nameCounts = Map.of("input", 3, "button", 1);
+        when(driver.executeScript(anyString(), any(), any(), any(), any(), any())).thenReturn(
+                List.of(Map.of("tagName", "input", "text", "", "attributes", Map.of("name", "username"),
+                        "ancestor", ancestorData, "siblingCount", 3, "nameSiblingCounts", nameCounts)));
+        List<ScannedElement> result = testSubject.scan(driver);
+        assertEquals(1, result.size());
+        // ancestor locator should be generated with the ancestor data
+        List<LocatorCandidate> candidates = result.get(0).getLocatorCandidates();
+        assertTrue(candidates.stream().anyMatch(c -> c.getType() == LocatorType.CSS_SELECTOR
+                && c.getPriority() == LocatorCandidate.PRIORITY_ANCESTOR));
+    }
+
+    @Test
+    void testScanWithMissingAncestorData() {
+        // ancestor is an empty map, siblingCount is absent, nameSiblingCounts is absent
+        when(driver.executeScript(anyString(), any(), any(), any(), any(), any())).thenReturn(
+                List.of(Map.of("tagName", "input", "text", "", "attributes", Map.of("name", "email"))));
+        List<ScannedElement> result = testSubject.scan(driver);
+        assertEquals(1, result.size());
+    }
 }

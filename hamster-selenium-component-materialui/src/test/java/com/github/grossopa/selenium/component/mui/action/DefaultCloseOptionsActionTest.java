@@ -29,9 +29,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -57,5 +59,12 @@ class DefaultCloseOptionsActionTest {
         List<WebComponent> options = singletonList(option);
         testSubject.close(targetSelect, options, driver);
         verify(option, only()).sendKeys(Keys.ESCAPE);
+    }
+
+    @Test
+    void closeEmptyOptions() {
+        WebComponent targetSelect = mock(WebComponent.class);
+        assertThrows(IllegalArgumentException.class,
+                () -> testSubject.close(targetSelect, Collections.emptyList(), driver));
     }
 }

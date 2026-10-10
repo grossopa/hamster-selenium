@@ -107,6 +107,24 @@ class SeleniumUtilsTest {
     }
 
     @Test
+    void cleanTextFallbackToDomProperty() {
+        WebElement ele = mock(WebElement.class);
+        when(ele.getDomAttribute("value")).thenReturn(null);
+        when(ele.getDomProperty("value")).thenReturn("abc");
+        SeleniumUtils.cleanText(ele);
+        verify(ele, times(3)).sendKeys(BACK_SPACE);
+    }
+
+    @Test
+    void cleanTextBothNull() {
+        WebElement ele = mock(WebElement.class);
+        when(ele.getDomAttribute("value")).thenReturn(null);
+        when(ele.getDomProperty("value")).thenReturn(null);
+        SeleniumUtils.cleanText(ele);
+        verify(ele, never()).sendKeys(BACK_SPACE);
+    }
+
+    @Test
     void isNotDisplayedNotDisplayed() {
         WebElement ele = mock(WebElement.class);
         when(ele.isDisplayed()).thenReturn(false);

@@ -326,6 +326,28 @@ class MuiSelectTest {
     }
 
     @Test
+    void selectByContainsVisibleText() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.selectByContainsVisibleText("Label 3 some label 123");
+        assertEquals(4, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
+    void selectByContainsVisibleTextWithDelay() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.selectByContainsVisibleText("Label 3 some label 123", 500L);
+        assertEquals(4, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
+    void selectByContainsVisibleTextAlreadySelected() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.selectByContainsVisibleText("Label 1 some label 123");
+        // already selected, no change
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
     void selectByIndex() {
         assertEquals(3, testSubject.getAllSelectedOptions2().size());
         testSubject.selectByIndex(3);
@@ -461,6 +483,28 @@ class MuiSelectTest {
         assertEquals(3, testSubject.getAllSelectedOptions2().size());
         testSubject.deselectByVisibleText("Label 5 some label 123", 500L);
         assertEquals(2, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
+    void deSelectByContainsVisibleText() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.deSelectByContainsVisibleText("Label 5 some label 123");
+        assertEquals(2, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
+    void deSelectByContainsVisibleTextWithDelay() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.deSelectByContainsVisibleText("Label 5 some label 123", 500L);
+        assertEquals(2, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
+    void deSelectByContainsVisibleTextAlreadyDeselected() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.deSelectByContainsVisibleText("Label 0");
+        // not selected, no change
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
     }
 
     @Test

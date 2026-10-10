@@ -42,6 +42,7 @@ class MatTreeTest {
     @BeforeEach
     void setUp() {
         when(config.getComponentCssPrefix()).thenReturn("mat-");
+        when(config.getTagPrefix()).thenReturn("mat-");
         testSubject = new MatTree(locator, driver, config);
     }
 
@@ -67,4 +68,29 @@ class MatTreeTest {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatTree{locator=inner-locator}", testSubject.toString());
     }
+
+    @Test
+    void getNodes() {
+        Locator nodeLocator = mock(Locator.class);
+        when(locator.locator("mat-tree-node.mat-tree-node")).thenReturn(nodeLocator);
+        when(nodeLocator.all()).thenReturn(java.util.List.of(nodeLocator));
+        assertEquals(1, testSubject.getNodes().size());
+    }
+
+    @Test
+    void isNestedTrue() {
+        Locator nestedLocator = mock(Locator.class);
+        when(locator.locator(".mat-nested-tree-node")).thenReturn(nestedLocator);
+        when(nestedLocator.all()).thenReturn(java.util.List.of(nestedLocator));
+        assertTrue(testSubject.isNested());
+    }
+
+    @Test
+    void isNestedFalse() {
+        Locator nestedLocator = mock(Locator.class);
+        when(locator.locator(".mat-nested-tree-node")).thenReturn(nestedLocator);
+        when(nestedLocator.all()).thenReturn(java.util.List.of());
+        assertFalse(testSubject.isNested());
+    }
+
 }

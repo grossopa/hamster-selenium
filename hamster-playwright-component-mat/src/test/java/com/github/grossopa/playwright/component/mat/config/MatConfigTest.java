@@ -27,6 +27,8 @@ import com.github.grossopa.playwright.core.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -261,5 +263,37 @@ class MatConfigTest {
         assertTrue(result.startsWith("MatConfig{tagPrefix='mat-', componentCssPrefix='mat-mdc-', cdkPrefix='cdk-', "));
         assertTrue(result.contains("overlayAbsolutePath='/html/body'"));
         assertTrue(result.contains("version=MDC"));
+    }
+
+    @Test
+    void setVersion() {
+        testSubject.setVersion(MatVersion.LEGACY);
+        assertEquals(MatVersion.LEGACY, testSubject.getVersion());
+    }
+
+    @Test
+    void setVersionNull() {
+        assertThrows(NullPointerException.class, () -> testSubject.setVersion(null));
+    }
+
+    @Test
+    void getInternalSelectors() {
+        Map<String, String> selectors = testSubject.getInternalSelectors();
+        assertNotNull(selectors);
+        assertEquals("mdc-radio__native-control", selectors.get("radio-input"));
+    }
+
+    @Test
+    void mdcFactory() {
+        MatConfig mdcConfig = MatConfig.mdc();
+        assertNotNull(mdcConfig);
+        assertEquals("mat-mdc-", mdcConfig.getComponentCssPrefix());
+    }
+
+    @Test
+    void equalsDifferentVersion() {
+        MatConfig other = new MatConfig();
+        other.setVersion(MatVersion.LEGACY);
+        assertNotEquals(testSubject, other);
     }
 }

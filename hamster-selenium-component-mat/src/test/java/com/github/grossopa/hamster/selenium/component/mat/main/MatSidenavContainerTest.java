@@ -29,6 +29,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -66,5 +68,21 @@ class MatSidenavContainerTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatSidenavContainer{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void getSidenav() {
+        WebElement drawerEl = mock(WebElement.class);
+        when(element.findElement(By.className("mat-drawer"))).thenReturn(drawerEl);
+        MatSidenav result = testSubject.getSidenav();
+        assertNotNull(result);
+        assertEquals("Sidenav", result.getComponentName());
+    }
+
+    @Test
+    void getContent() {
+        WebElement contentEl = mock(WebElement.class);
+        when(element.findElement(By.className("mat-drawer-content"))).thenReturn(contentEl);
+        assertNotNull(testSubject.getContent());
     }
 }

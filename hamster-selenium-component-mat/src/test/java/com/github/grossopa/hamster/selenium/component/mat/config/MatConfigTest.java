@@ -188,4 +188,88 @@ class MatConfigTest {
         when(component.getDomAttribute("class")).thenReturn("");
         assertFalse(testSubject.isDisabled(component));
     }
+
+    @Test
+    void getCssPrefix() {
+        assertEquals("mat-mdc-", testSubject.getCssPrefix());
+    }
+
+    @Test
+    void setVersion() {
+        testSubject.setVersion(MatVersion.LEGACY);
+        assertEquals(MatVersion.LEGACY, testSubject.getVersion());
+    }
+
+    @Test
+    void getInternalSelectorDefault() {
+        assertEquals("mdc-checkbox__native-control", testSubject.getInternalSelector("checkbox-input"));
+        assertEquals("mdc-radio__native-control", testSubject.getInternalSelector("radio-input"));
+        assertEquals("mdc-form-field", testSubject.getInternalSelector("radio-label"));
+    }
+
+    @Test
+    void getInternalSelectorFallback() {
+        // unknown key returns the key itself
+        assertEquals("unknown-key", testSubject.getInternalSelector("unknown-key"));
+    }
+
+    @Test
+    void setInternalSelector() {
+        testSubject.setInternalSelector("radio-label", "custom-label");
+        assertEquals("custom-label", testSubject.getInternalSelector("radio-label"));
+    }
+
+    @Test
+    void getInternalSelectors() {
+        assertNotNull(testSubject.getInternalSelectors());
+        assertEquals(3, testSubject.getInternalSelectors().size());
+    }
+
+    @Test
+    void isCheckedTrue() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.getDomAttribute("class")).thenReturn("mat-mdc-checkbox-checked");
+        assertTrue(testSubject.isChecked(component));
+    }
+
+    @Test
+    void isCheckedFalse() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.getDomAttribute("class")).thenReturn("mat-mdc-checkbox");
+        assertFalse(testSubject.isChecked(component));
+    }
+
+    @Test
+    void isSelectedTrue() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.getDomAttribute("class")).thenReturn("mat-mdc-selected");
+        assertTrue(testSubject.isSelected(component));
+    }
+
+    @Test
+    void isSelectedFalse() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.getDomAttribute("class")).thenReturn("mat-mdc-option");
+        assertFalse(testSubject.isSelected(component));
+    }
+
+    @Test
+    void isDisabledNull() {
+        assertTrue(testSubject.isDisabled(null));
+    }
+
+    @Test
+    void isDisabledGetWrappedElementThrows() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.getWrappedElement()).thenThrow(new RuntimeException("detached"));
+        when(component.getDomAttribute("class")).thenReturn("");
+        assertFalse(testSubject.isDisabled(component));
+    }
+
+    @Test
+    void mdcFactory() {
+        MatConfig mdc = MatConfig.mdc();
+        assertEquals("mat-mdc-", mdc.getComponentCssPrefix());
+        assertEquals(MatVersion.MDC, mdc.getVersion());
+    }
 }

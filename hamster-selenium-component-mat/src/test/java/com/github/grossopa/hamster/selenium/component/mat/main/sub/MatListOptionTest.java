@@ -85,7 +85,17 @@ class MatListOptionTest {
     @Test
     void isSelectedNegative() {
         when(element.getDomAttribute("aria-selected")).thenReturn("");
+        when(element.findElements(By.cssSelector("input[type=checkbox]"))).thenReturn(newArrayList());
         assertFalse(testSubject.isSelected());
+    }
+
+    @Test
+    void isSelectedNativeCheckbox() {
+        when(element.getDomAttribute("aria-selected")).thenReturn(null);
+        WebElement nativeCheckbox = mock(WebElement.class);
+        when(nativeCheckbox.isSelected()).thenReturn(true);
+        when(element.findElements(By.cssSelector("input[type=checkbox]"))).thenReturn(newArrayList(nativeCheckbox));
+        assertTrue(testSubject.isSelected());
     }
 
     @Test
@@ -115,8 +125,17 @@ class MatListOptionTest {
 
     @Test
     void getCheckboxNull() {
-        when(element.findElements(By.tagName("mat-pseudo-checkbox"))).thenReturn(newArrayList());
+        when(element.findElements(By.className("mat-mdc-pseudo-checkbox"))).thenReturn(newArrayList());
+        when(element.findElements(By.className("mdc-checkbox"))).thenReturn(newArrayList());
         assertNull(testSubject.getCheckbox());
+    }
+
+    @Test
+    void getCheckboxMdc() {
+        when(element.findElements(By.className("mat-mdc-pseudo-checkbox"))).thenReturn(newArrayList());
+        WebElement mdcCheckbox = mock(WebElement.class);
+        when(element.findElements(By.className("mdc-checkbox"))).thenReturn(newArrayList(mdcCheckbox));
+        assertNotNull(testSubject.getCheckbox());
     }
 
 }

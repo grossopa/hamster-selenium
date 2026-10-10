@@ -25,9 +25,12 @@ package com.github.grossopa.playwright.component.mat.main;
 
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -66,5 +69,83 @@ class MatPaginatorTest {
     void testToString() {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatPaginator{locator=inner-locator}", testSubject.toString());
+    }
+
+    @Test
+    void componentConstructor() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.locator()).thenReturn(locator);
+        assertInstanceOf(MatPaginator.class, new MatPaginator(component, driver, config));
+    }
+
+    @Test
+    void getRangeLabel() {
+        Locator rangeLabelLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-paginator-range-label")).thenReturn(rangeLabelLocator);
+        when(rangeLabelLocator.first()).thenReturn(firstLocator);
+        when(firstLocator.innerText()).thenReturn("1 – 10 of 50");
+        assertEquals("1 – 10 of 50", testSubject.getRangeLabel());
+    }
+
+    @Test
+    void getPageSizeSelect() {
+        Locator pageSizeLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-paginator-page-size")).thenReturn(pageSizeLocator);
+        when(pageSizeLocator.first()).thenReturn(firstLocator);
+        assertNotNull(testSubject.getPageSizeSelect());
+    }
+
+    @Test
+    void nextPage() {
+        Locator nextLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-paginator-navigation-next")).thenReturn(nextLocator);
+        when(nextLocator.first()).thenReturn(firstLocator);
+        testSubject.nextPage();
+        verify(firstLocator).click();
+    }
+
+    @Test
+    void previousPage() {
+        Locator prevLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-paginator-navigation-previous")).thenReturn(prevLocator);
+        when(prevLocator.first()).thenReturn(firstLocator);
+        testSubject.previousPage();
+        verify(firstLocator).click();
+    }
+
+    @Test
+    void firstPage() {
+        Locator firstNavLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-paginator-navigation-first")).thenReturn(firstNavLocator);
+        when(firstNavLocator.first()).thenReturn(firstLocator);
+        testSubject.firstPage();
+        verify(firstLocator).click();
+    }
+
+    @Test
+    void lastPage() {
+        Locator lastLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-paginator-navigation-last")).thenReturn(lastLocator);
+        when(lastLocator.first()).thenReturn(firstLocator);
+        testSubject.lastPage();
+        verify(firstLocator).click();
+    }
+
+    @Test
+    void getPageSizeOptions() {
+        Locator optionsLocator = mock(Locator.class);
+        Locator option1 = mock(Locator.class);
+        Locator option2 = mock(Locator.class);
+        when(locator.locator(".mat-mdc-paginator-page-size-label")).thenReturn(optionsLocator);
+        when(optionsLocator.all()).thenReturn(List.of(option1, option2));
+        when(option1.innerText()).thenReturn("5");
+        when(option2.innerText()).thenReturn("10");
+        assertEquals(List.of("5", "10"), testSubject.getPageSizeOptions());
     }
 }

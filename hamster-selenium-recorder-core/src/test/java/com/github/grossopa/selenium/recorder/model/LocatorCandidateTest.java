@@ -74,6 +74,7 @@ class LocatorCandidateTest {
         assertNotEquals(new LocatorCandidate(LocatorType.NAME, "login",
                 LocatorCandidate.PRIORITY_NAME, "by name \"login\""), testSubject);
         assertNotEquals(new Object(), testSubject);
+        assertNotEquals(testSubject, "not a locator candidate");
         assertTrue(testSubject.toString().contains("login"));
 
         // list field affects equality

@@ -67,4 +67,26 @@ class MatTabTest {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatTab{locator=inner-locator}", testSubject.toString());
     }
+
+    @Test
+    void isActiveTrue() {
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-tab");
+        assertTrue(testSubject.isActive());
+    }
+
+    @Test
+    void isActiveFalse() {
+        when(locator.getAttribute("class")).thenReturn("mat-mdc-tab mat-mdc-tab-body-hidden");
+        assertFalse(testSubject.isActive());
+    }
+
+    @Test
+    void getContent() {
+        Locator contentLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-tab-body")).thenReturn(contentLocator);
+        when(contentLocator.first()).thenReturn(firstLocator);
+        assertNotNull(testSubject.getContent());
+    }
+
 }

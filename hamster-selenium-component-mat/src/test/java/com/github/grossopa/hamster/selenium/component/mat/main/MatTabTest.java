@@ -29,6 +29,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -66,5 +68,24 @@ class MatTabTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatTab{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void isActiveTrue() {
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-tab");
+        assertTrue(testSubject.isActive());
+    }
+
+    @Test
+    void isActiveFalse() {
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-tab mat-mdc-tab-body-hidden");
+        assertFalse(testSubject.isActive());
+    }
+
+    @Test
+    void getContent() {
+        WebElement bodyEl = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-tab-body"))).thenReturn(bodyEl);
+        assertNotNull(testSubject.getContent());
     }
 }

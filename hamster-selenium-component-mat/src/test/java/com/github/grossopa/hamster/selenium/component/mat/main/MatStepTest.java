@@ -29,6 +29,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -66,5 +68,43 @@ class MatStepTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatStep{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void getLabel() {
+        WebElement labelEl = mock(WebElement.class);
+        when(element.findElement(By.className("mat-step-label"))).thenReturn(labelEl);
+        assertNotNull(testSubject.getLabel());
+    }
+
+    @Test
+    void isActiveTrue() {
+        when(element.getDomAttribute("class")).thenReturn("mat-step mat-step-active");
+        assertTrue(testSubject.isActive());
+    }
+
+    @Test
+    void isActiveFalse() {
+        when(element.getDomAttribute("class")).thenReturn("mat-step");
+        assertFalse(testSubject.isActive());
+    }
+
+    @Test
+    void isCompletedTrue() {
+        when(element.getDomAttribute("class")).thenReturn("mat-step mat-step-completed");
+        assertTrue(testSubject.isCompleted());
+    }
+
+    @Test
+    void isCompletedFalse() {
+        when(element.getDomAttribute("class")).thenReturn("mat-step");
+        assertFalse(testSubject.isCompleted());
+    }
+
+    @Test
+    void getContent() {
+        WebElement contentEl = mock(WebElement.class);
+        when(element.findElement(By.className("mat-step-content"))).thenReturn(contentEl);
+        assertNotNull(testSubject.getContent());
     }
 }

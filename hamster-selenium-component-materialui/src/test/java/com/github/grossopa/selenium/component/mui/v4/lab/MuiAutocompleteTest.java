@@ -362,6 +362,25 @@ class MuiAutocompleteTest {
     }
 
     @Test
+    void selectByContainsVisibleText() {
+        testSubject.selectByContainsVisibleText("option2");
+        verify(options.get(1), times(1)).click();
+    }
+
+    @Test
+    void selectByContainsVisibleTextWithDelay() {
+        testSubject.selectByContainsVisibleText("option2", 1000L);
+        verify(options.get(1), times(1)).click();
+    }
+
+    @Test
+    void selectByContainsVisibleTextNone() {
+        testSubject.selectByContainsVisibleText("zzz");
+        verify(options.get(0), never()).click();
+        verify(options.get(1), never()).click();
+    }
+
+    @Test
     void selectByIndex() {
         testSubject.selectByIndex(3);
         verify(options.get(3), times(1)).click();
@@ -465,6 +484,27 @@ class MuiAutocompleteTest {
     void deselectByVisibleTextNotExists() {
         assertEquals(3, testSubject.getAllSelectedOptions2().size());
         testSubject.deselectByVisibleText("dddddd");
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
+    void deSelectByContainsVisibleText() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.deSelectByContainsVisibleText("option7");
+        assertEquals(2, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
+    void deSelectByContainsVisibleTextWithDelay() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.deSelectByContainsVisibleText("option7", 1000L);
+        assertEquals(2, testSubject.getAllSelectedOptions2().size());
+    }
+
+    @Test
+    void deSelectByContainsVisibleTextNotExists() {
+        assertEquals(3, testSubject.getAllSelectedOptions2().size());
+        testSubject.deSelectByContainsVisibleText("zzzzz");
         assertEquals(3, testSubject.getAllSelectedOptions2().size());
     }
 

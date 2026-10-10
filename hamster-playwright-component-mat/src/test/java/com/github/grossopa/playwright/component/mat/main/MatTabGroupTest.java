@@ -42,6 +42,7 @@ class MatTabGroupTest {
     @BeforeEach
     void setUp() {
         when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
+        when(config.getTagPrefix()).thenReturn("mat-");
         testSubject = new MatTabGroup(locator, driver, config);
     }
 
@@ -67,4 +68,56 @@ class MatTabGroupTest {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatTabGroup{locator=inner-locator}", testSubject.toString());
     }
+
+    @Test
+    void getTabLabels() {
+        Locator tabLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-tab")).thenReturn(tabLocator);
+        when(tabLocator.count()).thenReturn(1);
+        when(tabLocator.all()).thenReturn(java.util.List.of(tabLocator));
+        assertEquals(1, testSubject.getTabLabels().size());
+    }
+
+    @Test
+    void getTabs() {
+        Locator tabLocator = mock(Locator.class);
+        when(locator.locator("mat-tab.mat-mdc-tab")).thenReturn(tabLocator);
+        when(tabLocator.all()).thenReturn(java.util.List.of(tabLocator));
+        assertEquals(1, testSubject.getTabs().size());
+    }
+
+    @Test
+    void selectTab() {
+        Locator tabLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-tab")).thenReturn(tabLocator);
+        when(tabLocator.count()).thenReturn(1);
+        when(tabLocator.all()).thenReturn(java.util.List.of(tabLocator));
+        testSubject.selectTab(0);
+        verify(tabLocator).click();
+    }
+
+    @Test
+    void getSelectedTabIndexMdc() {
+        Locator label1 = mock(Locator.class);
+        when(label1.getAttribute("class")).thenReturn("mat-mdc-tab");
+        Locator label2 = mock(Locator.class);
+        when(label2.getAttribute("class")).thenReturn("mat-mdc-tab mdc-tab--active");
+        Locator tabLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-tab")).thenReturn(tabLocator);
+        when(tabLocator.count()).thenReturn(2);
+        when(tabLocator.all()).thenReturn(java.util.List.of(label1, label2));
+        assertEquals(1, testSubject.getSelectedTabIndex());
+    }
+
+    @Test
+    void getSelectedTabIndexNone() {
+        Locator label1 = mock(Locator.class);
+        when(label1.getAttribute("class")).thenReturn("mat-mdc-tab");
+        Locator tabLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-tab")).thenReturn(tabLocator);
+        when(tabLocator.count()).thenReturn(1);
+        when(tabLocator.all()).thenReturn(java.util.List.of(label1));
+        assertEquals(-1, testSubject.getSelectedTabIndex());
+    }
+
 }

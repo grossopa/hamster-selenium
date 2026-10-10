@@ -29,6 +29,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
+
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -66,5 +70,38 @@ class MatTableTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatTable{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void getHeaderCells() {
+        WebElement cell = mock(WebElement.class);
+        when(element.findElements(By.className("mat-mdc-header-cell"))).thenReturn(newArrayList(cell));
+        assertEquals(1, testSubject.getHeaderCells().size());
+    }
+
+    @Test
+    void getRows() {
+        WebElement row = mock(WebElement.class);
+        when(element.findElements(By.className("mat-mdc-row"))).thenReturn(newArrayList(row));
+        assertEquals(1, testSubject.getRows().size());
+    }
+
+    @Test
+    void getRowCells() {
+        WebElement row = mock(WebElement.class);
+        WebElement cell = mock(WebElement.class);
+        when(element.findElements(By.className("mat-mdc-row"))).thenReturn(newArrayList(row));
+        when(row.findElements(By.className("mat-mdc-cell"))).thenReturn(newArrayList(cell));
+        assertEquals(1, testSubject.getRowCells(0).size());
+    }
+
+    @Test
+    void getCellValue() {
+        WebElement row = mock(WebElement.class);
+        WebElement cell = mock(WebElement.class);
+        when(cell.getText()).thenReturn("Hello");
+        when(element.findElements(By.className("mat-mdc-row"))).thenReturn(newArrayList(row));
+        when(row.findElements(By.className("mat-mdc-cell"))).thenReturn(newArrayList(cell));
+        assertEquals("Hello", testSubject.getCellValue(0, 0));
     }
 }

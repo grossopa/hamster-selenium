@@ -29,6 +29,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import org.openqa.selenium.By;
+
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -66,5 +69,25 @@ class MatTreeTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatTree{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void getNodes() {
+        WebElement node = mock(WebElement.class);
+        when(element.findElements(By.className("mat-tree-node"))).thenReturn(newArrayList(node));
+        assertEquals(1, testSubject.getNodes().size());
+    }
+
+    @Test
+    void isNestedTrue() {
+        WebElement nested = mock(WebElement.class);
+        when(element.findElements(By.className("mat-nested-tree-node"))).thenReturn(newArrayList(nested));
+        assertTrue(testSubject.isNested());
+    }
+
+    @Test
+    void isNestedFalse() {
+        when(element.findElements(By.className("mat-nested-tree-node"))).thenReturn(newArrayList());
+        assertFalse(testSubject.isNested());
     }
 }

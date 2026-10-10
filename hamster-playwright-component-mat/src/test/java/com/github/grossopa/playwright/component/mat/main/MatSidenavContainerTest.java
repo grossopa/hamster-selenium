@@ -67,4 +67,21 @@ class MatSidenavContainerTest {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatSidenavContainer{locator=inner-locator}", testSubject.toString());
     }
+
+    @Test
+    void getSidenav() {
+        Locator sidenavLocator = mock(Locator.class);
+        when(locator.locator(".mat-drawer")).thenReturn(sidenavLocator);
+        when(sidenavLocator.first()).thenReturn(sidenavLocator);
+        assertNotNull(testSubject.getSidenav());
+    }
+
+    @Test
+    void getContent() {
+        Locator contentLocator = mock(Locator.class);
+        when(locator.locator(".mat-drawer-content")).thenReturn(contentLocator);
+        when(contentLocator.first()).thenReturn(contentLocator);
+        assertNotNull(testSubject.getContent());
+    }
+
 }

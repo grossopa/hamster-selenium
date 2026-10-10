@@ -42,6 +42,7 @@ class MatTreeNodeTest {
     @BeforeEach
     void setUp() {
         when(config.getComponentCssPrefix()).thenReturn("mat-");
+        when(config.getTagPrefix()).thenReturn("mat-");
         testSubject = new MatTreeNode(locator, driver, config);
     }
 
@@ -67,4 +68,79 @@ class MatTreeNodeTest {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatTreeNode{locator=inner-locator}", testSubject.toString());
     }
+
+    @Test
+    void isExpandedTrue() {
+        when(locator.getAttribute("class")).thenReturn("mat-tree-node mat-tree-node-expanded");
+        assertTrue(testSubject.isExpanded());
+    }
+
+    @Test
+    void isExpandedFalse() {
+        when(locator.getAttribute("class")).thenReturn("mat-tree-node");
+        assertFalse(testSubject.isExpanded());
+    }
+
+    @Test
+    void getToggleButton() {
+        Locator toggleLocator = mock(Locator.class);
+        when(locator.locator(".mat-tree-node-toggle")).thenReturn(toggleLocator);
+        when(toggleLocator.first()).thenReturn(toggleLocator);
+        assertNotNull(testSubject.getToggleButton());
+    }
+
+    @Test
+    void expand() {
+        Locator toggleLocator = mock(Locator.class);
+        when(locator.locator(".mat-tree-node-toggle")).thenReturn(toggleLocator);
+        when(toggleLocator.first()).thenReturn(toggleLocator);
+        when(locator.getAttribute("class")).thenReturn("mat-tree-node");
+        testSubject.expand();
+        verify(toggleLocator).click();
+    }
+
+    @Test
+    void expandWhenAlreadyExpanded() {
+        Locator toggleLocator = mock(Locator.class);
+        when(locator.locator(".mat-tree-node-toggle")).thenReturn(toggleLocator);
+        when(toggleLocator.first()).thenReturn(toggleLocator);
+        when(locator.getAttribute("class")).thenReturn("mat-tree-node mat-tree-node-expanded");
+        testSubject.expand();
+        verify(toggleLocator, never()).click();
+    }
+
+    @Test
+    void collapse() {
+        Locator toggleLocator = mock(Locator.class);
+        when(locator.locator(".mat-tree-node-toggle")).thenReturn(toggleLocator);
+        when(toggleLocator.first()).thenReturn(toggleLocator);
+        when(locator.getAttribute("class")).thenReturn("mat-tree-node mat-tree-node-expanded");
+        testSubject.collapse();
+        verify(toggleLocator).click();
+    }
+
+    @Test
+    void collapseWhenAlreadyCollapsed() {
+        Locator toggleLocator = mock(Locator.class);
+        when(locator.locator(".mat-tree-node-toggle")).thenReturn(toggleLocator);
+        when(toggleLocator.first()).thenReturn(toggleLocator);
+        when(locator.getAttribute("class")).thenReturn("mat-tree-node");
+        testSubject.collapse();
+        verify(toggleLocator, never()).click();
+    }
+
+    @Test
+    void getChildren() {
+        Locator childLocator = mock(Locator.class);
+        when(locator.locator("mat-tree-node.mat-tree-node")).thenReturn(childLocator);
+        when(childLocator.all()).thenReturn(java.util.List.of(childLocator));
+        assertEquals(1, testSubject.getChildren().size());
+    }
+
+    @Test
+    void getToggleButtonException() {
+        when(locator.locator(".mat-tree-node-toggle")).thenThrow(new RuntimeException("not found"));
+        assertNull(testSubject.getToggleButton());
+    }
+
 }

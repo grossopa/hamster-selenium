@@ -25,10 +25,15 @@ package com.github.grossopa.hamster.selenium.component.mat.main;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
+import com.github.grossopa.selenium.core.component.WebComponent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -66,5 +71,90 @@ class MatCalendarTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatCalendar{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void getPeriodLabel() {
+        WebElement labelElement = mock(WebElement.class);
+        when(labelElement.getText()).thenReturn("SEP 2023");
+        when(element.findElement(By.className("mat-mdc-calendar-period-label"))).thenReturn(labelElement);
+        assertEquals("SEP 2023", testSubject.getPeriodLabel());
+    }
+
+    @Test
+    void previousMonth() {
+        WebElement button = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-calendar-previous-button"))).thenReturn(button);
+        testSubject.previousMonth();
+        verify(button).click();
+    }
+
+    @Test
+    void nextMonth() {
+        WebElement button = mock(WebElement.class);
+        when(element.findElement(By.className("mat-mdc-calendar-next-button"))).thenReturn(button);
+        testSubject.nextMonth();
+        verify(button).click();
+    }
+
+    @Test
+    void getDateCells() {
+        WebElement cell1 = mock(WebElement.class);
+        WebElement cell2 = mock(WebElement.class);
+        when(element.findElements(By.className("mat-mdc-calendar-body-cell"))).thenReturn(newArrayList(cell1, cell2));
+        List<WebComponent> result = testSubject.getDateCells();
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    void selectDateFound() {
+        WebElement cell1 = mock(WebElement.class);
+        when(cell1.getText()).thenReturn("15");
+        WebElement cell2 = mock(WebElement.class);
+        when(cell2.getText()).thenReturn("20");
+        when(element.findElements(By.className("mat-mdc-calendar-body-cell"))).thenReturn(newArrayList(cell1, cell2));
+
+        testSubject.selectDate("20");
+        verify(cell1, never()).click();
+        verify(cell2).click();
+    }
+
+    @Test
+    void selectDateNotFound() {
+        WebElement cell1 = mock(WebElement.class);
+        when(cell1.getText()).thenReturn("15");
+        when(element.findElements(By.className("mat-mdc-calendar-body-cell"))).thenReturn(newArrayList(cell1));
+
+        testSubject.selectDate("25");
+        verify(cell1, never()).click();
+    }
+
+    @Test
+    void isDateSelectedTrue() {
+        WebElement cell = mock(WebElement.class);
+        when(cell.getText()).thenReturn("15");
+        when(cell.getAttribute("class")).thenReturn("mat-mdc-calendar-body-cell mat-mdc-calendar-body-selected");
+        when(element.findElements(By.className("mat-mdc-calendar-body-cell"))).thenReturn(newArrayList(cell));
+
+        assertTrue(testSubject.isDateSelected("15"));
+    }
+
+    @Test
+    void isDateSelectedFalse() {
+        WebElement cell = mock(WebElement.class);
+        when(cell.getText()).thenReturn("15");
+        when(cell.getAttribute("class")).thenReturn("mat-mdc-calendar-body-cell");
+        when(element.findElements(By.className("mat-mdc-calendar-body-cell"))).thenReturn(newArrayList(cell));
+
+        assertFalse(testSubject.isDateSelected("15"));
+    }
+
+    @Test
+    void isDateSelectedNotFound() {
+        WebElement cell = mock(WebElement.class);
+        when(cell.getText()).thenReturn("15");
+        when(element.findElements(By.className("mat-mdc-calendar-body-cell"))).thenReturn(newArrayList(cell));
+
+        assertFalse(testSubject.isDateSelected("25"));
     }
 }

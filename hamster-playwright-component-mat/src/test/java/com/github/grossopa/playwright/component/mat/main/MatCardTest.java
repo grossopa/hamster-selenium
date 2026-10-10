@@ -78,4 +78,53 @@ class MatCardTest {
     void testToString() {
         assertTrue(testSubject.toString().contains("MatCard"));
     }
+
+    @Test
+    void getTitle() {
+        Locator titleLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-card-title")).thenReturn(titleLocator);
+        when(titleLocator.first()).thenReturn(titleLocator);
+        assertNotNull(testSubject.getTitle());
+    }
+
+    @Test
+    void getSubtitle() {
+        Locator subtitleLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-card-subtitle")).thenReturn(subtitleLocator);
+        when(subtitleLocator.first()).thenReturn(subtitleLocator);
+        assertNotNull(testSubject.getSubtitle());
+    }
+
+    @Test
+    void getContent() {
+        Locator contentLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-card-content")).thenReturn(contentLocator);
+        when(contentLocator.first()).thenReturn(contentLocator);
+        assertNotNull(testSubject.getContent());
+    }
+
+    @Test
+    void getActions() {
+        Locator actionsLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-card-actions")).thenReturn(actionsLocator);
+        when(actionsLocator.first()).thenReturn(actionsLocator);
+        assertNotNull(testSubject.getActions());
+    }
+
+    @Test
+    void getHeader() {
+        Locator headerLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-card-header")).thenReturn(headerLocator);
+        when(headerLocator.first()).thenReturn(headerLocator);
+        assertNotNull(testSubject.getHeader());
+    }
+
+    @Test
+    void getFooter() {
+        Locator footerLocator = mock(Locator.class);
+        when(locator.locator(".mat-mdc-card-footer")).thenReturn(footerLocator);
+        when(footerLocator.first()).thenReturn(footerLocator);
+        assertNotNull(testSubject.getFooter());
+    }
+
 }

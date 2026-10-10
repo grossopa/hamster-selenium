@@ -30,6 +30,9 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -96,4 +99,22 @@ class MatSnackbarTest {
         when(element.toString()).thenReturn("element");
         assertEquals("MatSnackbar{element=element}", testSubject.toString());
     }
+
+    @Test
+    void getLabelMdc() {
+        WebElement labelEl = mock(WebElement.class);
+        when(element.findElement(By.cssSelector("[matsnackbarlabel]"))).thenReturn(labelEl);
+        WebComponent result = testSubject.getLabel();
+        assertNotNull(result);
+    }
+
+    @Test
+    void getLabelLegacy() {
+        when(element.findElement(By.cssSelector("[matsnackbarlabel]"))).thenThrow(new NoSuchElementException("not found"));
+        WebElement spanEl = mock(WebElement.class);
+        when(element.findElement(By.tagName("span"))).thenReturn(spanEl);
+        WebComponent result = testSubject.getLabel();
+        assertNotNull(result);
+    }
+
 }

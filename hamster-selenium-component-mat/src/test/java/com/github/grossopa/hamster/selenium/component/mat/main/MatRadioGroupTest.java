@@ -29,6 +29,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
+
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -66,5 +70,30 @@ class MatRadioGroupTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatRadioGroup{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void getRadioButtons() {
+        WebElement radio1 = mock(WebElement.class);
+        when(radio1.getDomAttribute("class")).thenReturn("mat-mdc-radio-button");
+        when(radio1.findElements(any(By.class))).thenReturn(newArrayList());
+        when(element.findElements(any(By.class))).thenReturn(newArrayList(radio1));
+        assertEquals(1, testSubject.getRadioButtons().size());
+    }
+
+    @Test
+    void selectByIndex() {
+        WebElement radio1 = mock(WebElement.class);
+        when(radio1.getDomAttribute("class")).thenReturn("mat-mdc-radio-button");
+        when(radio1.findElements(any(By.class))).thenReturn(newArrayList());
+        when(element.findElements(any(By.class))).thenReturn(newArrayList(radio1));
+        testSubject.selectByIndex(0);
+        verify(radio1).click();
+    }
+
+    @Test
+    void getSelectedButtonNull() {
+        when(element.findElements(any(By.class))).thenReturn(newArrayList());
+        assertNull(testSubject.getSelectedButton());
     }
 }

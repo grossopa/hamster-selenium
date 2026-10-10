@@ -25,9 +25,12 @@ package com.github.grossopa.playwright.component.mat.main;
 
 import com.github.grossopa.playwright.component.mat.config.MatConfig;
 import com.github.grossopa.playwright.core.ComponentDriver;
+import com.github.grossopa.playwright.core.WebComponent;
 import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -42,6 +45,7 @@ class MatStepperTest {
     @BeforeEach
     void setUp() {
         when(config.getComponentCssPrefix()).thenReturn("mat-");
+        when(config.getTagPrefix()).thenReturn("mat-");
         testSubject = new MatStepper(locator, driver, config);
     }
 
@@ -66,5 +70,73 @@ class MatStepperTest {
     void testToString() {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatStepper{locator=inner-locator}", testSubject.toString());
+    }
+
+    @Test
+    void componentConstructor() {
+        WebComponent component = mock(WebComponent.class);
+        when(component.locator()).thenReturn(locator);
+        assertInstanceOf(MatStepper.class, new MatStepper(component, driver, config));
+    }
+
+    @Test
+    void getSteps() {
+        Locator stepLocator = mock(Locator.class);
+        when(locator.locator("mat-step.mat-step")).thenReturn(stepLocator);
+        when(stepLocator.all()).thenReturn(List.of(stepLocator));
+        assertEquals(1, testSubject.getSteps().size());
+    }
+
+    @Test
+    void next() {
+        Locator nextLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-stepper-next")).thenReturn(nextLocator);
+        when(nextLocator.first()).thenReturn(firstLocator);
+        testSubject.next();
+        verify(firstLocator).click();
+    }
+
+    @Test
+    void previous() {
+        Locator prevLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-stepper-previous")).thenReturn(prevLocator);
+        when(prevLocator.first()).thenReturn(firstLocator);
+        testSubject.previous();
+        verify(firstLocator).click();
+    }
+
+    @Test
+    void isLinearTrue() {
+        when(locator.getAttribute("class")).thenReturn("mat-stepper mat-stepper-linear");
+        assertTrue(testSubject.isLinear());
+    }
+
+    @Test
+    void isLinearFalse() {
+        when(locator.getAttribute("class")).thenReturn("mat-stepper");
+        assertFalse(testSubject.isLinear());
+    }
+
+    @Test
+    void isVerticalTrue() {
+        when(locator.getAttribute("class")).thenReturn("mat-stepper mat-stepper-vertical");
+        assertTrue(testSubject.isVertical());
+    }
+
+    @Test
+    void isVerticalFalse() {
+        when(locator.getAttribute("class")).thenReturn("mat-stepper");
+        assertFalse(testSubject.isVertical());
+    }
+
+    @Test
+    void getHeader() {
+        Locator headerLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-stepper-header")).thenReturn(headerLocator);
+        when(headerLocator.first()).thenReturn(firstLocator);
+        assertNotNull(testSubject.getHeader());
     }
 }

@@ -67,4 +67,80 @@ class MatSidenavTest {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatSidenav{element=inner-element}", testSubject.toString());
     }
+
+    @Test
+    void isOpenTrue() {
+        when(element.getDomAttribute("class")).thenReturn("mat-drawer");
+        assertTrue(testSubject.isOpen());
+    }
+
+    @Test
+    void isOpenFalse() {
+        when(element.getDomAttribute("class")).thenReturn("mat-drawer mat-drawer-closed");
+        assertFalse(testSubject.isOpen());
+    }
+
+    @Test
+    void openWhenClosed() {
+        when(element.getDomAttribute("class")).thenReturn("mat-drawer mat-drawer-closed");
+        testSubject.open();
+        verify(element).click();
+    }
+
+    @Test
+    void openWhenAlreadyOpen() {
+        when(element.getDomAttribute("class")).thenReturn("mat-drawer");
+        testSubject.open();
+        verify(element, never()).click();
+    }
+
+    @Test
+    void closeWhenOpen() {
+        when(element.getDomAttribute("class")).thenReturn("mat-drawer");
+        testSubject.close();
+        verify(element).click();
+    }
+
+    @Test
+    void closeWhenAlreadyClosed() {
+        when(element.getDomAttribute("class")).thenReturn("mat-drawer mat-drawer-closed");
+        testSubject.close();
+        verify(element, never()).click();
+    }
+
+    @Test
+    void toggle() {
+        testSubject.toggle();
+        verify(element).click();
+    }
+
+    @Test
+    void getModeOver() {
+        when(element.getAttribute("class")).thenReturn("mat-drawer mat-drawer-over");
+        assertEquals("over", testSubject.getMode());
+    }
+
+    @Test
+    void getModeSide() {
+        when(element.getAttribute("class")).thenReturn("mat-drawer mat-drawer-side");
+        assertEquals("side", testSubject.getMode());
+    }
+
+    @Test
+    void getModePush() {
+        when(element.getAttribute("class")).thenReturn("mat-drawer mat-drawer-push");
+        assertEquals("push", testSubject.getMode());
+    }
+
+    @Test
+    void getModeDefault() {
+        when(element.getAttribute("class")).thenReturn("mat-drawer");
+        assertEquals("over", testSubject.getMode());
+    }
+
+    @Test
+    void getModeNull() {
+        when(element.getAttribute("class")).thenReturn(null);
+        assertEquals("over", testSubject.getMode());
+    }
 }

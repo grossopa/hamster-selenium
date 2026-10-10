@@ -67,4 +67,75 @@ class MatSidenavTest {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatSidenav{locator=inner-locator}", testSubject.toString());
     }
+
+    @Test
+    void isOpenTrue() {
+        when(locator.getAttribute("class")).thenReturn("mat-drawer");
+        assertTrue(testSubject.isOpen());
+    }
+
+    @Test
+    void isOpenFalse() {
+        when(locator.getAttribute("class")).thenReturn("mat-drawer mat-drawer-closed");
+        assertFalse(testSubject.isOpen());
+    }
+
+    @Test
+    void openWhenClosed() {
+        when(locator.getAttribute("class")).thenReturn("mat-drawer mat-drawer-closed");
+        testSubject.open();
+        verify(locator).click();
+    }
+
+    @Test
+    void openWhenAlreadyOpen() {
+        when(locator.getAttribute("class")).thenReturn("mat-drawer");
+        testSubject.open();
+        verify(locator, never()).click();
+    }
+
+    @Test
+    void closeWhenOpen() {
+        when(locator.getAttribute("class")).thenReturn("mat-drawer");
+        testSubject.close();
+        verify(locator).click();
+    }
+
+    @Test
+    void closeWhenAlreadyClosed() {
+        when(locator.getAttribute("class")).thenReturn("mat-drawer mat-drawer-closed");
+        testSubject.close();
+        verify(locator, never()).click();
+    }
+
+    @Test
+    void toggle() {
+        testSubject.toggle();
+        verify(locator).click();
+    }
+
+    @Test
+    void getModeOver() {
+        when(locator.getAttribute("class")).thenReturn("mat-drawer mat-drawer-over");
+        assertEquals("over", testSubject.getMode());
+    }
+
+    @Test
+    void getModeSide() {
+        when(locator.getAttribute("class")).thenReturn("mat-drawer mat-drawer-side");
+        assertEquals("side", testSubject.getMode());
+    }
+
+    @Test
+    void getModePush() {
+        when(locator.getAttribute("class")).thenReturn("mat-drawer mat-drawer-push");
+        assertEquals("push", testSubject.getMode());
+    }
+
+    @Test
+    void getModeDefault() {
+        when(locator.getAttribute("class")).thenReturn("mat-drawer");
+        assertEquals("over", testSubject.getMode());
+    }
+
 }

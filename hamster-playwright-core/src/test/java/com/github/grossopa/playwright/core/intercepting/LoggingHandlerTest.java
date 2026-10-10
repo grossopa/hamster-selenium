@@ -96,4 +96,25 @@ class LoggingHandlerTest {
         handler.onException(info, ex);
         verify(logger).log(eq(Level.WARNING),  eq(ex), any(Supplier.class));
     }
+
+    @Test
+    void testOnAfterLambdaContent() {
+        // Use a real logger to trigger lambda execution
+        Logger realLogger = Logger.getLogger("test-logger");
+        LoggingHandler realHandler = new LoggingHandler(0L, realLogger);
+        MethodInfo<Object> info = MethodInfo.create(new Object(), "testMethod");
+        info.executionDone();
+        assertDoesNotThrow(() -> realHandler.onAfter(info, "result-value"));
+    }
+
+    @Test
+    void testOnExceptionLambdaContent() {
+        // Use a real logger to trigger lambda execution
+        Logger realLogger = Logger.getLogger("test-logger-ex");
+        LoggingHandler realHandler = new LoggingHandler(0L, realLogger);
+        MethodInfo<Object> info = MethodInfo.create(new Object(), "testMethod");
+        info.executionDone();
+        Exception ex = new RuntimeException("test error message");
+        assertDoesNotThrow(() -> realHandler.onException(info, ex));
+    }
 }

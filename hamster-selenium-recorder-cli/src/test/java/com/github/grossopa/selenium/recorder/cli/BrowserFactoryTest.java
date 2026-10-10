@@ -25,6 +25,8 @@ package com.github.grossopa.selenium.recorder.cli;
 
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -35,6 +37,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @since 1.15
  */
 class BrowserFactoryTest {
+
+    @Test
+    void constructor() throws Exception {
+        Constructor<BrowserFactory> constructor = BrowserFactory.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThrows(java.lang.reflect.InvocationTargetException.class, () -> constructor.newInstance());
+    }
 
     @Test
     void testCreateWithUnsupportedBrowser() {

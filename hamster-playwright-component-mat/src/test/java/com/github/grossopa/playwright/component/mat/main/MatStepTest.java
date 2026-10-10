@@ -67,4 +67,46 @@ class MatStepTest {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatStep{locator=inner-locator}", testSubject.toString());
     }
+
+    @Test
+    void getLabel() {
+        Locator labelLocator = mock(Locator.class);
+        when(locator.locator(".mat-step-label")).thenReturn(labelLocator);
+        when(labelLocator.first()).thenReturn(labelLocator);
+        assertNotNull(testSubject.getLabel());
+    }
+
+    @Test
+    void isActiveTrue() {
+        when(locator.getAttribute("class")).thenReturn("mat-step-active");
+        assertTrue(testSubject.isActive());
+    }
+
+    @Test
+    void isActiveFalse() {
+        when(locator.getAttribute("class")).thenReturn("mat-step");
+        assertFalse(testSubject.isActive());
+    }
+
+    @Test
+    void isCompletedTrue() {
+        when(locator.getAttribute("class")).thenReturn("mat-step-completed");
+        assertTrue(testSubject.isCompleted());
+    }
+
+    @Test
+    void isCompletedFalse() {
+        when(locator.getAttribute("class")).thenReturn("mat-step");
+        assertFalse(testSubject.isCompleted());
+    }
+
+    @Test
+    void getContent() {
+        Locator contentLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator(".mat-step-content")).thenReturn(contentLocator);
+        when(contentLocator.first()).thenReturn(firstLocator);
+        assertNotNull(testSubject.getContent());
+    }
+
 }

@@ -29,6 +29,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -42,6 +44,8 @@ class MatRadioButtonTest {
     @BeforeEach
     void setUp() {
         when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
+        when(config.getInternalSelector("radio-label")).thenReturn("mdc-form-field");
+        when(config.getInternalSelector("radio-input")).thenReturn("mdc-radio__native-control");
         testSubject = new MatRadioButton(element, driver, config);
     }
 
@@ -66,5 +70,44 @@ class MatRadioButtonTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatRadioButton{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void isSelectedTrue() {
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-radio-button mat-mdc-radio-checked");
+        assertTrue(testSubject.isSelected());
+    }
+
+    @Test
+    void isSelectedFalse() {
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-radio-button");
+        assertFalse(testSubject.isSelected());
+    }
+
+    @Test
+    void isEnabledTrue() {
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-radio-button");
+        assertTrue(testSubject.isEnabled());
+    }
+
+    @Test
+    void isEnabledFalse() {
+        when(element.getDomAttribute("class")).thenReturn("mat-mdc-radio-button mat-mdc-radio-disabled");
+        assertFalse(testSubject.isEnabled());
+    }
+
+    @Test
+    void getLabel() {
+        WebElement labelEl = mock(WebElement.class);
+        when(labelEl.getText()).thenReturn("Option A");
+        when(element.findElement(By.className("mdc-form-field"))).thenReturn(labelEl);
+        assertEquals("Option A", testSubject.getLabel());
+    }
+
+    @Test
+    void getInput() {
+        WebElement inputEl = mock(WebElement.class);
+        when(element.findElement(By.className("mdc-radio__native-control"))).thenReturn(inputEl);
+        assertNotNull(testSubject.getInput());
     }
 }

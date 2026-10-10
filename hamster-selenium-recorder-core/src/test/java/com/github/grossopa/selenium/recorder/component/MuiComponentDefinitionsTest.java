@@ -27,6 +27,7 @@ import com.github.grossopa.selenium.component.mui.MuiComponent;
 import com.github.grossopa.selenium.component.mui.MuiComponents;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -45,6 +47,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @since 1.15
  */
 class MuiComponentDefinitionsTest {
+
+    @Test
+    void constructor() throws Exception {
+        Constructor<MuiComponentDefinitions> constructor = MuiComponentDefinitions.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+        assertThrows(java.lang.reflect.InvocationTargetException.class, () -> constructor.newInstance());
+    }
 
     List<MuiComponentDefinition> defaults = MuiComponentDefinitions.defaults();
 

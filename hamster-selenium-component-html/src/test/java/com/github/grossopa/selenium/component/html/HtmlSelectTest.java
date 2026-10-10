@@ -35,6 +35,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 /**
@@ -143,6 +144,32 @@ class HtmlSelectTest {
                 .thenReturn(options);
         testSubject.deselectByVisibleText("Label 1");
         assertEquals(0, testSubject.getAllSelectedOptions().size());
+    }
+
+    @Test
+    void selectByContainsVisibleText() {
+        // Selenium first tries exact match (normalize-space), then falls back to contains
+        // For "Label 1", getLongestSubstringWithoutSpace returns "Label"
+        when(element.findElements(argThat(by -> by != null && by.toString().contains("normalize-space")
+                && by.toString().contains("Label 1")))).thenReturn(List.of());
+        when(element.findElements(argThat(by -> by != null && by.toString().contains("contains")
+                && by.toString().contains("Label")))).thenReturn(options);
+        testSubject.selectByContainsVisibleText("Label 1");
+        // Verify the option was selected (option1 was not selected, now should be clicked)
+        verify(options.get(0)).click();
+    }
+
+    @Test
+    void deSelectByContainsVisibleText() {
+        // Selenium first tries exact match (normalize-space), then falls back to contains
+        // For "Label 2", getLongestSubstringWithoutSpace returns "Label"
+        when(element.findElements(argThat(by -> by != null && by.toString().contains("normalize-space")
+                && by.toString().contains("Label 2")))).thenReturn(List.of());
+        when(element.findElements(argThat(by -> by != null && by.toString().contains("contains")
+                && by.toString().contains("Label")))).thenReturn(options);
+        testSubject.deSelectByContainsVisibleText("Label 2");
+        // Verify the option was deselected (option2 was selected, now should be clicked to deselect)
+        verify(options.get(1)).click();
     }
 
     @Test

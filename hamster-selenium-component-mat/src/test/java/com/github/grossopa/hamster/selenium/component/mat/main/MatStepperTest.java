@@ -29,6 +29,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
+import com.github.grossopa.selenium.core.component.WebComponent;
+import org.openqa.selenium.By;
+
+import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -72,5 +76,71 @@ class MatStepperTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatStepper{element=inner-element}", testSubject.toString());
+    }
+
+    @Test
+    void validateHorizontalLegacy() {
+        when(element.getDomAttribute("class")).thenReturn("mat-horizontal-stepper");
+        assertTrue(testSubject.validate());
+    }
+
+    @Test
+    void validateVerticalLegacy() {
+        when(element.getDomAttribute("class")).thenReturn("mat-vertical-stepper");
+        assertTrue(testSubject.validate());
+    }
+
+    @Test
+    void getSteps() {
+        WebElement stepEl = mock(WebElement.class);
+        when(element.findElements(By.className("mat-step"))).thenReturn(newArrayList(stepEl));
+        assertEquals(1, testSubject.getSteps().size());
+    }
+
+    @Test
+    void next() {
+        WebElement btn = mock(WebElement.class);
+        when(element.findElement(By.className("mat-stepper-next"))).thenReturn(btn);
+        testSubject.next();
+        verify(btn).click();
+    }
+
+    @Test
+    void previous() {
+        WebElement btn = mock(WebElement.class);
+        when(element.findElement(By.className("mat-stepper-previous"))).thenReturn(btn);
+        testSubject.previous();
+        verify(btn).click();
+    }
+
+    @Test
+    void isLinearTrue() {
+        when(element.getDomAttribute("class")).thenReturn("mat-stepper mat-stepper-linear");
+        assertTrue(testSubject.isLinear());
+    }
+
+    @Test
+    void isLinearFalse() {
+        when(element.getDomAttribute("class")).thenReturn("mat-stepper");
+        assertFalse(testSubject.isLinear());
+    }
+
+    @Test
+    void isVerticalTrue() {
+        when(element.getDomAttribute("class")).thenReturn("mat-stepper mat-stepper-vertical");
+        assertTrue(testSubject.isVertical());
+    }
+
+    @Test
+    void isVerticalFalse() {
+        when(element.getDomAttribute("class")).thenReturn("mat-stepper");
+        assertFalse(testSubject.isVertical());
+    }
+
+    @Test
+    void getHeader() {
+        WebElement headerEl = mock(WebElement.class);
+        when(element.findElement(By.className("mat-stepper-header"))).thenReturn(headerEl);
+        assertNotNull(testSubject.getHeader());
     }
 }

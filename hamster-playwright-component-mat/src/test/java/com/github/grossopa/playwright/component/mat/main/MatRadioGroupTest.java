@@ -42,6 +42,7 @@ class MatRadioGroupTest {
     @BeforeEach
     void setUp() {
         when(config.getComponentCssPrefix()).thenReturn("mat-mdc-");
+        when(config.getTagPrefix()).thenReturn("mat-");
         testSubject = new MatRadioGroup(locator, driver, config);
     }
 
@@ -67,4 +68,31 @@ class MatRadioGroupTest {
         when(locator.toString()).thenReturn("inner-locator");
         assertEquals("MatRadioGroup{locator=inner-locator}", testSubject.toString());
     }
+
+    @Test
+    void getRadioButtons() {
+        Locator radioLocator = mock(Locator.class);
+        when(locator.locator("mat-radio-button.mat-mdc-radio-button")).thenReturn(radioLocator);
+        when(radioLocator.all()).thenReturn(java.util.List.of(radioLocator));
+        assertEquals(1, testSubject.getRadioButtons().size());
+    }
+
+    @Test
+    void selectByIndex() {
+        Locator radioLocator = mock(Locator.class);
+        when(locator.locator("mat-radio-button.mat-mdc-radio-button")).thenReturn(radioLocator);
+        when(radioLocator.all()).thenReturn(java.util.List.of(radioLocator));
+        testSubject.selectByIndex(0);
+        verify(radioLocator).click();
+    }
+
+    @Test
+    void getSelectedButton() {
+        Locator radioLocator = mock(Locator.class);
+        when(locator.locator("mat-radio-button.mat-mdc-radio-button")).thenReturn(radioLocator);
+        when(radioLocator.all()).thenReturn(java.util.List.of(radioLocator));
+        when(radioLocator.getAttribute("class")).thenReturn("mat-mdc-radio-button mat-mdc-radio-checked");
+        assertNotNull(testSubject.getSelectedButton());
+    }
+
 }

@@ -108,4 +108,13 @@ class MatInputTest {
     void testToString() {
         assertTrue(testSubject.toString().contains("MatInput"));
     }
+
+    @Test
+    void getInput() {
+        Locator inputLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
+        when(locator.locator("input")).thenReturn(inputLocator);
+        when(inputLocator.first()).thenReturn(firstLocator);
+        assertNotNull(testSubject.getInput());
+    }
 }

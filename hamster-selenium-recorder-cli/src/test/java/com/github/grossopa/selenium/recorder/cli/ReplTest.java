@@ -35,6 +35,7 @@ import com.github.grossopa.selenium.recorder.page.ContextPathPageStrategy;
 import com.github.grossopa.selenium.recorder.session.RecorderSession;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
+import org.jline.reader.UserInterruptException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -211,5 +212,89 @@ class ReplTest {
         testSubject.run();
         assertTrue(output().contains("Hamster Selenium Recorder"));
         verify(lineReader).readLine(anyString());
+    }
+
+    @Test
+    void testRunContinuesOnUserInterrupt() {
+        when(lineReader.readLine(anyString()))
+                .thenThrow(new UserInterruptException("ctrl-c"))
+                .thenReturn("quit");
+        testSubject.run();
+        assertTrue(output().contains("Hamster Selenium Recorder"));
+    }
+
+    @Test
+    void testScanWithNoDetectedComponent() {
+        ScannedElement element = new ScannedElement(0, "div", Map.of("class", "container"), "Some text",
+                List.of(locator));
+        when(session.scan()).thenReturn(List.of(element));
+        assertTrue(testSubject.execute("scan"));
+        assertTrue(output().contains("div"));
+    }
+
+    @Test
+    void testScanWithNoLocatorCandidates() {
+        ScannedElement element = new ScannedElement(0, "span", Map.of(), "text", List.of());
+        when(session.scan()).thenReturn(List.of(element));
+        assertTrue(testSubject.execute("scan"));
+        assertTrue(output().contains("-"));
+    }
+
+    @Test
+    void testSelectWithNoDetectedComponent() {
+        when(session.select(0, "myField")).thenReturn(new PageElementModel("myField", locator, null));
+        assertTrue(testSubject.execute("select 0 myField"));
+        assertTrue(output().contains("WebComponent"));
+    }
+
+    @Test
+    void testPagesWhenEmpty() {
+        when(session.getPages()).thenReturn(List.of());
+        assertTrue(testSubject.execute("pages"));
+        assertTrue(output().contains("No pages collected yet"));
+    }
+
+    @Test
+    void testPagesWithMultiplePages() {
+        PageModel otherPage = new PageModel("OrderList", "/order/list");
+        when(session.getPages()).thenReturn(List.of(page, otherPage));
+        assertTrue(testSubject.execute("pages"));
+        assertTrue(output().contains("* UserLogin"));
+        assertTrue(output().contains("  OrderList"));
+    }
+
+    @Test
+    void testStrategyWithMissingArgs() {
+        assertTrue(testSubject.execute("strategy"));
+        assertTrue(output().contains("Usage: strategy"));
+    }
+
+    @Test
+    void testStatusWithNullCurrentPage() {
+        ComponentWebDriver driver = mock(ComponentWebDriver.class);
+        when(driver.getCurrentUrl()).thenReturn("http://localhost");
+        when(session.getDriver()).thenReturn(driver);
+        when(session.getCurrentPage()).thenReturn(null);
+        when(session.getScannedElements()).thenReturn(List.of());
+        assertTrue(testSubject.execute("status"));
+        assertTrue(output().contains("-"));
+    }
+
+    @Test
+    void testGenerateWithNoPages() {
+        when(session.generate()).thenReturn(List.of());
+        assertTrue(testSubject.execute("generate"));
+        assertTrue(output().contains("No pages to generate"));
+    }
+
+    @Test
+    void testScanWithLongText() {
+        ScannedElement element = new ScannedElement(0, "button", Map.of(),
+                "This is a very long text that should be abbreviated in the output", List.of(locator));
+        element.setDetectedComponent(new DetectedComponent(ComponentFramework.MUI, "Button", "MuiButton",
+                "com.github.grossopa.selenium.component.mui.v4.inputs.MuiButton", "toButton", false));
+        when(session.scan()).thenReturn(List.of(element));
+        assertTrue(testSubject.execute("scan"));
+        assertTrue(output().contains("..."));
     }
 }
