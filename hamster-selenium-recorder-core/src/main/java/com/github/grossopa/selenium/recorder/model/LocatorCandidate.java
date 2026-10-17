@@ -62,16 +62,23 @@ public class LocatorCandidate {
     public static final int PRIORITY_ANCESTOR = 30;
 
     /**
-     * The priority of a locator based on sibling list grouping.
+     * The priority of a locator based on a sibling list grouping.
      *
      * @since 1.16
      */
     public static final int PRIORITY_SIBLING_LIST = 35;
 
     /**
+     * The priority of a locator based on the sibling index using {@code :nth-of-type()}.
+     *
+     * @since 1.17
+     */
+    public static final int PRIORITY_INDEXED_SIBLING = 32;
+
+    /**
      * The priority of a locator based on the visible text.
      */
-    public static final int PRIORITY_TEXT = 50;
+    public static final int PRIORITY_TEXT = 15;
 
     /**
      * The priority of the fallback locator based on the temporary marker attribute.

@@ -127,6 +127,31 @@ class RecorderSessionTest {
     }
 
     @Test
+    void testSelectWithNonUniqueLocatorFallsBackToNextUniqueNonListLocator() {
+        LocatorCandidate textCandidate = new LocatorCandidate(LocatorType.XPATH,
+                "//button[normalize-space()='Click']", LocatorCandidate.PRIORITY_TEXT, "by text \"Click\"");
+        LocatorCandidate indexedCandidate = new LocatorCandidate(LocatorType.CSS_SELECTOR,
+                "#form > button:nth-of-type(1)", LocatorCandidate.PRIORITY_INDEXED_SIBLING,
+                "by indexed sibling #1");
+        LocatorCandidate listCandidate = new LocatorCandidate(LocatorType.CSS_SELECTOR, ".MuiButton-root",
+                LocatorCandidate.PRIORITY_SIBLING_LIST, "by sibling list", true);
+        // candidate (id) is non-unique, text is also non-unique, indexed is unique
+        ScannedElement scanned = new ScannedElement(0, "button", Map.of(), "Click",
+                List.of(candidate, textCandidate, indexedCandidate, listCandidate));
+        when(scanner.scan(any())).thenReturn(List.of(scanned));
+        when(rawDriver.findElement(any(By.class))).thenReturn(webElement);
+        when(detector.detect(any(), any())).thenReturn(Optional.empty());
+        // first call (candidate id) returns 3, second call (text) returns 3, third call (indexed) returns 1
+        when(((JavascriptExecutor) rawDriver).executeScript(anyString()))
+                .thenReturn(3).thenReturn(3).thenReturn(1);
+
+        testSubject.scan();
+        PageElementModel selected = testSubject.select(0, "btn");
+        // should fall back to the indexed sibling locator (first unique non-list)
+        assertSame(indexedCandidate, selected.getLocator());
+    }
+
+    @Test
     void testSelectWithNonUniqueLocatorFallsBackToListLocator() {
         LocatorCandidate listCandidate = new LocatorCandidate(LocatorType.CSS_SELECTOR, ".MuiButton-root",
                 LocatorCandidate.PRIORITY_SIBLING_LIST, "by sibling list", true);

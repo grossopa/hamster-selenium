@@ -33,6 +33,7 @@ import com.github.grossopa.selenium.recorder.component.ComponentDetectors;
 import com.github.grossopa.selenium.recorder.config.RecorderConfig;
 import com.github.grossopa.selenium.recorder.model.DetectedComponent;
 import com.github.grossopa.selenium.recorder.model.LocatorCandidate;
+import com.github.grossopa.selenium.recorder.model.LocatorType;
 import com.github.grossopa.selenium.recorder.model.PageElementModel;
 import com.github.grossopa.selenium.recorder.model.PageModel;
 import com.github.grossopa.selenium.recorder.model.ScannedElement;
@@ -175,9 +176,9 @@ public class RecorderSession implements AutoCloseable {
      * Selects the scanned element with the given index into the current page with the given field name.
      *
      * <p>The best locator candidate (lowest priority value) is chosen. If the chosen locator matches more than one
-     * element on the page and is not a list locator, the method will try to find a better list locator from the
-     * available candidates. If a list locator is found, it is used instead; otherwise the original best locator is kept
-     * with a warning logged to {@link System#err}.</p>
+     * element on the page and is not a list locator, the method iterates through the remaining non-list candidates in
+     * priority order to find the first unique one. If no unique non-list locator is found, it falls back to a list
+     * locator; otherwise the original best locator is kept with a warning logged to {@link System#err}.</p>
      *
      * @param index the scan index of the element to select
      * @param fieldName the field/method name of the element in the generated page object, must be a valid java
@@ -192,19 +193,16 @@ public class RecorderSession implements AutoCloseable {
         LocatorCandidate locator = Optional.ofNullable(scanned.getBestLocator())
                 .orElseThrow(() -> new IllegalArgumentException("No locator candidate found for element: " + index));
 
-        // uniqueness verification: if the best locator matches multiple elements, try to find a list locator
-        if (!locator.isList()) {
-            int matchCount = verifyLocatorCount(locator);
-            if (matchCount > 1) {
-                LocatorCandidate listLocator = scanned.getLocatorCandidates().stream()
-                        .filter(LocatorCandidate::isList).findFirst().orElse(null);
-                if (listLocator != null) {
-                    locator = listLocator;
-                } else {
-                    logger.log(Level.WARNING,
-                            "locator {0} matches {1} elements, consider using a more specific locator for element: {2}",
-                            new Object[] { locator.getDescription(), matchCount, index });
-                }
+        // uniqueness verification: if the best locator matches multiple elements, try the next unique non-list
+        // candidate in priority order before falling back to a list locator
+        if (!locator.isList() && verifyLocatorCount(locator) > 1) {
+            Optional<LocatorCandidate> resolved = resolveNonUniqueLocator(locator, scanned.getLocatorCandidates());
+            if (resolved.isPresent()) {
+                locator = resolved.get();
+            } else {
+                logger.log(Level.WARNING,
+                        "locator {0} matches multiple elements, consider using a more specific locator for element: {1}",
+                        new Object[] { locator.getDescription(), index });
             }
         }
 
@@ -342,15 +340,53 @@ public class RecorderSession implements AutoCloseable {
     }
 
     /**
+     * Resolves a non-unique locator by searching for the first unique non-list candidate in priority order, falling
+     * back to the first list locator if no unique one is found.
+     *
+     * @param bestLocator the current best (non-unique) locator candidate
+     * @param candidates all locator candidates sorted by priority
+     * @return an {@link Optional} containing the resolved unique locator, or empty if none found
+     */
+    private Optional<LocatorCandidate> resolveNonUniqueLocator(LocatorCandidate bestLocator,
+            List<LocatorCandidate> candidates) {
+        LocatorCandidate listLocator = null;
+        for (LocatorCandidate candidate : candidates) {
+            if (candidate.isList()) {
+                listLocator = candidate;
+                continue;
+            }
+            if (candidate == bestLocator) {
+                continue;
+            }
+            if (verifyLocatorCount(candidate) == 1) {
+                return Optional.of(candidate);
+            }
+        }
+        return Optional.ofNullable(listLocator);
+    }
+
+    /**
      * Verifies how many elements the given locator matches on the current page by executing a JavaScript snippet.
+     *
+     * <p>For CSS selectors (ID, NAME, CSS_SELECTOR) the method uses {@code document.querySelectorAll}. For XPath
+     * locators it uses {@code document.evaluate} with {@code XPathResult.ORDERED_NODE_SNAPSHOT_TYPE} to correctly
+     * count all matching nodes.</p>
      *
      * @param locator the locator candidate to verify
      * @return the number of matched elements, 0 if verification fails
      */
     private int verifyLocatorCount(LocatorCandidate locator) {
         try {
-            String selector = locator.getType().toSelectorString(locator.getValue());
-            String script = "return document.querySelectorAll('" + selector.replace("'", "\\'") + "').length;";
+            String script;
+            if (locator.getType() == LocatorType.XPATH) {
+                String escaped = locator.getValue().replace("'", "\\'");
+                script = "var result = document.evaluate('" + escaped
+                        + "', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);"
+                        + "return result.snapshotLength;";
+            } else {
+                String selector = locator.getType().toSelectorString(locator.getValue());
+                script = "return document.querySelectorAll('" + selector.replace("'", "\\'") + "').length;";
+            }
             Object result = ((org.openqa.selenium.JavascriptExecutor) rawDriver).executeScript(script);
             return result instanceof Number num ? num.intValue() : 0;
         } catch (RuntimeException exception) {

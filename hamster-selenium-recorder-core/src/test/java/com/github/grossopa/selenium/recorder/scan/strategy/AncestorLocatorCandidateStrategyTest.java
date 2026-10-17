@@ -48,7 +48,7 @@ class AncestorLocatorCandidateStrategyTest {
     @Test
     void testToCandidatesWithAncestorId() {
         AncestorInfo ancestor = new AncestorInfo("form1", null, ".MuiButton-root");
-        LocatorContext context = new LocatorContext(ancestor, 1, Map.of());
+        LocatorContext context = new LocatorContext(ancestor, 1, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Submit", context);
         assertEquals(1, result.size());
@@ -60,7 +60,7 @@ class AncestorLocatorCandidateStrategyTest {
     @Test
     void testToCandidatesWithAncestorTestId() {
         AncestorInfo ancestor = new AncestorInfo(null, "header", ".MuiTextField-root");
-        LocatorContext context = new LocatorContext(ancestor, 1, Map.of());
+        LocatorContext context = new LocatorContext(ancestor, 1, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "input", Map.of(), "", context);
         assertEquals(1, result.size());
@@ -69,7 +69,7 @@ class AncestorLocatorCandidateStrategyTest {
 
     @Test
     void testToCandidatesWithNullAncestor() {
-        LocatorContext context = new LocatorContext(null, 1, Map.of());
+        LocatorContext context = new LocatorContext(null, 1, 1, Map.of());
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Submit", context);
         assertTrue(result.isEmpty());
     }
@@ -77,7 +77,7 @@ class AncestorLocatorCandidateStrategyTest {
     @Test
     void testToCandidatesWithAncestorHavingBothNull() {
         AncestorInfo ancestor = new AncestorInfo(null, null, ".child");
-        LocatorContext context = new LocatorContext(ancestor, 1, Map.of());
+        LocatorContext context = new LocatorContext(ancestor, 1, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Submit", context);
         assertTrue(result.isEmpty());

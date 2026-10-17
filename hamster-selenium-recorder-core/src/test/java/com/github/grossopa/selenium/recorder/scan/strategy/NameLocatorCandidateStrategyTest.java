@@ -68,7 +68,7 @@ class NameLocatorCandidateStrategyTest {
 
     @Test
     void testToCandidatesWithDuplicateName() {
-        LocatorContext context = new LocatorContext(null, 3, Map.of("gender", 3));
+        LocatorContext context = new LocatorContext(null, 3, 1, Map.of("gender", 3));
         List<LocatorCandidate> result = testSubject.toCandidates(0, "input", Map.of("name", "gender"), "", context);
         assertEquals(1, result.size());
         assertEquals(LocatorType.NAME, result.get(0).getType());
@@ -79,7 +79,7 @@ class NameLocatorCandidateStrategyTest {
 
     @Test
     void testToCandidatesWithUniqueName() {
-        LocatorContext context = new LocatorContext(null, 3, Map.of("username", 1));
+        LocatorContext context = new LocatorContext(null, 3, 1, Map.of("username", 1));
         List<LocatorCandidate> result = testSubject.toCandidates(0, "input", Map.of("name", "username"), "", context);
         assertEquals(1, result.size());
         assertEquals(LocatorCandidate.PRIORITY_NAME, result.get(0).getPriority());
@@ -88,7 +88,7 @@ class NameLocatorCandidateStrategyTest {
 
     @Test
     void testToCandidatesWithContextButNoName() {
-        LocatorContext context = new LocatorContext(null, 3, Map.of());
+        LocatorContext context = new LocatorContext(null, 3, 1, Map.of());
         List<LocatorCandidate> result = testSubject.toCandidates(0, "input", Map.of("id", "field"), "", context);
         assertTrue(result.isEmpty());
     }

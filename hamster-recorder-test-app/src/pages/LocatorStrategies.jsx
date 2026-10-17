@@ -168,6 +168,29 @@ export default function LocatorStrategies() {
           <Checkbox id="mixed-3" name="acceptTerms" data-testid="terms-checkbox" />
         </Box>
       </Paper>
+
+      {/* ===== 8. Same Text Degradation ===== */}
+      <Paper sx={{ p: 2, mb: 3 }}>
+        <Typography variant="h5" gutterBottom>8. Same Text Degradation</Typography>
+        <Typography variant="body2" paragraph>
+          Multiple siblings with the same text — text locator should degrade to indexed sibling or ancestor.
+          Uses plain HTML buttons as direct children to test the strategy chain without MUI wrapper interference.
+        </Typography>
+
+        <Box component="section" id="same-text-section" sx={{ p: 2, border: '1px solid #ccc', mb: 2, borderRadius: 1 }}>
+          <Typography variant="h6" gutterBottom>Same Text under Ancestor (direct children)</Typography>
+          <button type="button" style={{ marginRight: 8 }}>OK</button>
+          <button type="button" style={{ marginRight: 8 }}>OK</button>
+          <button type="button">OK</button>
+        </Box>
+
+        <Box component="section" id="same-text-no-ancestor" sx={{ p: 2, border: '1px solid #ccc', borderRadius: 1 }}>
+          <Typography variant="h6" gutterBottom>Same Text with Ancestor ID (direct children)</Typography>
+          <button type="button" style={{ marginRight: 8 }}>Submit</button>
+          <button type="button" style={{ marginRight: 8 }}>Submit</button>
+          <button type="button">Submit</button>
+        </Box>
+      </Paper>
     </>
   )
 }

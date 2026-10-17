@@ -44,13 +44,14 @@ class LocatorContextTest {
         LocatorContext empty = LocatorContext.EMPTY;
         assertNull(empty.getAncestor());
         assertEquals(0, empty.getSiblingCount());
+        assertEquals(0, empty.getSiblingIndex());
         assertEquals(Map.of(), empty.getNameSiblingCounts());
     }
 
     @Test
     void testWithAncestorId() {
         LocatorContext.AncestorInfo ancestor = new LocatorContext.AncestorInfo("form1", null, ".MuiButton-root");
-        LocatorContext context = new LocatorContext(ancestor, 3, Map.of("gender", 2));
+        LocatorContext context = new LocatorContext(ancestor, 3, 1, Map.of("gender", 2));
 
         assertNotNull(context.getAncestor());
         assertEquals("form1", context.getAncestor().id());
@@ -63,7 +64,7 @@ class LocatorContextTest {
     @Test
     void testWithAncestorTestId() {
         LocatorContext.AncestorInfo ancestor = new LocatorContext.AncestorInfo(null, "header", ".MuiTextField-root");
-        LocatorContext context = new LocatorContext(ancestor, 1, Map.of());
+        LocatorContext context = new LocatorContext(ancestor, 1, 1, Map.of());
 
         assertNotNull(context.getAncestor());
         assertNull(context.getAncestor().id());
@@ -73,7 +74,7 @@ class LocatorContextTest {
 
     @Test
     void testNullAncestor() {
-        LocatorContext context = new LocatorContext(null, 5, Map.of("color", 5));
+        LocatorContext context = new LocatorContext(null, 5, 1, Map.of("color", 5));
         assertNull(context.getAncestor());
         assertEquals(5, context.getSiblingCount());
     }

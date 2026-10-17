@@ -46,7 +46,7 @@ class SiblingListLocatorCandidateStrategyTest {
     @Test
     void testToCandidatesWithMultipleSiblings() {
         SiblingListLocatorCandidateStrategy testSubject = new SiblingListLocatorCandidateStrategy();
-        LocatorContext context = new LocatorContext(null, 3, Map.of());
+        LocatorContext context = new LocatorContext(null, 3, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Click", context);
         assertEquals(1, result.size());
@@ -59,7 +59,7 @@ class SiblingListLocatorCandidateStrategyTest {
     @Test
     void testToCandidatesWithSingleSibling() {
         SiblingListLocatorCandidateStrategy testSubject = new SiblingListLocatorCandidateStrategy();
-        LocatorContext context = new LocatorContext(null, 1, Map.of());
+        LocatorContext context = new LocatorContext(null, 1, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Click", context);
         assertTrue(result.isEmpty());
@@ -69,7 +69,7 @@ class SiblingListLocatorCandidateStrategyTest {
     void testToCandidatesWithRootCssClass() {
         SiblingListLocatorCandidateStrategy testSubject = new SiblingListLocatorCandidateStrategy("MuiButton-root");
         AncestorInfo ancestor = new AncestorInfo("form1", null, ".MuiButton-root");
-        LocatorContext context = new LocatorContext(ancestor, 4, Map.of());
+        LocatorContext context = new LocatorContext(ancestor, 4, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Click", context);
         assertEquals(1, result.size());
@@ -81,7 +81,7 @@ class SiblingListLocatorCandidateStrategyTest {
     void testToCandidatesWithAncestorTestId() {
         SiblingListLocatorCandidateStrategy testSubject = new SiblingListLocatorCandidateStrategy("MuiChip-root");
         AncestorInfo ancestor = new AncestorInfo(null, "chips", ".MuiChip-root");
-        LocatorContext context = new LocatorContext(ancestor, 5, Map.of());
+        LocatorContext context = new LocatorContext(ancestor, 5, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "span", Map.of(), "", context);
         assertEquals(1, result.size());
@@ -91,7 +91,7 @@ class SiblingListLocatorCandidateStrategyTest {
     @Test
     void testToCandidatesWithNoAncestor() {
         SiblingListLocatorCandidateStrategy testSubject = new SiblingListLocatorCandidateStrategy("MuiTab-root");
-        LocatorContext context = new LocatorContext(null, 3, Map.of());
+        LocatorContext context = new LocatorContext(null, 3, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Tab", context);
         assertEquals(1, result.size());

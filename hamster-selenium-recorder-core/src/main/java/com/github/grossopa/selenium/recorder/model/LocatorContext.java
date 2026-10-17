@@ -38,13 +38,14 @@ import java.util.Map;
 public class LocatorContext {
 
     /**
-     * An empty context with no ancestor information and zero sibling count.
+     * An empty context with no ancestor information, zero sibling count, zero sibling index and no name sibling counts.
      */
-    public static final LocatorContext EMPTY = new LocatorContext(null, 0, Map.of());
+    public static final LocatorContext EMPTY = new LocatorContext(null, 0, 0, Map.of());
 
     @Nullable
     private final AncestorInfo ancestor;
     private final int siblingCount;
+    private final int siblingIndex;
     private final Map<String, Integer> nameSiblingCounts;
 
     /**
@@ -52,11 +53,14 @@ public class LocatorContext {
      *
      * @param ancestor the ancestor anchor information, may be null if no anchor is found
      * @param siblingCount the number of siblings with the same tag name under the same parent
+     * @param siblingIndex the 1-based index of the element among its same-tag siblings
      * @param nameSiblingCounts the count of each {@code name} attribute value among siblings, may be empty
      */
-    public LocatorContext(@Nullable AncestorInfo ancestor, int siblingCount, Map<String, Integer> nameSiblingCounts) {
+    public LocatorContext(@Nullable AncestorInfo ancestor, int siblingCount, int siblingIndex,
+            Map<String, Integer> nameSiblingCounts) {
         this.ancestor = ancestor;
         this.siblingCount = siblingCount;
+        this.siblingIndex = siblingIndex;
         this.nameSiblingCounts = Map.copyOf(nameSiblingCounts);
     }
 
@@ -77,6 +81,18 @@ public class LocatorContext {
      */
     public int getSiblingCount() {
         return siblingCount;
+    }
+
+    /**
+     * Gets the 1-based index of the element among its same-tag siblings under the same parent. For example, if there
+     * are three {@code button} elements under the same parent, the first button has index 1, the second has index 2
+     * and the third has index 3.
+     *
+     * @return the 1-based sibling index, 0 if unknown
+     * @since 1.17
+     */
+    public int getSiblingIndex() {
+        return siblingIndex;
     }
 
     /**

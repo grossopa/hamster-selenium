@@ -64,7 +64,8 @@ class DefaultElementScannerTest {
                                 Map.of("id", "login-btn", "data-testid", "login"), "ancestor", Map.of(),
                                 "siblingCount", 1, "nameSiblingCounts", Map.of()),
                         Map.of("tagName", "input", "text", "", "attributes", Map.of("name", "password"),
-                                "ancestor", Map.of(), "siblingCount", 1, "nameSiblingCounts", Map.of())));
+                                "ancestor", Map.of(), "siblingCount", 1, "siblingIndex", 1,
+                                "nameSiblingCounts", Map.of())));
     }
 
     @Test
@@ -78,13 +79,15 @@ class DefaultElementScannerTest {
         assertEquals("Login", first.getText());
         assertEquals("login-btn", first.getAttributes().get("id"));
 
-        // id > custom attribute > marker (text strategy is not in default list)
+        // id > text > custom attribute > marker (no name attribute on this element)
         List<LocatorCandidate> candidates = first.getLocatorCandidates();
-        assertEquals(3, candidates.size());
+        assertEquals(4, candidates.size());
         assertEquals(LocatorType.ID, candidates.get(0).getType());
-        assertEquals(LocatorType.CSS_SELECTOR, candidates.get(1).getType());
-        assertEquals("[data-testid=\"login\"]", candidates.get(1).getValue());
-        assertEquals(LocatorCandidate.PRIORITY_MARKER, candidates.get(2).getPriority());
+        assertEquals(LocatorType.XPATH, candidates.get(1).getType());
+        assertEquals("//button[normalize-space()='Login']", candidates.get(1).getValue());
+        assertEquals(LocatorType.CSS_SELECTOR, candidates.get(2).getType());
+        assertEquals("[data-testid=\"login\"]", candidates.get(2).getValue());
+        assertEquals(LocatorCandidate.PRIORITY_MARKER, candidates.get(3).getPriority());
 
         ScannedElement second = result.get(1);
         assertEquals(LocatorType.NAME, second.getBestLocator().getType());
@@ -109,18 +112,20 @@ class DefaultElementScannerTest {
     @Test
     void testCreateDefaultLocatorCandidateStrategies() {
         List<LocatorCandidateStrategy> strategies = DefaultElementScanner.createDefaultLocatorCandidateStrategies(config);
-        assertEquals(5, strategies.size());
+        assertEquals(7, strategies.size());
         assertInstanceOf(IdLocatorCandidateStrategy.class, strategies.get(0));
         assertInstanceOf(NameLocatorCandidateStrategy.class, strategies.get(1));
-        assertInstanceOf(CustomAttributeLocatorCandidateStrategy.class, strategies.get(2));
-        assertInstanceOf(AncestorLocatorCandidateStrategy.class, strategies.get(3));
-        assertInstanceOf(SiblingListLocatorCandidateStrategy.class, strategies.get(4));
+        assertInstanceOf(TextLocatorCandidateStrategy.class, strategies.get(2));
+        assertInstanceOf(CustomAttributeLocatorCandidateStrategy.class, strategies.get(3));
+        assertInstanceOf(AncestorLocatorCandidateStrategy.class, strategies.get(4));
+        assertInstanceOf(IndexedSiblingLocatorCandidateStrategy.class, strategies.get(5));
+        assertInstanceOf(SiblingListLocatorCandidateStrategy.class, strategies.get(6));
     }
 
     @Test
     void testGetStrategies() {
         List<LocatorCandidateStrategy> strategies = testSubject.getStrategies();
-        assertEquals(5, strategies.size());
+        assertEquals(7, strategies.size());
     }
 
     @Test
@@ -140,13 +145,18 @@ class DefaultElementScannerTest {
         Map<String, Object> nameCounts = Map.of("input", 3, "button", 1);
         when(driver.executeScript(anyString(), any(), any(), any(), any(), any())).thenReturn(
                 List.of(Map.of("tagName", "input", "text", "", "attributes", Map.of("name", "username"),
-                        "ancestor", ancestorData, "siblingCount", 3, "nameSiblingCounts", nameCounts)));
+                        "ancestor", ancestorData, "siblingCount", 3, "siblingIndex", 2,
+                        "nameSiblingCounts", nameCounts)));
         List<ScannedElement> result = testSubject.scan(driver);
         assertEquals(1, result.size());
         // ancestor locator should be generated with the ancestor data
         List<LocatorCandidate> candidates = result.get(0).getLocatorCandidates();
         assertTrue(candidates.stream().anyMatch(c -> c.getType() == LocatorType.CSS_SELECTOR
                 && c.getPriority() == LocatorCandidate.PRIORITY_ANCESTOR));
+        // indexed sibling locator should also be generated
+        assertTrue(candidates.stream().anyMatch(c -> c.getType() == LocatorType.CSS_SELECTOR
+                && c.getPriority() == LocatorCandidate.PRIORITY_INDEXED_SIBLING
+                && c.getValue().contains(":nth-of-type(2)")));
     }
 
     @Test

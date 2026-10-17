@@ -101,7 +101,7 @@ public class DefaultElementScanner implements ElementScanner {
                 var style = window.getComputedStyle(el);
                 var obj = {tagName: el.tagName.toLowerCase(),
                     text: (el.innerText || '').trim().substring(0, maxTextLen), attributes: {},
-                    ancestor: null, siblingCount: 1, nameSiblingCounts: {}};
+                    ancestor: null, siblingCount: 1, siblingIndex: 1, nameSiblingCounts: {}};
                 for (var j = 0; j < attrs.length; j++) {
                     var value = el.getAttribute(attrs[j]);
                     if (value) {
@@ -154,11 +154,14 @@ public class DefaultElementScanner implements ElementScanner {
                     current = current.parentElement;
                     depth++;
                 }
-                // sibling count and name counts
+                // sibling count, index and name counts
                 var parent = el.parentElement;
                 if (parent) {
                     var siblings = parent.querySelectorAll(':scope > ' + el.tagName.toLowerCase());
                     obj.siblingCount = siblings.length;
+                    for (var si = 0; si < siblings.length; si++) {
+                        if (siblings[si] === el) { obj.siblingIndex = si + 1; break; }
+                    }
                     var nameCounts = {};
                     for (var s = 0; s < siblings.length; s++) {
                         var n = siblings[s].getAttribute('name');
@@ -207,11 +210,11 @@ public class DefaultElementScanner implements ElementScanner {
 
     /**
      * Creates the default list of locator candidate strategies: {@link IdLocatorCandidateStrategy},
-     * {@link NameLocatorCandidateStrategy}, {@link CustomAttributeLocatorCandidateStrategy},
-     * {@link AncestorLocatorCandidateStrategy} and {@link SiblingListLocatorCandidateStrategy}.
+     * {@link NameLocatorCandidateStrategy}, {@link TextLocatorCandidateStrategy},
+     * {@link CustomAttributeLocatorCandidateStrategy}, {@link AncestorLocatorCandidateStrategy},
+     * {@link IndexedSiblingLocatorCandidateStrategy} and {@link SiblingListLocatorCandidateStrategy}.
      *
-     * <p>The {@link TextLocatorCandidateStrategy} and {@link MarkerLocatorCandidateStrategy} are intentionally excluded
-     * from the default list. The text strategy is opt-in because text-based locators are often fragile. The marker
+     * <p>The {@link MarkerLocatorCandidateStrategy} is intentionally excluded from the default list. The marker
      * strategy always produces a candidate and would prevent the scanner from filtering out elements that do not match
      * any meaningful strategy. The marker candidate is appended automatically by the scanner after at least one
      * strategy has matched.</p>
@@ -221,8 +224,10 @@ public class DefaultElementScanner implements ElementScanner {
      */
     public static List<LocatorCandidateStrategy> createDefaultLocatorCandidateStrategies(RecorderConfig config) {
         return List.of(new IdLocatorCandidateStrategy(), new NameLocatorCandidateStrategy(),
+                new TextLocatorCandidateStrategy(),
                 new CustomAttributeLocatorCandidateStrategy(config.getKeyAttributes()),
-                new AncestorLocatorCandidateStrategy(), new SiblingListLocatorCandidateStrategy());
+                new AncestorLocatorCandidateStrategy(), new IndexedSiblingLocatorCandidateStrategy(),
+                new SiblingListLocatorCandidateStrategy());
     }
 
     @Override
@@ -317,6 +322,7 @@ public class DefaultElementScanner implements ElementScanner {
             ancestor = new AncestorInfo(id, testId, childPath);
         }
         int siblingCount = rawElement.get("siblingCount") instanceof Number num ? num.intValue() : 1;
+        int siblingIndex = rawElement.get("siblingIndex") instanceof Number num ? num.intValue() : 1;
         Map<String, Integer> nameSiblingCounts = new LinkedHashMap<>();
         Object rawNameCounts = rawElement.get("nameSiblingCounts");
         if (rawNameCounts instanceof Map<?, ?> nameCountsMap) {
@@ -326,6 +332,6 @@ public class DefaultElementScanner implements ElementScanner {
                 }
             }
         }
-        return new LocatorContext(ancestor, siblingCount, nameSiblingCounts);
+        return new LocatorContext(ancestor, siblingCount, siblingIndex, nameSiblingCounts);
     }
 }
