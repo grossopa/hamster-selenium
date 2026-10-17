@@ -29,8 +29,9 @@ import com.github.grossopa.selenium.recorder.scan.DefaultElementScanner;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
 import static com.github.grossopa.selenium.recorder.model.LocatorCandidate.PRIORITY_MARKER;
-import static com.github.grossopa.selenium.recorder.model.LocatorType.CSS_SELECTOR;
+import static com.github.grossopa.selenium.recorder.model.LocatorType.XPATH;
 import static com.github.grossopa.selenium.recorder.scan.DefaultElementScanner.MARKER_ATTRIBUTE;
 
 /**
@@ -46,6 +47,8 @@ public class MarkerLocatorCandidateStrategy implements LocatorCandidateStrategy 
 
     @Override
     public List<LocatorCandidate> toCandidates(int index, String tagName, Map<String, String> attributes, String text) {
-        return List.of(new LocatorCandidate(CSS_SELECTOR, "[" + MARKER_ATTRIBUTE + "=\"" + index + "\"]",   PRIORITY_MARKER, "by scan index " + index));
+        String xpathValue = xpathBuilder().anywhere().attr(MARKER_ATTRIBUTE).exact(String.valueOf(index))
+                .xpathString();
+        return List.of(new LocatorCandidate(XPATH, xpathValue, PRIORITY_MARKER, "by scan index " + index));
     }
 }

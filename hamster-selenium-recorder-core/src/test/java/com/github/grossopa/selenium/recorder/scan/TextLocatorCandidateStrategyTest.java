@@ -49,7 +49,7 @@ class TextLocatorCandidateStrategyTest {
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Login");
         assertEquals(1, result.size());
         assertEquals(LocatorType.XPATH, result.get(0).getType());
-        assertEquals("//button[normalize-space()='Login']", result.get(0).getValue());
+        assertEquals("//button[normalize-space()=\"Login\"]", result.get(0).getValue());
         assertEquals(LocatorCandidate.PRIORITY_TEXT, result.get(0).getPriority());
     }
 
@@ -62,6 +62,19 @@ class TextLocatorCandidateStrategyTest {
     @Test
     void testToCandidatesWithTextContainingSingleQuote() {
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "it's");
+        assertEquals(1, result.size());
+        assertEquals("//button[normalize-space()=\"it's\"]", result.get(0).getValue());
+    }
+
+    @Test
+    void testToCandidatesWithTextContainingBothQuotes() {
+        List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "it's \"good\"");
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testToCandidatesWithTextContainingNewline() {
+        List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "line1\nline2");
         assertTrue(result.isEmpty());
     }
 

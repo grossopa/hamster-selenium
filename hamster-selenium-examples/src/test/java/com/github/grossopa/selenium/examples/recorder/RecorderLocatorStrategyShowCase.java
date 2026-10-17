@@ -24,15 +24,17 @@
 package com.github.grossopa.selenium.examples.recorder;
 
 import com.github.grossopa.selenium.component.mui.MuiVersion;
+import com.github.grossopa.selenium.examples.StartDriverServiceEdge;
 import com.github.grossopa.selenium.recorder.config.ComponentFramework;
 import com.github.grossopa.selenium.recorder.config.RecorderConfig;
 import com.github.grossopa.selenium.recorder.model.LocatorCandidate;
 import com.github.grossopa.selenium.recorder.model.ScannedElement;
 import com.github.grossopa.selenium.recorder.session.RecorderSession;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
@@ -55,8 +57,9 @@ public class RecorderLocatorStrategyShowCase {
      * Runs the locator strategy verification.
      *
      * @param args the command line arguments, not used
+     * @throws IOException if driver resolution fails
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         RecorderConfig config = RecorderConfig.builder()
                 .framework(ComponentFramework.of("mui"))
                 .muiVersion(MuiVersion.V5)
@@ -65,9 +68,13 @@ public class RecorderLocatorStrategyShowCase {
                 .basePackage("com.example.pageobjects")
                 .build();
 
-        ChromeOptions options = new ChromeOptions();
+        String browserVersion = StartDriverServiceEdge.detectEdgeVersion();
+        String driverPath = StartDriverServiceEdge.resolveDriver(browserVersion);
+        System.setProperty("webdriver.edge.driver", driverPath);
+
+        EdgeOptions options = new EdgeOptions();
         options.addArguments("--headless=new", "--no-sandbox", "--disable-dev-shm-usage");
-        WebDriver driver = new ChromeDriver(options);
+        WebDriver driver = new EdgeDriver(options);
 
         try (RecorderSession session = new RecorderSession(driver, config)) {
 

@@ -34,12 +34,12 @@ import java.util.Map;
 /**
  * A strategy that builds a locator candidate from the ancestor anchor information. When the scanned element has no
  * {@code id} or {@code name} but one of its ancestors has an {@code id} or a configured anchor attribute (e.g.
- * {@code data-testid}), this strategy generates a CSS selector combining the ancestor anchor with the child path.
+ * {@code data-testid}), this strategy generates an XPath combining the ancestor anchor with the child XPath path.
  *
  * <p>Examples of generated locators:
  * <ul>
- * <li>Ancestor with id: {@code #formSection .MuiButton-root}</li>
- * <li>Ancestor with test id: {@code [data-testid="header"] .MuiTextField-root}</li>
+ * <li>Ancestor with id: {@code //*[@id='formSection']/descendant::*[contains(@class,' MuiButton-root ')]}</li>
+ * <li>Ancestor with test id: {@code //*[@data-testid='header']/descendant::*[contains(@class,' MuiTextField-root ')]}</li>
  * </ul>
  *
  * @author Jack Yin
@@ -62,19 +62,24 @@ public class AncestorLocatorCandidateStrategy implements LocatorCandidateStrateg
             return List.of();
         }
 
-        String cssValue;
+        String xpathValue;
         String description;
+        String relativePath = stripLeadingDoubleSlash(ancestor.childXpath());
         if (ancestor.id() != null) {
-            cssValue = "#" + ancestor.id() + " " + ancestor.childPath();
-            description = "by ancestor #" + ancestor.id() + " -> " + ancestor.childPath();
+            xpathValue = "//*[@id='" + ancestor.id() + "']/descendant::" + relativePath;
+            description = "by ancestor #" + ancestor.id() + " -> " + ancestor.childXpath();
         } else if (ancestor.testId() != null) {
-            cssValue = "[data-testid=\"" + ancestor.testId() + "\"] " + ancestor.childPath();
-            description = "by ancestor data-testid \"" + ancestor.testId() + "\" -> " + ancestor.childPath();
+            xpathValue = "//*[@data-testid='" + ancestor.testId() + "']/descendant::" + relativePath;
+            description = "by ancestor data-testid \"" + ancestor.testId() + "\" -> " + ancestor.childXpath();
         } else {
             return List.of();
         }
 
-        return List.of(new LocatorCandidate(LocatorType.CSS_SELECTOR, cssValue, LocatorCandidate.PRIORITY_ANCESTOR,
+        return List.of(new LocatorCandidate(LocatorType.XPATH, xpathValue, LocatorCandidate.PRIORITY_ANCESTOR,
                 description));
+    }
+
+    private static String stripLeadingDoubleSlash(String path) {
+        return path.startsWith("//") ? path.substring(2) : path;
     }
 }

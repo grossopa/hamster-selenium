@@ -50,26 +50,28 @@ class LocatorContextTest {
 
     @Test
     void testWithAncestorId() {
-        LocatorContext.AncestorInfo ancestor = new LocatorContext.AncestorInfo("form1", null, ".MuiButton-root");
+        LocatorContext.AncestorInfo ancestor = new LocatorContext.AncestorInfo("form1", null,
+                "//*[contains(@class,' MuiButton-root ')]");
         LocatorContext context = new LocatorContext(ancestor, 3, 1, Map.of("gender", 2));
 
         assertNotNull(context.getAncestor());
         assertEquals("form1", context.getAncestor().id());
         assertNull(context.getAncestor().testId());
-        assertEquals(".MuiButton-root", context.getAncestor().childPath());
+        assertEquals("//*[contains(@class,' MuiButton-root ')]", context.getAncestor().childXpath());
         assertEquals(3, context.getSiblingCount());
         assertEquals(2, context.getNameSiblingCounts().get("gender"));
     }
 
     @Test
     void testWithAncestorTestId() {
-        LocatorContext.AncestorInfo ancestor = new LocatorContext.AncestorInfo(null, "header", ".MuiTextField-root");
+        LocatorContext.AncestorInfo ancestor = new LocatorContext.AncestorInfo(null, "header",
+                "//*[contains(@class,' MuiTextField-root ')]");
         LocatorContext context = new LocatorContext(ancestor, 1, 1, Map.of());
 
         assertNotNull(context.getAncestor());
         assertNull(context.getAncestor().id());
         assertEquals("header", context.getAncestor().testId());
-        assertEquals(".MuiTextField-root", context.getAncestor().childPath());
+        assertEquals("//*[contains(@class,' MuiTextField-root ')]", context.getAncestor().childXpath());
     }
 
     @Test

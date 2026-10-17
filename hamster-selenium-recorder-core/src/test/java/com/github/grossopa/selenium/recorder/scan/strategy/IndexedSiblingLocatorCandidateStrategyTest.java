@@ -48,25 +48,26 @@ class IndexedSiblingLocatorCandidateStrategyTest {
 
     @Test
     void testToCandidatesWithAncestorId() {
-        AncestorInfo ancestor = new AncestorInfo("form1", null, ".MuiButton-root");
+        AncestorInfo ancestor = new AncestorInfo("form1", null, "//*[contains(@class,' MuiButton-root ')]");
         LocatorContext context = new LocatorContext(ancestor, 3, 2, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Submit", context);
         assertEquals(1, result.size());
-        assertEquals(LocatorType.CSS_SELECTOR, result.get(0).getType());
-        assertEquals("#form1 > button:nth-of-type(2)", result.get(0).getValue());
+        assertEquals(LocatorType.XPATH, result.get(0).getType());
+        assertEquals("//*[@id='form1']/child::*[local-name()='button'][2]", result.get(0).getValue());
         assertEquals(LocatorCandidate.PRIORITY_INDEXED_SIBLING, result.get(0).getPriority());
         assertFalse(result.get(0).isList());
     }
 
     @Test
     void testToCandidatesWithAncestorTestId() {
-        AncestorInfo ancestor = new AncestorInfo(null, "actions", ".MuiButton-root");
+        AncestorInfo ancestor = new AncestorInfo(null, "actions", "//*[contains(@class,' MuiButton-root ')]");
         LocatorContext context = new LocatorContext(ancestor, 3, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Save", context);
         assertEquals(1, result.size());
-        assertEquals("[data-testid=\"actions\"] > button:nth-of-type(1)", result.get(0).getValue());
+        assertEquals("//*[@data-testid='actions']/child::*[local-name()='button'][1]",
+                result.get(0).getValue());
     }
 
     @Test
@@ -75,7 +76,7 @@ class IndexedSiblingLocatorCandidateStrategyTest {
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Delete", context);
         assertEquals(1, result.size());
-        assertEquals("button:nth-of-type(3)", result.get(0).getValue());
+        assertEquals("//*[local-name()='button'][3]", result.get(0).getValue());
         assertEquals(LocatorCandidate.PRIORITY_INDEXED_SIBLING, result.get(0).getPriority());
     }
 
@@ -95,12 +96,12 @@ class IndexedSiblingLocatorCandidateStrategyTest {
 
     @Test
     void testToCandidatesWithAncestorBothNull() {
-        AncestorInfo ancestor = new AncestorInfo(null, null, ".child");
+        AncestorInfo ancestor = new AncestorInfo(null, null, "//*[local-name()='span']");
         LocatorContext context = new LocatorContext(ancestor, 3, 2, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Submit", context);
         assertEquals(1, result.size());
-        assertEquals("button:nth-of-type(2)", result.get(0).getValue());
+        assertEquals("//*[local-name()='button'][2]", result.get(0).getValue());
     }
 
     @Test

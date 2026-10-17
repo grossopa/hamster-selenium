@@ -199,6 +199,16 @@ public class SimpleXpathBuilder {
         }
 
         /**
+         * Builds the source as {@code normalize-space()}. This XPath function strips leading and trailing whitespace
+         * and normalizes internal whitespace sequences to a single space.
+         *
+         * @return created next build {@link WithNotMethodBuilder} instance
+         */
+        public WithNotMethodBuilder normalizeSpace() {
+            return new WithNotMethodBuilder(xpath, "normalize-space()", operator);
+        }
+
+        /**
          * Builds the source as {@code name()}
          *
          * @return created next build {@link WithNotMethodBuilder} instance

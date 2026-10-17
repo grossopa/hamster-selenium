@@ -290,4 +290,28 @@ class SimpleXpathBuilderTest {
                 builder.anywhere().text().contains("abc").ancestor().xpathString());
     }
 
+    @Test
+    void testNormalizeSpaceExact() {
+        assertEquals(By2.xpath("//button[normalize-space()=\"Login\"]"),
+                builder.anywhere("button").normalizeSpace().exact("Login").build());
+    }
+
+    @Test
+    void testNormalizeSpaceContains() {
+        assertEquals(By2.xpath("//*[contains(normalize-space(),\"some text\")]"),
+                builder.anywhere().normalizeSpace().contains("some text").build());
+    }
+
+    @Test
+    void testNormalizeSpaceWithSingleQuote() {
+        assertEquals(By2.xpath("//button[normalize-space()=\"it's\"]"),
+                builder.anywhere("button").normalizeSpace().exact("it's").build());
+    }
+
+    @Test
+    void testNormalizeSpaceXpathString() {
+        assertEquals("//button[normalize-space()=\"Login\"]",
+                builder.anywhere("button").normalizeSpace().exact("Login").xpathString());
+    }
+
 }

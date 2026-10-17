@@ -84,9 +84,9 @@ class DefaultElementScannerTest {
         assertEquals(4, candidates.size());
         assertEquals(LocatorType.ID, candidates.get(0).getType());
         assertEquals(LocatorType.XPATH, candidates.get(1).getType());
-        assertEquals("//button[normalize-space()='Login']", candidates.get(1).getValue());
-        assertEquals(LocatorType.CSS_SELECTOR, candidates.get(2).getType());
-        assertEquals("[data-testid=\"login\"]", candidates.get(2).getValue());
+        assertEquals("//button[normalize-space()=\"Login\"]", candidates.get(1).getValue());
+        assertEquals(LocatorType.XPATH, candidates.get(2).getType());
+        assertEquals("//*[@data-testid=\"login\"]", candidates.get(2).getValue());
         assertEquals(LocatorCandidate.PRIORITY_MARKER, candidates.get(3).getPriority());
 
         ScannedElement second = result.get(1);
@@ -141,7 +141,8 @@ class DefaultElementScannerTest {
 
     @Test
     void testScanWithAncestorAndSiblingData() {
-        Map<String, Object> ancestorData = Map.of("id", "main-form", "testId", "form-testid", "childPath", ".fieldset");
+        Map<String, Object> ancestorData = Map.of("id", "main-form", "testId", "form-testid",
+                "childXpath", "//*[local-name()='fieldset']");
         Map<String, Object> nameCounts = Map.of("input", 3, "button", 1);
         when(driver.executeScript(anyString(), any(), any(), any(), any(), any())).thenReturn(
                 List.of(Map.of("tagName", "input", "text", "", "attributes", Map.of("name", "username"),
@@ -151,12 +152,12 @@ class DefaultElementScannerTest {
         assertEquals(1, result.size());
         // ancestor locator should be generated with the ancestor data
         List<LocatorCandidate> candidates = result.get(0).getLocatorCandidates();
-        assertTrue(candidates.stream().anyMatch(c -> c.getType() == LocatorType.CSS_SELECTOR
+        assertTrue(candidates.stream().anyMatch(c -> c.getType() == LocatorType.XPATH
                 && c.getPriority() == LocatorCandidate.PRIORITY_ANCESTOR));
         // indexed sibling locator should also be generated
-        assertTrue(candidates.stream().anyMatch(c -> c.getType() == LocatorType.CSS_SELECTOR
+        assertTrue(candidates.stream().anyMatch(c -> c.getType() == LocatorType.XPATH
                 && c.getPriority() == LocatorCandidate.PRIORITY_INDEXED_SIBLING
-                && c.getValue().contains(":nth-of-type(2)")));
+                && c.getValue().contains("[2]")));
     }
 
     @Test

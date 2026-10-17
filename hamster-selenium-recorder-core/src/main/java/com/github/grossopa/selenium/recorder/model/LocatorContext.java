@@ -110,8 +110,9 @@ public class LocatorContext {
      *
      * @param id the {@code id} of the ancestor, may be null
      * @param testId the {@code data-testid} (or configured anchor attribute) value of the ancestor, may be null
-     * @param childPath the CSS path from the ancestor to the target element's class, e.g. {@code .MuiButton-root}
+     * @param childXpath the XPath path from the ancestor to the target element, e.g.
+     * {@code //*[contains(@class,' MuiButton-root ')]}
      */
-    public record AncestorInfo(@Nullable String id, @Nullable String testId, String childPath) {
+    public record AncestorInfo(@Nullable String id, @Nullable String testId, String childXpath) {
     }
 }

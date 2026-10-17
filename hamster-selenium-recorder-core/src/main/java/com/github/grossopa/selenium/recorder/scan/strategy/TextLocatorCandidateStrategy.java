@@ -30,12 +30,19 @@ import com.github.grossopa.selenium.recorder.scan.DefaultElementScanner;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
+
 /**
  * A strategy that builds a locator candidate from the visible text of the scanned element using an xpath with
  * {@code normalize-space()}.
  *
- * <p>The text must be non-blank, must not contain single quotes and must not exceed the configured maximum length
+ * <p>The text must be non-blank, must not contain both single and double quotes simultaneously, must not contain
+ * newline or carriage return characters, and must not exceed the configured maximum length
  * {@link DefaultElementScanner#MAX_TEXT_LENGTH}.</p>
+ *
+ * <p>The xpath is built via {@link com.github.grossopa.selenium.core.locator.By2#xpathBuilder()} which handles quote
+ * escaping automatically through
+ * {@link com.github.grossopa.selenium.core.util.SeleniumUtils#enrichQuote(String)}.</p>
  *
  * @author Jack Yin
  * @since 1.15
@@ -45,8 +52,9 @@ public class TextLocatorCandidateStrategy implements LocatorCandidateStrategy {
 
     @Override
     public List<LocatorCandidate> toCandidates(int index, String tagName, Map<String, String> attributes, String text) {
-        if (!text.isBlank() && !text.contains("'") && text.length() <= DefaultElementScanner.MAX_TEXT_LENGTH) {
-            String xpathValue = "//" + tagName + "[normalize-space()='" + text + "']";
+        if (!text.isBlank() && !(text.contains("'") && text.contains("\"")) && !text.contains("\n")
+                && !text.contains("\r") && text.length() <= DefaultElementScanner.MAX_TEXT_LENGTH) {
+            String xpathValue = xpathBuilder().anywhere(tagName).normalizeSpace().exact(text).xpathString();
             return List.of(new LocatorCandidate(LocatorType.XPATH, xpathValue, LocatorCandidate.PRIORITY_TEXT,
                     "by text \"" + text + "\""));
         }

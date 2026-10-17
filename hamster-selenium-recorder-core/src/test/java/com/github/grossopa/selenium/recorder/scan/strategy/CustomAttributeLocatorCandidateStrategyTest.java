@@ -49,8 +49,8 @@ class CustomAttributeLocatorCandidateStrategyTest {
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button",
                 Map.of("data-testid", "submit-btn"), "Submit");
         assertEquals(1, result.size());
-        assertEquals(LocatorType.CSS_SELECTOR, result.get(0).getType());
-        assertEquals("[data-testid=\"submit-btn\"]", result.get(0).getValue());
+        assertEquals(LocatorType.XPATH, result.get(0).getType());
+        assertEquals("//*[@data-testid=\"submit-btn\"]", result.get(0).getValue());
         assertEquals(LocatorCandidate.PRIORITY_CUSTOM_ATTRIBUTE, result.get(0).getPriority());
     }
 
@@ -76,10 +76,11 @@ class CustomAttributeLocatorCandidateStrategyTest {
     }
 
     @Test
-    void testToCandidatesWithValueContainingQuotes() {
+    void testToCandidatesWithValueContainingDoubleQuote() {
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button",
                 Map.of("data-testid", "has\"quote"), "Submit");
-        assertTrue(result.isEmpty());
+        assertEquals(1, result.size());
+        assertEquals("//*[@data-testid='has\"quote']", result.get(0).getValue());
     }
 
     @Test

@@ -47,8 +47,8 @@ class MarkerLocatorCandidateStrategyTest {
     void testToCandidates() {
         List<LocatorCandidate> result = testSubject.toCandidates(5, "button", Map.of(), "Login");
         assertEquals(1, result.size());
-        assertEquals(LocatorType.CSS_SELECTOR, result.get(0).getType());
-        assertEquals("[data-hamster-rec-idx=\"5\"]", result.get(0).getValue());
+        assertEquals(LocatorType.XPATH, result.get(0).getType());
+        assertEquals("//*[@data-hamster-rec-idx=\"5\"]", result.get(0).getValue());
         assertEquals(LocatorCandidate.PRIORITY_MARKER, result.get(0).getPriority());
         assertEquals("by scan index 5", result.get(0).getDescription());
     }

@@ -36,14 +36,15 @@ import java.util.Map;
  * under the same parent. This strategy is only effective when the element has no {@code id}, {@code name}, custom
  * attribute or ancestor anchor, but has multiple siblings.
  *
- * <p>The generated locator uses a CSS selector pointing to all siblings under a parent context. The parent context is
- * derived from the ancestor anchor if available, otherwise the raw tag name is used. The resulting locator is marked as
- * a list locator, meaning the generated page object method will return a {@code List} of components.</p>
+ * <p>The generated locator uses an XPath pointing to all siblings under a parent context. The parent context is
+ * derived from the ancestor anchor if available, otherwise a global search is used. When a root CSS class is
+ * configured, the XPath matches elements by class; otherwise it matches by tag name. The resulting locator is marked
+ * as a list locator, meaning the generated page object method will return a {@code List} of components.</p>
  *
  * <p>Example of a generated locator:
  * <ul>
- * <li>With ancestor: {@code #formSection .MuiButton-root} (list)</li>
- * <li>Without ancestor: {@code .MuiButton-root} (list)</li>
+ * <li>With ancestor and CSS class: {@code //*[@id='formSection']/child::*[contains(@class,' MuiButton-root ')]} (list)</li>
+ * <li>Without ancestor: {@code //*[local-name()='button']} (list)</li>
  * </ul>
  *
  * @author Jack Yin
@@ -87,24 +88,25 @@ public class SiblingListLocatorCandidateStrategy implements LocatorCandidateStra
             return List.of();
         }
 
-        String elementSelector = rootCssClass != null ? "." + rootCssClass : tagName;
+        String elementXpath = rootCssClass != null
+                ? "*[contains(@class,' " + rootCssClass + " ')]" : "*[local-name()='" + tagName + "']";
         AncestorInfo ancestor = context.getAncestor();
 
-        String cssValue;
+        String xpathValue;
         String description;
         if (ancestor != null && ancestor.id() != null) {
-            cssValue = "#" + ancestor.id() + " > " + elementSelector;
+            xpathValue = "//*[@id='" + ancestor.id() + "']/child::" + elementXpath;
             description = "by sibling list under #" + ancestor.id() + " (" + context.getSiblingCount() + ELEMENTS_SUFFIX;
         } else if (ancestor != null && ancestor.testId() != null) {
-            cssValue = "[data-testid=\"" + ancestor.testId() + "\"] > " + elementSelector;
+            xpathValue = "//*[@data-testid='" + ancestor.testId() + "']/child::" + elementXpath;
             description = "by sibling list under data-testid \"" + ancestor.testId() + "\" ("
                     + context.getSiblingCount() + ELEMENTS_SUFFIX;
         } else {
-            cssValue = elementSelector;
-            description = "by sibling list " + elementSelector + " (" + context.getSiblingCount() + ELEMENTS_SUFFIX;
+            xpathValue = "//" + elementXpath;
+            description = "by sibling list " + elementXpath + " (" + context.getSiblingCount() + ELEMENTS_SUFFIX;
         }
 
-        return List.of(new LocatorCandidate(LocatorType.CSS_SELECTOR, cssValue, LocatorCandidate.PRIORITY_SIBLING_LIST,
+        return List.of(new LocatorCandidate(LocatorType.XPATH, xpathValue, LocatorCandidate.PRIORITY_SIBLING_LIST,
                 description, true));
     }
 }

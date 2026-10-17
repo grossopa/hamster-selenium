@@ -50,8 +50,8 @@ class SiblingListLocatorCandidateStrategyTest {
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Click", context);
         assertEquals(1, result.size());
-        assertEquals(LocatorType.CSS_SELECTOR, result.get(0).getType());
-        assertEquals("button", result.get(0).getValue());
+        assertEquals(LocatorType.XPATH, result.get(0).getType());
+        assertEquals("//*[local-name()='button']", result.get(0).getValue());
         assertEquals(LocatorCandidate.PRIORITY_SIBLING_LIST, result.get(0).getPriority());
         assertTrue(result.get(0).isList());
     }
@@ -68,24 +68,26 @@ class SiblingListLocatorCandidateStrategyTest {
     @Test
     void testToCandidatesWithRootCssClass() {
         SiblingListLocatorCandidateStrategy testSubject = new SiblingListLocatorCandidateStrategy("MuiButton-root");
-        AncestorInfo ancestor = new AncestorInfo("form1", null, ".MuiButton-root");
+        AncestorInfo ancestor = new AncestorInfo("form1", null, "//*[contains(@class,' MuiButton-root ')]");
         LocatorContext context = new LocatorContext(ancestor, 4, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Click", context);
         assertEquals(1, result.size());
-        assertEquals("#form1 > .MuiButton-root", result.get(0).getValue());
+        assertEquals("//*[@id='form1']/child::*[contains(@class,' MuiButton-root ')]",
+                result.get(0).getValue());
         assertTrue(result.get(0).isList());
     }
 
     @Test
     void testToCandidatesWithAncestorTestId() {
         SiblingListLocatorCandidateStrategy testSubject = new SiblingListLocatorCandidateStrategy("MuiChip-root");
-        AncestorInfo ancestor = new AncestorInfo(null, "chips", ".MuiChip-root");
+        AncestorInfo ancestor = new AncestorInfo(null, "chips", "//*[contains(@class,' MuiChip-root ')]");
         LocatorContext context = new LocatorContext(ancestor, 5, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "span", Map.of(), "", context);
         assertEquals(1, result.size());
-        assertEquals("[data-testid=\"chips\"] > .MuiChip-root", result.get(0).getValue());
+        assertEquals("//*[@data-testid='chips']/child::*[contains(@class,' MuiChip-root ')]",
+                result.get(0).getValue());
     }
 
     @Test
@@ -95,7 +97,7 @@ class SiblingListLocatorCandidateStrategyTest {
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Tab", context);
         assertEquals(1, result.size());
-        assertEquals(".MuiTab-root", result.get(0).getValue());
+        assertEquals("//*[contains(@class,' MuiTab-root ')]", result.get(0).getValue());
     }
 
     @Test

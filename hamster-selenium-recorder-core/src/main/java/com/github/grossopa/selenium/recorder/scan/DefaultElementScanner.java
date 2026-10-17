@@ -108,24 +108,24 @@ public class DefaultElementScanner implements ElementScanner {
                         obj.attributes[attrs[j]] = value;
                     }
                 }
-                // ancestor traversal
+                // ancestor traversal — build XPath segments
                 var current = el.parentElement;
-                var childPath = '';
-                var firstClass = '';
+                var childXpath = '';
+                var firstXpathSeg = '';
                 if (el.className && typeof el.className === 'string') {
                     var cls = el.className.trim().split(/\\s+/);
                     for (var c = 0; c < cls.length; c++) {
                         if (cls[c].length > 2 && !cls[c].startsWith('css-')) {
-                            firstClass = '.' + cls[c];
+                            firstXpathSeg = "*[contains(@class,' " + cls[c] + " ')]";
                             break;
                         }
                     }
                 }
-                childPath = firstClass || el.tagName.toLowerCase();
+                childXpath = firstXpathSeg || "*[local-name()='" + el.tagName.toLowerCase() + "']";
                 var depth = 0;
                 while (current && depth < 10) {
                     if (current.id) {
-                        obj.ancestor = {id: current.id, childPath: childPath};
+                        obj.ancestor = {id: current.id, childXpath: childXpath};
                         break;
                     }
                     var foundAnchor = false;
@@ -133,24 +133,24 @@ public class DefaultElementScanner implements ElementScanner {
                         if (anchorAttrs[a] !== 'id' && anchorAttrs[a] !== 'name') {
                             var av = current.getAttribute(anchorAttrs[a]);
                             if (av) {
-                                obj.ancestor = {testId: av, anchorAttr: anchorAttrs[a], childPath: childPath};
+                                obj.ancestor = {testId: av, anchorAttr: anchorAttrs[a], childXpath: childXpath};
                                 foundAnchor = true;
                                 break;
                             }
                         }
                     }
                     if (foundAnchor) break;
-                    var seg = current.tagName.toLowerCase();
+                    var seg = "*[local-name()='" + current.tagName.toLowerCase() + "']";
                     if (current.className && typeof current.className === 'string') {
                         var classes = current.className.trim().split(/\\s+/);
                         for (var k = 0; k < classes.length; k++) {
                             if (classes[k].length > 2 && !classes[k].startsWith('css-')) {
-                                seg = '.' + classes[k];
+                                seg = "*[contains(@class,' " + classes[k] + " ')]";
                                 break;
                             }
                         }
                     }
-                    childPath = seg + ' > ' + childPath;
+                    childXpath = seg + '/descendant::' + childXpath;
                     current = current.parentElement;
                     depth++;
                 }
@@ -169,6 +169,7 @@ public class DefaultElementScanner implements ElementScanner {
                     }
                     obj.nameSiblingCounts = nameCounts;
                 }
+                if (!childXpath.startsWith('//')) childXpath = '//' + childXpath;
                 el.setAttribute(markerAttr, String(results.length));
                 results.push(obj);
             }
@@ -317,9 +318,9 @@ public class DefaultElementScanner implements ElementScanner {
         if (rawAncestor instanceof Map<?, ?> ancestorMap) {
             String id = ancestorMap.get("id") != null ? String.valueOf(ancestorMap.get("id")) : null;
             String testId = ancestorMap.get("testId") != null ? String.valueOf(ancestorMap.get("testId")) : null;
-            String childPath = ancestorMap.containsKey("childPath") ? String.valueOf(ancestorMap.get("childPath"))
-                    : "";
-            ancestor = new AncestorInfo(id, testId, childPath);
+            String childXpath = ancestorMap.containsKey("childXpath")
+                    ? String.valueOf(ancestorMap.get("childXpath")) : "";
+            ancestor = new AncestorInfo(id, testId, childXpath);
         }
         int siblingCount = rawElement.get("siblingCount") instanceof Number num ? num.intValue() : 1;
         int siblingIndex = rawElement.get("siblingIndex") instanceof Number num ? num.intValue() : 1;

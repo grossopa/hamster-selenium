@@ -47,24 +47,25 @@ class AncestorLocatorCandidateStrategyTest {
 
     @Test
     void testToCandidatesWithAncestorId() {
-        AncestorInfo ancestor = new AncestorInfo("form1", null, ".MuiButton-root");
+        AncestorInfo ancestor = new AncestorInfo("form1", null, "//*[contains(@class,' MuiButton-root ')]");
         LocatorContext context = new LocatorContext(ancestor, 1, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Submit", context);
         assertEquals(1, result.size());
-        assertEquals(LocatorType.CSS_SELECTOR, result.get(0).getType());
-        assertEquals("#form1 .MuiButton-root", result.get(0).getValue());
+        assertEquals(LocatorType.XPATH, result.get(0).getType());
+        assertEquals("//*[@id='form1']/descendant::*[contains(@class,' MuiButton-root ')]", result.get(0).getValue());
         assertEquals(LocatorCandidate.PRIORITY_ANCESTOR, result.get(0).getPriority());
     }
 
     @Test
     void testToCandidatesWithAncestorTestId() {
-        AncestorInfo ancestor = new AncestorInfo(null, "header", ".MuiTextField-root");
+        AncestorInfo ancestor = new AncestorInfo(null, "header", "//*[contains(@class,' MuiTextField-root ')]");
         LocatorContext context = new LocatorContext(ancestor, 1, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "input", Map.of(), "", context);
         assertEquals(1, result.size());
-        assertEquals("[data-testid=\"header\"] .MuiTextField-root", result.get(0).getValue());
+        assertEquals("//*[@data-testid='header']/descendant::*[contains(@class,' MuiTextField-root ')]",
+                result.get(0).getValue());
     }
 
     @Test
@@ -76,7 +77,7 @@ class AncestorLocatorCandidateStrategyTest {
 
     @Test
     void testToCandidatesWithAncestorHavingBothNull() {
-        AncestorInfo ancestor = new AncestorInfo(null, null, ".child");
+        AncestorInfo ancestor = new AncestorInfo(null, null, "//*[local-name()='span']");
         LocatorContext context = new LocatorContext(ancestor, 1, 1, Map.of());
 
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Submit", context);

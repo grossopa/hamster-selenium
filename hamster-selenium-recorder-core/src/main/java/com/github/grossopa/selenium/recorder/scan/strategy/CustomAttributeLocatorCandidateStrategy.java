@@ -31,12 +31,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
+
 /**
  * A strategy that builds locator candidates from the customized key attributes (e.g. {@code data-testid}) configured
  * in the {@link com.github.grossopa.selenium.recorder.config.RecorderConfig}.
  *
  * <p>This strategy skips the {@code id} and {@code name} attributes as they are handled by
  * {@link IdLocatorCandidateStrategy} and {@link NameLocatorCandidateStrategy} respectively.</p>
+ *
+ * <p>The xpath is built via {@link com.github.grossopa.selenium.core.locator.By2#xpathBuilder()} which handles quote
+ * escaping automatically through
+ * {@link com.github.grossopa.selenium.core.util.SeleniumUtils#enrichQuote(String)}.</p>
  *
  * @author Jack Yin
  * @since 1.15
@@ -63,10 +69,9 @@ public class CustomAttributeLocatorCandidateStrategy implements LocatorCandidate
                 continue;
             }
             String value = attributes.get(attrName);
-            if (StringUtils.isNotBlank(value) && !value.contains("\"") && !value.contains("\n")
-                    && !value.contains("\r")) {
-                String cssValue = "[" + attrName + "=\"" + value + "\"]";
-                candidates.add(new LocatorCandidate(LocatorType.CSS_SELECTOR, cssValue,
+            if (StringUtils.isNotBlank(value) && !value.contains("\n") && !value.contains("\r")) {
+                String xpathValue = xpathBuilder().anywhere().attr(attrName).exact(value).xpathString();
+                candidates.add(new LocatorCandidate(LocatorType.XPATH, xpathValue,
                         LocatorCandidate.PRIORITY_CUSTOM_ATTRIBUTE,
                         "by attribute " + attrName + "=\"" + value + "\""));
             }

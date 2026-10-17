@@ -32,19 +32,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * A strategy that builds a unique locator candidate from the sibling index using the CSS {@code :nth-of-type()}
- * pseudo-class. When multiple siblings of the same tag name exist under the same parent and the element has no
- * {@code id}, {@code name} or custom attribute, this strategy generates a precise indexed selector to distinguish the
- * target element from its siblings.
+ * A strategy that builds a unique locator candidate from the sibling index using an XPath positional predicate.
+ * When multiple siblings of the same tag name exist under the same parent and the element has no {@code id},
+ * {@code name} or custom attribute, this strategy generates a precise indexed locator to distinguish the target
+ * element from its siblings.
  *
  * <p>Unlike {@link SiblingListLocatorCandidateStrategy} which produces a list locator matching all siblings, this
  * strategy produces a single-element locator that targets exactly one element at the given position.</p>
  *
  * <p>Examples of generated locators:
  * <ul>
- * <li>With ancestor id: {@code #formSection > button:nth-of-type(2)}</li>
- * <li>With ancestor test id: {@code [data-testid="actions"] > button:nth-of-type(1)}</li>
- * <li>Without ancestor: {@code button:nth-of-type(3)}</li>
+ * <li>With ancestor id: {@code //*[@id='formSection']/child::button[2]}</li>
+ * <li>With ancestor test id: {@code //*[@data-testid='actions']/child::button[1]}</li>
+ * <li>Without ancestor: {@code //button[3]}</li>
  * </ul>
  *
  * @author Jack Yin
@@ -72,22 +72,22 @@ public class IndexedSiblingLocatorCandidateStrategy implements LocatorCandidateS
         }
 
         AncestorInfo ancestor = context.getAncestor();
-        String elementSelector = tagName + ":nth-of-type(" + siblingIndex + ")";
+        String elementXpath = "*[local-name()='" + tagName + "'][" + siblingIndex + "]";
 
-        String cssValue;
+        String xpathValue;
         String description;
         if (ancestor != null && ancestor.id() != null) {
-            cssValue = "#" + ancestor.id() + " > " + elementSelector;
+            xpathValue = "//*[@id='" + ancestor.id() + "']/child::" + elementXpath;
             description = "by indexed sibling #" + siblingIndex + " under #" + ancestor.id();
         } else if (ancestor != null && ancestor.testId() != null) {
-            cssValue = "[data-testid=\"" + ancestor.testId() + "\"] > " + elementSelector;
+            xpathValue = "//*[@data-testid='" + ancestor.testId() + "']/child::" + elementXpath;
             description = "by indexed sibling #" + siblingIndex + " under data-testid \"" + ancestor.testId() + "\"";
         } else {
-            cssValue = elementSelector;
+            xpathValue = "//" + elementXpath;
             description = "by indexed sibling #" + siblingIndex + " " + tagName;
         }
 
-        return List.of(new LocatorCandidate(LocatorType.CSS_SELECTOR, cssValue,
+        return List.of(new LocatorCandidate(LocatorType.XPATH, xpathValue,
                 LocatorCandidate.PRIORITY_INDEXED_SIBLING, description));
     }
 }
