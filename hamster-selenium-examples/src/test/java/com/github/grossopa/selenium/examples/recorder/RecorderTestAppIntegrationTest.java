@@ -19,7 +19,7 @@
  * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package com.github.grossopa.selenium.examples.recorder;
 
@@ -32,18 +32,13 @@ import com.github.grossopa.selenium.recorder.model.LocatorCandidate;
 import com.github.grossopa.selenium.recorder.model.LocatorType;
 import com.github.grossopa.selenium.recorder.model.ScannedElement;
 import com.github.grossopa.selenium.recorder.session.RecorderSession;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -51,13 +46,13 @@ import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 /**
  * Integration test that verifies all recorder locator strategies against the local React MUI v5 test app.
  *
  * <p>Requires the test app running at {@code http://localhost:5173} (start via {@code npm run dev} in the
- * {@code hamster-recorder-test-app} directory). The test is automatically skipped if the app is not reachable.</p>
+ * {@code hamster-recorder-test-app} directory). Run this class as a normal Java application, not via
+ * {@code mvn test}, because it starts a real browser.</p>
  *
  * <p>Tests covered:
  * <ul>
@@ -74,7 +69,6 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * @author Jack Yin
  * @since 1.17
  */
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RecorderTestAppIntegrationTest {
 
     private static final String BASE_URL = "http://localhost:5173";
@@ -82,41 +76,22 @@ public class RecorderTestAppIntegrationTest {
     private WebDriver rawDriver;
     private RecorderSession session;
     private List<ScannedElement> elements;
-
-    /**
-     * Checks whether the test app is reachable at {@code http://localhost:5173}.
-     *
-     * @return {@code true} if the test app is running
-     */
-    static boolean isTestAppAvailable() {
-        try {
-            HttpURLConnection conn = (HttpURLConnection) URI.create(BASE_URL).toURL().openConnection();
-            conn.setConnectTimeout(2000);
-            conn.setReadTimeout(2000);
-            int code = conn.getResponseCode();
-            conn.disconnect();
-            return code >= 200 && code < 400;
-        } catch (IOException e) {
-            return false;
-        }
-    }
+    private int passed;
+    private int failed;
 
     /**
      * Sets up the Edge driver and recorder session, then scans the locator-strategies page.
      *
      * @throws IOException if driver resolution fails
      */
-    @BeforeAll
     void setUp() throws IOException {
-        // Use the cached EdgeDriver with absolute path to avoid working directory issues
         String userDir = System.getProperty("user.dir");
         String driverPath = userDir.contains("hamster-selenium-examples")
                 ? userDir + "/../.cache/selenium/msedgedriver_155"
                 : userDir + "/.cache/selenium/msedgedriver_155";
 
-        java.io.File driverFile = new java.io.File(driverPath);
+        File driverFile = new File(driverPath);
         if (!driverFile.exists()) {
-            // Fall back to auto-download via StartDriverServiceEdge
             String browserVersion = StartDriverServiceEdge.detectEdgeVersion();
             driverPath = StartDriverServiceEdge.resolveDriver(browserVersion);
         }
@@ -145,7 +120,6 @@ public class RecorderTestAppIntegrationTest {
     /**
      * Tears down the recorder session and driver.
      */
-    @AfterAll
     void tearDown() {
         if (session != null) {
             try {
@@ -162,7 +136,6 @@ public class RecorderTestAppIntegrationTest {
     /**
      * Verifies that all locator candidates (except ID and NAME) use XPATH type instead of CSS_SELECTOR.
      */
-    @Test
     void testAllStrategiesProduceXpath() {
         assertFalse(elements.isEmpty(), "Should scan elements from the page");
 
@@ -189,7 +162,6 @@ public class RecorderTestAppIntegrationTest {
     /**
      * Verifies the text strategy generates XPath with {@code normalize-space()}.
      */
-    @Test
     void testTextStrategyUsesNormalizeSpace() {
         Optional<LocatorCandidate> textCandidate = findCandidateByDescription(elements, "CONFIRM CHANGES");
         assertTrue(textCandidate.isPresent(), "Should find a text-based candidate for CONFIRM CHANGES button");
@@ -207,9 +179,7 @@ public class RecorderTestAppIntegrationTest {
     /**
      * Verifies the ancestor strategy generates XPath with {@code descendant::} axis.
      */
-    @Test
     void testAncestorStrategyUsesDescendantAxis() {
-        // Find the "Edit Profile" button inside #user-profile-section
         Optional<ScannedElement> editProfile = elements.stream()
                 .filter(e -> "EDIT PROFILE".equals(e.getText()))
                 .findFirst();
@@ -233,9 +203,7 @@ public class RecorderTestAppIntegrationTest {
     /**
      * Verifies the indexed sibling strategy generates XPath with {@code child::} axis and position predicate.
      */
-    @Test
     void testIndexedSiblingStrategyUsesChildAxis() {
-        // Find the first "OK" button (plain HTML button under #same-text-section)
         Optional<ScannedElement> okButton = elements.stream()
                 .filter(e -> "OK".equals(e.getText()))
                 .findFirst();
@@ -259,9 +227,7 @@ public class RecorderTestAppIntegrationTest {
     /**
      * Verifies the sibling list strategy generates list XPath with {@code child::} axis.
      */
-    @Test
     void testSiblingListStrategyUsesChildAxis() {
-        // Find an OK button and check its sibling list candidate
         Optional<ScannedElement> okButton = elements.stream()
                 .filter(e -> "OK".equals(e.getText()))
                 .findFirst();
@@ -284,9 +250,7 @@ public class RecorderTestAppIntegrationTest {
     /**
      * Verifies the custom attribute strategy generates XPath using By2 xpathBuilder.
      */
-    @Test
     void testCustomAttributeStrategyUsesXpathBuilder() {
-        // Find element with data-testid="action-save"
         Optional<ScannedElement> saveButton = elements.stream()
                 .filter(e -> "action-save".equals(e.getAttributes().get("data-testid")))
                 .findFirst();
@@ -309,10 +273,10 @@ public class RecorderTestAppIntegrationTest {
 
     /**
      * Verifies the generated page object code uses {@code By.xpath()} exclusively (no {@code By.cssSelector()}).
+     *
+     * @throws IOException if reading generated files fails
      */
-    @Test
-    void testGeneratedPageObjectUsesXpathOnly() throws Exception {
-        // Select a few elements to trigger page object generation
+    void testGeneratedPageObjectUsesXpathOnly() {
         selectByText("EDIT PROFILE", "editProfileBtn");
         selectByText("CONFIRM CHANGES", "confirmChangesBtn");
         selectByText("OK", "okBtn1");
@@ -321,12 +285,16 @@ public class RecorderTestAppIntegrationTest {
         assertFalse(generated.isEmpty(), "Should generate at least one page object");
 
         for (Path file : generated) {
-            String content = Files.readString(file);
-            assertFalse(content.contains("By.cssSelector"),
-                    "Generated code should not contain By.cssSelector: " + file.getFileName());
+            try {
+                String content = Files.readString(file);
+                assertFalse(content.contains("By.cssSelector"),
+                        "Generated code should not contain By.cssSelector: " + file.getFileName());
 
-            if (content.contains("By.xpath")) {
-                System.out.println("Verified generated file uses By.xpath(): " + file.getFileName());
+                if (content.contains("By.xpath")) {
+                    System.out.println("Verified generated file uses By.xpath(): " + file.getFileName());
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read generated file: " + file, e);
             }
         }
     }
@@ -334,31 +302,22 @@ public class RecorderTestAppIntegrationTest {
     /**
      * Verifies that generated XPath locators actually find the correct elements on the page.
      */
-    @Test
     void testGeneratedXpathLocatorsFindElements() {
         ComponentWebDriver driver = session.getDriver();
 
-        // Test text-based XPath
         verifyXpathFindsElement(driver, "//button[normalize-space()='Confirm Changes']", "Confirm Changes button");
-
-        // Test ancestor-based XPath with descendant axis
         verifyXpathFindsElement(driver,
                 "//*[@id='user-profile-section']/descendant::*[local-name()='button']",
                 "button under #user-profile-section");
-
-        // Test indexed sibling XPath with child axis
         verifyXpathFindsElement(driver,
                 "//*[@id='same-text-section']/child::*[local-name()='button'][1]",
                 "first OK button under #same-text-section");
-
-        // Test custom attribute XPath
         verifyXpathFindsElement(driver, "//*[@data-testid='action-save']", "save button by data-testid");
     }
 
     /**
      * Verifies the same text degradation produces correct indexed XPath with ancestor context.
      */
-    @Test
     void testSameTextDegradation() {
         List<ScannedElement> okButtons = elements.stream()
                 .filter(e -> "OK".equals(e.getText())).toList();
@@ -378,9 +337,19 @@ public class RecorderTestAppIntegrationTest {
 
     // ===== Helper Methods =====
 
-    /**
-     * Finds a locator candidate by the given text in its description.
-     */
+    private void run(String name, Runnable runnable) {
+        System.out.printf(Locale.ROOT, "%n--- %s ---%n", name);
+        try {
+            runnable.run();
+            passed++;
+            System.out.println("[PASSED] " + name);
+        } catch (Throwable t) {
+            failed++;
+            System.err.println("[FAILED] " + name + ": " + t.getMessage());
+            t.printStackTrace(System.err);
+        }
+    }
+
     private Optional<LocatorCandidate> findCandidateByDescription(List<ScannedElement> elements, String text) {
         return elements.stream()
                 .filter(e -> text.equals(e.getText()))
@@ -392,9 +361,6 @@ public class RecorderTestAppIntegrationTest {
                         .findFirst());
     }
 
-    /**
-     * Selects an element by its text content.
-     */
     private void selectByText(String text, String fieldName) {
         elements.stream()
                 .filter(e -> text.equals(e.getText()))
@@ -402,12 +368,48 @@ public class RecorderTestAppIntegrationTest {
                 .ifPresent(e -> session.select(e.getIndex(), fieldName));
     }
 
-    /**
-     * Verifies that the given XPath expression finds at least one element on the current page.
-     */
     private void verifyXpathFindsElement(ComponentWebDriver driver, String xpath, String description) {
         var found = driver.findComponents(By.xpath(xpath));
         assertFalse(found.isEmpty(), "XPath should find at least one element: " + description + " → " + xpath);
         System.out.printf(Locale.ROOT, "  ✓ XPath finds %d element(s) for: %s%n", found.size(), description);
+    }
+
+    /**
+     * Main entry point - runs all integration tests against the local test app.
+     *
+     * @param args command line arguments (unused)
+     * @throws IOException if driver setup fails
+     */
+    public static void main(String[] args) throws IOException {
+        System.out.println("============================================");
+        System.out.println("  Recorder Integration Test - Test App");
+        System.out.println("============================================");
+
+        RecorderTestAppIntegrationTest test = new RecorderTestAppIntegrationTest();
+
+        try {
+            test.setUp();
+
+            test.run("All strategies produce XPATH", test::testAllStrategiesProduceXpath);
+            test.run("Text strategy uses normalize-space", test::testTextStrategyUsesNormalizeSpace);
+            test.run("Ancestor strategy uses descendant axis", test::testAncestorStrategyUsesDescendantAxis);
+            test.run("IndexedSibling strategy uses child axis", test::testIndexedSiblingStrategyUsesChildAxis);
+            test.run("SiblingList strategy uses child axis", test::testSiblingListStrategyUsesChildAxis);
+            test.run("CustomAttribute strategy uses xpathBuilder", test::testCustomAttributeStrategyUsesXpathBuilder);
+            test.run("Generated page object uses By.xpath only", test::testGeneratedPageObjectUsesXpathOnly);
+            test.run("Generated XPath locators find elements", test::testGeneratedXpathLocatorsFindElements);
+            test.run("Same text degradation", test::testSameTextDegradation);
+
+        } finally {
+            test.tearDown();
+        }
+
+        System.out.println("\n============================================");
+        System.out.printf(Locale.ROOT, "  RESULTS: %d passed, %d failed%n", test.passed, test.failed);
+        System.out.println("============================================");
+
+        if (test.failed > 0) {
+            System.exit(1);
+        }
     }
 }
