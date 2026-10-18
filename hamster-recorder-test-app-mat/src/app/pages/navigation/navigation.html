@@ -1,0 +1,96 @@
+<h4 id="page-title">Navigation</h4>
+
+<!-- ===== Tabs Section ===== -->
+<div class="section">
+  <h5>Tabs</h5>
+  <mat-tab-group id="basic-tabs" style="margin-bottom: 8px;">
+    <mat-tab id="tab-overview" label="Overview">
+      <div style="padding: 16px;">Overview content</div>
+    </mat-tab>
+    <mat-tab id="tab-details" label="Details">
+      <div style="padding: 16px;">Details content</div>
+    </mat-tab>
+    <mat-tab id="tab-settings" label="Settings">
+      <div style="padding: 16px;">Settings content</div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<!-- ===== Accordion Section ===== -->
+<div class="section">
+  <h5>Accordion</h5>
+  <mat-accordion>
+    <mat-expansion-panel id="accordion-personal">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Personal Information</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Name: John Doe</p>
+      <p>Email: john&#64;example.com</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel id="accordion-account">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Account Settings</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>Language: English</p>
+      <p>Timezone: UTC+8</p>
+    </mat-expansion-panel>
+    <mat-expansion-panel id="accordion-disabled" disabled>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Disabled Section</mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>This section is disabled.</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<!-- ===== Menu Section ===== -->
+<div class="section">
+  <h5>Menu</h5>
+  <button mat-raised-button id="btn-open-menu" [matMenuTriggerFor]="testMenu">Open Menu</button>
+  <mat-menu #testMenu="matMenu" id="test-menu">
+    <button mat-menu-item id="menu-profile">Profile</button>
+    <button mat-menu-item id="menu-my-account">My Account</button>
+    <button mat-menu-item id="menu-logout">Logout</button>
+  </mat-menu>
+</div>
+
+<!-- ===== Breadcrumbs Section ===== -->
+<div class="section">
+  <h5>Breadcrumbs</h5>
+  <nav id="breadcrumbs-nav" aria-label="breadcrumb">
+    <a routerLink="/" style="text-decoration: none; display: inline-flex; align-items: center;">
+      <mat-icon style="font-size: 18px; margin-right: 4px;">home</mat-icon> Home
+    </a>
+    <span style="margin: 0 8px; opacity: 0.5;">/</span>
+    <a routerLink="/navigation" style="text-decoration: none;">Navigation</a>
+    <span style="margin: 0 8px; opacity: 0.5;">/</span>
+    <span style="opacity: 0.7;">Breadcrumbs</span>
+  </nav>
+</div>
+
+<!-- ===== Stepper Section ===== -->
+<div class="section">
+  <h5>Stepper</h5>
+  <div style="max-width: 500px;">
+    <mat-stepper #stepper id="test-stepper" [linear]="false" [selectedIndex]="stepperIndex" orientation="vertical">
+      @for (step of steps; track step.label; let i = $index) {
+        <mat-step [label]="step.label">
+          <p>{{ step.description }}</p>
+          <div style="margin-top: 8px;">
+            <button mat-button id="stepper-back" [disabled]="stepperIndex === 0" (click)="stepperIndex = stepperIndex - 1">Back</button>
+            <button mat-raised-button id="stepper-next"
+                    (click)="i < steps.length - 1 ? stepperIndex = stepperIndex + 1 : stepperIndex = steps.length">
+              {{ i === steps.length - 1 ? 'Finish' : 'Next' }}
+            </button>
+          </div>
+        </mat-step>
+      }
+    </mat-stepper>
+    @if (stepperIndex >= steps.length) {
+      <mat-card style="padding: 16px; margin-top: 16px;">
+        <p>All steps completed!</p>
+        <button mat-button id="stepper-reset" (click)="stepperIndex = 0">Reset</button>
+      </mat-card>
+    }
+  </div>
+</div>

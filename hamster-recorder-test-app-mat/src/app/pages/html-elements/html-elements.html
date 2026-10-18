@@ -1,0 +1,140 @@
+<h4 id="page-title">HTML Elements</h4>
+<p>Native HTML elements for testing HtmlSelect, HtmlTable detection and basic form handling.</p>
+
+<!-- ===== Native Form ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>Native Form</h5>
+  <form id="native-form" name="registrationForm" (ngSubmit)="$event.preventDefault()" style="max-width: 400px; display: flex; flex-direction: column; gap: 12px;">
+    <label>
+      Full Name:
+      <input id="html-input-name" name="fullName" type="text" placeholder="Enter name" style="width: 100%; padding: 4px;">
+    </label>
+    <label>
+      Email:
+      <input id="html-input-email" name="email" type="email" placeholder="Enter email" style="width: 100%; padding: 4px;">
+    </label>
+    <label>
+      Password:
+      <input id="html-input-password" name="password" type="password" placeholder="Enter password" style="width: 100%; padding: 4px;">
+    </label>
+    <label>
+      Age:
+      <input id="html-input-age" name="age" type="number" min="1" max="120" style="width: 100%; padding: 4px;">
+    </label>
+    <label>
+      Birthday:
+      <input id="html-input-birthday" name="birthday" type="date" style="width: 100%; padding: 4px;">
+    </label>
+    <label>
+      Favorite Color:
+      <input id="html-input-color" name="favColor" type="text" list="color-options" style="width: 100%; padding: 4px;">
+      <datalist id="color-options">
+        <option value="Red">
+        <option value="Blue">
+        <option value="Green">
+      </datalist>
+    </label>
+
+    <label>
+      Bio:
+      <textarea id="html-textarea" name="bio" rows="4" placeholder="Tell us about yourself" style="width: 100%; padding: 4px;"></textarea>
+    </label>
+
+    <div>
+      <label>
+        <input id="html-checkbox-terms" name="acceptTerms" type="checkbox"> I accept the terms
+      </label>
+    </div>
+
+    <div>
+      <p style="margin: 0 0 4px;">Subscription Type:</p>
+      <label><input type="radio" name="subscription" value="free"> Free</label><br>
+      <label><input type="radio" name="subscription" value="basic"> Basic</label><br>
+      <label><input type="radio" name="subscription" value="premium"> Premium</label>
+    </div>
+
+    <div style="display: flex; gap: 8px;">
+      <button id="html-submit-btn" type="submit">Submit</button>
+      <button id="html-reset-btn" type="reset">Reset</button>
+    </div>
+  </form>
+</mat-card>
+
+<!-- ===== Native Select ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>Native Select (HtmlSelect)</h5>
+  <div class="row">
+    <div>
+      <label for="html-select-country">Country:</label><br>
+      <select id="html-select-country" name="country">
+        <option value="">Select a country</option>
+        <option value="us">United States</option>
+        <option value="uk">United Kingdom</option>
+        <option value="cn">China</option>
+        <option value="jp">Japan</option>
+        <option value="de">Germany</option>
+      </select>
+    </div>
+    <div>
+      <label for="html-select-multi">Skills (multi-select):</label><br>
+      <select id="html-select-multi" name="skills" multiple size="4">
+        <option value="java">Java</option>
+        <option value="python">Python</option>
+        <option value="javascript">JavaScript</option>
+        <option value="go">Go</option>
+        <option value="rust">Rust</option>
+      </select>
+    </div>
+  </div>
+</mat-card>
+
+<!-- ===== Native Table ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>Native Table (HtmlTable)</h5>
+  <table id="html-table-products" name="productsTable" border="1" cellpadding="8" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="product-row-1">
+        <td>Widget A</td>
+        <td>$10.00</td>
+        <td>100</td>
+        <td>In Stock</td>
+      </tr>
+      <tr id="product-row-2">
+        <td>Widget B</td>
+        <td>$25.00</td>
+        <td>50</td>
+        <td>In Stock</td>
+      </tr>
+      <tr id="product-row-3">
+        <td>Widget C</td>
+        <td>$5.00</td>
+        <td>0</td>
+        <td>Out of Stock</td>
+      </tr>
+      <tr id="product-row-4">
+        <td>Widget D</td>
+        <td>$15.00</td>
+        <td>200</td>
+        <td>In Stock</td>
+      </tr>
+    </tbody>
+  </table>
+</mat-card>
+
+<!-- ===== Native Links ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>Native Links</h5>
+  <div class="row">
+    <a id="html-link-home" href="/" name="homeLink">Home</a>
+    <a id="html-link-external" href="https://example.com" name="externalLink" target="_blank" rel="noopener">External Link</a>
+    <a id="html-link-anchor" href="#html-table-products">Jump to Table</a>
+  </div>
+</mat-card>

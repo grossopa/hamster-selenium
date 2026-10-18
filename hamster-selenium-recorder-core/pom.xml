@@ -52,6 +52,10 @@
       <artifactId>hamster-selenium-component-materialui</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.github.grossopa</groupId>
+      <artifactId>hamster-selenium-component-mat</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.squareup</groupId>
       <artifactId>javapoet</artifactId>
     </dependency>

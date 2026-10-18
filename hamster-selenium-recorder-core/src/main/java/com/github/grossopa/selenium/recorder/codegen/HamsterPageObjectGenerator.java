@@ -23,6 +23,7 @@
  */
 package com.github.grossopa.selenium.recorder.codegen;
 
+import com.github.grossopa.hamster.selenium.component.mat.MatComponents;
 import com.github.grossopa.selenium.component.html.HtmlComponents;
 import com.github.grossopa.selenium.component.mui.MuiComponents;
 import com.github.grossopa.selenium.component.mui.MuiVersion;
@@ -101,6 +102,7 @@ public class HamsterPageObjectGenerator implements PageObjectGenerator {
     private static final ClassName LIST = ClassName.get("java.util", "List");
     private static final ClassName MUI_COMPONENTS = ClassName.get(MuiComponents.class);
     private static final ClassName HTML_COMPONENTS = ClassName.get(HtmlComponents.class);
+    private static final ClassName MAT_COMPONENTS = ClassName.get(MatComponents.class);
 
     @Override
     public List<Path> generate(List<PageModel> pages, RecorderConfig config) {
@@ -162,6 +164,7 @@ public class HamsterPageObjectGenerator implements PageObjectGenerator {
         String factoryExpression = switch (config.getFramework()) {
             case MUI -> config.getMuiVersion() == MuiVersion.V5 ? "$T.muiV5()" : "$T.mui()";
             case HTML -> "$T.html()";
+            case MAT -> "$T.mat()";
             default -> "$T.html()";
         };
         return MethodSpec.constructorBuilder().addModifiers(Modifier.PUBLIC)
@@ -242,6 +245,7 @@ public class HamsterPageObjectGenerator implements PageObjectGenerator {
         return switch (config.getFramework()) {
             case MUI -> MUI_COMPONENTS;
             case HTML -> HTML_COMPONENTS;
+            case MAT -> MAT_COMPONENTS;
             default -> HTML_COMPONENTS;
         };
     }

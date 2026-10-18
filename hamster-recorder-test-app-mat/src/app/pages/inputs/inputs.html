@@ -1,0 +1,148 @@
+<h4 id="page-title">Inputs</h4>
+
+<!-- ===== Button Section ===== -->
+<div class="section">
+  <h5>Buttons</h5>
+  <div class="row" style="margin-bottom: 8px;">
+    <button mat-raised-button id="btn-contained">Contained</button>
+    <button mat-stroked-button id="btn-outlined">Outlined</button>
+    <button mat-button id="btn-text">Text</button>
+    <button mat-raised-button id="btn-disabled" disabled>Disabled</button>
+    <button mat-raised-button id="btn-with-icon">
+      <mat-icon>send</mat-icon> Send
+    </button>
+  </div>
+  <div class="row" style="margin-bottom: 8px;">
+    <button mat-icon-button id="icon-btn-add" color="primary"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button id="icon-btn-edit" color="accent"><mat-icon>edit</mat-icon></button>
+    <button mat-icon-button id="icon-btn-delete" color="warn"><mat-icon>delete</mat-icon></button>
+  </div>
+  <div class="row">
+    <mat-button-toggle-group id="btn-group" name="fontStyle" aria-label="Font Style">
+      <mat-button-toggle id="btn-group-left" value="left">Left</mat-button-toggle>
+      <mat-button-toggle id="btn-group-center" value="center">Center</mat-button-toggle>
+      <mat-button-toggle id="btn-group-right" value="right">Right</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</div>
+
+<!-- ===== Fab Section ===== -->
+<div class="section">
+  <h5>Floating Action Button</h5>
+  <div class="row">
+    <button mat-fab id="fab-primary" color="primary"><mat-icon>add</mat-icon></button>
+    <button mat-mini-fab id="fab-secondary" color="accent"><mat-icon>edit</mat-icon></button>
+    <button mat-fab id="fab-extended" color="primary" extended>
+      <mat-icon>add</mat-icon> Extended
+    </button>
+  </div>
+</div>
+
+<!-- ===== TextField Section ===== -->
+<div class="section">
+  <h5>Text Fields</h5>
+  <div class="column">
+    <mat-form-field>
+      <mat-label>Standard</mat-label>
+      <input matInput id="tf-standard" [(ngModel)]="text" name="standard">
+      <mat-hint>Standard variant</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Outlined</mat-label>
+      <input matInput id="tf-outlined" value="Default value">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Filled</mat-label>
+      <input matInput id="tf-filled">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput id="tf-password" type="password">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Disabled</mat-label>
+      <input matInput id="tf-disabled" value="Cannot edit" disabled>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Error</mat-label>
+      <input matInput id="tf-error" value="Error state">
+      <mat-error>This field has an error</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Multiline</mat-label>
+      <textarea matInput id="tf-multiline" rows="3">Multiline text</textarea>
+    </mat-form-field>
+  </div>
+</div>
+
+<!-- ===== Select Section ===== -->
+<div class="section">
+  <h5>Select</h5>
+  <div class="row">
+    <mat-form-field style="min-width: 200px;">
+      <mat-label>Framework</mat-label>
+      <mat-select id="select-framework" [(ngModel)]="selectVal" name="framework">
+        <mat-option value="">None</mat-option>
+        <mat-option value="react">React</mat-option>
+        <mat-option value="vue">Vue</mat-option>
+        <mat-option value="angular">Angular</mat-option>
+      </mat-select>
+      <mat-hint>Select a framework</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field style="min-width: 200px;">
+      <mat-label>Size</mat-label>
+      <mat-select id="select-size" name="size">
+        <mat-option value="xs">Extra Small</mat-option>
+        <mat-option value="s">Small</mat-option>
+        <mat-option value="m">Medium</mat-option>
+        <mat-option value="l">Large</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
+<!-- ===== Checkbox & Radio Section ===== -->
+<div class="section">
+  <h5>Checkbox &amp; Radio</h5>
+  <div class="row">
+    <div>
+      <mat-checkbox id="checkbox-basic" [(ngModel)]="checkVal" name="basicCheck">Basic checkbox</mat-checkbox><br>
+      <mat-checkbox id="checkbox-disabled" disabled>Disabled</mat-checkbox><br>
+      <mat-checkbox id="checkbox-checked" checked>Checked</mat-checkbox>
+    </div>
+    <div>
+      <mat-radio-group id="radio-group" [(ngModel)]="radioVal" name="gender">
+        <mat-radio-button id="radio-female" value="female">Female</mat-radio-button><br>
+        <mat-radio-button id="radio-male" value="male">Male</mat-radio-button><br>
+        <mat-radio-button id="radio-other" value="other">Other</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Switch Section ===== -->
+<div class="section">
+  <h5>Switch</h5>
+  <div class="row">
+    <mat-slide-toggle id="switch-basic" [(ngModel)]="switchVal" name="basicSwitch">Basic switch</mat-slide-toggle>
+    <mat-slide-toggle id="switch-disabled" disabled>Disabled</mat-slide-toggle>
+    <mat-slide-toggle id="switch-checked" checked>Checked</mat-slide-toggle>
+  </div>
+</div>
+
+<!-- ===== Slider Section ===== -->
+<div class="section">
+  <h5>Slider</h5>
+  <div style="max-width: 400px;">
+    <mat-slider id="slider-basic" style="width: 100%;">
+      <input matSliderThumb id="slider-basic-input" [(ngModel)]="sliderVal" name="sliderBasic">
+    </mat-slider>
+    <mat-slider id="slider-disabled" style="width: 100%;" disabled>
+      <input matSliderThumb value="50">
+    </mat-slider>
+    <mat-slider id="slider-marks" style="width: 100%;" discrete [step]="10">
+      <input matSliderThumb value="60">
+    </mat-slider>
+  </div>
+</div>

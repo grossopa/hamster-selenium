@@ -67,8 +67,17 @@ class ComponentDetectorsTest {
     }
 
     @Test
+    void testForMatFramework() {
+        List<ComponentDetector> detectors = ComponentDetectors
+                .forFramework(RecorderConfig.builder().framework(ComponentFramework.MAT).build());
+        assertEquals(2, detectors.size());
+        assertTrue(detectors.get(0) instanceof MatComponentDetector);
+        assertTrue(detectors.get(1) instanceof HtmlComponentDetector);
+    }
+
+    @Test
     void testForUnsupportedFramework() {
-        assertTrue(ComponentDetectors.forFramework(RecorderConfig.builder().framework(ComponentFramework.MAT).build())
+        assertTrue(ComponentDetectors.forFramework(RecorderConfig.builder().framework(ComponentFramework.ANTD).build())
                 .isEmpty());
     }
 }

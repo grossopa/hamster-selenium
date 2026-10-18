@@ -1,0 +1,16 @@
+<h4 id="page-title">Hamster Recorder Test App</h4>
+<p>A comprehensive Angular Material test application for validating Hamster Selenium Recorder features.
+  Navigate through the sidebar or click the cards below.</p>
+
+<div class="row">
+  @for (s of sections; track s.path) {
+    <mat-card style="max-width: 350px; cursor: pointer;" appearance="outlined">
+      <a [routerLink]="s.path" style="text-decoration: none; color: inherit;">
+        <mat-card-content>
+          <h6>{{ s.title }}</h6>
+          <p style="font-size: 12px; opacity: 0.7;">{{ s.desc }}</p>
+        </mat-card-content>
+      </a>
+    </mat-card>
+  }
+</div>

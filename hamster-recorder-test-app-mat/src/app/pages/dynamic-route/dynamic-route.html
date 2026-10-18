@@ -1,0 +1,39 @@
+<h4 id="page-title">{{ entity }} Detail</h4>
+<p>Current path: <code>{{ isUser ? '/users/' : '/products/' }}{{ id }}</code> — ID: <strong>{{ id }}</strong></p>
+
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>{{ entity }} #{{ id }} Information</h5>
+  <div class="row" style="margin-bottom: 8px;">
+    <mat-chip id="entity-type-chip" highlighted>{{ entity }}</mat-chip>
+    <mat-chip id="entity-id-chip">ID: {{ id }}</mat-chip>
+  </div>
+  <div class="column">
+    <mat-form-field>
+      <mat-label>{{ entity }} Name</mat-label>
+      <input matInput [id]="entity.toLowerCase() + '-name'" [value]="entity + ' ' + id">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="2" [id]="entity.toLowerCase() + '-desc'" [value]="'Description for ' + entity + ' ' + id"></textarea>
+    </mat-form-field>
+    <div class="row">
+      <button mat-raised-button id="btn-save-entity">Save</button>
+      <button mat-stroked-button id="btn-delete-entity" color="warn">Delete</button>
+    </div>
+  </div>
+</mat-card>
+
+<mat-card style="padding: 16px;">
+  <h6>Navigate to Other IDs</h6>
+  <div class="row">
+    @if (isUser) {
+      <a mat-stroked-button href="/users/1" style="margin-right: 8px;">User 1</a>
+      <a mat-stroked-button href="/users/2" style="margin-right: 8px;">User 2</a>
+      <a mat-stroked-button href="/users/99">User 99</a>
+    } @else {
+      <a mat-stroked-button href="/products/1" style="margin-right: 8px;">Product 1</a>
+      <a mat-stroked-button href="/products/2" style="margin-right: 8px;">Product 2</a>
+      <a mat-stroked-button href="/products/99">Product 99</a>
+    }
+  </div>
+</mat-card>

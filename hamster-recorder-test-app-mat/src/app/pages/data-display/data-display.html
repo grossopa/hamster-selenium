@@ -1,0 +1,111 @@
+<h4 id="page-title">Data Display</h4>
+
+<!-- ===== Avatar Section ===== -->
+<div class="section">
+  <h5>Avatar</h5>
+  <div class="row" style="margin-bottom: 8px;">
+    <div id="avatar-image" class="avatar-circle" style="background: #e0e0e0;">
+      <mat-icon>person</mat-icon>
+    </div>
+    <div id="avatar-letter" class="avatar-circle" style="background: #f44336; color: white;">A</div>
+    <div id="avatar-icon" class="avatar-circle" style="background: #3f51b5; color: white;">
+      <mat-icon>person</mat-icon>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Badge Section ===== -->
+<div class="section">
+  <h5>Badge</h5>
+  <div class="row">
+    <mat-icon id="badge-cart" matBadge="4" matBadgeColor="primary" style="font-size: 32px;">shopping_cart</mat-icon>
+    <mat-icon id="badge-dot" matBadge="" matBadgeColor="warn" matBadgeSize="small" style="font-size: 32px;">person</mat-icon>
+    <mat-icon id="badge-zero" matBadge="0" matBadgeColor="primary" matBadgeHidden="false" style="font-size: 32px;">email</mat-icon>
+  </div>
+</div>
+
+<!-- ===== Chip Section ===== -->
+<div class="section">
+  <h5>Chip</h5>
+  <mat-chip-set id="chip-set-basic" style="margin-bottom: 8px;">
+    <mat-chip id="chip-basic">Basic</mat-chip>
+    <mat-chip id="chip-color" color="primary">Primary</mat-chip>
+    <mat-chip id="chip-outlined" highlighted>Outlined</mat-chip>
+    <mat-chip id="chip-clickable" color="secondary" highlighted (click)="{}">Clickable</mat-chip>
+    <mat-chip id="chip-deletable" (removed)="{}">Deletable
+      <button matChipRemove><mat-icon>cancel</mat-icon></button>
+    </mat-chip>
+  </mat-chip-set>
+  <mat-chip-set id="chip-set-icon">
+    <mat-chip id="chip-success"><mat-icon matChipAvatar>check_circle</mat-icon>Success</mat-chip>
+    <mat-chip id="chip-error" color="warn"><mat-icon matChipAvatar>cancel</mat-icon>Error</mat-chip>
+    <mat-chip id="chip-star" color="accent"><mat-icon matChipAvatar>star</mat-icon>Starred</mat-chip>
+  </mat-chip-set>
+</div>
+
+<!-- ===== List Section ===== -->
+<div class="section">
+  <h5>List</h5>
+  <mat-card style="max-width: 360px;">
+    <mat-list id="list-contacts">
+      <mat-list-item id="list-item-alice">
+        <mat-icon matListItemIcon>person</mat-icon>
+        <span matListItemTitle>Alice</span>
+        <span matListItemLine>alice&#64;example.com</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item id="list-item-bob">
+        <mat-icon matListItemIcon>person</mat-icon>
+        <span matListItemTitle>Bob</span>
+        <span matListItemLine>bob&#64;example.com</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item id="list-item-charlie">
+        <mat-icon matListItemIcon>person</mat-icon>
+        <span matListItemTitle>Charlie</span>
+        <span matListItemLine>charlie&#64;example.com</span>
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
+</div>
+
+<!-- ===== Divider Section ===== -->
+<div class="section">
+  <h5>Divider</h5>
+  <div style="max-width: 400px;">
+    <p>Content above</p>
+    <mat-divider id="divider-basic"></mat-divider>
+    <p>Content below</p>
+    <mat-divider id="divider-text">
+      <mat-icon color="warn">favorite</mat-icon>
+    </mat-divider>
+    <p>More content</p>
+  </div>
+</div>
+
+<!-- ===== Table Section ===== -->
+<div class="section">
+  <h5>Table</h5>
+  <mat-card style="max-width: 650px;">
+    <table mat-table id="users-table" [dataSource]="tableRows" aria-label="users table">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+      </ng-container>
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef>Role</th>
+        <td mat-cell *matCellDef="let row">{{ row.role }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [id]="'table-row-' + row.id"></tr>
+    </table>
+  </mat-card>
+</div>

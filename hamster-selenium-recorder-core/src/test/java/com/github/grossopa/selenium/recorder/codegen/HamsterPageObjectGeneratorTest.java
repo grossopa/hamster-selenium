@@ -64,6 +64,9 @@ class HamsterPageObjectGeneratorTest {
     DetectedComponent htmlSelect = new DetectedComponent(ComponentFramework.HTML, "Select", "HtmlSelect",
             "com.github.grossopa.selenium.component.html.HtmlSelect", "toSelect", false);
 
+    DetectedComponent matButton = new DetectedComponent(ComponentFramework.MAT, "Button", "MatButton",
+            "com.github.grossopa.hamster.selenium.component.mat.main.MatButton", "toButton", false);
+
     private RecorderConfig config(ComponentFramework framework, MuiVersion muiVersion) {
         return RecorderConfig.builder().framework(framework).muiVersion(muiVersion).outputDir(tempDir)
                 .basePackage("com.example.po").build();
@@ -117,6 +120,19 @@ class HamsterPageObjectGeneratorTest {
         assertTrue(code.contains("this.components = HtmlComponents.html();"));
         assertTrue(code.contains("public HtmlSelect country()"));
         assertTrue(code.contains("driver.findComponent(By.name(\"country\")).as(components).toSelect()"));
+    }
+
+    @Test
+    void testGenerateMatPage() throws IOException {
+        PageModel page = new PageModel("User Login", "/user/login");
+        page.addElement(new PageElementModel("submitBtn",
+                new LocatorCandidate(LocatorType.ID, "submit", LocatorCandidate.PRIORITY_ID, "by id \"submit\""),
+                matButton));
+        String code = generateAndRead(config(ComponentFramework.MAT, MuiVersion.V4), page);
+        assertTrue(code.contains("this.components = MatComponents.mat();"));
+        assertTrue(code.contains("public MatButton submitBtn()"));
+        assertTrue(code.contains("driver.findComponent(By.id(\"submit\")).as(components).toButton()"));
+        assertTrue(code.contains("import com.github.grossopa.hamster.selenium.component.mat.MatComponents;"));
     }
 
     @Test

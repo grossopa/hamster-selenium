@@ -1,0 +1,62 @@
+<h4 id="page-title">Surfaces</h4>
+
+<!-- ===== Card Section ===== -->
+<div class="section">
+  <h5>Cards</h5>
+  <div class="row">
+    <mat-card id="card-basic" style="max-width: 350px;">
+      <mat-card-content>
+        <h6>Basic Card</h6>
+        <p>A basic card with text content. Cards are surfaces that display content and actions.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card id="card-with-media" style="max-width: 350px;">
+      <div id="card-media" style="height: 140px; background: #e3f2fd; display: flex; align-items: center; justify-content: center;">
+        <span style="font-size: 48px; color: #1976d2;">M</span>
+      </div>
+      <mat-card-content>
+        <h6>Card with Media</h6>
+        <p>This card includes a media area and action buttons.</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button id="card-btn-like" color="primary">
+          <mat-icon>favorite</mat-icon> Like
+        </button>
+        <button mat-button id="card-btn-share" color="primary">
+          <mat-icon>share</mat-icon> Share
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card id="card-outlined" appearance="outlined" style="max-width: 350px;">
+      <mat-card-content>
+        <h6>Outlined Card</h6>
+        <p>An outlined card variant with a border instead of shadow.</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- ===== Paper Section ===== -->
+<div class="section">
+  <h5>Paper (Elevation)</h5>
+  <div class="row">
+    @for (e of elevations; track e) {
+      <mat-card id="paper-elevation-{{ e }}" [style.padding.px]="16" [style.textAlign]="'center'"
+                [style.minWidth.px]="100" appearance="raised" style="min-width: 100px;">
+        <p>Elevation {{ e }}</p>
+      </mat-card>
+    }
+  </div>
+</div>
+
+<!-- ===== Toolbar Section ===== -->
+<div class="section">
+  <h5>Toolbar</h5>
+  <mat-toolbar id="toolbar-basic" style="background: #f5f5f5;">
+    <span style="flex: 1;">Toolbar Title</span>
+    <button mat-icon-button id="toolbar-btn-fav" color="primary"><mat-icon>favorite</mat-icon></button>
+    <button mat-icon-button id="toolbar-btn-share" color="primary"><mat-icon>share</mat-icon></button>
+  </mat-toolbar>
+</div>

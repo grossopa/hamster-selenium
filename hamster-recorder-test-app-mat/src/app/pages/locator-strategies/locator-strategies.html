@@ -1,0 +1,152 @@
+<h4 id="page-title">Locator Strategies</h4>
+<p>This page tests all recorder locator strategies. Each section targets a specific strategy.</p>
+
+<!-- ===== 1. ID-based Locator ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>1. ID-based Locator</h5>
+  <p>Elements located by unique id attribute → By.id()</p>
+  <div class="row">
+    <button mat-raised-button id="unique-submit-btn">Submit</button>
+    <button mat-stroked-button id="unique-cancel-btn">Cancel</button>
+    <mat-form-field id="unique-username"><mat-label>Username</mat-label><input matInput></mat-form-field>
+    <mat-form-field id="unique-email"><mat-label>Email</mat-label><input matInput></mat-form-field>
+  </div>
+</mat-card>
+
+<!-- ===== 2. Name-based Locator ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>2. Name-based Locator</h5>
+  <p>Elements located by name attribute → By.name()</p>
+  <div class="column">
+    <mat-form-field><mat-label>First Name</mat-label><input matInput name="firstName"></mat-form-field>
+    <mat-form-field><mat-label>Last Name</mat-label><input matInput name="lastName"></mat-form-field>
+    <mat-form-field><mat-label>Phone</mat-label><input matInput name="phone"></mat-form-field>
+  </div>
+  <div style="margin-top: 8px;">
+    <mat-radio-group name="contactMethod">
+      <mat-radio-button name="contactMethod" value="email">Email</mat-radio-button><br>
+      <mat-radio-button name="contactMethod" value="phone">Phone</mat-radio-button><br>
+      <mat-radio-button name="contactMethod" value="sms">SMS</mat-radio-button>
+    </mat-radio-group>
+  </div>
+</mat-card>
+
+<!-- ===== 3. Custom Attribute (data-testid) ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>3. Custom Attribute (data-testid)</h5>
+  <p>Elements with data-testid → By.cssSelector([data-testid="value"])</p>
+  <div class="row">
+    <button mat-raised-button data-testid="action-save">Save</button>
+    <button mat-stroked-button data-testid="action-delete" color="warn">Delete</button>
+    <button mat-button data-testid="action-export">Export</button>
+    <mat-form-field data-testid="search-field"><mat-label>Search</mat-label><input matInput></mat-form-field>
+    <mat-checkbox data-testid="agree-terms"></mat-checkbox>
+    <span data-testid="status-label">Status: Active</span>
+  </div>
+</mat-card>
+
+<!-- ===== 4. Ancestor Anchor Locator ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>4. Ancestor Anchor Locator</h5>
+  <p>Elements inside containers with id or data-testid → ancestor + child path</p>
+
+  <div id="user-profile-section" style="padding: 16px; border: 1px solid #ccc; margin-bottom: 16px; border-radius: 4px;">
+    <h6>User Profile Section</h6>
+    <button mat-raised-button>Edit Profile</button>
+    <button mat-stroked-button style="margin-left: 8px;">View History</button>
+    <mat-form-field style="display: block; margin-top: 8px;"><mat-label>Display Name</mat-label><input matInput></mat-form-field>
+  </div>
+
+  <div data-testid="order-section" style="padding: 16px; border: 1px solid #ccc; margin-bottom: 16px; border-radius: 4px;">
+    <h6>Order Section</h6>
+    <button mat-raised-button>Place Order</button>
+    <button mat-stroked-button style="margin-left: 8px;">View Cart</button>
+    <mat-form-field style="display: block; margin-top: 8px;"><mat-label>Coupon Code</mat-label><input matInput></mat-form-field>
+  </div>
+
+  <div id="settings-section" style="padding: 16px; border: 1px solid #ccc; border-radius: 4px;">
+    <h6>Settings Section</h6>
+    <button mat-raised-button>Apply</button>
+    <button mat-stroked-button style="margin-left: 8px;">Reset</button>
+    <mat-form-field style="display: block; margin-top: 8px;"><mat-label>API Key</mat-label><input matInput></mat-form-field>
+  </div>
+</mat-card>
+
+<!-- ===== 5. Sibling List Locator ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>5. Sibling List Locator</h5>
+  <p>Groups of same-tag siblings → List locator with findComponents()</p>
+
+  <div id="button-group-test">
+    <p>Button Siblings:</p>
+    <div class="row" style="margin-bottom: 8px;">
+      <button mat-stroked-button>Action A</button>
+      <button mat-stroked-button>Action B</button>
+      <button mat-stroked-button>Action C</button>
+      <button mat-stroked-button>Action D</button>
+    </div>
+  </div>
+
+  <div id="input-group-test">
+    <p>Input Siblings:</p>
+    <div class="column" style="margin-bottom: 8px;">
+      <mat-form-field><mat-label>Field 1</mat-label><input matInput></mat-form-field>
+      <mat-form-field><mat-label>Field 2</mat-label><input matInput></mat-form-field>
+      <mat-form-field><mat-label>Field 3</mat-label><input matInput></mat-form-field>
+    </div>
+  </div>
+
+  <div id="checkbox-group-test">
+    <p>Checkbox Siblings:</p>
+    <div>
+      <mat-checkbox>Option Alpha</mat-checkbox><br>
+      <mat-checkbox>Option Beta</mat-checkbox><br>
+      <mat-checkbox>Option Gamma</mat-checkbox>
+    </div>
+  </div>
+</mat-card>
+
+<!-- ===== 6. Text-based Locator ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>6. Text-based Locator</h5>
+  <p>Elements identifiable by visible text → XPath with normalize-space()</p>
+  <div class="row">
+    <button mat-raised-button>Confirm Changes</button>
+    <button mat-stroked-button>Discard Draft</button>
+    <button mat-button>Learn More</button>
+  </div>
+</mat-card>
+
+<!-- ===== 7. Mixed Strategy Section ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>7. Mixed Strategies</h5>
+  <p>Elements with multiple locator attributes for strategy priority testing</p>
+  <div class="row">
+    <button mat-raised-button id="mixed-1" name="primaryAction" data-testid="btn-primary">Primary Action</button>
+    <mat-form-field id="mixed-2" style="min-width: 200px;">
+      <mat-label>Search Query</mat-label>
+      <input matInput name="searchQuery" data-testid="search-field-mixed">
+    </mat-form-field>
+    <mat-checkbox id="mixed-3" name="acceptTerms" data-testid="terms-checkbox"></mat-checkbox>
+  </div>
+</mat-card>
+
+<!-- ===== 8. Same Text Degradation ===== -->
+<mat-card style="padding: 16px; margin-bottom: 16px;">
+  <h5>8. Same Text Degradation</h5>
+  <p>Multiple siblings with the same text — text locator should degrade to indexed sibling or ancestor.</p>
+
+  <section id="same-text-section" style="padding: 16px; border: 1px solid #ccc; margin-bottom: 16px; border-radius: 4px;">
+    <h6>Same Text under Ancestor (direct children)</h6>
+    <button mat-button style="margin-right: 8px;">OK</button>
+    <button mat-button style="margin-right: 8px;">OK</button>
+    <button mat-button>OK</button>
+  </section>
+
+  <section id="same-text-no-ancestor" style="padding: 16px; border: 1px solid #ccc; border-radius: 4px;">
+    <h6>Same Text with Ancestor ID (direct children)</h6>
+    <button mat-button style="margin-right: 8px;">Submit</button>
+    <button mat-button style="margin-right: 8px;">Submit</button>
+    <button mat-button>Submit</button>
+  </section>
+</mat-card>

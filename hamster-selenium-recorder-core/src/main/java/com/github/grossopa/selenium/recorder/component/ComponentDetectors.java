@@ -60,6 +60,7 @@ public class ComponentDetectors {
         return switch (framework) {
             case MUI -> List.of(new MuiComponentDetector(), new HtmlComponentDetector());
             case HTML -> List.of(new HtmlComponentDetector());
+            case MAT -> List.of(new MatComponentDetector(), new HtmlComponentDetector());
             default -> List.of();
         };
     }

@@ -1,0 +1,49 @@
+<h4 id="page-title">Feedback</h4>
+
+<!-- ===== Dialog Section ===== -->
+<div class="section">
+  <h5>Dialog</h5>
+  <button mat-raised-button id="btn-open-dialog" color="primary" (click)="openDialog()">Open Dialog</button>
+</div>
+
+<!-- ===== Snackbar Section ===== -->
+<div class="section">
+  <h5>Snackbar</h5>
+  <button mat-raised-button id="btn-open-snackbar" color="primary" (click)="openSnackbar()">Show Snackbar</button>
+</div>
+
+<!-- ===== Alert Section (mat-card styled) ===== -->
+<div class="section">
+  <h5>Alert</h5>
+  <div class="column" style="max-width: 500px;">
+    <mat-card id="alert-success" class="alert-card alert-success">Success alert message</mat-card>
+    <mat-card id="alert-info" class="alert-card alert-info">Info alert message</mat-card>
+    <mat-card id="alert-warning" class="alert-card alert-warning">Warning alert message</mat-card>
+    <mat-card id="alert-error" class="alert-card alert-error">Error alert message</mat-card>
+    <mat-card id="alert-filled" class="alert-card alert-error alert-filled">Filled alert message</mat-card>
+    <mat-card id="alert-outlined" class="alert-card alert-warning alert-outlined">Outlined alert message</mat-card>
+  </div>
+</div>
+
+<!-- ===== BottomSheet Section ===== -->
+<div class="section">
+  <h5>Bottom Sheet</h5>
+  <button mat-raised-button id="btn-open-bottom-sheet" color="primary" (click)="openBottomSheet()">Open Bottom Sheet</button>
+</div>
+
+<!-- ===== Progress Section ===== -->
+<div class="section">
+  <h5>Circular Progress</h5>
+  <div class="row" style="margin-bottom: 16px;">
+    <mat-progress-spinner id="circular-default" mode="indeterminate" diameter="40"></mat-progress-spinner>
+    <mat-progress-spinner id="circular-25" mode="determinate" [value]="25" diameter="40"></mat-progress-spinner>
+    <mat-progress-spinner id="circular-75" mode="determinate" [value]="75" diameter="40" color="accent"></mat-progress-spinner>
+  </div>
+
+  <h5>Linear Progress</h5>
+  <div class="column" style="max-width: 500px;">
+    <mat-progress-bar id="linear-default" mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar id="linear-50" mode="determinate" [value]="50"></mat-progress-bar>
+    <mat-progress-bar id="linear-75" mode="determinate" [value]="75" color="accent"></mat-progress-bar>
+  </div>
+</div>

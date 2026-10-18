@@ -1,0 +1,73 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.subtitle {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.app-container {
+  flex: 1;
+  margin-top: 64px;
+}
+
+.app-sidenav {
+  width: 240px;
+}
+
+.app-content {
+  padding: 24px;
+}
+
+.content-inner {
+  max-width: 1200px;
+}
+
+a.active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+h4 {
+  margin-bottom: 8px;
+}
+
+h5 {
+  margin-bottom: 8px;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 400px;
+}
+
+mat-form-field {
+  width: 100%;
+}
