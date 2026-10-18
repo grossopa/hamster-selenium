@@ -313,26 +313,36 @@ public class DefaultElementScanner implements ElementScanner {
     }
 
     private LocatorContext buildLocatorContext(Map<String, Object> rawElement) {
-        AncestorInfo ancestor = null;
-        Object rawAncestor = rawElement.get("ancestor");
-        if (rawAncestor instanceof Map<?, ?> ancestorMap) {
-            String id = ancestorMap.get("id") != null ? String.valueOf(ancestorMap.get("id")) : null;
-            String testId = ancestorMap.get("testId") != null ? String.valueOf(ancestorMap.get("testId")) : null;
-            String childXpath = ancestorMap.containsKey("childXpath")
-                    ? String.valueOf(ancestorMap.get("childXpath")) : "";
-            ancestor = new AncestorInfo(id, testId, childXpath);
-        }
+        AncestorInfo ancestor = buildAncestorInfo(rawElement);
         int siblingCount = rawElement.get("siblingCount") instanceof Number num ? num.intValue() : 1;
         int siblingIndex = rawElement.get("siblingIndex") instanceof Number num ? num.intValue() : 1;
+        Map<String, Integer> nameSiblingCounts = buildNameSiblingCounts(rawElement);
+        return new LocatorContext(ancestor, siblingCount, siblingIndex, nameSiblingCounts);
+    }
+
+    private AncestorInfo buildAncestorInfo(Map<String, Object> rawElement) {
+        Object rawAncestor = rawElement.get("ancestor");
+        if (!(rawAncestor instanceof Map<?, ?> ancestorMap)) {
+            return null;
+        }
+        String id = ancestorMap.get("id") != null ? String.valueOf(ancestorMap.get("id")) : null;
+        String testId = ancestorMap.get("testId") != null ? String.valueOf(ancestorMap.get("testId")) : null;
+        String childXpath = ancestorMap.containsKey("childXpath")
+                ? String.valueOf(ancestorMap.get("childXpath")) : "";
+        return new AncestorInfo(id, testId, childXpath);
+    }
+
+    private Map<String, Integer> buildNameSiblingCounts(Map<String, Object> rawElement) {
         Map<String, Integer> nameSiblingCounts = new LinkedHashMap<>();
         Object rawNameCounts = rawElement.get("nameSiblingCounts");
-        if (rawNameCounts instanceof Map<?, ?> nameCountsMap) {
-            for (Map.Entry<?, ?> entry : nameCountsMap.entrySet()) {
-                if (entry.getKey() != null && entry.getValue() instanceof Number num) {
-                    nameSiblingCounts.put(String.valueOf(entry.getKey()), num.intValue());
-                }
+        if (!(rawNameCounts instanceof Map<?, ?> nameCountsMap)) {
+            return nameSiblingCounts;
+        }
+        for (Map.Entry<?, ?> entry : nameCountsMap.entrySet()) {
+            if (entry.getKey() != null && entry.getValue() instanceof Number num) {
+                nameSiblingCounts.put(String.valueOf(entry.getKey()), num.intValue());
             }
         }
-        return new LocatorContext(ancestor, siblingCount, siblingIndex, nameSiblingCounts);
+        return nameSiblingCounts;
     }
 }

@@ -169,7 +169,7 @@ public class MatConfig implements ComponentConfig {
      * @return the immutable CSS prefix
      */
     public String getComponentCssPrefix() {
-        return componentCssPrefix;
+        return getCssPrefix();
     }
 
     // =====================================================================
@@ -247,6 +247,7 @@ public class MatConfig implements ComponentConfig {
      * @param component the component to check
      * @return true if the component is checked
      */
+    @Override
     public boolean isChecked(WebComponent component) {
         return attributeContains(component, getIsCheckedCss());
     }
@@ -257,6 +258,7 @@ public class MatConfig implements ComponentConfig {
      * @param component the component to check
      * @return true if the component is selected
      */
+    @Override
     public boolean isSelected(WebComponent component) {
         return attributeContains(component, getIsSelectedCss());
     }
@@ -268,6 +270,7 @@ public class MatConfig implements ComponentConfig {
      * @param component the component to check
      * @return true if the component is disabled
      */
+    @Override
     public boolean isDisabled(WebComponent component) {
         if (component == null) {
             return true;

@@ -97,7 +97,7 @@ public class MuiRating extends AbstractMuiComponent {
         List<WebComponent> stars = getStars();
         double precision = getPrecision();
         if (precision < 1) {
-            double filledIcons = stars.stream()
+            double filledIcons = (double) stars.stream()
                     .filter(star -> {
                         String className = star.getAttribute(CLASS);
                         return className != null && className.contains(config.getCssPrefix() + "Rating-iconFilled");

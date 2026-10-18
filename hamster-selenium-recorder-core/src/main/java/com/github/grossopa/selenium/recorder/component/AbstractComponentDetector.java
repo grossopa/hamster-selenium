@@ -86,7 +86,7 @@ public abstract class AbstractComponentDetector implements ComponentDetector {
      *
      * @return the component definitions
      */
-    protected abstract List<? extends AbstractComponentDefinition> definitions();
+    protected abstract List<AbstractComponentDefinition> definitions();
 
     /**
      * Returns a function that resolves the root CSS class for a given component definition. For Angular Material the

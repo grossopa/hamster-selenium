@@ -33,7 +33,6 @@ import org.openqa.selenium.WebElement;
 import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

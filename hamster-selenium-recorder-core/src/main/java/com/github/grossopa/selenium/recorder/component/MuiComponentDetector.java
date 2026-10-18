@@ -25,6 +25,7 @@ package com.github.grossopa.selenium.recorder.component;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -66,8 +67,8 @@ public class MuiComponentDetector extends AbstractComponentDetector {
     }
 
     @Override
-    protected List<MuiComponentDefinition> definitions() {
-        return definitions;
+    protected List<AbstractComponentDefinition> definitions() {
+        return new ArrayList<>(definitions);
     }
 
     @Override

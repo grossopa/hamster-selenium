@@ -116,6 +116,6 @@ public abstract class AbstractComponentDriver implements ComponentDriver {
 
     @Override
     public void navigate(String url, long timeoutInMillis) {
-        page.navigate(url, new Page.NavigateOptions().setTimeout(timeoutInMillis));
+        page.navigate(url, new Page.NavigateOptions().setTimeout((double) timeoutInMillis));
     }
 }

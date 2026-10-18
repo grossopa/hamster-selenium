@@ -60,7 +60,6 @@ import java.util.Set;
 public class MatComponentDefinitions {
 
     private static final String MDC_PREFIX = "mat-mdc-";
-    private static final String NON_MDC_PREFIX = "mat-";
 
     /**
      * Return types to exclude from auto-discovery. These components have no-arg factory methods but need custom CSS
@@ -156,12 +155,8 @@ public class MatComponentDefinitions {
 
         // Collect type names that are handled by manual overrides to avoid duplicates
         Set<String> overriddenTypeNames = new java.util.HashSet<>();
-        for (MatComponentDefinition def : MANUAL_OVERRIDES) {
-            overriddenTypeNames.add(def.getTypeName());
-        }
-        for (MatComponentDefinition def : NON_MDC_DEFINITIONS) {
-            overriddenTypeNames.add(def.getTypeName());
-        }
+        MANUAL_OVERRIDES.stream().map(MatComponentDefinition::getTypeName).forEach(overriddenTypeNames::add);
+        NON_MDC_DEFINITIONS.stream().map(MatComponentDefinition::getTypeName).forEach(overriddenTypeNames::add);
 
         // Auto-discover from MatComponents no-arg factory methods
         for (Method method : MatComponents.class.getMethods()) {

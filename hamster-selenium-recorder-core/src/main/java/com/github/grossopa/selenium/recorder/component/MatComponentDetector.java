@@ -25,6 +25,7 @@ package com.github.grossopa.selenium.recorder.component;
 
 import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -65,8 +66,8 @@ public class MatComponentDetector extends AbstractComponentDetector {
     }
 
     @Override
-    protected List<MatComponentDefinition> definitions() {
-        return definitions;
+    protected List<AbstractComponentDefinition> definitions() {
+        return new ArrayList<>(definitions);
     }
 
     @Override

@@ -42,6 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The picocli entry point of the recorder CLI. It parses the command line options, launches the browser, starts the
@@ -55,6 +57,8 @@ import java.util.concurrent.Callable;
 @Command(name = "hamster-recorder", mixinStandardHelpOptions = true, version = "1.15",
         description = "Records page elements at runtime and generates hamster selenium page objects.")
 public class RecorderCommand implements Callable<Integer> {
+
+    private static final Logger LOGGER = Logger.getLogger(RecorderCommand.class.getName());
 
     @Option(names = "--browser", description = "the browser to launch: chrome, edge or firefox (default: chrome)")
     private String browser = "chrome";
@@ -97,15 +101,15 @@ public class RecorderCommand implements Callable<Integer> {
         try {
             config = buildConfig();
         } catch (RuntimeException exception) {
-            System.err.println("Invalid options: " + exception.getMessage());
+            LOGGER.log(Level.SEVERE, "Invalid options: {0}", exception.getMessage());
             return 2;
         }
         WebDriver driver = BrowserFactory.create(browser);
         try (RecorderSession session = new RecorderSession(driver, config)) {
             session.addEventListener(event -> {
                 if (event.getType() == RecorderEventType.PAGE_CHANGED && session.getCurrentPage() != null) {
-                    System.out.println("[recorder] url changed to " + event.getUrl() + ", current page: "
-                            + session.getCurrentPage().getName());
+                    LOGGER.log(Level.INFO, "[recorder] url changed to {0}, current page: {1}",
+                            new Object[] { event.getUrl(), session.getCurrentPage().getName() });
                 }
             });
             if (url != null && !url.isBlank()) {
@@ -116,7 +120,7 @@ public class RecorderCommand implements Callable<Integer> {
                 new Repl(session, lineReader, System.out).run();
             }
         } catch (IOException exception) {
-            System.err.println("Failed to run the recorder: " + exception.getMessage());
+            LOGGER.log(Level.SEVERE, "Failed to run the recorder: {0}", exception.getMessage());
             return 1;
         }
         return 0;

@@ -52,6 +52,11 @@ public class MatSlider extends AbstractMatComponent {
     public static final String COMPONENT_NAME = "Slider";
 
     /**
+     * The CSS selector for the input element within MDC slider.
+     */
+    private static final String INPUT_SELECTOR = "input";
+
+    /**
      * Constructs an instance with the delegated locator and root driver.
      *
      * @param locator the delegated locator
@@ -81,7 +86,7 @@ public class MatSlider extends AbstractMatComponent {
         String val = getAttribute("aria-valuenow");
         if (val == null) {
             // MDC slider stores value on the child input element
-            val = locator.locator("input").first().getAttribute("aria-valuetext");
+            val = locator.locator(INPUT_SELECTOR).first().getAttribute("aria-valuetext");
         }
         return val;
     }
@@ -122,7 +127,7 @@ public class MatSlider extends AbstractMatComponent {
         String val = getAttribute("aria-valuemin");
         if (val == null) {
             // MDC slider stores min on the child input element
-            val = locator.locator("input").first().getAttribute("min");
+            val = locator.locator(INPUT_SELECTOR).first().getAttribute("min");
         }
         return val;
     }
@@ -163,7 +168,7 @@ public class MatSlider extends AbstractMatComponent {
         String val = getAttribute("aria-valuemax");
         if (val == null) {
             // MDC slider stores max on the child input element
-            val = locator.locator("input").first().getAttribute("max");
+            val = locator.locator(INPUT_SELECTOR).first().getAttribute("max");
         }
         return val;
     }

@@ -54,6 +54,8 @@ import java.util.Map;
  */
 public class IndexedSiblingLocatorCandidateStrategy implements LocatorCandidateStrategy {
 
+    private static final String DESCRIPTION_PREFIX = "by indexed sibling #";
+
     @Override
     public List<LocatorCandidate> toCandidates(int index, String tagName, Map<String, String> attributes, String text) {
         return List.of();
@@ -78,13 +80,13 @@ public class IndexedSiblingLocatorCandidateStrategy implements LocatorCandidateS
         String description;
         if (ancestor != null && ancestor.id() != null) {
             xpathValue = "//*[@id='" + ancestor.id() + "']/child::" + elementXpath;
-            description = "by indexed sibling #" + siblingIndex + " under #" + ancestor.id();
+            description = DESCRIPTION_PREFIX + siblingIndex + " under #" + ancestor.id();
         } else if (ancestor != null && ancestor.testId() != null) {
             xpathValue = "//*[@data-testid='" + ancestor.testId() + "']/child::" + elementXpath;
-            description = "by indexed sibling #" + siblingIndex + " under data-testid \"" + ancestor.testId() + "\"";
+            description = DESCRIPTION_PREFIX + siblingIndex + " under data-testid \"" + ancestor.testId() + "\"";
         } else {
             xpathValue = "//" + elementXpath;
-            description = "by indexed sibling #" + siblingIndex + " " + tagName;
+            description = DESCRIPTION_PREFIX + siblingIndex + " " + tagName;
         }
 
         return List.of(new LocatorCandidate(LocatorType.XPATH, xpathValue,
