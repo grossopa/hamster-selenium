@@ -24,7 +24,6 @@
 package com.github.grossopa.selenium.recorder.component;
 
 import com.github.grossopa.selenium.recorder.config.ComponentFramework;
-import com.github.grossopa.selenium.recorder.model.DetectedComponent;
 
 import java.util.Objects;
 
@@ -44,13 +43,8 @@ import static java.util.Objects.requireNonNull;
  * @see MatComponentDefinitions
  * @see MatComponentDetector
  */
-public class MatComponentDefinition {
+public class MatComponentDefinition extends AbstractComponentDefinition {
 
-    private final String componentName;
-    private final String typeName;
-    private final String typeQualifiedName;
-    private final String factoryMethodName;
-    private final boolean requiresArgs;
     private final String rootCssClass;
 
     /**
@@ -65,57 +59,8 @@ public class MatComponentDefinition {
      */
     public MatComponentDefinition(String componentName, String typeName, String typeQualifiedName,
             String factoryMethodName, boolean requiresArgs, String rootCssClass) {
-        this.componentName = requireNonNull(componentName);
-        this.typeName = requireNonNull(typeName);
-        this.typeQualifiedName = requireNonNull(typeQualifiedName);
-        this.factoryMethodName = requireNonNull(factoryMethodName);
-        this.requiresArgs = requiresArgs;
+        super(componentName, typeName, typeQualifiedName, factoryMethodName, requiresArgs);
         this.rootCssClass = requireNonNull(rootCssClass);
-    }
-
-    /**
-     * Gets the component name, e.g. "Button".
-     *
-     * @return the component name
-     */
-    public String getComponentName() {
-        return componentName;
-    }
-
-    /**
-     * Gets the simple type name of the component class, e.g. "MatButton".
-     *
-     * @return the simple type name of the component class
-     */
-    public String getTypeName() {
-        return typeName;
-    }
-
-    /**
-     * Gets the fully qualified name of the component class.
-     *
-     * @return the fully qualified name of the component class
-     */
-    public String getTypeQualifiedName() {
-        return typeQualifiedName;
-    }
-
-    /**
-     * Gets the factory method name in {@code MatComponents}, e.g. "toButton".
-     *
-     * @return the factory method name
-     */
-    public String getFactoryMethodName() {
-        return factoryMethodName;
-    }
-
-    /**
-     * Whether the factory method requires additional arguments.
-     *
-     * @return whether the factory method requires additional arguments
-     */
-    public boolean isRequiresArgs() {
-        return requiresArgs;
     }
 
     /**
@@ -127,38 +72,31 @@ public class MatComponentDefinition {
         return rootCssClass;
     }
 
-    /**
-     * Creates the {@link DetectedComponent} from this definition.
-     *
-     * @return the created {@link DetectedComponent}
-     */
-    public DetectedComponent toDetectedComponent() {
-        return new DetectedComponent(ComponentFramework.MAT, componentName, typeName, typeQualifiedName,
-                factoryMethodName, requiresArgs);
+    @Override
+    protected ComponentFramework framework() {
+        return ComponentFramework.MAT;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+        if (!super.equals(o)) {
+            return false;
         }
         if (!(o instanceof MatComponentDefinition that)) {
             return false;
         }
-        return requiresArgs == that.requiresArgs && componentName.equals(that.componentName)
-                && typeName.equals(that.typeName) && typeQualifiedName.equals(that.typeQualifiedName)
-                && factoryMethodName.equals(that.factoryMethodName) && rootCssClass.equals(that.rootCssClass);
+        return rootCssClass.equals(that.rootCssClass);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(componentName, typeName, typeQualifiedName, factoryMethodName, requiresArgs, rootCssClass);
+        return Objects.hash(super.hashCode(), rootCssClass);
     }
 
     @Override
     public String toString() {
-        return "MatComponentDefinition{" + "componentName='" + componentName + '\'' + ", typeName='" + typeName + '\''
-                + ", factoryMethodName='" + factoryMethodName + '\'' + ", requiresArgs=" + requiresArgs
+        return "MatComponentDefinition{" + "componentName='" + getComponentName() + '\'' + ", typeName='" + getTypeName()
+                + '\'' + ", factoryMethodName='" + getFactoryMethodName() + '\'' + ", requiresArgs=" + isRequiresArgs()
                 + ", rootCssClass='" + rootCssClass + '\'' + '}';
     }
 }

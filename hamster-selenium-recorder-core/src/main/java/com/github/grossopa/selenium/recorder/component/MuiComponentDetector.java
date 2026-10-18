@@ -24,13 +24,9 @@
 package com.github.grossopa.selenium.recorder.component;
 
 import com.github.grossopa.selenium.component.mui.config.MuiConfig;
-import com.github.grossopa.selenium.core.ComponentWebDriver;
-import com.github.grossopa.selenium.recorder.model.DetectedComponent;
-import org.openqa.selenium.WebElement;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
@@ -46,26 +42,7 @@ import static java.util.Objects.requireNonNull;
  * @since 1.15
  * @see MuiComponentDefinitions
  */
-public class MuiComponentDetector implements ComponentDetector {
-
-    /**
-     * The maximum depth of ancestors to look up for component root css classes.
-     */
-    public static final int MAX_ANCESTOR_DEPTH = 5;
-
-    private static final String ANCESTOR_CLASSES_SCRIPT = """
-            var el = arguments[0];
-            var depth = arguments[1];
-            var classes = [];
-            var current = el;
-            var level = 0;
-            while (current && level < depth) {
-                classes.push(typeof current.className === 'string' ? current.className : '');
-                current = current.parentElement;
-                level++;
-            }
-            return classes;
-            """;
+public class MuiComponentDetector extends AbstractComponentDetector {
 
     private final MuiConfig config;
     private final List<MuiComponentDefinition> definitions;
@@ -89,30 +66,12 @@ public class MuiComponentDetector implements ComponentDetector {
     }
 
     @Override
-    public Optional<DetectedComponent> detect(WebElement element, ComponentWebDriver driver) {
-        Object result = driver.executeScript(ANCESTOR_CLASSES_SCRIPT, element, MAX_ANCESTOR_DEPTH + 1);
-        if (!(result instanceof List<?> ancestorClasses)) {
-            return Optional.empty();
-        }
-        for (Object classValue : ancestorClasses) {
-            Optional<DetectedComponent> matched = matchClass(String.valueOf(classValue));
-            if (matched.isPresent()) {
-                return matched;
-            }
-        }
-        return Optional.empty();
+    protected List<MuiComponentDefinition> definitions() {
+        return definitions;
     }
 
-    private Optional<DetectedComponent> matchClass(String classAttributeValue) {
-        if (classAttributeValue == null || classAttributeValue.isBlank()) {
-            return Optional.empty();
-        }
-        List<String> classTokens = Arrays.asList(classAttributeValue.split("\\s+"));
-        for (MuiComponentDefinition definition : definitions) {
-            if (classTokens.contains(config.getRootCss(definition.getComponentName()))) {
-                return Optional.of(definition.toDetectedComponent());
-            }
-        }
-        return Optional.empty();
+    @Override
+    protected Function<AbstractComponentDefinition, String> rootCssResolver() {
+        return def -> config.getRootCss(def.getComponentName());
     }
 }
