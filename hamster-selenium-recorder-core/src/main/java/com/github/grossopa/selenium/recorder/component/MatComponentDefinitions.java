@@ -50,7 +50,7 @@ import java.util.Set;
  * </ul>
  *
  * <p>Components whose factory methods require arguments (e.g. {@code toAutocomplete}) are maintained manually in
- * {@link #REQUIRES_ARGS_OVERRIDES}.</p>
+ * {@link #MANUAL_OVERRIDES}.</p>
  *
  * @author Jack Yin
  * @since 1.17
