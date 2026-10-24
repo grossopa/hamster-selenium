@@ -39,19 +39,28 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 /**
  * Represents a Material UI Menubar component introduced in MUI v9.
  *
- * <p>A Menubar is a horizontal bar that contains a list of menu items. Each item can trigger a dropdown menu
- * or perform an action directly. It is commonly used in application headers and toolbars for navigation and
- * command access.</p>
+ * <p>A Menubar is a horizontal bar that contains a list of menu triggers. Each trigger can open a dropdown popup
+ * containing menu items. It is commonly used in application headers and toolbars for navigation and command
+ * access.</p>
  *
- * <p>The root element has the CSS class {@code MuiMenubar-root} and typically uses {@code role="menubar"}.
- * The component structure contains menu items with CSS class {@code MuiMenubarItem-root} or
- * {@code MuiMenuItem-root}.</p>
+ * <p>The Menubar is <strong>not a standard MUI component</strong> but rather a <strong>component recipe</strong>
+ * composed from Base UI's {@code Menubar} primitive styled with standard MUI building blocks. The root element
+ * is a custom styled {@code <div>} with {@code role="menubar"}. The trigger buttons use {@code MuiButton-root}
+ * CSS class, and the dropdown menu items use {@code MuiListItemButton-root} CSS class.</p>
+ *
+ * <p>The component structure typically contains:
+ * <ul>
+ *   <li>Trigger buttons with CSS class {@code MuiButton-root} for each menu (e.g., File, Help)</li>
+ *   <li>Dropdown popups rendered via Base UI Portal containing {@code MuiList-root} with
+ *       {@code MuiListItemButton-root} items</li>
+ * </ul>
  *
  * <p>Key features:
  * <ul>
- *   <li>Access menu items via {@link #getMenuItems()}</li>
- *   <li>Open a specific menu item by index or label via {@link #openMenuItem(int)} and
+ *   <li>Access trigger buttons via {@link #getMenuItems()}</li>
+ *   <li>Open a specific menu trigger by index or label via {@link #openMenuItem(int)} and
  *       {@link #openMenuItem(String)}</li>
+ *   <li>Validation via {@code role="menubar"} attribute</li>
  *   <li>Supports MUI version V6+</li>
  * </ul>
  *
@@ -59,7 +68,7 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
  * @since 1.18
  * @see MuiMenu
  * @see MuiMenuItem
- * @see <a href="https://mui.com/material-ui/react-menu/">https://mui.com/material-ui/react-menu/</a>
+ * @see <a href="https://mui.com/material-ui/react-menubar/">https://mui.com/material-ui/react-menubar/</a>
  */
 public class MuiMenubar extends AbstractMuiComponent {
 
@@ -89,20 +98,26 @@ public class MuiMenubar extends AbstractMuiComponent {
         return EnumSet.of(V6);
     }
 
+    @Override
+    public boolean validate() {
+        return "menubar".equals(element.getAttribute("role"));
+    }
+
     /**
-     * Gets all menu items within this menubar.
+     * Gets all menu trigger buttons within this menubar. Each trigger is a {@code MuiButton} that opens a dropdown
+     * popup when clicked.
      *
-     * @return the list of menu items
+     * @return the list of trigger button components
      */
     public List<MuiMenuItem> getMenuItems() {
-        return this.findComponents(By.className(config.getRootCss(MuiMenuItem.COMPONENT_NAME))).stream()
+        return this.findComponents(By.className(config.getCssPrefix() + "Button-root")).stream()
                 .map(component -> new MuiMenuItem(component, driver, config)).toList();
     }
 
     /**
-     * Opens the menu item at the specified index by clicking it.
+     * Opens the menu trigger at the specified index by clicking it.
      *
-     * @param index the zero-based index of the menu item to open
+     * @param index the zero-based index of the menu trigger to open
      */
     public void openMenuItem(int index) {
         List<MuiMenuItem> items = getMenuItems();
@@ -110,9 +125,9 @@ public class MuiMenubar extends AbstractMuiComponent {
     }
 
     /**
-     * Opens the menu item with the specified label text by clicking it.
+     * Opens the menu trigger with the specified label text by clicking it.
      *
-     * @param label the text label of the menu item to open
+     * @param label the text label of the menu trigger to open
      */
     public void openMenuItem(String label) {
         List<MuiMenuItem> items = getMenuItems();

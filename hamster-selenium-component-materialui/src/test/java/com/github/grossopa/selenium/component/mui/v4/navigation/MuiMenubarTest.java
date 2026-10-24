@@ -37,6 +37,7 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -56,13 +57,12 @@ class MuiMenubarTest {
     ComponentWebDriver driver = mock(ComponentWebDriver.class);
     MuiConfig config = mock(MuiConfig.class);
 
-    WebElement menuItemElement1 = mock(WebElement.class);
-    WebElement menuItemElement2 = mock(WebElement.class);
+    WebElement triggerElement1 = mock(WebElement.class);
+    WebElement triggerElement2 = mock(WebElement.class);
 
     @BeforeEach
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(config.getRootCss("MenuItem")).thenReturn("MuiMenuItem-root");
         testSubject = new MuiMenubar(element, driver, config);
     }
 
@@ -77,15 +77,27 @@ class MuiMenubarTest {
     }
 
     @Test
+    void validateTrue() {
+        when(element.getAttribute("role")).thenReturn("menubar");
+        assertTrue(testSubject.validate());
+    }
+
+    @Test
+    void validateFalse() {
+        when(element.getAttribute("role")).thenReturn(null);
+        assertFalse(testSubject.validate());
+    }
+
+    @Test
     void getMenuItemsEmpty() {
-        when(element.findElements(By.className("MuiMenuItem-root"))).thenReturn(emptyList());
+        when(element.findElements(By.className("MuiButton-root"))).thenReturn(emptyList());
         assertTrue(testSubject.getMenuItems().isEmpty());
     }
 
     @Test
     void getMenuItems() {
-        when(element.findElements(By.className("MuiMenuItem-root"))).thenReturn(List.of(menuItemElement1,
-                menuItemElement2));
+        when(element.findElements(By.className("MuiButton-root"))).thenReturn(List.of(triggerElement1,
+                triggerElement2));
 
         List<MuiMenuItem> result = testSubject.getMenuItems();
         assertEquals(2, result.size());
@@ -94,28 +106,28 @@ class MuiMenubarTest {
 
     @Test
     void openMenuItemByIndex() {
-        when(element.findElements(By.className("MuiMenuItem-root"))).thenReturn(List.of(menuItemElement1,
-                menuItemElement2));
+        when(element.findElements(By.className("MuiButton-root"))).thenReturn(List.of(triggerElement1,
+                triggerElement2));
 
         testSubject.openMenuItem(0);
-        verify(menuItemElement1).click();
+        verify(triggerElement1).click();
     }
 
     @Test
     void openMenuItemByLabel() {
-        when(element.findElements(By.className("MuiMenuItem-root"))).thenReturn(List.of(menuItemElement1,
-                menuItemElement2));
-        when(menuItemElement1.getText()).thenReturn("File");
-        when(menuItemElement2.getText()).thenReturn("Edit");
+        when(element.findElements(By.className("MuiButton-root"))).thenReturn(List.of(triggerElement1,
+                triggerElement2));
+        when(triggerElement1.getText()).thenReturn("File");
+        when(triggerElement2.getText()).thenReturn("Help");
 
-        testSubject.openMenuItem("Edit");
-        verify(menuItemElement2).click();
+        testSubject.openMenuItem("Help");
+        verify(triggerElement2).click();
     }
 
     @Test
     void openMenuItemByLabelNotFound() {
-        when(element.findElements(By.className("MuiMenuItem-root"))).thenReturn(List.of(menuItemElement1));
-        when(menuItemElement1.getText()).thenReturn("File");
+        when(element.findElements(By.className("MuiButton-root"))).thenReturn(List.of(triggerElement1));
+        when(triggerElement1.getText()).thenReturn("File");
 
         assertThrows(IllegalArgumentException.class, () -> testSubject.openMenuItem("NonExistent"));
     }

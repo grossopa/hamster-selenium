@@ -31,6 +31,8 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -61,7 +63,7 @@ class MuiNumberFieldTest {
     @BeforeEach
     void setUp() {
         when(config.getCssPrefix()).thenReturn("Mui");
-        when(element.findElement(By.className("MuiNumberField-input"))).thenReturn(inputElement);
+        when(element.findElement(By.className("MuiOutlinedInput-input"))).thenReturn(inputElement);
         testSubject = new MuiNumberField(element, driver, config);
     }
 
@@ -73,6 +75,18 @@ class MuiNumberFieldTest {
     @Test
     void versions() {
         assertArrayEquals(new MuiVersion[]{V6}, testSubject.versions().toArray());
+    }
+
+    @Test
+    void validateTrue() {
+        when(element.getDomAttribute("class")).thenReturn("MuiFormControl-root MuiTextField-root");
+        assertTrue(testSubject.validate());
+    }
+
+    @Test
+    void validateFalse() {
+        when(element.getDomAttribute("class")).thenReturn("MuiSomeOther-root");
+        assertFalse(testSubject.validate());
     }
 
     @Test
@@ -96,14 +110,17 @@ class MuiNumberFieldTest {
 
     @Test
     void increment() {
-        when(element.findElement(By.className("MuiNumberField-incrementButton"))).thenReturn(incrementButton);
+        // first IconButton is the increment button
+        when(element.findElement(By.className("MuiIconButton-root"))).thenReturn(incrementButton);
         testSubject.increment();
         verify(incrementButton).click();
     }
 
     @Test
     void decrement() {
-        when(element.findElement(By.className("MuiNumberField-decrementButton"))).thenReturn(decrementButton);
+        // last IconButton is the decrement button
+        when(element.findElements(By.className("MuiIconButton-root"))).thenReturn(
+                List.of(incrementButton, decrementButton));
         testSubject.decrement();
         verify(decrementButton).click();
     }
@@ -146,13 +163,13 @@ class MuiNumberFieldTest {
 
     @Test
     void isError() {
-        when(element.getDomAttribute("class")).thenReturn("MuiNumberField-root MuiNumberField-error");
+        when(element.getDomAttribute("class")).thenReturn("MuiFormControl-root Mui-error");
         assertTrue(testSubject.isError());
     }
 
     @Test
     void isErrorNegative() {
-        when(element.getDomAttribute("class")).thenReturn("MuiNumberField-root");
+        when(element.getDomAttribute("class")).thenReturn("MuiFormControl-root");
         assertFalse(testSubject.isError());
     }
 

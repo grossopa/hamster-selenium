@@ -40,22 +40,24 @@ import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 /**
  * Represents a Material UI NumberField component introduced in MUI v9.
  *
- * <p>The NumberField is an input component for capturing numeric values, built on top of Base UI's NumberField
- * primitive and styled to align with Material Design specifications. It provides increment and decrement buttons
- * for adjusting numeric input.</p>
+ * <p>The NumberField is an input component for capturing numeric values. It is not a native MUI component but
+ * rather a <strong>component recipe</strong> composed from Base UI's NumberField primitive styled with standard
+ * MUI building blocks: {@code FormControl}, {@code OutlinedInput}, {@code InputLabel}, {@code FormHelperText},
+ * and {@code IconButton} for increment/decrement adornments.</p>
  *
- * <p>The root element has the CSS class {@code MuiNumberField-root}. The component structure typically contains:
+ * <p>The root element is a {@code FormControl} wrapper. The internal structure typically contains:
  * <ul>
- *   <li>An input element with CSS class {@code MuiNumberField-input}</li>
- *   <li>An increment button with CSS class {@code MuiNumberField-incrementButton}</li>
- *   <li>A decrement button with CSS class {@code MuiNumberField-decrementButton}</li>
+ *   <li>An input element with CSS class {@code MuiOutlinedInput-input}</li>
+ *   <li>Increment and decrement buttons using {@code MuiIconButton-root} inside {@code InputAdornment}</li>
+ *   <li>Error state indicated by {@code Mui-error} CSS class on the FormControl root</li>
  * </ul>
  *
  * <p>Key features:
  * <ul>
  *   <li>Get and set numeric values via {@link #getValue()} and {@link #setValue(String)}</li>
  *   <li>Increment and decrement via {@link #increment()} and {@link #decrement()}</li>
- *   <li>Access to min, max and step constraints</li>
+ *   <li>Access to min, max and step constraints from the underlying input element</li>
+ *   <li>Error state detection via {@link #isError()}</li>
  *   <li>Supports MUI version V6+</li>
  * </ul>
  *
@@ -92,6 +94,11 @@ public class MuiNumberField extends AbstractMuiComponent {
         return EnumSet.of(V6);
     }
 
+    @Override
+    public boolean validate() {
+        return attributeContains(CLASS, config.getCssPrefix() + "FormControl-root");
+    }
+
     /**
      * Gets the current numeric value of the input.
      *
@@ -114,17 +121,21 @@ public class MuiNumberField extends AbstractMuiComponent {
     }
 
     /**
-     * Clicks the increment button to increase the value.
+     * Clicks the increment button to increase the value. The increment button is the first
+     * {@code MuiIconButton} within the number field adornments.
      */
     public void increment() {
-        findComponent(By.className(config.getCssPrefix() + "NumberField-incrementButton")).click();
+        WebComponent button = findIncrementButton();
+        button.click();
     }
 
     /**
-     * Clicks the decrement button to decrease the value.
+     * Clicks the decrement button to decrease the value. The decrement button is the last
+     * {@code MuiIconButton} within the number field adornments.
      */
     public void decrement() {
-        findComponent(By.className(config.getCssPrefix() + "NumberField-decrementButton")).click();
+        WebComponent button = findDecrementButton();
+        button.click();
     }
 
     /**
@@ -155,20 +166,43 @@ public class MuiNumberField extends AbstractMuiComponent {
     }
 
     /**
-     * Checks whether the number field is in an error state.
+     * Checks whether the number field is in an error state. The error state is indicated by the
+     * {@code Mui-error} CSS class on the FormControl root element.
      *
      * @return true if the component has the error CSS class
      */
     public boolean isError() {
-        return attributeContains(CLASS, config.getCssPrefix() + "NumberField-error");
+        return attributeContains(CLASS, config.getCssPrefix() + "-error");
     }
 
     /**
-     * Finds the input element within this number field.
+     * Finds the input element within this number field. Uses the standard MUI OutlinedInput
+     * input CSS class.
      *
      * @return the input web component
      */
     private WebComponent findInput() {
-        return findComponent(By.className(config.getCssPrefix() + "NumberField-input"));
+        return findComponent(By.className(config.getCssPrefix() + "OutlinedInput-input"));
+    }
+
+    /**
+     * Finds the increment button (first IconButton in the number field adornments,
+     * with aria-label "Increment").
+     *
+     * @return the increment button web component
+     */
+    private WebComponent findIncrementButton() {
+        return findComponent(By.className(config.getCssPrefix() + "IconButton-root"));
+    }
+
+    /**
+     * Finds the decrement button (last IconButton in the number field adornments,
+     * with aria-label "Decrement").
+     *
+     * @return the decrement button web component
+     */
+    private WebComponent findDecrementButton() {
+        var buttons = findComponents(By.className(config.getCssPrefix() + "IconButton-root"));
+        return buttons.get(buttons.size() - 1);
     }
 }
