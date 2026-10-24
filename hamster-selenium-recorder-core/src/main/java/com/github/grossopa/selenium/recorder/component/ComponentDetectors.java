@@ -61,6 +61,8 @@ public class ComponentDetectors {
             case MUI -> List.of(new MuiComponentDetector(), new HtmlComponentDetector());
             case HTML -> List.of(new HtmlComponentDetector());
             case MAT -> List.of(new MatComponentDetector(), new HtmlComponentDetector());
+            case MAT_NON_MDC -> List.of(new MatComponentDetector(NonMdcMatComponentDefinitions.defaults()),
+                    new HtmlComponentDetector());
             default -> List.of();
         };
     }

@@ -27,3 +27,4 @@ cache
 /.run/
 
 /extension/
+/hamster-selenium-recorder-core/.sonar/spring-context-model.json

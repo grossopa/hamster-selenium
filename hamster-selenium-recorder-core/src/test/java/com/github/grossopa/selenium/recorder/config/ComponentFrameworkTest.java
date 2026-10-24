@@ -40,6 +40,8 @@ class ComponentFrameworkTest {
     void testGetDisplayName() {
         assertEquals("Material UI", ComponentFramework.MUI.getDisplayName());
         assertEquals("HTML", ComponentFramework.HTML.getDisplayName());
+        assertEquals("Angular Material", ComponentFramework.MAT.getDisplayName());
+        assertEquals("Angular Material (Legacy)", ComponentFramework.MAT_NON_MDC.getDisplayName());
     }
 
     @Test
@@ -47,6 +49,9 @@ class ComponentFrameworkTest {
         assertEquals(ComponentFramework.MUI, ComponentFramework.of("mui"));
         assertEquals(ComponentFramework.HTML, ComponentFramework.of("HTML"));
         assertEquals(ComponentFramework.ANTD, ComponentFramework.of("antd"));
+        assertEquals(ComponentFramework.MAT, ComponentFramework.of("mat"));
+        assertEquals(ComponentFramework.MAT_NON_MDC, ComponentFramework.of("mat_non_mdc"));
+        assertEquals(ComponentFramework.MAT_NON_MDC, ComponentFramework.of("MAT_NON_MDC"));
     }
 
     @Test

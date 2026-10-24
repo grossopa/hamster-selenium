@@ -24,6 +24,7 @@
 package com.github.grossopa.selenium.recorder.codegen;
 
 import com.github.grossopa.hamster.selenium.component.mat.MatComponents;
+import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.component.html.HtmlComponents;
 import com.github.grossopa.selenium.component.mui.MuiComponents;
 import com.github.grossopa.selenium.component.mui.MuiVersion;
@@ -104,6 +105,7 @@ public class HamsterPageObjectGenerator implements PageObjectGenerator {
     private static final ClassName MUI_COMPONENTS = ClassName.get(MuiComponents.class);
     private static final ClassName HTML_COMPONENTS = ClassName.get(HtmlComponents.class);
     private static final ClassName MAT_COMPONENTS = ClassName.get(MatComponents.class);
+    private static final ClassName MAT_CONFIG = ClassName.get(MatConfig.class);
 
     @Override
     public List<Path> generate(List<PageModel> pages, RecorderConfig config) {
@@ -163,11 +165,14 @@ public class HamsterPageObjectGenerator implements PageObjectGenerator {
     }
 
     private MethodSpec buildConstructor(ClassName componentsType, RecorderConfig config) {
-        String factoryExpression = switch (config.getFramework()) {
-            case MUI -> config.getMuiVersion() == MuiVersion.V5 ? "$T.muiV5()" : "$T.mui()";
-            case HTML -> "$T.html()";
-            case MAT -> "$T.mat()";
-            default -> "$T.html()";
+        CodeBlock initCode = switch (config.getFramework()) {
+            case MUI -> config.getMuiVersion() == MuiVersion.V5
+                    ? CodeBlock.of("$T.muiV5()", componentsType)
+                    : CodeBlock.of("$T.mui()", componentsType);
+            case HTML -> CodeBlock.of("$T.html()", componentsType);
+            case MAT -> CodeBlock.of("$T.mat()", componentsType);
+            case MAT_NON_MDC -> CodeBlock.of("$T.mat($T.legacy())", componentsType, MAT_CONFIG);
+            default -> CodeBlock.of("$T.html()", componentsType);
         };
         return MethodSpec.constructorBuilder().addModifiers(Modifier.PUBLIC)
                 .addJavadoc("""
@@ -177,7 +182,7 @@ public class HamsterPageObjectGenerator implements PageObjectGenerator {
                         """)
                 .addParameter(COMPONENT_WEB_DRIVER, DRIVER_FIELD)
                 .addStatement("this.$N = $N", DRIVER_FIELD, DRIVER_FIELD)
-                .addStatement(CodeBlock.of("this.$N = " + factoryExpression, COMPONENTS_FIELD, componentsType))
+                .addStatement("this.$N = $L", COMPONENTS_FIELD, initCode)
                 .build();
     }
 
@@ -247,7 +252,7 @@ public class HamsterPageObjectGenerator implements PageObjectGenerator {
         return switch (config.getFramework()) {
             case MUI -> MUI_COMPONENTS;
             case HTML -> HTML_COMPONENTS;
-            case MAT -> MAT_COMPONENTS;
+            case MAT, MAT_NON_MDC -> MAT_COMPONENTS;
             default -> HTML_COMPONENTS;
         };
     }

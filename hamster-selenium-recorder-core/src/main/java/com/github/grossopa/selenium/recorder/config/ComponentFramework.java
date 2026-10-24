@@ -45,9 +45,17 @@ public enum ComponentFramework {
     HTML("HTML"),
 
     /**
-     * Angular Material, reserved for future support.
+     * Angular Material (MDC-based, v15+), backed by {@code hamster-selenium-component-mat}.
      */
     MAT("Angular Material"),
+
+    /**
+     * Angular Material legacy (non-MDC, v12-v14), backed by {@code hamster-selenium-component-mat} with
+     * {@code MatConfig.legacy()}.
+     *
+     * @since 1.18
+     */
+    MAT_NON_MDC("Angular Material (Legacy)"),
 
     /**
      * Ant Design, reserved for future support.

@@ -136,6 +136,20 @@ class HamsterPageObjectGeneratorTest {
     }
 
     @Test
+    void testGenerateMatNonMdcPage() throws IOException {
+        PageModel page = new PageModel("User Login", "/user/login");
+        page.addElement(new PageElementModel("submitBtn",
+                new LocatorCandidate(LocatorType.ID, "submit", LocatorCandidate.PRIORITY_ID, "by id \"submit\""),
+                matButton));
+        String code = generateAndRead(config(ComponentFramework.MAT_NON_MDC, MuiVersion.V4), page);
+        assertTrue(code.contains("this.components = MatComponents.mat(MatConfig.legacy());"));
+        assertTrue(code.contains("public MatButton submitBtn()"));
+        assertTrue(code.contains("driver.findComponent(By.id(\"submit\")).as(components).toButton()"));
+        assertTrue(code.contains("import com.github.grossopa.hamster.selenium.component.mat.MatComponents;"));
+        assertTrue(code.contains("import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;"));
+    }
+
+    @Test
     void testGenerateWithXpathLocator() throws IOException {
         PageModel page = new PageModel("User Login", "/user/login");
         page.addElement(new PageElementModel("comment",

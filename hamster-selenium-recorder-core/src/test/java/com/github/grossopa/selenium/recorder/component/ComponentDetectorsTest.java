@@ -76,6 +76,15 @@ class ComponentDetectorsTest {
     }
 
     @Test
+    void testForMatNonMdcFramework() {
+        List<ComponentDetector> detectors = ComponentDetectors
+                .forFramework(RecorderConfig.builder().framework(ComponentFramework.MAT_NON_MDC).build());
+        assertEquals(2, detectors.size());
+        assertTrue(detectors.get(0) instanceof MatComponentDetector);
+        assertTrue(detectors.get(1) instanceof HtmlComponentDetector);
+    }
+
+    @Test
     void testForUnsupportedFramework() {
         assertTrue(ComponentDetectors.forFramework(RecorderConfig.builder().framework(ComponentFramework.ANTD).build())
                 .isEmpty());
