@@ -736,4 +736,22 @@ class MuiComponentsTest {
         assertEquals(MuiMonthPicker.class, testSubject.toMonthPicker().getClass());
     }
 
+    @Test
+    void toTable() {
+        assertEquals(element, testSubject.toTable().getWrappedElement());
+        assertEquals(MuiTable.class, testSubject.toTable().getClass());
+    }
+
+    @Test
+    void toNumberField() {
+        assertEquals(element, testSubject.toNumberField().getWrappedElement());
+        assertEquals(MuiNumberField.class, testSubject.toNumberField().getClass());
+    }
+
+    @Test
+    void toMenubar() {
+        assertEquals(element, testSubject.toMenubar().getWrappedElement());
+        assertEquals(MuiMenubar.class, testSubject.toMenubar().getClass());
+    }
+
 }

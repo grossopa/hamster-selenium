@@ -40,6 +40,10 @@
       <groupId>com.github.grossopa</groupId>
       <artifactId>hamster-selenium-core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.github.grossopa</groupId>
+      <artifactId>hamster-selenium-component-html</artifactId>
+    </dependency>
   </dependencies>
 
 </project>

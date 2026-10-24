@@ -471,6 +471,21 @@ public class MuiComponents extends AbstractComponents {
                 () -> new MuiTextField(component, driver, config));
     }
 
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiNumberField}.
+     *
+     * <p>It supports Material UI version {@link MuiVersion#V6}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiNumberField-root". The component provides numeric input
+     * with increment and decrement buttons.</p>
+     *
+     * @return the wrapped {@link MuiNumberField} instance on the given component
+     * @since 1.18
+     */
+    public MuiNumberField toNumberField() {
+        return new MuiNumberField(component, driver, config);
+    }
+
     // Data Display Components
 
     /**
@@ -563,6 +578,21 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiRating toRating() {
         return create(() -> new MuiRating(component, driver, config), () -> new MuiRating(component, driver, config));
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiTable}.
+     *
+     * <p>It supports Material UI version {@link MuiVersion#V4}, {@link MuiVersion#V5} and {@link MuiVersion#V6}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiTable-root". The underlying DOM structure uses native HTML
+     * table elements ({@code <tr>}, {@code <th>}, {@code <td>}) with MUI-specific CSS classes.</p>
+     *
+     * @return the wrapped {@link MuiTable} instance on the given component
+     * @since 1.18
+     */
+    public MuiTable toTable() {
+        return new MuiTable(component, driver, config);
     }
 
     // Feedback Components
@@ -1058,6 +1088,21 @@ public class MuiComponents extends AbstractComponents {
      */
     public MuiTooltip toTooltip() {
         return new MuiTooltip(component, driver, config);
+    }
+
+    /**
+     * Wraps the current {@link WebComponent} to {@link MuiMenubar} instance.
+     *
+     * <p>It supports Material UI version {@link MuiVersion#V6}.</p>
+     *
+     * <p>The {@link WebElement} should have css class "MuiMenubar-root". The menubar contains a horizontal list
+     * of menu items that can trigger dropdown menus.</p>
+     *
+     * @return the wrapped {@link MuiMenubar} instance on the given component
+     * @since 1.18
+     */
+    public MuiMenubar toMenubar() {
+        return new MuiMenubar(component, driver, config);
     }
 
     private <T> T create(Supplier<T> v4creatorFunc, Supplier<T> v5creatorFunc) {
