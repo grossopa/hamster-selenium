@@ -111,8 +111,7 @@ public class MuiTable extends AbstractMuiComponent implements Table {
             return new ArrayList<>();
         }
 
-        List<String> header = headerContainers.get(0).findElements(getHeaderColsLocator()).stream()
-                .map(WebElement::getText).toList();
+        List<String> header = getHeaderLabels();
         return headerContainers.stream()
                 .<TableRow>map(e -> new HtmlTableRow(e, driver, getHeaderColsLocator(), header)).toList();
     }

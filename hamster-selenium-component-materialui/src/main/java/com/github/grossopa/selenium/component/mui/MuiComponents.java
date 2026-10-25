@@ -122,6 +122,7 @@ import static java.util.Objects.requireNonNull;
  * @see MuiVersion
  * @see WebComponent
  */
+@SuppressWarnings({"java:S1188", "java:S1401"})
 public class MuiComponents extends AbstractComponents {
 
     private final MuiConfig config;
@@ -476,8 +477,9 @@ public class MuiComponents extends AbstractComponents {
      *
      * <p>It supports Material UI version {@link MuiVersion#V6}.</p>
      *
-     * <p>The {@link WebElement} should have css class "MuiNumberField-root". The component provides numeric input
-     * with increment and decrement buttons.</p>
+     * <p>The {@link WebElement} should have css class "MuiFormControl-root". The component is a recipe composed
+     * from Base UI's NumberField primitive styled with MUI building blocks, providing numeric input with
+     * increment and decrement buttons.</p>
      *
      * @return the wrapped {@link MuiNumberField} instance on the given component
      * @since 1.18
@@ -1095,8 +1097,8 @@ public class MuiComponents extends AbstractComponents {
      *
      * <p>It supports Material UI version {@link MuiVersion#V6}.</p>
      *
-     * <p>The {@link WebElement} should have css class "MuiMenubar-root". The menubar contains a horizontal list
-     * of menu items that can trigger dropdown menus.</p>
+     * <p>The {@link WebElement} should have {@code role="menubar"} attribute. The menubar contains a horizontal list
+     * of menu triggers that can open dropdown menus.</p>
      *
      * @return the wrapped {@link MuiMenubar} instance on the given component
      * @since 1.18

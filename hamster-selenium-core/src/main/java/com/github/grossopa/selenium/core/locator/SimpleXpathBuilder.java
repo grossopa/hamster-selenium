@@ -228,6 +228,18 @@ public class SimpleXpathBuilder {
             return new WithNotMethodBuilder(xpath, source, operator);
         }
 
+        /**
+         * Adds a condition that checks if the element has a child with the specified tag.
+         * For example: {@code .//tr[./th]}
+         *
+         * @param tag the child tag to check
+         * @return the generated {@link AxesBuilder} instance with the has-child condition
+         * @since 1.18
+         */
+        public AxesBuilder hasChild(String tag) {
+            return new AxesBuilder(xpath + "[./" + defaultIfBlank(tag, ANY_TAG) + "]");
+        }
+
         @Override
         public By build() {
             return By.xpath(xpath);

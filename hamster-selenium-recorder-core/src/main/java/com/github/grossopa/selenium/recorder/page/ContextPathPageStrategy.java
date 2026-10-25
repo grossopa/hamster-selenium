@@ -24,11 +24,11 @@
 package com.github.grossopa.selenium.recorder.page;
 
 import com.github.grossopa.selenium.recorder.model.PageModel;
+import org.apache.commons.lang3.StringUtils;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -114,6 +114,6 @@ public class ContextPathPageStrategy implements PageIdentificationStrategy {
     }
 
     private String capitalize(String segment) {
-        return segment.substring(0, 1).toUpperCase(Locale.ROOT) + segment.substring(1);
+        return StringUtils.capitalize(segment);
     }
 }

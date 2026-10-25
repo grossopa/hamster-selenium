@@ -130,10 +130,8 @@ public class MuiMenubar extends AbstractMuiComponent {
      * @param label the text label of the menu trigger to open
      */
     public void openMenuItem(String label) {
-        List<MuiMenuItem> items = getMenuItems();
-        items.stream().filter(item -> label.equals(item.getText())).findFirst()
-                .ifPresentOrElse(MuiMenuItem::click, () -> {
-                    throw new IllegalArgumentException("No menu item found with label: " + label);
-                });
+        getMenuItems().stream().filter(item -> label.equals(item.getText())).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No menu item found with label: " + label))
+                .click();
     }
 }

@@ -37,6 +37,7 @@ import com.github.grossopa.selenium.recorder.model.LocatorType;
 import com.github.grossopa.selenium.recorder.model.PageElementModel;
 import com.github.grossopa.selenium.recorder.model.PageModel;
 import com.github.grossopa.selenium.recorder.session.RecorderSession;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -471,7 +472,7 @@ public class RecorderMuiComponentDiscoveryShowCase {
     }
 
     private static String toCamelCase(String input) {
-        if (input == null || input.isEmpty()) {
+        if (StringUtils.isEmpty(input)) {
             return input;
         }
         String cleaned = NON_ALPHANUMERIC.matcher(input).replaceAll(" ").trim();
@@ -498,14 +499,14 @@ public class RecorderMuiComponentDiscoveryShowCase {
     }
 
     private static String capitalize(String s) {
-        if (s == null || s.isEmpty()) {
+        if (StringUtils.isEmpty(s)) {
             return s;
         }
-        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+        return StringUtils.capitalize(s);
     }
 
     private static String ensureValidJavaName(String name) {
-        if (name == null || name.isEmpty()) {
+        if (StringUtils.isEmpty(name)) {
             return name;
         }
         // ensure starts with letter

@@ -72,6 +72,7 @@ import com.github.grossopa.playwright.core.WebComponent;
  * @see MuiVersion
  * @see WebComponent
  */
+@SuppressWarnings({"java:S1188", "java:S1401"})
 public class MuiComponents extends AbstractComponents {
 
     private final MuiConfig config;

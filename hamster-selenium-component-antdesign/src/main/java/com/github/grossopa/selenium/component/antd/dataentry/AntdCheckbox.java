@@ -65,8 +65,8 @@ public class AntdCheckbox extends AbstractAntdComponent {
 
     @Override
     public boolean validate() {
-        return attributeContains(CLASS, config.getPrefixCls() + "-" + NAME + "-wrapper") || attributeContains(CLASS,
-                config.getPrefixCls() + "-" + NAME);
+        return attributeContains(CLASS, config.getPrefixCls() + "-" + NAME + "-wrapper")
+                || attributeContains(CLASS, config.getPrefixCls() + "-" + NAME);
     }
 
     /**

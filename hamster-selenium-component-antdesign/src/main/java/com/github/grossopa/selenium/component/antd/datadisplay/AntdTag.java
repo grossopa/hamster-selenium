@@ -29,6 +29,8 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.Arrays;
+
 import static com.github.grossopa.utils.consts.HtmlConstants.CLASS;
 
 /**
@@ -86,7 +88,7 @@ public class AntdTag extends AbstractAntdComponent {
         if (classAttribute == null) {
             return null;
         }
-        return java.util.Arrays.stream(classAttribute.split(" ")).filter(token -> token.startsWith(prefix))
+        return Arrays.stream(classAttribute.split(" ")).filter(token -> token.startsWith(prefix))
                 .map(token -> token.substring(prefix.length())).filter(color -> !color.isEmpty())
                 .filter(color -> !"close-icon".equals(color) && !"has-color".equals(color))
                 .findFirst().orElse(null);

@@ -31,6 +31,7 @@ import com.github.grossopa.selenium.recorder.config.RecorderConfig;
 import com.github.grossopa.selenium.recorder.model.PageElementModel;
 import com.github.grossopa.selenium.recorder.model.ScannedElement;
 import com.github.grossopa.selenium.recorder.session.RecorderSession;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
@@ -378,7 +379,7 @@ public class RecorderMuiWebsiteTest {
 
         // Use id attribute if available
         String id = element.getAttributes().get("id");
-        if (id != null && !id.isEmpty() && !id.contains("demo-")) {
+        if (StringUtils.isNotEmpty(id) && !id.contains("demo-")) {
             return toCamelCase(id.replaceAll("[^a-zA-Z0-9]", " "));
         }
 

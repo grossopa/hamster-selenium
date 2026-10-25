@@ -269,10 +269,9 @@ public class MuiConfig implements ComponentConfig {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof MuiConfig)) {
+        if (!(o instanceof MuiConfig muiConfig)) {
             return false;
         }
-        MuiConfig muiConfig = (MuiConfig) o;
         return version == muiConfig.version && Objects.equals(cssPrefix, muiConfig.cssPrefix) && Objects.equals(
                 overlayAbsolutePath, muiConfig.overlayAbsolutePath);
     }

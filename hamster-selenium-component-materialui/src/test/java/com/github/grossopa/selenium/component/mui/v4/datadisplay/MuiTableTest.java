@@ -41,6 +41,7 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -119,7 +120,7 @@ class MuiTableTest {
 
         List<TableRow> result = testSubject.getHeaderRows();
         assertEquals(1, result.size());
-        assertTrue(result.get(0) instanceof HtmlTableRow);
+        assertInstanceOf(HtmlTableRow.class, result.get(0));
     }
 
     @Test
@@ -163,7 +164,7 @@ class MuiTableTest {
 
         List<TableRow> result = testSubject.getBodyRows();
         assertEquals(1, result.size());
-        assertTrue(result.get(0) instanceof HtmlTableRow);
+        assertInstanceOf(HtmlTableRow.class, result.get(0));
     }
 
     @Test
@@ -179,7 +180,7 @@ class MuiTableTest {
         when(bodyRow1.findElements(By.xpath("./td"))).thenReturn(List.of(bodyRow1Col1, bodyRow1Col2));
 
         TableRow result = testSubject.getBodyRow(0);
-        assertTrue(result instanceof HtmlTableRow);
+        assertInstanceOf(HtmlTableRow.class, result);
     }
 
     @Test

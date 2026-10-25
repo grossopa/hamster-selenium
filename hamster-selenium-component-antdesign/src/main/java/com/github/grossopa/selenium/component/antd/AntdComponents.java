@@ -52,6 +52,7 @@ import static java.util.Objects.requireNonNull;
  * @author Jack Yin
  * @since 1.4
  */
+@SuppressWarnings({"java:S1188", "java:S1401"})
 public class AntdComponents extends AbstractComponents {
 
     AntdConfig config;

@@ -37,6 +37,7 @@ import static com.github.grossopa.selenium.component.mui.MuiVersion.V6;
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -101,7 +102,7 @@ class MuiMenubarTest {
 
         List<MuiMenuItem> result = testSubject.getMenuItems();
         assertEquals(2, result.size());
-        assertEquals(MuiMenuItem.class, result.get(0).getClass());
+        assertInstanceOf(MuiMenuItem.class, result.get(0));
     }
 
     @Test

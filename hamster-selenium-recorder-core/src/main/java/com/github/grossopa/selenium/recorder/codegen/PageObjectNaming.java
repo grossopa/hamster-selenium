@@ -23,6 +23,8 @@
  */
 package com.github.grossopa.selenium.recorder.codegen;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Locale;
 
 /**
@@ -85,6 +87,6 @@ public class PageObjectNaming {
         if (className.endsWith(PAGE_SUFFIX) && className.length() > PAGE_SUFFIX.length()) {
             className = className.substring(0, className.length() - PAGE_SUFFIX.length());
         }
-        return className.substring(0, 1).toLowerCase(Locale.ROOT) + className.substring(1);
+        return StringUtils.uncapitalize(className);
     }
 }

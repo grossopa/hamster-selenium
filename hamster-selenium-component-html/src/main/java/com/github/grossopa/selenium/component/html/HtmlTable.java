@@ -34,6 +34,8 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.grossopa.selenium.core.locator.By2.xpathBuilder;
+
 
 /**
  * Represents the native HTML table element.
@@ -146,7 +148,7 @@ public class HtmlTable extends DefaultWebComponent implements Table {
      * @return the new locator instance for locating the header rows
      */
     public By getHeaderRowsLocator() {
-        return By.xpath(".//tr[./th]");
+        return xpathBuilder().anywhereRelative("tr").hasChild("th").build();
     }
 
     /**
@@ -155,7 +157,7 @@ public class HtmlTable extends DefaultWebComponent implements Table {
      * @return the new locator instance for locating the header columns within a row
      */
     public By getHeaderColsLocator() {
-        return By.xpath("./th");
+        return xpathBuilder().relative("th").build();
     }
 
     /**
@@ -164,7 +166,7 @@ public class HtmlTable extends DefaultWebComponent implements Table {
      * @return the new locator instance for locating the body rows
      */
     public By getRowsLocator() {
-        return By.xpath(".//tr[./td]");
+        return xpathBuilder().anywhereRelative("tr").hasChild("td").build();
     }
 
     /**
@@ -173,7 +175,7 @@ public class HtmlTable extends DefaultWebComponent implements Table {
      * @return the new locator instance for locating the body  columns within a row
      */
     public By getColsLocator() {
-        return By.xpath("./td");
+        return xpathBuilder().relative("td").build();
     }
 
     @Override

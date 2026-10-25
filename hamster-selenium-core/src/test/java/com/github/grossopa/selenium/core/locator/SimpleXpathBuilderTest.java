@@ -314,4 +314,34 @@ class SimpleXpathBuilderTest {
                 builder.anywhere("button").normalizeSpace().exact("Login").xpathString());
     }
 
+    @Test
+    void testHasChild1() {
+        assertEquals(By2.xpath(".//tr[./th]"), builder.anywhereRelative("tr").hasChild("th").build());
+    }
+
+    @Test
+    void testHasChild2() {
+        assertEquals(By2.xpath(".//tr[./td]"), builder.anywhereRelative("tr").hasChild("td").build());
+    }
+
+    @Test
+    void testHasChild3() {
+        assertEquals(By2.xpath(".//div[./span]"), builder.anywhereRelative("div").hasChild("span").build());
+    }
+
+    @Test
+    void testHasChild4() {
+        assertEquals(By2.xpath(".//tr[./*]"), builder.anywhereRelative("tr").hasChild(null).build());
+    }
+
+    @Test
+    void testHasChild5() {
+        assertEquals(By2.xpath(".//tr[./*]"), builder.anywhereRelative("tr").hasChild("").build());
+    }
+
+    @Test
+    void testHasChildXpathString() {
+        assertEquals(".//tr[./th]", builder.anywhereRelative("tr").hasChild("th").xpathString());
+    }
+
 }
