@@ -57,9 +57,11 @@ class MatSnackbarTest {
         when(locator.locator("span")).thenReturn(labelLocator);
         when(locator.locator("[matsnackbarlabel]")).thenReturn(mdcLabelLocator);
         when(mdcLabelLocator.or(labelLocator)).thenReturn(combinedLabelLocator);
-        when(combinedLabelLocator.first()).thenReturn(mock(Locator.class));
+        Locator labelFirst = mock(Locator.class);
+        Locator buttonFirst = mock(Locator.class);
+        when(combinedLabelLocator.first()).thenReturn(labelFirst);
         when(locator.locator("button")).thenReturn(buttonLocator);
-        when(buttonLocator.first()).thenReturn(mock(Locator.class));
+        when(buttonLocator.first()).thenReturn(buttonFirst);
         testSubject = new MatSnackbar(locator, driver, config);
     }
 

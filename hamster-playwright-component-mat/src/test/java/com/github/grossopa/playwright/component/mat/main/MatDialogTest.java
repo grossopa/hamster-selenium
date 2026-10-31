@@ -53,12 +53,15 @@ class MatDialogTest {
 
     @BeforeEach
     void setUp() {
+        Locator titleFirst = mock(Locator.class);
+        Locator contentFirst = mock(Locator.class);
+        Locator actionsFirst = mock(Locator.class);
         when(locator.locator(".mat-mdc-dialog-title")).thenReturn(titleLocator);
         when(locator.locator(".mat-mdc-dialog-content")).thenReturn(contentLocator);
         when(locator.locator(".mat-mdc-dialog-actions")).thenReturn(actionsLocator);
-        when(titleLocator.first()).thenReturn(mock(Locator.class));
-        when(contentLocator.first()).thenReturn(mock(Locator.class));
-        when(actionsLocator.first()).thenReturn(mock(Locator.class));
+        when(titleLocator.first()).thenReturn(titleFirst);
+        when(contentLocator.first()).thenReturn(contentFirst);
+        when(actionsLocator.first()).thenReturn(actionsFirst);
         testSubject = new MatDialog(locator, driver, config);
     }
 

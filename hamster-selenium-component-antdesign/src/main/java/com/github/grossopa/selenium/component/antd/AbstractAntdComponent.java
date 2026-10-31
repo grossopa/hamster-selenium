@@ -28,6 +28,8 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.DefaultWebComponent;
 import org.openqa.selenium.WebElement;
 
+import java.util.Objects;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -61,6 +63,23 @@ public abstract class AbstractAntdComponent extends DefaultWebComponent implemen
     @Override
     public AntdConfig config() {
         return config;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AbstractAntdComponent that = (AbstractAntdComponent) o;
+        return Objects.equals(config, that.config);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(config);
     }
 
 

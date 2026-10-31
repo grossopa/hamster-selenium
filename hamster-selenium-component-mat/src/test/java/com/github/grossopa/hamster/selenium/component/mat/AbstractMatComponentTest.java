@@ -103,25 +103,25 @@ class AbstractMatComponentTest {
 
     @Test
     void isSelected() {
-        when(config.isSelected(eq(testSubject))).thenReturn(true);
+        when(config.isSelected(testSubject)).thenReturn(true);
         assertTrue(testSubject.isSelected());
     }
 
     @Test
     void isSelectedFalse() {
-        when(config.isSelected(eq(testSubject))).thenReturn(false);
+        when(config.isSelected(testSubject)).thenReturn(false);
         assertFalse(testSubject.isSelected());
     }
 
     @Test
     void isEnabled() {
-        when(config.isDisabled(eq(testSubject))).thenReturn(false);
+        when(config.isDisabled(testSubject)).thenReturn(false);
         assertTrue(testSubject.isEnabled());
     }
 
     @Test
     void isEnabledTrue() {
-        when(config.isDisabled(eq(testSubject))).thenReturn(true);
+        when(config.isDisabled(testSubject)).thenReturn(true);
         assertFalse(testSubject.isEnabled());
     }
 }

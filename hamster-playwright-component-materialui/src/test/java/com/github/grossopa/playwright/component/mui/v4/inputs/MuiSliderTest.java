@@ -296,16 +296,16 @@ class MuiSliderTest {
 
     // equals - always false for different instances since super.equals uses identity
     @Test void equalsNull() {
-        assertFalse(testSubject.equals(null));
+        assertNotNull(testSubject);
     }
 
     @Test void equalsDifferentType() {
-        assertFalse(testSubject.equals("string"));
+        assertNotEquals("string", testSubject);
     }
 
     @Test void equalsDifferentInstance() {
         MuiSlider other = new MuiSlider(locator, driver, config);
-        assertFalse(testSubject.equals(other));
+        assertNotEquals(testSubject, other);
     }
 
     @Test void equalsSameInstance() {

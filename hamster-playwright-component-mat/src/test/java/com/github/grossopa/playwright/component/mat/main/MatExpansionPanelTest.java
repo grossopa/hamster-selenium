@@ -55,7 +55,8 @@ class MatExpansionPanelTest {
         when(locator.locator(".mat-expansion-panel-header")).thenReturn(headerLocator);
         when(headerLocator.first()).thenReturn(headerFirst);
         when(locator.locator(".mat-expansion-panel-body")).thenReturn(bodyLocator);
-        when(bodyLocator.first()).thenReturn(mock(Locator.class));
+        Locator bodyFirst = mock(Locator.class);
+        when(bodyLocator.first()).thenReturn(bodyFirst);
         testSubject = new MatExpansionPanel(locator, driver, config);
     }
 

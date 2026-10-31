@@ -70,7 +70,7 @@ class MatOverlayFinderTest {
 
     @Test
     void findContainers() {
-        int[] index = new int[]{0};
+        int[] index = { 0 };
 
         WebElement element1 = mock(WebElement.class);
         WebComponent overlayContainer1 = mock(WebComponent.class);
@@ -80,7 +80,7 @@ class MatOverlayFinderTest {
         WebComponent overlayContainer2 = mock(WebComponent.class);
         when(overlayContainer2.getWrappedElement()).thenReturn(element2);
 
-        WebComponent[] overlayContainers = new WebComponent[]{overlayContainer1, overlayContainer2};
+        WebComponent[] overlayContainers = { overlayContainer1, overlayContainer2 };
         List<MatOverlayContainer> containerResults = newArrayList();
 
         when(driver.findComponentsAs(eq(By.xpath("/html/body/div[contains(@class,'cdk-overlay-container')]")), any()))

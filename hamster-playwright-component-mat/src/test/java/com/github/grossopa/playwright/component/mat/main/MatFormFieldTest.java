@@ -62,8 +62,9 @@ class MatFormFieldTest {
     @BeforeEach
     void setUp() {
         Locator childLocator = mock(Locator.class);
+        Locator childFirst = mock(Locator.class);
         when(locator.locator(anyString())).thenReturn(childLocator);
-        when(childLocator.first()).thenReturn(mock(Locator.class));
+        when(childLocator.first()).thenReturn(childFirst);
         when(locator.locator(".mat-mdc-form-field-infix")).thenReturn(infixLocator);
         when(infixLocator.first()).thenReturn(infixFirst);
         when(infixFirst.locator("input")).thenReturn(childLocator);
@@ -72,13 +73,15 @@ class MatFormFieldTest {
         when(locator.locator(".mat-mdc-form-field-label")).thenReturn(legacyLabelLocator);
         when(locator.locator(".mat-mdc-floating-label")).thenReturn(mdcLabelLocator);
         when(legacyLabelLocator.or(mdcLabelLocator)).thenReturn(combinedLabelLocator);
-        when(combinedLabelLocator.first()).thenReturn(mock(Locator.class));
+        Locator labelFirst = mock(Locator.class);
+        when(combinedLabelLocator.first()).thenReturn(labelFirst);
 
         // specific mocks for getError() - MDC path: count() > 0 so it uses the MDC locator
         when(locator.locator(".mat-mdc-form-field-subscript-wrapper .mat-mdc-error")).thenReturn(legacyErrorLocator);
         when(locator.locator(".mat-mdc-form-field-subscript-wrapper .mat-mdc-form-field-error")).thenReturn(mdcErrorLocator);
         when(mdcErrorLocator.count()).thenReturn(1);
-        when(mdcErrorLocator.first()).thenReturn(mock(Locator.class));
+        Locator errorFirst = mock(Locator.class);
+        when(mdcErrorLocator.first()).thenReturn(errorFirst);
 
         testSubject = new MatFormField(locator, driver, config);
     }

@@ -27,6 +27,8 @@ import com.github.grossopa.selenium.component.antd.config.AntdConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -84,27 +86,17 @@ class AntdTagTest {
         assertFalse(testSubject.isClosable());
     }
 
-    @Test
-    void getColor() {
-        when(element.getDomAttribute("class")).thenReturn("sss-tag sss-tag-red");
-        assertEquals("red", testSubject.getColor());
+    @ParameterizedTest
+    @CsvSource({ "sss-tag sss-tag-red, red", "sss-tag sss-tag-blue, blue", "sss-tag sss-tag-green, green" })
+    void getColor(String cssClass, String expectedColor) {
+        when(element.getDomAttribute("class")).thenReturn(cssClass);
+        assertEquals(expectedColor, testSubject.getColor());
     }
 
-    @Test
-    void getColorIgnoresCloseIcon() {
-        when(element.getDomAttribute("class")).thenReturn("sss-tag sss-tag-close-icon");
-        assertNull(testSubject.getColor());
-    }
-
-    @Test
-    void getColorIgnoresHasColor() {
-        when(element.getDomAttribute("class")).thenReturn("sss-tag sss-tag-has-color");
-        assertNull(testSubject.getColor());
-    }
-
-    @Test
-    void getColorReturnsNullWithoutColorClass() {
-        when(element.getDomAttribute("class")).thenReturn("sss-tag");
+    @ParameterizedTest
+    @CsvSource({ "sss-tag sss-tag-close-icon", "sss-tag sss-tag-has-color", "sss-tag" })
+    void getColorReturnsNull(String cssClass) {
+        when(element.getDomAttribute("class")).thenReturn(cssClass);
         assertNull(testSubject.getColor());
     }
 

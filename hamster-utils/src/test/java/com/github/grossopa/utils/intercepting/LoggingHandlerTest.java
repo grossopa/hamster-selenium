@@ -78,10 +78,11 @@ class LoggingHandlerTest {
 
     @Test
     void onAfter() throws InterruptedException {
-        MethodInfo<String> info = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
+        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
         Thread.sleep(12L);
-        testSubject.onAfter(info, "some-result");
+        methodInfo.executionDone();
+        testSubject.onAfter(methodInfo, "some-result");
         verify(log, times(1)).info((Supplier<String>) argThat(arg -> {
             Supplier<String> supplier = (Supplier<String>) arg;
             assertEquals(
@@ -93,10 +94,11 @@ class LoggingHandlerTest {
 
     @Test
     void onAfterNullResult() throws InterruptedException {
-        MethodInfo<String> info = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
+        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
         Thread.sleep(12L);
-        testSubject.onAfter(info, null);
+        methodInfo.executionDone();
+        testSubject.onAfter(methodInfo, null);
         verify(log, times(1)).info((Supplier<String>) argThat(arg -> {
             Supplier<String> supplier = (Supplier<String>) arg;
             assertEquals(
@@ -108,13 +110,14 @@ class LoggingHandlerTest {
 
     @Test
     void onAfterMapResult() throws InterruptedException {
-        MethodInfo<String> info = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
+        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
         Thread.sleep(12L);
+        methodInfo.executionDone();
         Map<String, String> result = new LinkedHashMap<>();
         result.put("aaa", "bbb");
         result.put("ccc", "ddd");
-        testSubject.onAfter(info, result);
+        testSubject.onAfter(methodInfo, result);
 
         verify(log, times(1)).info((Supplier<String>) argThat(arg -> {
             Supplier<String> supplier = (Supplier<String>) arg;
@@ -127,13 +130,14 @@ class LoggingHandlerTest {
 
     @Test
     void onAfterListResult() throws InterruptedException {
-        MethodInfo<String> info = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
+        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
         Thread.sleep(12L);
+        methodInfo.executionDone();
         List<String> array = new ArrayList<>();
         array.add("aaa");
         array.add("bbb");
-        testSubject.onAfter(info, array);
+        testSubject.onAfter(methodInfo, array);
 
         verify(log, times(1)).info((Supplier<String>) argThat(arg -> {
             Supplier<String> supplier = (Supplier<String>) arg;
@@ -146,12 +150,12 @@ class LoggingHandlerTest {
 
     @Test
     void onAfterAlreadyEnds() throws InterruptedException {
-        MethodInfo<String> info = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
+        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
         Thread.sleep(12L);
-        info.executionDone();
-        testSubject.onAfter(info, "some-result");
-        assertTrue(10L < info.getTimeElapsedInMillis());
+        methodInfo.executionDone();
+        testSubject.onAfter(methodInfo, "some-result");
+        assertTrue(10L <= methodInfo.getTimeElapsedInMillis());
         verify(log, times(1)).info((Supplier<String>) argThat(arg -> {
             Supplier<String> supplier = (Supplier<String>) arg;
             assertEquals(

@@ -27,6 +27,8 @@ import com.github.grossopa.selenium.recorder.model.LocatorCandidate;
 import com.github.grossopa.selenium.recorder.model.LocatorType;
 import com.github.grossopa.selenium.recorder.scan.strategy.TextLocatorCandidateStrategy;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.List;
 import java.util.Map;
@@ -44,12 +46,14 @@ class TextLocatorCandidateStrategyTest {
 
     TextLocatorCandidateStrategy testSubject = new TextLocatorCandidateStrategy();
 
-    @Test
-    void testToCandidatesWithText() {
-        List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "Login");
+    @ParameterizedTest
+    @CsvSource(quoteCharacter = '\0', value = { "Login, //button[normalize-space()=\"Login\"]",
+            "it's, //button[normalize-space()=\"it's\"]" })
+    void testToCandidatesWithValidText(String text, String expectedXpath) {
+        List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), text);
         assertEquals(1, result.size());
         assertEquals(LocatorType.XPATH, result.get(0).getType());
-        assertEquals("//button[normalize-space()=\"Login\"]", result.get(0).getValue());
+        assertEquals(expectedXpath, result.get(0).getValue());
         assertEquals(LocatorCandidate.PRIORITY_TEXT, result.get(0).getPriority());
     }
 
@@ -57,13 +61,6 @@ class TextLocatorCandidateStrategyTest {
     void testToCandidatesWithBlankText() {
         List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "  ");
         assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void testToCandidatesWithTextContainingSingleQuote() {
-        List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "it's");
-        assertEquals(1, result.size());
-        assertEquals("//button[normalize-space()=\"it's\"]", result.get(0).getValue());
     }
 
     @Test

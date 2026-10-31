@@ -131,7 +131,8 @@ class MatMenuTest {
         when(driver.findComponents(".cdk-overlay-connected-position-bounding-box")).thenReturn(List.of(box));
         when(box.isVisible()).thenReturn(true);
         when(box.findComponent(".mat-mdc-menu-panel")).thenReturn(panel);
-        when(panel.locator()).thenReturn(mock(Locator.class));
+        Locator panelLocator = mock(Locator.class);
+        when(panel.locator()).thenReturn(panelLocator);
 
         MatMenu childMenu = testSubject.expandItemByIndex(0);
 

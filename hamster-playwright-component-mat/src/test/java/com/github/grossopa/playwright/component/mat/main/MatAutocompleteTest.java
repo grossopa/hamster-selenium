@@ -97,8 +97,10 @@ class MatAutocompleteTest {
 
     @Test
     void constructorWithAllAttributes() {
-        assertInstanceOf(MatAutocomplete.class, new MatAutocomplete(locator, driver, config, overlayFinder, ".opt",
-                mock(OpenOptionsAction.class), mock(CloseOptionsAction.class)));
+        OpenOptionsAction openAction = mock(OpenOptionsAction.class);
+        CloseOptionsAction closeAction = mock(CloseOptionsAction.class);
+        assertInstanceOf(MatAutocomplete.class,
+                new MatAutocomplete(locator, driver, config, overlayFinder, ".opt", openAction, closeAction));
     }
 
     @Test
@@ -116,8 +118,9 @@ class MatAutocompleteTest {
     @Test
     void getInput() {
         Locator inputLocator = mock(Locator.class);
+        Locator firstLocator = mock(Locator.class);
         when(locator.locator("input.mat-mdc-autocomplete-trigger")).thenReturn(inputLocator);
-        when(inputLocator.first()).thenReturn(mock(Locator.class));
+        when(inputLocator.first()).thenReturn(firstLocator);
         assertNotNull(testSubject.getInput());
     }
 
@@ -132,7 +135,8 @@ class MatAutocompleteTest {
         OpenOptionsAction openAction = mock(OpenOptionsAction.class);
         testSubject = new MatAutocomplete(locator, driver, config, overlayFinder, null, openAction, null);
         when(overlayFinder.findVisibleContainers()).thenReturn(List.of(), List.of(container));
-        when(driver.page()).thenReturn(mock(Page.class));
+        Page page = mock(Page.class);
+        when(driver.page()).thenReturn(page);
 
         assertNotNull(testSubject.openOptions());
 
@@ -144,7 +148,8 @@ class MatAutocompleteTest {
         OpenOptionsAction openAction = mock(OpenOptionsAction.class);
         testSubject = new MatAutocomplete(locator, driver, config, overlayFinder, null, openAction, null);
         when(overlayFinder.findVisibleContainers()).thenReturn(List.of());
-        when(driver.page()).thenReturn(mock(Page.class));
+        Page page = mock(Page.class);
+        when(driver.page()).thenReturn(page);
 
         assertThrows(NoSuchElementException.class, () -> testSubject.openOptions());
     }

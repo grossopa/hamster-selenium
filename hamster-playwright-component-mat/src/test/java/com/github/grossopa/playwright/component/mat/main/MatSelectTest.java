@@ -117,7 +117,6 @@ class MatSelectTest {
 
     @Test
     void openOptionsAlreadyOpen() {
-        Locator panelLoc = mock(Locator.class);
         WebComponent panel = mock(WebComponent.class);
         when(panel.isVisible()).thenReturn(true);
         when(driver.findComponents(".mat-mdc-select-panel")).thenReturn(List.of(panel));
@@ -127,7 +126,6 @@ class MatSelectTest {
 
     @Test
     void closeOptionsPanelOpen() {
-        Locator panelLoc = mock(Locator.class);
         WebComponent panel = mock(WebComponent.class);
         when(panel.isVisible()).thenReturn(true);
         when(driver.findComponents(".mat-mdc-select-panel")).thenReturn(List.of(panel));

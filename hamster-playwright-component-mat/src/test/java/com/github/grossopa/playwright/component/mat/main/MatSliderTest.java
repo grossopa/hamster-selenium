@@ -62,7 +62,8 @@ class MatSliderTest {
         when(thumbLocator.first()).thenReturn(thumbFirst);
         when(locator.locator(".mdc-slider__thumb")).thenReturn(mdcThumbLocator);
         when(mdcThumbLocator.or(thumbLocator)).thenReturn(combinedThumbLocator);
-        when(combinedThumbLocator.first()).thenReturn(mock(Locator.class));
+        Locator combinedFirst = mock(Locator.class);
+        when(combinedThumbLocator.first()).thenReturn(combinedFirst);
         when(locator.locator("input")).thenReturn(inputLocator);
         when(inputLocator.first()).thenReturn(inputFirst);
         testSubject = new MatSlider(locator, driver, config);

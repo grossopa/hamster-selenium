@@ -71,9 +71,9 @@ class LocatorCandidateTest {
                 "by id \"login\"");
         assertEquals(testSubject, same);
         assertEquals(testSubject.hashCode(), same.hashCode());
-        assertNotEquals(new LocatorCandidate(LocatorType.NAME, "login",
-                LocatorCandidate.PRIORITY_NAME, "by name \"login\""), testSubject);
-        assertNotEquals(new Object(), testSubject);
+        assertNotEquals(testSubject, new LocatorCandidate(LocatorType.NAME, "login",
+                LocatorCandidate.PRIORITY_NAME, "by name \"login\""));
+        assertNotEquals(testSubject, new Object());
         assertNotEquals(testSubject, "not a locator candidate");
         assertTrue(testSubject.toString().contains("login"));
 

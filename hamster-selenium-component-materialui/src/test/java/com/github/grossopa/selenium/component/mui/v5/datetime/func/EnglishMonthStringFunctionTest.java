@@ -84,18 +84,12 @@ class EnglishMonthStringFunctionTest {
     }
 
     @Test
-    void privateSingletonConstructor() {
-        boolean asserted = false;
+    void privateSingletonConstructor() throws Exception {
         Constructor<?> constructor = EnglishMonthStringFunction.Singleton.class.getDeclaredConstructors()[0];
         constructor.setAccessible(true);
-        try {
-            constructor.newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            assertEquals(AssertionError.class, e.getCause().getClass());
-            asserted = true;
-        }
-
-        assertTrue(asserted);
+        InvocationTargetException exception = assertThrows(InvocationTargetException.class,
+                () -> constructor.newInstance());
+        assertInstanceOf(AssertionError.class, exception.getCause());
     }
 
 }

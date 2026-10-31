@@ -27,9 +27,10 @@ import com.github.grossopa.hamster.selenium.component.mat.config.MatConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.WebElement;
 
-import com.github.grossopa.selenium.core.component.WebComponent;
 import org.openqa.selenium.By;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -54,15 +55,11 @@ class MatStepperTest {
         assertEquals("Stepper", testSubject.getComponentName());
     }
 
-    @Test
-    void validate() {
-        when(element.getDomAttribute("class")).thenReturn("mat-stepper-horizontal");
-        assertTrue(testSubject.validate());
-    }
-
-    @Test
-    void validateVertical() {
-        when(element.getDomAttribute("class")).thenReturn("mat-stepper-vertical");
+    @ParameterizedTest
+    @ValueSource(strings = { "mat-stepper-horizontal", "mat-stepper-vertical", "mat-horizontal-stepper",
+            "mat-vertical-stepper" })
+    void validate(String cssClass) {
+        when(element.getDomAttribute("class")).thenReturn(cssClass);
         assertTrue(testSubject.validate());
     }
 
@@ -76,18 +73,6 @@ class MatStepperTest {
     void testToString() {
         when(element.toString()).thenReturn("inner-element");
         assertEquals("MatStepper{element=inner-element}", testSubject.toString());
-    }
-
-    @Test
-    void validateHorizontalLegacy() {
-        when(element.getDomAttribute("class")).thenReturn("mat-horizontal-stepper");
-        assertTrue(testSubject.validate());
-    }
-
-    @Test
-    void validateVerticalLegacy() {
-        when(element.getDomAttribute("class")).thenReturn("mat-vertical-stepper");
-        assertTrue(testSubject.validate());
     }
 
     @Test

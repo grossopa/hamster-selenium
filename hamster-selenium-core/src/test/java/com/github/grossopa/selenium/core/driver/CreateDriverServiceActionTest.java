@@ -80,7 +80,7 @@ class CreateDriverServiceActionTest {
         DriverConfig config = createConfig(null, null, null);
         DriverService result = testSubject.applyChrome(config);
         assertNotNull(result);
-        assertTrue(result.getUrl() != null);
+        assertNotNull(result.getUrl());
     }
 
     @Test

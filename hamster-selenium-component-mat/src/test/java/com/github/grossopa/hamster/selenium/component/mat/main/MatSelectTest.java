@@ -72,11 +72,6 @@ class MatSelectTest {
         when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
     }
 
-    private void mockOverlayPanelNotPresent() {
-        when(overlayContainer.findComponents(By.className("mat-mdc-select-panel"))).thenReturn(newArrayList());
-        when(overlayFinder.findTopVisibleContainer()).thenReturn(overlayContainer);
-    }
-
     private void mockNoPanelAnywhere() {
         mockPagePanelNotPresent();
         when(overlayFinder.findTopVisibleContainer()).thenReturn(null);
