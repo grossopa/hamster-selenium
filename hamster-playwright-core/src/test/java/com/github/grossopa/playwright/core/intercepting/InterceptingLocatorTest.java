@@ -28,10 +28,12 @@ import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.FrameLocator;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.DropPayload;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -989,5 +991,105 @@ class InterceptingLocatorTest {
     void testPressSequentiallyNoOptions() {
         interceptingLocator.pressSequentially("t", null);
         verify(locator).pressSequentially(eq("t"), isNull());
+    }
+
+    // =====================================================================
+    // Missing highlight(HighlightOptions)
+    // =====================================================================
+
+    @Test
+    void testHighlightWithOptions() {
+        interceptingLocator.highlight(new Locator.HighlightOptions());
+        verify(locator).highlight(any(Locator.HighlightOptions.class));
+    }
+
+    // =====================================================================
+    // Playwright 1.64.0 new methods
+    // =====================================================================
+
+    @Test
+    void testWithin() {
+        Locator inner = mock(Locator.class);
+        Locator resultInner = mock(Locator.class);
+        when(locator.within(inner)).thenReturn(resultInner);
+        Locator result = interceptingLocator.within(inner);
+        assertNotNull(result);
+        assertInstanceOf(InterceptingLocator.class, result);
+        verify(locator).within(inner);
+    }
+
+    @Test
+    void testWaitForFunctionExpressionOnly() {
+        interceptingLocator.waitForFunction("expr");
+        verify(locator).waitForFunction("expr");
+    }
+
+    @Test
+    void testWaitForFunctionTwoArgs() {
+        interceptingLocator.waitForFunction("expr", null);
+        verify(locator).waitForFunction("expr", null);
+    }
+
+    @Test
+    void testWaitForFunctionThreeArgs() {
+        interceptingLocator.waitForFunction("expr", null, new Locator.WaitForFunctionOptions());
+        verify(locator).waitForFunction(eq("expr"), isNull(), any(Locator.WaitForFunctionOptions.class));
+    }
+
+    @Test
+    void testVisible() {
+        Locator visibleLocator = mock(Locator.class);
+        when(locator.visible()).thenReturn(visibleLocator);
+        Locator result = interceptingLocator.visible();
+        assertNotNull(result);
+        assertInstanceOf(InterceptingLocator.class, result);
+        verify(locator).visible();
+    }
+
+    @Test
+    void testNormalize() {
+        Locator normalizedLocator = mock(Locator.class);
+        when(locator.normalize()).thenReturn(normalizedLocator);
+        Locator result = interceptingLocator.normalize();
+        assertNotNull(result);
+        assertInstanceOf(InterceptingLocator.class, result);
+        verify(locator).normalize();
+    }
+
+    @Test
+    void testHideHighlight() {
+        interceptingLocator.hideHighlight();
+        verify(locator).hideHighlight();
+    }
+
+    @Test
+    void testDrop() {
+        DropPayload payload = new DropPayload();
+        interceptingLocator.drop(payload);
+        verify(locator).drop(payload);
+    }
+
+    @Test
+    void testDropWithOptions() {
+        DropPayload payload = new DropPayload();
+        interceptingLocator.drop(payload, new Locator.DropOptions());
+        verify(locator).drop(eq(payload), any(Locator.DropOptions.class));
+    }
+
+    @Test
+    void testDescription() {
+        when(locator.description()).thenReturn("desc");
+        assertEquals("desc", interceptingLocator.description());
+        verify(locator).description();
+    }
+
+    @Test
+    void testDescribe() {
+        Locator describedLocator = mock(Locator.class);
+        when(locator.describe("name")).thenReturn(describedLocator);
+        Locator result = interceptingLocator.describe("name");
+        assertNotNull(result);
+        assertInstanceOf(InterceptingLocator.class, result);
+        verify(locator).describe("name");
     }
 }
