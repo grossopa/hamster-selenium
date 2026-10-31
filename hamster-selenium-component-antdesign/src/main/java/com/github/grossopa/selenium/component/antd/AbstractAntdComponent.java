@@ -70,7 +70,10 @@ public abstract class AbstractAntdComponent extends DefaultWebComponent implemen
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof AbstractAntdComponent)) {
+            return false;
+        }
+        if (!super.equals(o)) {
             return false;
         }
         AbstractAntdComponent that = (AbstractAntdComponent) o;
@@ -79,7 +82,7 @@ public abstract class AbstractAntdComponent extends DefaultWebComponent implemen
 
     @Override
     public int hashCode() {
-        return Objects.hash(config);
+        return Objects.hash(super.hashCode(), config);
     }
 
 

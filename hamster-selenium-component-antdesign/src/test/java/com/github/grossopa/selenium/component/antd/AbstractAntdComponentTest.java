@@ -26,6 +26,7 @@ package com.github.grossopa.selenium.component.antd;
 import com.github.grossopa.selenium.component.antd.config.AntdConfig;
 import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
@@ -68,5 +69,36 @@ class AbstractAntdComponentTest {
     @Test
     void config() {
         assertSame(config, testSubject.config());
+    }
+
+    @Test
+    void testEquals() {
+        SimpleEqualsTester tester = new SimpleEqualsTester();
+
+        WebElement element1 = mock(WebElement.class);
+        ComponentWebDriver driver1 = mock(ComponentWebDriver.class);
+        AntdConfig config1 = mock(AntdConfig.class);
+
+        WebElement element2 = mock(WebElement.class);
+        ComponentWebDriver driver2 = mock(ComponentWebDriver.class);
+        AntdConfig config2 = mock(AntdConfig.class);
+
+        tester.addEqualityGroup(createObject(element1, driver1, config1), createObject(element1, driver1, config1));
+        tester.addEqualityGroup(createObject(element2, driver1, config1));
+        tester.addEqualityGroup(createObject(element1, driver2, config1));
+        tester.addEqualityGroup(createObject(element1, driver1, config2));
+
+        tester.testEquals();
+    }
+
+    AbstractAntdComponent createObject(WebElement element, ComponentWebDriver driver, AntdConfig config) {
+        WebComponent component = mock(WebComponent.class);
+        when(component.getWrappedElement()).thenReturn(element);
+        return new AbstractAntdComponent(component, driver, config) {
+            @Override
+            public String getComponentName() {
+                return "TEST";
+            }
+        };
     }
 }
