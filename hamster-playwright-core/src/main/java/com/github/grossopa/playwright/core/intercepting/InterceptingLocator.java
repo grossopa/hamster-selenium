@@ -28,6 +28,7 @@ import com.github.grossopa.utils.intercepting.MethodInfo;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.BoundingBox;
+import com.microsoft.playwright.options.DropPayload;
 import com.microsoft.playwright.options.FilePayload;
 
 import java.nio.file.Path;
@@ -839,11 +840,15 @@ public class InterceptingLocator implements Locator {
     }
 
     @Override
-    public void highlight() {
-        handler.execute(() -> {
-            locator.highlight();
-            return null;
-        }, MethodInfo.create(locator, LOCATOR_HIGHLIGHT));
+    public AutoCloseable highlight() {
+        return handler.execute(locator::highlight,
+                MethodInfo.create(locator, LOCATOR_HIGHLIGHT));
+    }
+
+    @Override
+    public AutoCloseable highlight(HighlightOptions options) {
+        return handler.execute(() -> locator.highlight(options),
+                MethodInfo.create(locator, LOCATOR_HIGHLIGHT, options));
     }
 
     @Override
@@ -982,5 +987,83 @@ public class InterceptingLocator implements Locator {
     public boolean isHidden() {
         return handler.execute(locator::isHidden,
                 MethodInfo.create(locator, LOCATOR_IS_HIDDEN));
+    }
+
+    @Override
+    public Locator within(Locator inner) {
+        return handler.execute(() -> new InterceptingLocator(locator.within(inner), handler),
+                MethodInfo.create(locator, LOCATOR_WITHIN, inner));
+    }
+
+    @Override
+    public void waitForFunction(String expression, Object arg, WaitForFunctionOptions options) {
+        handler.execute(() -> {
+            locator.waitForFunction(expression, arg, options);
+            return null;
+        }, MethodInfo.create(locator, LOCATOR_WAIT_FOR_FUNCTION, expression, arg, options));
+    }
+
+    @Override
+    public void waitForFunction(String expression, Object arg) {
+        handler.execute(() -> {
+            locator.waitForFunction(expression, arg);
+            return null;
+        }, MethodInfo.create(locator, LOCATOR_WAIT_FOR_FUNCTION, expression, arg));
+    }
+
+    @Override
+    public void waitForFunction(String expression) {
+        handler.execute(() -> {
+            locator.waitForFunction(expression);
+            return null;
+        }, MethodInfo.create(locator, LOCATOR_WAIT_FOR_FUNCTION, expression));
+    }
+
+    @Override
+    public Locator visible() {
+        return handler.execute(() -> new InterceptingLocator(locator.visible(), handler),
+                MethodInfo.create(locator, LOCATOR_VISIBLE));
+    }
+
+    @Override
+    public Locator normalize() {
+        return handler.execute(() -> new InterceptingLocator(locator.normalize(), handler),
+                MethodInfo.create(locator, LOCATOR_NORMALIZE));
+    }
+
+    @Override
+    public void hideHighlight() {
+        handler.execute(() -> {
+            locator.hideHighlight();
+            return null;
+        }, MethodInfo.create(locator, LOCATOR_HIDE_HIGHLIGHT));
+    }
+
+    @Override
+    public void drop(DropPayload payload, DropOptions options) {
+        handler.execute(() -> {
+            locator.drop(payload, options);
+            return null;
+        }, MethodInfo.create(locator, LOCATOR_DROP, payload, options));
+    }
+
+    @Override
+    public void drop(DropPayload payload) {
+        handler.execute(() -> {
+            locator.drop(payload);
+            return null;
+        }, MethodInfo.create(locator, LOCATOR_DROP, payload));
+    }
+
+    @Override
+    public String description() {
+        return handler.execute(locator::description,
+                MethodInfo.create(locator, LOCATOR_DESCRIPTION));
+    }
+
+    @Override
+    public Locator describe(String name) {
+        return handler.execute(() -> new InterceptingLocator(locator.describe(name), handler),
+                MethodInfo.create(locator, LOCATOR_DESCRIBE, name));
     }
 }

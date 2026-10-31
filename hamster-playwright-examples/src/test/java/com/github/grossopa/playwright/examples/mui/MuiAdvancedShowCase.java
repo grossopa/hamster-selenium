@@ -145,15 +145,19 @@ public class MuiAdvancedShowCase extends AbstractBrowserSupport {
         System.out.println("Found " + switches.size() + " switches");
         
         if (!switches.isEmpty()) {
-            mui.setContext(switches.get(0), driver);
-            MuiSwitch switchComponent = mui.toSwitch();
-            boolean initialState = switchComponent.isChecked();
-            System.out.println("Initial switch state: " + initialState);
+            WebComponent switchRoot = switches.get(0);
+            System.out.println("Switch component found");
             
-            // Toggle switch
-            switchComponent.click();
-            boolean newState = switchComponent.isChecked();
-            System.out.println("New switch state: " + newState);
+            // Check initial state via the internal input element
+            String checkedAttr = switchRoot.locator().locator("input[type='checkbox']").first().getAttribute("checked");
+            System.out.println("Initial switch checked attribute: " + checkedAttr);
+            
+            // Toggle switch by clicking the root element
+            switchRoot.click();
+            System.out.println("Switch clicked");
+            
+            String newCheckedAttr = switchRoot.locator().locator("input[type='checkbox']").first().getAttribute("checked");
+            System.out.println("New switch checked attribute: " + newCheckedAttr);
         }
     }
 

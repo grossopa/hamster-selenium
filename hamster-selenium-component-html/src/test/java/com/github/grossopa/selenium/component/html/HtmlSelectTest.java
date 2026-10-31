@@ -60,6 +60,10 @@ class HtmlSelectTest {
         when(ele.getAttribute("index")).thenReturn(String.valueOf(index));
         when(ele.isSelected()).thenReturn(selected);
         when(ele.isEnabled()).thenReturn(true);
+        // Selenium 4.52.0+ checks CSS properties for visibility
+        when(ele.getCssValue("display")).thenReturn("block");
+        when(ele.getCssValue("visibility")).thenReturn("visible");
+        when(ele.getCssValue("opacity")).thenReturn("1");
         doAnswer(a -> {
             when(ele.isSelected()).thenReturn(!selected);
             return null;
@@ -75,6 +79,10 @@ class HtmlSelectTest {
         when(element.findElements(By.tagName("option"))).thenReturn(options);
         when(element.getDomAttribute("multiple")).thenReturn("true");
         when(element.isEnabled()).thenReturn(true);
+        // Selenium 4.52.0+ checks CSS properties for visibility
+        when(element.getCssValue("display")).thenReturn("block");
+        when(element.getCssValue("visibility")).thenReturn("visible");
+        when(element.getCssValue("opacity")).thenReturn("1");
         testSubject = new HtmlSelect(element, driver);
     }
 

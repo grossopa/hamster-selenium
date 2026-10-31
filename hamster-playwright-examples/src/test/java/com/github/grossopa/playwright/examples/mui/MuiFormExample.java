@@ -60,17 +60,15 @@ public class MuiFormExample extends AbstractBrowserSupport {
         System.out.println("Found " + textFields.size() + " text fields");
         
         if (textFields.size() >= 2) {
-            // Fill username field
-            mui.setContext(textFields.get(0), driver);
-            MuiTextField usernameField = mui.toTextField();
-            usernameField.fill("testuser@example.com");
-            System.out.println("Username filled: " + usernameField.inputValue());
+            // Fill username field - target the inner input element
+            WebComponent input1 = textFields.get(0).findComponent("input");
+            input1.fill("testuser@example.com");
+            System.out.println("Username filled: " + input1.inputValue());
             
-            // Fill password field
-            mui.setContext(textFields.get(1), driver);
-            MuiTextField passwordField = mui.toTextField();
-            passwordField.fill("password123");
-            System.out.println("Password filled: " + (passwordField.inputValue().isEmpty() ? "[HIDDEN]" : "[SET]"));
+            // Fill password field - target the inner input element
+            WebComponent input2 = textFields.get(1).findComponent("input");
+            input2.fill("password123");
+            System.out.println("Password filled: " + (input2.inputValue().isEmpty() ? "[HIDDEN]" : "[SET]"));
         }
         
         // Find and click login button
@@ -79,9 +77,6 @@ public class MuiFormExample extends AbstractBrowserSupport {
             mui.setContext(buttons.get(0), driver);
             MuiButton loginButton = mui.toButton();
             System.out.println("Login button found: " + loginButton.innerText());
-            
-            // In a real scenario, you would click the button
-            // loginButton.click();
         }
     }
 
@@ -147,20 +142,20 @@ public class MuiFormExample extends AbstractBrowserSupport {
         
         List<WebComponent> textFields = driver.findComponents(".MuiTextField-root");
         if (!textFields.isEmpty()) {
-            mui.setContext(textFields.get(0), driver);
-            MuiTextField textField = mui.toTextField();
+            // Target the inner input element for fill operations
+            WebComponent input = textFields.get(0).findComponent("input");
             
             // Test empty field
-            textField.fill("");
-            System.out.println("Empty field value length: " + textField.inputValue().length());
+            input.fill("");
+            System.out.println("Empty field value length: " + input.inputValue().length());
             
             // Test with valid input
-            textField.fill("Valid Input");
-            assertEquals("Valid Input", textField.inputValue());
+            input.fill("Valid Input");
+            assertEquals("Valid Input", input.inputValue());
             System.out.println("Valid input set successfully");
             
-            // Check for error state (if applicable)
-            String errorClass = textField.getAttribute("class");
+            // Check for error state on the root element
+            String errorClass = textFields.get(0).getAttribute("class");
             boolean hasError = errorClass != null && errorClass.contains("Mui-error");
             System.out.println("Has error state: " + hasError);
         }
@@ -235,11 +230,10 @@ public class MuiFormExample extends AbstractBrowserSupport {
         driver.navigate("https://mui.com/material-ui/react-text-field/", 600_000);
         System.out.println("Step 1: Navigated to form page");
         
-        // Step 2: Fill text inputs
+        // Step 2: Fill text inputs - target the inner input element
         List<WebComponent> textFields = driver.findComponents(".MuiTextField-root");
         if (!textFields.isEmpty()) {
-            mui.setContext(textFields.get(0), driver);
-            MuiTextField input = mui.toTextField();
+            WebComponent input = textFields.get(0).findComponent("input");
             input.fill("John Doe");
             System.out.println("Step 2: Filled name field");
         }
@@ -261,7 +255,6 @@ public class MuiFormExample extends AbstractBrowserSupport {
             mui.setContext(buttons.get(0), driver);
             MuiButton submitButton = mui.toButton();
             System.out.println("Step 4: Found submit button: " + submitButton.innerText());
-            // submitButton.click(); // Uncomment to actually submit
         }
         
         System.out.println("Form submission workflow completed!");

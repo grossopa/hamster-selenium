@@ -417,6 +417,54 @@ public class InterceptingMethods {
     public static final String LOCATOR_IS_HIDDEN = "locator.isHidden";
 
     /**
+     * Represents the {@link Locator#within(Locator)}
+     * @since 1.19
+     */
+    public static final String LOCATOR_WITHIN = "locator.within";
+
+    /**
+     * Represents the {@link Locator#waitForFunction(String)}
+     * @since 1.19
+     */
+    public static final String LOCATOR_WAIT_FOR_FUNCTION = "locator.waitForFunction";
+
+    /**
+     * Represents the {@link Locator#visible()}
+     * @since 1.19
+     */
+    public static final String LOCATOR_VISIBLE = "locator.visible";
+
+    /**
+     * Represents the {@link Locator#normalize()}
+     * @since 1.19
+     */
+    public static final String LOCATOR_NORMALIZE = "locator.normalize";
+
+    /**
+     * Represents the {@link Locator#hideHighlight()}
+     * @since 1.19
+     */
+    public static final String LOCATOR_HIDE_HIGHLIGHT = "locator.hideHighlight";
+
+    /**
+     * Represents the {@link Locator#drop(com.microsoft.playwright.options.DropPayload)}
+     * @since 1.19
+     */
+    public static final String LOCATOR_DROP = "locator.drop";
+
+    /**
+     * Represents the {@link Locator#description()}
+     * @since 1.19
+     */
+    public static final String LOCATOR_DESCRIPTION = "locator.description";
+
+    /**
+     * Represents the {@link Locator#describe(String)}
+     * @since 1.19
+     */
+    public static final String LOCATOR_DESCRIBE = "locator.describe";
+
+    /**
      * Represents the {@link Locator#contentFrame()}
      */
     public static final String LOCATOR_CONTENT_FRAME = "locator.contentFrame";

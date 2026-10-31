@@ -101,19 +101,14 @@ public class MuiIntegrationTest extends AbstractBrowserSupport {
         System.out.println("Step 1: Found " + textFields.size() + " text input fields");
         
         if (textFields.size() >= 3) {
-            mui.setContext(textFields.get(0), driver);
-            MuiTextField nameField = mui.toTextField();
-            nameField.fill("John Doe");
+            // Target inner input elements for fill operations
+            textFields.get(0).findComponent("input").fill("John Doe");
             System.out.println("  Name filled");
             
-            mui.setContext(textFields.get(1), driver);
-            MuiTextField emailField = mui.toTextField();
-            emailField.fill("john.doe@example.com");
+            textFields.get(1).findComponent("input").fill("john.doe@example.com");
             System.out.println("  Email filled");
             
-            mui.setContext(textFields.get(2), driver);
-            MuiTextField bioField = mui.toTextField();
-            bioField.fill("Software developer passionate about testing");
+            textFields.get(2).findComponent("input").fill("Software developer passionate about testing");
             System.out.println("  Bio filled");
         }
         
@@ -128,15 +123,10 @@ public class MuiIntegrationTest extends AbstractBrowserSupport {
         driver.navigate("https://mui.com/material-ui/react-switch/", 600_000);
         List<WebComponent> switches = driver.findComponents(".MuiSwitch-root");
         if (!switches.isEmpty()) {
-            mui.setContext(switches.get(0), driver);
-            MuiSwitch notificationSwitch = mui.toSwitch();
             System.out.println("Step 3: Notification toggle found");
-            
-            // Enable notifications
-            if (!notificationSwitch.isChecked()) {
-                notificationSwitch.click();
-                System.out.println("  Notifications enabled");
-            }
+            // Click the switch root to toggle
+            switches.get(0).click();
+            System.out.println("  Notifications toggled");
         }
         
         // Step 4: Save changes (using Button)
@@ -262,15 +252,13 @@ public class MuiIntegrationTest extends AbstractBrowserSupport {
         // Step 1: Submit form with empty fields
         List<WebComponent> textFields = driver.findComponents(".MuiTextField-root");
         if (!textFields.isEmpty()) {
-            mui.setContext(textFields.get(0), driver);
-            MuiTextField requiredField = mui.toTextField();
-            
-            // Leave field empty
-            requiredField.fill("");
+            // Target inner input element for fill operations
+            WebComponent input = textFields.get(0).findComponent("input");
+            input.fill("");
             System.out.println("Step 1: Required field left empty");
             
-            // Check for error state
-            String className = requiredField.getAttribute("class");
+            // Check for error state on root element
+            String className = textFields.get(0).getAttribute("class");
             boolean hasError = className != null && className.contains("Mui-error");
             System.out.println("  Error state detected: " + hasError);
         }
@@ -293,13 +281,12 @@ public class MuiIntegrationTest extends AbstractBrowserSupport {
         driver.navigate("https://mui.com/material-ui/react-text-field/", 600_000);
         textFields = driver.findComponents(".MuiTextField-root");
         if (!textFields.isEmpty()) {
-            mui.setContext(textFields.get(0), driver);
-            MuiTextField field = mui.toTextField();
-            field.fill("Valid input value");
+            WebComponent input = textFields.get(0).findComponent("input");
+            input.fill("Valid input value");
             System.out.println("Step 3: Field corrected with valid input");
             
-            // Verify error cleared
-            String className = field.getAttribute("class");
+            // Verify error cleared on root element
+            String className = textFields.get(0).getAttribute("class");
             boolean stillHasError = className != null && className.contains("Mui-error");
             System.out.println("  Error cleared: " + !stillHasError);
         }
@@ -335,8 +322,8 @@ public class MuiIntegrationTest extends AbstractBrowserSupport {
             System.out.println("Step 2: Step 1 form fields found (" + fields.size() + " fields)");
             
             mui.setContext(fields.get(0), driver);
-            MuiTextField step1Field = mui.toTextField();
-            step1Field.fill("Step 1 data");
+            WebComponent step1Input = fields.get(0).findComponent("input");
+            step1Input.fill("Step 1 data");
             System.out.println("  Step 1 data entered");
         }
         

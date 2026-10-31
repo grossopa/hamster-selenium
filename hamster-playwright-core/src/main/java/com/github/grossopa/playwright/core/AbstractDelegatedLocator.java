@@ -26,6 +26,7 @@ package com.github.grossopa.playwright.core;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.BoundingBox;
+import com.microsoft.playwright.options.DropPayload;
 import com.microsoft.playwright.options.FilePayload;
 import com.microsoft.playwright.options.SelectOption;
 
@@ -381,8 +382,13 @@ public abstract class AbstractDelegatedLocator implements Locator {
     }
 
     @Override
-    public void highlight() {
-        locator.highlight();
+    public AutoCloseable highlight() {
+        return locator.highlight();
+    }
+
+    @Override
+    public AutoCloseable highlight(HighlightOptions options) {
+        return locator.highlight(options);
     }
 
     @Override
@@ -753,5 +759,60 @@ public abstract class AbstractDelegatedLocator implements Locator {
     @Override
     public void pressSequentially(String text, PressSequentiallyOptions options) {
         locator.pressSequentially(text, options);
+    }
+
+    @Override
+    public Locator within(Locator inner) {
+        return locator.within(inner);
+    }
+
+    @Override
+    public void waitForFunction(String expression, Object arg, WaitForFunctionOptions options) {
+        locator.waitForFunction(expression, arg, options);
+    }
+
+    @Override
+    public void waitForFunction(String expression, Object arg) {
+        locator.waitForFunction(expression, arg);
+    }
+
+    @Override
+    public void waitForFunction(String expression) {
+        locator.waitForFunction(expression);
+    }
+
+    @Override
+    public Locator visible() {
+        return locator.visible();
+    }
+
+    @Override
+    public Locator normalize() {
+        return locator.normalize();
+    }
+
+    @Override
+    public void hideHighlight() {
+        locator.hideHighlight();
+    }
+
+    @Override
+    public void drop(DropPayload payload, DropOptions options) {
+        locator.drop(payload, options);
+    }
+
+    @Override
+    public void drop(DropPayload payload) {
+        locator.drop(payload);
+    }
+
+    @Override
+    public String description() {
+        return locator.description();
+    }
+
+    @Override
+    public Locator describe(String name) {
+        return locator.describe(name);
     }
 }

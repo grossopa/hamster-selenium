@@ -109,8 +109,9 @@ public class HtmlShowCase extends AbstractBrowserSupport {
     }
 
     public void testCheckbox() {
-        driver.navigate("https://www.w3schools.com/html/tryit.asp?filename=tryhtml_form_checkbox", 600_000L);
+        driver.navigate("https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_checkbox", 600_000L);
         var frame = driver.page().frame("iframeResult");
+        assertNotNull(frame, "iframeResult frame should exist");
 
         // Demonstrate HtmlCheckbox with vehicle checkbox
         HtmlCheckbox vehicleCheckbox = new HtmlCheckbox(frame.locator("#vehicle1"), driver);
@@ -136,10 +137,11 @@ public class HtmlShowCase extends AbstractBrowserSupport {
     }
 
     public void testRadioGroup() {
-        driver.navigate("https://www.w3schools.com/html/tryit.asp?filename=tryhtml_form_radio", 600_000L);
+        driver.navigate("https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_radio", 600_000L);
         var frame = driver.page().frame("iframeResult");
+        assertNotNull(frame, "iframeResult frame should exist");
 
-        // Demonstrate HtmlRadioGroup with gender radio buttons
+        // Demonstrate HtmlRadioGroup with language radio buttons (name=fav_language)
         HtmlRadioGroup radioGroup = new HtmlRadioGroup(frame.locator("form"), driver);
 
         // Verify option count
@@ -147,18 +149,18 @@ public class HtmlShowCase extends AbstractBrowserSupport {
         assertTrue(optionCount >= 2, "Should have at least 2 radio options");
         System.out.println("Radio group has " + optionCount + " options");
 
-        // Select by value
-        radioGroup.selectByValue("female");
+        // Select by value (w3schools uses uppercase values: HTML, CSS, JavaScript)
+        radioGroup.selectByValue("CSS");
         String selectedValue = radioGroup.getSelectedValue();
-        assertEquals("female", selectedValue, "Should have selected 'female'");
+        assertEquals("CSS", selectedValue, "Should have selected 'CSS'");
 
         // Verify getSelectedOption
         WebComponent selectedOption = radioGroup.getSelectedOption();
         assertNotNull(selectedOption, "Should find the selected radio option");
 
         // Select another value
-        radioGroup.selectByValue("male");
-        assertEquals("male", radioGroup.getSelectedValue(), "Should have selected 'male'");
+        radioGroup.selectByValue("HTML");
+        assertEquals("HTML", radioGroup.getSelectedValue(), "Should have selected 'HTML'");
 
         System.out.println("RadioGroup demo completed: selectByValue/getSelectedValue verified successfully.");
     }
@@ -195,11 +197,12 @@ public class HtmlShowCase extends AbstractBrowserSupport {
     }
 
     public void testFileInput() {
-        driver.navigate("https://www.w3schools.com/html/tryit.asp?filename=tryhtml_form_fileupload", 600_000L);
+        driver.navigate("https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_input_type_file", 600_000L);
         var frame = driver.page().frame("iframeResult");
+        assertNotNull(frame, "iframeResult frame should exist");
 
-        // Demonstrate HtmlFileInput
-        HtmlFileInput fileInput = new HtmlFileInput(frame.locator("input[type='file']"), driver);
+        // Demonstrate HtmlFileInput (page has 2 file inputs, use first one)
+        HtmlFileInput fileInput = new HtmlFileInput(frame.locator("input[type='file']").first(), driver);
         assertTrue(fileInput.validate(), "Should be a file input element");
 
         // Verify initially no files
