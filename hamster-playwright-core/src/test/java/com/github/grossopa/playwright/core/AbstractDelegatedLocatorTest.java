@@ -26,6 +26,7 @@ package com.github.grossopa.playwright.core;
 import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.options.AriaRole;
+import com.microsoft.playwright.options.DropPayload;
 import com.microsoft.playwright.options.FilePayload;
 import com.microsoft.playwright.options.SelectOption;
 import org.junit.jupiter.api.BeforeEach;
@@ -908,5 +909,94 @@ class AbstractDelegatedLocatorTest {
     void testPressSequentiallyWithOptions() {
         testSubject.pressSequentially("text", new Locator.PressSequentiallyOptions());
         verify(locator).pressSequentially(eq("text"), any(Locator.PressSequentiallyOptions.class));
+    }
+
+    // =====================================================================
+    // Playwright 1.64.0 new methods
+    // =====================================================================
+
+    @Test
+    void testHighlightWithOptions() {
+        testSubject.highlight(new Locator.HighlightOptions());
+        verify(locator).highlight(any(Locator.HighlightOptions.class));
+    }
+
+    @Test
+    void testWithin() {
+        Locator inner = mock(Locator.class);
+        testSubject.within(inner);
+        verify(locator).within(inner);
+    }
+
+    @Test
+    void testWaitForFunctionExpressionOnly() {
+        testSubject.waitForFunction("expr");
+        verify(locator).waitForFunction("expr");
+    }
+
+    @Test
+    void testWaitForFunctionTwoArgs() {
+        testSubject.waitForFunction("expr", null);
+        verify(locator).waitForFunction("expr", null);
+    }
+
+    @Test
+    void testWaitForFunctionThreeArgs() {
+        testSubject.waitForFunction("expr", null, new Locator.WaitForFunctionOptions());
+        verify(locator).waitForFunction(eq("expr"), isNull(), any(Locator.WaitForFunctionOptions.class));
+    }
+
+    @Test
+    void testVisible() {
+        testSubject.visible();
+        verify(locator).visible();
+    }
+
+    @Test
+    void testNormalize() {
+        testSubject.normalize();
+        verify(locator).normalize();
+    }
+
+    @Test
+    void testHideHighlight() {
+        testSubject.hideHighlight();
+        verify(locator).hideHighlight();
+    }
+
+    @Test
+    void testDrop() {
+        DropPayload payload = new DropPayload();
+        testSubject.drop(payload);
+        verify(locator).drop(payload);
+    }
+
+    @Test
+    void testDropWithOptions() {
+        DropPayload payload = new DropPayload();
+        testSubject.drop(payload, new Locator.DropOptions());
+        verify(locator).drop(eq(payload), any(Locator.DropOptions.class));
+    }
+
+    @Test
+    void testDescription() {
+        testSubject.description();
+        verify(locator).description();
+    }
+
+    @Test
+    void testDescribe() {
+        testSubject.describe("name");
+        verify(locator).describe("name");
+    }
+
+    // =====================================================================
+    // Previously missing overload
+    // =====================================================================
+
+    @Test
+    void testHover() {
+        testSubject.hover();
+        verify(locator).hover();
     }
 }
