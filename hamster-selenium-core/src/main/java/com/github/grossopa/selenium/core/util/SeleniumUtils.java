@@ -262,7 +262,7 @@ public class SeleniumUtils {
         return results;
     }
 
-    private static final String[] TEXT_NODE_PROPERTIES = new String[]{"nodeName", "nodeType", "nodeValue",
+    private static final String[] TEXT_NODE_PROPERTIES = {"nodeName", "nodeType", "nodeValue",
             "textContent", "wholeText", "data"};
 
     private static TextNodeType findTextNodeType(Map<String, Object> map) {
@@ -280,7 +280,7 @@ public class SeleniumUtils {
 
     private static String findTextNodeText(Map<String, Object> map) {
         // following the order by best property to find the text from
-        String[] candidateProperties = new String[]{"data", "nodeValue", "textContent", "wholeText"};
+        String[] candidateProperties = {"data", "nodeValue", "textContent", "wholeText"};
         for (String property : candidateProperties) {
             String value = (String) map.get(property);
             if (!isBlank(value)) {

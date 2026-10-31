@@ -77,11 +77,8 @@ class LoggingHandlerTest {
     }
 
     @Test
-    void onAfter() throws InterruptedException {
-        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
-        testSubject = new LoggingHandler(thresholdInMillis, log);
-        Thread.sleep(12L);
-        methodInfo.executionDone();
+    void onAfter() {
+        MethodInfo<String> methodInfo = createMethodInfoWithElapsed(50L);
         testSubject.onAfter(methodInfo, "some-result");
         verify(log, times(1)).info((Supplier<String>) argThat(arg -> {
             Supplier<String> supplier = (Supplier<String>) arg;
@@ -93,11 +90,8 @@ class LoggingHandlerTest {
     }
 
     @Test
-    void onAfterNullResult() throws InterruptedException {
-        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
-        testSubject = new LoggingHandler(thresholdInMillis, log);
-        Thread.sleep(12L);
-        methodInfo.executionDone();
+    void onAfterNullResult() {
+        MethodInfo<String> methodInfo = createMethodInfoWithElapsed(50L);
         testSubject.onAfter(methodInfo, null);
         verify(log, times(1)).info((Supplier<String>) argThat(arg -> {
             Supplier<String> supplier = (Supplier<String>) arg;
@@ -109,11 +103,8 @@ class LoggingHandlerTest {
     }
 
     @Test
-    void onAfterMapResult() throws InterruptedException {
-        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
-        testSubject = new LoggingHandler(thresholdInMillis, log);
-        Thread.sleep(12L);
-        methodInfo.executionDone();
+    void onAfterMapResult() {
+        MethodInfo<String> methodInfo = createMethodInfoWithElapsed(50L);
         Map<String, String> result = new LinkedHashMap<>();
         result.put("aaa", "bbb");
         result.put("ccc", "ddd");
@@ -129,11 +120,8 @@ class LoggingHandlerTest {
     }
 
     @Test
-    void onAfterListResult() throws InterruptedException {
-        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
-        testSubject = new LoggingHandler(thresholdInMillis, log);
-        Thread.sleep(12L);
-        methodInfo.executionDone();
+    void onAfterListResult() {
+        MethodInfo<String> methodInfo = createMethodInfoWithElapsed(50L);
         List<String> array = new ArrayList<>();
         array.add("aaa");
         array.add("bbb");
@@ -149,11 +137,8 @@ class LoggingHandlerTest {
     }
 
     @Test
-    void onAfterAlreadyEnds() throws InterruptedException {
-        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
-        testSubject = new LoggingHandler(thresholdInMillis, log);
-        Thread.sleep(12L);
-        methodInfo.executionDone();
+    void onAfterAlreadyEnds() {
+        MethodInfo<String> methodInfo = createMethodInfoWithElapsed(50L);
         testSubject.onAfter(methodInfo, "some-result");
         assertTrue(10L <= methodInfo.getTimeElapsedInMillis());
         verify(log, times(1)).info((Supplier<String>) argThat(arg -> {
@@ -167,9 +152,7 @@ class LoggingHandlerTest {
 
     @Test
     void onAfterThresholdNoLog() {
-        MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
-        testSubject = new LoggingHandler(thresholdInMillis, log);
-        methodInfo.executionDone();
+        MethodInfo<String> methodInfo = createMethodInfoWithElapsed(5L);
         testSubject.onAfter(methodInfo, "some-result");
         assertTrue(10L > methodInfo.getTimeElapsedInMillis());
         verify(log, times(0)).info(any(Supplier.class));
@@ -228,5 +211,17 @@ class LoggingHandlerTest {
     @Test
     void implementsInterceptingHandler() {
         assertInstanceOf(InterceptingHandler.class, testSubject);
+    }
+
+    /**
+     * Creates a MethodInfo with a controlled elapsed time to avoid Thread.sleep in tests.
+     *
+     * @param elapsedMillis the desired elapsed time in milliseconds
+     * @return the created MethodInfo with the specified elapsed time
+     */
+    private MethodInfo<String> createMethodInfoWithElapsed(long elapsedMillis) {
+        long now = System.currentTimeMillis();
+        return new MethodInfo<>("source-object", "someMethodName", new Object[]{"paramsA", "paramsB"}, now,
+                now + elapsedMillis);
     }
 }

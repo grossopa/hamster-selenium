@@ -58,6 +58,27 @@ public class MethodInfo<T> {
     }
 
     /**
+     * Constructs an instance with explicit start and end times for testing purposes.
+     * The execution is automatically marked as done.
+     *
+     * @param source the source that invokes the method
+     * @param name the method name that currently being invoked
+     * @param params the method params
+     * @param startTimeInMillis the explicit start time in milliseconds
+     * @param endTimeInMillis the explicit end time in milliseconds
+     */
+    MethodInfo(T source, String name, Object[] params, long startTimeInMillis, long endTimeInMillis) {
+        requireNonNull(source);
+        requireNonNull(name);
+        requireNonNull(params);
+        this.source = source;
+        this.name = name;
+        this.params = params;
+        this.startTimeInMillis = startTimeInMillis;
+        this.endTimeInMillis = endTimeInMillis;
+    }
+
+    /**
      * Gets the method name
      *
      * @return the method name

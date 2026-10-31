@@ -52,7 +52,7 @@ class MuiComponentDefinitionsTest {
     void constructor() throws Exception {
         Constructor<MuiComponentDefinitions> constructor = MuiComponentDefinitions.class.getDeclaredConstructor();
         constructor.setAccessible(true);
-        assertThrows(java.lang.reflect.InvocationTargetException.class, () -> constructor.newInstance());
+        assertThrows(java.lang.reflect.InvocationTargetException.class, constructor::newInstance);
     }
 
     List<MuiComponentDefinition> defaults = MuiComponentDefinitions.defaults();

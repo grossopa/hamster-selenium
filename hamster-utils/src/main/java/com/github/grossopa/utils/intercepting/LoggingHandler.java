@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.text.MessageFormat.format;
+import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.ObjectUtils.getIfNull;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 import static org.apache.commons.lang3.StringUtils.join;
@@ -46,11 +47,20 @@ import static org.apache.commons.lang3.StringUtils.join;
  *
  * @author Jack Yin
  * @since 1.4
- * @see AbstractLoggingHandler
  * @see InterceptingHandler
  * @see MethodInfo
  */
-public class LoggingHandler extends AbstractLoggingHandler {
+public class LoggingHandler implements InterceptingHandler {
+
+    /**
+     * The threshold in milliseconds. Only actions taking longer than this value will be logged.
+     */
+    private final long thresholdInMillis;
+
+    /**
+     * The logger instance used for outputting log messages.
+     */
+    private final Logger log;
 
     /**
      * Constructs an instance with threshold milliseconds for printing log using a default logger named after this
@@ -71,7 +81,26 @@ public class LoggingHandler extends AbstractLoggingHandler {
      * @param log the customized logger
      */
     public LoggingHandler(long thresholdInMillis, Logger log) {
-        super(thresholdInMillis, log);
+        this.thresholdInMillis = thresholdInMillis;
+        this.log = requireNonNull(log);
+    }
+
+    /**
+     * Gets the threshold for logging.
+     *
+     * @return the threshold for logging in milliseconds
+     */
+    public long getThresholdInMillis() {
+        return thresholdInMillis;
+    }
+
+    /**
+     * Gets the logger instance.
+     *
+     * @return the logger instance
+     */
+    public Logger getLog() {
+        return log;
     }
 
     @Override

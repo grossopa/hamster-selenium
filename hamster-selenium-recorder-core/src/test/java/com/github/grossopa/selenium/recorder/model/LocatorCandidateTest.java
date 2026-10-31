@@ -71,15 +71,15 @@ class LocatorCandidateTest {
                 "by id \"login\"");
         assertEquals(testSubject, same);
         assertEquals(testSubject.hashCode(), same.hashCode());
-        assertNotEquals(testSubject, new LocatorCandidate(LocatorType.NAME, "login",
-                LocatorCandidate.PRIORITY_NAME, "by name \"login\""));
-        assertNotEquals(testSubject, new Object());
-        assertNotEquals(testSubject, "not a locator candidate");
+        assertNotEquals(new LocatorCandidate(LocatorType.NAME, "login",
+                LocatorCandidate.PRIORITY_NAME, "by name \"login\""), testSubject);
+        assertNotEquals(new Object(), testSubject);
+        assertNotEquals("not a locator candidate", testSubject);
         assertTrue(testSubject.toString().contains("login"));
 
         // list field affects equality
         LocatorCandidate listCandidate = new LocatorCandidate(LocatorType.ID, "login", LocatorCandidate.PRIORITY_ID,
                 "by id \"login\"", true);
-        assertNotEquals(testSubject, listCandidate);
+        assertNotEquals(listCandidate, testSubject);
     }
 }

@@ -198,7 +198,7 @@ class InterceptingWebDriverTest {
 
     @Test
     void getScreenshotAs() {
-        byte[] bs = new byte[]{'a'};
+        byte[] bs = {'a'};
         when(driver.getScreenshotAs(OutputType.BYTES)).thenReturn(bs);
         byte[] result = testSubject.getScreenshotAs(OutputType.BYTES);
         assertEquals(bs, result);

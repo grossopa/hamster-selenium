@@ -29,6 +29,7 @@ import com.github.grossopa.selenium.recorder.scan.DefaultElementScanner;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 import java.util.Map;
@@ -57,21 +58,10 @@ class TextLocatorCandidateStrategyTest {
         assertEquals(LocatorCandidate.PRIORITY_TEXT, result.get(0).getPriority());
     }
 
-    @Test
-    void testToCandidatesWithBlankText() {
-        List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "  ");
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void testToCandidatesWithTextContainingBothQuotes() {
-        List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "it's \"good\"");
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void testToCandidatesWithTextContainingNewline() {
-        List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), "line1\nline2");
+    @ParameterizedTest
+    @ValueSource(strings = {"  ", "it's \"good\"", "line1\nline2"})
+    void testToCandidatesWithInvalidText(String text) {
+        List<LocatorCandidate> result = testSubject.toCandidates(0, "button", Map.of(), text);
         assertTrue(result.isEmpty());
     }
 

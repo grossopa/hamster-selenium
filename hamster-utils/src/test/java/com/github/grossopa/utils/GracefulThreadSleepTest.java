@@ -62,16 +62,11 @@ class GracefulThreadSleepTest {
     void sleepInterrupted() {
         Thread.currentThread().interrupt();
         long start = System.currentTimeMillis();
-        try {
-            testSubject.sleep(10000);
-            fail("Should have thrown an exception due to interrupted thread");
-        } catch (Exception e) {
-            assertEquals(InterruptedException.class, e.getClass(),
-                    "Expected InterruptedException but got: " + e.getClass().getName());
-        } finally {
-            // Clear the interrupted status
-            Thread.interrupted();
-        }
+        Exception e = assertThrows(Exception.class, () -> testSubject.sleep(10000));
+        assertEquals(InterruptedException.class, e.getClass(),
+                "Expected InterruptedException but got: " + e.getClass().getName());
+        // Clear the interrupted status
+        Thread.interrupted();
         assertTrue(System.currentTimeMillis() - start < 5000, "Should not have slept the full duration");
     }
 }

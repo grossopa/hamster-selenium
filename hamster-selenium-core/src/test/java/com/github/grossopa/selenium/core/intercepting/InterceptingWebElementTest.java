@@ -81,7 +81,7 @@ class InterceptingWebElementTest {
     void sendKeys() {
         testSubject.sendKeys("some-key");
         verify(element, times(1)).sendKeys("some-key");
-        String[] params = new String[]{"some-key"};
+        String[] params = {"some-key"};
         afterEachVerify(handler, element, ELEMENT_SEND_KEYS, null, (Object) params);
     }
 
@@ -224,7 +224,7 @@ class InterceptingWebElementTest {
 
     @Test
     void getScreenshotAs() {
-        byte[] bs = new byte[]{'a'};
+        byte[] bs = {'a'};
         when(element.getScreenshotAs(OutputType.BYTES)).thenReturn(bs);
         byte[] result = testSubject.getScreenshotAs(OutputType.BYTES);
         assertEquals(bs, result);

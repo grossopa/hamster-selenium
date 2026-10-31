@@ -46,7 +46,7 @@ class ComponentDetectorsTest {
     void constructor() throws Exception {
         Constructor<ComponentDetectors> constructor = ComponentDetectors.class.getDeclaredConstructor();
         constructor.setAccessible(true);
-        assertThrows(java.lang.reflect.InvocationTargetException.class, () -> constructor.newInstance());
+        assertThrows(java.lang.reflect.InvocationTargetException.class, constructor::newInstance);
     }
 
     @Test

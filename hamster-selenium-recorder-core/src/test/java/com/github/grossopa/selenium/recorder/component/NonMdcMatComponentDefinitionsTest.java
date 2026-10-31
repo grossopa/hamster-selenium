@@ -53,7 +53,7 @@ class NonMdcMatComponentDefinitionsTest {
         Constructor<NonMdcMatComponentDefinitions> constructor = NonMdcMatComponentDefinitions.class
                 .getDeclaredConstructor();
         constructor.setAccessible(true);
-        assertThrows(java.lang.reflect.InvocationTargetException.class, () -> constructor.newInstance());
+        assertThrows(java.lang.reflect.InvocationTargetException.class, constructor::newInstance);
     }
 
     final List<MatComponentDefinition> defaults = NonMdcMatComponentDefinitions.defaults();

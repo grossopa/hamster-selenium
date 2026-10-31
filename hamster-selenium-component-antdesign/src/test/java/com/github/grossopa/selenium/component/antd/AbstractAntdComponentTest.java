@@ -92,9 +92,9 @@ class AbstractAntdComponentTest {
     }
 
     AbstractAntdComponent createObject(WebElement element, ComponentWebDriver driver, AntdConfig config) {
-        WebComponent component = mock(WebComponent.class);
-        when(component.getWrappedElement()).thenReturn(element);
-        return new AbstractAntdComponent(component, driver, config) {
+        WebComponent componentMock = mock(WebComponent.class);
+        when(componentMock.getWrappedElement()).thenReturn(element);
+        return new AbstractAntdComponent(componentMock, driver, config) {
             @Override
             public String getComponentName() {
                 return "TEST";

@@ -51,7 +51,7 @@ class EnglishMonthStringFunctionTest {
 
     @Test
     void stringToMonth() {
-        String[] months = new String[]{"January", "February", "March", "april", "may", "june", "july", "august",
+        String[] months = {"January", "February", "March", "april", "may", "june", "july", "august",
                 "SEPTEMBER", "oCtObEr", "NOV", "DEC"};
 
         assertDoesNotThrow(() -> {
@@ -88,7 +88,7 @@ class EnglishMonthStringFunctionTest {
         Constructor<?> constructor = EnglishMonthStringFunction.Singleton.class.getDeclaredConstructors()[0];
         constructor.setAccessible(true);
         InvocationTargetException exception = assertThrows(InvocationTargetException.class,
-                () -> constructor.newInstance());
+                constructor::newInstance);
         assertInstanceOf(AssertionError.class, exception.getCause());
     }
 

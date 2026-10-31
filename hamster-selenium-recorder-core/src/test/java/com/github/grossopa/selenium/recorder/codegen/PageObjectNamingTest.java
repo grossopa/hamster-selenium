@@ -42,7 +42,7 @@ class PageObjectNamingTest {
     void constructor() throws Exception {
         Constructor<PageObjectNaming> constructor = PageObjectNaming.class.getDeclaredConstructor();
         constructor.setAccessible(true);
-        assertThrows(java.lang.reflect.InvocationTargetException.class, () -> constructor.newInstance());
+        assertThrows(java.lang.reflect.InvocationTargetException.class, constructor::newInstance);
     }
 
     @Test

@@ -70,8 +70,8 @@ class InterceptingHandlerTest {
         MethodInfo<Object> info = MethodInfo.create(new Object(), "test");
         Integer result = handler.execute(() -> 42, info);
         assertEquals(42, result);
-        verify(handler).onBefore(eq(info));
-        verify(handler).onAfter(eq(info), eq(42));
+        verify(handler).onBefore(info);
+        verify(handler).onAfter(info, 42);
     }
 
     @Test
@@ -83,7 +83,7 @@ class InterceptingHandlerTest {
             throw ex;
         }, info));
 
-        verify(handler).onException(eq(info), eq(ex));
+        verify(handler).onException(info, ex);
         assertNull(info.getEndTimeInMillis());
     }
 }

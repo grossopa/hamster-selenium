@@ -42,7 +42,7 @@ class BrowserFactoryTest {
     void constructor() throws Exception {
         Constructor<BrowserFactory> constructor = BrowserFactory.class.getDeclaredConstructor();
         constructor.setAccessible(true);
-        assertThrows(java.lang.reflect.InvocationTargetException.class, () -> constructor.newInstance());
+        assertThrows(java.lang.reflect.InvocationTargetException.class, constructor::newInstance);
     }
 
     @Test

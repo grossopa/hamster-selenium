@@ -43,7 +43,7 @@ public class EnglishMonthStringFunction implements MonthStringFunction {
     /**
      * The short string of the months
      */
-    private static final String[] MONTHS = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+    private static final String[] MONTHS = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
             "Oct", "Nov", "Dec"};
 
     @Override
