@@ -21,12 +21,18 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.grossopa.playwright.core.intercepting;
+package com.github.grossopa.utils.intercepting;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for {@link MethodInfo}
+ *
+ * @author Jack Yin
+ * @since 1.19
+ */
 class MethodInfoTest {
 
     @Test
@@ -36,7 +42,7 @@ class MethodInfoTest {
 
         assertEquals(source, info.getSource());
         assertEquals("testMethod", info.getName());
-        assertArrayEquals(new Object[]{"param1", "param2"}, info.getParams());
+        assertArrayEquals(new Object[] { "param1", "param2" }, info.getParams());
         assertNotNull(info.getStartTimeInMillis());
         assertNull(info.getEndTimeInMillis());
     }
@@ -54,7 +60,7 @@ class MethodInfoTest {
 
     @Test
     void testConstructorWithNullParams() {
-        var object  =new Object();
+        var object = new Object();
         assertThrows(NullPointerException.class, () -> new MethodInfo<>(object, "test", (Object[]) null));
     }
 
@@ -78,12 +84,18 @@ class MethodInfoTest {
     }
 
     @Test
+    void testGetStartTimeInMillis() {
+        MethodInfo<String> info = MethodInfo.create("source", "methodName", "params");
+        assertTrue(200L > System.currentTimeMillis() - info.getStartTimeInMillis());
+    }
+
+    @Test
     void testCreate() {
         Object source = new Object();
         MethodInfo<Object> info = MethodInfo.create(source, "method", "arg1");
 
         assertEquals(source, info.getSource());
         assertEquals("method", info.getName());
-        assertArrayEquals(new Object[]{"arg1"}, info.getParams());
+        assertArrayEquals(new Object[] { "arg1" }, info.getParams());
     }
 }

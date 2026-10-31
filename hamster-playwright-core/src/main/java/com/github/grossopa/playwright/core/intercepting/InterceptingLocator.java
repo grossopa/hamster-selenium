@@ -23,6 +23,8 @@
  */
 package com.github.grossopa.playwright.core.intercepting;
 
+import com.github.grossopa.utils.intercepting.InterceptingHandler;
+import com.github.grossopa.utils.intercepting.MethodInfo;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.AriaRole;
 import com.microsoft.playwright.options.BoundingBox;

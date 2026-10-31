@@ -21,7 +21,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.grossopa.playwright.core.intercepting;
+package com.github.grossopa.utils.intercepting;
 
 import java.util.function.Supplier;
 
@@ -29,7 +29,7 @@ import java.util.function.Supplier;
  * The handler triggering before, after and when exceptions occurs.
  *
  * @author Jack Yin
- * @since 1.0
+ * @since 1.19
  */
 public interface InterceptingHandler {
 

@@ -23,6 +23,7 @@
  */
 package com.github.grossopa.selenium.core.intercepting;
 
+import com.github.grossopa.utils.intercepting.InterceptingHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;

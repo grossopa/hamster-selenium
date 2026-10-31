@@ -23,6 +23,8 @@
  */
 package com.github.grossopa.selenium.core.intercepting;
 
+import com.github.grossopa.utils.intercepting.InterceptingHandler;
+import com.github.grossopa.utils.intercepting.MethodInfo;
 import org.openqa.selenium.WebDriver;
 
 import java.net.URL;

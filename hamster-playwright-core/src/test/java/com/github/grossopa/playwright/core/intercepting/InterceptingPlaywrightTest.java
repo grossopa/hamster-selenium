@@ -23,6 +23,7 @@
  */
 package com.github.grossopa.playwright.core.intercepting;
 
+import com.github.grossopa.utils.intercepting.InterceptingHandler;
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

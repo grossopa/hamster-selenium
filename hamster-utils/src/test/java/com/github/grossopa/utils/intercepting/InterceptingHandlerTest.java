@@ -21,7 +21,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.grossopa.playwright.core.intercepting;
+package com.github.grossopa.utils.intercepting;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +29,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Tests for {@link InterceptingHandler}
+ *
+ * @author Jack Yin
+ * @since 1.19
+ */
 class InterceptingHandlerTest {
 
     private InterceptingHandler handler;

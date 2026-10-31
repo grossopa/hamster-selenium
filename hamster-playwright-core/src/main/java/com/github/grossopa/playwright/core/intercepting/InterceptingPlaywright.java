@@ -23,6 +23,9 @@
  */
 package com.github.grossopa.playwright.core.intercepting;
 
+import com.github.grossopa.utils.intercepting.InterceptingHandler;
+import com.github.grossopa.utils.intercepting.LoggingHandler;
+import com.github.grossopa.utils.intercepting.MethodInfo;
 import com.microsoft.playwright.APIRequest;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Playwright;

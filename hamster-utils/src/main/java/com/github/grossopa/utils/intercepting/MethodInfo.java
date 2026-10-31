@@ -21,7 +21,7 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.grossopa.playwright.core.intercepting;
+package com.github.grossopa.utils.intercepting;
 
 import static java.util.Objects.requireNonNull;
 
@@ -30,7 +30,7 @@ import static java.util.Objects.requireNonNull;
  *
  * @param <T> the type of the source that invokes the method
  * @author Jack Yin
- * @since 1.12
+ * @since 1.19
  */
 public class MethodInfo<T> {
 

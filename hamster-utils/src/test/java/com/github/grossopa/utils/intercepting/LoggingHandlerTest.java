@@ -21,11 +21,10 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.grossopa.selenium.core.intercepting;
+package com.github.grossopa.utils.intercepting;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.NoSuchElementException;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -35,8 +34,7 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -45,6 +43,7 @@ import static org.mockito.Mockito.*;
  * @author Jack Yin
  * @since 1.4
  */
+@SuppressWarnings("unchecked")
 class LoggingHandlerTest {
 
     LoggingHandler testSubject;
@@ -59,12 +58,15 @@ class LoggingHandlerTest {
 
     @Test
     void constructor() {
-        assertEquals(Logger.getLogger("com.github.grossopa.selenium.core.intercepting.LoggingHandler"),
-                new LoggingHandler(thresholdInMillis).getLog());
+        assertEquals(Logger.getLogger(LoggingHandler.class.getName()), new LoggingHandler(thresholdInMillis).getLog());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    void constructorWithLogger() {
+        assertEquals(log, new LoggingHandler(thresholdInMillis, log).getLog());
+    }
+
+    @Test
     void onBefore() {
         testSubject.onBefore(info);
         verify(log, times(1)).fine((Supplier<String>) argThat(arg -> {
@@ -75,7 +77,6 @@ class LoggingHandlerTest {
     }
 
     @Test
-    @SuppressWarnings("all")
     void onAfter() throws InterruptedException {
         MethodInfo<String> info = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
@@ -91,7 +92,6 @@ class LoggingHandlerTest {
     }
 
     @Test
-    @SuppressWarnings("all")
     void onAfterNullResult() throws InterruptedException {
         MethodInfo<String> info = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
@@ -107,7 +107,6 @@ class LoggingHandlerTest {
     }
 
     @Test
-    @SuppressWarnings("all")
     void onAfterMapResult() throws InterruptedException {
         MethodInfo<String> info = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
@@ -127,7 +126,6 @@ class LoggingHandlerTest {
     }
 
     @Test
-    @SuppressWarnings("all")
     void onAfterListResult() throws InterruptedException {
         MethodInfo<String> info = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
@@ -147,7 +145,6 @@ class LoggingHandlerTest {
     }
 
     @Test
-    @SuppressWarnings("all")
     void onAfterAlreadyEnds() throws InterruptedException {
         MethodInfo<String> info = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
@@ -165,7 +162,6 @@ class LoggingHandlerTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void onAfterThresholdNoLog() {
         MethodInfo<String> methodInfo = MethodInfo.create("source-object", "someMethodName", "paramsA", "paramsB");
         testSubject = new LoggingHandler(thresholdInMillis, log);
@@ -176,10 +172,18 @@ class LoggingHandlerTest {
     }
 
     @Test
+    void onAfterNullElapsedTime() {
+        MethodInfo<Object> nullTimeInfo = MethodInfo.create(new Object(), "test");
+        LoggingHandler zeroThresholdHandler = new LoggingHandler(0L, log);
+        assertDoesNotThrow(() -> zeroThresholdHandler.onAfter(nullTimeInfo, "result"));
+        verify(log, times(1)).info(any(Supplier.class));
+    }
+
+    @Test
     void onException() {
-        NoSuchElementException exception = new NoSuchElementException("No such element.");
+        RuntimeException exception = new RuntimeException("Test exception.");
         testSubject.onException(info, exception);
-        verify(log, times(1)).log(eq(Level.SEVERE), eq(exception), argThat(arg -> {
+        verify(log, times(1)).log(eq(Level.WARNING), eq(exception), argThat(arg -> {
             assertEquals("someMethodName(paramsA, paramsB)      Time spent ms.\n      Source: source-object\n",
                     arg.get().replaceAll("[0-9]", ""));
             return true;
@@ -188,14 +192,23 @@ class LoggingHandlerTest {
 
     @Test
     void onExceptionAlreadyEnds() {
-        NoSuchElementException exception = new NoSuchElementException("No such element.");
+        RuntimeException exception = new RuntimeException("Test exception.");
         info.executionDone();
         testSubject.onException(info, exception);
-        verify(log, times(1)).log(eq(Level.SEVERE), eq(exception), argThat(arg -> {
+        verify(log, times(1)).log(eq(Level.WARNING), eq(exception), argThat(arg -> {
             assertEquals("someMethodName(paramsA, paramsB)      Time spent ms.\n      Source: source-object\n",
                     arg.get().replaceAll("[0-9]", ""));
             return true;
         }));
+    }
+
+    @Test
+    void onExceptionNullElapsedTime() {
+        MethodInfo<Object> nullTimeInfo = MethodInfo.create(new Object(), "test");
+        Exception exception = new RuntimeException("test error");
+        LoggingHandler zeroThresholdHandler = new LoggingHandler(0L, log);
+        assertDoesNotThrow(() -> zeroThresholdHandler.onException(nullTimeInfo, exception));
+        verify(log, times(1)).log(eq(Level.WARNING), eq(exception), any(Supplier.class));
     }
 
     @Test
@@ -206,5 +219,10 @@ class LoggingHandlerTest {
     @Test
     void getLog() {
         assertEquals(log, testSubject.getLog());
+    }
+
+    @Test
+    void implementsInterceptingHandler() {
+        assertInstanceOf(InterceptingHandler.class, testSubject);
     }
 }

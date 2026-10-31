@@ -27,7 +27,7 @@ import com.github.grossopa.selenium.core.ComponentWebDriver;
 import com.github.grossopa.selenium.core.DefaultComponentWebDriver;
 import com.github.grossopa.selenium.core.driver.*;
 import com.github.grossopa.selenium.core.intercepting.InterceptingWebDriver;
-import com.github.grossopa.selenium.core.intercepting.LoggingHandler;
+import com.github.grossopa.utils.intercepting.LoggingHandler;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;

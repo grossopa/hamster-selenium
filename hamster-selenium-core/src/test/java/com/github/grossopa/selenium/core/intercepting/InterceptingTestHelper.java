@@ -23,6 +23,8 @@
  */
 package com.github.grossopa.selenium.core.intercepting;
 
+import com.github.grossopa.utils.intercepting.InterceptingHandler;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;

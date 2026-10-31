@@ -21,29 +21,40 @@
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package com.github.grossopa.playwright.core.intercepting;
+package com.github.grossopa.utils.intercepting;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.text.MessageFormat.format;
-import static java.util.Objects.requireNonNull;
-import static java.util.logging.Level.WARNING;
 import static org.apache.commons.lang3.ObjectUtils.getIfNull;
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
+import static org.apache.commons.lang3.StringUtils.join;
 
 /**
  * Prints log before, after and when exception happens with time spent in millisecond.
  *
+ * <pre>
+ * <code>
+ * InterceptingHandler handler = new LoggingHandler(0L);
+ * // or with a custom logger
+ * InterceptingHandler handler = new LoggingHandler(100L, Logger.getLogger("my-logger"));
+ * </code>
+ * </pre>
+ *
  * @author Jack Yin
- * @since 1.12
+ * @since 1.4
+ * @see AbstractLoggingHandler
+ * @see InterceptingHandler
+ * @see MethodInfo
  */
-public class LoggingHandler implements InterceptingHandler {
-
-    private final long thresholdInMillis;
-    private final Logger log;
+public class LoggingHandler extends AbstractLoggingHandler {
 
     /**
-     * Constructs and instance with threshold milliseconds for printing log.
+     * Constructs an instance with threshold milliseconds for printing log using a default logger named after this
+     * class.
      *
      * @param thresholdInMillis only when the time spent is longer than the threshold then log will be printed. 0 for
      * printing all actions.
@@ -53,35 +64,57 @@ public class LoggingHandler implements InterceptingHandler {
     }
 
     /**
-     * Constructs and instance with threshold milliseconds for printing log.
+     * Constructs an instance with threshold milliseconds for printing log.
      *
      * @param thresholdInMillis only when the time spent is longer than the threshold then log will be printed. 0 for
      * printing all actions.
      * @param log the customized logger
      */
     public LoggingHandler(long thresholdInMillis, Logger log) {
-        this.thresholdInMillis = thresholdInMillis;
-        this.log = requireNonNull(log);
+        super(thresholdInMillis, log);
     }
 
     @Override
     public void onBefore(MethodInfo<?> methodInfo) {
-        // do nothing on before
+        log.fine(() -> format("{0}({1})\n      Source: {2}\n", methodInfo.getName(), buildParamsString(methodInfo),
+                methodInfo.getSource()));
     }
 
     @Override
     public void onAfter(MethodInfo<?> methodInfo, Object resultValue) {
+        if (methodInfo.getEndTimeInMillis() == null) {
+            methodInfo.executionDone();
+        }
         if (getIfNull(methodInfo.getTimeElapsedInMillis(), 0L) >= thresholdInMillis) {
-            log.log(Level.INFO, () -> format("Method {0} with params {1} on source {2} finished in {3} ms with result {4}",
-                    methodInfo.getName(), methodInfo.getParams(), methodInfo.getSource(),
-                    methodInfo.getTimeElapsedInMillis(), resultValue));
+            log.info(() -> buildLoggingString(methodInfo) + buildResultString(resultValue));
         }
     }
 
     @Override
     public void onException(MethodInfo<?> methodInfo, Exception exception) {
-        log.log(WARNING, exception, () -> format("Method {0} with params {1} on source {2} failed after {3} ms with exception {4}",
-                        methodInfo.getName(), methodInfo.getParams(), methodInfo.getSource(),
-                        methodInfo.getTimeElapsedInMillis(), exception.getMessage()));
+        if (methodInfo.getEndTimeInMillis() == null) {
+            methodInfo.executionDone();
+        }
+        log.log(Level.WARNING, exception, () -> buildLoggingString(methodInfo));
+    }
+
+    private String buildParamsString(MethodInfo<?> methodInfo) {
+        return defaultIfBlank(join(methodInfo.getParams(), ", "), "");
+    }
+
+    private String buildLoggingString(MethodInfo<?> methodInfo) {
+        return format("{0}({1})      Time spent {2}ms.\n      Source: {3}\n", methodInfo.getName(),
+                buildParamsString(methodInfo), methodInfo.getTimeElapsedInMillis(), methodInfo.getSource());
+    }
+
+    @SuppressWarnings({"rawtypes", "java:S6212"})
+    private String buildResultString(Object resultValue) {
+        String result = "      Result: {0}\n";
+        if (resultValue instanceof Map map) {
+            result = "      Result: count: " + map.size() + ", {0}\n";
+        } else if (resultValue instanceof Collection coll) {
+            result = "      Result: count: " + coll.size() + ", {0}\n";
+        }
+        return format(result, resultValue);
     }
 }

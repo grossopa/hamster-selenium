@@ -23,6 +23,7 @@
  */
 package com.github.grossopa.playwright.core.intercepting;
 
+import com.github.grossopa.utils.intercepting.InterceptingHandler;
 import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.FrameLocator;
 import com.microsoft.playwright.Locator;

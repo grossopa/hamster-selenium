@@ -23,6 +23,7 @@
  */
 package com.github.grossopa.selenium.core.intercepting;
 
+import com.github.grossopa.utils.intercepting.InterceptingHandler;
 import com.github.grossopa.selenium.core.util.SimpleEqualsTester;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;

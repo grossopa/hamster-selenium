@@ -23,8 +23,8 @@
  */
 package com.github.grossopa.selenium.recorder.monitor;
 
-import com.github.grossopa.selenium.core.intercepting.InterceptingHandler;
-import com.github.grossopa.selenium.core.intercepting.MethodInfo;
+import com.github.grossopa.utils.intercepting.InterceptingHandler;
+import com.github.grossopa.utils.intercepting.MethodInfo;
 
 import java.util.List;
 import java.util.Set;

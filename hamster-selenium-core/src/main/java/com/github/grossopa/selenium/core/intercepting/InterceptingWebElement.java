@@ -25,6 +25,8 @@ package com.github.grossopa.selenium.core.intercepting;
 
 import com.github.grossopa.selenium.core.component.AbstractDelegatedWebElement;
 import com.github.grossopa.selenium.core.component.WebComponent;
+import com.github.grossopa.utils.intercepting.InterceptingHandler;
+import com.github.grossopa.utils.intercepting.MethodInfo;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Coordinates;
 
